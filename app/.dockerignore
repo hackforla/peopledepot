@@ -1,0 +1,5 @@
+.env.dev
+.dockerignore
+Dockerfile
+app/.coverage
+app/htmlcov
