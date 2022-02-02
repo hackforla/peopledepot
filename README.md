@@ -34,17 +34,18 @@ Remember to provide direct links to each channel.
 
 ---
 
-1. Make sure docker and docker-compose is installed on your computer
+1. Install or make sure [docker][docker-install] and [docker-compose][docker-compose-install] are installed on your computer
 
 ```
     docker -v
     docker-compose -v
 ```
 
-2. Clone this repo
+2. Clone this repo and change to the project root directory
 
 ```
     git clone https://github.com/hackforla/peopledepot.git
+    cd peopledepot
 ```
 
 3. Create .env.dev from .env.dev-sample
@@ -57,6 +58,34 @@ Remember to provide direct links to each channel.
 
 ```
     docker-compose up --build
+```
+
+5. In another terminal, run migrations
+
+```
+    docker-compose exec web python manage.py migrate
+```
+
+6. Create a super user for logging into the web admin interface
+
+```
+    docker-compose exec web python manage.py createsuperuser
+```
+
+7. Browse to the web admin interface at `http://localhost:8000/admin/`
+
+### Testing
+
+1. Make sure containers are running
+
+```
+    docker-compose up -d
+```
+
+2. Run all tests
+
+```
+    docker-compose exec web pytest
 ```
 
 ### Working with issues
@@ -75,10 +104,6 @@ To create a new issue, please use the blank issue template (available when you c
 
 - Explain your process.
 
-### Testing
-
-- Provide instructions.
-
 # Contact info
 
 Include at least one way (or more, if possible) to reach your team with questions or comments.
@@ -87,10 +112,12 @@ Include at least one way (or more, if possible) to reach your team with question
 
 Include details about the project's open source status.
 
-*this readme file sourced from [Jessica Sand](http://jessicasand.com/other-stuff/just-enough-docs/)*
+<!-- References section -->
 
 [docker-docs]: https://www.postgresql.org/docs/
 [django-docs]: https://docs.djangoproject.com/
 [drf-docs]: https://www.django-rest-framework.org/tutorial/quickstart/
 [postgres-docs]: https://www.postgresql.org/docs/
 [contributing]: ./docs/contributing.md
+[docker-install]: https://docs.docker.com/get-docker/
+[docker-compose-install]: https://docs.docker.com/compose/install/
