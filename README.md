@@ -10,10 +10,10 @@ Civic projects often exist within a larger context that may include multiple sta
 
 ### Technology used
 
-- Each platform or framework should get its own bullet.
-- Each platform should include an [active link](#) to the official documentation.
-
-
+- [Docker][docker-docs]
+- [Django][django-docs]
+- [DjangoRestFramework][drf-docs]
+- [PostgreSQL][postgres-docs]
 
 # How to contribute
 
@@ -26,15 +26,67 @@ Explain the different ways people can contribute. For example:
 
 Remember to provide direct links to each channel.
 
-
-
 ## Installation instructions
 
-1. Step-by-step instructions help new contributors get a development environment up and running quickly.
-2. You'll want to find the balance between being specific enough for novices to follow, without being so specific that you reinvent the wheel by providing overly-basic instructions that can be found elsewhere.
-3. Feel free to adapt this section and its sub-sections to your own processes.
-4. Alternatively, you can move everything from *Installation instructions* through *Testing* to a separate **Contributing.md** file to keep your **ReadMe.md** more succinct.
+---
 
+**Note:** See [Contributing.md][contributing] for full instructions
+
+---
+
+1. Install or make sure [docker][docker-install] and [docker-compose][docker-compose-install] are installed on your computer
+
+```
+    docker -v
+    docker-compose -v
+```
+
+2. Clone this repo and change to the project root directory
+
+```
+    git clone https://github.com/hackforla/peopledepot.git
+    cd peopledepot
+```
+
+3. Create .env.dev from .env.dev-sample
+
+```
+    cp .env.dev-sample .env.dev
+```
+
+4. Build the image and run the containers
+
+```
+    docker-compose up --build
+```
+
+5. In another terminal, run migrations
+
+```
+    docker-compose exec web python manage.py migrate
+```
+
+6. Create a super user for logging into the web admin interface
+
+```
+    docker-compose exec web python manage.py createsuperuser
+```
+
+7. Browse to the web admin interface at `http://localhost:8000/admin/`
+
+### Testing
+
+1. Make sure containers are running
+
+```
+    docker-compose up -d
+```
+
+2. Run all tests
+
+```
+    docker-compose exec web pytest
+```
 
 ### Working with issues
 
@@ -44,30 +96,28 @@ Remember to provide direct links to each channel.
 
 To create a new issue, please use the blank issue template (available when you click New Issue).  If you want to create an issue for other projects to use, please create the issue in your own repository and send a slack message to one of your hack night hosts with the link.
 
-
 ### Working with forks and branches
 
 - Explain your guidelines here.
-
 
 ### Working with pull requests and reviews
 
 - Explain your process.
 
-
-### Testing
-
-- Provide instructions.
-
-
-
 # Contact info
 
 Include at least one way (or more, if possible) to reach your team with questions or comments.
-
 
 ### Licensing
 
 Include details about the project's open source status.
 
-*this readme file sourced from [Jessica Sand](http://jessicasand.com/other-stuff/just-enough-docs/)*
+<!-- References section -->
+
+[docker-docs]: https://www.postgresql.org/docs/
+[django-docs]: https://docs.djangoproject.com/
+[drf-docs]: https://www.django-rest-framework.org/tutorial/quickstart/
+[postgres-docs]: https://www.postgresql.org/docs/
+[contributing]: ./docs/contributing.md
+[docker-install]: https://docs.docker.com/get-docker/
+[docker-compose-install]: https://docs.docker.com/compose/install/

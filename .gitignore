@@ -1,0 +1,22 @@
+# Cut and paste relevant lines from a generated standard ignore file
+# Generate the entire file as reference with this form:
+# https://www.toptal.com/developers/gitignore?templates=python,django,dotenv,vim,visualstudiocode
+
+### dotenv ###
+.env.dev
+
+### Vim ###
+# Swap
+[._]*.s[a-v][a-z]
+[._]*.sw[a-p]
+[._]s[a-rt-v][a-z]
+[._]ss[a-gi-z]
+[._]sw[a-p]
+
+### VisualStudioCode ###
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
