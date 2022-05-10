@@ -1,7 +1,8 @@
 import uuid
 
 from django.contrib.auth.base_user import AbstractBaseUser
-from django.contrib.auth.models import PermissionsMixin, UserManager
+from django.contrib.auth.models import PermissionsMixin
+from django.contrib.auth.models import UserManager
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
@@ -175,8 +176,25 @@ class RecurringEvent(AbstractBaseModel):
         return f"{self.name}"
 
 
+class SponsorPartner(AbstractBaseModel):
+    """
+    Dictionary of sponsors and partners
+    """
+
+    partner_name = models.CharField(max_length=255)
+    partner_logo = models.URLField(blank=True)
+    is_active = models.BooleanField(null=True)
+    url = models.URLField(blank=True)
+    is_sponsor = models.BooleanField(null=True)
+
+    # PK of this model is the ForeignKey for project_partner_xref
+
+    def __str__(self):
+        return f"{self.partner_name}"
+
+
 class Faq(AbstractBaseModel):
-    question = models.CharField(max_length=255, unique=True, null=True)
+    question = models.CharField(max_length=255, unique=True)
     answer = models.CharField(max_length=255, blank=True)
     tool_tip_name = models.CharField(max_length=255, blank=True)
 

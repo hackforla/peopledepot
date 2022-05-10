@@ -5,7 +5,12 @@ from django.contrib.auth.forms import UserCreationForm as DefaultUserCreationFor
 from django.contrib.auth.forms import UsernameField
 from django.utils.translation import gettext_lazy as _
 
-from .models import Faq, Faq_viewed, Project, RecurringEvent, User
+from .models import Faq
+from .models import Faq_viewed
+from .models import Project
+from .models import RecurringEvent
+from .models import SponsorPartner
+from .models import User
 
 
 class UserCreationForm(DefaultUserCreationForm):
@@ -117,6 +122,17 @@ class RecurringEventAdmin(admin.ModelAdmin):
     )
 
 
+@admin.register(SponsorPartner)
+class SponsorPartnerAdmin(admin.ModelAdmin):
+    list_display = (
+        "partner_name",
+        "partner_logo",
+        "is_active",
+        "url",
+        "is_sponsor",
+    )
+
+
 @admin.register(Faq)
 class Faq(admin.ModelAdmin):
     list_display = (
@@ -132,4 +148,3 @@ class Faq_viewed(admin.ModelAdmin):
         "faq",
         "read",
     )
-    list_filter = ("read", "faq__question")
