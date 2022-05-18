@@ -10,8 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
+import json
 import os
 from pathlib import Path
+from urllib import request
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -30,6 +32,27 @@ DEBUG = os.environ.get("DEBUG", default=0)
 # For example: 'DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]'
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 
+# Cognito stuff
+COGNITO_AWS_REGION = "us-west-2"
+COGNITO_USER_POOL = "us-west-2_Fn4rkZpuB"
+# Provide this value if `id_token` is used for authentication (it contains 'aud' claim).
+# `access_token` doesn't have it, in this case keep the COGNITO_AUDIENCE empty
+COGNITO_AUDIENCE = None
+COGNITO_POOL_URL = (
+    None  # will be set few lines of code later, if configuration provided
+)
+
+rsa_keys = {}
+# To avoid circular imports, we keep this logic here.
+# On django init we download jwks public keys which are used to validate jwt tokens.
+# For now there is no rotation of keys (seems like in Cognito decided not to implement it)
+if COGNITO_AWS_REGION and COGNITO_USER_POOL:
+    COGNITO_POOL_URL = "https://cognito-idp.{}.amazonaws.com/{}".format(
+        COGNITO_AWS_REGION, COGNITO_USER_POOL
+    )
+    pool_jwks_url = COGNITO_POOL_URL + "/.well-known/jwks.json"
+    jwks = json.loads(request.urlopen(pool_jwks_url).read())
+    rsa_keys = {key["kid"]: json.dumps(key) for key in jwks["keys"]}
 
 # Application definition
 
@@ -144,4 +167,14 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_jwt.authentication.JSONWebTokenAuthentication",
     ),
+}
+
+JWT_AUTH = {
+    "JWT_PAYLOAD_GET_USERNAME_HANDLER": "core.api.jwt.get_username_from_payload_handler",
+    "JWT_DECODE_HANDLER": "core.api.jwt.cognito_jwt_decode_handler",
+    "JWT_PUBLIC_KEY": rsa_keys,
+    "JWT_ALGORITHM": "RS256",
+    "JWT_AUDIENCE": COGNITO_AUDIENCE,
+    "JWT_ISSUER": COGNITO_POOL_URL,
+    "JWT_AUTH_HEADER_PREFIX": "Bearer",
 }
