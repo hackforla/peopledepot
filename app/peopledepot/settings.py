@@ -140,9 +140,7 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 REST_FRAMEWORK = {
-    "DEFAULT_PERMISSION_CLASSES": (
-        "core.api.permissions.DenyAny",
-    ),
+    "DEFAULT_PERMISSION_CLASSES": ("core.api.permissions.DenyAny",),
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_jwt.authentication.JSONWebTokenAuthentication",
     ),
