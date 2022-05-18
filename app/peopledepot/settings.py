@@ -138,3 +138,12 @@ AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.RemoteUserBackend",
     "django.contrib.auth.backends.ModelBackend",
 ]
+
+REST_FRAMEWORK = {
+    "DEFAULT_PERMISSION_CLASSES": (
+        "core.api.permissions.DenyAny",
+    ),
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_jwt.authentication.JSONWebTokenAuthentication",
+    ),
+}
