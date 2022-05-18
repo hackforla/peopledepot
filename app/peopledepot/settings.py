@@ -33,8 +33,8 @@ DEBUG = os.environ.get("DEBUG", default=0)
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 
 # Cognito stuff
-COGNITO_AWS_REGION = "us-west-2"
-COGNITO_USER_POOL = "us-west-2_Fn4rkZpuB"
+COGNITO_AWS_REGION = os.environ.get("COGNITO_AWS_REGION", default=None)
+COGNITO_USER_POOL = os.environ.get("COGNITO_USER_POOL", default=None)
 # Provide this value if `id_token` is used for authentication (it contains 'aud' claim).
 # `access_token` doesn't have it, in this case keep the COGNITO_AUDIENCE empty
 COGNITO_AUDIENCE = None
