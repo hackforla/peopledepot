@@ -16,6 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from core.api.views import UserProfileAPIView
+
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("api/v1/me", UserProfileAPIView.as_view(), name="my_profile"),
 ]
