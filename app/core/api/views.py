@@ -1,7 +1,8 @@
-from .serializers import UserSerializer
 from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.permissions import IsAuthenticated
+
+from .serializers import UserSerializer
 
 
 class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
