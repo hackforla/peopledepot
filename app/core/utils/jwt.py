@@ -34,10 +34,10 @@ def cognito_jwt_decode_handler(token):
         return jwt.decode(
             token,
             public_key,
-            api_settings.JWT_VERIFY,
+            algorithms=[api_settings.JWT_ALGORITHM],
+            # api_settings.JWT_VERIFY,
             options=options,
-            leeway=api_settings.JWT_LEEWAY,
             audience=api_settings.JWT_AUDIENCE,
             issuer=api_settings.JWT_ISSUER,
-            algorithms=[api_settings.JWT_ALGORITHM],
+            leeway=api_settings.JWT_LEEWAY,
         )
