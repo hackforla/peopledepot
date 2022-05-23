@@ -8,7 +8,7 @@ class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
     serializer_class = UserSerializer
     permission_classes = (IsAuthenticated,)
 
-    def getObject(self):
+    def get_object(self):
         return self.request.user
 
     def get(self, request, *args, **kwargs):
