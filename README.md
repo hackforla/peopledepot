@@ -88,6 +88,19 @@ Remember to provide direct links to each channel.
     docker-compose exec web pytest
 ```
 
+### Linting and autoformatting
+
+We're using the popular [flake8][flake8-docs] and [black][black-docs] for linting and code formatting. We're also using [isort][isort-docs] to organize import statements.
+
+To run them, use the `lint.sh` convenience script or look inside the script to see how to run them individually.
+
+### Convenience scripts for sanity checks before committing code
+
+1. lint.sh - lint and and auto-format code
+1. buildrun.sh - clean, build, and run containers in background mode
+1. migrate.sh - create and apply database migrations
+1. test.sh - run tests and show coverage
+
 ### Working with issues
 
 - Explain how to submit a bug.
@@ -121,3 +134,6 @@ Include details about the project's open source status.
 [contributing]: ./docs/contributing.md
 [docker-install]: https://docs.docker.com/get-docker/
 [docker-compose-install]: https://docs.docker.com/compose/install/
+[flake8-docs]: https://github.com/pycqa/flake8
+[black-docs]: https://github.com/psf/black
+[isort-docs]: https://github.com/pycqa/isort/
