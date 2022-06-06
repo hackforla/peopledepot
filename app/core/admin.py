@@ -1,18 +1,20 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as DefaultUserAdmin
-from django.contrib.auth.forms import UserChangeForm, UserCreationForm, UsernameField
+from django.contrib.auth.forms import UserChangeForm as DefaultUserChangeForm
+from django.contrib.auth.forms import UserCreationForm as DefaultUserCreationForm
+from django.contrib.auth.forms import UsernameField
 from django.utils.translation import gettext_lazy as _
 
 from .models import User
 
 
-class CustomUserCreationForm(UserCreationForm):
-    class Meta(UserCreationForm.Meta):
+class UserCreationForm(DefaultUserCreationForm):
+    class Meta(DefaultUserCreationForm.Meta):
         model = User
 
 
-class CustomUserChangeForm(UserChangeForm):
-    class Meta(UserCreationForm.Meta):
+class UserChangeForm(DefaultUserChangeForm):
+    class Meta(DefaultUserCreationForm.Meta):
         model = User
         fields = "__all__"
         field_classes = {"username": UsernameField}
@@ -68,6 +70,6 @@ class UserAdmin(DefaultUserAdmin):
             },
         ),
     )
-    form = CustomUserChangeForm
-    add_form = CustomUserCreationForm
+    form = UserChangeForm
+    add_form = UserCreationForm
     list_display = ("username", "is_staff", "is_active")
