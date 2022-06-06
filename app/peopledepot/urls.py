@@ -20,5 +20,5 @@ from core.api.views import UserProfileAPIView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("api/v1/me", UserProfileAPIView.as_view(), name="my_profile"),
+    path("me/", UserProfileAPIView.as_view(), name="my_profile"),
 ]
