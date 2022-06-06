@@ -28,13 +28,14 @@ class User(PermissionsMixin, AbstractBaseUser, AbstractBaseModel):
     """
     Table contains cognito-users & django-users.
 
-    PermissionsMixin leverage built-in django model permissions system
+    PermissionsMixin leverages the built-in django model permissions system
     (which allows to limit information for staff users via Groups).
-    Note: Django-admin user and app user not split in different tables because of simplicity of development.
+    Note: Django-admin user and app user are not split in different tables because of simplicity of development.
     Some libraries assume there is only one user model, and they can't work with both.
-    For example to have a history log of changes for entities - to save which user made a change of object attribute,
-    perhaps, auth-related libs, and some other.
-    With current implementation we don't need to fork, adapt and maintain third party packages.
+    For example, to have a history log of changes for entities - to save which
+    user made a change of object attribute, perhaps, auth-related libs, and some
+    other.
+    With current implementation, we don't need to fork, adapt and maintain third party packages.
     They should work out of the box.
     The disadvantage is - cognito-users will have unused fields which always empty. Not critical.
     """
