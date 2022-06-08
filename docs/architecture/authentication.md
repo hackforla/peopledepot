@@ -29,7 +29,7 @@ These are the steps involved:
 ## How it works now with the dev user pool and local development backend
 
 1. Create a cognito user and login from the Hosted UI (from App client settings). Successful login will redirect to localhost:8000/admin with the necessary tokens
-2. Take the access_token and make a GET request to http://localhost:8000/api/v1/me (Headers key=Authorization, value=Bearer <token>)
+2. Take the access_token from the URL and make a GET request to http://localhost:8000/api/v1/me (Headers key=Authorization, value=Bearer <token>)
 3. Backend should return the user's profile data
 
 ## Notes
