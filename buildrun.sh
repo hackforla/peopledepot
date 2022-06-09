@@ -5,3 +5,4 @@ set -x
 docker-compose down -v --remove-orphans
 docker-compose up -d --build
 ./migrate.sh
+./createsuperuser.sh
