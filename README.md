@@ -96,10 +96,11 @@ To run them, use the `lint.sh` convenience script or look inside the script to s
 
 ### Convenience scripts for sanity checks before committing code
 
-1. lint.sh - lint and and auto-format code
 1. buildrun.sh - clean, build, and run containers in background mode
-1. migrate.sh - create and apply database migrations
+1. lint.sh - lint and and auto-format code
 1. test.sh - run tests and show coverage
+1. logs.sh - view container logs
+1. precommit-check.sh - sanity checks before committing (calls other scripts, but doesn't stop progress on error like it should)
 
 ### Working with issues
 
