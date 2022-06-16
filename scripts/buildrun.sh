@@ -1,7 +1,7 @@
 #!/bin/bash
 set -x
 
-SCRIPT_DIR="$(dirname "${BASH_SOURCE[0]}")"
+SCRIPT_DIR="$(dirname "$0")"
 # https://codefather.tech/blog/bash-get-script-directory/
 
 # clean, build, and run in background
