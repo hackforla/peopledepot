@@ -10,3 +10,9 @@ pytest-cov~=3.0.0
 pytest-django~=4.5.2
 pytest~=6.2.5
 pytz==2022.1
+django-extensions~=3.1.5
+drf-spectacular==0.22.1
+markdown~=3.4.1
+django-phonenumber-field[phonenumbers]~=6.3.0
+django-timezone-field==5.0
+tzdata==2022.1
