@@ -22,11 +22,5 @@ def test_faq(faq):
     assert str(faq) == "Test Faq"
 
 
-# def test_faq_viewed(faq, faq_viewed):
-#     assert str(f"{faq} viewed") == "Test Faq viewed"
-#     assert str(f"{faq_viewed.faq.question}") == f"{faq.question}"
-#     assert repr(faq_viewed) == f"<Faq_viewed {faq_viewed.uuid}>"
-#     assert repr(faq_viewed.faq) == f"<Faq {faq.uuid}>"
 def test_faq_viewed(faq_viewed):
     assert str(f"{faq_viewed.faq}") == "Test Faq"
-    # assert str(f"{faq_viewed.read}") == "Test Faq_viewed read"
