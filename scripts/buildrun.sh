@@ -9,4 +9,4 @@ docker-compose down -v --remove-orphans
 docker-compose up -d --build
 
 "$SCRIPT_DIR"/migrate.sh
-"$SCRIPT_DIR"/createsuperuser.sh
+# "$SCRIPT_DIR"/createsuperuser.sh
