@@ -72,7 +72,7 @@ class User(PermissionsMixin, AbstractBaseUser, AbstractBaseModel):
     preferred_email = models.EmailField(blank=True)
 
     # user_status = models.ForeignKey(user_status_type, on_delete=models.PROTECT)
-    # current_practice_area = models.ManyToManyField("PracticeArea")
+    # current_practice_area = modVkels.ManyToManyField("PracticeArea")
     # target_practice_area = models.ManyToManyField("PracticeArea")
 
     current_job_title = models.CharField(max_length=255, blank=True)
@@ -107,3 +107,34 @@ class User(PermissionsMixin, AbstractBaseUser, AbstractBaseModel):
 
     def __str__(self):
         return f"{self.email}"
+
+
+class Project(AbstractBaseModel):
+    """
+    List of projects
+    """
+
+    name = models.CharField(max_length=255, unique=True)
+    description = models.CharField(max_length=255, blank=True)
+    completed_at = models.DateTimeField("Completed at", auto_now=True)
+
+    github_org_id = models.CharField(max_length=8, blank=True)
+    github_primary_repo_id = models.CharField(max_length=9, blank=True)
+    github_primary_url = models.CharField(max_length=255, blank=True)
+    # current_status_id = models.ForeignKey("status", on_delete=models.PROTECT)
+    hide = models.BooleanField(default=True)
+    # location_id = models.ForeignKey("location", on_delete=models.PROTECT)
+    slack_url = models.URLField(blank=True)
+    google_drive_url = models.URLField(blank=True)
+    google_drive_id = models.CharField(max_length=255, blank=True)
+    hfla_website_url = models.URLField(blank=True)
+    # leads = models.ManyToManyField("lead")
+    # leadership_type_id = models.ForeignKey("leadership_type", on_delete=models.PROTECT)
+    image_logo = models.URLField(blank=True)
+    image_hero = models.URLField(blank=True)
+    image_icon = models.URLField(blank=True)
+    readme_url = models.URLField(blank=True)
+    wiki_url = models.URLField(blank=True)
+
+    def __str__(self):
+        return f"{self.name}"
