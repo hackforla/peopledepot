@@ -69,7 +69,15 @@ class User(PermissionsMixin, AbstractBaseUser, AbstractBaseModel):
     gmail = models.EmailField(blank=True)
     preferred_email = models.EmailField(blank=True)
 
-    # user_status_id = models.ForeignKey(user_status_type, on_delete=models.SET_DEFAULT, default="inactive") # FK to user_status_type
+    class UserStatuses(models.TextChoices):
+        ACTIVE = "ac", "Active"
+        INACTIVE = "in", "Inactive"
+        REMOVED = "re", "Removed"
+
+    user_status = models.CharField(
+        max_length=2, choices=UserStatuses.choices, default=UserStatuses.ACTIVE
+    )
+
     # current_practice_area = models.ManyToManyField("PracticeArea")
     # target_practice_area = models.ManyToManyField("PracticeArea")
 
@@ -104,3 +112,7 @@ class User(PermissionsMixin, AbstractBaseUser, AbstractBaseModel):
     @property
     def is_django_user(self):
         return self.has_usable_password()
+
+    def __str__(self):
+        return f"{self.email}"
+
