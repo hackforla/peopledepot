@@ -3,7 +3,6 @@ import uuid
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin, UserManager
 from django.contrib.auth.validators import UnicodeUsernameValidator
-from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
 
@@ -65,38 +64,36 @@ class User(PermissionsMixin, AbstractBaseUser, AbstractBaseModel):
         help_text="Designates whether the user can log into this admin site.",
     )
 
-    first_name = models.CharField(max_length=255, blank=True, default="")
-    last_name = models.CharField(max_length=255, blank=True, default="")
+    first_name = models.CharField(max_length=255, blank=True)
+    last_name = models.CharField(max_length=255, blank=True)
     gmail = models.EmailField(blank=True)
     preferred_email = models.EmailField(blank=True)
 
     # user_status_id = models.ForeignKey(user_status_type, on_delete=models.SET_DEFAULT, default="inactive") # FK to user_status_type
+    # current_practice_area = models.ManyToManyField("PracticeArea")
+    # target_practice_area = models.ManyToManyField("PracticeArea")
 
-    # current_practice_area = ArrayField(
-    #     models.IntegerField()  # practice area ID, should be FK?
-    # )
-    # target_practice_area = ArrayField(
-    #     models.IntegerField()  # practice area ID, should be FK?
-    # )
-    current_job_title = models.CharField(max_length=255, blank=True, default="")
-    target_job_title = models.CharField(max_length=255, blank=True, default="")
-    current_skills = models.CharField(max_length=255, blank=True, default="")
-    target_skills = models.CharField(max_length=255, blank=True, default="")
+    current_job_title = models.CharField(max_length=255, blank=True)
+    target_job_title = models.CharField(max_length=255, blank=True)
+    current_skills = models.CharField(max_length=255, blank=True)
+    target_skills = models.CharField(max_length=255, blank=True)
 
-    # desired_roles = ArrayField(models.IntegerField())  # role ID
-    # availability = models.IntegerField()  # not in ERD, is a separate table
+    # desired_roles = models.ManyToManyField("Role")
+    # availability = models.IntegerField()  # not in ERD, is a separate table. Want to confirm to remove this
     # referred_by = models.ForeignKey(referrer, on_delete=models.SET_DEFAULT, default="referrer_deleted") # FK to referrer
 
-    linkedin_account = models.CharField(max_length=255, blank=True, default="")
-    github_handle = models.CharField(max_length=255, blank=True, default="")
-    slack_id = models.CharField(max_length=11, blank=True, default="")
-    phone = models.CharField(max_length=15, blank=True, default="")
+    linkedin_account = models.CharField(max_length=255, blank=True)
+    github_handle = models.CharField(max_length=255, blank=True)
+    slack_id = models.CharField(max_length=11, blank=True)
+
+    # from phonenumber_field.modelfields import PhoneNumberField
+    # phone = PhoneNumberField(blank=True)
+
     texting_ok = models.BooleanField(default=True)
 
-    time_zone = models.CharField(
-        max_length=50, blank=True, default=""
-    )  # full timezone name
-    # conduct = models.BooleanField()  # not in ERD
+    # from timezone_field import TimeZoneField
+    # time_zone = TimeZoneField(default="America/Los_Angeles")  # full timezone name.
+    # conduct = models.BooleanField()  # not in ERD. Maybe we should remove this
 
     objects = UserManager()
 
