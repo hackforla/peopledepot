@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from timezone_field.rest_framework import TimeZoneSerializerField
 
-from core.models import User
+from core.models import Project, User
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -38,4 +38,38 @@ class UserSerializer(serializers.ModelSerializer):
             "updated_at",
             "username",
             "email",
+        )
+
+
+class ProjectSerializer(serializers.ModelSerializer):
+    """Used to retrieve project info"""
+
+    class Meta:
+        model = Project
+        fields = (
+            "uuid",
+            "name",
+            "description",
+            "created_at",
+            "updated_at",
+            "completed_at",
+            "github_org_id",
+            "github_primary_repo_id",
+            "github_primary_url",
+            "hide",
+            "slack_url",
+            "google_drive_url",
+            "google_drive_id",
+            "hfla_website_url",
+            "image_logo",
+            "image_hero",
+            "image_icon",
+            "readme_url",
+            "wiki_url",
+        )
+        read_only_fields = (
+            "uuid",
+            "created_at",
+            "updated_at",
+            "completed_at",
         )
