@@ -9,6 +9,7 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.permissions import IsAuthenticated
 
+<<<<<<< HEAD
 from ..models import Faq
 from ..models import Faq_viewed
 from ..models import Project
@@ -20,6 +21,10 @@ from .serializers import ProjectSerializer
 from .serializers import RecurringEventSerializer
 from .serializers import SponsorPartnerSerializer
 from .serializers import UserSerializer
+=======
+from ..models import Project
+from .serializers import ProjectSerializer, UserSerializer
+>>>>>>> f69a4b1 (Add project model)
 
 
 class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
@@ -109,6 +114,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
+<<<<<<< HEAD
 
 
 @extend_schema_view(
@@ -204,3 +210,5 @@ class Faq_viewedViewSet(viewsets.ModelViewSet):
     serializer_class = Faq_viewedSerializer
     # use permission_classes until get_permissions fn provides sufficient limits to access >>
     permission_classes = [IsAuthenticated]
+=======
+>>>>>>> f69a4b1 (Add project model)
