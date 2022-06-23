@@ -11,7 +11,8 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.permissions import IsAuthenticated
 
-from .serializers import UserSerializer
+from ..models import Project
+from .serializers import ProjectSerializer, UserSerializer
 
 
 class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
@@ -87,3 +88,17 @@ class UserViewSet(viewsets.ModelViewSet):
         if username is not None:
             queryset = queryset.filter(username=username)
         return queryset
+
+
+@extend_schema_view(
+    list=extend_schema(description="Return a list of all the projects"),
+    create=extend_schema(description="Create a new project"),
+    retrieve=extend_schema(description="Return the details of a project"),
+    destroy=extend_schema(description="Delete a project"),
+    update=extend_schema(description="Update a project"),
+    partial_update=extend_schema(description="Patch a project"),
+)
+class ProjectViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = Project.objects.all()
+    serializer_class = ProjectSerializer
