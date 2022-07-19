@@ -16,9 +16,19 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from core.api.views import UserProfileAPIView
+from core.api.views import (
+    UserListCreateAPIView,
+    UserProfileAPIView,
+    UserRetrieveUpdateDestroyAPIView,
+)
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/v1/me", UserProfileAPIView.as_view(), name="my_profile"),
+    path("api/v1/users/", UserListCreateAPIView.as_view(), name="users_list"),
+    path(
+        "api/v1/users/<uuid:uuid>/",
+        UserRetrieveUpdateDestroyAPIView.as_view(),
+        name="users",
+    ),
 ]
