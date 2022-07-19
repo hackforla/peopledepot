@@ -1,8 +1,8 @@
+from django.contrib.auth import get_user_model
 from rest_framework.generics import (
     GenericAPIView,
-    ListCreateAPIView,
-    RetrieveUpdateDestroyAPIView,
 )
+from rest_framework import viewsets
 from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.permissions import IsAuthenticated
 
@@ -26,15 +26,7 @@ class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
         return self.retrieve(request, *args, **kwargs)
 
 
-class UserListCreateAPIView(ListCreateAPIView):
-    queryset = User.objects.all()
+class UserViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
+    queryset = get_user_model().objects.all()
     serializer_class = UserSerializer
-    lookup_field = "uuid"
-
-
-class UserRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
-    queryset = User.objects.all()
-    permission_classes = (IsAuthenticated,)
-    serializer_class = UserSerializer
-    lookup_field = "uuid"
