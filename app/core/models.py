@@ -115,4 +115,3 @@ class User(PermissionsMixin, AbstractBaseUser, AbstractBaseModel):
 
     def __str__(self):
         return f"{self.email}"
-
