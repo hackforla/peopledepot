@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django_extensions",
     "rest_framework",
     "core",
 ]
@@ -178,3 +179,5 @@ JWT_AUTH = {
     "JWT_ISSUER": COGNITO_POOL_URL,
     "JWT_AUTH_HEADER_PREFIX": "Bearer",
 }
+
+GRAPH_MODELS = {"all_applications": True, "group_models": True}

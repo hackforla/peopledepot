@@ -10,3 +10,6 @@ pytest-cov~=3.0.0
 pytest-django~=4.5.2
 pytest~=6.2.5
 pytz==2022.1
+pyparsing~=3.0.9
+pydot~=1.4.2
+django-extensions~=3.1.5
