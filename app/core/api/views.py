@@ -19,13 +19,23 @@ class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
 
     def get(self, request, *args, **kwargs):
         """
-        User Profile
+        # User Profile
 
-        Get prifile of current logged in user.
+        Get profile of current logged in user.
         """
         return self.retrieve(request, *args, **kwargs)
 
 
+@extend_schema_view(
+    list=extend_schema(
+        summary="Users List", description="Return a list of all the existing users"
+    ),
+    create=extend_schema(description="Create a new user"),
+    retrieve=extend_schema(description="Return the given user"),
+    destroy=extend_schema(description="Delete the given user"),
+    update=extend_schema(description="Update the given user"),
+    partial_update=extend_schema(description="Partially update the given user"),
+)
 class UserViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
     queryset = get_user_model().objects.all()
