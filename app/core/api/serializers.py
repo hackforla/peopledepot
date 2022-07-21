@@ -8,4 +8,24 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = "__all__"
+        fields = (
+            "username",
+            "email",
+            "first_name",
+            "last_name",
+            "gmail",
+            "preferred_email",
+            "user_status",
+            "current_job_title",
+            "target_job_title",
+            "current_skills",
+            "target_skills",
+            "linkedin_account",
+            "github_handle",
+            "slack_id",
+            "texting_ok",
+        )
+        read_only_fields = (
+            "username",
+            "email",
+        )
