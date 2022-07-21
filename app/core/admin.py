@@ -34,6 +34,26 @@ class UserAdmin(DefaultUserAdmin):
             },
         ),
         (
+            _("Profile"),
+            {
+                "fields": (
+                    "first_name",
+                    "last_name",
+                    "gmail",
+                    "preferred_email",
+                    "user_status",
+                    "current_job_title",
+                    "target_job_title",
+                    "current_skills",
+                    "target_skills",
+                    "linkedin_account",
+                    "github_handle",
+                    "slack_id",
+                    "texting_ok",
+                )
+            },
+        ),
+        (
             _("Permissions"),
             {
                 "fields": (
@@ -55,7 +75,7 @@ class UserAdmin(DefaultUserAdmin):
             },
         ),
     )
-    readonly_fields = ("created_at", "updated_at")
+    readonly_fields = ("username", "email", "created_at", "updated_at")
     add_fieldsets = (
         (
             None,

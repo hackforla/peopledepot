@@ -106,7 +106,7 @@ class User(PermissionsMixin, AbstractBaseUser, AbstractBaseModel):
     objects = UserManager()
 
     USERNAME_FIELD = "username"
-    EMAIL_FIELD = "email"
+    EMAIL_FIELD = "preferred_email"
     REQUIRED_FIELDS = ["email"]  # used only on createsuperuser
 
     @property
