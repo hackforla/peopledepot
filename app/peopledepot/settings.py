@@ -63,8 +63,11 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    # 3rd party
     "django_extensions",
     "rest_framework",
+    "drf_spectacular",
+    # Local
     "core",
 ]
 
@@ -168,6 +171,7 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_jwt.authentication.JSONWebTokenAuthentication",
     ),
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
 JWT_AUTH = {
@@ -181,3 +185,10 @@ JWT_AUTH = {
 }
 
 GRAPH_MODELS = {"all_applications": True, "group_models": True}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "PeopleDepot API",
+    "DESCRIPTION": "",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
+}
