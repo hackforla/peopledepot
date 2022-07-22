@@ -1,10 +1,7 @@
 from django.urls import path
 from rest_framework import routers
 
-from .views import (
-    UserProfileAPIView,
-    UserViewSet,
-)
+from .views import UserProfileAPIView, UserViewSet
 
 router = routers.SimpleRouter()
 router.register(r"users", UserViewSet, basename="users")
