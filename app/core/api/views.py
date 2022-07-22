@@ -1,12 +1,10 @@
 from django.contrib.auth import get_user_model
-from rest_framework.generics import (
-    GenericAPIView,
-)
+from drf_spectacular.utils import extend_schema, extend_schema_view
 from rest_framework import viewsets
+from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.permissions import IsAuthenticated
 
-from ..models import User
 from .serializers import UserSerializer
 
 
