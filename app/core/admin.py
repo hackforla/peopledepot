@@ -50,6 +50,7 @@ class UserAdmin(DefaultUserAdmin):
                     "slack_id",
                     "phone",
                     "texting_ok",
+                    "time_zone",
                 )
             },
         ),

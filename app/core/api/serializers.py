@@ -1,10 +1,13 @@
 from rest_framework import serializers
+from timezone_field.rest_framework import TimeZoneSerializerField
 
 from core.models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
     """Used to retrieve user info"""
+
+    time_zone = TimeZoneSerializerField(use_pytz=False)
 
     class Meta:
         model = User
@@ -24,6 +27,7 @@ class UserSerializer(serializers.ModelSerializer):
             "slack_id",
             "phone",
             "texting_ok",
+            "time_zone",
         )
         read_only_fields = (
             "username",
