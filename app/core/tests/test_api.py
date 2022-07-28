@@ -74,6 +74,8 @@ class PrivateUserAPITests(TestCase):
         content = {
             "username": "TestUserAPI",
             "password": "testpass",
+            # time_zone is required because django_timezone_field doesn't yet support the blank string
+            "time_zone": "America/Los_Angeles",
         }
         res = self.client.post(USERS_URL, content)
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)

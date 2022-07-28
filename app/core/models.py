@@ -5,6 +5,7 @@ from django.contrib.auth.models import PermissionsMixin, UserManager
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
+from timezone_field import TimeZoneField
 
 
 class AbstractBaseModel(models.Model):
@@ -91,8 +92,7 @@ class User(PermissionsMixin, AbstractBaseUser, AbstractBaseModel):
 
     texting_ok = models.BooleanField(default=True)
 
-    # from timezone_field import TimeZoneField
-    # time_zone = TimeZoneField(default="America/Los_Angeles")  # full timezone name.
+    time_zone = TimeZoneField(blank=True, use_pytz=False, default="America/Los_Angeles")
     # conduct = models.BooleanField()  # not in ERD. Maybe we should remove this
 
     objects = UserManager()
