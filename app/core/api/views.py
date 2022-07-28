@@ -3,8 +3,9 @@ from drf_spectacular.utils import extend_schema, extend_schema_view
 from rest_framework import viewsets
 from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import RetrieveModelMixin
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
 
+from .permissions import IsOwnerOrReadOnly
 from .serializers import UserSerializer
 
 
@@ -35,6 +36,17 @@ class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
     partial_update=extend_schema(description="Partially update the given user"),
 )
 class UserViewSet(viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated, IsOwnerOrReadOnly)
     queryset = get_user_model().objects.all()
     serializer_class = UserSerializer
+
+    def get_permissions(self):
+        if self.action == "create":
+            permission_classes = [
+                IsAdminUser,
+            ]
+        else:
+            permission_classes = [
+                IsAuthenticated,
+            ]
+        return [permission() for permission in permission_classes]
