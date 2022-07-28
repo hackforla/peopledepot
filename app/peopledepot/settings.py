@@ -68,6 +68,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "drf_spectacular",
     "phonenumber_field",
+    "timezone_field",
     # Local
     "core",
 ]
