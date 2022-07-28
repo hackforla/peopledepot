@@ -22,6 +22,7 @@ class UserSerializer(serializers.ModelSerializer):
             "linkedin_account",
             "github_handle",
             "slack_id",
+            "phone",
             "texting_ok",
         )
         read_only_fields = (

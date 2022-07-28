@@ -48,6 +48,7 @@ class UserAdmin(DefaultUserAdmin):
                     "linkedin_account",
                     "github_handle",
                     "slack_id",
+                    "phone",
                     "texting_ok",
                 )
             },
