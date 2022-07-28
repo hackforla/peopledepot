@@ -69,15 +69,7 @@ class User(PermissionsMixin, AbstractBaseUser, AbstractBaseModel):
     gmail = models.EmailField(blank=True)
     preferred_email = models.EmailField(blank=True)
 
-    class UserStatuses(models.TextChoices):
-        ACTIVE = "ac", "Active"
-        INACTIVE = "in", "Inactive"
-        REMOVED = "re", "Removed"
-
-    user_status = models.CharField(
-        max_length=2, choices=UserStatuses.choices, default=UserStatuses.ACTIVE
-    )
-
+    # user_status = models.ForeignKey(user_status_type, on_delete=models.PROTECT)
     # current_practice_area = models.ManyToManyField("PracticeArea")
     # target_practice_area = models.ManyToManyField("PracticeArea")
 
