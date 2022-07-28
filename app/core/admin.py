@@ -41,7 +41,6 @@ class UserAdmin(DefaultUserAdmin):
                     "last_name",
                     "gmail",
                     "preferred_email",
-                    "user_status",
                     "current_job_title",
                     "target_job_title",
                     "current_skills",
