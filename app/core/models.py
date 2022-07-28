@@ -4,6 +4,7 @@ from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin, UserManager
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.db import models
+from phonenumber_field.modelfields import PhoneNumberField
 
 
 class AbstractBaseModel(models.Model):
@@ -86,8 +87,7 @@ class User(PermissionsMixin, AbstractBaseUser, AbstractBaseModel):
     github_handle = models.CharField(max_length=255, blank=True)
     slack_id = models.CharField(max_length=11, blank=True)
 
-    # from phonenumber_field.modelfields import PhoneNumberField
-    # phone = PhoneNumberField(blank=True)
+    phone = PhoneNumberField(blank=True)
 
     texting_ok = models.BooleanField(default=True)
 

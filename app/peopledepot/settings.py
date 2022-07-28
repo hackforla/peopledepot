@@ -67,6 +67,7 @@ INSTALLED_APPS = [
     "django_extensions",
     "rest_framework",
     "drf_spectacular",
+    "phonenumber_field",
     # Local
     "core",
 ]
