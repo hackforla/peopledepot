@@ -59,7 +59,7 @@ class PrivateUserAPITests(TestCase):
         serializer = UserSerializer(users, many=True)
         self.assertEqual(res.data, serializer.data)
 
-    def test_create_user_as_user_should_fail(self):
+    def test_create_user_as_user(self):
         content = {
             "username": "TestUserAPI",
             "password": "testpass",
@@ -67,7 +67,7 @@ class PrivateUserAPITests(TestCase):
         res = self.client.post(USERS_URL, content)
         self.assertEqual(res.status_code, status.HTTP_403_FORBIDDEN)
 
-    def test_create_user_as_superuser_should_succeed(self):
+    def test_create_user_as_superuser(self):
         self.admin_user = create_admin_user(username="TestUser2", password="testpass")
         self.client.force_authenticate(user=self.admin_user)
 
