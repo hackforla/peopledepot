@@ -7,6 +7,7 @@ from rest_framework.test import APIClient
 def user():
     return get_user_model().objects.create_user(
         username="TestUser",
+        email="testuser@email.com",
         password="testpass",
     )
 
@@ -16,6 +17,7 @@ def admin():
     return get_user_model().objects.create_user(
         is_staff=True,
         username="TestAdminUser",
+        email="testadmin@email.com",
         password="testadmin",
     )
 
