@@ -37,7 +37,6 @@ class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
 )
 class UserViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated, IsOwnerOrReadOnly)
-    queryset = get_user_model().objects.all()
     serializer_class = UserSerializer
 
     def get_permissions(self):
@@ -50,3 +49,16 @@ class UserViewSet(viewsets.ModelViewSet):
                 IsAuthenticated,
             ]
         return [permission() for permission in permission_classes]
+
+    def get_queryset(self):
+        """
+        Optionally filter users by an 'email' and/or 'username' query paramerter in the URL
+        """
+        queryset = get_user_model().objects.all()
+        email = self.request.query_params.get("email")
+        if email is not None:
+            queryset = queryset.filter(email=email)
+        username = self.request.query_params.get("username")
+        if username is not None:
+            queryset = queryset.filter(username=username)
+        return queryset
