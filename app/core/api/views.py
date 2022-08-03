@@ -36,7 +36,6 @@ class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
     partial_update=extend_schema(description="Partially update the given user"),
 )
 class UserViewSet(viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticated, IsOwnerOrReadOnly)
     serializer_class = UserSerializer
 
     def get_permissions(self):
@@ -46,7 +45,7 @@ class UserViewSet(viewsets.ModelViewSet):
             ]
         else:
             permission_classes = [
-                IsAuthenticated,
+                IsAuthenticated, IsOwnerOrReadOnly
             ]
         return [permission() for permission in permission_classes]
 
