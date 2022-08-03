@@ -12,6 +12,7 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = (
+            "uuid",
             "username",
             "email",
             "first_name",
@@ -30,6 +31,7 @@ class UserSerializer(serializers.ModelSerializer):
             "time_zone",
         )
         read_only_fields = (
+            "uuid",
             "username",
             "email",
         )
