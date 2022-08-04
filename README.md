@@ -36,55 +36,55 @@ Remember to provide direct links to each channel.
 
 1. Install or make sure [docker][docker-install] and [docker-compose][docker-compose-install] are installed on your computer
 
-```
+```bash
     docker -v
     docker-compose -v
 ```
 
-2. Clone this repo and change to the project root directory
+1. Clone this repo and change to the project root directory
 
-```
+```bash
     git clone https://github.com/hackforla/peopledepot.git
     cd peopledepot
 ```
 
-3. Create .env.dev from .env.dev-sample
+1. Create .env.dev from .env.dev-sample
 
-```
+```bash
     cp .env.dev-sample .env.dev
 ```
 
-4. Build the image and run the containers
+1. Build the image and run the containers
 
-```
+```bash
     docker-compose up --build
 ```
 
-5. In another terminal, run migrations
+1. In another terminal, run migrations
 
-```
+```bash
     docker-compose exec web python manage.py migrate
 ```
 
-6. Create a super user for logging into the web admin interface
+1. Create a super user for logging into the web admin interface
 
-```
+```bash
     docker-compose exec web python manage.py createsuperuser
 ```
 
-7. Browse to the web admin interface at `http://localhost:8000/admin/`
+1. Browse to the web admin interface at `http://localhost:8000/admin/`
 
 ### Testing
 
 1. Make sure containers are running
 
-```
+```bash
     docker-compose up -d
 ```
 
-2. Run all tests
+1. Run all tests
 
-```
+```bash
     docker-compose exec web pytest
 ```
 
