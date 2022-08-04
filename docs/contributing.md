@@ -68,7 +68,7 @@ To run them, use the `lint.sh` convenience script or look inside the script to s
     ./scripts/lint.sh
 ```
 
-### Convenience scripts for sanity checks before committing code
+### Convenience scripts for sanity checks before committing code (assumes bash env)
 
 1. buildrun.sh - clean, build, and run containers in background mode
 1. lint.sh - lint and and auto-format code
@@ -76,6 +76,7 @@ To run them, use the `lint.sh` convenience script or look inside the script to s
 1. logs.sh - view container logs
 1. migrate.sh - run database migrations inside container
 1. precommit-check.sh - sanity checks before committing (calls other scripts, but doesn't stop progress on error like it should)
+1. createsuperuser.sh - creates a default superuser (assumes apt env. requires `expect` util to be installed)
 
 ### Working with issues
 
