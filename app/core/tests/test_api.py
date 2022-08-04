@@ -1,8 +1,8 @@
 import pytest
-
 from django.contrib.auth import get_user_model
 from django.urls import reverse
 from rest_framework import status
+
 from core.api.serializers import UserSerializer
 
 ME_URL = reverse("my_profile")
@@ -41,6 +41,15 @@ def test_get_users(auth_client):
     users = get_user_model().objects.all().order_by("created_at")
     serializer = UserSerializer(users, many=True)
     assert res.data == serializer.data
+
+
+@pytest.mark.django_db
+def test_get_single_user(auth_client, user):
+    res = auth_client.get(f"{USERS_URL}?email={user.email}")
+    assert res.status_code == status.HTTP_200_OK
+
+    res = auth_client.get(f"{USERS_URL}?username={user.username}")
+    assert res.status_code == status.HTTP_200_OK
 
 
 @pytest.mark.django_db
