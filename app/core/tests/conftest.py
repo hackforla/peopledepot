@@ -13,6 +13,14 @@ def user():
 
 
 @pytest.fixture
+def user2():
+    return get_user_model().objects.create_user(
+        username="TestUser2",
+        email="testuser2@email.com",
+        password="testpass",
+    )
+
+@pytest.fixture
 def admin():
     return get_user_model().objects.create_user(
         is_staff=True,
