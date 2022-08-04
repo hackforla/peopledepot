@@ -4,125 +4,33 @@ Include a project description that explains **what** your project is and **why**
 
 {Project Name} is a project of Hack for LA. Hack for LA is a brigade of a Code for America that exists to {your mission}. {Project Name} helps {target users} accomplish {goal of project}. The {app/site/thing you're building}'s main features include {very brief feature descriptions}.
 
-### Project context
+## Project context
 
 Civic projects often exist within a larger context that may include multiple stakeholders, historic relationships, associated research, or other details that are relevant but not *required* for direct contributions. Gathering these details in one place is useful, but the ReadMe isn't that place. Use this section to [link to a Google Doc](#) or other documentation repository where contributors can dig in if they so choose. This is also a good place to link to your Code of Conduct.
 
-### Technology used
+## Technology used
 
 - [Docker][docker-docs]
 - [Django][django-docs]
 - [DjangoRestFramework][drf-docs]
 - [PostgreSQL][postgres-docs]
 
-# How to contribute
+## How to contribute
 
 Explain the different ways people can contribute. For example:
 
 - Join the team {on Slack/at our weekly hack night/etc}.
 - To help with user research, {do ABC}.
 - To provide design support, {do XYZ}.
-- To contribute to the code, follow the instructions below.
+- To contribute to the code, see the [contributing][contributing] document.
 
 Remember to provide direct links to each channel.
 
-## Installation instructions
-
----
-
-**Note:** See [Contributing.md][contributing] for full instructions
-
----
-
-1. Install or make sure [docker][docker-install] and [docker-compose][docker-compose-install] are installed on your computer
-
-```bash
-    docker -v
-    docker-compose -v
-```
-
-1. Clone this repo and change to the project root directory
-
-```bash
-    git clone https://github.com/hackforla/peopledepot.git
-    cd peopledepot
-```
-
-1. Create .env.dev from .env.dev-sample
-
-```bash
-    cp .env.dev-sample .env.dev
-```
-
-1. Build the image and run the containers
-
-```bash
-    docker-compose up --build
-```
-
-1. In another terminal, run migrations
-
-```bash
-    docker-compose exec web python manage.py migrate
-```
-
-1. Create a super user for logging into the web admin interface
-
-```bash
-    docker-compose exec web python manage.py createsuperuser
-```
-
-1. Browse to the web admin interface at `http://localhost:8000/admin/`
-
-### Testing
-
-1. Make sure containers are running
-
-```bash
-    docker-compose up -d
-```
-
-1. Run all tests
-
-```bash
-    docker-compose exec web pytest
-```
-
-### Linting and autoformatting
-
-We're using the popular [flake8][flake8-docs] and [black][black-docs] for linting and code formatting. We're also using [isort][isort-docs] to organize import statements.
-
-To run them, use the `lint.sh` convenience script or look inside the script to see how to run them individually.
-
-### Convenience scripts for sanity checks before committing code
-
-1. buildrun.sh - clean, build, and run containers in background mode
-1. lint.sh - lint and and auto-format code
-1. test.sh - run tests and show coverage
-1. logs.sh - view container logs
-1. precommit-check.sh - sanity checks before committing (calls other scripts, but doesn't stop progress on error like it should)
-
-### Working with issues
-
-- Explain how to submit a bug.
-- Explain how to submit a feature request.
-- Explain how to contribute to an existing issue.
-
-To create a new issue, please use the blank issue template (available when you click New Issue).  If you want to create an issue for other projects to use, please create the issue in your own repository and send a slack message to one of your hack night hosts with the link.
-
-### Working with forks and branches
-
-- Explain your guidelines here.
-
-### Working with pull requests and reviews
-
-- Explain your process.
-
-# Contact info
+## Contact info
 
 Include at least one way (or more, if possible) to reach your team with questions or comments.
 
-### Licensing
+## Licensing
 
 Include details about the project's open source status.
 
@@ -133,8 +41,6 @@ Include details about the project's open source status.
 [drf-docs]: https://www.django-rest-framework.org/tutorial/quickstart/
 [postgres-docs]: https://www.postgresql.org/docs/
 [contributing]: ./docs/contributing.md
-[docker-install]: https://docs.docker.com/get-docker/
-[docker-compose-install]: https://docs.docker.com/compose/install/
 [flake8-docs]: https://github.com/pycqa/flake8
 [black-docs]: https://github.com/psf/black
 [isort-docs]: https://github.com/pycqa/isort/

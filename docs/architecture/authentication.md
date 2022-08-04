@@ -23,13 +23,13 @@ These are the steps involved:
 ## Current Dev Setup
 
 1. Created app client called "backend within the vrms-dev user pool, with ALLOW_ADMIN_USER_PASSWORD_AUTH enabled
-2. "Domain Name" is already created at https://hackforla-vrms-dev.auth.us-west-2.amazoncognito.com
-3. In "App client settings", enabled Implicit grant and openid, Callback URL http://localhost:8000/admin
+2. "Domain Name" is already created at [https://hackforla-vrms-dev.auth.us-west-2.amazoncognito.com]
+3. In "App client settings", enabled Implicit grant and openid, Callback URL [http://localhost:8000/admin]
 
 ## How it works now with the dev user pool and local development backend
 
 1. Create a cognito user and login from the Hosted UI (from App client settings). Successful login will redirect to localhost:8000/admin with the necessary tokens
-2. Take the access_token and make a GET request to http://localhost:8000/api/v1/me (Headers key=Authorization, value=Bearer <token>)
+2. Take the access_token and make a GET request to [http://localhost:8000/api/v1/me] (Headers key=Authorization, value=Bearer <token>)
 3. Backend should return the user's profile data
 
 ## Notes
