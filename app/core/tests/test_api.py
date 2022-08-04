@@ -1,5 +1,4 @@
 import pytest
-from django.contrib.auth import get_user_model
 from django.urls import reverse
 from rest_framework import status
 
@@ -9,8 +8,8 @@ ME_URL = reverse("my_profile")
 USERS_URL = reverse("user-list")
 
 
-def create_user(**params):
-    return get_user_model().objects.create_user(**params)
+def create_user(django_user_model, **params):
+    return django_user_model.objects.create_user(**params)
 
 
 @pytest.mark.django_db
@@ -29,16 +28,16 @@ def test_get_profile(auth_client):
 
 
 @pytest.mark.django_db
-def test_get_users(auth_client):
-    create_user(username="TestUser2", password="testpass")
-    create_user(username="TestUser3", password="testpass")
+def test_get_users(auth_client, django_user_model):
+    create_user(django_user_model, username="TestUser2", password="testpass")
+    create_user(django_user_model, username="TestUser3", password="testpass")
 
     res = auth_client.get(USERS_URL)
 
     assert res.status_code == status.HTTP_200_OK
     assert len(res.data) == 3
 
-    users = get_user_model().objects.all().order_by("created_at")
+    users = django_user_model.objects.all().order_by("created_at")
     serializer = UserSerializer(users, many=True)
     assert res.data == serializer.data
 
