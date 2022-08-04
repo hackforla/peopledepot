@@ -36,6 +36,6 @@ These are the steps involved:
 
 The tutorial is 2 years old now (from 2020) and there's been some change made since then.
 
-1. We created an app client in Cognito for the backend to interface with. ALLOW_ADMIN_USER_PASSWORD_AUTH is the new name for the old ADMIN_NO_SRP_AUTH setting. [Referene](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-authentication-flow.html)
+1. We created an app client in Cognito for the backend to interface with. ALLOW_ADMIN_USER_PASSWORD_AUTH is the new name for the old ADMIN_NO_SRP_AUTH setting. [Reference](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-authentication-flow.html)
 2. In the custom User model step, the ugettext-lazy package is gettext-lazy for Django 4.0 [Reference](https://forum.djangoproject.com/t/importerror-cannot-import-name-ugettext-lazy-from-django-utils-translation/10943/3)
 3. The tutorial steps don't include instructions to test each step, so it's a little bit of following blindly with the help of linters until the last step.
