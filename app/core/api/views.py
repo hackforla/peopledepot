@@ -44,9 +44,7 @@ class UserViewSet(viewsets.ModelViewSet):
                 IsAdminUser,
             ]
         else:
-            permission_classes = [
-                IsAuthenticated, IsOwnerOrReadOnly
-            ]
+            permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
         return [permission() for permission in permission_classes]
 
     def get_queryset(self):
