@@ -23,8 +23,8 @@ These are the steps involved:
 ## Current Dev Setup
 
 1. Created app client called "backend within the vrms-dev user pool, with ALLOW_ADMIN_USER_PASSWORD_AUTH enabled
-2. "Domain Name" is already created at https://hackforla-vrms-dev.auth.us-west-2.amazoncognito.com
-3. In "App client settings", enabled Implicit grant and openid, Callback URL http://localhost:8000/admin
+2. "Domain Name" is already created at [https://hackforla-vrms-dev.auth.us-west-2.amazoncognito.com]
+3. In "App client settings", enabled Implicit grant and openid, Callback URL [http://localhost:8000/admin]
 
 ## How it works now with the dev user pool and local development backend
 
