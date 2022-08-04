@@ -1,11 +1,10 @@
 import pytest
-from django.contrib.auth import get_user_model
 from rest_framework.test import APIClient
 
 
 @pytest.fixture
-def user():
-    return get_user_model().objects.create_user(
+def user(django_user_model):
+    return django_user_model.objects.create_user(
         username="TestUser",
         email="testuser@email.com",
         password="testpass",
@@ -13,16 +12,16 @@ def user():
 
 
 @pytest.fixture
-def user2():
-    return get_user_model().objects.create_user(
+def user2(django_user_model):
+    return django_user_model.objects.create_user(
         username="TestUser2",
         email="testuser2@email.com",
         password="testpass",
     )
 
 @pytest.fixture
-def admin():
-    return get_user_model().objects.create_user(
+def admin(django_user_model):
+    return django_user_model.objects.create_user(
         is_staff=True,
         username="TestAdminUser",
         email="testadmin@email.com",
