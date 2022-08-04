@@ -1,9 +1,6 @@
-# Contributing
+# Contributing to PeopleDepot
 
-
-
-## Installation instructions
-
+## Quick start
 
 1. Install or make sure [docker][docker-install] and [docker-compose][docker-compose-install] are installed on your computer
 
@@ -25,16 +22,10 @@
     cp .env.dev-sample .env.dev
 ```
 
-1. Build the image and run the containers
+1. Build and run via the script
 
 ```bash
-    docker-compose up --build
-```
-
-1. In another terminal, run migrations
-
-```bash
-    docker-compose exec web python manage.py migrate
+    ./scripts/buildrun.sh
 ```
 
 1. Create a super user for logging into the web admin interface
@@ -56,7 +47,7 @@
 1. Run all tests
 
 ```bash
-    docker-compose exec web pytest
+    ./scripts/test.sh
 ```
 
 ### Linting and autoformatting
@@ -65,12 +56,25 @@ We're using the popular [flake8][flake8-docs] and [black][black-docs] for lintin
 
 To run them, use the `lint.sh` convenience script or look inside the script to see how to run them individually.
 
+1. Make sure containers are running
+
+```bash
+    docker-compose up -d
+```
+
+1. Run `lint.sh`
+
+```bash
+    ./scripts/lint.sh
+```
+
 ### Convenience scripts for sanity checks before committing code
 
 1. buildrun.sh - clean, build, and run containers in background mode
 1. lint.sh - lint and and auto-format code
-1. test.sh - run tests and show coverage
+1. test.sh - run tests and generate test coverage report
 1. logs.sh - view container logs
+1. migrate.sh - run database migrations inside container
 1. precommit-check.sh - sanity checks before committing (calls other scripts, but doesn't stop progress on error like it should)
 
 ### Working with issues
