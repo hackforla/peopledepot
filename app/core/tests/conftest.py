@@ -19,6 +19,7 @@ def user2(django_user_model):
         password="testpass",
     )
 
+
 @pytest.fixture
 def admin(django_user_model):
     return django_user_model.objects.create_user(
