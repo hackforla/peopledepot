@@ -99,6 +99,14 @@ class UserViewSet(viewsets.ModelViewSet):
 
 
 class ProjectViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
+
+    def get_permissions(self):
+        if self.action == "create":
+            permission_classes = [
+                IsAdminUser,
+            ]
+        else:
+            permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
+        return [permission() for permission in permission_classes]
