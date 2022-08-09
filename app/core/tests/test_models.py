@@ -7,3 +7,8 @@ def test_user(user, django_user_model):
     assert str(user) == "testuser@email.com"
     assert user.is_django_user is True
     assert repr(user) == f"<User {user.uuid}>"
+
+
+@pytest.mark.django_db
+def test_project(project):
+    assert str(project) == "Test Project"

@@ -1,6 +1,8 @@
 import pytest
 from rest_framework.test import APIClient
 
+from ..models import Project
+
 
 @pytest.fixture
 def user(django_user_model):
@@ -28,6 +30,11 @@ def admin(django_user_model):
         email="testadmin@email.com",
         password="testadmin",
     )
+
+
+@pytest.fixture
+def project():
+    return Project.objects.create(name="Test Project")
 
 
 @pytest.fixture
