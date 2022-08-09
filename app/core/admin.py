@@ -5,7 +5,7 @@ from django.contrib.auth.forms import UserCreationForm as DefaultUserCreationFor
 from django.contrib.auth.forms import UsernameField
 from django.utils.translation import gettext_lazy as _
 
-from .models import User
+from .models import Project, User
 
 
 class UserCreationForm(DefaultUserCreationForm):
@@ -94,3 +94,14 @@ class UserAdmin(DefaultUserAdmin):
     form = UserChangeForm
     add_form = UserCreationForm
     list_display = ("username", "is_staff", "is_active")
+
+
+@admin.register(Project)
+class ProjectAdmin(admin.ModelAdmin):
+    list_display = (
+        "name",
+        "hide",
+        "created_at",
+        "updated_at",
+        "completed_at",
+    )
