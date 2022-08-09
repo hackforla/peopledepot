@@ -1,7 +1,8 @@
 import pytest
 
+pytestmark = pytest.mark.django_db
 
-@pytest.mark.django_db
+
 def test_user(user, django_user_model):
     assert django_user_model.objects.filter(is_staff=False).count() == 1
     assert str(user) == "testuser@email.com"
@@ -9,6 +10,9 @@ def test_user(user, django_user_model):
     assert repr(user) == f"<User {user.uuid}>"
 
 
-@pytest.mark.django_db
 def test_project(project):
     assert str(project) == "Test Project"
+
+
+def test_recurring_event(recurring_event):
+    assert str(recurring_event) == "Test Recurring Event"

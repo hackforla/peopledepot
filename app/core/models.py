@@ -148,3 +148,28 @@ https://api.github.com/repos/[org]/[repo]',
 
     def __str__(self):
         return f"{self.name}"
+
+
+class RecurringEvent(AbstractBaseModel):
+    """
+    Recurring Events
+    """
+
+    name = models.CharField(max_length=255)
+    start_time = models.TimeField("Start", null=True, blank=True)
+    duration_in_min = models.IntegerField(null=True, blank=True)
+    video_conference_url = models.URLField(blank=True)
+    additional_info = models.TextField(blank=True)
+
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    # location_id = models.ForeignKey("Location", on_delete=models.DO_NOTHING)
+    # event_type_id = models.ForeignKey("EventType", on_delete=models.DO_NOTHING)
+    # brigade_id = models.ForeignKey("Brigade", on_delete=models.DO_NOTHING)
+    # day_of_week = models.ForeignKey("DayOfWeek", on_delete=models.DO_NOTHING)
+    # must_roles = models.ManyToManyField("Role")
+    # should_roles = models.ManyToManyField("Role")
+    # could_roles = models.ManyToManyField("Role")
+    # frequency_id = models.ForeignKey("Frequency", on_delete=models.DO_NOTHING)
+
+    def __str__(self):
+        return f"{self.name}"
