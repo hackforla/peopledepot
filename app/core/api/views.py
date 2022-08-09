@@ -11,8 +11,9 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 
+from ..models import Project
 from .permissions import IsOwnerOrReadOnly
-from .serializers import UserSerializer
+from .serializers import ProjectSerializer, UserSerializer
 
 
 class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
@@ -95,3 +96,9 @@ class UserViewSet(viewsets.ModelViewSet):
         if username is not None:
             queryset = queryset.filter(username=username)
         return queryset
+
+
+class ProjectViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
+    queryset = Project.objects.all()
+    serializer_class = ProjectSerializer
