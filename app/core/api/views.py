@@ -98,6 +98,12 @@ class UserViewSet(viewsets.ModelViewSet):
         return queryset
 
 
+@extend_schema_view(
+    list=extend_schema(
+        summary="Projects List",
+        description="Return a list of all the existing projects",
+    ),
+)
 class ProjectViewSet(viewsets.ModelViewSet):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
