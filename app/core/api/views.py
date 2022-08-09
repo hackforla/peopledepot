@@ -11,9 +11,9 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 
-from ..models import Project
+from ..models import Project, RecurringEvent
 from .permissions import IsOwnerOrReadOnly
-from .serializers import ProjectSerializer, UserSerializer
+from .serializers import ProjectSerializer, RecurringEventSerializer, UserSerializer
 
 
 class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
@@ -107,6 +107,26 @@ class UserViewSet(viewsets.ModelViewSet):
 class ProjectViewSet(viewsets.ModelViewSet):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
+
+    def get_permissions(self):
+        if self.action == "create":
+            permission_classes = [
+                IsAdminUser,
+            ]
+        else:
+            permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
+        return [permission() for permission in permission_classes]
+
+
+@extend_schema_view(
+    list=extend_schema(
+        summary="Recurring Events",
+        description="Return a list of all the existing recurring events",
+    ),
+)
+class RecurringEventViewSet(viewsets.ModelViewSet):
+    queryset = RecurringEvent.objects.all()
+    serializer_class = RecurringEventSerializer
 
     def get_permissions(self):
         if self.action == "create":
