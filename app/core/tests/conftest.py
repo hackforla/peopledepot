@@ -1,7 +1,7 @@
 import pytest
 from rest_framework.test import APIClient
 
-from ..models import Project
+from ..models import Project, RecurringEvent
 
 
 @pytest.fixture
@@ -35,6 +35,11 @@ def admin(django_user_model):
 @pytest.fixture
 def project():
     return Project.objects.create(name="Test Project")
+
+
+@pytest.fixture
+def recurring_event(project):
+    return RecurringEvent.objects.create(name="Test Recurring Event", project=project)
 
 
 @pytest.fixture
