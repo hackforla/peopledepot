@@ -1,5 +1,11 @@
 from django.contrib.auth import get_user_model
-from drf_spectacular.utils import extend_schema, extend_schema_view
+from drf_spectacular.types import OpenApiTypes
+from drf_spectacular.utils import (
+    OpenApiExample,
+    OpenApiParameter,
+    extend_schema,
+    extend_schema_view,
+)
 from rest_framework import viewsets
 from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import RetrieveModelMixin
@@ -27,7 +33,37 @@ class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
 
 @extend_schema_view(
     list=extend_schema(
-        summary="Users List", description="Return a list of all the existing users"
+        summary="Users List",
+        description="Return a list of all the existing users",
+        parameters=[
+            OpenApiParameter(
+                name="email",
+                type=str,
+                description="Filter by email address",
+                examples=[
+                    OpenApiExample(
+                        "Example 1",
+                        summary="Test admin email",
+                        description="get the test admin user",
+                        value="testadmin@email.com,",
+                    ),
+                ],
+            ),
+            OpenApiParameter(
+                name="username",
+                type=OpenApiTypes.STR,
+                location=OpenApiParameter.QUERY,
+                description="Filter by username",
+                examples=[
+                    OpenApiExample(
+                        "Example 1",
+                        summary="Test admin username",
+                        description="get the test admin user",
+                        value="testadmin",
+                    ),
+                ],
+            ),
+        ],
     ),
     create=extend_schema(description="Create a new user"),
     retrieve=extend_schema(description="Return the given user"),
