@@ -1,7 +1,7 @@
 import pytest
 from rest_framework.test import APIClient
 
-from ..models import Project, RecurringEvent
+from ..models import Permission, Project, RecurringEvent
 
 
 @pytest.fixture
@@ -40,6 +40,13 @@ def project():
 @pytest.fixture
 def recurring_event(project):
     return RecurringEvent.objects.create(name="Test Recurring Event", project=project)
+
+
+@pytest.fixture
+def permission(user, admin, project):
+    return Permission.objects.create(
+        name="Test Permission", user=user, project=project, created_by=admin
+    )
 
 
 @pytest.fixture

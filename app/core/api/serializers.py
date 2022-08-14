@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from timezone_field.rest_framework import TimeZoneSerializerField
 
-from core.models import Project, RecurringEvent, User
+from core.models import Permission, Project, RecurringEvent, User
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -94,3 +94,20 @@ class RecurringEventSerializer(serializers.ModelSerializer):
             "created_at",
             "updated_at",
         )
+
+
+class PermissionSerializer(serializers.ModelSerializer):
+    """Used to serialize permission info"""
+
+    class Meta:
+        model = Permission
+        fields = (
+            "uuid",
+            "user",
+            "project",
+            "created_by",
+            "updated_by",
+            "granted",
+            "ended",
+        )
+        read_only_fields = ("uuid",)

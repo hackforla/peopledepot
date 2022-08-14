@@ -11,8 +11,13 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.permissions import IsAuthenticated
 
-from ..models import Project, RecurringEvent
-from .serializers import ProjectSerializer, RecurringEventSerializer, UserSerializer
+from ..models import Permission, Project, RecurringEvent
+from .serializers import (
+    PermissionSerializer,
+    ProjectSerializer,
+    RecurringEventSerializer,
+    UserSerializer,
+)
 
 
 class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
@@ -116,3 +121,18 @@ class RecurringEventViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = RecurringEvent.objects.all()
     serializer_class = RecurringEventSerializer
+
+
+@extend_schema_view(
+    list=extend_schema(description="Return a list of all the user permissions"),
+    create=extend_schema(description="Create a new user permission"),
+    retrieve=extend_schema(description="Return the details of a user permission"),
+    destroy=extend_schema(description="Delete a user permission"),
+    update=extend_schema(description="Update a user permission"),
+    partial_update=extend_schema(description="Patch update a user permission"),
+)
+class PermissionViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = Permission.objects.all()
+    serializer_class = PermissionSerializer
+    lookup_field = "uuid"

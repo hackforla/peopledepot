@@ -5,7 +5,7 @@ from django.contrib.auth.forms import UserCreationForm as DefaultUserCreationFor
 from django.contrib.auth.forms import UsernameField
 from django.utils.translation import gettext_lazy as _
 
-from .models import Project, RecurringEvent, User
+from .models import Permission, Project, RecurringEvent, User
 
 
 class UserCreationForm(DefaultUserCreationForm):
@@ -114,4 +114,16 @@ class RecurringEventAdmin(admin.ModelAdmin):
         "name",
         "start_time",
         "duration_in_min",
+    )
+
+
+@admin.register(Permission)
+class PermissionAdmin(admin.ModelAdmin):
+    list_display = (
+        "user",
+        "project",
+        "created_by",
+        "updated_by",
+        "granted",
+        "ended",
     )

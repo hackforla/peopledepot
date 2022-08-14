@@ -173,3 +173,27 @@ class RecurringEvent(AbstractBaseModel):
 
     def __str__(self):
         return f"{self.name}"
+
+
+class Permission(AbstractBaseModel):
+    """
+    User permissions for project, brigade, etc.
+    """
+
+    user = models.ForeignKey(
+        User, null=True, on_delete=models.SET_NULL, related_name="permission"
+    )
+    project = models.ForeignKey(Project, null=True, on_delete=models.SET_NULL)
+    # permission_type = models.ForeignKey(PermissionType, on_delete=models.SET_NULL)
+    # role = models.ForeignKey(Role, on_delete=models.SET_NULL)
+    created_by = models.ForeignKey(
+        User, null=True, on_delete=models.SET_NULL, related_name="permission_created"
+    )
+    updated_by = models.ForeignKey(
+        User, null=True, on_delete=models.SET_NULL, related_name="permission_updated"
+    )
+    granted = models.DateTimeField("Granted", null=True, blank=True)
+    ended = models.DateTimeField("Ended", null=True, blank=True)
+
+    # def __str__(self):
+    #     return f"{self.name"
