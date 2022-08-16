@@ -45,9 +45,9 @@ body:
       description: "Provide links to resources or instructions that may help with this issue. This can include files to be worked on, external sites with solutions, documentation, etc."
       value: |
         - See [People Depot Resources wiki page](https://github.com/hackforla/peopledepot/wiki/Resources-and-Links) for links
-        - ERD
-        - Table and Field Definitions
-        - API Endpoint
+          - ERD
+          - Table and Field Definitions
+          - API Endpoint
     validations:
       required: true
   - type: textarea
