@@ -28,7 +28,7 @@ body:
       description: "List the research to be done, or the steps to be completed. Note: If the steps can be divided into tasks for more than one person, we recommend dividing it up into separate issues, or assigning it as a pair programming task."
       value: |
         - [ ] identify if table has a description (see spreadsheet under Resources)
-        - [ ] if not, reach out to PD leads
+          - [ ] if not, reach out to PD leads
         - [ ] identify and document (below) what the **data fields** are and make sure the ERD and spreadsheets match (see Resources)
         - [ ] identify and document  (below) what **other tables are associated** and make sure the ERD and spreadsheets match (see Resources)
         - [ ] create a single model in Django (defining schema)
@@ -70,7 +70,7 @@ body:
       label: Associated Tables
       value: |
         1. Copied from spreadsheet and checked off according to ERD (unchecked items indicate a mismatch between ERD and spreadsheet, which requires a review)
-          - [x] [other_table] ([relationship])
+           - [x] [other_table] ([relationship])
 
         1. In ERD only (having items here indicates a mismatch, which requires a review)
-          - None
+           - None
