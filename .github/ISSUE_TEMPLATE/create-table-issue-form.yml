@@ -1,4 +1,4 @@
-name: "Create Table"
+name: "Create Table Form"
 description: "Create table issue form"
 
 labels: [feature: table creation, role: back end, size: 2pt]
