@@ -8,7 +8,7 @@ body:
     attributes:
       value: |
         Please see the [wiki page](https://github.com/hackforla/peopledepot/wiki/Create-Table-issues-data-gathering-workflow) for instructions.
-  - type: input
+  - type: textarea
     id: overview
     attributes:
       label: Overview
