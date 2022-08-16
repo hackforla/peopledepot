@@ -1,8 +1,8 @@
-name: 'Create Table'
-description: 'Create table issue form'
+name: "Create Table"
+description: "Create table issue form"
 
 labels: [feature: table creation, role: back end, size: 2pt]
-title: Create Table: [name of table]
+title: Create Table [name of table]
 body:
   - type: markdown
     attributes:
