@@ -13,7 +13,7 @@ body:
     attributes:
       label: Overview
       description: Clearly state the purpose of this issue in 2 sentences or less
-      placeholder: |
+      value: |
         We need to create the [name of table] table so that we can update a shared data store across hackforla.org, vrms, civictechjobs, and tables (onboarding) project.
 
         #### Details
@@ -26,7 +26,7 @@ body:
     attributes:
       label: Action Items
       description: "List the research to be done, or the steps to be completed. Note: If the steps can be divided into tasks for more than one person, we recommend dividing it up into separate issues, or assigning it as a pair programming task."
-      placeholder: |
+      value: |
         - [ ] identify if table has a description (see spreadsheet under Resources)
         - [ ] if not, reach out to PD leads
         - [ ] identify and document (below) what the **data fields** are and make sure the ERD and spreadsheets match (see Resources)
@@ -43,7 +43,7 @@ body:
     attributes:
       label: "Resources/Instructions"
       description: "Provide links to resources or instructions that may help with this issue. This can include files to be worked on, external sites with solutions, documentation, etc."
-      placeholder: |
+      value: |
         - See [People Depot Resources wiki page](https://github.com/hackforla/peopledepot/wiki/Resources-and-Links) for links
         - ERD
         - Table and Field Definitions
@@ -58,7 +58,7 @@ body:
     id: table-data
     attributes:
       label: Data Fields
-      placeholder: |
+      value: |
         1. Copied from spreadsheet and checked off according to ERD. Data fields are bolded and relation fields are not. (unchecked items indicate a mismatch between ERD and spreadsheet, which requires a review)
            - [ ] [name] - [type]
 
@@ -68,7 +68,7 @@ body:
     id: table-associations
     attributes:
       label: Associated Tables
-      placeholder: |
+      value: |
         1. Copied from spreadsheet and checked off according to ERD (unchecked items indicate a mismatch between ERD and spreadsheet, which requires a review)
           - [x] [other_table] ([relationship])
 
