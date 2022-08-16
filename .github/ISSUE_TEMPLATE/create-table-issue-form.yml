@@ -38,3 +38,39 @@ body:
         - [ ] Document the endpoint
     validations:
       required: true
+  - type: textarea
+    id: resources-instructions
+    attributes:
+      label: "Resources/Instructions"
+      description: "Provide links to resources or instructions that may help with this issue. This can include files to be worked on, external sites with solutions, documentation, etc."
+      placeholder: |
+        - See [People Depot Resources wiki page](https://github.com/hackforla/peopledepot/wiki/Resources-and-Links) for links
+        - ERD
+        - Table and Field Definitions
+        - API Endpoint
+    validations:
+      required: true
+  - type: textarea
+    id: table-description
+    attributes:
+      label: Description
+  - type: textarea
+    id: table-data
+    attributes:
+      label: Data Fields
+      placeholder: |
+        1. Copied from spreadsheet and checked off according to ERD. Data fields are bolded and relation fields are not. (unchecked items indicate a mismatch between ERD and spreadsheet, which requires a review)
+           - [ ] [name] - [type]
+
+        1. In ERD only (having items here indicates a mismatch, which requires a review)
+           - [name] - [type]
+  - type: textarea
+    id: table-associations
+    attributes:
+      label: Associated Tables
+      placeholder: |
+        1. Copied from spreadsheet and checked off according to ERD (unchecked items indicate a mismatch between ERD and spreadsheet, which requires a review)
+          - [x] [other_table] ([relationship])
+
+        1. In ERD only (having items here indicates a mismatch, which requires a review)
+          - None
