@@ -50,10 +50,12 @@ body:
           - API Endpoint
     validations:
       required: true
+  - type: markdown
+    attributes:
+      value: "Find and copy the table description (here)[https://docs.google.com/spreadsheets/d/1x_zZ8JLS2hO-zG0jUocOJmX16jh-DF5dccrd_OEGNZ0/edit#gid=1228509670]"
   - type: textarea
     id: table-description
     attributes:
-      description: "Find and copy the table description (here)[https://docs.google.com/spreadsheets/d/1x_zZ8JLS2hO-zG0jUocOJmX16jh-DF5dccrd_OEGNZ0/edit#gid=1228509670]"
       label: Description
     validations:
       required: true
