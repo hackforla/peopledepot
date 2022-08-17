@@ -52,15 +52,15 @@ body:
       required: true
   - type: textarea
     id: table-description
-    description: "Find and copy the table description (here)[https://docs.google.com/spreadsheets/d/1x_zZ8JLS2hO-zG0jUocOJmX16jh-DF5dccrd_OEGNZ0/edit#gid=1228509670]"
     attributes:
+      description: "Find and copy the table description (here)[https://docs.google.com/spreadsheets/d/1x_zZ8JLS2hO-zG0jUocOJmX16jh-DF5dccrd_OEGNZ0/edit#gid=1228509670]"
       label: Description
     validations:
       required: true
   - type: textarea
     id: table-data
-    description: ""
     attributes:
+      description: ""
       label: Data Fields
       value: |
         1. Copied from spreadsheet and checked off according to ERD. (unchecked items indicate a mismatch between ERD and spreadsheet, which requires a review)
