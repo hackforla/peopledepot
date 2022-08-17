@@ -29,15 +29,15 @@ body:
       label: Action Items
       description: "List the research to be done, or the steps to be completed. Note: If the steps can be divided into tasks for more than one person, we recommend dividing it up into separate issues, or assigning it as a pair programming task."
       value: |
-        - [ ] identify if table has a description (see spreadsheet under Resources)
+        - [ ] identify and document table description (see spreadsheet under Resources)
           - [ ] if not, reach out to PD leads
-        - [ ] identify and document (below) what the **data fields** are and make sure the ERD and spreadsheets match (see Resources)
-        - [ ] identify and document  (below) what **other tables are associated** and make sure the ERD and spreadsheets match (see Resources)
+        - [ ] compare the data fields (below) against the ERD. Check off on the list and note any extras (see Resources)
+        - [ ] compare the associated tables (below) against the ERD. Check off on the list and note any extras (see Resources)
         - [ ] create a single model in Django (defining schema)
-        - [ ] Write a test for the relationships this model will have with other models (e.g., creating a user and assigning them a set of permissions on a project).
-        - [ ] Write an API end point
+        - [ ] write a test for the relationships this model will have with other models (e.g., creating a user and assigning them a set of permissions on a project).
+        - [ ] write an API end point
         - [ ] write API unit tests
-        - [ ] Document the endpoint
+        - [ ] document the endpoint
     validations:
       required: true
   - type: textarea
@@ -61,7 +61,7 @@ body:
     attributes:
       label: Data Fields
       value: |
-        1. Copied from spreadsheet and checked off according to ERD. Data fields are bolded and relation fields are not. (unchecked items indicate a mismatch between ERD and spreadsheet, which requires a review)
+        1. Copied from spreadsheet and checked off according to ERD. (unchecked items indicate a mismatch between ERD and spreadsheet, which requires a review)
            - [ ] [name] - [type]
 
         1. In ERD only (having items here indicates a mismatch, which requires a review)
@@ -71,7 +71,7 @@ body:
     attributes:
       label: Associated Tables
       value: |
-        1. Copied from spreadsheet and checked off according to ERD (unchecked items indicate a mismatch between ERD and spreadsheet, which requires a review)
+        1. Copied from spreadsheet and checked off according to ERD. (unchecked items indicate a mismatch between ERD and spreadsheet, which requires a review)
            - [x] [other_table] ([relationship])
 
         1. In ERD only (having items here indicates a mismatch, which requires a review)
