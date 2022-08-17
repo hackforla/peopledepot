@@ -14,11 +14,13 @@ body:
       label: Overview
       description: Clearly state the purpose of this issue in 2 sentences or less
       value: |
-        "We need to create the [name of table] table so that we can update a shared data store across hackforla.org, vrms, civictechjobs, and tables (onboarding) project.
+        We need to create the [name of table] table so that we can update a shared data store across hackforla.org, vrms, civictechjobs, and tables (onboarding) project.
 
         #### Details
 
-        A table and a model are the same thing"
+        A table and a model are the same thing
+    validations:
+      required: true
   - type: textarea
     id: details
     attributes:
