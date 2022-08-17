@@ -54,6 +54,8 @@ body:
     id: table-description
     attributes:
       label: Description
+    validations:
+      required: true
   - type: textarea
     id: table-data
     attributes:
@@ -64,6 +66,8 @@ body:
 
         1. In ERD only (having items here indicates a mismatch, which requires a review)
            - [name] - [type]
+    validations:
+      required: true
   - type: textarea
     id: table-associations
     attributes:
@@ -74,3 +78,5 @@ body:
 
         1. In ERD only (having items here indicates a mismatch, which requires a review)
            - None
+    validations:
+      required: true
