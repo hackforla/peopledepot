@@ -48,19 +48,20 @@ body:
           - ERD
           - Table and Field Definitions
           - API Endpoint
+        - See the [wiki page](https://github.com/hackforla/peopledepot/wiki/Create-Table-issues-data-gathering-workflow) for instructions.
     validations:
       required: true
   - type: textarea
     id: table-description
     attributes:
-      description: "Find and copy the table description [here](https://docs.google.com/spreadsheets/d/1x_zZ8JLS2hO-zG0jUocOJmX16jh-DF5dccrd_OEGNZ0/edit#gid=1228509670)"
+      description: "Find and copy/paste the table description [here](https://docs.google.com/spreadsheets/d/1x_zZ8JLS2hO-zG0jUocOJmX16jh-DF5dccrd_OEGNZ0/edit#gid=1228509670)"
       label: Description
     validations:
       required: true
   - type: textarea
     id: table-data
     attributes:
-      description: "Find and copy the data fields checkboxes [here](https://docs.google.com/spreadsheets/d/1x_zZ8JLS2hO-zG0jUocOJmX16jh-DF5dccrd_OEGNZ0/edit#gid=1572339087)"
+      description: "Find and copy/paste the data fields checkboxes [here](https://docs.google.com/spreadsheets/d/1x_zZ8JLS2hO-zG0jUocOJmX16jh-DF5dccrd_OEGNZ0/edit#gid=1572339087)"
       label: Data Fields
       value: |
         1. Copied from spreadsheet and checked off according to ERD. (unchecked items indicate a mismatch between ERD and spreadsheet, which requires a review)
@@ -73,7 +74,7 @@ body:
   - type: textarea
     id: table-associations
     attributes:
-      description: "Find and copy the associated tables checkboxes [here](https://docs.google.com/spreadsheets/d/1x_zZ8JLS2hO-zG0jUocOJmX16jh-DF5dccrd_OEGNZ0/edit#gid=1228509670)"
+      description: "Find and copy/paste the associated tables checkboxes [here](https://docs.google.com/spreadsheets/d/1x_zZ8JLS2hO-zG0jUocOJmX16jh-DF5dccrd_OEGNZ0/edit#gid=1228509670)"
       label: Associated Tables
       value: |
         1. Copied from spreadsheet and checked off according to ERD. (unchecked items indicate a mismatch between ERD and spreadsheet, which requires a review)
