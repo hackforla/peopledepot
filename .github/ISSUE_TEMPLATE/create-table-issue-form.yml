@@ -60,7 +60,6 @@ body:
   - type: textarea
     id: table-data
     attributes:
-      description: ""
       label: Data Fields
       value: |
         1. Copied from spreadsheet and checked off according to ERD. (unchecked items indicate a mismatch between ERD and spreadsheet, which requires a review)
