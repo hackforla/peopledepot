@@ -52,12 +52,14 @@ body:
       required: true
   - type: textarea
     id: table-description
+    description: "Find and copy the table description (here)[https://docs.google.com/spreadsheets/d/1x_zZ8JLS2hO-zG0jUocOJmX16jh-DF5dccrd_OEGNZ0/edit#gid=1228509670]"
     attributes:
       label: Description
     validations:
       required: true
   - type: textarea
     id: table-data
+    description: ""
     attributes:
       label: Data Fields
       value: |
