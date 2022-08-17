@@ -1,0 +1,86 @@
+name: "Create Table Issue Form"
+description: "Create an issue for each table required"
+
+labels: ["feature: table creation", "role: back end", "size: 2pt"]
+title: "Create Table: [name of table]"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please see the [wiki page](https://github.com/hackforla/peopledepot/wiki/Create-Table-issues-data-gathering-workflow) for instructions.
+  - type: textarea
+    id: overview
+    attributes:
+      label: Overview
+      description: Replace name of table below
+      value: |
+        We need to create the [name of table] table so that we can update a shared data store across hackforla.org, vrms, civictechjobs, and tables (onboarding) project.
+
+        #### Details
+
+        A table and a model are the same thing
+    validations:
+      required: true
+  - type: textarea
+    id: action-items
+    attributes:
+      label: Action Items
+      description: "Leave alone or add missing items."
+      value: |
+        - [ ] identify and document table description (see spreadsheet under Resources)
+          - [ ] if not, reach out to PD leads
+        - [ ] compare and check off the data fields (below) against the ERD. Note any fields in the ERD that's missing from the list. (see Resources)
+        - [ ] compare the check off associated tables (below) against the ERD. Note any associated tables in the ERD that's missing from the list (see Resources)
+        - [ ] create a single model in Django (defining schema)
+        - [ ] write a test for the relationships this model will have with other models (e.g., creating a user and assigning them a set of permissions on a project).
+        - [ ] write an API end point
+        - [ ] write API unit tests
+        - [ ] document the endpoint
+    validations:
+      required: true
+  - type: textarea
+    id: resources-instructions
+    attributes:
+      label: "Resources/Instructions"
+      description: "Leave alone or add to this."
+      value: |
+        - See [People Depot Resources wiki page](https://github.com/hackforla/peopledepot/wiki/Resources-and-Links) for links
+          - ERD
+          - Table and Field Definitions
+          - API Endpoint
+        - See the [wiki page](https://github.com/hackforla/peopledepot/wiki/Create-Table-issues-data-gathering-workflow) for instructions.
+    validations:
+      required: true
+  - type: textarea
+    id: table-description
+    attributes:
+      description: "Find and copy/paste the table description [here](https://docs.google.com/spreadsheets/d/1x_zZ8JLS2hO-zG0jUocOJmX16jh-DF5dccrd_OEGNZ0/edit#gid=1228509670)"
+      label: Description
+    validations:
+      required: true
+  - type: textarea
+    id: table-data
+    attributes:
+      description: "Find and copy/paste the data fields checkboxes [here](https://docs.google.com/spreadsheets/d/1x_zZ8JLS2hO-zG0jUocOJmX16jh-DF5dccrd_OEGNZ0/edit#gid=1572339087)"
+      label: Data Fields
+      value: |
+        1. Copied from spreadsheet and checked off according to ERD. (unchecked items indicate a mismatch between ERD and spreadsheet, which requires a review)
+           - [ ] [name] - [type]
+
+        1. In ERD only (having items here indicates a mismatch, which requires a review)
+           - [name] - [type]
+    validations:
+      required: true
+  - type: textarea
+    id: table-associations
+    attributes:
+      description: "Find and copy/paste the associated tables checkboxes [here](https://docs.google.com/spreadsheets/d/1x_zZ8JLS2hO-zG0jUocOJmX16jh-DF5dccrd_OEGNZ0/edit#gid=1228509670)"
+      label: Associated Tables
+      value: |
+        1. Copied from spreadsheet and checked off according to ERD. (unchecked items indicate a mismatch between ERD and spreadsheet, which requires a review)
+           - [x] [other_table] ([relationship])
+
+        1. In ERD only (having items here indicates a mismatch, which requires a review)
+           - None
+    validations:
+      required: true
