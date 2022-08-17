@@ -2,7 +2,7 @@ name: "Create Table Form"
 description: "Create an issue for each table required"
 
 labels: ["feature: table creation", "role: back end", "size: 2pt"]
-title: Create Table [name of table]
+title: "Create Table: [name of table]"
 body:
   - type: markdown
     attributes:
