@@ -29,8 +29,8 @@ body:
       value: |
         - [ ] identify and document table description (see spreadsheet under Resources)
           - [ ] if not, reach out to PD leads
-        - [ ] compare the data fields (below) against the ERD. Check off on the list and note any extras (see Resources)
-        - [ ] compare the associated tables (below) against the ERD. Check off on the list and note any extras (see Resources)
+        - [ ] compare and check off the data fields (below) against the ERD. Note any fields in the ERD that's missing from the list. (see Resources)
+        - [ ] compare the check off associated tables (below) against the ERD. Note any associated tables in the ERD that's missing from the list (see Resources)
         - [ ] create a single model in Django (defining schema)
         - [ ] write a test for the relationships this model will have with other models (e.g., creating a user and assigning them a set of permissions on a project).
         - [ ] write an API end point
