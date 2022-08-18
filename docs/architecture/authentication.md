@@ -28,7 +28,7 @@ These are the steps involved:
 
 ## How it works now with the dev user pool and local development backend
 
-1. Create a cognito user and login from the Hosted UI (from App client settings). Successful login will redirect to localhost:8000/admin with the necessary tokens
+1. [Create a cognito user](https://hackforla-vrms-dev.auth.us-west-2.amazoncognito.com/login?client_id=3e3bi1ct2ks9rcktrde8v60v3u&response_type=token&scope=openid&redirect_uri=http://localhost:8000/admin) and login from the Hosted UI (from App client settings). Successful login will redirect to localhost:8000/admin with the necessary tokens
 2. Take the access_token from the URL and make a GET request to http://localhost:8000/api/v1/me (Headers key=Authorization, value=Bearer <token>)
 3. Backend should return the user's profile data
 
