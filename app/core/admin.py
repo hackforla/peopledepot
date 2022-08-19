@@ -94,3 +94,4 @@ class UserAdmin(DefaultUserAdmin):
     form = UserChangeForm
     add_form = UserCreationForm
     list_display = ("username", "is_staff", "is_active")
+    list_filter = ("username", "email")
