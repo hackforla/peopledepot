@@ -95,9 +95,9 @@ Viewset defines the set of endpoints for the API.
    1. We inherit from ModelViewSet which provides a default view implementation of all 5 actions: list, create, retrieve, destroy, update, partial_update.
    1. We use the extend_schema_view decorator to attach the API doc strings to the viewset. They are usually defined as docstrings of the corresponding function definitions inside the viewset. Since we use ModelViewSet, there's nowhere to put the docstrings but above the viewset.
    1. The minimum code we need with ModelViewSet are permission_classes, queryset, and serializer_class. Here, we defined custom permissions.
-   1. Please just copy the same get_permissions function for now. We will eventually define permissions properly and use the simpler permission_classes declaration.
-   1. This custom permission limits object creation to admin only, and only the object owner can modify the object
-   1. **There may be a bug in this custom permissions code where authenticated non-owner users should be able to but are unable to view the object.**
+   1. **Don't do this custom get_permissions function**
+      1. For now use permission_classes = (IsAuthenticated,) and not the get_permissions function.
+      1. It doesn't limit access enough, but we will fix it later.
 
 1. Here's a more complete API doc example
 
@@ -126,11 +126,11 @@ Viewset defines the set of endpoints for the API.
 
 1. Register the viewset to the [router](https://www.django-rest-framework.org/api-guide/routers/)
 
+   https://github.com/fyliu/peopledepot/blob/acd8898e7b0364913cc8ae3f9973dfd846adedcc/app/core/api/urls.py#L14
+
    1. First param is the URL prefix
    1. Second param is the viewset
    1. basename is the name used for generating the endpoint names, such as [basename]-list, [basename]-detail, etc.
-
-   https://github.com/fyliu/peopledepot/blob/acd8898e7b0364913cc8ae3f9973dfd846adedcc/app/core/api/urls.py#L14
 
 ### Add API tests
 
@@ -139,10 +139,10 @@ Viewset defines the set of endpoints for the API.
    https://github.com/fyliu/peopledepot/blob/acd8898e7b0364913cc8ae3f9973dfd846adedcc/app/core/tests/test_api.py#L11
 
 1. Add test case
+   https://github.com/fyliu/peopledepot/blob/acd8898e7b0364913cc8ae3f9973dfd846adedcc/app/core/tests/test_api.py#L70-L81
+
    1. Pass in the necessary fixtures
    1. Construct data
    1. Create the object
    1. Check that it's created
    1. Maybe also check the data
-
-   https://github.com/fyliu/peopledepot/blob/acd8898e7b0364913cc8ae3f9973dfd846adedcc/app/core/tests/test_api.py#L70-L81
