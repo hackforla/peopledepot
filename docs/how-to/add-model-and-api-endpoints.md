@@ -1,3 +1,4 @@
+# Add new model and API endpoints
 ## Add the model
 
 https://docs.djangoproject.com/en/4.0/ref/contrib/admin/#django.contrib.admin.ModelAdminhttps://github.com/fyliu/peopledepot/blob/acd8898e7b0364913cc8ae3f9973dfd846adedcc/app/core/models.py#L150-L172
