@@ -1,7 +1,7 @@
 # Add new model and API endpoints
 ## Add the model
 
-https://docs.djangoproject.com/en/4.0/ref/contrib/admin/#django.contrib.admin.ModelAdminhttps://github.com/fyliu/peopledepot/blob/acd8898e7b0364913cc8ae3f9973dfd846adedcc/app/core/models.py#L150-L172
+https://github.com/fyliu/peopledepot/blob/acd8898e7b0364913cc8ae3f9973dfd846adedcc/app/core/models.py#L150-L172
 
 1. We inherit from AbstractBaseModel, which provides a uuid primary key, created_at, and updated_at timestamps.
 1. Most fields should be nullable. Text fields should be blank=True, data fields should be null=True and maybe also blank=True.
@@ -48,6 +48,8 @@ https://docs.djangoproject.com/en/4.0/ref/contrib/admin/#django.contrib.admin.Mo
    1. [list_filter](https://docs.djangoproject.com/en/4.0/ref/contrib/admin/#django.contrib.admin.ModelAdmin.list_filter) adds filter controls to declared fields
 
 ### Use the admin site to see everything's working and there are no issues, which should be fine unless there's custom input fields
+
+1. Example of a custom field
 
    https://github.com/fyliu/peopledepot/blob/acd8898e7b0364913cc8ae3f9973dfd846adedcc/app/core/models.py#L95
 
