@@ -68,6 +68,22 @@ To run them, use the `lint.sh` convenience script or look inside the script to s
     ./scripts/lint.sh
     ```
 
+### Pre-commit checks
+
+We will eventually integrate this into pre-commit hooks, but for now, run this command before each git commit
+
+1. Make sure containers are running
+
+    ```bash
+    docker-compose up -d
+    ```
+
+1. Run `precommit-check.sh`
+
+    ```bash
+    ./scripts/precommit-check.sh
+    ```
+
 ### Convenience scripts for sanity checks before committing code (assumes bash env)
 
 1. buildrun.sh - clean, build, and run containers in background mode
