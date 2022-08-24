@@ -4,35 +4,35 @@
 
 1. Install or make sure [docker][docker-install] and [docker-compose][docker-compose-install] are installed on your computer
 
-```bash
+    ```bash
     docker -v
     docker-compose -v
-```
+    ```
 
 1. Clone this repo and change to the project root directory
 
-```bash
+    ```bash
     git clone https://github.com/hackforla/peopledepot.git
     cd peopledepot
-```
+    ```
 
 1. Create .env.dev from .env.dev-sample
 
-```bash
+    ```bash
     cp .env.dev-sample .env.dev
-```
+    ```
 
 1. Build and run via the script
 
-```bash
+    ```bash
     ./scripts/buildrun.sh
-```
+    ```
 
 1. Create a super user for logging into the web admin interface
 
-```bash
+    ```bash
     docker-compose exec web python manage.py createsuperuser
-```
+    ```
 
 1. Browse to the web admin interface at `http://localhost:8000/admin/`
 
@@ -40,15 +40,15 @@
 
 1. Make sure containers are running
 
-```bash
+    ```bash
     docker-compose up -d
-```
+    ```
 
 1. Run all tests
 
-```bash
+    ```bash
     ./scripts/test.sh
-```
+    ```
 
 ### Linting and autoformatting
 
@@ -58,15 +58,15 @@ To run them, use the `lint.sh` convenience script or look inside the script to s
 
 1. Make sure containers are running
 
-```bash
+    ```bash
     docker-compose up -d
-```
+    ```
 
 1. Run `lint.sh`
 
-```bash
+    ```bash
     ./scripts/lint.sh
-```
+    ```
 
 ### Convenience scripts for sanity checks before committing code (assumes bash env)
 
