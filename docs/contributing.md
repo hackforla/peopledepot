@@ -16,6 +16,26 @@
     cd peopledepot
     ```
 
+1. [Temporary] The latest code is in https://github.com/fyliu/peopledepot.git and we need to get that.
+
+   1. Create a git remote `fang` to that repo
+
+       ```bash
+       git remote add fang https://github.com/fyliu/peopledepot.git
+       ```
+
+   1. Fetch data from the remote
+
+       ```bash
+       git fetch fang
+       ```
+
+   1. Checkout the recurring_event-model branch to see the current progress. The main repo should be updated with the latest code soon.
+
+       ```bash
+       git checkout fang/recurring_event-model
+       ```
+
 1. Create .env.dev from .env.dev-sample
 
     ```bash
