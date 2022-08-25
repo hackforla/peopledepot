@@ -104,7 +104,15 @@ To create a new issue, please use the blank issue template (available when you c
 
 ### Working with forks and branches
 
-- Explain your guidelines here.
+To contribute code changes
+
+1. Choose an issue to work on, say issue #15
+1. Create a fork and commit your work inside the fork
+   1. Remember to run the `precommit-checks.sh` script before each commit until it can be integrated
+1. Create a PR to hackforla/peopledepot/main when you're done with your changes
+   1. Reference the issue that you're working on in the PR description. e.g. "Closes #15"
+   1. Provide a description of the relevant changes.
+1. Move the issue to the Review column in the project board
 
 ### Working with pull requests and reviews
 
