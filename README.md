@@ -41,6 +41,3 @@ Include details about the project's open source status.
 [drf-docs]: https://www.django-rest-framework.org/tutorial/quickstart/
 [postgres-docs]: https://www.postgresql.org/docs/
 [contributing]: ./docs/contributing.md
-[flake8-docs]: https://github.com/pycqa/flake8
-[black-docs]: https://github.com/psf/black
-[isort-docs]: https://github.com/pycqa/isort/

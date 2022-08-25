@@ -102,3 +102,6 @@ To contribute code changes
 
 [docker-install]: https://docs.docker.com/get-docker/
 [docker-compose-install]: https://docs.docker.com/compose/install/
+[flake8-docs]: https://github.com/pycqa/flake8
+[black-docs]: https://github.com/psf/black
+[isort-docs]: https://github.com/pycqa/isort/
