@@ -68,3 +68,35 @@ def test_create_user_as_admin(admin_client):
     }
     res = admin_client.post(USERS_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
+
+
+@pytest.mark.django_db
+def test_update_user_as_user(auth_client, user):
+    user_url = reverse("user-detail", kwargs={"pk": user.uuid})
+    payload = {"first_name": "TestUser2"}
+    res = auth_client.patch(f"{user_url}", payload)
+    assert res.status_code == status.HTTP_200_OK
+
+
+@pytest.mark.django_db
+def test_update_user_as_admin(admin_client, user):
+    user_url = reverse("user-detail", kwargs={"pk": user.uuid})
+    payload = {"first_name": "TestUser2"}
+    res = admin_client.patch(f"{user_url}", payload)
+    assert res.status_code == status.HTTP_403_FORBIDDEN
+
+
+@pytest.mark.django_db
+def test_delete_user_as_user(auth_client, user):
+    user_url = reverse("user-detail", kwargs={"pk": user.uuid})
+    payload = {"first_name": "TestUser2"}
+    res = auth_client.delete(f"{user_url}", payload)
+    assert res.status_code == status.HTTP_403_FORBIDDEN
+
+
+@pytest.mark.django_db
+def test_delete_user_as_admin(admin_client, user):
+    user_url = reverse("user-detail", kwargs={"pk": user.uuid})
+    payload = {"first_name": "TestUser2"}
+    res = admin_client.delete(f"{user_url}", payload)
+    assert res.status_code == status.HTTP_204_NO_CONTENT
