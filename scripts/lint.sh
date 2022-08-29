@@ -1,4 +1,6 @@
 #!/bin/bash
+# set -euo pipefail
+IFS=$'\n\t'
 set -x
 
 # run linters and code formatters

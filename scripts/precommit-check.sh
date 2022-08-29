@@ -1,5 +1,6 @@
 #!/bin/bash
-set +x
+set -euo pipefail
+IFS=$'\n\t'
 
 SCRIPT_DIR="$(dirname "${BASH_SOURCE[0]}")"
 

@@ -1,5 +1,4 @@
 #!/bin/bash
-set -x
 
 # create a test superuser for loggin into django admin
 # http://localhost:8000/admin/login
@@ -16,6 +15,7 @@ run_install()
 
 reqd_pkgs=("expect")
 ## Run the run_install function if any of the libraries are missing
+set -x
 dpkg -s "${reqd_pkgs[@]}" >/dev/null 2>&1 || run_install
 
 /usr/bin/expect << EOF
