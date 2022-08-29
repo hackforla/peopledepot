@@ -14,6 +14,16 @@ CREATE_USER_PAYLOAD = {
 }
 
 
+@pytest.fixture
+def users_url():
+    return reverse("user-list")
+
+
+@pytest.fixture
+def user_url(user):
+    return reverse("user-detail", kwargs={"pk": user.uuid})
+
+
 def create_user(django_user_model, **params):
     return django_user_model.objects.create_user(**params)
 
@@ -57,77 +67,79 @@ def test_get_single_user(auth_client, user):
     assert res.status_code == status.HTTP_200_OK
 
 
-users_actions_test_data = [
+user_actions_test_data = [
     (
         "admin_client",
         "post",
-        USERS_URL,
+        "users_url",
         CREATE_USER_PAYLOAD,
         status.HTTP_201_CREATED,
     ),
-    ("admin_client", "get", USERS_URL, {}, status.HTTP_200_OK),
+    ("admin_client", "get", "users_url", {}, status.HTTP_200_OK),
     (
         "auth_client",
         "post",
-        USERS_URL,
+        "users_url",
         {"username": "TestUser2", "password": "testpass"},
         status.HTTP_403_FORBIDDEN,
     ),
-    ("auth_client", "get", USERS_URL, {}, status.HTTP_200_OK),
-]
-
-
-@pytest.mark.django_db
-@pytest.mark.parametrize(
-    "client_name,action,endpoint,payload,expected_status",
-    users_actions_test_data,
-)
-def test_users_actions(
-    client_name, action, endpoint, payload, expected_status, request
-):
-
-    client = request.getfixturevalue(client_name)
-    action_fn = getattr(client, action)
-    res = action_fn(endpoint, payload)
-    assert res.status_code == expected_status
-
-
-user_actions_test_data = [
-    ("auth_client", "patch", {"first_name": "TestUser2"}, status.HTTP_200_OK),
+    ("auth_client", "get", "users_url", {}, status.HTTP_200_OK),
+    (
+        "auth_client",
+        "patch",
+        "user_url",
+        {"first_name": "TestUser2"},
+        status.HTTP_200_OK,
+    ),
     (
         "auth_client",
         "put",
+        "user_url",
         CREATE_USER_PAYLOAD,
         status.HTTP_200_OK,
     ),
-    ("auth_client", "delete", {}, status.HTTP_403_FORBIDDEN),
-    ("admin_client", "patch", {"first_name": "TestUser2"}, status.HTTP_403_FORBIDDEN),
+    ("auth_client", "delete", "user_url", {}, status.HTTP_403_FORBIDDEN),
+    (
+        "admin_client",
+        "patch",
+        "user_url",
+        {"first_name": "TestUser2"},
+        status.HTTP_403_FORBIDDEN,
+    ),
     (
         "admin_client",
         "put",
+        "user_url",
         CREATE_USER_PAYLOAD,
         status.HTTP_403_FORBIDDEN,
     ),
-    ("admin_client", "delete", {}, status.HTTP_204_NO_CONTENT),
-    ("auth_client2", "patch", {"first_name": "TestUser2"}, status.HTTP_403_FORBIDDEN),
+    ("admin_client", "delete", "user_url", {}, status.HTTP_204_NO_CONTENT),
+    (
+        "auth_client2",
+        "patch",
+        "user_url",
+        {"first_name": "TestUser2"},
+        status.HTTP_403_FORBIDDEN,
+    ),
     (
         "auth_client2",
         "put",
+        "user_url",
         CREATE_USER_PAYLOAD,
         status.HTTP_403_FORBIDDEN,
     ),
-    ("auth_client2", "delete", {}, status.HTTP_403_FORBIDDEN),
+    ("auth_client2", "delete", "user_url", {}, status.HTTP_403_FORBIDDEN),
 ]
 
 
 @pytest.mark.django_db
 @pytest.mark.parametrize(
-    "client_name,action,payload,expected_status", user_actions_test_data
+    "client_name,action,endpoint,payload,expected_status", user_actions_test_data
 )
-def test_user_actions(client_name, user, action, payload, expected_status, request):
+def test_user_actions(client_name, action, endpoint, payload, expected_status, request):
 
-    endpoint = reverse("user-detail", kwargs={"pk": user.uuid})
     client = request.getfixturevalue(client_name)
     action_fn = getattr(client, action)
-    res = action_fn(endpoint, payload)
+    url = request.getfixturevalue(endpoint)
+    res = action_fn(url, payload)
     assert res.status_code == expected_status
