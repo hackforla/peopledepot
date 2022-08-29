@@ -43,9 +43,9 @@ class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
                 examples=[
                     OpenApiExample(
                         "Example 1",
-                        summary="Test admin email",
-                        description="get the test admin user",
-                        value="testadmin@email.com,",
+                        summary="Demo email",
+                        description="get the demo user",
+                        value="demo-email@email.com,",
                     ),
                 ],
             ),
@@ -57,9 +57,9 @@ class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
                 examples=[
                     OpenApiExample(
                         "Example 1",
-                        summary="Test admin username",
-                        description="get the test admin user",
-                        value="testadmin",
+                        summary="Demo username",
+                        description="get the demo user",
+                        value="demo-user",
                     ),
                 ],
             ),
