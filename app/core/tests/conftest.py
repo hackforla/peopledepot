@@ -42,6 +42,12 @@ def auth_client(user, client):
 
 
 @pytest.fixture
+def auth_client2(user2, client):
+    client.force_authenticate(user=user2)
+    return client
+
+
+@pytest.fixture
 def admin_client(admin, client):
     client.force_authenticate(user=admin)
     return client
