@@ -71,7 +71,7 @@ class User(PermissionsMixin, AbstractBaseUser, AbstractBaseModel):
     gmail = models.EmailField(blank=True)
     preferred_email = models.EmailField(blank=True)
 
-    # user_status = models.ForeignKey(user_status_type, on_delete=models.PROTECT)
+    status = models.ForeignKey("UserStatus", null=True, on_delete=models.PROTECT)
     # current_practice_area = models.ManyToManyField("PracticeArea")
     # target_practice_area = models.ManyToManyField("PracticeArea")
 
@@ -195,5 +195,20 @@ class Permission(AbstractBaseModel):
     granted = models.DateTimeField("Granted", null=True, blank=True)
     ended = models.DateTimeField("Ended", null=True, blank=True)
 
-    # def __str__(self):
-    #     return f"{self.name"
+    def __str__(self):
+        return f"{str(self.user)} of {str(self.project)}"
+
+
+class UserStatus(AbstractBaseModel):
+    """
+    User Status
+    """
+
+    name = models.CharField(max_length=255)
+    description = models.CharField(max_length=255)
+
+    class Meta:
+        verbose_name_plural = "user statuses"
+
+    def __str__(self):
+        return f"{self.name}"
