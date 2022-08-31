@@ -5,7 +5,7 @@ from django.contrib.auth.forms import UserCreationForm as DefaultUserCreationFor
 from django.contrib.auth.forms import UsernameField
 from django.utils.translation import gettext_lazy as _
 
-from .models import Permission, Project, RecurringEvent, User
+from .models import Permission, Project, RecurringEvent, User, UserStatus
 
 
 class UserCreationForm(DefaultUserCreationForm):
@@ -126,4 +126,12 @@ class PermissionAdmin(admin.ModelAdmin):
         "updated_by",
         "granted",
         "ended",
+    )
+
+
+@admin.register(UserStatus)
+class UserStatusAdmin(admin.ModelAdmin):
+    list_display = (
+        "name",
+        "description",
     )
