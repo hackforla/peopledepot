@@ -1,5 +1,7 @@
 #!/bin/bash
+set -euo pipefail
+IFS=$'\n\t'
 set -x
 
 # run tests and show code coverage
-docker-compose exec web pytest -p no:warnings --cov=.
+docker-compose exec web pytest
