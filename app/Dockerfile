@@ -14,6 +14,7 @@ RUN apt-get update \
   netcat=1.10-46 \
   gcc=4:10.2.1-1 \
   postgresql=13+225 \
+  graphviz=2.42.2-5 \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 
