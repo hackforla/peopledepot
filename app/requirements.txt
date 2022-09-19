@@ -16,3 +16,5 @@ markdown~=3.4.1
 django-phonenumber-field[phonenumbers]~=6.3.0
 django-timezone-field==5.0
 tzdata==2022.1
+pyparsing~=3.0.9
+pydot~=1.4.2
