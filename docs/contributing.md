@@ -9,6 +9,8 @@
     docker-compose -v
     ```
 
+    1. It's better to use the docker-compose instructions to install both docker and docker-compose. It's a manual step to install docker-compose afterward if you're not using Linux
+
 1. Clone this repo and change to the project root directory
 
     ```bash
@@ -47,6 +49,27 @@
     ```bash
     ./scripts/buildrun.sh
     ```
+
+    1. If you are on Windows and see an error like this, do the next step
+
+       ```bash
+       [+] Running 4/4
+        - Network peopledepot_default        Created    0.9s
+        - Volume "peopledepot_postgres_data" Created    0.0s
+        - Container peopledepot-db-1         Started    2.1s
+        - Container peopledepot-web-1        Started    3.5s
+        + ./scripts/migrate.sh
+        + docker-compose exec web python manage.py makemigrations
+        service "web" is not running container #1
+        + docker-compose exec web python manage.py migrate
+        service "web" is not running container #100automations
+       ```
+
+    1. If you see the error message above, you can try commenting out the last line in `/app/Dockerfile` and then running `buildrun.sh` again
+
+       ```Dockerfile
+       # ENTRYPOINT ["/usr/src/app/entrypoint.sh"]
+       ```
 
 1. Create a super user for logging into the web admin interface
 
@@ -98,20 +121,31 @@ We will eventually integrate this into pre-commit hooks, but for now, run this c
 
 ### Working with issues
 
-- Explain how to submit a bug.
-- Explain how to submit a feature request.
-- Explain how to contribute to an existing issue.
+#### Submit a bug
+
+#### Submit a feature request
+
+#### Contribute to an existing issue
+
+1. Find issue in Prioritized Backlog [here](https://github.com/hackforla/peopledepot/projects/1)
+1. Assign issue to yourself and move it to In progress
+1. Follow the steps in the issue description to complete the issue
+1. Create a pull request and tag it with the issue number (i.e. closes #15)
 
 To create a new issue, please use the blank issue template (available when you click New Issue).  If you want to create an issue for other projects to use, please create the issue in your own repository and send a slack message to one of your hack night hosts with the link.
 
 ### Working with forks and branches
 
+We use the fork, branch, and pull request model
+
 To contribute code changes
 
 1. Choose an issue to work on, say issue #15
 1. Create a fork and commit your work inside the fork
+   1. Fork the repo from [hackforla/peopledepot](https://github.com/hackforla/peopledepot)
+   1. Create a branch in your fork to work on the issue. It's preferred to have the working issue number in the branch name.
    1. Remember to run the `precommit-checks.sh` script before each commit until it can be integrated
-1. Create a PR to hackforla/peopledepot/main when you're done with your changes
+1. Create a PR from your fork/branch to hackforla/peopledepot/main when you're done with your changes
    1. Reference the issue that you're working on in the PR description. e.g. "Closes #15"
    1. Provide a description of the relevant changes.
 1. Move the issue to the Review column in the project board
