@@ -1,3 +1,4 @@
+from operator import truediv
 import uuid
 
 from django.contrib.auth.base_user import AbstractBaseUser
@@ -170,6 +171,23 @@ class RecurringEvent(AbstractBaseModel):
     # should_roles = models.ManyToManyField("Role")
     # could_roles = models.ManyToManyField("Role")
     # frequency_id = models.ForeignKey("Frequency", on_delete=models.DO_NOTHING)
+
+    def __str__(self):
+        return f"{self.name}"
+
+
+class SponsorPartner(AbstractBaseModel):
+    """
+    Dictionary of sponsors and partners
+    """
+
+    partner_name = models.CharField(max_length=255)
+    partner_logo = models.URLField(blank=True)
+    is_active = models.BooleanField(null=True) 
+    url = models.CharField(max_length=255)
+    is_sponsor = models.BooleanField(null=True)
+
+    # PK of this model is the ForeignKey for project_partner_xref
 
     def __str__(self):
         return f"{self.name}"
