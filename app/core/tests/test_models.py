@@ -16,3 +16,7 @@ def test_project(project):
 
 def test_recurring_event(recurring_event):
     assert str(recurring_event) == "Test Recurring Event"
+
+
+def test_sponsor_partner(sponsor_partner):
+    assert str(sponsor_partner) == "Test Sponsor Partner"
