@@ -33,7 +33,7 @@
    1. Checkout the recurring_event-model branch to see the current progress. The main repo should be updated with the latest code soon.
 
        ```bash
-       git checkout fang/recurring_event-model
+       git checkout fang/recurring_event-model-PR
        ```
 
 1. Create .env.dev from .env.dev-sample
