@@ -4,17 +4,34 @@
 
 1. Install or make sure [docker][docker-install] and [docker-compose][docker-compose-install] are installed on your computer
 
+    - It's best to use the `docker-compose` installation instructions which also installs docker.
+
     ```bash
     docker -v
     docker-compose -v
+    docker ps
     ```
+    1. `docker ps` should print a list of docker containers. Even a blank list signals that the docker daemon (service) is running.
 
-1. Clone this repo and change to the project root directory
+1. Fork the PeopleDepot repo from Github
+
+   1. The Fork button is near the upper-right of the screen
+
+1. Clone your forked repo and change to the project root directory
 
     ```bash
-    git clone https://github.com/hackforla/peopledepot.git
+    git clone https://github.com/[username]/peopledepot.git
     cd peopledepot
     ```
+
+1. Add the HackforLA repo as the `hackforla` remote and fetch from it
+
+   ```bash
+    git remote add hackforla https://github.com/hackforla/peopledepot.git
+    git fetch hackforla
+    ```
+
+    1. When you push your code later, you should specify the remote to push to. i.e. `git push origin`, where `origin` is the default remote that points to your fork when you first cloned it to your local machine
 
 1. [Temporary] The latest code is in https://github.com/fyliu/peopledepot.git and we need to get that.
 
@@ -24,10 +41,10 @@
        git remote add fang https://github.com/fyliu/peopledepot.git
        ```
 
-   1. Fetch data from the remote
+   1. Fetch data from all the remotes, including from `fang`
 
        ```bash
-       git fetch fang
+       git fetch --all
        ```
 
    1. Checkout the recurring_event-model branch to see the current progress. The main repo should be updated with the latest code soon.
@@ -58,7 +75,7 @@
 
 ### Testing
 
-1. Run all tests
+1. Run all tests from the project root
 
     ```bash
     ./scripts/test.sh
@@ -70,7 +87,7 @@ We're using the popular [flake8][flake8-docs] and [black][black-docs] for lintin
 
 To run them, use the `lint.sh` convenience script or look inside the script to see how to run them individually.
 
-1. Run `lint.sh`
+1. Run the lint script from the project root
 
     ```bash
     ./scripts/lint.sh
@@ -91,10 +108,10 @@ We will eventually integrate this into pre-commit hooks, but for now, run this c
 1. buildrun.sh - clean, build, and run containers in background mode
 1. lint.sh - lint and and auto-format code
 1. test.sh - run tests and generate test coverage report
-1. logs.sh - view container logs
+1. logs.sh - view/tail container logs
 1. migrate.sh - run database migrations inside container
-1. precommit-check.sh - sanity checks before committing (calls other scripts, but doesn't stop progress on error like it should)
-1. createsuperuser.sh - creates a default superuser (assumes apt env. requires `expect` util to be installed)
+1. precommit-check.sh - sanity checks before committing code
+1. createsuperuser.sh - creates a default superuser (assumes debian env.)
 
 ### Working with issues
 
