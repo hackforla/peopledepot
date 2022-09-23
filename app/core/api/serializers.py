@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from timezone_field.rest_framework import TimeZoneSerializerField
 
-from core.models import Project, RecurringEvent, User
+from core.models import Faq, Project, RecurringEvent, User
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -94,3 +94,21 @@ class RecurringEventSerializer(serializers.ModelSerializer):
             "created_at",
             "updated_at",
         )
+
+
+class FaqSerializer(serializers.ModelSerializer):
+    """Used to retrieve faq info"""
+
+
+class FaqSerializer(serializers.ModelSerializer):
+    """Used to retrieve faq info"""
+
+    class Meta:
+        model = Faq
+        fields = (
+            "uuid",
+            "question",
+            "answer",
+            "tool_tip_name",
+        )
+        read_only_fields = ("uuid", "created_on", "last_updated")

@@ -11,9 +11,14 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 
-from ..models import Project, RecurringEvent
+from ..models import Faq, Project, RecurringEvent
 from .permissions import IsOwnerOrReadOnly
-from .serializers import ProjectSerializer, RecurringEventSerializer, UserSerializer
+from .serializers import (
+    FaqSerializer,
+    ProjectSerializer,
+    RecurringEventSerializer,
+    UserSerializer,
+)
 
 
 class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
@@ -136,3 +141,10 @@ class RecurringEventViewSet(viewsets.ModelViewSet):
         else:
             permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
         return [permission() for permission in permission_classes]
+
+
+class FaqViewSet(viewsets.ModelViewSet):
+    queryset = Faq.objects.all()
+    serializer_class = FaqSerializer
+    # use permission_classes until get_permissions fn provides sufficient limits to access >>
+    permission_classes = [IsAuthenticated]
