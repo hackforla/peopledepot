@@ -1,7 +1,7 @@
 import pytest
 from rest_framework.test import APIClient
 
-from ..models import Project, RecurringEvent
+from ..models import Faq, Project, RecurringEvent
 
 
 @pytest.fixture
@@ -57,3 +57,8 @@ def auth_client(user, client):
 def admin_client(admin, client):
     client.force_authenticate(user=admin)
     return client
+
+
+@pytest.fixture
+def faq():
+    return Faq.objects.create(tool_tip_name="Test Faq")

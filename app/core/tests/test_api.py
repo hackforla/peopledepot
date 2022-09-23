@@ -9,6 +9,7 @@ pytestmark = pytest.mark.django_db
 ME_URL = reverse("my_profile")
 USERS_URL = reverse("user-list")
 RECURRING_EVENTS_URL = reverse("recurring-event-list")
+FAQ_URL = reverse("faq-list")
 
 
 def create_user(django_user_model, **params):
@@ -79,3 +80,17 @@ def test_create_recurring_event(admin_client, project):
     }
     res = admin_client.post(RECURRING_EVENTS_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
+
+
+def test_create_faq(admin_client):
+
+    payload = {
+        "question": "How do I work on an issue",
+        "answer": "See CONTRIBUTING.md",
+        "tool_tip_name": "How to work on an issue",
+    }
+    res = admin_client.post(FAQ_URL, payload)
+    assert res.status_code == status.HTTP_201_CREATED
+
+    res = admin_client.get(FAQ_URL, payload)
+    assert res.status_code == status.HTTP_200_OK
