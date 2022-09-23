@@ -170,3 +170,13 @@ class RecurringEvent(AbstractBaseModel):
 
     def __str__(self):
         return f"{self.name}"
+
+
+class Faq(AbstractBaseModel):
+    question = models.CharField(max_length=255, unique=True, null=True, blank=False)
+    answer = models.CharField(max_length=255, blank=False)
+    tool_tip_name = models.CharField(max_length=255, blank=False)
+    # >>> comment out because model is not defined yet
+    # faq_viewed = models.ForeignKey("faq_viewed", null=False)
+    def __str__(self):
+        return f"{self.tool_tip_name}"

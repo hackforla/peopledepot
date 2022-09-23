@@ -5,7 +5,7 @@ from django.contrib.auth.forms import UserCreationForm as DefaultUserCreationFor
 from django.contrib.auth.forms import UsernameField
 from django.utils.translation import gettext_lazy as _
 
-from .models import Project, RecurringEvent, User
+from .models import Faq, Project, RecurringEvent, User
 
 
 class UserCreationForm(DefaultUserCreationForm):
@@ -113,4 +113,15 @@ class RecurringEventAdmin(admin.ModelAdmin):
         "name",
         "start_time",
         "duration_in_min",
+    )
+
+
+@admin.register(Faq)
+class Faq(admin.ModelAdmin):
+    list_display = (
+        "question",
+        "answer",
+        "tool_tip_name",
+        # >>> comment out until table defined
+        # "faq_viewed"
     )
