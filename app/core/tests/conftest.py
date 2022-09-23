@@ -1,7 +1,11 @@
 import pytest
 from rest_framework.test import APIClient
 
+<<<<<<< HEAD
 from ..models import Faq, Faq_viewed, Project, RecurringEvent
+=======
+from ..models import Project, RecurringEvent, SponsorPartner, Faq
+>>>>>>> 3d609d1 (created tests)
 
 
 @pytest.fixture
@@ -66,10 +70,10 @@ def admin_client(admin, client):
 
 
 @pytest.fixture
-def faq():
-    return Faq.objects.create(question="Test Faq")
+def sponsor_partner():
+    return SponsorPartner.objects.create(partner_name="Test Sponsor Partner")
 
 
 @pytest.fixture
-def faq_viewed(faq):
-    return Faq_viewed.objects.create(read="Test Faq_viewed read", faq=faq)
+def faq():
+    return Faq.objects.create(question="Test Faq")

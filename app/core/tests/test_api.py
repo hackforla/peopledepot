@@ -11,6 +11,7 @@ USERS_URL = reverse("user-list")
 RECURRING_EVENTS_URL = reverse("recurring-event-list")
 FAQS_URL = reverse("faq-list")
 FAQS_VIEWED_URL = reverse("faq_viewed-list")
+SPONSOR_PARTNERS_URL = reverse("sponsor-partner-list")
 
 CREATE_USER_PAYLOAD = {
     "username": "TestUserAPI",
@@ -28,7 +29,6 @@ def users_url():
 @pytest.fixture
 def user_url(user):
     return reverse("user-detail", args=[user.uuid])
-
 
 def create_user(django_user_model, **params):
     return django_user_model.objects.create_user(**params)
