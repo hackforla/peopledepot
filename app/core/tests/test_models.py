@@ -22,5 +22,5 @@ def test_sponsor_partner(sponsor_partner):
     assert str(sponsor_partner) == "Test Sponsor Partner"
 
 
-def test_project(project):
-    assert str(project) == "Test Project"
+def test_faq(faq):
+    assert str(faq) == "Test Faq"
