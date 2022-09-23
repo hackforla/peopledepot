@@ -20,3 +20,6 @@ def test_recurring_event(recurring_event):
 
 def test_sponsor_partner(sponsor_partner):
     assert str(sponsor_partner) == "Test Sponsor Partner"
+    
+def test_faq(faq):
+    assert str(faq) == "Test Faq"

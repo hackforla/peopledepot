@@ -1,7 +1,7 @@
 import pytest
 from rest_framework.test import APIClient
 
-from ..models import Project, RecurringEvent, SponsorPartner
+from ..models import Project, RecurringEvent, SponsorPartner, Faq
 
 
 @pytest.fixture
@@ -68,3 +68,6 @@ def admin_client(admin, client):
 @pytest.fixture
 def sponsor_partner():
     return SponsorPartner.objects.create(partner_name="Test Sponsor Partner")
+    
+def faq():
+    return Faq.objects.create(tool_tip_name="Test Faq")
