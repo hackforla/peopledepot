@@ -12,7 +12,12 @@ from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.permissions import IsAuthenticated
 
 from ..models import Project, RecurringEvent, SponsorPartner
-from .serializers import ProjectSerializer, RecurringEventSerializer, UserSerializer, SponsorPartnerSerializer
+from .serializers import (
+    ProjectSerializer,
+    RecurringEventSerializer,
+    SponsorPartnerSerializer,
+    UserSerializer,
+)
 
 
 class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
@@ -131,18 +136,21 @@ class SponsorPartnerViewSet(viewsets.ModelViewSet):
     queryset = SponsorPartner.objects.all()
     serializer_class = SponsorPartnerSerializer
 
-    def get_queryset(self):
-        """
-        Optionally filter sponsor partners by name, is_active, and/or is_sponsor query parameters in the URL
-        """
-        queryset = SponsorPartner.objects.all()
-        partner_name = self.request.query_params.get("partner_name")
-        if partner_name is not None:
-            queryset = queryset.filter(partner_name=partner_name)
-        is_active = self.request.query_params.get("is_active")
-        if is_active is not None:
-            queryset = queryset.filter(is_active=is_active)
-        is_sponsor = self.request.query_params.get("is_sponsor")
-        if is_sponsor is not None:
-            queryset = queryset.filter(is_sponsor=is_sponsor)
-        return queryset
+    # The following code can be uncommented and used later, but it's being left out
+    # for simplicity's sake during initial model creation
+    #
+    # def get_queryset(self):
+    #     """
+    #     Optionally filter sponsor partners by name, is_active, and/or is_sponsor query parameters in the URL
+    #     """
+    #     queryset = SponsorPartner.objects.all()
+    #     partner_name = self.request.query_params.get("partner_name")
+    #     if partner_name is not None:
+    #         queryset = queryset.filter(partner_name=partner_name)
+    #     is_active = self.request.query_params.get("is_active")
+    #     if is_active is not None:
+    #         queryset = queryset.filter(is_active=is_active)
+    #     is_sponsor = self.request.query_params.get("is_sponsor")
+    #     if is_sponsor is not None:
+    #         queryset = queryset.filter(is_sponsor=is_sponsor)
+    #     return queryset

@@ -5,7 +5,7 @@ from django.contrib.auth.forms import UserCreationForm as DefaultUserCreationFor
 from django.contrib.auth.forms import UsernameField
 from django.utils.translation import gettext_lazy as _
 
-from .models import Project, RecurringEvent, User, SponsorPartner
+from .models import Project, RecurringEvent, SponsorPartner, User
 
 
 class UserCreationForm(DefaultUserCreationForm):

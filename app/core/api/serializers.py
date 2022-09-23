@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from timezone_field.rest_framework import TimeZoneSerializerField
 
-from core.models import Project, RecurringEvent, User, SponsorPartner
+from core.models import Project, RecurringEvent, SponsorPartner, User
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -102,6 +102,7 @@ class SponsorPartnerSerializer(serializers.ModelSerializer):
     class Meta:
         model = SponsorPartner
         fields = (
+            "uuid",
             "partner_name",
             "partner_logo",
             "is_active",

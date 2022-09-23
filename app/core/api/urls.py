@@ -4,9 +4,9 @@ from rest_framework import routers
 from .views import (
     ProjectViewSet,
     RecurringEventViewSet,
+    SponsorPartnerViewSet,
     UserProfileAPIView,
     UserViewSet,
-    SponsorPartnerViewSet,
 )
 
 router = routers.SimpleRouter()
