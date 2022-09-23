@@ -11,11 +11,13 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.permissions import IsAuthenticated
 
-from ..models import Project, RecurringEvent, SponsorPartner
+
+from ..models import Project, RecurringEvent, SponsorPartner, Faq
 from .serializers import (
     ProjectSerializer,
     RecurringEventSerializer,
     SponsorPartnerSerializer,
+    FaqSerializer,
     UserSerializer,
 )
 
@@ -154,3 +156,18 @@ class SponsorPartnerViewSet(viewsets.ModelViewSet):
     #     if is_sponsor is not None:
     #         queryset = queryset.filter(is_sponsor=is_sponsor)
     #     return queryset
+    def get_permissions(self):
+        if self.action == "create":
+            permission_classes = [
+                IsAdminUser,
+            ]
+        else:
+            permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
+        return [permission() for permission in permission_classes]
+
+
+class FaqViewSet(viewsets.ModelViewSet):
+    queryset = Faq.objects.all()
+    serializer_class = FaqSerializer
+    # use permission_classes until get_permissions fn provides sufficient limits to access >>
+    permission_classes = [IsAuthenticated]
