@@ -5,8 +5,7 @@ from django.contrib.auth.forms import UserCreationForm as DefaultUserCreationFor
 from django.contrib.auth.forms import UsernameField
 from django.utils.translation import gettext_lazy as _
 
-from .models import Project, RecurringEvent, SponsorPartner, User
-
+from .models import Project, RecurringEvent, SponsorPartner, User, Faq
 
 class UserCreationForm(DefaultUserCreationForm):
     class Meta(DefaultUserCreationForm.Meta):
@@ -125,4 +124,14 @@ class SponsorPartnerAdmin(admin.ModelAdmin):
         "is_active",
         "url",
         "is_sponsor",
+    )
+
+@admin.register(Faq)
+class Faq(admin.ModelAdmin):
+    list_display = (
+        "question",
+        "answer",
+        "tool_tip_name",
+        # >>> comment out until table defined
+        # "faq_viewed"
     )
