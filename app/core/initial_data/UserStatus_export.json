@@ -1,0 +1,18 @@
+[
+  {
+      "name": "Inactive",
+      "description": "Member who has not checked into their project or Community of Practice for 4 weeks and does not have a timeAwayHold"
+  },
+  {
+      "name": "Active",
+      "description": "Member that is checking into meetings"
+  },
+  {
+      "name": "Time Away Hold",
+      "description": "Hold placed by the member or their leader after they have announced a temporary absence"
+  },
+  {
+      "name": "Barred",
+      "description": "Member who has been removed from the community"
+  }
+]
