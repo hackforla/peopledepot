@@ -19,7 +19,7 @@ The goal is to convert our initial data into migration files so that they can be
       1. Select and copy all the JSON text
       1. Paste it into a new file and save it as [ModelNameInPascalCase]_export.json under app/core/initial_data/
       1. The Pascal case is important in the next step to generate a python script to insert the data
-      1. **Potential problem**: In this case, there's a problem with the JSON exporter where it **omitted the underscore** in `occ_code`. We need to do a global replacement in the JSON file: s/occcode/occ_code/g
+      1. **Potential problem**: There was a problem with the JSON exporter where it omitted the underscore in `occ_code`. It should be fixed now but it's good to pay attention to other column name problems and fix them in the [Google Apps script](https://thenewstack.io/how-to-convert-google-spreadsheet-to-json-formatted-text/#:~:text=To%20do%20this,%20click%20Extensions,save%20your%20work%20so%20far.) in the [spreadsheet](https://docs.google.com/spreadsheets/d/1x_zZ8JLS2hO-zG0jUocOJmX16jh-DF5dccrd_OEGNZ0/edit#gid=568640143).
 
 ## Convert JSON into python
 
