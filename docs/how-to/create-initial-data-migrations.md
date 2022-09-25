@@ -4,24 +4,24 @@
 
 The goal is to convert our initial data into migration files so that they can be loaded into the database automatically
 
-   1. Export the data into json
+   1. Export the data into JSON
    1. Call convert.py to generate a script for the data
    1. Create a blank migration and call the initial data script from there
    1. Test the migration
 
-## Convert the data into json
+## Convert the data into JSON
 
    1. Export the data from the spreadsheet
       1. Find the sheet in the document for the data to export. Let's use the `SOC Major` data as our example
       1. Make sure that the first row (column descriptions) is frozen. Otherwise, freeze it by selecting the first row in the sheet, Menu > View > Freeze > Up to row 1
       1. Export to JSON. Export JSON > Export JSON for this sheet
-   1. Save the json into a file
-      1. Select and copy all the json text
+   1. Save the JSON into a file
+      1. Select and copy all the JSON text
       1. Paste it into a new file and save it as [ModelNameInPascalCase]_export.json under app/core/initial_data/
       1. The Pascal case is important in the next step to generate a python script to insert the data
-      1. **Potential problem**: In this case, there's a problem with the JSON exporter where it **omitted the underscore** in `occ_code`. We need to do a global replacement in the json file: s/occcode/occ_code/g
+      1. **Potential problem**: In this case, there's a problem with the JSON exporter where it **omitted the underscore** in `occ_code`. We need to do a global replacement in the JSON file: s/occcode/occ_code/g
 
-## Convert json into python
+## Convert JSON into python
 
    1. Go to the project root and run this command
 
