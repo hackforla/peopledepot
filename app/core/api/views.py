@@ -156,15 +156,6 @@ class SponsorPartnerViewSet(viewsets.ModelViewSet):
     #     if is_sponsor is not None:
     #         queryset = queryset.filter(is_sponsor=is_sponsor)
     #     return queryset
-    def get_permissions(self):
-        if self.action == "create":
-            permission_classes = [
-                IsAdminUser,
-            ]
-        else:
-            permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
-        return [permission() for permission in permission_classes]
-
 
 class FaqViewSet(viewsets.ModelViewSet):
     queryset = Faq.objects.all()
