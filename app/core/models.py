@@ -193,9 +193,10 @@ class SponsorPartner(AbstractBaseModel):
         
 class Faq(AbstractBaseModel):
     question = models.CharField(max_length=255, unique=True, null=True, blank=False)
-    answer = models.CharField(max_length=255, blank=False)
-    tool_tip_name = models.CharField(max_length=255, blank=False)
-    # >>> comment out because model is not defined yet
-    # faq_viewed = models.ForeignKey("faq_viewed", null=False)
+    answer = models.CharField(max_length=255, blank=True)
+    tool_tip_name = models.CharField(max_length=255, blank=True)
+
+    # PK of this model is the ForeignKey for faq_id
+    
     def __str__(self):
-        return f"{self.tool_tip_name}"
+        return f"{self.question}"
