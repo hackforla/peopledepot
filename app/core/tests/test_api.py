@@ -9,7 +9,7 @@ pytestmark = pytest.mark.django_db
 ME_URL = reverse("my_profile")
 USERS_URL = reverse("user-list")
 RECURRING_EVENTS_URL = reverse("recurring-event-list")
-FAQ_URL = reverse("faq-list")
+FAQS_URL = reverse("faq-list")
 SPONSOR_PARTNERS_URL = reverse("sponsor-partner-list")
 
 CREATE_USER_PAYLOAD = {
@@ -158,15 +158,14 @@ def test_create_sponsor_partner(auth_client):
     assert res.status_code == status.HTTP_201_CREATED
 
 
-def test_create_faq(admin_client):
+def test_create_faq(auth_client):
 
     payload = {
         "question": "How do I work on an issue",
         "answer": "See CONTRIBUTING.md",
         "tool_tip_name": "How to work on an issue",
     }
-    res = admin_client.post(FAQ_URL, payload)
+    res = auth_client.post(FAQS_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
+    assert res.data["question"] == payload["question"]
 
-    res = admin_client.get(FAQ_URL, payload)
-    assert res.status_code == status.HTTP_200_OK
