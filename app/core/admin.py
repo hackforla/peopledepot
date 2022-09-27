@@ -132,6 +132,4 @@ class Faq(admin.ModelAdmin):
         "question",
         "answer",
         "tool_tip_name",
-        # >>> comment out until table defined
-        # "faq_viewed"
     )
