@@ -68,6 +68,7 @@ def admin_client(admin, client):
 @pytest.fixture
 def sponsor_partner():
     return SponsorPartner.objects.create(partner_name="Test Sponsor Partner")
-    
+
+@pytest.fixture 
 def faq():
-    return Faq.objects.create(tool_tip_name="Test Faq")
+    return Faq.objects.create(question="Test Faq")
