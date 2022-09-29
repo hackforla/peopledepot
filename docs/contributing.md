@@ -47,7 +47,7 @@
        git fetch --all
        ```
 
-   1. Checkout the recurring_event-model branch to see the current progress. The main repo should be updated with the latest code soon.
+   1. Checkout the development branch to see the current progress. The main repo should be updated with the latest code soon.
 
        ```bash
        git checkout fang/development
