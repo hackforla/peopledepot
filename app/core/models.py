@@ -200,3 +200,18 @@ class Faq(AbstractBaseModel):
     
     def __str__(self):
         return f"{self.question}"
+
+
+class Faq_viewed(AbstractBaseModel):
+    """
+    Faq_viewed has relationship with Faq and Project models
+    """
+
+    # uncomment when faq branch merged >>
+    # faq = models.ForeignKey("Faq", on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    read = models.DateTimeField("read", null=True, blank=True)
+
+    # okay to return this string since there is no name field?
+    def __str__():
+        return "Faq viewed"
