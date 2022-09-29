@@ -204,10 +204,10 @@ class Faq(AbstractBaseModel):
 
 class Faq_viewed(AbstractBaseModel):
     """
-    Faq_viewed has relationship with Faq and Project models
+    Faq_viewed is junction table between Faq and Project models
     """
 
-    # uncomment when faq branch merged >>
+    # uncomment faq once added >>
     # faq = models.ForeignKey("Faq", on_delete=models.CASCADE)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     read = models.DateTimeField("read", null=True, blank=True)
