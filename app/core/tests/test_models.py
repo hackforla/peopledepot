@@ -24,3 +24,7 @@ def test_sponsor_partner(sponsor_partner):
 
 def test_faq(faq):
     assert str(faq) == "Test Faq"
+
+
+def test_faq_viewed(faq_viewed):
+    assert str(f"{faq_viewed.faq}") == "Test Faq"

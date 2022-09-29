@@ -202,3 +202,15 @@ class Faq(AbstractBaseModel):
 
     def __str__(self):
         return f"{self.question}"
+
+
+class Faq_viewed(AbstractBaseModel):
+    """
+    Faq_viewed has child relation to Faq and tracks how many times an FAQ has been viewed
+    """
+
+    faq = models.ForeignKey(Faq, null=True, on_delete=models.CASCADE)
+    read = models.DateTimeField("read", null=True, blank=True)
+
+    def __str__(self):
+        return f"FAQ: {self.faq}"
