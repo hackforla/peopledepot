@@ -154,6 +154,7 @@ def test_create_faq(auth_client):
         "answer": "See CONTRIBUTING.md",
         "tool_tip_name": "How to work on an issue",
     }
+
     res = auth_client.post(FAQS_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
     assert res.data["question"] == payload["question"]
