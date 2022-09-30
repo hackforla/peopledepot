@@ -175,29 +175,13 @@ class RecurringEvent(AbstractBaseModel):
         return f"{self.name}"
 
 
-class SponsorPartner(AbstractBaseModel):
-    """
-    Dictionary of sponsors and partners
-    """
-
-    partner_name = models.CharField(max_length=255)
-    partner_logo = models.URLField(blank=True)
-    is_active = models.BooleanField(null=True)
-    url = models.URLField(blank=True)
-    is_sponsor = models.BooleanField(null=True)
-
-    # PK of this model is the ForeignKey for project_partner_xref
-
-    def __str__(self):
-        return f"{self.partner_name}"
-        
 class Faq(AbstractBaseModel):
     question = models.CharField(max_length=255, unique=True, null=True, blank=False)
     answer = models.CharField(max_length=255, blank=True)
     tool_tip_name = models.CharField(max_length=255, blank=True)
 
     # PK of this model is the ForeignKey for faq_id
-    
+
     def __str__(self):
         return f"{self.question}"
 
@@ -207,11 +191,9 @@ class Faq_viewed(AbstractBaseModel):
     Faq_viewed is junction table between Faq and Project models
     """
 
-    # uncomment faq once added >>
-    # faq = models.ForeignKey("Faq", on_delete=models.CASCADE)
+    faq = models.ForeignKey(Faq, null=True, on_delete=models.CASCADE)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     read = models.DateTimeField("read", null=True, blank=True)
 
-    # okay to return this string since there is no name field?
-    def __str__():
-        return "Faq viewed"
+    def __str__(self):
+        return f"{self.faq} viewed in {self.project}"
