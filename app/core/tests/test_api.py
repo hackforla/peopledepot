@@ -29,6 +29,7 @@ def users_url():
 def user_url(user):
     return reverse("user-detail", args=[user.uuid])
 
+
 def create_user(django_user_model, **params):
     return django_user_model.objects.create_user(**params)
 
@@ -168,4 +169,3 @@ def test_create_faq(auth_client):
     res = auth_client.post(FAQS_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
     assert res.data["question"] == payload["question"]
-

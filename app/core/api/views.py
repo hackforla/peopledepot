@@ -11,13 +11,12 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.permissions import IsAuthenticated
 
-
-from ..models import Project, RecurringEvent, SponsorPartner, Faq
+from ..models import Faq, Project, RecurringEvent, SponsorPartner
 from .serializers import (
+    FaqSerializer,
     ProjectSerializer,
     RecurringEventSerializer,
     SponsorPartnerSerializer,
-    FaqSerializer,
     UserSerializer,
 )
 
@@ -157,6 +156,15 @@ class SponsorPartnerViewSet(viewsets.ModelViewSet):
     #         queryset = queryset.filter(is_sponsor=is_sponsor)
     #     return queryset
 
+
+@extend_schema_view(
+    list=extend_schema(description="Return a list of all FAQs"),
+    create=extend_schema(description="Create a new FAQ"),
+    retrieve=extend_schema(description="Return the given FAQ"),
+    destroy=extend_schema(description="Delete the given FAQ"),
+    update=extend_schema(description="Update the given FAQ"),
+    partial_update=extend_schema(description="Partially update the given FAQ"),
+)
 class FaqViewSet(viewsets.ModelViewSet):
     queryset = Faq.objects.all()
     serializer_class = FaqSerializer

@@ -1,7 +1,8 @@
 from rest_framework import serializers
 from timezone_field.rest_framework import TimeZoneSerializerField
 
-from core.models import Project, RecurringEvent, SponsorPartner, User, Faq
+from core.models import Faq, Project, RecurringEvent, SponsorPartner, User
+
 
 class UserSerializer(serializers.ModelSerializer):
     """Used to retrieve user info"""
@@ -113,6 +114,7 @@ class SponsorPartnerSerializer(serializers.ModelSerializer):
             "created_at",
             "updated_at",
         )
+
 
 class FaqSerializer(serializers.ModelSerializer):
     """Used to retrieve faq info"""
