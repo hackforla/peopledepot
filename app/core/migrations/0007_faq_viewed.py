@@ -8,7 +8,7 @@ import uuid
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0006_alter_sponsorpartner_url'),
+        ('core', '0008_alter_faq_answer_alter_faq_tool_tip_name'),
     ]
 
     operations = [
