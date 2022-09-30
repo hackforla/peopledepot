@@ -5,7 +5,7 @@ from django.contrib.auth.forms import UserCreationForm as DefaultUserCreationFor
 from django.contrib.auth.forms import UsernameField
 from django.utils.translation import gettext_lazy as _
 
-from .models import Faq, Project, RecurringEvent, SponsorPartner, User
+from .models import Faq, Project, RecurringEvent, User
 
 
 class UserCreationForm(DefaultUserCreationForm):
@@ -114,17 +114,6 @@ class RecurringEventAdmin(admin.ModelAdmin):
         "name",
         "start_time",
         "duration_in_min",
-    )
-
-
-@admin.register(SponsorPartner)
-class SponsorPartnerAdmin(admin.ModelAdmin):
-    list_display = (
-        "partner_name",
-        "partner_logo",
-        "is_active",
-        "url",
-        "is_sponsor",
     )
 
 

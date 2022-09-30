@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from timezone_field.rest_framework import TimeZoneSerializerField
 
-from core.models import Faq, Project, RecurringEvent, SponsorPartner, User
+from core.models import Faq, Project, RecurringEvent, User
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -88,26 +88,6 @@ class RecurringEventSerializer(serializers.ModelSerializer):
             "video_conference_url",
             "additional_info",
             "project",
-        )
-        read_only_fields = (
-            "uuid",
-            "created_at",
-            "updated_at",
-        )
-
-
-class SponsorPartnerSerializer(serializers.ModelSerializer):
-    """Used to retrieve Sponsor Partner info"""
-
-    class Meta:
-        model = SponsorPartner
-        fields = (
-            "uuid",
-            "partner_name",
-            "partner_logo",
-            "is_active",
-            "url",
-            "is_sponsor",
         )
         read_only_fields = (
             "uuid",
