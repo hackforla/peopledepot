@@ -86,6 +86,38 @@ We will eventually integrate this into pre-commit hooks, but for now, run this c
     ./scripts/precommit-check.sh
     ```
 
+### Pre-commit hook
+
+The pre-commit hook in git will run before each commit and will abort the commit on failure. The advantage of this over github actions is that github actions work on code that's already committed, so it needs to allow code to be committed first.
+
+We currently have only linters and other code-analysis and code-formatting tools running in the pre-commit hook. Our tests are missing and need to be added.
+
+To add the pre-commit hook to git
+
+1. install pre-commit (virtual environment or at least per-user install is recommended)
+
+   ```bash
+   pip install pre-commit --local
+   ```
+
+1. add the hook to git
+
+   ```bash
+   pre-commit install
+   ```
+
+1. update pre-commit to the latest version
+
+   ```bash
+   pre-commit autoupdate
+   ```
+
+1. test run the hook
+
+   ```bash
+   pre-commit run --all-files
+   ```
+
 ### Convenience scripts for sanity checks before committing code (assumes bash env)
 
 1. buildrun.sh - clean, build, and run containers in background mode
