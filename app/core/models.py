@@ -190,13 +190,14 @@ class SponsorPartner(AbstractBaseModel):
 
     def __str__(self):
         return f"{self.partner_name}"
-        
+
+
 class Faq(AbstractBaseModel):
     question = models.CharField(max_length=255, unique=True, null=True, blank=False)
     answer = models.CharField(max_length=255, blank=True)
     tool_tip_name = models.CharField(max_length=255, blank=True)
 
     # PK of this model is the ForeignKey for faq_id
-    
+
     def __str__(self):
         return f"{self.question}"
