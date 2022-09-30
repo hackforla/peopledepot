@@ -5,16 +5,13 @@ from django.contrib.auth.forms import UserCreationForm as DefaultUserCreationFor
 from django.contrib.auth.forms import UsernameField
 from django.utils.translation import gettext_lazy as _
 
-<<<<<<< HEAD
+
 from .models import Faq
 from .models import Faq_viewed
 from .models import Project
 from .models import RecurringEvent
 from .models import SponsorPartner
 from .models import User
-=======
-from .models import Project, User
->>>>>>> f69a4b1 (Add project model)
 
 
 class UserCreationForm(DefaultUserCreationForm):
@@ -115,7 +112,6 @@ class ProjectAdmin(admin.ModelAdmin):
         "updated_at",
         "completed_at",
     )
-<<<<<<< HEAD
 
 
 @admin.register(RecurringEvent)
@@ -153,5 +149,3 @@ class Faq_viewed(admin.ModelAdmin):
         "faq",
         "read",
     )
-=======
->>>>>>> f69a4b1 (Add project model)
