@@ -23,4 +23,4 @@ def test_faq(faq):
 
 
 def test_faq_viewed(faq, project):
-    assert str(f"{faq} viewed in {project}") == f"{faq} viewed in {project}"
+    assert str(f"{faq}, {project}") == f"{faq}, {project}"

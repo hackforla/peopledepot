@@ -196,4 +196,4 @@ class Faq_viewed(AbstractBaseModel):
     read = models.DateTimeField("read", null=True, blank=True)
 
     def __str__(self):
-        return f"{self.faq} viewed in {self.project}"
+        return f"FAQ: {self.faq}, Project: {self.project}"
