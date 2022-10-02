@@ -193,7 +193,7 @@ class SponsorPartner(AbstractBaseModel):
 
 
 class Faq(AbstractBaseModel):
-    question = models.CharField(max_length=255, unique=True, null=True)
+    question = models.CharField(max_length=255, unique=True)
     answer = models.CharField(max_length=255, blank=True)
     tool_tip_name = models.CharField(max_length=255, blank=True)
 
