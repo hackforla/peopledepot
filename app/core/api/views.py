@@ -1,24 +1,23 @@
 from django.contrib.auth import get_user_model
 from drf_spectacular.types import OpenApiTypes
-from drf_spectacular.utils import (
-    OpenApiExample,
-    OpenApiParameter,
-    extend_schema,
-    extend_schema_view,
-)
+from drf_spectacular.utils import OpenApiExample
+from drf_spectacular.utils import OpenApiParameter
+from drf_spectacular.utils import extend_schema
+from drf_spectacular.utils import extend_schema_view
 from rest_framework import viewsets
 from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.permissions import IsAuthenticated
 
-from ..models import Faq, Project, RecurringEvent, SponsorPartner
-from .serializers import (
-    FaqSerializer,
-    ProjectSerializer,
-    RecurringEventSerializer,
-    SponsorPartnerSerializer,
-    UserSerializer,
-)
+from ..models import Faq
+from ..models import Project
+from ..models import RecurringEvent
+from ..models import SponsorPartner
+from .serializers import FaqSerializer
+from .serializers import ProjectSerializer
+from .serializers import RecurringEventSerializer
+from .serializers import SponsorPartnerSerializer
+from .serializers import UserSerializer
 
 
 class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):

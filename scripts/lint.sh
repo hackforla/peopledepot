@@ -15,6 +15,6 @@ docker-compose exec web flake8 .
 # docker-compose exec web black --diff --exclude=migrations .
 docker-compose exec web black --exclude=migrations .
 
-docker-compose exec web isort . --skip migrations
+docker-compose exec web isort . --force-single-line-imports
 
 docker-compose exec web python manage.py spectacular --file /tmp/schema.yaml --validate
