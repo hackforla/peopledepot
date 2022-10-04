@@ -9,12 +9,12 @@ set -x
 # hadolint app/Dockerfile
 docker run --rm -i hadolint/hadolint < app/Dockerfile
 
-docker-compose exec web flake8 .
+docker-compose exec -T web flake8 .
 
-# docker-compose exec web black --check --exclude=migrations .
-# docker-compose exec web black --diff --exclude=migrations .
-docker-compose exec web black --exclude=migrations .
+# docker-compose exec -T web black --check --exclude=migrations .
+# docker-compose exec -T web black --diff --exclude=migrations .
+docker-compose exec -T web black --exclude=migrations .
 
-docker-compose exec web isort . --force-single-line-imports
+docker-compose exec -T web isort . --force-single-line-imports
 
-docker-compose exec web python manage.py spectacular --file /tmp/schema.yaml --validate
+docker-compose exec -T web python manage.py spectacular --file /tmp/schema.yaml --validate
