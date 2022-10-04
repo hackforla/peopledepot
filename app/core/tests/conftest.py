@@ -1,7 +1,10 @@
 import pytest
 from rest_framework.test import APIClient
 
-from ..models import Faq, Project, RecurringEvent, SponsorPartner
+from ..models import Faq
+from ..models import Project
+from ..models import RecurringEvent
+from ..models import SponsorPartner
 
 
 @pytest.fixture
