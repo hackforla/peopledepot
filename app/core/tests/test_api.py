@@ -136,7 +136,8 @@ user_actions_test_data = [
 
 
 @pytest.mark.parametrize(
-    "client_name,action,endpoint,payload,expected_status", user_actions_test_data
+    ("client_name", "action", "endpoint", "payload", "expected_status"),
+    user_actions_test_data,
 )
 def test_user_actions(client_name, action, endpoint, payload, expected_status, request):
 

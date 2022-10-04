@@ -1,14 +1,13 @@
 from django.urls import path
 from rest_framework import routers
 
-from .views import (
-    Faq_viewedViewSet,
-    FaqViewSet,
-    ProjectViewSet,
-    RecurringEventViewSet,
-    UserProfileAPIView,
-    UserViewSet,
-)
+from .views import FaqViewSet
+from .views import Faq_viewedViewSet
+from .views import ProjectViewSet
+from .views import RecurringEventViewSet
+from .views import SponsorPartnerViewSet
+from .views import UserProfileAPIView
+from .views import UserViewSet
 
 router = routers.SimpleRouter()
 router.register(r"users", UserViewSet, basename="user")
