@@ -1,7 +1,11 @@
 # See https://pre-commit.com for more information
 # See https://pre-commit.com/hooks.html for more hooks
+default_install_hook_types: [pre-commit, pre-push]
 default_stages: [commit, push]
+default_language_version:
+  python: python3.10
 fail_fast: true
+minimum_pre_commit_version: "2.18"
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.3.0
