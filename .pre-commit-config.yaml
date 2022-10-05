@@ -105,14 +105,14 @@ repos:
       - id: buildrun
         name: buildrun
         entry: ./scripts/buildrun.sh
-        language: script
+        language: system
         pass_filenames: false
         always_run: true
         stages: [push]
       - id: test
         name: test
         entry: ./scripts/test.sh
-        language: script
+        language: system
         pass_filenames: false
         always_run: true
         # verbose: true
@@ -121,6 +121,6 @@ repos:
       - id: check-django-migrations
         name: Check django migrations
         entry: ./scripts/check-migrations.sh
-        language: script
+        language: system
         types: [python] # hook only runs if a python file is staged
         pass_filenames: false
