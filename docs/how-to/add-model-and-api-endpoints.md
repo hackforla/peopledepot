@@ -4,11 +4,12 @@
 
 https://github.com/fyliu/peopledepot/blob/acd8898e7b0364913cc8ae3f9973dfd846adedcc/app/core/models.py#L150-L172
 
-1. We inherit all models from AbstractBaseModel, which provides a uuid primary key, created_at, and updated_at timestamps.
-1. Most fields should be nullable. Text fields should be blank=True, data fields should be null=True.
+1. We inherit all models from AbstractBaseModel, which provides a `uuid` primary key, `created_at`, and `updated_at` timestamps. In the Github issue, these fields might be called `id`, `created`, and `updated`. There's no need to add those.
+1. Most fields should not be required. Text fields should be `blank=True`, data fields should be `null=True`.
 1. The data types in the github issue may be given in database column types such as `INTEGER`, `VARCHAR`, and `TEXT`, but we need to convert them into [Django field types](https://docs.djangoproject.com/en/4.1/ref/models/fields/#model-field-types) when defining the model.
 1. CharField cooresponds to `VARCHAR`, which can be text up to a maximum length. We're going default to giving them `max_length=255` unless there's a better value like `max_length=2` for state abbreviation.
-1. Try to add the relationships to non-existent models, but comment them out. Another dev will complete them when they go to implement those models. See [relationships guide](model-relationships.md) for explanations of how to define relationships.
+1. `description` should be made into `TextField` with no `max_length`. They show up as `varchar` in the issues.
+1. Try to add the relationships to non-existent models, but comment them out. Another developer will complete them when they go to implement those models. See [relationships guide](model-relationships.md) for explanations of how to define relationships.
 1. Always define the `__str__` function. It lets us do a quick test of the model by calling `str([model])`. It's also useful for the admin site model list view.
 
 ### Run migrations to generate database migration files
