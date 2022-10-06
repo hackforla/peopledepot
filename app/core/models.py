@@ -173,3 +173,20 @@ class RecurringEvent(AbstractBaseModel):
 
     def __str__(self):
         return f"{self.name}"
+
+
+class SponsorPartner(AbstractBaseModel):
+    """
+    Dictionary of sponsors and partners
+    """
+
+    partner_name = models.CharField(max_length=255)
+    partner_logo = models.URLField(blank=True)
+    is_active = models.BooleanField(null=True)
+    url = models.URLField(blank=True)
+    is_sponsor = models.BooleanField(null=True)
+
+    # PK of this model is the ForeignKey for project_partner_xref
+
+    def __str__(self):
+        return f"{self.partner_name}"

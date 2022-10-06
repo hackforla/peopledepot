@@ -1,7 +1,7 @@
 import pytest
 from rest_framework.test import APIClient
 
-from ..models import Project, RecurringEvent
+from ..models import Project, RecurringEvent, SponsorPartner
 
 
 @pytest.fixture
@@ -63,3 +63,8 @@ def auth_client2(user2, client):
 def admin_client(admin, client):
     client.force_authenticate(user=admin)
     return client
+
+
+@pytest.fixture
+def sponsor_partner():
+    return SponsorPartner.objects.create(partner_name="Test Sponsor Partner")

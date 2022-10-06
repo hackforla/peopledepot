@@ -9,6 +9,7 @@ pytestmark = pytest.mark.django_db
 ME_URL = reverse("my_profile")
 USERS_URL = reverse("user-list")
 RECURRING_EVENTS_URL = reverse("recurring-event-list")
+SPONSOR_PARTNERS_URL = reverse("sponsor-partner-list")
 
 CREATE_USER_PAYLOAD = {
     "username": "TestUserAPI",
@@ -142,3 +143,16 @@ def test_user_actions(client_name, action, endpoint, payload, expected_status, r
     url = request.getfixturevalue(endpoint)
     res = action_fn(url, payload)
     assert res.status_code == expected_status
+
+
+def test_create_sponsor_partner(auth_client):
+
+    payload = {
+        "partner_name": "Test Partner",
+        "partner_logo": "http://www.logourl.com",
+        "is_active": True,
+        "url": "http://www.testurl.org",
+        "is_sponsor": True,
+    }
+    res = auth_client.post(SPONSOR_PARTNERS_URL, payload)
+    assert res.status_code == status.HTTP_201_CREATED
