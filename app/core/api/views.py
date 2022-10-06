@@ -102,7 +102,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
-
+    
 
 @extend_schema_view(
     list=extend_schema(description="Return a list of all the recurring events"),
