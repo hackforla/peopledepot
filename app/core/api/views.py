@@ -11,8 +11,8 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.permissions import IsAuthenticated
 
-from ..models import Project
-from .serializers import ProjectSerializer, UserSerializer
+from ..models import Project, RecurringEvent
+from .serializers import ProjectSerializer, RecurringEventSerializer, UserSerializer
 
 
 class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
@@ -102,3 +102,17 @@ class ProjectViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
+    
+
+@extend_schema_view(
+    list=extend_schema(description="Return a list of all the recurring events"),
+    create=extend_schema(description="Create a new recurring event"),
+    retrieve=extend_schema(description="Return the details of a recurring event"),
+    destroy=extend_schema(description="Delete a recurring event"),
+    update=extend_schema(description="Update a recurring event"),
+    partial_update=extend_schema(description="Patch a recurring event"),
+)
+class RecurringEventViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = RecurringEvent.objects.all()
+    serializer_class = RecurringEventSerializer

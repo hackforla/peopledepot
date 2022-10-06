@@ -4,8 +4,12 @@ from rest_framework import status
 
 from core.api.serializers import UserSerializer
 
+pytestmark = pytest.mark.django_db
+
 ME_URL = reverse("my_profile")
 USERS_URL = reverse("user-list")
+RECURRING_EVENTS_URL = reverse("recurring-event-list")
+
 CREATE_USER_PAYLOAD = {
     "username": "TestUserAPI",
     "password": "testpass",
@@ -28,14 +32,12 @@ def create_user(django_user_model, **params):
     return django_user_model.objects.create_user(**params)
 
 
-@pytest.mark.django_db
 def test_list_users_fail(client):
     res = client.get(USERS_URL)
 
     assert res.status_code == status.HTTP_401_UNAUTHORIZED
 
 
-@pytest.mark.django_db
 def test_get_profile(auth_client):
     res = auth_client.get(ME_URL)
 
@@ -43,7 +45,6 @@ def test_get_profile(auth_client):
     assert res.data["username"] == "TestUser"
 
 
-@pytest.mark.django_db
 def test_get_users(auth_client, django_user_model):
     create_user(django_user_model, username="TestUser2", password="testpass")
     create_user(django_user_model, username="TestUser3", password="testpass")
@@ -58,7 +59,6 @@ def test_get_users(auth_client, django_user_model):
     assert res.data == serializer.data
 
 
-@pytest.mark.django_db
 def test_get_single_user(auth_client, user):
     res = auth_client.get(f"{USERS_URL}?email={user.email}")
     assert res.status_code == status.HTTP_200_OK
@@ -132,7 +132,6 @@ user_actions_test_data = [
 ]
 
 
-@pytest.mark.django_db
 @pytest.mark.parametrize(
     "client_name,action,endpoint,payload,expected_status", user_actions_test_data
 )
