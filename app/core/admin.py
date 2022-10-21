@@ -130,6 +130,5 @@ class Faq(admin.ModelAdmin):
 class Faq_viewed(admin.ModelAdmin):
     list_display = (
         "faq",
-        "project",
         "read",
     )

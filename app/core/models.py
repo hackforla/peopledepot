@@ -192,8 +192,7 @@ class Faq_viewed(AbstractBaseModel):
     """
 
     faq = models.ForeignKey(Faq, null=True, on_delete=models.CASCADE)
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
     read = models.DateTimeField("read", null=True, blank=True)
 
     def __str__(self):
-        return f"FAQ: {self.faq}, Project: {self.project}"
+        return f"FAQ: {self.faq}"

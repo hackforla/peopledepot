@@ -71,5 +71,5 @@ def faq():
 
 
 @pytest.fixture
-def faq_viewed(faq, project):
-    return Faq_viewed.objects.create(faq=faq, project=project)
+def faq_viewed(faq):
+    return Faq_viewed.objects.create(faq=faq)
