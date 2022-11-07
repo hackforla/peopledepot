@@ -12,6 +12,7 @@ RECURRING_EVENTS_URL = reverse("recurring-event-list")
 FAQS_URL = reverse("faq-list")
 FAQS_VIEWED_URL = reverse("faq_viewed-list")
 SPONSOR_PARTNERS_URL = reverse("sponsor-partner-list")
+FAQS_VIEWED_URL = reverse("faq_viewed-list")
 
 CREATE_USER_PAYLOAD = {
     "username": "TestUserAPI",
