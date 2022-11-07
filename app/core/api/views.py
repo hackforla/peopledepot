@@ -11,12 +11,13 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.permissions import IsAuthenticated
 
-from ..models import Faq, Project, RecurringEvent
+from ..models import Faq, Project, RecurringEvent, Faq_viewed
 from .serializers import (
     FaqSerializer,
     ProjectSerializer,
     RecurringEventSerializer,
     UserSerializer,
+    Faq_viewedSerializer,
 )
 
 
@@ -126,5 +127,38 @@ class RecurringEventViewSet(viewsets.ModelViewSet):
 class FaqViewSet(viewsets.ModelViewSet):
     queryset = Faq.objects.all()
     serializer_class = FaqSerializer
+    # use permission_classes until get_permissions fn provides sufficient limits to access >>
+    permission_classes = [IsAuthenticated]
+
+
+@extend_schema_view(
+    list=extend_schema(
+        summary="Faqs_viewed List",
+        description="Return a list of all FAQs viewed with read timestamps",
+        parameters=[
+            OpenApiParameter(
+                name="question",
+                type=str,
+                description="Filter by question",
+                examples=[
+                    OpenApiExample(
+                        "Example 1",
+                        summary="Demo FAQ",
+                        description="get demo FAQ viewed",
+                        value="How do I work on an issue?"
+                    ),
+                ],
+            ),
+        ],
+    ),
+    create=extend_schema(description="Create a new read timestamp for the related FAQ"),
+    retrieve=extend_schema(description="Return all FAQs with read time stamps"),
+    destroy=extend_schema(description="Delete the given Faq_viewed"),
+    update=extend_schema(description="Update the given Faq_viewed"),
+    partial_update=extend_schema(description="Partially update the given Faq_viewed"),
+)
+class Faq_viewedViewSet(viewsets.ModelViewSet):
+    queryset = Faq_viewed.objects.all()
+    serializer_class = Faq_viewedSerializer
     # use permission_classes until get_permissions fn provides sufficient limits to access >>
     permission_classes = [IsAuthenticated]
