@@ -132,4 +132,4 @@ class Faq_viewed(admin.ModelAdmin):
         "faq",
         "read",
     )
-    list_filter = ('read', 'faq__question')
+    list_filter = ("read", "faq__question")

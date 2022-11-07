@@ -11,13 +11,13 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.permissions import IsAuthenticated
 
-from ..models import Faq, Project, RecurringEvent, Faq_viewed
+from ..models import Faq, Faq_viewed, Project, RecurringEvent
 from .serializers import (
+    Faq_viewedSerializer,
     FaqSerializer,
     ProjectSerializer,
     RecurringEventSerializer,
     UserSerializer,
-    Faq_viewedSerializer,
 )
 
 
@@ -145,7 +145,7 @@ class FaqViewSet(viewsets.ModelViewSet):
                         "Example 1",
                         summary="Demo FAQ",
                         description="get demo FAQ viewed",
-                        value="How do I work on an issue?"
+                        value="How do I work on an issue?",
                     ),
                 ],
             ),

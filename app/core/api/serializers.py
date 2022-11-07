@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from timezone_field.rest_framework import TimeZoneSerializerField
 
-from core.models import Faq, Project, RecurringEvent, User, Faq_viewed
+from core.models import Faq, Faq_viewed, Project, RecurringEvent, User
 
 
 class UserSerializer(serializers.ModelSerializer):

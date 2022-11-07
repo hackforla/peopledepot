@@ -2,12 +2,12 @@ from django.urls import path
 from rest_framework import routers
 
 from .views import (
+    Faq_viewedViewSet,
     FaqViewSet,
     ProjectViewSet,
     RecurringEventViewSet,
     UserProfileAPIView,
     UserViewSet,
-    Faq_viewedViewSet,
 )
 
 router = routers.SimpleRouter()
