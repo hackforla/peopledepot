@@ -188,7 +188,7 @@ class Faq(AbstractBaseModel):
 
 class Faq_viewed(AbstractBaseModel):
     """
-    Faq_viewed has child relation to Faq and tracks how many times an FAQ has been viewed 
+    Faq_viewed has child relation to Faq and tracks how many times an FAQ has been viewed
     """
 
     faq = models.ForeignKey(Faq, null=True, editable=False, on_delete=models.CASCADE)
