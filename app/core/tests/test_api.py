@@ -10,6 +10,7 @@ ME_URL = reverse("my_profile")
 USERS_URL = reverse("user-list")
 RECURRING_EVENTS_URL = reverse("recurring-event-list")
 FAQS_URL = reverse("faq-list")
+FAQS_VIEWED_URL = reverse("faq_viewed-list")
 
 CREATE_USER_PAYLOAD = {
     "username": "TestUserAPI",
@@ -155,3 +156,14 @@ def test_create_faq(auth_client):
     res = auth_client.post(FAQS_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
     assert res.data["question"] == payload["question"]
+
+
+def test_list_faqs_viewed(auth_client, faq_viewed):
+    payload = {
+        "faq_viewed": faq_viewed.pk,
+        "faq": faq_viewed.faq.question,
+        "faq_id": faq_viewed.faq.pk,
+    }
+    res = auth_client.get(FAQS_VIEWED_URL, payload)
+
+    assert res.data[0]["faq"] == payload["faq_id"]
