@@ -188,11 +188,13 @@ class Faq(AbstractBaseModel):
 
 class Faq_viewed(AbstractBaseModel):
     """
-    Faq_viewed is junction table between Faq and Project models
+    Faq_viewed has child relation to Faq and tracks how many times an FAQ has been viewed 
     """
 
-    faq = models.ForeignKey(Faq, null=True, on_delete=models.CASCADE)
-    read = models.DateTimeField("read", null=True, blank=True)
+    faq = models.ForeignKey(Faq, null=True, editable=False, on_delete=models.CASCADE)
+    # read is the date/time FAQ link is clicked
+    read = models.DateTimeField("Read", auto_now=True, null=True)
 
     def __str__(self):
-        return f"FAQ: {self.faq}"
+        read = self.read.strftime("%b %d %Y %H:%M:%S")
+        return read
