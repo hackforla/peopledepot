@@ -22,5 +22,5 @@ def test_faq(faq):
     assert str(faq) == "Test Faq"
 
 
-def test_faq_viewed(faq, project):
-    assert str(f"{faq} viewed ___ times") == "Test Faq viewed ___ times"
+def test_faq_viewed(faq_viewed):
+    assert str(f"{faq_viewed.faq}") == "Test Faq"

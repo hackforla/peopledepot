@@ -72,4 +72,5 @@ def faq():
 
 @pytest.fixture
 def faq_viewed(faq):
-    return Faq_viewed.objects.create(faq=faq)
+    # return RecurringEvent.objects.create(name="Test Recurring Event", project=project)
+    return Faq_viewed.objects.create(read="Test Faq_viewed read", faq=faq)
