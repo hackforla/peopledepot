@@ -27,3 +27,6 @@ app/htmlcov
 !.vscode/*.code-snippets
 
 erd.png
+
+Pipfile
+Pipfile.lock
