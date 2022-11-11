@@ -53,28 +53,7 @@
        git checkout fang/development
        ```
 
-1. Create .env.dev from .env.dev-sample
-
-    ```bash
-    cp .env.dev-sample .env.dev
-    ```
-
-1. Build and run via the script
-
-    ```bash
-    ./scripts/buildrun.sh
-    ```
-
-1. Create a super user for logging into the web admin interface
-
-    ```bash
-    docker-compose exec web python manage.py createsuperuser
-    ```
-
-1. Browse to the web admin interface at `http://localhost:8000/admin/`
-
 ## Setting up the development environment
-
 
 ### **1.2 Dev setup (2): Installing Git**
 
@@ -151,6 +130,30 @@ If you are on Windows and get 'You are not allowed to use Docker, you must be in
 
 Installing WSL2 on windows
 - https://docs.microsoft.com/en-us/windows/wsl/install-win10
+
+### **1.6 Dev setup (6): Build and run the project locally with the script**
+
+**IMPORTANT:** Please make sure the `Docker Desktop` application is **running on your computer** before you run the bash commands below.
+
+1. Create an .env.dev file from .env.dev-sample
+
+    ```bash
+    cp .env.dev-sample .env.dev
+    ```
+
+2. Build and run the project via the script
+
+    ```bash
+    ./scripts/buildrun.sh
+    ```
+
+2. Create a super user for logging into the web admin interface
+
+    ```bash
+    docker-compose exec web python manage.py createsuperuser
+    ```
+
+3. Browse to the web admin interface at `http://localhost:8000/admin/` and confirm the admin site is running. Use the credentials you created in Step 2 (above) to log in.
 
 ### Testing
 
