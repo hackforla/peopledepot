@@ -1,5 +1,14 @@
 # How to Contribute to PeopleDepot
 
+Thank you for volunteering your time! The following is a set of guidelines for contributing to the peopledepot repository, which is hosted on GitHub. 
+
+**Please make sure you have completed the onboarding process which includes joining the Hack for LA Slack, GitHub, and Google Drive. If you have not been onboarded, see the [Getting Started Page](https://www.hackforla.org/getting-started).**
+
+You will need the following to get started:
+
+- a [GitHub account](https://docs.github.com/en/get-started/signing-up-for-github/signing-up-for-a-new-github-account#signing-up-for-a-new-account)
+- A text editor. [PyCharm](https://www.jetbrains.com/pycharm/download/#section=mac) is a common Python IDE. [VS Code](https://code.visualstudio.com/download) is another common editor. Feel free to use a text editor of your choice.
+
 ## Setting up the development environment
 
 ### **1.2 Dev setup (2): Installing Git**
