@@ -1,41 +1,5 @@
 # How to Contribute to PeopleDepot
 
-## Quick start
-
-1. Install or make sure [docker][docker-install] and [docker-compose][docker-compose-install] are installed on your computer
-
-    ```bash
-    docker -v
-    docker-compose -v
-    ```
-
-1. Clone this repo and change to the project root directory
-
-    ```bash
-    git clone https://github.com/hackforla/peopledepot.git
-    cd peopledepot
-    ```
-
-1. [Temporary] The latest code is in https://github.com/fyliu/peopledepot.git and we need to get that.
-
-   1. Create a git remote `fang` to that repo
-
-       ```bash
-       git remote add fang https://github.com/fyliu/peopledepot.git
-       ```
-
-   1. Fetch data from the remote
-
-       ```bash
-       git fetch fang
-       ```
-
-   1. Checkout the recurring_event-model branch to see the current progress. The main repo should be updated with the latest code soon.
-
-       ```bash
-       git checkout fang/recurring_event-model
-       ```
-
 ## Setting up the development environment
 
 ### **1.2 Dev setup (2): Installing Git**
