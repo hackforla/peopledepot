@@ -95,6 +95,41 @@ You can fork the hackforla/peopledepot repository by clicking <a href="https://g
 
 **Be Aware:** What you have created is a forked copy in a remote version on GitHub. It is not yet on your local machine yet.
 
+### **1.4 Dev setup (4): Clone (Create) a copy on your computer**
+
+Before creating a copy to your local machine, you must have Git installed. You can find instructions for installing Git for your operating system [**here**](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git). 
+
+The following steps will clone (create) a local copy of the forked repository on your computer.
+
+#### **1.4.a Clone repo (1): Create  `hackforla` folder**
+
+Create a new folder in your computer that will contain `hackforla` projects.
+
+In your command line interface (Terminal, Git Bash, Powershell), move to where you want your new folder to be placed and create a new folder in your computer that will contain `hackforla` projects. After that, navigate into the folder(directory) you just created.
+      
+For example: 
+```bash
+mkdir hackforla
+cd hackforla
+```
+      
+and run the following commands:
+      
+```bash
+git clone https://github.com/<your_GitHub_user_name>/peopledepot.git
+```
+      
+For example if your GitHub username was `octocat`:
+```bash
+git clone https://github.com/octocat/peopledepot.git
+```
+
+You should now have a new folder in your `hackforla` folder called `peopledepot`. Verify this by changing into the new directory:
+
+```bash
+cd peopledepot
+```
+
 ### Testing
 
 1. Run all tests from the project root
