@@ -139,7 +139,7 @@ docker-compose down -v
 3. Follow the steps in the issue description to complete the issue.
 4. Make sure to comment your ETA and Availability when you first assign yourself.
 
-### **2.2 Working on an issue**
+### **2.2.a Working on an issue(1)**
 Once you have selected an issue to work on, create a branch for that issue. 
 
 Verify you are on the `main` branch. 
@@ -161,6 +161,11 @@ Create a new branch where you will work on the issue. The branch name should inc
 ```bash
 git checkout -b <new-branch-name>-15
 ```
+#### **2.2.b Working on an issue(2): Prepare your changes to push to your repository**
+
+Once you are done with the work on your issue you will push it to your repository.  Before you can push your work to your repository, you will stage and commit your changes.  These two commands are similar to the save command used in other programs. 
+
+**Note:** If you are using Visual studios code you can use the Git graphical user interface to stage your changes. For instructions check out the [Git Gui Wiki](https://github.com/hackforla/website/wiki/Using-Git-GUI-(Graphical-user-Interface)-in-Visual-Studios-Code)
 
 ### **2.3 Creating a new issue**
 
