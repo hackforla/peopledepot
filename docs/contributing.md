@@ -84,6 +84,17 @@ Before cloning your forked repository to your local machine, you must have Git i
 - a “more up to date” option (not required but optional if you want it): This option prompts you to go to install an 8GB package manager called Homebrew. 
 - Other option: If your computer is low on space, you can use this [tutorial](https://www.datacamp.com/community/tutorials/homebrew-install-use) to install XCode Command Tools and a lighter version of Homebrew and then install Git using this command: ```$ brew install git```  which in total only uses 300MB.
 
+### **1.3 Dev setup (3): Fork the repository**
+
+You can fork the hackforla/peopledepot repository by clicking <a href="https://github.com/hackforla/peopledepot/fork"> <button> <img src="https://user-images.githubusercontent.com/17777237/54873012-40fa5b00-4dd6-11e9-98e0-cc436426c720.png" width="8px"> Fork</button></a>
+. A fork is a copy of the repository that will be placed on your GitHub account.
+
+**Note:** It should create a URL that looks like the following -> `https://github.com/<your_GitHub_user_name>/peopledepot`.
+
+**For example** -> `https://github.com/octocat/peopledepot`.
+
+**Be Aware:** What you have created is a forked copy in a remote version on GitHub. It is not yet on your local machine yet.
+
 ### Testing
 
 1. Run all tests from the project root
