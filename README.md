@@ -1,10 +1,8 @@
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 
-# Project title and description
+# PeopleDepot
 
-Include a project description that explains **what** your project is and **why** it exists. Aim for no more than 3-5 concise sentences. For example, you might say:
-
-{Project Name} is a project of Hack for LA. Hack for LA is a brigade of a Code for America that exists to {your mission}. {Project Name} helps {target users} accomplish {goal of project}. The {app/site/thing you're building}'s main features include {very brief feature descriptions}.
+PeopleDepot is a project of Hack for LA, a brigade of a Code for America. PeopleDepot provides backend infrastructure to provide a single source of truth for all Hack for LA projects. The {app/site/thing you're building}'s main features include {very brief feature descriptions}.
 
 ## Project context
 
