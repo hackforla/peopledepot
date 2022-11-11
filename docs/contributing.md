@@ -130,6 +130,28 @@ You should now have a new folder in your `hackforla` folder called `peopledepot`
 cd peopledepot
 ```
 
+### **1.5 Dev setup (5): Set up Docker**
+Install or make sure [docker][docker-install] and [docker-compose][docker-compose-install] are installed on your computer
+
+    ```bash
+    docker -v
+    docker-compose -v
+    ```
+
+The recommended installation method for your operating system can be found [here](https://docs.docker.com/install/). <strong><em>Feel free to reach out in the [Hack for LA Slack channel](https://hackforla.slack.com/messages/people-depot/) if you have trouble installing docker on your system</em></strong>
+
+More on using Docker and the concepts of containerization:
+
+* [Get started with Docker](https://docs.docker.com/get-started/)
+
+#### **1.5.a Docker installation troubleshooting**
+
+If you are on Windows and get 'You are not allowed to use Docker, you must be in the "docker-users" group' as an error message, the following wiki page is a guide for solving te issue:
+- [Windows docker-users group error guide](https://github.com/hackforla/website/wiki/Adding-local-user-accounts-to-the-docker-users-group-on-Windows-10)
+
+Installing WSL2 on windows
+- https://docs.microsoft.com/en-us/windows/wsl/install-win10
+
 ### Testing
 
 1. Run all tests from the project root
