@@ -9,7 +9,8 @@ You will need the following to get started:
 - a [GitHub account](https://docs.github.com/en/get-started/signing-up-for-github/signing-up-for-a-new-github-account#signing-up-for-a-new-account)
 - A text editor. [PyCharm](https://www.jetbrains.com/pycharm/download/#section=mac) is a common Python IDE. [VS Code](https://code.visualstudio.com/download) is another common editor. Feel free to use a text editor of your choice.
 
-## Setting up the development environment
+## **Part 1: Setting up the development environment**
+
 
 ### **1.2 Dev setup (2): Installing Git**
 
@@ -129,7 +130,9 @@ Add the `-v` flag to destroy the data volumes as well:
 docker-compose down -v
 ```
 
-### Testing
+## **Part 2: Working on an issue**
+
+## Testing
 
 1. Run all tests
 
@@ -137,7 +140,7 @@ docker-compose down -v
     ./scripts/test.sh
     ```
 
-### Linting and autoformatting
+## Linting and autoformatting
 
 We're using the popular [flake8][flake8-docs] and [black][black-docs] for linting and code formatting. We're also using [isort][isort-docs] to organize import statements.
 
