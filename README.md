@@ -17,18 +17,13 @@ Civic projects often exist within a larger context that may include multiple sta
 
 ## How to contribute
 
-Explain the different ways people can contribute. For example:
-
-- Join the team {on Slack/at our weekly hack night/etc}.
-- To help with user research, {do ABC}.
-- To provide design support, {do XYZ}.
-- To contribute to the code, see the [contributing][contributing] document.
-
-Remember to provide direct links to each channel.
+1. Join our organization by going through [Hack for LA onboarding][HfLA onboarding]. It's free to join!
+2. Read the [onboarding section of our WIKI](https://github.com/hackforla/website/wiki/Joining-the-HackforLA.org-Website-Team).
+3. Read our [Contributing Guide][contributing] and follow the steps.
 
 ## Contact info
 
-Include at least one way (or more, if possible) to reach your team with questions or comments.
+Contact us in the people-depot channel on Slack.
 
 ## Licensing
 
@@ -41,3 +36,4 @@ Include details about the project's open source status.
 [drf-docs]: https://www.django-rest-framework.org/tutorial/quickstart/
 [postgres-docs]: https://www.postgresql.org/docs/
 [contributing]: ./docs/contributing.md
+[HfLA onboarding]: https://www.hackforla.org/getting-started
