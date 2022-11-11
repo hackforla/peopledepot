@@ -130,7 +130,41 @@ Add the `-v` flag to destroy the data volumes as well:
 docker-compose down -v
 ```
 
-## **Part 2: Working on an issue**
+## **Part 2: Working on issues**
+
+### **2.1 Finding an issue to work on**
+
+1. Find an issue in Prioritized Backlog [here](https://github.com/hackforla/peopledepot/projects/1)
+2. Assign the issue to yourself and move it to "In progress" column.
+3. Follow the steps in the issue description to complete the issue.
+4. Make sure to comment your ETA and Availability when you first assign yourself.
+
+### **2.2 Working on an issue**
+Once you have selected an issue to work on, create a branch for that issue. 
+
+Verify you are on the `main` branch. 
+
+```bash
+git branch
+```
+
+You will see a list of all of your branches. There will be a star (`*`) next to the branch that you are currently in. By default you should start on the `main` branch.
+
+If you are not currently in the `main` branch, run the following command to return to it:
+
+```bash
+git checkout main
+```
+
+Create a new branch where you will work on the issue. The branch name should include the issue number. For example, to create a new branch for issue 15 and change into it:
+
+```bash
+git checkout -b <new-branch-name>-15
+```
+
+### **2.3 Creating a new issue**
+
+To create a new issue, please use the blank issue template (available when you click New Issue).  If you want to create an issue for other projects to use, please create the issue in your own repository and send a slack message to one of your hack night hosts with the link.
 
 ## Testing
 
@@ -172,22 +206,9 @@ We will eventually integrate this into pre-commit hooks, but for now, run this c
 1. precommit-check.sh - sanity checks before committing (calls other scripts, but doesn't stop progress on error like it should)
 1. createsuperuser.sh - creates a default superuser (assumes apt env. requires `expect` util to be installed)
 
-### Working with issues
-
 #### Submit a bug
 
 #### Submit a feature request
-
-#### Contribute to an existing issue
-
-1. Find issue in Prioritized Backlog [here](https://github.com/hackforla/peopledepot/projects/1)
-1. Assign issue to yourself and move it to In progress
-1. Follow the steps in the issue description to complete the issue
-1. Create a pull request and tag it with the issue number (i.e. closes #15)
-
-### Create a new issue
-
-To create a new issue, please use the blank issue template (available when you click New Issue).  If you want to create an issue for other projects to use, please create the issue in your own repository and send a slack message to one of your hack night hosts with the link.
 
 ### Working with forks and branches
 
