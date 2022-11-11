@@ -155,6 +155,24 @@ Installing WSL2 on windows
 
 3. Browse to the web admin interface at `http://localhost:8000/admin/` and confirm the admin site is running. Use the credentials you created in Step 2 (above) to log in.
 
+#### **1.6.a Stopping Docker**
+
+To stop the service-container, but not destroy it (often sufficient for day-to-day work):
+
+```bash
+docker-compose stop
+```
+
+To stop and destroy the service container:
+```bash
+docker-compose down
+```
+
+Add the `-v` flag to destroy the data volumes as well:
+```bash
+docker-compose down -v
+```
+
 ### Testing
 
 1. Run all tests from the project root
