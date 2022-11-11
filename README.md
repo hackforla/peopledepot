@@ -1,10 +1,15 @@
 # PeopleDepot
 
-PeopleDepot is a project of Hack for LA, a brigade of a Code for America. PeopleDepot provides backend infrastructure to provide a single source of truth for all Hack for LA projects. The {app/site/thing you're building}'s main features include {very brief feature descriptions}.
+PeopleDepot is a project of Hack for LA, a brigade of Code for America. PeopleDepot provides backend infrastructure to provide a single source of truth on people, program areas, and project data for all Hack for LA projects. PeopleDepot uses a Django database and Django REST Framework that acts as a repository of information for other infrastructure projects (e.g., VRMS, Hack for LA, Civic Tech Index, Tables). 
 
 ## Project context
 
-Civic projects often exist within a larger context that may include multiple stakeholders, historic relationships, associated research, or other details that are relevant but not *required* for direct contributions. Gathering these details in one place is useful, but the ReadMe isn't that place. Use this section to [link to a Google Doc](#) or other documentation repository where contributors can dig in if they so choose. This is also a good place to link to your Code of Conduct.
+The hardest part of running an all volunteer open source project organization is managing the flow of information to all the people and projects that need it.  It can end up taking more time than the projects themselves. This project seeks to create an infrastructure that will automate everything that can be automated and do away with manual storage of duplicate information across projects.
+
+- Recruiting members (Website: Project info and meeting times)
+- Onboarding members to resources (Tables:GitHub, Google Calendar, Google Drives, etc.)
+- Helping members find roles (Civic Tech Jobs: roles and project info)
+- Managing team permissions (VRMS: GitHub, Google Calendar, Google Drives, etc.)
 
 ## Technology used
 
