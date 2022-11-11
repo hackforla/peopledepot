@@ -224,6 +224,8 @@ Installing the pre-commit hooks to git
 1. Follow the steps in the issue description to complete the issue
 1. Create a pull request and tag it with the issue number (i.e. closes #15)
 
+### Create a new issue
+
 To create a new issue, please use the blank issue template (available when you click New Issue).  If you want to create an issue for other projects to use, please create the issue in your own repository and send a slack message to one of your hack night hosts with the link.
 
 ### Working with forks and branches
