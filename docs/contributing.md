@@ -1,4 +1,4 @@
-# Contributing to PeopleDepot
+# How to Contribute to PeopleDepot
 
 ## Quick start
 
@@ -72,6 +72,17 @@
     ```
 
 1. Browse to the web admin interface at `http://localhost:8000/admin/`
+
+## Setting up the development environment
+
+
+### **1.2 Dev setup (2): Installing Git**
+
+Before cloning your forked repository to your local machine, you must have Git installed. You can find instructions for installing Git for your operating system [**here**](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git). Please note that if you have a Mac the page offers several options (see other option, if you need to conserve hard drive space) including:
+
+- an “easiest” option (this version is fine for use at hackforla): This option would take just over 4GB.
+- a “more up to date” option (not required but optional if you want it): This option prompts you to go to install an 8GB package manager called Homebrew. 
+- Other option: If your computer is low on space, you can use this [tutorial](https://www.datacamp.com/community/tutorials/homebrew-install-use) to install XCode Command Tools and a lighter version of Homebrew and then install Git using this command: ```$ brew install git```  which in total only uses 300MB.
 
 ### Testing
 
@@ -195,3 +206,5 @@ To contribute code changes
 [flake8-docs]: https://github.com/pycqa/flake8
 [black-docs]: https://github.com/psf/black
 [isort-docs]: https://github.com/pycqa/isort/
+
+
