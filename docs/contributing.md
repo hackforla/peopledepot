@@ -1,58 +1,5 @@
 # How to Contribute to PeopleDepot
 
-## Quick start
-
-1. Install or make sure [docker][docker-install] and [docker-compose][docker-compose-install] are installed on your computer
-
-    - It's best to use the `docker-compose` installation instructions which also installs docker.
-
-    ```bash
-    docker -v
-    docker-compose -v
-    docker ps
-    ```
-    1. `docker ps` should print a list of docker containers. Even a blank list signals that the docker daemon (service) is running.
-
-1. Fork the PeopleDepot repo from Github
-
-   1. The Fork button is near the upper-right of the screen
-
-1. Clone your forked repo and change to the project root directory
-
-    ```bash
-    git clone https://github.com/[username]/peopledepot.git
-    cd peopledepot
-    ```
-
-1. Add the HackforLA repo as the `hackforla` remote and fetch from it
-
-   ```bash
-    git remote add hackforla https://github.com/hackforla/peopledepot.git
-    git fetch hackforla
-    ```
-
-    1. When you push your code later, you should specify the remote to push to. i.e. `git push origin`, where `origin` is the default remote that points to your fork when you first cloned it to your local machine
-
-1. [Temporary] The latest code is in https://github.com/fyliu/peopledepot.git and we need to get that.
-
-   1. Create a git remote `fang` to that repo
-
-       ```bash
-       git remote add fang https://github.com/fyliu/peopledepot.git
-       ```
-
-   1. Fetch data from all the remotes, including from `fang`
-
-       ```bash
-       git fetch --all
-       ```
-
-   1. Checkout the development branch to see the current progress. The main repo should be updated with the latest code soon.
-
-       ```bash
-       git checkout fang/development
-       ```
-
 ## Setting up the development environment
 
 ### **1.2 Dev setup (2): Installing Git**
@@ -60,7 +7,7 @@
 Before cloning your forked repository to your local machine, you must have Git installed. You can find instructions for installing Git for your operating system [**here**](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git). Please note that if you have a Mac the page offers several options (see other option, if you need to conserve hard drive space) including:
 
 - an “easiest” option (this version is fine for use at hackforla): This option would take just over 4GB.
-- a “more up to date” option (not required but optional if you want it): This option prompts you to go to install an 8GB package manager called Homebrew. 
+- a “more up to date” option (not required but optional if you want it): This option prompts you to go to install an 8GB package manager called Homebrew.
 - Other option: If your computer is low on space, you can use this [tutorial](https://www.datacamp.com/community/tutorials/homebrew-install-use) to install XCode Command Tools and a lighter version of Homebrew and then install Git using this command: ```$ brew install git```  which in total only uses 300MB.
 
 ### **1.3 Dev setup (3): Fork the repository**
@@ -76,7 +23,7 @@ You can fork the hackforla/peopledepot repository by clicking <a href="https://g
 
 ### **1.4 Dev setup (4): Clone (Create) a copy on your computer**
 
-Before creating a copy to your local machine, you must have Git installed. You can find instructions for installing Git for your operating system [**here**](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git). 
+Before creating a copy to your local machine, you must have Git installed. You can find instructions for installing Git for your operating system [**here**](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
 
 The following steps will clone (create) a local copy of the forked repository on your computer.
 
@@ -85,19 +32,19 @@ The following steps will clone (create) a local copy of the forked repository on
 Create a new folder in your computer that will contain `hackforla` projects.
 
 In your command line interface (Terminal, Git Bash, Powershell), move to where you want your new folder to be placed and create a new folder in your computer that will contain `hackforla` projects. After that, navigate into the folder(directory) you just created.
-      
-For example: 
+
+For example:
 ```bash
 mkdir hackforla
 cd hackforla
 ```
-      
+
 and run the following commands:
-      
+
 ```bash
 git clone https://github.com/<your_GitHub_user_name>/peopledepot.git
 ```
-      
+
 For example if your GitHub username was `octocat`:
 ```bash
 git clone https://github.com/octocat/peopledepot.git
@@ -295,5 +242,3 @@ To contribute code changes
 [flake8-docs]: https://github.com/pycqa/flake8
 [black-docs]: https://github.com/psf/black
 [isort-docs]: https://github.com/pycqa/isort/
-
-
