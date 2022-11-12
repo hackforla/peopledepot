@@ -68,11 +68,10 @@ cd peopledepot
 
 ### **1.5 Dev setup (5): Set up Docker**
 Install or make sure [docker][docker-install] and [docker-compose][docker-compose-install] are installed on your computer
-
-    ```bash
+```bash
     docker -v
     docker-compose -v
-    ```
+```
 
 The recommended installation method for your operating system can be found [here](https://docs.docker.com/install/). <strong><em>Feel free to reach out in the [Hack for LA Slack channel](https://hackforla.slack.com/messages/people-depot/) if you have trouble installing docker on your system</em></strong>
 
@@ -161,11 +160,66 @@ Create a new branch where you will work on the issue. The branch name should inc
 ```bash
 git checkout -b <new-branch-name>-15
 ```
+
 #### **2.2.b Working on an issue(2): Prepare your changes to push to your repository**
 
 Once you are done with the work on your issue you will push it to your repository.  Before you can push your work to your repository, you will stage and commit your changes.  These two commands are similar to the save command used in other programs. 
 
-**Note:** If you are using Visual studios code you can use the Git graphical user interface to stage your changes. For instructions check out the [Git Gui Wiki](https://github.com/hackforla/website/wiki/Using-Git-GUI-(Graphical-user-Interface)-in-Visual-Studios-Code)
+**Note:** If you are using Visual studios code you can use the Git graphical user interface to stage your changes. For instructions check out the [Git Gui Wiki](https://github.com/hackforla/website/wiki/Using-Git-GUI-(Graphical-user-Interface)-in-Visual-Studios-Code).
+
+**Note:** Remember to run the `precommit-checks.sh` script before each commit until it can be integrated.
+
+#### **i. Prepare repo changes (1): Use the `git add` command to stage your changes.** 
+
+**Make sure you are on your issue branch (instead of `main`)**
+
+This command prepares your changes before you commit them. You can stage files one at a time using the filename. 
+
+Run this command if you want to **add changes from a specific file to your commit record**: 
+```bash
+git add “filename.ext”
+```
+
+Run this command if you want to **add all changes to all file(s) to your commit record**: 
+```bash
+git add .
+```
+
+#### **ii. Prepare repo changes (2): Use the `git status` command to see what files are staged.**
+
+This command will list the files that have been staged.  These are the files that will be committed (saved) when you run the next command, `git commit`. Please be sure all your staged changes are relevant to the issue you are working on. If you accidentally included unrelated changes, please unstage them before making this commit, and then make a new commit for the unrelated changes. (The commands for unstaging commits are provided in the output of your `git status` command.)
+      
+```bash
+git status
+```
+
+##### **iii. Prepare repo changes (3): Use the `git reset HEAD` command to remove a staged file.**
+
+This command will remove a file that has been staged.  This file will not be committed (saved) when you run the next command, `git commit`. This only works if the wrong files were added, but they were not yet committed. The file will be removed from the staging area, but not actually deleted:
+
+```bash
+git reset HEAD “filename.ext” 
+```
+##### **iv. Prepare repos changes (4): Use the `git commit` command**
+
+This command saves your work, and prepares it to push to your repository.  Use the `-m` flag to quickly add a message to your commit. Your message should be a short description of the changes you made.  It will be extremely helpful if other people can understand your message, so try to resist the temptation to be overly cryptic.
+
+For linting and code formatting, run:
+```bash
+./scripts/lint.sh
+```
+
+**Important: before committing each file, make sure to run the pre-commit hook:***
+
+```bash
+./scripts/precommit-check.sh
+```
+
+To commit your changes with a message, run:
+
+```bash
+git commit -m “insert message here”
+```
 
 ### **2.3 Creating a new issue**
 
