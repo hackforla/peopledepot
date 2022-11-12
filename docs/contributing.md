@@ -259,20 +259,20 @@ This will provide the code to create a new branch in your GitHub repository. Cop
 When you check the upstream repository, you may see output like this:
 
 ```bash
-Fetching upstream
-remote: Enumerating objects: 11, done.
-remote: Counting objects: 100% (11/11), done.
-remote: Compressing objects: 100% (7/7), done.
-remote: Total 11 (delta 5), reused 7 (delta 4), pack-reused 0
-Unpacking objects: 100% (11/11), 8.25 KiB | 402.00 KiB/s, done.
-From https://github.com/hackforla/website
-+ 770d667...14f9f46 Bonnie     -> hackforla/Bonnie  (forced update)
-* [new branch]      bonnie     -> hackforla/bonnie
-5773ebe..0c86ecd  gh-pages   -> hackforla/gh-pages
+remote: Enumerating objects: 184, done.
+remote: Counting objects: 100% (184/184), done.
+remote: Compressing objects: 100% (62/62), done.
+remote: Total 184 (delta 123), reused 162 (delta 122), pack-reused 0
+Receiving objects: 100% (184/184), 26.75 KiB | 6.69 MiB/s, done.
+Resolving deltas: 100% (123/123), completed with 43 local objects.
+From https://github.com/hackforla/peopledepot
+ * [new branch]      develop    -> upstream/develop
+   56e6dc7..923215d  main       -> upstream/main
+
 ```
 
 
-**Note:** You can safely ignore changes in other issue branches, such as `bonnie` above. But if you see changes in gh-pages, as in `5773ebe..0c86ecd  gh-pages   -> hackforla/gh-pages`, you should incorporate those changes into your repository before merging or rebasing your issue branch. Use the [instructions below](#27e-working-on-an-issue-5-incorporating-changes-from-upstream) to bring your fork up to date with the main repository.
+**Note:** You can safely ignore changes in other issue branches, such as `develop` above. But if you see changes in `main`, as in `56e6dc7..923215d main   -> upstream/main`, you should incorporate those changes into your repository before merging or rebasing your issue branch. Use the [instructions below](#27e-working-on-an-issue-5-incorporating-changes-from-upstream) to bring your fork up to date with the main repository.
 
 ### **2.3 Creating a new issue**
 
