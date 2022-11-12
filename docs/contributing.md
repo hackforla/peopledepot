@@ -312,6 +312,30 @@ If you go to your online github repository this should remove the message "This 
 
 To create a new issue, please use the blank issue template (available when you click New Issue).  If you want to create an issue for other projects to use, please create the issue in your own repository and send a slack message to one of your hack night hosts with the link.
 
+## **Part 3: Creating Pull Requests**
+
+### **3.1 How to make a pull request**
+
+#### **3.1.a Push all changes to your issue branch**
+
+Once you are satisfied with your changes, push them to the feature branch you made within your remote repository. 
+
+```bash
+git push --set-upstream origin <name-of-branch>
+```
+#### **3.1.b Complete pull request on Hack for LA `peopledepot` repo**
+
+1. Click the green button to create a Pull Request (PR)
+2.  Add a short title in the subject line
+3. In the body of the comment, add the following, replacing <issue-number> with the issue you worked on:
+
+```bash
+fixes #<issue-number>
+```
+4. Below this, add a brief description of the changes you made
+5. Click the green "Create pull request" button
+6. Add the PR to the project board 
+
 ## Testing
 
 1. Run all tests from the project root
