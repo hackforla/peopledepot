@@ -221,6 +221,59 @@ To commit your changes with a message, run:
 git commit -m “insert message here”
 ```
 
+#### **2.7.d Working on an issue (4): Pulling from upstream before you push**
+
+**IMPORTANT:** Before you push your local commits to your repository, sync your fork to the main Hack For LA peopledepot repository. Ensure that your local repository is up-to-date with the main site:
+
+```bash
+git pull upstream
+```
+You can also sync your fork directly on GitHub by clicking "Sync Fork" at the right of the screen and then clicking "Update Branch"
+
+<details>
+  <summary><strong>Click here</strong> to see how to sync the fork on GitHub</summary>
+  <img src="https://docs.github.com/assets/cb-49937/images/help/repository/update-branch-button.png" />
+</details>
+
+##### **i. If there are no changes in the upstream repository**
+
+If you do not see any output, there have not been any changes in the main Hack for LA peopledepot repository since the last time you
+checked. So it is safe to push your local commits to your fork.
+
+Push your local branch to your remote repository:
+
+```bash
+git push --set-upstream origin <your-branch-name>
+```
+
+Alternatively, you can run
+
+```bash
+git push
+```
+
+This will provide the code to create a new branch in your GitHub repository. Copy the command and paste it into your terminal and press enter to run it.
+
+##### **ii. If there are conflicting changes in the upstream repository**
+
+When you check the upstream repository, you may see output like this:
+
+```bash
+Fetching upstream
+remote: Enumerating objects: 11, done.
+remote: Counting objects: 100% (11/11), done.
+remote: Compressing objects: 100% (7/7), done.
+remote: Total 11 (delta 5), reused 7 (delta 4), pack-reused 0
+Unpacking objects: 100% (11/11), 8.25 KiB | 402.00 KiB/s, done.
+From https://github.com/hackforla/website
++ 770d667...14f9f46 Bonnie     -> hackforla/Bonnie  (forced update)
+* [new branch]      bonnie     -> hackforla/bonnie
+5773ebe..0c86ecd  gh-pages   -> hackforla/gh-pages
+```
+
+
+**Note:** You can safely ignore changes in other issue branches, such as `bonnie` above. But if you see changes in gh-pages, as in `5773ebe..0c86ecd  gh-pages   -> hackforla/gh-pages`, you should incorporate those changes into your repository before merging or rebasing your issue branch. Use the [instructions below](#27e-working-on-an-issue-5-incorporating-changes-from-upstream) to bring your fork up to date with the main repository.
+
 ### **2.3 Creating a new issue**
 
 To create a new issue, please use the blank issue template (available when you click New Issue).  If you want to create an issue for other projects to use, please create the issue in your own repository and send a slack message to one of your hack night hosts with the link.
