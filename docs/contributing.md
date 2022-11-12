@@ -221,8 +221,6 @@ To commit your changes with a message, run:
 git commit -m “insert message here”
 ```
 
-#### **2.7.d Working on an issue (4): Pulling from upstream before you push**
-
 **IMPORTANT:** Before you push your local commits to your repository, sync your fork to the main Hack For LA peopledepot repository. Ensure that your local repository is up-to-date with the main site:
 
 ```bash
@@ -272,7 +270,43 @@ From https://github.com/hackforla/peopledepot
 ```
 
 
-**Note:** You can safely ignore changes in other issue branches, such as `develop` above. But if you see changes in `main`, as in `56e6dc7..923215d main   -> upstream/main`, you should incorporate those changes into your repository before merging or rebasing your issue branch. Use the [instructions below](#27e-working-on-an-issue-5-incorporating-changes-from-upstream) to bring your fork up to date with the main repository.
+**Note:** You can safely ignore changes in other issue branches, such as `develop` above. But if you see changes in `main`, as in `56e6dc7..923215d main   -> upstream/main`, you should incorporate those changes into your repository before merging or rebasing your issue branch. Use the [instructions below](#22c-working-on-an-issue-3-incorporating-changes-from-upstream) to bring your fork up to date with the main repository.
+
+#### **2.2.c Working on an issue (3): Pulling from upstream before you push**
+
+Your fork of this repository on GitHub, and your local clone of that fork, will get out of sync with this (upstream) repository from time to time. (That's what has happened when you see something like "This branch is 1 commit behind peopledepot:main" on the github version of your hackforla repository.)
+
+One way to keep your fork up to date with this repository is to follow these instruction: [Syncing your fork to the original repository via the browser](https://github.com/KirstieJane/STEMMRoleModels/wiki/Syncing-your-fork-to-the-original-repository-via-the-browser)
+
+You can also update your fork via the local clone of your fork, using these instructions. Assuming you have a local clone with remotes `upstream` (this repo) and `origin` (your GitHub fork of this repo):
+
+* First, you will need to create a local branch which tracks upstream/main.  You will only need to do this once; you do not need to do this every time you want to incorporate upstream changes. 
+
+Run the following two commands: 
+
+```bash
+git fetch upstream
+git checkout -b upstream-main --track upstream/main
+```
+
+If you have already created the branch upstream-main, the following commands will incorporate upstream changes:
+
+```bash
+git checkout upstream-main # Move to the branch you want to merge with. 
+git pull  # This updates your tracking branch to match the main branch in this repository
+git checkout main  # Move back to your main branch
+git merge upstream-main  # Merge to bring your main current. 
+```
+
+If you do all your work on topic branches (as suggested above) and keep main free of local modifications, this merge should apply cleanly.
+
+Then push the merge changes to your GitHub fork:  
+
+```bash
+git push
+```
+
+If you go to your online github repository this should remove the message "This branch is x commit behind peopledepot:main".
 
 ### **2.3 Creating a new issue**
 
