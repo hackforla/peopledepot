@@ -311,23 +311,11 @@ Installing the pre-commit hooks to git
 
 #### Submit a feature request
 
-### Working with forks and branches
-
-We use the fork, branch, and pull request model
-
-To contribute code changes
-
-1. Choose an issue to work on, say issue #15
-1. Create a fork and commit your work inside the fork
-   1. Fork the repo from [hackforla/peopledepot](https://github.com/hackforla/peopledepot)
-   1. Create a branch in your fork to work on the issue. It's preferred to have the working issue number in the branch name.
-   1. Remember to run the `precommit-checks.sh` script before each commit until it can be integrated
+### Working with pull requests and reviews
 1. Create a PR from your fork/branch to hackforla/peopledepot/main when you're done with your changes
    1. Reference the issue that you're working on in the PR description. e.g. "Closes #15"
    1. Provide a description of the relevant changes.
 1. Move the issue to the Review column in the project board
-
-### Working with pull requests and reviews
 
 - Explain your process.
 
