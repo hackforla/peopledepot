@@ -21,7 +21,7 @@ The hardest part of running an all volunteer open source project organization is
 ## How to contribute
 
 1. Join our organization by going through [Hack for LA onboarding][HfLA onboarding]. It's free to join!
-2. Read the [onboarding section of our WIKI](https://github.com/hackforla/website/wiki/Joining-the-HackforLA.org-Website-Team).
+2. Read the [onboarding section of our WIKI](https://github.com/hackforla/peopledepot/wiki/Developer-Onboarding#development-tools).
 3. Read our [Contributing Guide][contributing] and follow the steps.
 
 ## Contact info
