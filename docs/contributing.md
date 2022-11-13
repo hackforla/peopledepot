@@ -323,6 +323,7 @@ Once you are satisfied with your changes, push them to the feature branch you ma
 ```bash
 git push --set-upstream origin <name-of-branch>
 ```
+
 #### **3.1.b Complete pull request on Hack for LA `peopledepot` repo**
 
 1. Click the green button to create a Pull Request (PR)
@@ -421,14 +422,6 @@ Installing the pre-commit hooks to git
 #### Submit a bug
 
 #### Submit a feature request
-
-### Working with pull requests and reviews
-1. Create a PR from your fork/branch to hackforla/peopledepot/main when you're done with your changes
-   1. Reference the issue that you're working on in the PR description. e.g. "Closes #15"
-   1. Provide a description of the relevant changes.
-1. Move the issue to the Review column in the project board
-
-- Explain your process.
 
 [docker-install]: https://docs.docker.com/get-docker/
 [docker-compose-install]: https://docs.docker.com/compose/install/
