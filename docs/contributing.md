@@ -146,7 +146,9 @@ docker-compose down -v
 3. Follow the steps in the issue description to complete the issue.
 4. Make sure to comment your ETA and Availability when you first assign yourself.
 
-### **2.2.a Working on an issue(1)**
+### **2.2 Working on an issue**
+
+#### **2.2.a Working on an issue(1): Verifying current branch**
 Once you have selected an issue to work on, create a branch for that issue. 
 
 Verify you are on the `main` branch. 
