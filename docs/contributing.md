@@ -338,7 +338,7 @@ git push --set-upstream origin <name-of-branch>
 
 1. Click the green button to create a Pull Request (PR)
 2.  Add a short title in the subject line
-3. In the body of the comment, add the following, replacing <issue-number> with the issue you worked on:
+3. In the body of the comment, add the following, replacing `<issue-number>` with the issue you worked on:
 
 ```bash
 fixes #<issue-number>
