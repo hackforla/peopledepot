@@ -22,7 +22,11 @@ In the `hfla-site` Slack channel, send an introductory message with your GitHub 
 
 ### **1.2 Dev setup (2): Installing Git**
 
-Before cloning your forked repository to your local machine, you must have Git installed. You can find instructions for installing Git for your operating system [**here**](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git). Please note that if you have a Mac the page offers several options (see other option, if you need to conserve hard drive space) including:
+Before cloning your forked repository to your local machine, you must have Git installed. You can find instructions for installing Git for your operating system [**here**](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git). 
+
+For Windows, you may want to [install a Windows Subsystem for Linux (WSL)](https://code.visualstudio.com/docs/remote/wsl) and then install Git from WSL. 
+
+Please note that if you have a Mac the page offers several options (see other option, if you need to conserve hard drive space) including:
 
 - an “easiest” option (this version is fine for use at hackforla): This option would take just over 4GB.
 - a “more up to date” option (not required but optional if you want it): This option prompts you to go to install an 8GB package manager called Homebrew. 
