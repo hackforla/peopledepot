@@ -110,14 +110,6 @@ More on using Docker and the concepts of containerization:
 
 * [Get started with Docker](https://docs.docker.com/get-started/)
 
-#### **1.5.a Docker installation troubleshooting**
-
-If you are on Windows and get 'You are not allowed to use Docker, you must be in the "docker-users" group' as an error message, the following wiki page is a guide for solving te issue:
-- [Windows docker-users group error guide](https://github.com/hackforla/website/wiki/Adding-local-user-accounts-to-the-docker-users-group-on-Windows-10)
-
-Installing WSL2 on windows
-- https://docs.microsoft.com/en-us/windows/wsl/install-win10
-
 ### **1.6 Dev setup (6): Build and run the project locally with the script**
 
 **IMPORTANT:** Please make sure the `Docker Desktop` application is **running on your computer** before you run the bash commands below.
