@@ -11,6 +11,14 @@ You will need the following to get started:
 
 ## **Part 1: Setting up the development environment**
 
+### **1.1 Dev setup (1): Join the repository team**
+
+In the `hfla-site` Slack channel, send an introductory message with your GitHub handle/username asking to be added to the Hack for LA peopledepot GitHub repository.
+
+**NOTE:** Once you have accepted the GitHub invite (comes via email or in your GitHub notifications), **please do the following**:
+
+1. Make your own Hack for LA GitHub organization membership public by following this [guide](https://help.github.com/en/articles/publicizing-or-hiding-organization-membership#changing-the-visibility-of-your-organization-membership).
+2. Set up two-factor authentication on your account by following this [guide](https://docs.github.com/en/github/authenticating-to-github/configuring-two-factor-authentication).
 
 ### **1.2 Dev setup (2): Installing Git**
 
