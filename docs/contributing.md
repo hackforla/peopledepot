@@ -7,7 +7,7 @@ Thank you for volunteering your time! The following is a set of guidelines for c
 You will need the following to get started:
 
 - a [GitHub account](https://docs.github.com/en/get-started/signing-up-for-github/signing-up-for-a-new-github-account#signing-up-for-a-new-account)
-- A text editor. [PyCharm](https://www.jetbrains.com/pycharm/download/#section=mac) is a common Python IDE. [VS Code](https://code.visualstudio.com/download) is another common editor. Feel free to use a text editor of your choice.
+- A text editor. [VS Code](https://code.visualstudio.com/download) is recommended, but feel free to use a text editor of your choice.
 
 ## **Part 1: Setting up the development environment**
 
