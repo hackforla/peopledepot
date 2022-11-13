@@ -74,6 +74,29 @@ You should now have a new folder in your `hackforla` folder called `peopledepot`
 cd peopledepot
 ```
 
+#### **1.4.b Clone repo (2): Verify `origin` remote url**
+
+Verify that your local cloned repository is pointing to the correct `origin` URL (that is, the forked repo on your own Github account):
+```bash
+git remote -v
+```
+You should see `fetch` and `push` URLs with links to your forked repository under your account (i.e. `https://github.com/<your_GitHub_user_name>/peopledepot.git`). You are all set to make working changes to the website on your local machine.
+
+However, we still need a way to keep our local repo up to date with the deployed website. To do so, you must add an upstream remote to incorporate changes made while you are working on your local repo. Run the following to add an upstream remote URL & update your local repo with recent changes to the `hackforla` version:
+
+```bash
+git remote add upstream https://github.com/hackforla/peopledepot.git
+git fetch upstream
+```
+
+After adding the upstream remote, you should now see it if you again run `git remote -v` :
+```bash
+origin  https://github.com/<your_GitHub_user_name>/peopledepot.git (fetch)
+origin  https://github.com/<your_GitHub_user_name>/peopledepot.git (push)
+upstream        https://github.com/hackforla/peopledepot.git (fetch)
+upstream        https://github.com/hackforla/peopledepot.git (push)
+```
+
 ### **1.5 Dev setup (5): Set up Docker**
 Install or make sure [docker][docker-install] and [docker-compose][docker-compose-install] are installed on your computer
 ```bash
