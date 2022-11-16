@@ -198,7 +198,7 @@ Once you are done with the work on your issue you will push it to your repositor
 
 **Note:** Remember to run the `precommit-checks.sh` script before each commit until it can be integrated.
 
-#### **i. Prepare repo changes (1): Use the `git add` command to stage your changes.** 
+##### **i. Prepare repo changes (1): Use the `git add` command to stage your changes.** 
 
 **Make sure you are on your issue branch (instead of `main`)**
 
@@ -214,7 +214,7 @@ Run this command if you want to **add all changes to all file(s) to your commit 
 git add .
 ```
 
-#### **ii. Prepare repo changes (2): Use the `git status` command to see what files are staged.**
+##### **ii. Prepare repo changes (2): Use the `git status` command to see what files are staged.**
 
 This command will list the files that have been staged with green text. These are the files that will be committed (saved) when you run the next command, `git commit`. Please be sure all your staged changes are relevant to the issue you are working on. If you accidentally included unrelated changes, please unstage them before making this commit, and then make a new commit for the unrelated changes. (The commands for unstaging commits are provided in the output of your `git status` command.)
       
