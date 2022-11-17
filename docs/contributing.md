@@ -116,7 +116,8 @@ More on using Docker and the concepts of containerization:
 
 ### **1.6 Dev setup (6): Build and run the project locally with the script**
 
-**IMPORTANT:** Please make sure the `Docker Desktop` application is **running on your computer** before you run the bash commands below.
+**IMPORTANT:** Please make sure the `Docker Desktop` application is **running on your computer** before you run the bash commands below. Running `docker container ls` should list the peopledepot-web `image`, e.g.:
+   <img width="1698" alt="docker_ls_screenshot" src="https://user-images.githubusercontent.com/52610573/202492098-dd030a3b-12e5-4ccd-9d3e-65c13adaf953.png">
 
 1. Create an .env.dev file from .env.dev-sample
 
