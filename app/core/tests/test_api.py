@@ -12,7 +12,7 @@ RECURRING_EVENTS_URL = reverse("recurring-event-list")
 FAQS_URL = reverse("faq-list")
 FAQS_VIEWED_URL = reverse("faq_viewed-list")
 SPONSOR_PARTNERS_URL = reverse("sponsor-partner-list")
-FAQS_VIEWED_URL = reverse("faq_viewed-list")
+SPONSOR_PARTNERS_URL = reverse("sponsor-partner-list")
 
 CREATE_USER_PAYLOAD = {
     "username": "TestUserAPI",
@@ -155,8 +155,21 @@ def test_create_faq(auth_client):
         "answer": "See CONTRIBUTING.md",
         "tool_tip_name": "How to work on an issue",
     }
-
     res = auth_client.post(FAQS_URL, payload)
+    assert res.status_code == status.HTTP_201_CREATED
+    assert res.data["question"] == payload["question"]
+
+
+def test_create_sponsor_partner(auth_client):
+
+    payload = {
+        "partner_name": "Test Partner",
+        "partner_logo": "http://www.logourl.com",
+        "is_active": True,
+        "url": "http://www.testurl.org",
+        "is_sponsor": True,
+    }
+    res = auth_client.post(SPONSOR_PARTNERS_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
     assert res.data["question"] == payload["question"]
 
