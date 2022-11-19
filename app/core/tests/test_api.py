@@ -31,6 +31,7 @@ def users_url():
 def user_url(user):
     return reverse("user-detail", args=[user.uuid])
 
+
 def create_user(django_user_model, **params):
     return django_user_model.objects.create_user(**params)
 

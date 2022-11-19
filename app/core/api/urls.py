@@ -13,6 +13,7 @@ router = routers.SimpleRouter()
 router.register(r"users", UserViewSet, basename="user")
 router.register(r"projects", ProjectViewSet, basename="project")
 router.register(r"recurring-events", RecurringEventViewSet, basename="recurring-event")
+router.register(r"sponsor-partners", SponsorPartnerViewSet, basename="sponsor-partner")
 router.register(r"faqs", FaqViewSet, basename="faq")
 router.register(r"faqs_viewed", Faq_viewedViewSet, basename="faq_viewed")
 
