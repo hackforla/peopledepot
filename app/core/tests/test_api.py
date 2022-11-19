@@ -172,7 +172,6 @@ def test_create_sponsor_partner(auth_client):
     }
     res = auth_client.post(SPONSOR_PARTNERS_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
-    assert res.data["question"] == payload["question"]
 
 
 def test_list_faqs_viewed(auth_client, faq_viewed):

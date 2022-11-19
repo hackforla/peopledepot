@@ -14,8 +14,8 @@ from ..models import Faq_viewed
 from ..models import Project
 from ..models import RecurringEvent
 from ..models import SponsorPartner
-from .serializers import FaqSerializer
 from .serializers import Faq_viewedSerializer
+from .serializers import FaqSerializer
 from .serializers import ProjectSerializer
 from .serializers import RecurringEventSerializer
 from .serializers import SponsorPartnerSerializer
