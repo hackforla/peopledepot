@@ -2,7 +2,7 @@
 
 # PeopleDepot
 
-PeopleDepot is a project of Hack for LA, a brigade of Code for America. PeopleDepot provides backend infrastructure to provide a single source of truth on people, program areas, and project data for all Hack for LA projects. PeopleDepot uses a Django database and Django REST Framework that acts as a repository of information for other infrastructure projects (e.g., VRMS, Hack for LA, Civic Tech Index, Tables). 
+PeopleDepot is a project of Hack for LA, a brigade of Code for America. PeopleDepot provides backend infrastructure to provide a single source of truth on people, program areas, and project data for all Hack for LA projects. PeopleDepot uses a Django database and Django REST Framework that acts as a repository of information for other infrastructure projects (e.g., VRMS, Hack for LA, Civic Tech Index, Tables).
 
 ## Project context
 

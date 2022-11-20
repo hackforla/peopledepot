@@ -1,8 +1,8 @@
 # How to Contribute to PeopleDepot
 
-Thank you for volunteering your time! The following is a set of guidelines for contributing to the peopledepot repository, which is hosted on GitHub. 
+Thank you for volunteering your time! The following is a set of guidelines for contributing to the peopledepot repository, which is hosted on GitHub.
 
-**Please make sure you have completed the onboarding process which includes joining the Hack for LA Slack, GitHub, and Google Drive. If you have not been onboarded, see the [Getting Started Page](https://www.hackforla.org/getting-started).** _Workshop attendees are granted a temporary exception from this requirement._ 
+**Please make sure you have completed the onboarding process which includes joining the Hack for LA Slack, GitHub, and Google Drive. If you have not been onboarded, see the [Getting Started Page](https://www.hackforla.org/getting-started).** _Workshop attendees are granted a temporary exception from this requirement._
 
 You will need the following to get started:
 
@@ -22,9 +22,9 @@ In the `hfla-site` Slack channel, send an introductory message with your GitHub 
 
 ### **1.2 Dev setup (2): Installing Git**
 
-Before cloning your forked repository to your local machine, you must have Git installed. You can find instructions for installing Git for your operating system [**here**](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git). 
+Before cloning your forked repository to your local machine, you must have Git installed. You can find instructions for installing Git for your operating system [**here**](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
 
-For Windows, you may want to [install a Windows Subsystem for Linux (WSL)](https://code.visualstudio.com/docs/remote/wsl) and then install Git from WSL. 
+For Windows, you may want to [install a Windows Subsystem for Linux (WSL)](https://code.visualstudio.com/docs/remote/wsl) and then install Git from WSL.
 
 Please note that if you have a Mac the page offers several options (see other option, if you need to conserve hard drive space) including:
 
@@ -169,9 +169,9 @@ docker-compose down -v
 ### **2.2 Working on an issue**
 
 #### **2.2.a Working on an issue(1): Verifying current branch**
-Once you have selected an issue to work on, create a branch for that issue. 
+Once you have selected an issue to work on, create a branch for that issue.
 
-Verify you are on the `main` branch. 
+Verify you are on the `main` branch.
 
 ```bash
 git branch
@@ -193,24 +193,24 @@ git checkout -b <new-branch-name>-15
 
 #### **2.2.b Working on an issue(2): Prepare your changes to push to your repository**
 
-Once you are done with the work on your issue you will push it to your repository.  Before you can push your work to your repository, you will stage and commit your changes.  These two commands are similar to the save command used in other programs. 
+Once you are done with the work on your issue you will push it to your repository.  Before you can push your work to your repository, you will stage and commit your changes.  These two commands are similar to the save command used in other programs.
 
 **Note:** If you are using Visual studios code you can use the Git graphical user interface to stage your changes. For instructions check out the [Git Gui Wiki](https://github.com/hackforla/website/wiki/Using-Git-GUI-(Graphical-user-Interface)-in-Visual-Studios-Code).
 
 **Note:** Remember to run the `precommit-checks.sh` script before each commit until it can be integrated.
 
-##### **i. Prepare repo changes (1): Use the `git add` command to stage your changes.** 
+##### **i. Prepare repo changes (1): Use the `git add` command to stage your changes.**
 
 **Make sure you are on your issue branch (instead of `main`)**
 
-This command prepares your changes before you commit them. You can stage files one at a time using the filename. 
+This command prepares your changes before you commit them. You can stage files one at a time using the filename.
 
-Run this command if you want to **add changes from a specific file to your commit record**: 
+Run this command if you want to **add changes from a specific file to your commit record**:
 ```bash
 git add “filename.ext”
 ```
 
-Run this command if you want to **add all changes to all file(s) to your commit record**: 
+Run this command if you want to **add all changes to all file(s) to your commit record**:
 ```bash
 git add .
 ```
@@ -218,7 +218,7 @@ git add .
 ##### **ii. Prepare repo changes (2): Use the `git status` command to see what files are staged.**
 
 This command will list the files that have been staged with green text. These are the files that will be committed (saved) when you run the next command, `git commit`. Please be sure all your staged changes are relevant to the issue you are working on. If you accidentally included unrelated changes, please unstage them before making this commit, and then make a new commit for the unrelated changes. (The commands for unstaging commits are provided in the output of your `git status` command.)
-      
+
 ```bash
 git status
 ```
@@ -228,7 +228,7 @@ git status
 This command will remove a file that has been staged.  This file will not be committed (saved) when you run the next command, `git commit`. This only works if the wrong files were added, but they were not yet committed. The file will be removed from the staging area, but not actually deleted:
 
 ```bash
-git reset HEAD “filename.ext” 
+git reset HEAD “filename.ext”
 ```
 ##### **iv. Prepare repos changes (4): Use the `git commit` command**
 
@@ -310,9 +310,9 @@ One way to keep your fork up to date with this repository is to follow these ins
 
 You can also update your fork via the local clone of your fork, using these instructions. Assuming you have a local clone with remotes `upstream` (this repo) and `origin` (your GitHub fork of this repo):
 
-* First, you will need to create a local branch which tracks upstream/main.  You will only need to do this once; you do not need to do this every time you want to incorporate upstream changes. 
+* First, you will need to create a local branch which tracks upstream/main.  You will only need to do this once; you do not need to do this every time you want to incorporate upstream changes.
 
-Run the following two commands: 
+Run the following two commands:
 
 ```bash
 git fetch upstream
@@ -322,10 +322,10 @@ git checkout -b upstream-main --track upstream/main
 If you have already created the branch upstream-main, the following commands will incorporate upstream changes:
 
 ```bash
-git checkout upstream-main # Move to the branch you want to merge with. 
+git checkout upstream-main # Move to the branch you want to merge with.
 git pull  # This updates your tracking branch to match the main branch in this repository
 git checkout main  # Move back to your main branch
-git merge upstream-main  # Merge to bring your main current. 
+git merge upstream-main  # Merge to bring your main current.
 ```
 
 If you do all your work on topic branches (as suggested above) and keep main free of local modifications, this merge should apply cleanly.
@@ -348,7 +348,7 @@ To create a new issue, please use the blank issue template (available when you c
 
 #### **3.1.a Push all changes to your issue branch**
 
-Once you are satisfied with your changes, push them to the feature branch you made within your remote repository. 
+Once you are satisfied with your changes, push them to the feature branch you made within your remote repository.
 
 ```bash
 git push --set-upstream origin <name-of-branch>
@@ -365,7 +365,7 @@ fixes #<issue-number>
 ```
 4. Below this, add a brief description of the changes you made
 5. Click the green "Create pull request" button
-6. Add the PR to the project board 
+6. Add the PR to the project board
 
 ## Testing
 
