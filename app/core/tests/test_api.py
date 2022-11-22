@@ -149,18 +149,6 @@ def test_user_actions(client_name, action, endpoint, payload, expected_status, r
     assert res.status_code == expected_status
 
 
-def test_create_faq(auth_client):
-
-    payload = {
-        "question": "How do I work on an issue",
-        "answer": "See CONTRIBUTING.md",
-        "tool_tip_name": "How to work on an issue",
-    }
-    res = auth_client.post(FAQS_URL, payload)
-    assert res.status_code == status.HTTP_201_CREATED
-    assert res.data["question"] == payload["question"]
-
-
 def test_create_sponsor_partner(auth_client):
 
     payload = {
@@ -172,6 +160,18 @@ def test_create_sponsor_partner(auth_client):
     }
     res = auth_client.post(SPONSOR_PARTNERS_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
+
+
+def test_create_faq(auth_client):
+
+    payload = {
+        "question": "How do I work on an issue",
+        "answer": "See CONTRIBUTING.md",
+        "tool_tip_name": "How to work on an issue",
+    }
+    res = auth_client.post(FAQS_URL, payload)
+    assert res.status_code == status.HTTP_201_CREATED
+    assert res.data["question"] == payload["question"]
 
 
 def test_list_faqs_viewed(auth_client, faq_viewed):

@@ -149,3 +149,4 @@ class Faq_viewedSerializer(serializers.ModelSerializer):
         )
         # should faq be read only and should read be editable?
         read_only_fields = ("uuid", "read")
+        
