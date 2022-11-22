@@ -369,11 +369,13 @@ fixes #<issue-number>
 
 ## Testing
 
-1. Run all tests from the project root
+To run all tests, run the following command from the project root:
 
     ```bash
     ./scripts/test.sh
     ```
+
+Note: This test script is also run automatically when the `./scripts/pre-commit-check.sh`is command is run.
 
 ## Linting and autoformatting
 
