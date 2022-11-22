@@ -223,9 +223,9 @@ This command will list the files that have been staged with green text. These ar
 git status
 ```
 
-##### **iii. Prepare repo changes (3): Use the `git reset HEAD` command to remove a staged file.**
+##### **iii. Prepare repo changes (3): Use the `git reset HEAD <filename>` command to remove a staged file.**
 
-This command will remove a file that has been staged.  This file will not be committed (saved) when you run the next command, `git commit`. This only works if the wrong files were added, but they were not yet committed. The file will be removed from the staging area, but not actually deleted:
+This command will unstage a file that you don't want included in the commit.  The specified file will not be committed (saved) when you run the next command, `git commit`. This only works if the wrong files were added, but they were not yet committed. (See [this tutorial](https://www.atlassian.com/git/tutorials/resetting-checking-out-and-reverting) for an in-depth discussion.) The file will be removed from the staging area, but not actually deleted:
 
 ```bash
 git reset HEAD “filename.ext”
