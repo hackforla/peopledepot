@@ -375,19 +375,20 @@ To run all tests, run the following command from the project root:
     ./scripts/test.sh
     ```
 
-Note: This test script is also run automatically when the `./scripts/pre-commit-check.sh`is command is run.
+Note: This test script is also run automatically when the `./scripts/pre-commit-check.sh` command is run.
 
 ## Linting and autoformatting
 
 We're using the popular [flake8][flake8-docs] and [black][black-docs] for linting and code formatting. We're also using [isort][isort-docs] to organize import statements.
 
-To run them, use the `lint.sh` convenience script or look inside the script to see how to run them individually.
+Look inside the script to see how to run them individually or run the following command from the project root for linting and code formatting:
 
-1. Run the lint script from the project root
 
     ```bash
     ./scripts/lint.sh
     ```
+
+Note: This script is also run automatically when the `./scripts/pre-commit-check.sh` command is run.
 
 ### ~~Pre-commit checks~~ (Replaced by the pre-commit hooks below. DELETE AFTER THE TEAM IS OK WITH THE HOOKS)
 
