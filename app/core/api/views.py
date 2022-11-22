@@ -199,8 +199,6 @@ class FaqViewSet(viewsets.ModelViewSet):
     update=extend_schema(description="Update the given Faq_viewed"),
     partial_update=extend_schema(description="Partially update the given Faq_viewed"),
 )
-class Faq_viewedViewSet(viewsets.ModelViewSet):
+class Faq_viewedViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
     queryset = Faq_viewed.objects.all()
     serializer_class = Faq_viewedSerializer
-    # use permission_classes until get_permissions fn provides sufficient limits to access >>
-    permission_classes = [IsAuthenticated]
