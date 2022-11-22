@@ -4,6 +4,7 @@ from drf_spectacular.utils import OpenApiExample
 from drf_spectacular.utils import OpenApiParameter
 from drf_spectacular.utils import extend_schema
 from drf_spectacular.utils import extend_schema_view
+from rest_framework import mixins
 from rest_framework import viewsets
 from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import RetrieveModelMixin
@@ -173,32 +174,10 @@ class FaqViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
 
-@extend_schema_view(
-    list=extend_schema(
-        summary="Faqs_viewed List",
-        description="Return a list of all FAQs viewed with read timestamps",
-        parameters=[
-            OpenApiParameter(
-                name="question",
-                type=str,
-                description="Filter by question",
-                examples=[
-                    OpenApiExample(
-                        "Example 1",
-                        summary="Demo FAQ",
-                        description="get demo FAQ viewed",
-                        value="How do I work on an issue?",
-                    ),
-                ],
-            ),
-        ],
-    ),
-    create=extend_schema(description="Create a new read timestamp for the related FAQ"),
-    retrieve=extend_schema(description="Return all FAQs with read time stamps"),
-    destroy=extend_schema(description="Delete the given Faq_viewed"),
-    update=extend_schema(description="Update the given Faq_viewed"),
-    partial_update=extend_schema(description="Partially update the given Faq_viewed"),
-)
-class Faq_viewedViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
+@extend_schema_view(list=extend_schema(description="Return a list of all FAQs viewed"))
+class Faq_viewedViewSet(
+    mixins.CreateModelMixin, viewsets.ReadOnlyModelViewSet, viewsets.GenericViewSet
+):
     queryset = Faq_viewed.objects.all()
     serializer_class = Faq_viewedSerializer
+    permission_classes = [IsAuthenticated]
