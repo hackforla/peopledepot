@@ -6,7 +6,7 @@ PeopleDepot is a project of Hack for LA, a brigade of Code for America. PeopleDe
 
 ## Project context
 
-The hardest part about running a large organization using only free or open source tools and technologies is how to manage the flow of information to all the people and projects that need it. Managing multiple databases inefficiently can end up taking more time than the projects themselves. This project seeks to create a maintainable  database infrastructure that is synchronized. 
+The hardest part about running a large organization using only free or open source tools and technologies is how to manage the flow of information to all the people and projects that need it. Managing multiple databases inefficiently can end up taking more time than the projects themselves. This project seeks to create a maintainable database infrastructure that is synchronized. 
 
 In the process, it should allow for further automation and do away with manual storage of duplicate information across projects, which includes:
 - Recruiting members (Website: Project info and meeting times)
