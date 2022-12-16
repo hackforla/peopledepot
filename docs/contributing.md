@@ -161,7 +161,7 @@ docker-compose down -v
 
 ### **2.1 Finding an issue to work on**
 
-1. Find an issue in Prioritized Backlog [here](https://github.com/hackforla/peopledepot/projects/1#column-16900748)
+1. Find an issue in Prioritized Backlog [here](https://github.com/hackforla/peopledepot/projects/1)
 2. Assign the issue to yourself and move it to "In progress" column.
 3. Follow the steps in the issue description to complete the issue.
 4. Make sure to comment your ETA and Availability when you first assign yourself.
