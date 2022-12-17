@@ -194,17 +194,15 @@ docker-compose down -v
 
 ## 3.1 Find an issue
 
-1. Find an issue in Prioritized Backlog [here](https://github.com/hackforla/peopledepot/projects/1)
+Find an issue in Prioritized Backlog [here](https://github.com/hackforla/peopledepot/projects/1#column-16900748)
 
 If you joined the peopledepot repository as described in a previous section:
 
-2. Assign the issue to yourself and move it to "In progress" column.
-3. Follow the steps in the issue description to complete the issue.
-4. Make sure to comment your ETA and Availability when you first assign yourself.
+  1. Assign the issue to yourself and move it to "In progress" column.
+  2. Follow the steps in the issue description to complete the issue.
+  3. Make sure to comment your ETA and Availability when you first assign yourself.
 
-If you don't have privileges:
-
-1. Add a comment that you are working on the issue.
+If you don't have privileges, add a comment that you are working on the issue.
 
 ## 3.2 Create a new branch
 
