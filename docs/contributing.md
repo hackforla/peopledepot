@@ -1,8 +1,10 @@
+# Overview
+
 Thank you for volunteering your time! The following is a set of guidelines for contributing to the peopledepot repository, which is hosted on GitHub.
 
 **Please make sure you have completed the onboarding process which includes joining the Hack for LA Slack, GitHub, and Google Drive. If you have not been onboarded, see the [Getting Started Page](https://www.hackforla.org/getting-started).** _Workshop attendees are granted a temporary exception from this requirement._
 
-# 1. Join the Repository Team and Google Docs
+# 1. Joining Repository Team
 
 This step is optional if this is your first time fixing an issue and you want to try fixing an issue without this step.
 
@@ -12,19 +14,19 @@ In the `hfla-site` Slack channel, send an introductory message with your GitHub 
 
 Make your own Hack for LA GitHub organization membership public by following this [guide](https://help.github.com/en/articles/publicizing-or-hiding-organization-membership#changing-the-visibility-of-your-organization-membership).
 
-# 2. Setting Up the Development Environment
+# 2. Setting Up Development Environment
 
 ## 2.1 Pre-requisites
 
-### 2.1.1 Github Account
+### 2.1.1 GitHub account
 
 See [here](https://docs.github.com/en/get-started/signing-up-for-github/signing-up-for-a-new-github-account#signing-up-for-a-new-account) for creating a GitHub account. If you are not familiar with Git, [this tutorial](https://docs.github.com/en/get-started/quickstart/hello-world) is recommended.
 
-#### 2.1.2 Two Factor Authentication
+#### 2.1.2 Two factor authentication
 
 Set up two-factor authentication on your account by following this [guide](https://docs.github.com/en/github/authenticating-to-github/configuring-two-factor-authentication).
 
-### 2.1.3 Text Editor
+### 2.1.3 Text editor
 
 [VS Code](https://code.visualstudio.com/download) is recommended, but feel free to use a text editor of your choice.
 
@@ -55,7 +57,7 @@ More on using Docker and the concepts of containerization:
 
 - [Get started with Docker](https://docs.docker.com/get-started/)
 
-## 2.2 Fork the Repository
+## 2.2 Fork the repository
 
 You can fork the hackforla/peopledepot repository by clicking <a href="https://github.com/hackforla/peopledepot/fork"> <button> <img src="https://user-images.githubusercontent.com/17777237/54873012-40fa5b00-4dd6-11e9-98e0-cc436426c720.png" width="8px"> Fork</button></a>
 . A fork is a copy of the repository that will be placed on your GitHub account.
@@ -66,7 +68,7 @@ You can fork the hackforla/peopledepot repository by clicking <a href="https://g
 
 **Be Aware:** What you have created is a forked copy in a remote version on GitHub. It is not yet on your local machine yet.
 
-## 2.2.1 Clone a Copy on Your Computer
+## 2.2.1 Clone a copy on your computer
 
 The following steps will clone (create) a local copy of the forked repository on your computer.
 
@@ -102,7 +104,7 @@ You should now have a new folder in your `hackforla` folder called `peopledepot`
 cd peopledepot
 ```
 
-## 2.2.2 Verify and Setup Remote References
+## 2.2.2 Verify and setup remote references
 
 Verify that your local cloned repository is pointing to the correct `origin` URL (that is, the forked repo on your own Github account):
 
@@ -143,7 +145,7 @@ More on using Docker and the concepts of containerization:
 
 - [Get started with Docker](https://docs.docker.com/get-started/)
 
-## 2.4 Build and Run Using Docker Locally
+## 2.4 Build and run using Docker locally
 
 **IMPORTANT:** Please make sure the `Docker Desktop` application is **running on your computer** before you run the bash commands below. Running `docker container ls` should list the peopledepot-web `image`, e.g.:
 <img width="1698" alt="docker_ls_screenshot" src="https://user-images.githubusercontent.com/52610573/202492098-dd030a3b-12e5-4ccd-9d3e-65c13adaf953.png">
@@ -188,9 +190,9 @@ Add the `-v` flag to destroy the data volumes as well:
 docker-compose down -v
 ```
 
-# 3. Working on an Issue
+# 3. Fixing Issues
 
-## 3.1 Find an Issue
+## 3.1 Find an issue
 
 1. Find an issue in Prioritized Backlog [here](https://github.com/hackforla/peopledepot/projects/1)
 
@@ -204,7 +206,7 @@ If you don't have privileges:
 
 1. Add a comment that you are working on the issue.
 
-## 3.2 Create New Branch
+## 3.2 Create a new branch
 
 Once you have selected an issue to work on, create a branch for that issue.
 
@@ -234,11 +236,11 @@ Create a new branch where you will work on the issue. The branch name should inc
 git checkout -b <new-branch-name>-15
 ```
 
-## 3.3 Make Changes
+## 3.3 Make changes
 
 Make changes to fix the issue.
 
-## 3.4 Pull to Get Most Recent Code
+## 3.4 Pull to get the most recent code
 
 You can probably skip this if you fix the issue on the same day that you pulled the code.
 
@@ -248,7 +250,7 @@ git pull
 
 **Note:** If you are using Visual studios code you can use the Git graphical user interface to stage your changes. For instructions check out the [Git Gui Wiki](<https://github.com/hackforla/website/wiki/Using-Git-GUI-(Graphical-user-Interface)-in-Visual-Studios-Code>).
 
-## 3.5 Add Changed Files to Staging
+## 3.5 Add changed files to staging
 
 **Make sure you are on your issue branch (instead of `main`)**
 
@@ -270,7 +272,7 @@ Run this command if you want to **add all changes to all file(s) to your commit 
 git add .
 ```
 
-## 3.6 Check git status
+## 3.6 Check Git Status
 
 This command will list the files that have been staged with green text. These are the files that will be committed (saved) when you run the next command, `git commit`. Please be sure all your staged changes are relevant to the issue you are working on. If you accidentally included unrelated changes, please unstage them before making this commit, and then make a new commit for the unrelated changes. (The commands for unstaging commits are provided in the output of your `git status` command.)
 
@@ -278,7 +280,7 @@ This command will list the files that have been staged with green text. These ar
 git status
 ```
 
-## 3.7 Remove Files that you don't want Staged
+## 3.7 Remove Files That You Don't Want Staged
 
 This command will unstage a file that you don't want included in the commit. The specified file will not be committed (saved) when you run the next command, `git commit`. This only works if the wrong files were added, but they were not yet committed. (See [this tutorial](https://www.atlassian.com/git/tutorials/resetting-checking-out-and-reverting) for an in-depth discussion.) The file will be removed from the staging area, but not actually deleted:
 
@@ -286,7 +288,7 @@ This command will unstage a file that you don't want included in the commit. The
 git reset HEAD “filename.ext”
 ```
 
-## 3.8 Run pre-commit Checks
+## 3.8 Run Pre-Commit Checks
 
 **Important: before committing each file, make sure to run the pre-commit hook:\***
 
@@ -294,7 +296,7 @@ git reset HEAD “filename.ext”
 ./scripts/precommit-check.sh
 ```
 
-## 3.9 Commit Staged Changes
+## 3.9 Commit staged changes
 
 This command saves your work, and prepares it to push to your repository. Use the `-m` flag to quickly add a message to your commit. Your message should be a short description of the changes you made. It will be extremely helpful if other people can understand your message, so try to resist the temptation to be overly cryptic.
 
@@ -317,7 +319,7 @@ You can also sync your fork directly on GitHub by clicking "Sync Fork" at the ri
   <img src="https://docs.github.com/assets/cb-49937/images/help/repository/update-branch-button.png" />
 </details>
 
-## 3.10 Push to Upstream (aka, your fork)
+## 3.10 Push to upstream (aka, your fork)
 
 Push your local branch to your remote repository:
 
@@ -331,9 +333,9 @@ Alternatively, you can run
 git push
 ```
 
-## 3.11 Creating Pull Requests
+## 3.11 Create a pull request
 
-### 3.11.1 Push All Changes in your Issue Branch
+### 3.11.1 Push all Changes in your issue branch
 
 Once you are satisfied with your changes, push them to the feature branch you made within your remote repository.
 
@@ -341,7 +343,7 @@ Once you are satisfied with your changes, push them to the feature branch you ma
 git push --set-upstream origin <name-of-branch>
 ```
 
-### 3.11.2 Complete pull request from Github
+### 3.11.2 Complete Pull Request from GitHub
 
 1. Click the green button to create a Pull Request (PR)
 2. Add a short title in the subject line
@@ -355,7 +357,7 @@ fixes #<issue-number>
 5. Click the green "Create pull request" button
 6. Add the PR to the project board
 
-# 4. Synch main Changes
+# 4. Synch Main Changes
 
 Your fork of this repository on GitHub, and your local clone of that fork, will get out of sync with the (upstream) repository as others update the repository. (That's what has happened when you see something like "This branch is 1 commit behind peopledepot:main" on the github version of your hackforla repository.)
 
@@ -395,7 +397,7 @@ If you go to your online github repository this should remove the message "This 
 
 To create a new issue, please use the blank issue template (available when you click New Issue). If you want to create an issue for other projects to use, please create the issue in your own repository and send a slack message to one of your hack night hosts with the link.
 
-# 6. Pre-commit hooks
+# 6. Pre-commit Hooks
 
 The pre-commit hook in git is currently a work in progress.
 
@@ -441,7 +443,9 @@ Installing the pre-commit hooks to git
 
 # Appendix
 
-# A. Convenience scripts for sanity checks before committing code (assumes bash env)
+# A. Convenience Scripts for Sanity Checks Before Committing Code
+
+These scripts assume you are using bash.
 
 1. buildrun.sh - clean, build, and run containers in background mode
 1. lint.sh - lint and and auto-format code
@@ -451,7 +455,7 @@ Installing the pre-commit hooks to git
 1. precommit-check.sh - sanity checks before committing code
 1. createsuperuser.sh - creates a default superuser (assumes debian env.)
 
-# B. Submitting Bugs for Third Party npm packages
+# B. Submitting Bugs for Third Party npm Packages
 
 You can go to these links and submit an issue:
 
