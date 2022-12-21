@@ -5,6 +5,7 @@
     "createsuperuser",
     "hackforla",
     "hfla",
+    "isort",
     "octocat",
     "onboarded",
     "peopledepot",
