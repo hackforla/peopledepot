@@ -1,4 +1,4 @@
-# Overview
+# Contributing to People Depot
 
 Thank you for volunteering your time! The following is a set of guidelines for contributing to the peopledepot repository, which is hosted on GitHub.
 
