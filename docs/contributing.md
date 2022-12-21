@@ -453,9 +453,14 @@ These scripts assume you are using bash.
 1. precommit-check.sh - sanity checks before committing code
 1. createsuperuser.sh - creates a default superuser (assumes debian env.)
 
-## B. Submitting bugs for third party npm packages
+## B. Submitting bugs for third party apps / packages
 
 You can go to these links and submit an issue:
+
+- [Docker](https://github.com/docker)
+- [Flake8](https://github.com/pycqa/flake8)
+- [Black](https://github.com/psf/black)
+- [isort](https://github.com/pycqa/isort/)
 
 [docker-install]: https://docs.docker.com/get-docker/
 [docker-compose-install]: https://docs.docker.com/compose/install/
