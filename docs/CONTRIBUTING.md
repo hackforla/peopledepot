@@ -4,7 +4,7 @@ Thank you for volunteering your time! The following is a set of guidelines for c
 
 **Please make sure you have completed the onboarding process which includes joining the Hack for LA Slack, GitHub, and Google Drive. If you have not been onboarded, see the [Getting Started Page](https://www.hackforla.org/getting-started).** _Workshop attendees are granted a temporary exception from this requirement._
 
-## 1. Joining repository team
+## 1. Joining Repository Team
 
 This step is optional if this is your first time fixing an issue and you want to try fixing an issue without this step.
 
@@ -14,7 +14,7 @@ In the `hfla-site` Slack channel, send an introductory message with your GitHub 
 
 Make your own Hack for LA GitHub organization membership public by following this [guide](https://help.github.com/en/articles/publicizing-or-hiding-organization-membership#changing-the-visibility-of-your-organization-membership).
 
-## 2. Setting up development environment
+## 2. Setting Up Development Environment
 
 ### 2.1 Pre-requisites
 
@@ -190,7 +190,7 @@ Add the `-v` flag to destroy the data volumes as well:
 docker-compose down -v
 ```
 
-## 3. Fixing issues
+## 3. Fixing Issues
 
 ### 3.1 Find an issue
 
@@ -355,7 +355,7 @@ fixes #<issue-number>
 5. Click the green "Create pull request" button
 6. Add the PR to the project board
 
-## 4. Synch main changes
+## 4. Synch Main Changes
 
 Your fork of this repository on GitHub, and your local clone of that fork, will get out of sync with the (upstream) repository as others update the repository. (That's what has happened when you see something like "This branch is 1 commit behind peopledepot:main" on your forked repository.)
 
@@ -391,11 +391,11 @@ git push
 
 If you go to your online GitHub repository this should remove the message "This branch is x commit behind peopledepot:main".
 
-## 5. Creating issues
+## 5. Creating Issues
 
 To create a new issue, please use the blank issue template (available when you click New Issue). If you want to create an issue for other projects to use, please create the issue in your own repository and send a slack message to one of your hack night hosts with the link.
 
-## 6. Pre-commit hooks
+## 6. Pre-commit Hooks
 
 The pre-commit hook in git is currently a work in progress.
 
@@ -441,9 +441,9 @@ Installing the pre-commit hooks to git
 
 # Appendix
 
-## A. Convenience scripts for sanity checks before committing code
+## A. Convenience Scripts
 
-These scripts assume you are using bash.
+These scripts assume you are using bash. 
 
 1. buildrun.sh - clean, build, and run containers in background mode
 1. lint.sh - lint and and auto-format code
@@ -453,7 +453,7 @@ These scripts assume you are using bash.
 1. precommit-check.sh - sanity checks before committing code
 1. createsuperuser.sh - creates a default superuser (assumes debian env.)
 
-## B. Submitting bugs for third party apps / packages
+## B. Submitting Bugs for Third Party Packages / Apps
 
 You can go to these links and submit an issue:
 
