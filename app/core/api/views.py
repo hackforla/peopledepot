@@ -174,7 +174,11 @@ class FaqViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
 
-@extend_schema_view(list=extend_schema(description="Return a list of all FAQs viewed"))
+@extend_schema_view(
+    list=extend_schema(description="Return a list of all FAQs viewed"),
+    create=extend_schema(description="Create a new FAQ viewed"),
+    retrieve=extend_schema(description="Return the given FAQ viewed"),
+)
 class FaqViewedViewSet(
     mixins.CreateModelMixin, viewsets.ReadOnlyModelViewSet, viewsets.GenericViewSet
 ):
