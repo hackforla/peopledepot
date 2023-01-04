@@ -144,8 +144,4 @@ class Faq(admin.ModelAdmin):
 
 @admin.register(FaqViewed)
 class FaqViewed(admin.ModelAdmin):
-    list_display = (
-        "faq",
-        "read",
-    )
-    list_filter = ("read", "faq__question")
+    list_display = ("faq",)
