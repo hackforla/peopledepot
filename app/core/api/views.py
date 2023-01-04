@@ -179,9 +179,7 @@ class FaqViewSet(viewsets.ModelViewSet):
     create=extend_schema(description="Create a new FAQ viewed"),
     retrieve=extend_schema(description="Return the given FAQ viewed"),
 )
-class FaqViewedViewSet(
-    mixins.CreateModelMixin, viewsets.ReadOnlyModelViewSet, viewsets.GenericViewSet
-):
+class FaqViewedViewSet(mixins.CreateModelMixin, viewsets.ReadOnlyModelViewSet):
     queryset = FaqViewed.objects.all()
     serializer_class = FaqViewedSerializer
     permission_classes = [IsAuthenticated]
