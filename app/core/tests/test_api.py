@@ -190,10 +190,9 @@ def test_create_faq(auth_client):
     assert res.data["question"] == payload["question"]
 
 
-def test_get_faqs_viewed(auth_client, faq_viewed):
-    payload = {
-        "faq": faq_viewed.faq.pk,
-    }
-    res = auth_client.get(FAQS_VIEWED_URL, payload)
+def test_get_faq_viewed(auth_client, faq_viewed):
+    """test retrieving faq_viewed"""
 
-    assert res.data[0]["faq"] == payload["faq"]
+    res = auth_client.get(FAQS_VIEWED_URL)
+
+    assert res.data[0]["faq"] == faq_viewed.faq.pk
