@@ -10,7 +10,7 @@ ME_URL = reverse("my_profile")
 USERS_URL = reverse("user-list")
 RECURRING_EVENTS_URL = reverse("recurring-event-list")
 FAQS_URL = reverse("faq-list")
-FAQS_VIEWED_URL = reverse("faq_viewed-list")
+FAQS_VIEWED_URL = reverse("faq-viewed-list")
 SPONSOR_PARTNERS_URL = reverse("sponsor-partner-list")
 SPONSOR_PARTNERS_URL = reverse("sponsor-partner-list")
 

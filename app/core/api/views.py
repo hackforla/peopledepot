@@ -11,12 +11,12 @@ from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.permissions import IsAuthenticated
 
 from ..models import Faq
-from ..models import Faq_viewed
+from ..models import FaqViewed
 from ..models import Project
 from ..models import RecurringEvent
 from ..models import SponsorPartner
-from .serializers import Faq_viewedSerializer
 from .serializers import FaqSerializer
+from .serializers import FaqViewedSerializer
 from .serializers import ProjectSerializer
 from .serializers import RecurringEventSerializer
 from .serializers import SponsorPartnerSerializer
@@ -175,9 +175,9 @@ class FaqViewSet(viewsets.ModelViewSet):
 
 
 @extend_schema_view(list=extend_schema(description="Return a list of all FAQs viewed"))
-class Faq_viewedViewSet(
+class FaqViewedViewSet(
     mixins.CreateModelMixin, viewsets.ReadOnlyModelViewSet, viewsets.GenericViewSet
 ):
-    queryset = Faq_viewed.objects.all()
-    serializer_class = Faq_viewedSerializer
+    queryset = FaqViewed.objects.all()
+    serializer_class = FaqViewedSerializer
     permission_classes = [IsAuthenticated]

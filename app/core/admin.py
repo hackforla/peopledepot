@@ -6,7 +6,7 @@ from django.contrib.auth.forms import UsernameField
 from django.utils.translation import gettext_lazy as _
 
 from .models import Faq
-from .models import Faq_viewed
+from .models import FaqViewed
 from .models import Project
 from .models import RecurringEvent
 from .models import SponsorPartner
@@ -142,8 +142,8 @@ class Faq(admin.ModelAdmin):
     )
 
 
-@admin.register(Faq_viewed)
-class Faq_viewed(admin.ModelAdmin):
+@admin.register(FaqViewed)
+class FaqViewed(admin.ModelAdmin):
     list_display = (
         "faq",
         "read",

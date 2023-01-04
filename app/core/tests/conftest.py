@@ -2,7 +2,7 @@ import pytest
 from rest_framework.test import APIClient
 
 from ..models import Faq
-from ..models import Faq_viewed
+from ..models import FaqViewed
 from ..models import Project
 from ..models import RecurringEvent
 from ..models import SponsorPartner
@@ -81,4 +81,4 @@ def faq():
 
 @pytest.fixture
 def faq_viewed(faq):
-    return Faq_viewed.objects.create(faq=faq)
+    return FaqViewed.objects.create(faq=faq)
