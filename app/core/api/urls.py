@@ -2,7 +2,7 @@ from django.urls import path
 from rest_framework import routers
 
 from .views import FaqViewSet
-from .views import Faq_viewedViewSet
+from .views import FaqViewedViewSet
 from .views import ProjectViewSet
 from .views import RecurringEventViewSet
 from .views import SponsorPartnerViewSet
@@ -15,7 +15,7 @@ router.register(r"projects", ProjectViewSet, basename="project")
 router.register(r"recurring-events", RecurringEventViewSet, basename="recurring-event")
 router.register(r"sponsor-partners", SponsorPartnerViewSet, basename="sponsor-partner")
 router.register(r"faqs", FaqViewSet, basename="faq")
-router.register(r"faqs_viewed", Faq_viewedViewSet, basename="faq_viewed")
+router.register(r"faqs-viewed", FaqViewedViewSet, basename="faq-viewed")
 
 urlpatterns = [
     path("me/", UserProfileAPIView.as_view(), name="my_profile"),
