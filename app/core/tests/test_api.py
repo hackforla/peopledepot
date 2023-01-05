@@ -147,6 +147,22 @@ def test_user_actions(client_name, action, endpoint, payload, expected_status, r
     assert res.status_code == expected_status
 
 
+def test_create_recurring_event(auth_client, project):
+    """Test that we can create a recurring event"""
+
+    payload = {
+        "name": "Test Weekly team meeting",
+        "start_time": "18:00:00",
+        "duration_in_min": 60,
+        "video_conference_url": "https://zoom.com/link",
+        "additional_info": "Test description",
+        "project": project.uuid,
+    }
+    res = auth_client.post(RECURRING_EVENTS_URL, payload)
+    assert res.status_code == status.HTTP_201_CREATED
+    assert res.data["name"] == payload["name"]
+
+
 def test_create_sponsor_partner(auth_client):
 
     payload = {
