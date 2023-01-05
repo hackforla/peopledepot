@@ -1,10 +1,28 @@
 # Add new model and API endpoints
 
-This guide aims to enable python developers with little or no django experience to be able to add django models and API endpoints to the project.
+This guide aims to enable developers with little or no django experience to add django models and API endpoints to the project. Most code examples are followed by detailed explanations.
 
-First, we identify an issue to work on from the [Onboarding page](https://github.com/hackforla/peopledepot/wiki/Developer-Onboarding). Let's say we want to work on the [recurring_event issue](https://github.com/hackforla/peopledepot/issues/14). Then, we follow the this guide.
+The developer will have exposure to the following in this document:
 
-## Add the model in django
+- python
+- django
+- django rest framework
+- relational database through the Django ORM (object-relational mapper)
+- data types
+- object-oriented concepts (object, inheritance, composition)
+- unit testing
+- API design
+- command line
+
+This guide assumes the developer has followed the [contributing doc](https://github.com/hackforla/peopledepot/blob/main/docs/CONTRIBUTING.md#310-push-to-upstream-origin-aka-your-fork) up to section 3.2 and have created a local branch to work on this. The development server would be already running in the background and will automatically apply the changes when we save the files.
+
+We will choose the [recurring_event issue](https://github.com/hackforla/peopledepot/issues/14) as an example. Our goal is to create a database table and an API that a client can use to work with the data. The work is split into 3 testable components: the model, the admin site, and the API
+
+Let's start!
+
+## The model
+
+### Add the model in django
 
 ```python
 class RecurringEvent(AbstractBaseModel):
@@ -41,7 +59,7 @@ class RecurringEvent(AbstractBaseModel):
    1. `CharField` has a `max_length`, which makes it useful for finite length text data. We're going default to giving them `max_length=255` unless there's a better value like `max_length=2` for state abbreviation.
    1. `TextField` doesn't have a maximum length, which makes it ideal for large text fields such as `description`.
 1. Try to add the relationships to non-existent models, but comment them out. Another developer will complete them when they go to implement those models. See [relationships guide](model-relationships.md) for explanations of how to define relationships.
-1. Always define the `__str__` function. It lets us do a quick test of the model by calling `str([model])`. It's also useful for the admin site model list view.
+1. Always override the `__str__` function to output something more meaningful than the default. It lets us do a quick test of the model by calling `str([model])`. It's also useful for the admin site model list view.
 
 ### Run migrations to generate database migration files
 
@@ -51,7 +69,7 @@ class RecurringEvent(AbstractBaseModel):
 
 ### Write a simple test
 
-Since we defined the `__str__` function, we need to write a test for it.
+Since we overrode the `__str__` function, we need to write a test for it.
 
 1. Add a fixture for the model
 
@@ -65,13 +83,15 @@ Since we defined the `__str__` function, we need to write a test for it.
 
    [link to code](https://github.com/hackforla/peopledepot/blob/aad76446fc9ce3942d4f6290322ca1f73279703e/app/core/tests/conftest.py#L43-L45)
 
-   1. We name the fixture after the model name.
-   1. This model makes use of a project model as a foreign key relation, so we pass in the project fixture, which creates a project model.
-   1. We create an object of the new model, passing in at least the required fields.
+   1. We name the fixture after the model name (`recurring_event`).
+   1. This model makes use of the `project` model as a foreign key relation, so we pass in the `project` fixture, which creates a `project` model.
+   1. We create an object of the new model, passing in at least the required fields. In this case, we passed in enough arguments to use the `__str__` method in a test.
 
 1. Add a test case
 
    When creating Django models, there's no need to test the CRUD functionality since Django itself is well-tested and we can expect it to generate the correct CRUD functionality. Feel free to write some tests for practice. What really needs testing are any custom code that's not part of Django. Sometimes we need to override the default Django behavior and that should be tested.
+
+   Here's a basic test to see that the model stores its name.
 
    ```python
    def test_recurring_event(recurring_event):
@@ -80,9 +100,9 @@ Since we defined the `__str__` function, we need to write a test for it.
 
    [link to code](https://github.com/hackforla/peopledepot/blob/aad76446fc9ce3942d4f6290322ca1f73279703e/app/core/tests/test_models.py#L17-L18)
 
-   1. Pass in our fixture so that the model object is created for us
+   1. Pass in our fixture so that the model object is created for us.
    1. The `__str__` method should be tested since it's an override of the default Django method.
-   1. Write assertion(s) to check that what's passed into the model is what it contains. The simplest thing to check is the `__str__` method
+   1. Write assertion(s) to check that what's passed into the model is what it contains. The simplest thing to check is the `__str__` method.
 
 1. Running the test script should show it passing
 
@@ -90,9 +110,11 @@ Since we defined the `__str__` function, we need to write a test for it.
    ./scripts/test.sh
    ```
 
-## Register the model with admin site
+## The admin site
 
 Django comes with an admin site interface that allows admin users to view and change the data in the models. It's essentially a database viewer.
+
+### Register the model with the admin site
 
 1. Import the new model
 
@@ -119,13 +141,13 @@ Django comes with an admin site interface that allows admin users to view and ch
    1. We declare a [ModelAdmin](https://docs.djangoproject.com/en/4.0/ref/contrib/admin/#django.contrib.admin.ModelAdmin) class so we can customize the fields that we expose to the admin interface.
    1. We use the [register decorator](https://docs.djangoproject.com/en/4.0/ref/contrib/admin/#django.contrib.admin.register) to register the class with the admin site.
    1. [list_display](https://docs.djangoproject.com/en/4.0/ref/contrib/admin/#django.contrib.admin.ModelAdmin.list_display) controls what's shown in the list view
-   1. [list_filter](https://docs.djangoproject.com/en/4.0/ref/contrib/admin/#django.contrib.admin.ModelAdmin.list_filter) adds filter controls to declared fields (useful, but not showin in this example)
+   1. [list_filter](https://docs.djangoproject.com/en/4.0/ref/contrib/admin/#django.contrib.admin.ModelAdmin.list_filter) adds filter controls to declared fields (useful, but not shown in this example).
 
-### View the admin site to see everything's working and there are no issues, which should be fine unless there's custom input fields
+### View the admin site to see that everything's working and there are no issues, which should be the case unless there's custom input fields creating problems
 
 1. See the [contributing doc](https://github.com/hackforla/peopledepot/blob/main/docs/CONTRIBUTING.md#:~:text=Browse%20to%20the%20web%20admin%20interface%20at%20http%3A//localhost%3A8000/admin/) for how to view the admin interface.
 
-1. Example of a custom field
+1. Example of a custom field (as opposed to the built-in ones)
 
    ```python
    time_zone = TimeZoneField(blank=True, use_pytz=False, default="America/Los_Angeles")
@@ -133,16 +155,17 @@ Django comes with an admin site interface that allows admin users to view and ch
 
    [link to code](https://github.com/hackforla/peopledepot/blob/09e2856b6dd8038aedbbc9b42c3a44009be1fd2f/app/core/models.py#L96)
 
-   1. Having this field could cause the admin site to crash and the developer will need to look at the debug message and resolve it
+   1. Having a misconfigured or buggy custom field could cause the admin site to crash and the developer will need to look at the debug message and resolve it.
 
 ### Tests
 
 1. Feel free to write tests for the admin. There's no example for it yet.
-1. The reason there's no tests is that the admin site is independent of the API functionality, and we're mostly interested in the API part.
+1. The reason there's no tests is that the admin site is independent of the API functionality, and we're mainly interested in the API part.
+1. When the time comes that we depend on the admin interface, we will need to have tests for the needed functionalities.
 
-## Work on the API endpoints
+## The API
 
-There's several steps for adding API endpoints.
+There's several components to adding API endpoints: Model(already done), Serializer, View, and Router.
 
 ### Add serializer
 
@@ -183,10 +206,10 @@ This is code that serializes objects into strings for the API endpoints, and des
    [link to code](https://github.com/hackforla/peopledepot/blob/09e2856b6dd8038aedbbc9b42c3a44009be1fd2f/app/core/api/serializers.py#L82-L100)
 
    1. We inherit from [ModelSerializer](https://www.django-rest-framework.org/api-guide/serializers/#modelserializer). It knows how to serialize/deserialize the Django built-in data fields so we don't have to write the code to do it.
-   1. We do need to pass in the model, the fields we want to expose to the API, and any read-only fields.
-   1. uuid, created_at, and updated_at are automatic and always read-only.
+   1. We do need to pass in the `model`, the `fields` we want to expose through the API, and any `read_only_fields`.
+   1. `uuid`, `created_at`, and `updated_at` are managed by automations and are always read-only.
 
-1. Custom data fields may need extra code in the serializer.
+1. Custom data fields may need extra code in the serializer
 
    ```python
    time_zone = TimeZoneSerializerField(use_pytz=False)
@@ -194,7 +217,7 @@ This is code that serializes objects into strings for the API endpoints, and des
 
    [link to code](https://github.com/hackforla/peopledepot/blob/09e2856b6dd8038aedbbc9b42c3a44009be1fd2f/app/core/api/serializers.py#L14)
 
-   1. This non-built-in model field provides a serializer so we just point to it
+   1. This non-built-in model field provides a serializer so we just point to it.
 
 1. Custom validators if we need them
 
@@ -206,7 +229,7 @@ This is code that serializes objects into strings for the API endpoints, and des
 
 ### Add viewset
 
-Viewset defines the set of CRUD API endpoints for the model.
+Viewset defines the set of API endpoints for the model.
 
 1. Import the serializer
 
@@ -216,7 +239,7 @@ Viewset defines the set of CRUD API endpoints for the model.
 
    [link to code](https://github.com/hackforla/peopledepot/blob/09e2856b6dd8038aedbbc9b42c3a44009be1fd2f/app/core/api/views.py#L14)
 
-1. Add the [viewset](https://www.django-rest-framework.org/api-guide/viewsets/) and CRUD API endpoint descriptions.
+1. Add the [viewset](https://www.django-rest-framework.org/api-guide/viewsets/) and CRUD API endpoint descriptions
 
    ```python
    @extend_schema_view(
@@ -235,14 +258,18 @@ Viewset defines the set of CRUD API endpoints for the model.
 
    [link to code](https://github.com/hackforla/peopledepot/blob/09e2856b6dd8038aedbbc9b42c3a44009be1fd2f/app/core/api/views.py#L112-L123)
 
-   1. We inherit from [ModelViewSet](https://www.django-rest-framework.org/api-guide/viewsets/#modelviewset), which provides a default view implementation of all 5 CRUD actions: create, retrieve, partial_update, update, destroy, list.
-   1. We use the extend_schema_view decorator to attach the API doc strings to the viewset. They are usually defined as docstrings of the corresponding function definitions inside the viewset. Since we use ModelViewSet, there's nowhere to put the docstrings but above the viewset.
-   1. The minimum code we need with ModelViewSet are the queryset, and the serializer_class.
+   1. We inherit from [ModelViewSet](https://www.django-rest-framework.org/api-guide/viewsets/#modelviewset), which provides a default view implementation of all 6 CRUD actions: `create`, `retrieve`, `partial_update`, `update`, `destroy`, `list`.
+   1. We use the `extend_schema_view` decorator to attach the API doc strings to the viewset. They are usually defined as docstrings of the corresponding function definitions inside the viewset. Since we use `ModelViewSet`, there's nowhere to put the docstrings but above the viewset.
+   1. The minimum code we need with `ModelViewSet` are the `queryset`, and the `serializer_class`.
    1. Permissions
-      1. For now use permission_classes = [IsAuthenticated]
-      1. It doesn't limit access enough, but we will fix it later.
+      1. For now use `permission_classes = [IsAuthenticated]`
+      1. It doesn't control permissions the way we want, but we will fix it later.
 
-1. Here's a more complex API doc example
+### Extended example
+
+This example shows how to add a filter params. It's done for the [user model](https://github.com/hackforla/peopledepot/issues/15) as a [requirement](https://github.com/hackforla/peopledepot/issues/10) from VRMS.
+
+1. Here's a more complex API doc example (this example is using the User model's ViewSet)
 
    ```python
    @extend_schema_view(
@@ -290,14 +317,14 @@ Viewset defines the set of CRUD API endpoints for the model.
 
    [link to code](https://github.com/hackforla/peopledepot/blob/09e2856b6dd8038aedbbc9b42c3a44009be1fd2f/app/core/api/views.py#L39-L79)
 
-   1. Define strings for all 5 actions: create, retrieve, partial_update, update, destroy, list.
-   1. This one is fancy and provides example of data to pass into the query params. Most of the time we won't need it.
+   1. Define strings for all 6 actions: `create`, `retrieve`, `partial_update`, `update`, `destroy`, `list`.
+   1. This one is fancy and provides examples of data to pass into the query params. It's probably more than we need right now.
       1. The examples array can hold multiple examples.
-         1. Example ID string has to be unique but is not displayed
-         1. summary string appears as an option in the dropdown
-         1. description is displayed in the example
+         1. Example ID string has to be unique but is not displayed.
+         1. `summary` string appears as an option in the dropdown.
+         1. `description` is displayed in the example.
 
-1. Add any query params
+1. Add any query params according to the requirements (this example is using the User model's ViewSet)
 
    ```python
    class UserViewSet(viewsets.ModelViewSet):
@@ -319,13 +346,13 @@ Viewset defines the set of CRUD API endpoints for the model.
 
    [link to code](https://github.com/hackforla/peopledepot/blob/09e2856b6dd8038aedbbc9b42c3a44009be1fd2f/app/core/api/views.py#L84-L95)
 
-   1. The get_queryset function overrides the default and lets us filter the objects returned to the client if they pass in a query param.
-   1. Notice the queryset property is now the get_queryset function which returns the queryset.
+   1. Notice the `queryset` property is now the `get_queryset(()` function which returns the queryset.
+   1. The `get_queryset()` function overrides the default and lets us filter the objects returned to the client if they pass in a query param.
    1. Start with all the model objects and filter them based on any available query params.
 
 ### Register API endpoints to the router
 
-1. Import the viewset
+1. Import the viewset.
 
    ```python
    from .views import RecurringEventViewSet
@@ -342,14 +369,14 @@ Viewset defines the set of CRUD API endpoints for the model.
    [link to code](https://github.com/hackforla/peopledepot/blob/09e2856b6dd8038aedbbc9b42c3a44009be1fd2f/app/core/api/urls.py#L14)
 
    1. First param is the URL prefix use in the API routes. It is, by convention, plural
-      - This would show up in the URL like this: `http://localhost/api/v2/recuring-events/` and `http://localhost/api/v2/recuring-events/<uuid>`
+      - This would show up in the URL like this: `http://localhost/api/v1/recuring-events/` and `http://localhost/api/v1/recuring-events/<uuid>`
    1. Second param is the viewset class which defines the API actions
-   1. basename is the name used for generating the endpoint names, such as [basename]-list, [basename]-detail, etc. It's in the singular form. This is automatically generated if the viewset definition contains a `queryset` attribute, but it's required if the viewset overrides that with the `get_queryset` function
-      - reverse("recurring-event") would return `http://localhost/api/v2/recuring-events/`
+   1. `basename` is the name used for generating the endpoint names, such as [basename]-list, [basename]-detail, etc. It's in the singular form. This is automatically generated if the viewset definition contains a `queryset` attribute, but it's required if the viewset overrides that with the `get_queryset` function
+      - `reverse("recurring-event-list")` would return `http://localhost/api/v1/recuring-events/`
 
 ### Add API tests
 
-For the CRUD operations, since we're using `ModelViewSet` where all the actions are provided by `rest_framework` and well-tested, it's not necessary to have test cases for them. But here's an example of one
+For the CRUD operations, since we're using `ModelViewSet` where all the actions are provided by `rest_framework` and well-tested, it's not necessary to have test cases for them. But here's an example of one.
 
 1. Import API URL
 
@@ -364,7 +391,6 @@ For the CRUD operations, since we're using `ModelViewSet` where all the actions 
    ```python
    def test_create_recurring_event(auth_client, project):
        """Test that we can create a recurring event"""
-
 
        payload = {
            "name": "Test Weekly team meeting",
@@ -381,7 +407,6 @@ For the CRUD operations, since we're using `ModelViewSet` where all the actions 
 
    [link to code](https://github.com/hackforla/peopledepot/blob/097f8f254534c1e53bc23f14ef71afbed0b70fa0/app/core/tests/test_api.py#L150-L163)
 
-   1. Use `auth_client` instead of `admin_client`
    1. Given
       1. Pass in the necessary fixtures
       1. Construct the payload
@@ -389,7 +414,7 @@ For the CRUD operations, since we're using `ModelViewSet` where all the actions 
       1. Create the object
    1. Then
       1. Check that it's created via [status code](https://www.django-rest-framework.org/api-guide/status-codes/#client-error-4xx)
-      1. Maybe also check the data
+      1. Maybe also check the data. A real test should check all the data, but we're kind of relying on django to have already tested this.
 
 ### Create initial data migration
 
