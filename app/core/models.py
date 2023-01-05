@@ -211,5 +211,8 @@ class FaqViewed(AbstractBaseModel):
 
     faq = models.ForeignKey(Faq, on_delete=models.CASCADE)
 
+    class Meta:
+        verbose_name = "FAQ view"
+
     def __str__(self):
         return f"{self.faq} viewed at {self.created_at.strftime('%b %d %Y %H:%M:%S')}"
