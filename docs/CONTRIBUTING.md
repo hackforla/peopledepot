@@ -1,4 +1,4 @@
-# Contributing to People Depot 
+# Contributing to People Depot
 
 Thank you for volunteering your time! The following is a set of guidelines for contributing to the peopledepot repository, which is hosted on GitHub.
 
@@ -443,7 +443,7 @@ Installing the pre-commit hooks to git
 
 ## A. Convenience Scripts
 
-These scripts assume you are using bash. 
+These scripts assume you are using bash.
 
 1. buildrun.sh - clean, build, and run containers in background mode
 1. lint.sh - lint and and auto-format code
