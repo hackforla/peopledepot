@@ -6,7 +6,7 @@ First, we identify an issue to work on from the [Onboarding page](https://github
 
 ## Add the model in django
 
-https://github.com/fyliu/peopledepot/blob/acd8898e7b0364913cc8ae3f9973dfd846adedcc/app/core/models.py#L150-L172
+https://github.com/hackforla/peopledepot/blob/acd8898e7b0364913cc8ae3f9973dfd846adedcc/app/core/models.py#L150-L172
 
 1. We inherit all models from AbstractBaseModel, which provides a `uuid` primary key, `created_at`, and `updated_at` timestamps. In the Github issue, these fields might be called `id`, `created`, and `updated`. There's no need to add those.
 1. Most fields should not be required. Text fields should be `blank=True`, data fields should be `null=True`.
@@ -31,7 +31,7 @@ Since we defined the `__str__` function, we need to write a test for it.
 
    Fixtures are reusable code that can be used in multiple tests by declaring them as parameters of the test case. In this example, we show both defining a fixture (recurring_event) and using another fixture (project).
 
-   https://github.com/fyliu/peopledepot/blob/acd8898e7b0364913cc8ae3f9973dfd846adedcc/app/core/tests/conftest.py#L40-L42
+   https://github.com/hackforla/peopledepot/blob/acd8898e7b0364913cc8ae3f9973dfd846adedcc/app/core/tests/conftest.py#L40-L42
 
    1. We name the fixture after the model name.
    1. This model makes use of a project model as a foreign key relation, so we pass in the project fixture, which creates a project model.
@@ -41,7 +41,7 @@ Since we defined the `__str__` function, we need to write a test for it.
 
    When creating Django models, there's no need to test the CRUD functionality since Django itself is well-tested and we can expect it to generate the correct CRUD functionality. Feel free to write some tests for practice. What really needs testing are any custom code that's not part of Django. Sometimes we need to override the default Django behavior and that should be tested.
 
-   https://github.com/fyliu/peopledepot/blob/acd8898e7b0364913cc8ae3f9973dfd846adedcc/app/core/tests/test_models.py#L17-L18
+   https://github.com/hackforla/peopledepot/blob/acd8898e7b0364913cc8ae3f9973dfd846adedcc/app/core/tests/test_models.py#L17-L18
 
    1. Pass in our fixture so that the model object is created for us
    1. The `__str__` method should be tested since it's an override of the default Django method.
@@ -59,11 +59,11 @@ Django comes with an admin site interface that allows admin users to view and ch
 
 1. Import the new model
 
-   https://github.com/fyliu/peopledepot/blob/acd8898e7b0364913cc8ae3f9973dfd846adedcc/app/core/admin.py#L8
+   https://github.com/hackforla/peopledepot/blob/acd8898e7b0364913cc8ae3f9973dfd846adedcc/app/core/admin.py#L8
 
 1. Register the model
 
-   https://github.com/fyliu/peopledepot/blob/acd8898e7b0364913cc8ae3f9973dfd846adedcc/app/core/admin.py#L110-L116
+   https://github.com/hackforla/peopledepot/blob/acd8898e7b0364913cc8ae3f9973dfd846adedcc/app/core/admin.py#L110-L116
 
    1. We declare a [ModelAdmin](https://docs.djangoproject.com/en/4.0/ref/contrib/admin/#django.contrib.admin.ModelAdmin) class so we can customize the fields that we expose to the admin interface.
    1. We use the [register decorator](https://docs.djangoproject.com/en/4.0/ref/contrib/admin/#django.contrib.admin.register) to register the class with the admin site.
@@ -76,7 +76,7 @@ Django comes with an admin site interface that allows admin users to view and ch
 
 1. Example of a custom field
 
-   https://github.com/fyliu/peopledepot/blob/acd8898e7b0364913cc8ae3f9973dfd846adedcc/app/core/models.py#L95
+   https://github.com/hackforla/peopledepot/blob/acd8898e7b0364913cc8ae3f9973dfd846adedcc/app/core/models.py#L95
 
    1. Having this field could cause the admin site to crash and the developer will need to look at the debug message and resolve it
 
@@ -99,7 +99,7 @@ This is code that serializes objects into strings for the API endpoints, and des
 
 1. Add a serializer class
 
-   https://github.com/fyliu/peopledepot/blob/acd8898e7b0364913cc8ae3f9973dfd846adedcc/app/core/api/serializers.py#L78-L96
+   https://github.com/hackforla/peopledepot/blob/acd8898e7b0364913cc8ae3f9973dfd846adedcc/app/core/api/serializers.py#L78-L96
 
    1. We inherit from [ModelSerializer](https://www.django-rest-framework.org/api-guide/serializers/#modelserializer). It knows how to serialize/deserialize the Django built-in data fields so we don't have to write the code to do it.
    1. We do need to pass in the model, the fields we want to expose to the API, and any read-only fields.
@@ -107,7 +107,7 @@ This is code that serializes objects into strings for the API endpoints, and des
 
 1. Custom data fields may need extra code in the serializer.
 
-   https://github.com/fyliu/peopledepot/blob/acd8898e7b0364913cc8ae3f9973dfd846adedcc/app/core/api/serializers.py#L10
+   https://github.com/hackforla/peopledepot/blob/acd8898e7b0364913cc8ae3f9973dfd846adedcc/app/core/api/serializers.py#L10
 
    1. This non-built-in model field provides a serializer so we just point to it
 
@@ -125,11 +125,11 @@ Viewset defines the set of CRUD API endpoints for the model.
 
 1. Import the serializer
 
-   https://github.com/fyliu/peopledepot/blob/acd8898e7b0364913cc8ae3f9973dfd846adedcc/app/core/api/views.py#L16
+   https://github.com/hackforla/peopledepot/blob/acd8898e7b0364913cc8ae3f9973dfd846adedcc/app/core/api/views.py#L16
 
 1. Add the [viewset](https://www.django-rest-framework.org/api-guide/viewsets/) and CRUD API endpoint descriptions.
 
-   https://github.com/fyliu/peopledepot/blob/ee0506ddaf8ca7f09fbbadceb35d2fa361fb0a32/app/core/api/views.py#L107-L118
+   https://github.com/hackforla/peopledepot/blob/ee0506ddaf8ca7f09fbbadceb35d2fa361fb0a32/app/core/api/views.py#L107-L118
 
    1. We inherit from [ModelViewSet](https://www.django-rest-framework.org/api-guide/viewsets/#modelviewset), which provides a default view implementation of all 5 CRUD actions: create, retrieve, partial_update, update, destroy, list.
    1. We use the extend_schema_view decorator to attach the API doc strings to the viewset. They are usually defined as docstrings of the corresponding function definitions inside the viewset. Since we use ModelViewSet, there's nowhere to put the docstrings but above the viewset.
@@ -140,7 +140,7 @@ Viewset defines the set of CRUD API endpoints for the model.
 
 1. Here's a more complex API doc example
 
-   https://github.com/fyliu/peopledepot/blob/acd8898e7b0364913cc8ae3f9973dfd846adedcc/app/core/api/views.py#L35-L75
+   https://github.com/hackforla/peopledepot/blob/acd8898e7b0364913cc8ae3f9973dfd846adedcc/app/core/api/views.py#L35-L75
 
    1. Define strings for all 5 actions: create, retrieve, partial_update, update, destroy, list.
    1. This one is fancy and provides example of data to pass into the query params. Most of the time we won't need it.
@@ -151,7 +151,7 @@ Viewset defines the set of CRUD API endpoints for the model.
 
 1. Add any query params
 
-   https://github.com/fyliu/peopledepot/blob/acd8898e7b0364913cc8ae3f9973dfd846adedcc/app/core/api/views.py#L75-L98
+   https://github.com/hackforla/peopledepot/blob/acd8898e7b0364913cc8ae3f9973dfd846adedcc/app/core/api/views.py#L75-L98
 
    1. The get_queryset function overrides the default and lets us filter the objects returned to the client if they pass in a query param.
    1. Notice the queryset property is now the get_queryset function which returns the queryset.
@@ -161,11 +161,11 @@ Viewset defines the set of CRUD API endpoints for the model.
 
 1. Import the viewset
 
-   https://github.com/fyliu/peopledepot/blob/acd8898e7b0364913cc8ae3f9973dfd846adedcc/app/core/api/urls.py#L4-L9
+   https://github.com/hackforla/peopledepot/blob/acd8898e7b0364913cc8ae3f9973dfd846adedcc/app/core/api/urls.py#L4-L9
 
 1. [Register](https://www.django-rest-framework.org/api-guide/routers/#usage) the viewset to the [router](https://www.django-rest-framework.org/api-guide/routers/)
 
-   https://github.com/fyliu/peopledepot/blob/acd8898e7b0364913cc8ae3f9973dfd846adedcc/app/core/api/urls.py#L14
+   https://github.com/hackforla/peopledepot/blob/acd8898e7b0364913cc8ae3f9973dfd846adedcc/app/core/api/urls.py#L14
 
    1. First param is the URL prefix use in the API routes. It is, by convention, plural
       - This would show up in the URL like this: `http://localhost/api/v2/recuring-events/` and `http://localhost/api/v2/recuring-events/<uuid>`
@@ -179,10 +179,10 @@ For the CRUD operations, since we're using `ModelViewSet` where all the actions 
 
 1. Import API URL
 
-   https://github.com/fyliu/peopledepot/blob/acd8898e7b0364913cc8ae3f9973dfd846adedcc/app/core/tests/test_api.py#L11
+   https://github.com/hackforla/peopledepot/blob/acd8898e7b0364913cc8ae3f9973dfd846adedcc/app/core/tests/test_api.py#L11
 
 1. Add test case
-   https://github.com/fyliu/peopledepot/blob/acd8898e7b0364913cc8ae3f9973dfd846adedcc/app/core/tests/test_api.py#L70-L81
+   https://github.com/hackforla/peopledepot/blob/acd8898e7b0364913cc8ae3f9973dfd846adedcc/app/core/tests/test_api.py#L70-L81
 
    1. Use `auth_client` instead of `admin_client`
    1. Given
