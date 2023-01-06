@@ -41,7 +41,7 @@ This repository uses the [GNU General Public License (v2.0)][licensing].
 [django-docs]: https://docs.djangoproject.com/
 [drf-docs]: https://www.django-rest-framework.org/tutorial/quickstart/
 [postgres-docs]: https://www.postgresql.org/docs/
-[contributing]: ./docs/contributing.md
+[contributing]: ./docs/CONTRIBUTING.md
 [HfLA onboarding]: https://www.hackforla.org/getting-started
 [licensing-a-repo]: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository
 [licensing]: ./LICENSE.md
