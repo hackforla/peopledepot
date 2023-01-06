@@ -104,10 +104,27 @@ Since we overrode the `__str__` function, we need to write a test for it.
    1. The `__str__` method should be tested since it's an override of the default Django method.
    1. Write assertion(s) to check that what's passed into the model is what it contains. The simplest thing to check is the `__str__` method.
 
-1. Running the test script should show it passing
+1. Run the test script to show it passing
 
    ```bash
    ./scripts/test.sh
+   ```
+
+### Check point 1
+
+This is a good place to pause, check, and save. Refer to the [contributing doc](https://github.com/hackforla/peopledepot/blob/main/docs/CONTRIBUTING.md) sections 3.4-3.9 for details.
+
+1. Run pre-commit checks
+
+   ```bash
+   ./scripts/precommit-check.sh
+   ```
+
+1. Add and commit changes
+
+   ```bash
+   git add -A
+   git commit -m "feat: add model: recurring_event"
    ```
 
 ## The admin site
@@ -162,6 +179,23 @@ Django comes with an admin site interface that allows admin users to view and ch
 1. Feel free to write tests for the admin. There's no example for it yet.
 1. The reason there's no tests is that the admin site is independent of the API functionality, and we're mainly interested in the API part.
 1. When the time comes that we depend on the admin interface, we will need to have tests for the needed functionalities.
+
+### Check point 2
+
+This is a good place to pause, check, and save. Refer to the [contributing doc](https://github.com/hackforla/peopledepot/blob/main/docs/CONTRIBUTING.md) sections 3.4-3.9 for details.
+
+1. Run pre-commit checks
+
+   ```bash
+   ./scripts/precommit-check.sh
+   ```
+
+1. Add and commit changes
+
+   ```bash
+   git add -A
+   git commit -m "feat: register admin: recurring_event"
+   ```
 
 ## The API
 
@@ -416,6 +450,29 @@ For the CRUD operations, since we're using `ModelViewSet` where all the actions 
       1. Check that it's created via [status code](https://www.django-rest-framework.org/api-guide/status-codes/#client-error-4xx)
       1. Maybe also check the data. A real test should check all the data, but we're kind of relying on django to have already tested this.
 
-### Create initial data migration
+1. Run the test script to show it passing
 
-See page on create initial data migrations
+   ```bash
+   ./scripts/test.sh
+   ```
+
+### Check point 3
+
+This is a good place to pause, check, and save. Refer to the [contributing doc](https://github.com/hackforla/peopledepot/blob/main/docs/CONTRIBUTING.md) sections 3.4-3.9 for details.
+
+1. Run pre-commit checks
+
+   ```bash
+   ./scripts/precommit-check.sh
+   ```
+
+1. Add and commit changes
+
+   ```bash
+   git add -A
+   git commit -m "feat: add endpoints: recurring_event"
+   ```
+
+### Push the code and start a PR
+
+Refer to the [contributing doc](https://github.com/hackforla/peopledepot/blob/main/docs/CONTRIBUTING.md#310-push-to-upstream-origin-aka-your-fork) section 3.10 onward.
