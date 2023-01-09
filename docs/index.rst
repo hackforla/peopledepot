@@ -8,8 +8,21 @@ Welcome to PeopleDepot's documentation!
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: Getting Started:
 
+   CONTRIBUTING
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Architecture:
+
+   architecture/authentication
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Guides:
+
+   how-to/add-model-and-api-endpoints
 
 
 Indices and tables
