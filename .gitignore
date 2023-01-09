@@ -27,3 +27,4 @@ app/htmlcov
 !.vscode/*.code-snippets
 
 erd.png
+docs/_build

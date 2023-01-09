@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "people-depot-docs"
+version = "0.1.0"
+description = "PeopleDepot Documentation"
+authors = ["PeopleDepot Team <peopledepot@hackforla.org>"]
+readme = ""
+packages = []
+
+[tool.poetry.dependencies]
+python = "^3.10"
+Sphinx = "^5.3.0"
+sphinx-autobuild = "^2021.3.14"
+furo = "^2022.12.7"
+myst-parser = "^0.18.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
