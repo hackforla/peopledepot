@@ -14,7 +14,10 @@ release = "0.1"
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-extensions = ["myst_parser"]
+extensions = [
+    "myst_parser",
+    "sphinx_copybutton",
+]
 
 templates_path = ["_templates"]
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
@@ -25,3 +28,15 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
 html_theme = "furo"
 html_static_path = ["_static"]
+html_theme_options = {
+    "source_repository": "https://github.com/hackforla/peopledepot/",
+    "source_branch": "main",
+    "source_directory": "docs/",
+}
+html_title = f"{project} Docs"
+
+# -- MyST options
+
+myst_heading_anchors = 3
+myst_enable_extensions = ["colon_fence"]
+myst_number_code_blocks = ["python"]
