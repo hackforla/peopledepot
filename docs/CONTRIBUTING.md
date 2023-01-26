@@ -150,25 +150,27 @@ More on using Docker and the concepts of containerization:
 **IMPORTANT:** Please make sure the `Docker Desktop` application is **running on your computer** before you run the bash commands below. Running `docker container ls` should list the peopledepot-web `image`, e.g.:
 <img width="1698" alt="docker_ls_screenshot" src="https://user-images.githubusercontent.com/52610573/202492098-dd030a3b-12e5-4ccd-9d3e-65c13adaf953.png">
 
+1. Start Docker Desktop
+1. Run `docker container ls` to verify Docker Desktop is running. If it is not running you will get the message: `Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?`
 1. Create an .env.dev file from .env.dev-sample
 
    ```bash
    cp .env.dev-sample .env.dev
    ```
 
-2. Build and run the project via the script (this includes running `docker-compose up`)
+1. Build and run the project via the script (this includes running `docker-compose up`)
 
    ```bash
    ./scripts/buildrun.sh
    ```
 
-3. Create a super user for logging into the web admin interface
+1. Create a super user for logging into the web admin interface
 
    ```bash
-   docker-compose exec web python manage.py createsuperuser
+   docker-compose exec web python manage.py createsuperuser --no-input
    ```
 
-4. Browse to the web admin interface at `http://localhost:8000/admin/` and confirm the admin site is running. Use the credentials you created in Step 2 (above) to log in.
+1. Browse to the web admin interface at `http://localhost:8000/admin/` and confirm the admin site is running. Use the credentials you created in Step 2 (above) to log in.
 
 ### 2.5 Stopping Docker
 
@@ -198,9 +200,9 @@ Find an issue in Prioritized Backlog [here](https://github.com/hackforla/peopled
 
 If you joined the peopledepot repository as described in a previous section:
 
-  1. Assign the issue to yourself and move it to "In progress" column.
-  2. Follow the steps in the issue description to complete the issue.
-  3. Make sure to comment your ETA and Availability when you first assign yourself.
+1. Assign the issue to yourself and move it to "In progress" column.
+2. Follow the steps in the issue description to complete the issue.
+3. Make sure to comment your ETA and Availability when you first assign yourself.
 
 If you don't have privileges, add a comment that you are working on the issue.
 
