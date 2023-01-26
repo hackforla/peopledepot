@@ -130,25 +130,7 @@ upstream        https://github.com/hackforla/peopledepot.git (fetch)
 upstream        https://github.com/hackforla/peopledepot.git (push)
 ```
 
-### 2.3 Set up Docker
-
-Install or make sure [docker][docker-install] and [docker-compose][docker-compose-install] are installed on your computer
-
-```bash
-    docker -v
-    docker-compose -v
-```
-
-The recommended installation method for your operating system can be found [here](https://docs.docker.com/install/). <strong><em>Feel free to reach out in the [Hack for LA Slack channel](https://hackforla.slack.com/messages/people-depot/) if you have trouble installing docker on your system</em></strong>
-
-More on using Docker and the concepts of containerization:
-
-- [Get started with Docker](https://docs.docker.com/get-started/)
-
-### 2.4 Build and run using Docker locally
-
-**IMPORTANT:** Please make sure the `Docker Desktop` application is **running on your computer** before you run the bash commands below. Running `docker container ls` should list the peopledepot-web `image`, e.g.:
-<img width="1698" alt="docker_ls_screenshot" src="https://user-images.githubusercontent.com/52610573/202492098-dd030a3b-12e5-4ccd-9d3e-65c13adaf953.png">
+### 2.3 Build and run using Docker locally
 
 1. Start Docker Desktop
 1. Run `docker container ls` to verify Docker Desktop is running. If it is not running you will get the message: `Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?`
@@ -170,9 +152,11 @@ More on using Docker and the concepts of containerization:
    docker-compose exec web python manage.py createsuperuser --no-input
    ```
 
-1. Browse to the web admin interface at `http://localhost:8000/admin/` and confirm the admin site is running. Use the credentials you created in Step 2 (above) to log in.
+1. Browse to the web admin interface at `http://localhost:8000/admin/` and confirm the admin site is running. Use DJANGO_SUPERUSER_USERNAME and DJANGO_SUPERUSER_PASSWORD from .env.dev for credentials.
 
-### 2.5 Stopping Docker
+## 3. Managing Docker
+
+### 3.1 Stopping Docker
 
 To stop the service-container, but not destroy it (often sufficient for day-to-day work):
 
@@ -192,9 +176,19 @@ Add the `-v` flag to destroy the data volumes as well:
 docker-compose down -v
 ```
 
-## 3. Fixing Issues
+### 3.2 Recycling / Refreshing Database
 
-### 3.1 Find an issue
+To restore a database to its original state and remove any data manually added, delete the container and image.
+From Docker:
+
+1. Open Containers section
+2. Delete people-db-1 container
+3. Open Images Tab
+4. Remove djangorestapipostrgresql image
+
+## 4. Fixing Issues
+
+### 4.1 Find an issue
 
 Find an issue in Prioritized Backlog [here](https://github.com/hackforla/peopledepot/projects/1#column-16900748)
 
@@ -206,7 +200,7 @@ If you joined the peopledepot repository as described in a previous section:
 
 If you don't have privileges, add a comment that you are working on the issue.
 
-### 3.2 Create a new branch
+### 4.2 Create a new branch
 
 Once you have selected an issue to work on, create a branch for that issue.
 
@@ -236,11 +230,11 @@ Create a new branch where you will work on the issue. The branch name should inc
 git checkout -b <new-branch-name>-15
 ```
 
-### 3.3 Make changes
+### 4.3 Make changes
 
 Make changes to fix the issue.
 
-### 3.4 Pull to get the most recent code
+### 4.4 Pull to get the most recent code
 
 You can probably skip this if you fix the issue on the same day that you pulled the code.
 
@@ -250,7 +244,7 @@ git pull
 
 **Note:** If you are using Visual studios code you can use the Git graphical user interface to stage your changes. For instructions check out the [Git Gui Wiki](<https://github.com/hackforla/website/wiki/Using-Git-GUI-(Graphical-user-Interface)-in-Visual-Studios-Code>).
 
-### 3.5 Add changed files to staging
+### 4.5 Add changed files to staging
 
 **Make sure you are on your issue branch (instead of `main`)**
 
@@ -272,7 +266,7 @@ Run this command if you want to **add all changes to all file(s) to your commit 
 git add .
 ```
 
-### 3.6 Check Git status
+### 4.6 Check Git status
 
 This command will list the files that have been staged with green text. These are the files that will be committed (saved) when you run the next command, `git commit`. Please be sure all your staged changes are relevant to the issue you are working on. If you accidentally included unrelated changes, please unstage them before making this commit, and then make a new commit for the unrelated changes. (The commands for unstaging commits are provided in the output of your `git status` command.)
 
@@ -280,7 +274,7 @@ This command will list the files that have been staged with green text. These ar
 git status
 ```
 
-### 3.7 Remove files that you don't want staged
+### 4.7 Remove files that you don't want staged
 
 This command will unstage a file that you don't want included in the commit. The specified file will not be committed (saved) when you run the next command, `git commit`. This only works if the wrong files were added, but they were not yet committed. (See [this tutorial](https://www.atlassian.com/git/tutorials/resetting-checking-out-and-reverting) for an in-depth discussion.) The file will be removed from the staging area, but not actually deleted:
 
@@ -288,7 +282,7 @@ This command will unstage a file that you don't want included in the commit. The
 git reset HEAD “filename.ext”
 ```
 
-### 3.8 Run pre-commit checks
+### 4.8 Run pre-commit checks
 
 **Important: before committing each file, make sure to run the pre-commit hook:\***
 
@@ -296,7 +290,7 @@ git reset HEAD “filename.ext”
 ./scripts/precommit-check.sh
 ```
 
-### 3.9 Commit staged changes
+### 4.9 Commit staged changes
 
 This command saves your work, and prepares it to push to your repository. Use the `-m` flag to quickly add a message to your commit. Your message should be a short description of the changes you made. It will be extremely helpful if other people can understand your message, so try to resist the temptation to be overly cryptic.
 
@@ -319,7 +313,7 @@ You can also sync your fork directly on GitHub by clicking "Sync Fork" at the ri
   <img src="https://docs.github.com/assets/cb-49937/images/help/repository/update-branch-button.png" />
 </details>
 
-### 3.10 Push to upstream origin (aka, your fork)
+### 4.10 Push to upstream origin (aka, your fork)
 
 Push your local branch to your remote repository:
 
@@ -333,9 +327,9 @@ Alternatively, you can run
 git push
 ```
 
-### 3.11 Create a pull request
+### 4.11 Create a pull request
 
-#### 3.11.1 Push all changes in your issue branch
+#### 4.11.1 Push all changes in your issue branch
 
 Once you are satisfied with your changes, push them to the feature branch you made within your remote repository.
 
@@ -343,7 +337,7 @@ Once you are satisfied with your changes, push them to the feature branch you ma
 git push --set-upstream origin <name-of-branch>
 ```
 
-#### 3.11.2 Complete pull request from GitHub
+#### 4.11.2 Complete pull request from GitHub
 
 1. Click the green button to create a Pull Request (PR)
 2. Add a short title in the subject line
@@ -357,7 +351,7 @@ fixes #<issue-number>
 5. Click the green "Create pull request" button
 6. Add the PR to the project board
 
-## 4. Synch Main Changes
+## 5. Synch Main Changes
 
 Your fork of this repository on GitHub, and your local clone of that fork, will get out of sync with the (upstream) repository as others update the repository. (That's what has happened when you see something like "This branch is 1 commit behind peopledepot:main" on your forked repository.)
 
