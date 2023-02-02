@@ -24,6 +24,8 @@ Let's start!
 
 ### Add the model in django
 
+Add the following to app/core/models.py
+
 ```python
 class RecurringEvent(AbstractBaseModel):
     """
@@ -75,6 +77,10 @@ Since we overrode the `__str__` function, we need to write a test for it.
 
    Fixtures are reusable code that can be used in multiple tests by declaring them as parameters of the test case. In this example, we show both defining a fixture (recurring_event) and using another fixture (project).
 
+   Note: The conftest file is meant to hold shared test fixtures, among other things. The fixtures have directory scope.
+
+   Add the following to app/core/tests/conftest.py
+
    ```python
    @pytest.fixture
    def recurring_event(project):
@@ -92,6 +98,8 @@ Since we overrode the `__str__` function, we need to write a test for it.
    When creating Django models, there's no need to test the CRUD functionality since Django itself is well-tested and we can expect it to generate the correct CRUD functionality. Feel free to write some tests for practice. What really needs testing are any custom code that's not part of Django. Sometimes we need to override the default Django behavior and that should be tested.
 
    Here's a basic test to see that the model stores its name.
+
+   Add the following to app/core/tests/test_models.py
 
    ```python
    def test_recurring_event(recurring_event):
