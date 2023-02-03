@@ -36,3 +36,5 @@ __pycache__
 erd.png
 
 *.pyc
+
+.vscode
