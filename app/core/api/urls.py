@@ -5,6 +5,7 @@ from .views import FaqViewedViewSet
 from .views import FaqViewSet
 from .views import LanguageViewSet
 from .views import LocationViewSet
+from .views import PermissionTypeViewSet
 from .views import PracticeAreaViewSet
 from .views import ProgramAreaViewSet
 from .views import ProjectViewSet
@@ -28,6 +29,7 @@ router.register(r"program-areas", ProgramAreaViewSet, basename="program-area")
 router.register(r"skills", SkillViewSet, basename="skill")
 router.register(r"technologies", TechnologyViewSet, basename="technology")
 router.register(r"languages", LanguageViewSet, basename="language")
+router.register(r"permission-types", PermissionTypeViewSet, basename="permission-type")
 
 urlpatterns = [
     path("me/", UserProfileAPIView.as_view(), name="my_profile"),

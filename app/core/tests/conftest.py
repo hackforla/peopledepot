@@ -5,6 +5,7 @@ from ..models import Faq
 from ..models import FaqViewed
 from ..models import Language
 from ..models import Location
+from ..models import PermissionType
 from ..models import PracticeArea
 from ..models import ProgramArea
 from ..models import Project
@@ -122,3 +123,15 @@ def technology():
 @pytest.fixture
 def language():
     return Language.objects.create(name="Test Language")
+
+
+@pytest.fixture
+def permission_type1():
+    return PermissionType.objects.create(name="Test Permission Type", description="")
+
+
+@pytest.fixture
+def permission_type2():
+    return PermissionType.objects.create(
+        name="Test Permission Type", description="A permission type description"
+    )

@@ -18,6 +18,7 @@ PROGRAM_AREA_URL = reverse("program-area-list")
 SKILL_URL = reverse("skill-list")
 TECHNOLOGY_URL = reverse("technology-list")
 LANGUAGES_URL = reverse("language-list")
+PERMISSION_TYPE = reverse("permission-type-list")
 
 CREATE_USER_PAYLOAD = {
     "username": "TestUserAPI",
@@ -274,3 +275,11 @@ def test_create_language(auth_client):  # add project_language_xref to params
     res = auth_client.post(LANGUAGES_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
     assert res.data["name"] == payload["name"]
+
+
+def test_create_permission_type(auth_client):
+    payload = {"name": "adminGlobal", "description": "Can CRUD anything"}
+    res = auth_client.post(PERMISSION_TYPE, payload)
+    assert res.status_code == status.HTTP_201_CREATED
+    assert res.data["name"] == payload["name"]
+    assert res.data["description"] == payload["description"]

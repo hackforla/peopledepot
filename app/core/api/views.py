@@ -15,6 +15,7 @@ from ..models import Faq
 from ..models import FaqViewed
 from ..models import Language
 from ..models import Location
+from ..models import PermissionType
 from ..models import PracticeArea
 from ..models import ProgramArea
 from ..models import Project
@@ -26,6 +27,7 @@ from .serializers import FaqSerializer
 from .serializers import FaqViewedSerializer
 from .serializers import LanguageSerializer
 from .serializers import LocationSerializer
+from .serializers import PermissionTypeSerializer
 from .serializers import PracticeAreaSerializer
 from .serializers import ProgramAreaSerializer
 from .serializers import ProjectSerializer
@@ -282,3 +284,17 @@ class LanguageViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = Language.objects.all()
     serializer_class = LanguageSerializer
+
+
+@extend_schema_view(
+    list=extend_schema(description="Return a list of all permission types"),
+    create=extend_schema(description="Create a new permission type"),
+    retrieve=extend_schema(description="Return the details of a permission type"),
+    destroy=extend_schema(description="Delete a permission type"),
+    update=extend_schema(description="Update a permission type"),
+    partial_update=extend_schema(description="Patch a permission type"),
+)
+class PermissionTypeViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = PermissionType.objects.all()
+    serializer_class = PermissionTypeSerializer

@@ -9,6 +9,7 @@ from .models import Faq
 from .models import FaqViewed
 from .models import Language
 from .models import Location
+from .models import PermissionType
 from .models import PracticeArea
 from .models import ProgramArea
 from .models import Project
@@ -209,3 +210,8 @@ class LanguageAdmin(admin.ModelAdmin):
     )
 
     list_filter = ("name",)
+
+
+@admin.register(PermissionType)
+class PermissionTypeAdmin(admin.ModelAdmin):
+    list_display = ("name", "description")

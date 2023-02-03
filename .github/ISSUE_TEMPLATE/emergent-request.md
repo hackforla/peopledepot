@@ -14,7 +14,7 @@ assignees: ''
 ### Issue you discovered this emergent requirement in
 - #
 
-### Date discovered 
+### Date discovered
 
 
 ### Did you have to do something temporarily
