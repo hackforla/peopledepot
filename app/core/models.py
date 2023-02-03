@@ -202,3 +202,16 @@ class Faq(AbstractBaseModel):
 
     def __str__(self):
         return f"{self.question}"
+
+
+class FaqViewed(AbstractBaseModel):
+    """
+    FaqViewed tracks how many times an FAQ has been viewed by serving as an instance of an FAQ being viewed.
+    """
+    faq = models.ForeignKey(Faq, on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = "FAQ view"
+
+    def __str__(self):
+        return f"{self.faq} viewed at {self.created_at.strftime('%b %d %Y %H:%M:%S')}"

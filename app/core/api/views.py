@@ -4,16 +4,19 @@ from drf_spectacular.utils import OpenApiExample
 from drf_spectacular.utils import OpenApiParameter
 from drf_spectacular.utils import extend_schema
 from drf_spectacular.utils import extend_schema_view
+from rest_framework import mixins
 from rest_framework import viewsets
 from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.permissions import IsAuthenticated
 
 from ..models import Faq
+from ..models import FaqViewed
 from ..models import Project
 from ..models import RecurringEvent
 from ..models import SponsorPartner
 from .serializers import FaqSerializer
+from .serializers import FaqViewedSerializer
 from .serializers import ProjectSerializer
 from .serializers import RecurringEventSerializer
 from .serializers import SponsorPartnerSerializer
@@ -168,4 +171,15 @@ class FaqViewSet(viewsets.ModelViewSet):
     queryset = Faq.objects.all()
     serializer_class = FaqSerializer
     # use permission_classes until get_permissions fn provides sufficient limits to access >>
+    permission_classes = [IsAuthenticated]
+
+
+@extend_schema_view(
+    list=extend_schema(description="Return a list of all FAQs viewed"),
+    create=extend_schema(description="Create a new FAQ viewed"),
+    retrieve=extend_schema(description="Return the given FAQ viewed"),
+)
+class FaqViewedViewSet(mixins.CreateModelMixin, viewsets.ReadOnlyModelViewSet):
+    queryset = FaqViewed.objects.all()
+    serializer_class = FaqViewedSerializer
     permission_classes = [IsAuthenticated]

@@ -2,6 +2,7 @@ from rest_framework import serializers
 from timezone_field.rest_framework import TimeZoneSerializerField
 
 from core.models import Faq
+from core.models import FaqViewed
 from core.models import Project
 from core.models import RecurringEvent
 from core.models import SponsorPartner
@@ -132,3 +133,20 @@ class FaqSerializer(serializers.ModelSerializer):
             "tool_tip_name",
         )
         read_only_fields = ("uuid", "created_on", "last_updated")
+
+
+class FaqViewedSerializer(serializers.ModelSerializer):
+    """
+    Retrieve each date/time the specified FAQ is viewed
+    """
+
+    class Meta:
+        model = FaqViewed
+        fields = (
+            "uuid",
+            "faq",
+        )
+        read_only_fields = (
+            "uuid",
+            "faq",
+        )

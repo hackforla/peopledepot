@@ -2,6 +2,7 @@ import pytest
 from rest_framework.test import APIClient
 
 from ..models import Faq
+from ..models import FaqViewed
 from ..models import Project
 from ..models import RecurringEvent
 from ..models import SponsorPartner
@@ -76,3 +77,8 @@ def sponsor_partner():
 @pytest.fixture
 def faq():
     return Faq.objects.create(question="Test Faq")
+
+
+@pytest.fixture
+def faq_viewed(faq):
+    return FaqViewed.objects.create(faq=faq)
