@@ -48,3 +48,17 @@ def test_technology(technology):
 
 def test_language(language):
     assert str(language) == "Test Language"
+
+
+def test_permission_type1(permission_type1):
+    assert str(permission_type1.name) == "Test Permission Type"
+    assert str(permission_type1.description) == ""
+    assert str(permission_type1) == "Test Permission Type"
+
+
+def test_permission_type2(permission_type2):
+    assert str(permission_type2.name) == "Test Permission Type"
+    assert str(permission_type2.description) == "A permission type description"
+    assert (
+        str(permission_type2) == "Test Permission Type: A permission type description"
+    )

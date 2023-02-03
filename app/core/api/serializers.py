@@ -5,6 +5,7 @@ from core.models import Faq
 from core.models import FaqViewed
 from core.models import Language
 from core.models import Location
+from core.models import PermissionType
 from core.models import PracticeArea
 from core.models import ProgramArea
 from core.models import Project
@@ -262,6 +263,21 @@ class LanguageSerializer(serializers.ModelSerializer):
             "description",
             "logo",
         )
+        read_only_fields = (
+            "uuid",
+            "created_at",
+            "updated_at",
+        )
+
+
+class PermissionTypeSerializer(serializers.ModelSerializer):
+    """
+    Used to retrieve each permission_type info
+    """
+
+    class Meta:
+        model = PermissionType
+        fields = ("uuid", "name", "description")
         read_only_fields = (
             "uuid",
             "created_at",
