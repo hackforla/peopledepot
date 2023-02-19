@@ -220,13 +220,13 @@ class Location(AbstractBaseModel):
     """
     Location for event
     """
-    location_nm = models.CharField(max_length=255, unique=True)
+    name = models.CharField(max_length=255, unique=True, verbose_name='Location name')
     address_line_1 = models.CharField(max_length=255, unique=False)
     address_line_2 = models.CharField(max_length=255, unique=False)
     city = models.CharField(max_length=100, unique=False)
-    state = models.CharField(max_length=2, unique=False) #outside US?
-    zip = models.CharField(max_length=10, unique=False) #outside US?
-    phone_num = models.CharField(max_length=15, unique=False) #outside US?
+    state = models.CharField(max_length=2, unique=False) 
+    zip = models.CharField(max_length=10, unique=False)
+    phone = models.CharField(max_length=15, unique=False, verbose_name='Phone number')
 
     def __str__(self):
-        return f"{self.location_nm}"
+        return f"{self.name}"
