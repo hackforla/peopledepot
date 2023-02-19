@@ -21,6 +21,7 @@ from .serializers import ProjectSerializer
 from .serializers import RecurringEventSerializer
 from .serializers import SponsorPartnerSerializer
 from .serializers import UserSerializer
+from .serializers import LocationSerializer
 
 
 class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
@@ -183,3 +184,16 @@ class FaqViewedViewSet(mixins.CreateModelMixin, viewsets.ReadOnlyModelViewSet):
     queryset = FaqViewed.objects.all()
     serializer_class = FaqViewedSerializer
     permission_classes = [IsAuthenticated]
+
+@extend_schema_view(
+    list=extend_schema(description="Return a list of all locations"),
+    create=extend_schema(description="Create a new location"),
+    retrieve=extend_schema(description="Return the details of a location"),
+    destroy=extend_schema(description="Delete a location"),
+    update=extend_schema(description="Update a location"),
+    partial_update=extend_schema(description="Patch a location"),
+)
+class LocationViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = Project.objects.all()
+    serializer_class = LocationSerializer

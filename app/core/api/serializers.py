@@ -7,6 +7,7 @@ from core.models import Project
 from core.models import RecurringEvent
 from core.models import SponsorPartner
 from core.models import User
+from core.models import Location 
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -149,4 +150,25 @@ class FaqViewedSerializer(serializers.ModelSerializer):
         read_only_fields = (
             "uuid",
             "faq",
+        )
+
+class LocationSerializer(serializers.ModelSerializer):
+    """Used to retrieve Location info"""
+
+    class Meta:
+        model = Location 
+        fields = (
+            "uuid",
+            "name",
+            "address_line_1",
+            "address_line_2",
+            "city",
+            "state",
+            "zip",
+            "phone",
+        )
+        read_only_fields = (
+            "uuid",
+            "created_at",
+            "updated_at",
         )
