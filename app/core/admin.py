@@ -150,11 +150,11 @@ class FaqViewed(admin.ModelAdmin):
 @admin.register(Location)
 class Location(admin.ModelAdmin):
     list_display = (
-        "location_nm",
+        "name",
         "address_line_1",
         "address_line_2",
         "city",
         "state",
         "zip",
-        "phone_num"
+        "phone"
     )
