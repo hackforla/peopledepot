@@ -7,7 +7,7 @@ from core.models import Project
 from core.models import RecurringEvent
 from core.models import SponsorPartner
 from core.models import User
-from core.models import Location 
+from core.models import Location
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -152,11 +152,12 @@ class FaqViewedSerializer(serializers.ModelSerializer):
             "faq",
         )
 
+
 class LocationSerializer(serializers.ModelSerializer):
     """Used to retrieve Location info"""
 
     class Meta:
-        model = Location 
+        model = Location
         fields = (
             "uuid",
             "name",
@@ -172,3 +173,4 @@ class LocationSerializer(serializers.ModelSerializer):
             "created_at",
             "updated_at",
         )
+        

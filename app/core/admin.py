@@ -11,7 +11,7 @@ from .models import Project
 from .models import RecurringEvent
 from .models import SponsorPartner
 from .models import User
-from .models import Location 
+from .models import Location
 
 
 class UserCreationForm(DefaultUserCreationForm):
@@ -146,6 +146,7 @@ class Faq(admin.ModelAdmin):
 @admin.register(FaqViewed)
 class FaqViewed(admin.ModelAdmin):
     list_display = ("faq",)
+
 
 @admin.register(Location)
 class Location(admin.ModelAdmin):

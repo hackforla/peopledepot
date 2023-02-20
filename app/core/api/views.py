@@ -185,6 +185,7 @@ class FaqViewedViewSet(mixins.CreateModelMixin, viewsets.ReadOnlyModelViewSet):
     serializer_class = FaqViewedSerializer
     permission_classes = [IsAuthenticated]
 
+
 @extend_schema_view(
     list=extend_schema(description="Return a list of all locations"),
     create=extend_schema(description="Create a new location"),
@@ -197,3 +198,4 @@ class LocationViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = Project.objects.all()
     serializer_class = LocationSerializer
+    

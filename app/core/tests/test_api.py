@@ -197,6 +197,7 @@ def test_get_faq_viewed(auth_client, faq_viewed):
 
     assert res.data[0]["faq"] == faq_viewed.faq.pk
 
+
 def test_create_location(auth_client):
     """Test that we can create a location"""
 

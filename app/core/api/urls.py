@@ -8,7 +8,7 @@ from .views import RecurringEventViewSet
 from .views import SponsorPartnerViewSet
 from .views import UserProfileAPIView
 from .views import UserViewSet
-from .views import LocationViewSet 
+from .views import LocationViewSet
 
 router = routers.SimpleRouter()
 router.register(r"users", UserViewSet, basename="user")

@@ -216,6 +216,7 @@ class FaqViewed(AbstractBaseModel):
     def __str__(self):
         return f"{self.faq} viewed at {self.created_at.strftime('%b %d %Y %H:%M:%S')}"
 
+
 class Location(AbstractBaseModel):
     """
     Location for event
@@ -224,7 +225,7 @@ class Location(AbstractBaseModel):
     address_line_1 = models.CharField(max_length=255, unique=False)
     address_line_2 = models.CharField(max_length=255, unique=False)
     city = models.CharField(max_length=100, unique=False)
-    state = models.CharField(max_length=2, unique=False) 
+    state = models.CharField(max_length=2, unique=False)
     zip = models.CharField(max_length=10, unique=False)
     phone = models.CharField(max_length=15, unique=False, verbose_name='Phone number')
 
