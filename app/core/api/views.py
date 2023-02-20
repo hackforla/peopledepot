@@ -15,6 +15,7 @@ from ..models import FaqViewed
 from ..models import Project
 from ..models import RecurringEvent
 from ..models import SponsorPartner
+from ..models import Location
 from .serializers import FaqSerializer
 from .serializers import FaqViewedSerializer
 from .serializers import ProjectSerializer
@@ -196,6 +197,6 @@ class FaqViewedViewSet(mixins.CreateModelMixin, viewsets.ReadOnlyModelViewSet):
 )
 class LocationViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
-    queryset = Project.objects.all()
+    queryset = Location.objects.all()
     serializer_class = LocationSerializer
     
