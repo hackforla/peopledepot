@@ -1,4 +1,4 @@
-# This project uses Cognito for authentication
+# Cognito authentication
 
 ## What is it
 

@@ -3,13 +3,16 @@
 # For the full list of built-in configuration values, see the documentation:
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
 
+import os
+import sys
+
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = "PeopleDepot"
-project_copyright = "2023, Hack for LA"
-author = "PeopleDepot Team"
-release = "0.1"
+project = "People Depot"
+project_copyright = "2023, Civic Tech Structure"
+author = ""
+release = ""
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
@@ -17,6 +20,8 @@ release = "0.1"
 extensions = [
     "myst_parser",
     "sphinx_copybutton",
+    "sphinx_design",
+    "sphinx.ext.todo",
 ]
 
 templates_path = ["_templates"]
@@ -33,10 +38,16 @@ html_theme_options = {
     "source_branch": "main",
     "source_directory": "docs/",
 }
-html_title = f"{project} Docs"
+html_title = f"{project}"
 
 # -- MyST options
 
 myst_heading_anchors = 3
 myst_enable_extensions = ["colon_fence"]
 myst_number_code_blocks = ["python"]
+
+# -- sphinx.ext.todo options
+
+# Uncomment below to see the todo notes
+# todo_include_todos = True
+# todo_link_only = True

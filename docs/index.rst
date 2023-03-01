@@ -8,21 +8,34 @@ Welcome to PeopleDepot's documentation!
 
 .. toctree::
    :maxdepth: 2
-   :caption: Getting Started:
+   :caption: Get started:
 
-   CONTRIBUTING
+   readme
+
+..
+   the above section is for users, not for contributors to the project
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: Architecture:
 
    architecture/authentication
+   architecture/Notes
 
 .. toctree::
    :maxdepth: 2
-   :caption: Guides:
+   :caption: Developer guides:
 
+   CONTRIBUTING
    how-to/add-model-and-api-endpoints
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Tools:
+
+   tools/sphinx
+
+.. todolist::
 
 
 Indices and tables

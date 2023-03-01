@@ -1,6 +1,6 @@
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 
-# PeopleDepot
+## Summary
 
 PeopleDepot is a project of Hack for LA, a brigade of Code for America. PeopleDepot aims to provide a single source of truth as the backend infrastructure and data store for Hack for LA projects, including data about people, program areas, and projects. PeopleDepot uses PostgreSQL for its database and Django as the backend data model framework with Django REST Framework for the API layer. PeopleDepot's goal is to serve as a repository of information for other infrastructure projects (e.g., VRMS, Hack for LA Website, Civic Tech Index, Tables, etc).
 

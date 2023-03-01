@@ -1,4 +1,4 @@
-# Notes
+# Misc Notes
 
 ## Troubleshooting
 
