@@ -17,11 +17,13 @@ release = ""
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
+sys.path.append(os.path.abspath("./_ext"))
 extensions = [
     "myst_parser",
     "sphinx_copybutton",
     "sphinx_design",
     "sphinx.ext.todo",
+    "fix-sectnum",
 ]
 
 templates_path = ["_templates"]

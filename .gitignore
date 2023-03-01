@@ -28,3 +28,4 @@ app/htmlcov
 
 erd.png
 docs/_build
+docs/_ext/__pycache__
