@@ -34,6 +34,7 @@ Welcome to PeopleDepot's documentation!
    :caption: Tools:
 
    tools/sphinx
+   tools/scripts
 
 .. todolist::
 
