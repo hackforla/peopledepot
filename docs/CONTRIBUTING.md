@@ -11,7 +11,7 @@ Thank you for volunteering your time! The following is a set of guidelines for c
 
 This step is optional if this is your first time fixing an issue and you want to try fixing an issue without this step.
 
-In the `hfla-site` Slack channel, send an introductory message with your GitHub handle/username asking to be added to the Hack for LA peopledepot GitHub repository, have access to the Google Docs Drive, and Figma.
+In the `people-depot` Slack channel, send an introductory message with your GitHub handle/username asking to be added to the PeopleDepot GitHub repository, and google email to be added to the Google Docs Drive.
 
 **NOTE:** Once you have accepted the GitHub invite (comes via email or in your GitHub notifications), **please do the following**:
 
@@ -39,11 +39,11 @@ Before cloning your forked repository to your local machine, you must have Git i
 
 For Windows, you may want to [install a Windows Subsystem for Linux (WSL)](https://code.visualstudio.com/docs/remote/wsl) and then install Git from WSL.
 
-Please note that if you have a Mac the page offers several options (see other option, if you need to conserve hard drive space) including:
+Please note that if you have a Mac, the page offers several options (see other option, if you need to conserve hard drive space) including:
 
 - an “easiest” option (this version is fine for use at hackforla): This option would take just over 4GB.
 - a “more up to date” option (not required but optional if you want it): This option prompts you to go to install an 8GB package manager called Homebrew.
-- Other option: If your computer is low on space, you can use this [tutorial](https://www.datacamp.com/community/tutorials/homebrew-install-use) to install XCode Command Tools and a lighter version of Homebrew and then install Git using this command: `$ brew install git` which in total only uses 300MB.
+- Other option: If your computer is low on space, you can use this [tutorial](https://www.datacamp.com/community/tutorials/homebrew-install-use) to install XCode Command Tools and a lighter version of Homebrew and then install Git using this command: `$ brew install git` which in total uses only 300MB.
 
 #### Install Docker
 
@@ -54,7 +54,7 @@ Install or make sure [docker][docker-install] and [docker-compose][docker-compos
     docker-compose -v
 ```
 
-The recommended installation method for your operating system can be found [here](https://docs.docker.com/install/). <strong><em>Feel free to reach out in the [Hack for LA Slack channel](https://hackforla.slack.com/messages/people-depot/) if you have trouble installing docker on your system</em></strong>
+The recommended installation method for your operating system can be found [here](https://docs.docker.com/install/). ***Feel free to reach out in the [Hack for LA Slack channel](https://hackforla.slack.com/messages/people-depot/) if you have trouble installing docker on your system***
 
 More on using Docker and the concepts of containerization:
 
@@ -62,8 +62,7 @@ More on using Docker and the concepts of containerization:
 
 ### Fork the repository
 
-You can fork the hackforla/peopledepot repository by clicking <a href="https://github.com/hackforla/peopledepot/fork"> <button> <img src="https://user-images.githubusercontent.com/17777237/54873012-40fa5b00-4dd6-11e9-98e0-cc436426c720.png" width="8px"> Fork</button></a>
-. A fork is a copy of the repository that will be placed on your GitHub account.
+You can fork the hackforla/peopledepot repository by clicking <a href="https://github.com/hackforla/peopledepot/fork"> <button> <img src="https://user-images.githubusercontent.com/17777237/54873012-40fa5b00-4dd6-11e9-98e0-cc436426c720.png" width="8px"> Fork</button></a>. A fork is a copy of the repository that will be placed on your GitHub account.
 
 **Note:** It should create a URL that looks like the following -> `https://github.com/<your_GitHub_user_name>/peopledepot`.
 
@@ -115,9 +114,9 @@ Verify that your local cloned repository is pointing to the correct `origin` URL
 git remote -v
 ```
 
-You should see `fetch` and `push` URLs with links to your forked repository under your account (i.e. `https://github.com/<your_GitHub_user_name>/peopledepot.git`). You are all set to make working changes to the website on your local machine.
+You should see `fetch` and `push` URLs with links to your forked repository under your account (i.e. `https://github.com/<your_GitHub_user_name>/peopledepot.git`). You are all set to make working changes to the code on your local machine.
 
-However, we still need a way to keep our local repo up to date with the deployed website. To do so, you must add an upstream remote to incorporate changes made while you are working on your local repo. Run the following to add an upstream remote URL & update your local repo with recent changes to the `hackforla` version:
+However, we still need a way to keep our local repo up to date with the main repo. To do so, you must add an upstream remote to incorporate changes made while you are working on your local repo. Run the following to add an upstream remote URL & update your local repo with recent changes to the `hackforla` version:
 
 ```bash
 git remote add upstream https://github.com/hackforla/peopledepot.git
@@ -303,7 +302,7 @@ To commit your changes with a message, run:
 git commit -m “insert message here”
 ```
 
-Ensure that your local repository is up-to-date with the main site:
+Ensure that your local repository is up-to-date with the main repo:
 
 ```bash
 git pull upstream
@@ -346,9 +345,9 @@ git push --set-upstream origin <name-of-branch>
 2. Add a short title in the subject line
 3. In the body of the comment, add the following, replacing `<issue-number>` with the issue you worked on:
 
-```bash
-fixes #<issue-number>
-```
+   ```bash
+   fixes #<issue-number>
+   ```
 
 4. Below this, add a brief description of the changes you made
 5. Click the green "Create pull request" button
@@ -457,9 +456,9 @@ These scripts assume you are using bash.
 You can go to these links and submit an issue:
 
 - [Docker](https://github.com/docker)
-- [Flake8](https://github.com/pycqa/flake8)
-- [Black](https://github.com/psf/black)
-- [isort](https://github.com/pycqa/isort/)
+- [Flake8][flake8-docs]
+- [Black][black-docs]
+- [isort][isort-docs]
 
 [docker-install]: https://docs.docker.com/get-docker/
 [docker-compose-install]: https://docs.docker.com/compose/install/

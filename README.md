@@ -9,6 +9,7 @@ PeopleDepot is a project of Hack for LA, a brigade of Code for America. PeopleDe
 The hardest part about running a large organization using only free or open source tools and technologies is how to manage the flow of information and provide relevant info to all the people and projects that need it. Managing multiple databases inefficiently can end up taking more time than the projects themselves. This project seeks to create a maintainable database infrastructure that is synchronized.
 
 In the process, it should allow for further automation and do away with manual storage of duplicate information across projects, which includes:
+
 - Recruiting members (Website: Project info and meeting times)
 - Onboarding members to resources (e.g., GitHub, Google Calendar, Google Drive, Google Docs, Google Sheets, etc.)
 - Helping members find roles (Civic Tech Jobs: roles and project info)
@@ -18,7 +19,7 @@ In the process, it should allow for further automation and do away with manual s
 
 - [Docker][docker-docs]
 - [Django][django-docs]
-- [DjangoRestFramework][drf-docs]
+- [Django REST Framework][drf-docs]
 - [PostgreSQL][postgres-docs]
 
 ## How to contribute
@@ -41,7 +42,6 @@ This repository uses the [GNU General Public License (v2.0)][licensing].
 [django-docs]: https://docs.djangoproject.com/
 [drf-docs]: https://www.django-rest-framework.org/tutorial/quickstart/
 [postgres-docs]: https://www.postgresql.org/docs/
-[contributing]: ./docs/CONTRIBUTING.md
+[contributing]: ./CONTRIBUTING.md
 [HfLA onboarding]: https://www.hackforla.org/getting-started
-[licensing-a-repo]: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository
-[licensing]: ./LICENSE.md
+[licensing]: ./LICENSE

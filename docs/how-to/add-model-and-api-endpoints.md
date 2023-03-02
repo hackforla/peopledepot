@@ -20,9 +20,9 @@ We will choose the [recurring_event issue](https://github.com/hackforla/peoplede
 
 Let's start!
 
-## The model
+## Data model
 
-### Add the model in django
+### Add the model
 
 Add the following to app/core/models.py
 
@@ -42,7 +42,9 @@ Add the following to app/core/models.py
 1. Try to add the relationships to non-existent models, but comment them out. Another developer will complete them when they go to implement those models.
 1. Always override the `__str__` function to output something more meaningful than the default. It lets us do a quick test of the model by calling `str([model])`. It's also useful for the admin site model list view.
 
-### Run migrations to generate database migration files
+### Run migrations
+
+Run migrations to generate database migration files
 
 ```bash
 ./scripts/migrate.sh
@@ -109,11 +111,11 @@ This is a good place to pause, check, and commit progress.
    git commit -m "feat: add model: recurring_event"
    ```
 
-## The admin site
+## Admin site
 
 Django comes with an admin site interface that allows admin users to view and change the data in the models. It's essentially a database viewer.
 
-### Register the model with the admin site
+### Register the model
 
 1. Import the new model
 
@@ -124,7 +126,7 @@ Django comes with an admin site interface that allows admin users to view and ch
    from .models import Project
    :::
 
-1. Register the model
+1. Register the model with the admin site
 
    :::{literalinclude} ../../app/core/admin.py
       :language: python
@@ -139,7 +141,9 @@ Django comes with an admin site interface that allows admin users to view and ch
    1. [list_display](https://docs.djangoproject.com/en/4.0/ref/contrib/admin/#django.contrib.admin.ModelAdmin.list_display) controls what's shown in the list view
    1. [list_filter](https://docs.djangoproject.com/en/4.0/ref/contrib/admin/#django.contrib.admin.ModelAdmin.list_filter) adds filter controls to declared fields (useful, but not shown in this example).
 
-### View the admin site to see that everything's working and there are no issues, which should be the case unless there's custom input fields creating problems
+### View the admin site
+
+1. Check that everything's working and there are no issues, which should be the case unless there's custom input fields creating problems.
 
 1. See the [contributing doc section on "Build and run using Docker locally"](../CONTRIBUTING.md) for how to view the admin interface.
 
@@ -177,7 +181,7 @@ This is a good place to pause, check, and commit progress.
    git commit -m "feat: register admin: recurring_event"
    ```
 
-## The API
+## API
 
 There's several components to adding API endpoints: Model(already done), Serializer, View, and Router.
 
