@@ -1,8 +1,11 @@
 # Add new model and API endpoints
 
+:::{sectnum}
+:::
+
 This guide aims to enable developers with little or no django experience to add django models and API endpoints to the project. Most code examples are followed by detailed explanations.
 
-The developer will have exposure to the following in this document:
+::::{dropdown} The developer will have exposure to the following skills in this document
 
 - python
 - django
@@ -13,6 +16,7 @@ The developer will have exposure to the following in this document:
 - unit testing
 - API design
 - command line
+::::
 
 This guide assumes the developer has followed the [contributing doc](../CONTRIBUTING.md) and have forked and created a local branch to work on this. The development server would be already running in the background and will automatically apply the changes when we save the files.
 
@@ -21,6 +25,52 @@ We will choose the [recurring_event issue](https://github.com/hackforla/peoplede
 Let's start!
 
 ## Data model
+
+::::{dropdown} TDD section
+
+1. Write the test
+
+   We would like the model to store these data, and to return the name property in the str function.
+
+   :::{code-block} python
+   :linenos:
+   :caption: app/core/tests/test_models.py
+
+   def test_recurring_event_model(project):
+       from datetime import datetime
+
+       payload = {
+           "name": "test event",
+           "start_time": datetime(2023, 1, 1, 2, 34),
+           "duration_in_min": 60,
+           "video_conference_url": "https://zoom.com/mtg/1234",
+           "additional_info": "long description",
+           "project": project,
+       }
+       recurring_event = RecurringEvent(**payload)
+       # recurring_event.save()
+       assert recurring_event.name == payload["name"]
+       assert recurring_event.start_time == payload["start_time"]
+       assert recurring_event.duration_in_min == payload["duration_in_min"]
+       assert recurring_event.video_conference_url == payload["video_conference_url"]
+       assert recurring_event.additional_info == payload["additional_info"]
+       assert recurring_event.project == payload["project"]
+       assert str(recurring_event) == payload["name"]
+   :::
+
+1. See it fail
+
+   :::{code-block} bash
+   :caption: run the following
+   ./scripts/test.sh
+   :::
+
+1. Run it after implementing the model to make sure the code satisfies the test
+
+:::{todo}
+add guide on how to auto run tests in another terminal
+:::
+::::
 
 ### Add the model
 
@@ -42,6 +92,10 @@ Add the following to app/core/models.py
 1. Try to add the relationships to non-existent models, but comment them out. Another developer will complete them when they go to implement those models.
 1. Always override the `__str__` function to output something more meaningful than the default. It lets us do a quick test of the model by calling `str([model])`. It's also useful for the admin site model list view.
 
+:::{todo}
+add guide to explain model relationships or link to django docs
+:::
+
 ### Run migrations
 
 Run migrations to generate database migration files
@@ -49,6 +103,10 @@ Run migrations to generate database migration files
 ```bash
 ./scripts/migrate.sh
 ```
+
+:::{todo}
+describe steps to redo migration files
+:::
 
 ### Write a simple test
 
@@ -164,6 +222,10 @@ Django comes with an admin site interface that allows admin users to view and ch
 1. The reason there's no tests is that the admin site is independent of the API functionality, and we're mainly interested in the API part.
 1. When the time comes that we depend on the admin interface, we will need to have tests for the needed functionalities.
 
+:::{todo}
+add admin site tests
+:::
+
 ### Check point 2
 
 This is a good place to pause, check, and commit progress.
@@ -226,11 +288,17 @@ This is code that serializes objects into strings for the API endpoints, and des
 
    We will need to write custom validators here if we want custom behavior, such as validating URL strings and limit them to the github user profile pattern using regular expression, for example.
 
-   ```text
-   Example here when we have one
-   ```
+   :::{todo}
+   add custom validator example and test
+
+   [reference](https://testdriven.io/blog/drf-serializers/)
+   :::
 
 ### Add viewset
+
+:::{todo}
+tabbed instructions for the GenericViewSet option vs ModelViewSet
+:::
 
 Viewset defines the set of API endpoints for the model.
 
@@ -261,9 +329,9 @@ Viewset defines the set of API endpoints for the model.
 
 ### Extended example
 
-This example shows how to add a filter params. It's done for the [user model](https://github.com/hackforla/peopledepot/issues/15) as a [requirement](https://github.com/hackforla/peopledepot/issues/10) from VRMS.
+::::{dropdown} Query params
 
-1. Here's a more complex API doc example (this example is using the User model's ViewSet)
+This example shows how to add a filter params. It's done for the [user model](https://github.com/hackforla/peopledepot/issues/15) as a [requirement](https://github.com/hackforla/peopledepot/issues/10) from VRMS.
 
 :::{literalinclude} ../../app/core/api/views.py
    :language: python
@@ -285,6 +353,15 @@ This example shows how to add a filter params. It's done for the [user model](ht
    1. Notice the `queryset` property is now the `get_queryset(()` function which returns the queryset.
    1. The `get_queryset()` function overrides the default and lets us filter the objects returned to the client if they pass in a query param.
    1. Start with all the model objects and filter them based on any available query params.
+::::
+
+:::{todo}
+add pagination example
+:::
+
+:::{todo}
+add sub-resource collection endpoint example
+:::
 
 ### Register API endpoints to the router
 

@@ -37,13 +37,19 @@ Set up two-factor authentication on your account by following this [guide](https
 
 Before cloning your forked repository to your local machine, you must have Git installed. You can find instructions for installing Git for your operating system [**here**](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
 
+::::{tab-set}
+:::{tab-item} Windows
 For Windows, you may want to [install a Windows Subsystem for Linux (WSL)](https://code.visualstudio.com/docs/remote/wsl) and then install Git from WSL.
+:::
 
+:::{tab-item} Mac
 Please note that if you have a Mac, the page offers several options (see other option, if you need to conserve hard drive space) including:
 
 - an “easiest” option (this version is fine for use at hackforla): This option would take just over 4GB.
 - a “more up to date” option (not required but optional if you want it): This option prompts you to go to install an 8GB package manager called Homebrew.
 - Other option: If your computer is low on space, you can use this [tutorial](https://www.datacamp.com/community/tutorials/homebrew-install-use) to install XCode Command Tools and a lighter version of Homebrew and then install Git using this command: `$ brew install git` which in total uses only 300MB.
+:::
+::::
 
 #### Install Docker
 
@@ -134,8 +140,44 @@ upstream        https://github.com/hackforla/peopledepot.git (push)
 
 ### Build and run using Docker locally
 
-1. Start Docker Desktop
-1. Run `docker container ls` to verify Docker Desktop is running. If it is not running you will get the message: `Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?`
+1. Make sure the Docker service is running
+
+   ::::::{tab-set}
+
+   :::::{tab-item} Docker Desktop
+   :sync: docker-desktop
+
+   1. Start Docker Desktop
+   1. Run `docker container ls` to verify Docker Desktop is running. If it is not running you will get the message: `Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?`
+
+   :::::
+
+   :::::{tab-item} Docker Engine
+   :sync: docker-engine
+
+      ::::{tab-set}
+      :::{tab-item} root install
+
+      ```bash
+      sudo systemctl status docker
+      ```
+
+      :::
+      :::{tab-item} rootless mode
+
+      ```bash
+      systemctl --user status docker
+      ```
+
+      :::
+
+      ::::
+
+      It will show `Active: active (running)` if it's running.
+
+   :::::
+   ::::::
+
 1. Create an .env.dev file from .env.dev-sample
 
    ```bash
@@ -183,10 +225,26 @@ docker-compose down -v
 To restore a database to its original state and remove any data manually added, delete the container and image.
 From Docker:
 
+:::::{tab-set}
+
+::::{tab-item} Docker Desktop
+:sync: docker-desktop
+
 1. Open Containers section
 1. Delete people-db-1 container
 1. Open Images Tab
 1. Remove djangorestapipostrgresql image
+::::
+
+::::{tab-item} Commandline
+:sync: commandline
+
+:::
+docker-compose down -v
+:::
+::::
+
+:::::
 
 ## Fixing Issues
 
@@ -286,11 +344,13 @@ git reset HEAD “filename.ext”
 
 ### Run pre-commit checks
 
-**Important: before committing each file, make sure to run the pre-commit hook:\***
+::::{important}
+Before committing each file, make sure to run the pre-commit hook:
 
-```bash
+:::{code-block} bash
 ./scripts/precommit-check.sh
-```
+:::
+::::
 
 ### Commit staged changes
 
