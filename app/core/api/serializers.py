@@ -3,6 +3,7 @@ from timezone_field.rest_framework import TimeZoneSerializerField
 
 from core.models import Faq
 from core.models import FaqViewed
+from core.models import Location
 from core.models import Project
 from core.models import RecurringEvent
 from core.models import SponsorPartner
@@ -150,3 +151,28 @@ class FaqViewedSerializer(serializers.ModelSerializer):
             "uuid",
             "faq",
         )
+
+
+class LocationSerializer(serializers.ModelSerializer):
+    """Used to retrieve Location info"""
+
+    class Meta:
+        model = Location
+        fields = (
+            "uuid",
+            "name",
+            "address_line_1",
+            "address_line_2",
+            "city",
+            "state",
+            "zip",
+            "phone",
+        )
+        read_only_fields = (
+            "uuid",
+            "created_at",
+            "updated_at",
+        )
+
+
+LocationSerializer._declared_fields["zip"] = serializers.CharField(source="zipcode")
