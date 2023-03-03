@@ -7,6 +7,7 @@ from django.utils.translation import gettext_lazy as _
 
 from .models import Faq
 from .models import FaqViewed
+from .models import Location
 from .models import Project
 from .models import RecurringEvent
 from .models import SponsorPartner
@@ -145,3 +146,16 @@ class Faq(admin.ModelAdmin):
 @admin.register(FaqViewed)
 class FaqViewed(admin.ModelAdmin):
     list_display = ("faq",)
+
+
+@admin.register(Location)
+class Location(admin.ModelAdmin):
+    list_display = (
+        "name",
+        "address_line_1",
+        "address_line_2",
+        "city",
+        "state",
+        "zipcode",
+        "phone",
+    )
