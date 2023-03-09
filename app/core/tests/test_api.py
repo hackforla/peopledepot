@@ -140,7 +140,6 @@ user_actions_test_data = [
     user_actions_test_data,
 )
 def test_user_actions(client_name, action, endpoint, payload, expected_status, request):
-
     client = request.getfixturevalue(client_name)
     action_fn = getattr(client, action)
     url = request.getfixturevalue(endpoint)
@@ -165,7 +164,6 @@ def test_create_recurring_event(auth_client, project):
 
 
 def test_create_sponsor_partner(auth_client):
-
     payload = {
         "partner_name": "Test Partner",
         "partner_logo": "http://www.logourl.com",
@@ -178,7 +176,6 @@ def test_create_sponsor_partner(auth_client):
 
 
 def test_create_faq(auth_client):
-
     payload = {
         "question": "How do I work on an issue",
         "answer": "See CONTRIBUTING.md",
