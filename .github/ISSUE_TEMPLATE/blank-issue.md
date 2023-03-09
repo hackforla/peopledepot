@@ -8,11 +8,11 @@ assignees: ''
 ---
 
 ### Overview
-Briefly describe the purpose of this issue. 
+Briefly describe the purpose of this issue.
 <!-- Clearly states the purpose of this issue in 2 sentences or less. -->
 
 ### Action Items
-If this is a new issue, describe what research and documentation are likely needed. 
+If this is a new issue, describe what research and documentation are likely needed.
 <!-- If this is the beginning of the task this is most likely something to be researched and documented. -->
 
 If this is an existing issue, describe the steps and course of actions. If this is a complex issue, maybe it'd be helpful to divide into separate issues.
