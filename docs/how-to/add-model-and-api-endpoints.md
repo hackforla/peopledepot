@@ -14,7 +14,7 @@ The developer will have exposure to the following in this document:
 - API design
 - command line
 
-This guide assumes the developer has followed the [contributing doc](https://github.com/hackforla/peopledepot/blob/main/docs/CONTRIBUTING.md#310-push-to-upstream-origin-aka-your-fork) up to section 3.2 and have created a local branch to work on this. The development server would be already running in the background and will automatically apply the changes when we save the files.
+This guide assumes the developer has followed the [contributing doc](https://github.com/hackforla/peopledepot/blob/main/docs/CONTRIBUTING.md) and have forked and created a local branch to work on this. The development server would be already running in the background and will automatically apply the changes when we save the files.
 
 We will choose the [recurring_event issue](https://github.com/hackforla/peopledepot/issues/14) as an example. Our goal is to create a database table and an API that a client can use to work with the data. The work is split into 3 testable components: the model, the admin site, and the API
 
@@ -120,7 +120,7 @@ Since we overrode the `__str__` function, we need to write a test for it.
 
 ### Check point 1
 
-This is a good place to pause, check, and save. Refer to the [contributing doc](https://github.com/hackforla/peopledepot/blob/main/docs/CONTRIBUTING.md) sections 3.4-3.9 for details.
+This is a good place to pause, check, and commit progress.
 
 1. Run pre-commit checks
 
@@ -170,7 +170,7 @@ Django comes with an admin site interface that allows admin users to view and ch
 
 ### View the admin site to see that everything's working and there are no issues, which should be the case unless there's custom input fields creating problems
 
-1. See the [contributing doc](https://github.com/hackforla/peopledepot/blob/main/docs/CONTRIBUTING.md#:~:text=Browse%20to%20the%20web%20admin%20interface%20at%20http%3A//localhost%3A8000/admin/) for how to view the admin interface.
+1. See the [contributing doc section on "Build and run using Docker locally"](https://github.com/hackforla/peopledepot/blob/main/docs/CONTRIBUTING.md) for how to view the admin interface.
 
 1. Example of a custom field (as opposed to the built-in ones)
 
@@ -190,7 +190,7 @@ Django comes with an admin site interface that allows admin users to view and ch
 
 ### Check point 2
 
-This is a good place to pause, check, and save. Refer to the [contributing doc](https://github.com/hackforla/peopledepot/blob/main/docs/CONTRIBUTING.md) sections 3.4-3.9 for details.
+This is a good place to pause, check, and commit progress.
 
 1. Run pre-commit checks
 
@@ -466,7 +466,7 @@ For the CRUD operations, since we're using `ModelViewSet` where all the actions 
 
 ### Check point 3
 
-This is a good place to pause, check, and save. Refer to the [contributing doc](https://github.com/hackforla/peopledepot/blob/main/docs/CONTRIBUTING.md) sections 3.4-3.9 for details.
+This is a good place to pause, check, and commit progress.
 
 1. Run pre-commit checks
 
@@ -483,4 +483,4 @@ This is a good place to pause, check, and save. Refer to the [contributing doc](
 
 ### Push the code and start a PR
 
-Refer to the [contributing doc](https://github.com/hackforla/peopledepot/blob/main/docs/CONTRIBUTING.md#310-push-to-upstream-origin-aka-your-fork) section 3.10 onward.
+Refer to the [contributing doc section on "Push to upstream origin"](https://github.com/hackforla/peopledepot/blob/main/docs/CONTRIBUTING.md#410-push-to-upstream-origin-aka-your-fork) onward.
