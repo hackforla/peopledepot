@@ -223,7 +223,7 @@ function normalizeHeader_(header) {
       upperCase = true;
       continue;
     }
-    if (!isAlnum_(letter)) {
+    if (!isAlnum_(letter) && letter != "_") {
       continue;
     }
     if (key.length == 0 && isDigit_(letter)) {
