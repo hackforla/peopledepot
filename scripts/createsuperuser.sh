@@ -1,35 +1,12 @@
 #!/bin/bash
 set -euo pipefail
 IFS=$'\n\t'
+set -x
 
-# create a test superuser for loggin into django admin
+# Create a test superuser for logging into django admin
 # http://localhost:8000/admin/login
 
-run_install()
-{
-    ## Prompt the user
-    read -p "Do you want to install missing libraries? [Y/n]: " -r answer
-    ## Set the default value if no answer was given
-    answer="${answer:-Y}"
-    ## If the answer matches y or Y, install
-    [[ $answer =~ [Yy] ]] && sudo apt-get install "${reqd_pkgs[@]}"
-}
+# This command requires the DJANGO_SUPERUSER_USERNAME and
+# DJANGO_SUPERUSER_PASSWORD environmental variables to be set when django starts
 
-reqd_pkgs=("expect")
-## Run the run_install function if any of the libraries are missing
-set -x
-dpkg -s "${reqd_pkgs[@]}" >/dev/null 2>&1 || run_install
-
-/usr/bin/expect << EOF
-
-spawn docker-compose exec web python manage.py createsuperuser --username testadmin --email testadmin@email.com
-
-expect "Password:"
-send "Dogfood1!\r"
-
-expect "Password (again): "
-send -- "Dogfood1!\r"
-
-expect eof
-
-EOF
+docker-compose exec web python manage.py createsuperuser --no-input
