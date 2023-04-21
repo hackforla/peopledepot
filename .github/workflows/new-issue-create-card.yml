@@ -9,5 +9,7 @@ jobs:
       - name: Create or Update Project Card
         uses: peter-evans/create-or-update-project-card@v1
         with:
+          token: ${{ secrets.PAT }}
           project-name: "PD: Project Board"
+          project-location: fyliu
           column-name: New Issue Review
