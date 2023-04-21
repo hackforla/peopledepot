@@ -9,5 +9,5 @@ jobs:
       - name: Create or Update Project Card
         uses: peter-evans/create-or-update-project-card@v1
         with:
-          project-name: Project Management
+          project-name: "PD: Project Board"
           column-name: New Issue Review
