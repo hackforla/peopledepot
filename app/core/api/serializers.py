@@ -15,7 +15,7 @@ class PracticeAreaSerializer(serializers.ModelSerializer):
     """Used to retrieve user info"""
 
     class Meta:
-        model = User
+        model = PracticeArea
         fields = (
             "uuid",
             "created_at",
