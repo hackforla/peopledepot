@@ -177,7 +177,7 @@ def test_create_sponsor_partner(auth_client):
     assert res.status_code == status.HTTP_201_CREATED
 
 
-def test_create_faq(auth_client):
+def test_create_practice_area(auth_client):
     payload = {
         "name": "Test API for creating practice area",
         "description": "See name.  Description is optional.",
