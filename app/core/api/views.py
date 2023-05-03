@@ -8,19 +8,21 @@ from rest_framework import mixins
 from rest_framework import viewsets
 from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import RetrieveModelMixin
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 
 from ..models import Faq
 from ..models import FaqViewed
 from ..models import Location
 from ..models import Project
 from ..models import RecurringEvent
+from ..models import PracticeArea
 from ..models import SponsorPartner
 from .serializers import FaqSerializer
 from .serializers import FaqViewedSerializer
 from .serializers import LocationSerializer
 from .serializers import ProjectSerializer
 from .serializers import RecurringEventSerializer
+from .serializers import PracticeAreaSerializer
 from .serializers import SponsorPartnerSerializer
 from .serializers import UserSerializer
 
@@ -126,6 +128,20 @@ class RecurringEventViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = RecurringEvent.objects.all()
     serializer_class = RecurringEventSerializer
+
+
+@extend_schema_view(
+    list=extend_schema(description="Return a list of all the sponsor partners"),
+    create=extend_schema(description="Create a new sponsor partner"),
+    retrieve=extend_schema(description="Return the details of a sponsor partner"),
+    destroy=extend_schema(description="Delete a sponsor partner"),
+    update=extend_schema(description="Update a sponsor partner"),
+    partial_update=extend_schema(description="Patch a sponsor partner"),
+)
+class PracticeAreaViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    queryset = PracticeArea.objects.all()
+    serializer_class = PracticeAreaSerializer
 
 
 @extend_schema_view(

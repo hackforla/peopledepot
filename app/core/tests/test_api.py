@@ -8,7 +8,8 @@ pytestmark = pytest.mark.django_db
 
 ME_URL = reverse("my_profile")
 USERS_URL = reverse("user-list")
-RECURRING_EVENTS_URL = reverse("recurring-event-list")
+RECURRING_EVENTS_URL = reverse("practice-area-list")
+PRACTICE_AREA_URL = reverse("practice-area--list")
 FAQS_URL = reverse("faq-list")
 FAQS_VIEWED_URL = reverse("faq-viewed-list")
 SPONSOR_PARTNERS_URL = reverse("sponsor-partner-list")
@@ -174,6 +175,16 @@ def test_create_sponsor_partner(auth_client):
     }
     res = auth_client.post(SPONSOR_PARTNERS_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
+
+
+def test_create_faq(auth_client):
+    payload = {
+        "name": "Test API for creating practice area",
+        "description": "See name.  Description is optional.",
+    }
+    res = auth_client.post(FAQS_URL, payload)
+    assert res.status_code == status.HTTP_201_CREATED
+    assert res.data["name"] == payload["name"]
 
 
 def test_create_faq(auth_client):

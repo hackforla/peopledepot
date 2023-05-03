@@ -8,6 +8,26 @@ from core.models import Project
 from core.models import RecurringEvent
 from core.models import SponsorPartner
 from core.models import User
+from core.models import PracticeArea
+
+
+class PracticeAreaSerializer(serializers.ModelSerializer):
+    """Used to retrieve user info"""
+
+    class Meta:
+        model = User
+        fields = (
+            "uuid",
+            "created_at",
+            "updated_at",
+            "name",
+            "description",
+        )
+        read_only_fields = (
+            "uuid",
+            "created_at",
+            "updated_at",
+        )
 
 
 class UserSerializer(serializers.ModelSerializer):

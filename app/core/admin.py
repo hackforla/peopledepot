@@ -12,6 +12,7 @@ from .models import Project
 from .models import RecurringEvent
 from .models import SponsorPartner
 from .models import User
+from .models import PracticeArea
 
 
 class UserCreationForm(DefaultUserCreationForm):
@@ -120,6 +121,14 @@ class RecurringEventAdmin(admin.ModelAdmin):
         "name",
         "start_time",
         "duration_in_min",
+    )
+
+
+@admin.register(PracticeArea)
+class PracticeArea(admin.ModelAdmin):
+    list_display = (
+        "name",
+        "description",
     )
 
 

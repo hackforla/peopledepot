@@ -18,8 +18,12 @@ app/htmlcov
 [._]ss[a-gi-z]
 [._]sw[a-p]
 
+### python ###
+venv
+
 ### VisualStudioCode ###
 .vscode/*
+.idea
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
