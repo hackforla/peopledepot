@@ -2,6 +2,8 @@
 # Generate the entire file as reference with this form:
 # https://www.toptal.com/developers/gitignore?templates=python,django,dotenv,vim,visualstudiocode
 
+temp
+
 ### django ###
 *.sqlite3
 app/.coverage

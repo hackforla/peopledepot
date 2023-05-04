@@ -8,21 +8,22 @@ from rest_framework import mixins
 from rest_framework import viewsets
 from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import RetrieveModelMixin
-from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 from ..models import Faq
 from ..models import FaqViewed
 from ..models import Location
+from ..models import PracticeArea
 from ..models import Project
 from ..models import RecurringEvent
-from ..models import PracticeArea
 from ..models import SponsorPartner
 from .serializers import FaqSerializer
 from .serializers import FaqViewedSerializer
 from .serializers import LocationSerializer
+from .serializers import PracticeAreaSerializer
 from .serializers import ProjectSerializer
 from .serializers import RecurringEventSerializer
-from .serializers import PracticeAreaSerializer
 from .serializers import SponsorPartnerSerializer
 from .serializers import UserSerializer
 
