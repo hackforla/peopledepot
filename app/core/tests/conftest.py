@@ -6,6 +6,7 @@ from ..models import FaqViewed
 from ..models import Project
 from ..models import RecurringEvent
 from ..models import SponsorPartner
+from ..models import PermissionType
 
 
 @pytest.fixture
@@ -82,3 +83,13 @@ def faq():
 @pytest.fixture
 def faq_viewed(faq):
     return FaqViewed.objects.create(faq=faq)
+
+
+@pytest.fixture
+def permission_type1():
+  return PermissionType.objects.create(name="Test Permission Type", description="")
+
+
+@pytest.fixture
+def permission_type2():
+  return PermissionType.objects.create(name="Test Permission Type", description="A permission type description")
