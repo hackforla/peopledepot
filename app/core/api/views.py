@@ -20,7 +20,6 @@ from ..models import Project
 from ..models import RecurringEvent
 from ..models import Skill
 from ..models import SponsorPartner
-from ..models import Technology
 from .serializers import FaqSerializer
 from .serializers import FaqViewedSerializer
 from .serializers import LocationSerializer
@@ -32,7 +31,7 @@ from .serializers import SkillSerializer
 from .serializers import SponsorPartnerSerializer
 from .serializers import TechnologySerializer
 from .serializers import UserSerializer
-
+from .serializers import PermissionTypeSerializer
 
 class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
     serializer_class = UserSerializer
@@ -210,59 +209,3 @@ class FaqViewedViewSet(mixins.CreateModelMixin, viewsets.ReadOnlyModelViewSet):
     queryset = FaqViewed.objects.all()
     serializer_class = FaqViewedSerializer
     permission_classes = [IsAuthenticated]
-
-
-@extend_schema_view(
-    list=extend_schema(description="Return a list of all locations"),
-    create=extend_schema(description="Create a new location"),
-    retrieve=extend_schema(description="Return the details of a location"),
-    destroy=extend_schema(description="Delete a location"),
-    update=extend_schema(description="Update a location"),
-    partial_update=extend_schema(description="Patch a location"),
-)
-class LocationViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticated]
-    queryset = Location.objects.all()
-    serializer_class = LocationSerializer
-
-
-@extend_schema_view(
-    list=extend_schema(description="Return a list of all the program areas"),
-    create=extend_schema(description="Create a new program area"),
-    retrieve=extend_schema(description="Return the details of a program area"),
-    destroy=extend_schema(description="Delete a program area"),
-    update=extend_schema(description="Update a program area"),
-    partial_update=extend_schema(description="Patch a program area"),
-)
-class ProgramAreaViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticated]
-    queryset = ProgramArea.objects.all()
-    serializer_class = ProgramAreaSerializer
-
-
-@extend_schema_view(
-    list=extend_schema(description="Return a list of all skills"),
-    create=extend_schema(description="Create a new skill"),
-    retrieve=extend_schema(description="Return the details of a skill"),
-    destroy=extend_schema(description="Delete a skill"),
-    update=extend_schema(description="Update a skill"),
-    partial_update=extend_schema(description="Patch a skill"),
-)
-class SkillViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticated]
-    queryset = Skill.objects.all()
-    serializer_class = SkillSerializer
-
-
-@extend_schema_view(
-    list=extend_schema(description="Return a list of all the technologies"),
-    create=extend_schema(description="Create a new technology"),
-    retrieve=extend_schema(description="Return the details of a technology"),
-    destroy=extend_schema(description="Delete a technology"),
-    update=extend_schema(description="Update a technology"),
-    partial_update=extend_schema(description="Patch a technology"),
-)
-class TechnologyViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticated]
-    queryset = Technology.objects.all()
-    serializer_class = TechnologySerializer
