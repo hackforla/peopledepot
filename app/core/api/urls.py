@@ -2,10 +2,6 @@ from django.urls import path
 from rest_framework import routers
 
 from .views import FaqViewedViewSet
-from .views import FaqViewSet
-from .views import LocationViewSet
-from .views import PracticeAreaViewSet
-from .views import ProgramAreaViewSet
 from .views import ProjectViewSet
 from .views import RecurringEventViewSet
 from .views import SkillViewSet

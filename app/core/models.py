@@ -217,7 +217,7 @@ class FaqViewed(AbstractBaseModel):
     def __str__(self):
         return f"{self.faq} viewed at {self.created_at.strftime('%b %d %Y %H:%M:%S')}"
     
-    
+
 class PermissionType(AbstractBaseModel):
     """
     Permission Type
@@ -227,4 +227,7 @@ class PermissionType(AbstractBaseModel):
     description = models.TextField(blank=True)
 
     def __str__(self):
-        return f"{self.name}"
+        if self.description and isinstance(self.description, str):
+            return f"{self.name}: {self.description}"
+        else: 
+            return f"{self.name}"
