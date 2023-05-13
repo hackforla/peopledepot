@@ -1,8 +1,8 @@
 from django.urls import path
 from rest_framework import routers
 
-from .views import FaqViewSet
 from .views import FaqViewedViewSet
+from .views import FaqViewSet
 from .views import ProjectViewSet
 from .views import RecurringEventViewSet
 from .views import SponsorPartnerViewSet
