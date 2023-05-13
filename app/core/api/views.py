@@ -15,13 +15,14 @@ from ..models import FaqViewed
 from ..models import Project
 from ..models import RecurringEvent
 from ..models import SponsorPartner
+from ..models import PermissionType
 from .serializers import FaqSerializer
 from .serializers import FaqViewedSerializer
 from .serializers import ProjectSerializer
 from .serializers import RecurringEventSerializer
 from .serializers import SponsorPartnerSerializer
 from .serializers import UserSerializer
-
+from .serializers import PermissionTypeSerializer
 
 class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
     serializer_class = UserSerializer
@@ -183,3 +184,17 @@ class FaqViewedViewSet(mixins.CreateModelMixin, viewsets.ReadOnlyModelViewSet):
     queryset = FaqViewed.objects.all()
     serializer_class = FaqViewedSerializer
     permission_classes = [IsAuthenticated]
+
+
+@extend_schema_view(
+    list=extend_schema(description="Return a list of all permission types"),
+    create=extend_schema(description="Create a new permission type"),
+    retrieve=extend_schema(description="Return the details of a permission type"),
+    destroy=extend_schema(description="Delete a permission type"),
+    update=extend_schema(description="Update a permission type"),
+    partial_update=extend_schema(description="Patch a permission type"),
+)
+class PermissionTypeViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = PermissionType.objects.all()
+    serializer_class = PermissionTypeSerializer
