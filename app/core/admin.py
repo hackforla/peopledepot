@@ -7,11 +7,11 @@ from django.utils.translation import gettext_lazy as _
 
 from .models import Faq
 from .models import FaqViewed
+from .models import PermissionType
 from .models import Project
 from .models import RecurringEvent
 from .models import SponsorPartner
 from .models import User
-from .models import PermissionType
 
 
 class UserCreationForm(DefaultUserCreationForm):
@@ -147,9 +147,7 @@ class Faq(admin.ModelAdmin):
 class FaqViewed(admin.ModelAdmin):
     list_display = ("faq",)
 
+
 @admin.register(PermissionType)
 class PermissionTypeAdmin(admin.ModelAdmin):
-  list_display = (
-      "name",
-      "description"
-  )
+    list_display = ("name", "description")
