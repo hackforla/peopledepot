@@ -3,6 +3,7 @@ from timezone_field.rest_framework import TimeZoneSerializerField
 
 from core.models import Faq
 from core.models import FaqViewed
+from core.models import PermissionType
 from core.models import Project
 from core.models import RecurringEvent
 from core.models import SponsorPartner
@@ -149,4 +150,19 @@ class FaqViewedSerializer(serializers.ModelSerializer):
         read_only_fields = (
             "uuid",
             "faq",
+        )
+
+
+class PermissionTypeSerializer(serializers.ModelSerializer):
+    """
+    Used to retrieve each permission_type info
+    """
+
+    class Meta:
+        model = PermissionType
+        fields = ("uuid", "name", "description")
+        read_only_fields = (
+            "uuid",
+            "created_at",
+            "updated_at",
         )
