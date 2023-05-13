@@ -16,6 +16,7 @@ from .models import Skill
 from .models import SponsorPartner
 from .models import Technology
 from .models import User
+from .models import PermissionType
 
 
 class UserCreationForm(DefaultUserCreationForm):
@@ -158,42 +159,3 @@ class Faq(admin.ModelAdmin):
 @admin.register(FaqViewed)
 class FaqViewed(admin.ModelAdmin):
     list_display = ("faq",)
-
-
-@admin.register(Location)
-class Location(admin.ModelAdmin):
-    list_display = (
-        "name",
-        "address_line_1",
-        "address_line_2",
-        "city",
-        "state",
-        "zipcode",
-        "phone",
-    )
-
-
-@admin.register(ProgramArea)
-class ProgramAreaAdmin(admin.ModelAdmin):
-    list_display = ("name", "description", "image")
-
-
-@admin.register(Skill)
-class SkillAdmin(admin.ModelAdmin):
-    list_display = (
-        "name",
-        "description",
-    )
-
-    list_filter = ("name",)
-
-
-@admin.register(Technology)
-class TechnologyAdmin(admin.ModelAdmin):
-    list_display = (
-        "name",
-        "description",
-        "url",
-        "logo",
-        "active",
-    )
