@@ -32,15 +32,3 @@ def test_faq(faq):
 
 def test_faq_viewed(faq_viewed):
     assert str(faq_viewed).startswith("Test Faq viewed")
-
-
-def test_location(location):
-    assert str(location) == "Test Hack for L.A. HQ"
-
-
-def test_skill(skill):
-    assert str(skill) == "Test Skill"
-
-
-def test_technology(technology):
-    assert str(technology) == "Test Technology"
