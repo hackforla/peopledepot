@@ -10,7 +10,6 @@ from ..models import Project
 from ..models import RecurringEvent
 from ..models import Skill
 from ..models import SponsorPartner
-from ..models import Technology
 
 
 @pytest.fixture
@@ -94,23 +93,3 @@ def faq():
 @pytest.fixture
 def faq_viewed(faq):
     return FaqViewed.objects.create(faq=faq)
-
-
-@pytest.fixture
-def location():
-    return Location.objects.create(name="Test Hack for L.A. HQ")
-
-
-@pytest.fixture
-def program_area():
-    return ProgramArea.objects.create(name="Test Program Area")
-
-
-@pytest.fixture
-def skill():
-    return Skill.objects.create(name="Test Skill")
-
-
-@pytest.fixture
-def technology():
-    return Technology.objects.create(name="Test Technology")
