@@ -216,3 +216,15 @@ class FaqViewed(AbstractBaseModel):
 
     def __str__(self):
         return f"{self.faq} viewed at {self.created_at.strftime('%b %d %Y %H:%M:%S')}"
+    
+    
+class PermissionType(AbstractBaseModel):
+    """
+    Permission Type
+    """
+
+    name = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+
+    def __str__(self):
+        return f"{self.name}"
