@@ -12,17 +12,18 @@ from rest_framework.permissions import IsAuthenticated
 
 from ..models import Faq
 from ..models import FaqViewed
+from ..models import PermissionType
 from ..models import Project
 from ..models import RecurringEvent
 from ..models import SponsorPartner
-from ..models import PermissionType
 from .serializers import FaqSerializer
 from .serializers import FaqViewedSerializer
+from .serializers import PermissionTypeSerializer
 from .serializers import ProjectSerializer
 from .serializers import RecurringEventSerializer
 from .serializers import SponsorPartnerSerializer
 from .serializers import UserSerializer
-from .serializers import PermissionTypeSerializer
+
 
 class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
     serializer_class = UserSerializer
