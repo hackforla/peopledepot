@@ -3,9 +3,6 @@ from timezone_field.rest_framework import TimeZoneSerializerField
 
 from core.models import Faq
 from core.models import FaqViewed
-from core.models import Location
-from core.models import PracticeArea
-from core.models import ProgramArea
 from core.models import Project
 from core.models import RecurringEvent
 from core.models import Skill
@@ -173,76 +170,4 @@ class FaqViewedSerializer(serializers.ModelSerializer):
         read_only_fields = (
             "uuid",
             "faq",
-        )
-
-
-class LocationSerializer(serializers.ModelSerializer):
-    """Used to retrieve Location info"""
-
-    class Meta:
-        model = Location
-        fields = (
-            "uuid",
-            "name",
-            "address_line_1",
-            "address_line_2",
-            "city",
-            "state",
-            "zip",
-            "phone",
-        )
-        read_only_fields = (
-            "uuid",
-            "created_at",
-            "updated_at",
-        )
-
-
-LocationSerializer._declared_fields["zip"] = serializers.CharField(source="zipcode")
-
-
-class ProgramAreaSerializer(serializers.ModelSerializer):
-    """Used to retrieve program_area info"""
-
-    class Meta:
-        model = ProgramArea
-        fields = ("uuid", "name", "description", "image")
-        read_only_fields = ("uuid", "created_at", "updated_at")
-
-
-class SkillSerializer(serializers.ModelSerializer):
-    """
-    Used to retrieve Skill info
-    """
-
-    class Meta:
-        model = Skill
-        fields = (
-            "uuid",
-            "name",
-        )
-        read_only_fields = (
-            "uuid",
-            "created_at",
-            "updated_at",
-        )
-
-
-class TechnologySerializer(serializers.ModelSerializer):
-    """Used to retrieve technology info"""
-
-    class Meta:
-        model = Technology
-        fields = (
-            "uuid",
-            "name",
-            "description",
-            "url",
-            "logo",
-            "active",
-        )
-        read_only_fields = (
-            "uuid",
-            "created_at",
-            "updated_at",
         )
