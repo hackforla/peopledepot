@@ -131,14 +131,6 @@ class RecurringEventViewSet(viewsets.ModelViewSet):
     serializer_class = RecurringEventSerializer
 
 
-@extend_schema_view(
-    list=extend_schema(description="Return a list of all the sponsor partners"),
-    create=extend_schema(description="Create a new sponsor partner"),
-    retrieve=extend_schema(description="Return the details of a sponsor partner"),
-    destroy=extend_schema(description="Delete a sponsor partner"),
-    update=extend_schema(description="Update a sponsor partner"),
-    partial_update=extend_schema(description="Patch a sponsor partner"),
-)
 class PracticeAreaViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticatedOrReadOnly]
     queryset = PracticeArea.objects.all()
