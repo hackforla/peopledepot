@@ -19,7 +19,7 @@ def test_recurring_event(recurring_event):
 
 
 def test_practice_area(practice_area):
-    assert str(recurring_event) == "Test Practice Area"
+    assert str(practice_area) == "Test Practice Area"
 
 
 def test_sponsor_partner(sponsor_partner):
