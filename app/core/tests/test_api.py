@@ -182,7 +182,7 @@ def test_create_practice_area(auth_client):
         "name": "Test API for creating practice area",
         "description": "See name.  Description is optional.",
     }
-    res = auth_client.post(FAQS_URL, payload)
+    res = auth_client.post(PRACTICE_AREA_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
     assert res.data["name"] == payload["name"]
 
