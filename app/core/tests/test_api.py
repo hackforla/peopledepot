@@ -8,7 +8,7 @@ pytestmark = pytest.mark.django_db
 
 ME_URL = reverse("my_profile")
 USERS_URL = reverse("user-list")
-RECURRING_EVENTS_URL = reverse("practice-area-list")
+RECURRING_EVENTS_URL = reverse("recurring-event-list")
 PRACTICE_AREA_URL = reverse("practice-area--list")
 FAQS_URL = reverse("faq-list")
 FAQS_VIEWED_URL = reverse("faq-viewed-list")
