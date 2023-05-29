@@ -5,6 +5,7 @@ from core.models import Faq
 from core.models import FaqViewed
 from core.models import Location
 from core.models import PracticeArea
+from core.models import ProgramArea
 from core.models import Project
 from core.models import RecurringEvent
 from core.models import SponsorPartner
@@ -196,3 +197,12 @@ class LocationSerializer(serializers.ModelSerializer):
 
 
 LocationSerializer._declared_fields["zip"] = serializers.CharField(source="zipcode")
+
+
+class ProgramAreaSerializer(serializers.ModelSerializer):
+    """Used to retriev program_area info"""
+
+    class Meta:
+        model = ProgramArea
+        fields = ("uuid", "name", "description", "image")
+        read_only_fields = ("uuid", "created_at", "updated_at")

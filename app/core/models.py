@@ -245,3 +245,15 @@ class PracticeArea(AbstractBaseModel):
 
     def __str__(self):
         return f"{self.name}"
+    
+class ProgramArea(AbstractBaseModel):
+    """
+    Update a shared data store across hackforla.org, vrms, civictechjobs, and tables (onboarding) project.
+    """
+
+    name = models.CharField(max_length=255, unique=True)
+    description = models.TextField(blank=True)
+    image = models.URLField(blank=True)
+
+    def __str__(self):
+        return f"{self.name}"

@@ -15,6 +15,7 @@ from ..models import Faq
 from ..models import FaqViewed
 from ..models import Location
 from ..models import PracticeArea
+from ..models import ProgramArea
 from ..models import Project
 from ..models import RecurringEvent
 from ..models import SponsorPartner
@@ -22,6 +23,7 @@ from .serializers import FaqSerializer
 from .serializers import FaqViewedSerializer
 from .serializers import LocationSerializer
 from .serializers import PracticeAreaSerializer
+from .serializers import ProgramAreaSerializer
 from .serializers import ProjectSerializer
 from .serializers import RecurringEventSerializer
 from .serializers import SponsorPartnerSerializer
@@ -218,3 +220,17 @@ class LocationViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = Location.objects.all()
     serializer_class = LocationSerializer
+
+
+@extend_schema_view(
+    list=extend_schema(description="Return a list of all the program areas"),
+    create=extend_schema(description="Create a new program area"),
+    retrieve=extend_schema(description="Return the details of a program area"),
+    destroy=extend_schema(description="Delete a program area"),
+    update=extend_schema(description="Update a program area"),
+    partial_update=extend_schema(description="Patch a program area"),
+)
+class ProgramAreaViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = ProgramArea.objects.all()
+    serializer_class = ProgramAreaSerializer
