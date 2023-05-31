@@ -137,7 +137,9 @@ class RecurringEventViewSet(viewsets.ModelViewSet):
     retrieve=extend_schema(description="Return the details of a practice area"),
     destroy=extend_schema(description="Delete a practice area"),
     update=extend_schema(description="Update a practice area"),
-    partial_update=extend_schema(description="Patch (partially update) a practice area"),
+    partial_update=extend_schema(
+        description="Patch (partially update) a practice area"
+    ),
 )
 class PracticeAreaViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticatedOrReadOnly]
