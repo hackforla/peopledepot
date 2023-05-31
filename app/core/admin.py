@@ -125,7 +125,7 @@ class RecurringEventAdmin(admin.ModelAdmin):
 
 
 @admin.register(PracticeArea)
-class PracticeArea(admin.ModelAdmin):
+class PracticeAreaAdmin(admin.ModelAdmin):
     list_display = (
         "name",
         "description",
