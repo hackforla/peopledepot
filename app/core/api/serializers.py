@@ -12,7 +12,7 @@ from core.models import User
 
 
 class PracticeAreaSerializer(serializers.ModelSerializer):
-    """Used to retrieve user info"""
+    """Used to retrieve practice area info"""
 
     class Meta:
         model = PracticeArea
