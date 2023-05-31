@@ -4,10 +4,30 @@ from timezone_field.rest_framework import TimeZoneSerializerField
 from core.models import Faq
 from core.models import FaqViewed
 from core.models import Location
+from core.models import PracticeArea
 from core.models import Project
 from core.models import RecurringEvent
 from core.models import SponsorPartner
 from core.models import User
+
+
+class PracticeAreaSerializer(serializers.ModelSerializer):
+    """Used to retrieve practice area info"""
+
+    class Meta:
+        model = PracticeArea
+        fields = (
+            "uuid",
+            "created_at",
+            "updated_at",
+            "name",
+            "description",
+        )
+        read_only_fields = (
+            "uuid",
+            "created_at",
+            "updated_at",
+        )
 
 
 class UserSerializer(serializers.ModelSerializer):

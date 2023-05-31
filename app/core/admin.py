@@ -8,6 +8,7 @@ from django.utils.translation import gettext_lazy as _
 from .models import Faq
 from .models import FaqViewed
 from .models import Location
+from .models import PracticeArea
 from .models import Project
 from .models import RecurringEvent
 from .models import SponsorPartner
@@ -120,6 +121,14 @@ class RecurringEventAdmin(admin.ModelAdmin):
         "name",
         "start_time",
         "duration_in_min",
+    )
+
+
+@admin.register(PracticeArea)
+class PracticeAreaAdmin(admin.ModelAdmin):
+    list_display = (
+        "name",
+        "description",
     )
 
 
