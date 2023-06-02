@@ -248,7 +248,7 @@ class PracticeArea(AbstractBaseModel):
     
 class ProgramArea(AbstractBaseModel):
     """
-    Update a shared data store across hackforla.org, vrms, civictechjobs, and tables (onboarding) project.
+    Dictionary of program areas (to be joined with project)
     """
 
     name = models.CharField(max_length=255, unique=True)

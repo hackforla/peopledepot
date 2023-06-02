@@ -200,7 +200,7 @@ LocationSerializer._declared_fields["zip"] = serializers.CharField(source="zipco
 
 
 class ProgramAreaSerializer(serializers.ModelSerializer):
-    """Used to retriev program_area info"""
+    """Used to retrieve program_area info"""
 
     class Meta:
         model = ProgramArea
