@@ -5,6 +5,7 @@ from ..models import Faq
 from ..models import FaqViewed
 from ..models import Location
 from ..models import PracticeArea
+from ..models import ProgramArea
 from ..models import Project
 from ..models import RecurringEvent
 from ..models import SponsorPartner
@@ -96,3 +97,8 @@ def faq_viewed(faq):
 @pytest.fixture
 def location():
     return Location.objects.create(name="Test Hack for L.A. HQ")
+
+
+@pytest.fixture
+def program_area():
+    return ProgramArea.objects.create(name="Test Program Area")

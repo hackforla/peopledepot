@@ -14,6 +14,7 @@ FAQS_URL = reverse("faq-list")
 FAQS_VIEWED_URL = reverse("faq-viewed-list")
 SPONSOR_PARTNERS_URL = reverse("sponsor-partner-list")
 LOCATION_URL = reverse("location-list")
+PROGRAM_AREA_URL = reverse("program-area-list")
 
 CREATE_USER_PAYLOAD = {
     "username": "TestUserAPI",
@@ -219,3 +220,16 @@ def test_create_location(auth_client):
     }
     res = auth_client.post(LOCATION_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
+
+
+def test_create_program_area(auth_client):
+    """Test that we can create a program area"""
+
+    payload = {
+        "name": "Test program area",
+        "description": "About program area",
+        "image": "http://www.imageurl.com",
+    }
+    res = auth_client.post(PROGRAM_AREA_URL, payload)
+    assert res.status_code == status.HTTP_201_CREATED
+    assert res.data["name"] == payload["name"]

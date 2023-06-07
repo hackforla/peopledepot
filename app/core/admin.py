@@ -9,6 +9,7 @@ from .models import Faq
 from .models import FaqViewed
 from .models import Location
 from .models import PracticeArea
+from .models import ProgramArea
 from .models import Project
 from .models import RecurringEvent
 from .models import SponsorPartner
@@ -168,3 +169,8 @@ class Location(admin.ModelAdmin):
         "zipcode",
         "phone",
     )
+
+
+@admin.register(ProgramArea)
+class ProgramAreaAdmin(admin.ModelAdmin):
+    list_display = ("name", "description", "image")
