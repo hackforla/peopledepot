@@ -32,3 +32,7 @@ def test_faq_viewed(faq_viewed):
 
 def test_location(location):
     assert str(location) == "Test Hack for L.A. HQ"
+
+
+def test_technology(technology):
+    assert str(technology) == "Test Technology"

@@ -248,5 +248,8 @@ class Technology(AbstractBaseModel):
 
     # PK of this model is the ForeignKey for project_partner_xref
 
+    class Meta:
+        verbose_name_plural = "Technologies"
+
     def __str__(self):
         return f"{self.name}"

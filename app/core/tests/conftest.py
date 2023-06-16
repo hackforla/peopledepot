@@ -7,6 +7,7 @@ from ..models import Location
 from ..models import Project
 from ..models import RecurringEvent
 from ..models import SponsorPartner
+from ..models import Technology
 
 
 @pytest.fixture
@@ -88,3 +89,8 @@ def faq_viewed(faq):
 @pytest.fixture
 def location():
     return Location.objects.create(name="Test Hack for L.A. HQ")
+
+
+@pytest.fixture
+def technology():
+    return Technology.objects.create(name="Test Technology")
