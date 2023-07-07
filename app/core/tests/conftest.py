@@ -8,6 +8,7 @@ from ..models import PracticeArea
 from ..models import ProgramArea
 from ..models import Project
 from ..models import RecurringEvent
+from ..models import Skill
 from ..models import SponsorPartner
 
 
@@ -102,3 +103,8 @@ def location():
 @pytest.fixture
 def program_area():
     return ProgramArea.objects.create(name="Test Program Area")
+
+
+@pytest.fixture
+def skill():
+    return Skill.objects.create(name="Test Skill")

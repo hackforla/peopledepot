@@ -8,6 +8,7 @@ from core.models import PracticeArea
 from core.models import ProgramArea
 from core.models import Project
 from core.models import RecurringEvent
+from core.models import Skill
 from core.models import SponsorPartner
 from core.models import User
 
@@ -206,3 +207,20 @@ class ProgramAreaSerializer(serializers.ModelSerializer):
         model = ProgramArea
         fields = ("uuid", "name", "description", "image")
         read_only_fields = ("uuid", "created_at", "updated_at")
+
+
+class SkillSerializer(serializers.ModelSerializer):
+    """
+    Used to retrieve Skill info
+    """
+
+    model = Skill
+    fields = (
+        "uuid",
+        "name",
+    )
+    read_only_fields = (
+        "uuid",
+        "created_at",
+        "updated_at",
+    )

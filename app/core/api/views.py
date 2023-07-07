@@ -18,6 +18,7 @@ from ..models import PracticeArea
 from ..models import ProgramArea
 from ..models import Project
 from ..models import RecurringEvent
+from ..models import Skill
 from ..models import SponsorPartner
 from .serializers import FaqSerializer
 from .serializers import FaqViewedSerializer
@@ -26,6 +27,7 @@ from .serializers import PracticeAreaSerializer
 from .serializers import ProgramAreaSerializer
 from .serializers import ProjectSerializer
 from .serializers import RecurringEventSerializer
+from .serializers import SkillSerializer
 from .serializers import SponsorPartnerSerializer
 from .serializers import UserSerializer
 
@@ -234,3 +236,17 @@ class ProgramAreaViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = ProgramArea.objects.all()
     serializer_class = ProgramAreaSerializer
+
+
+@extend_schema_view(
+    list=extend_schema(description="Return a list of all skills"),
+    create=extend_schema(description="Create a new skill"),
+    retrieve=extend_schema(description="Return the details of a skill"),
+    destroy=extend_schema(description="Delete a skill"),
+    update=extend_schema(description="Update a skill"),
+    partial_update=extend_schema(description="Patch a skill"),
+)
+class SkillViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = Skill.objects.all()
+    serializer_class = SkillSerializer
