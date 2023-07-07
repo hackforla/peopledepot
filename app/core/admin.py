@@ -12,6 +12,7 @@ from .models import PracticeArea
 from .models import ProgramArea
 from .models import Project
 from .models import RecurringEvent
+from .models import Skill
 from .models import SponsorPartner
 from .models import User
 
@@ -174,3 +175,13 @@ class Location(admin.ModelAdmin):
 @admin.register(ProgramArea)
 class ProgramAreaAdmin(admin.ModelAdmin):
     list_display = ("name", "description", "image")
+
+
+@admin.register(Skill)
+class SkillAdmin(admin.ModelAdmin):
+    list_display = (
+        "name",
+        "description",
+    )
+
+    list_filter = ("name",)

@@ -8,6 +8,7 @@ from .views import PracticeAreaViewSet
 from .views import ProgramAreaViewSet
 from .views import ProjectViewSet
 from .views import RecurringEventViewSet
+from .views import SkillViewSet
 from .views import SponsorPartnerViewSet
 from .views import UserProfileAPIView
 from .views import UserViewSet
@@ -22,6 +23,7 @@ router.register(r"faqs", FaqViewSet, basename="faq")
 router.register(r"faqs-viewed", FaqViewedViewSet, basename="faq-viewed")
 router.register(r"locations", LocationViewSet, basename="location")
 router.register(r"program-areas", ProgramAreaViewSet, basename="program-area")
+router.register(r"skills", SkillViewSet, basename="skill")
 
 urlpatterns = [
     path("me/", UserProfileAPIView.as_view(), name="my_profile"),
