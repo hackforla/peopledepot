@@ -213,14 +213,14 @@ class SkillSerializer(serializers.ModelSerializer):
     """
     Used to retrieve Skill info
     """
-
-    model = Skill
-    fields = (
-        "uuid",
-        "name",
-    )
-    read_only_fields = (
-        "uuid",
-        "created_at",
-        "updated_at",
-    )
+    class Meta:
+        model = Skill
+        fields = (
+            "uuid",
+            "name",
+        )
+        read_only_fields = (
+            "uuid",
+            "created_at",
+            "updated_at",
+        )
