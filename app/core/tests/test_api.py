@@ -16,6 +16,7 @@ SPONSOR_PARTNERS_URL = reverse("sponsor-partner-list")
 LOCATION_URL = reverse("location-list")
 PROGRAM_AREA_URL = reverse("program-area-list")
 SKILL_URL = reverse("skill-list")
+TECHNOLOGY_URL = reverse("technology-list")
 
 CREATE_USER_PAYLOAD = {
     "username": "TestUserAPI",
@@ -244,5 +245,18 @@ def test_create_skill(auth_client):
         "description": "Skill Description",
     }
     res = auth_client.post(SKILL_URL, payload)
+    assert res.status_code == status.HTTP_201_CREATED
+    assert res.data["name"] == payload["name"]
+
+
+def test_create_technology(auth_client):
+    payload = {
+        "name": "Test Technology",
+        "description": "Technology description",
+        "url": "http://www.testurl.org",
+        "logo": "http://www.logourl.com",
+        "active": True,
+    }
+    res = auth_client.post(TECHNOLOGY_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
     assert res.data["name"] == payload["name"]

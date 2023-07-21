@@ -20,6 +20,7 @@ from ..models import Project
 from ..models import RecurringEvent
 from ..models import Skill
 from ..models import SponsorPartner
+from ..models import Technology
 from .serializers import FaqSerializer
 from .serializers import FaqViewedSerializer
 from .serializers import LocationSerializer
@@ -30,6 +31,7 @@ from .serializers import RecurringEventSerializer
 from .serializers import SkillSerializer
 from .serializers import SponsorPartnerSerializer
 from .serializers import UserSerializer
+from .serializers import TechnologySerializer
 
 
 class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
@@ -250,3 +252,17 @@ class SkillViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = Skill.objects.all()
     serializer_class = SkillSerializer
+
+
+@extend_schema_view(
+    list=extend_schema(description="Return a list of all the technologies"),
+    create=extend_schema(description="Create a new technology"),
+    retrieve=extend_schema(description="Return the details of a technology"),
+    destroy=extend_schema(description="Delete a technology"),
+    update=extend_schema(description="Update a technology"),
+    partial_update=extend_schema(description="Patch a technology"),
+)
+class TechnologyViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = Technology.objects.all()
+    serializer_class = TechnologySerializer

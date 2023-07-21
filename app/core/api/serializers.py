@@ -11,6 +11,7 @@ from core.models import RecurringEvent
 from core.models import Skill
 from core.models import SponsorPartner
 from core.models import User
+from core.models import Technology
 
 
 class PracticeAreaSerializer(serializers.ModelSerializer):
@@ -218,6 +219,26 @@ class SkillSerializer(serializers.ModelSerializer):
         fields = (
             "uuid",
             "name",
+        )
+        read_only_fields = (
+            "uuid",
+            "created_at",
+            "updated_at",
+        )
+
+
+class TechnologySerializer(serializers.ModelSerializer):
+    """Used to retrieve technology info"""
+
+    class Meta:
+        model = Technology
+        fields = (
+            "uuid",
+            "name",
+            "description",
+            "url",
+            "logo",
+            "active",
         )
         read_only_fields = (
             "uuid",
