@@ -229,31 +229,37 @@ class SkillSerializer(serializers.ModelSerializer):
         )
 
 
-<<<<<<< HEAD
+class TechnologySerializer(serializers.ModelSerializer):
+    """Used to retrieve technology info"""
+
+    class Meta:
+        model = Technology
+        fields = (
+            "uuid",
+            "name",
+            "description",
+            "url",
+            "logo",
+            "active",
+        )
+        read_only_fields = (
+            "uuid",
+            "created_at",
+            "updated_at",
+        )
+
+
 class LanguageSerializer(serializers.ModelSerializer):
     """
     Used to retrieve Language info
     """
     class Meta:
         model = Language
-=======
-class TechnologySerializer(serializers.ModelSerializer):
-    """Used to retrieve technology info"""
-
-    class Meta:
-        model = Technology
->>>>>>> 3d3a91e (Feature technology table (#175))
         fields = (
             "uuid",
             "name",
             "description",
-<<<<<<< HEAD
             "logo",
-=======
-            "url",
-            "logo",
-            "active",
->>>>>>> 3d3a91e (Feature technology table (#175))
         )
         read_only_fields = (
             "uuid",

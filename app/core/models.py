@@ -301,3 +301,6 @@ class Language(AbstractBaseModel):
     description = models.TextField(blank=True)
     logo = models.URLField(blank=True)
     # project_language_xref = models.ForeignKey(Project_Language_Xref, on_delete=models.CASCADE) #uncomment once created
+
+    def __str__(self):
+        return f"{self.name}"

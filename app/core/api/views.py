@@ -20,11 +20,8 @@ from ..models import Project
 from ..models import RecurringEvent
 from ..models import Skill
 from ..models import SponsorPartner
-<<<<<<< HEAD
-from ..models import Language
-=======
 from ..models import Technology
->>>>>>> 3d3a91e (Feature technology table (#175))
+from ..models import Language
 from .serializers import FaqSerializer
 from .serializers import FaqViewedSerializer
 from .serializers import LocationSerializer

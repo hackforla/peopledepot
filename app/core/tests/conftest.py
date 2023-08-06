@@ -10,12 +10,9 @@ from ..models import Project
 from ..models import RecurringEvent
 from ..models import Skill
 from ..models import SponsorPartner
-<<<<<<< HEAD
+from ..models import Technology
 from ..models import Language
 # from ..models import Project_Language_Xref # uncomment once created
-=======
-from ..models import Technology
->>>>>>> 3d3a91e (Feature technology table (#175))
 
 
 @pytest.fixture
