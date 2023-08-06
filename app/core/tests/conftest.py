@@ -3,6 +3,7 @@ from rest_framework.test import APIClient
 
 from ..models import Faq
 from ..models import FaqViewed
+from ..models import Language
 from ..models import Location
 from ..models import PracticeArea
 from ..models import ProgramArea
@@ -11,6 +12,8 @@ from ..models import RecurringEvent
 from ..models import Skill
 from ..models import SponsorPartner
 from ..models import Technology
+
+# from ..models import Project_Language_Xref # uncomment once created
 
 
 @pytest.fixture
@@ -114,3 +117,8 @@ def skill():
 @pytest.fixture
 def technology():
     return Technology.objects.create(name="Test Technology")
+
+
+@pytest.fixture
+def language():
+    return Language.objects.create(name="Test Language")

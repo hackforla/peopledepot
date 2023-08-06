@@ -3,6 +3,7 @@ from timezone_field.rest_framework import TimeZoneSerializerField
 
 from core.models import Faq
 from core.models import FaqViewed
+from core.models import Language
 from core.models import Location
 from core.models import PracticeArea
 from core.models import ProgramArea
@@ -240,6 +241,26 @@ class TechnologySerializer(serializers.ModelSerializer):
             "url",
             "logo",
             "active",
+        )
+        read_only_fields = (
+            "uuid",
+            "created_at",
+            "updated_at",
+        )
+
+
+class LanguageSerializer(serializers.ModelSerializer):
+    """
+    Used to retrieve Language info
+    """
+
+    class Meta:
+        model = Language
+        fields = (
+            "uuid",
+            "name",
+            "description",
+            "logo",
         )
         read_only_fields = (
             "uuid",

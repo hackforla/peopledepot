@@ -7,6 +7,7 @@ from django.utils.translation import gettext_lazy as _
 
 from .models import Faq
 from .models import FaqViewed
+from .models import Language
 from .models import Location
 from .models import PracticeArea
 from .models import ProgramArea
@@ -197,3 +198,14 @@ class TechnologyAdmin(admin.ModelAdmin):
         "logo",
         "active",
     )
+
+
+@admin.register(Language)
+class LanguageAdmin(admin.ModelAdmin):
+    list_display = (
+        "name",
+        "description",
+        "logo",
+    )
+
+    list_filter = ("name",)
