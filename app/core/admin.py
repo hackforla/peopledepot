@@ -15,6 +15,7 @@ from .models import RecurringEvent
 from .models import Skill
 from .models import SponsorPartner
 from .models import User
+from .models import Language
 
 
 class UserCreationForm(DefaultUserCreationForm):
@@ -182,6 +183,18 @@ class SkillAdmin(admin.ModelAdmin):
     list_display = (
         "name",
         "description",
+    )
+
+    list_filter = ("name",)
+
+
+@admin.register(Language)
+class LanguageAdmin(admin.ModelAdmin):
+    list_display = (
+        "name",
+        "description",
+        "logo",
+        # "updated_on"
     )
 
     list_filter = ("name",)
