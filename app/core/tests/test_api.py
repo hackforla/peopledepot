@@ -16,6 +16,7 @@ SPONSOR_PARTNERS_URL = reverse("sponsor-partner-list")
 LOCATION_URL = reverse("location-list")
 PROGRAM_AREA_URL = reverse("program-area-list")
 SKILL_URL = reverse("skill-list")
+LANGUAGES_URL = reverse("language-list")
 
 CREATE_USER_PAYLOAD = {
     "username": "TestUserAPI",
@@ -244,5 +245,18 @@ def test_create_skill(auth_client):
         "description": "Skill Description",
     }
     res = auth_client.post(SKILL_URL, payload)
+    assert res.status_code == status.HTTP_201_CREATED
+    assert res.data["name"] == payload["name"]
+
+
+def test_create_language(auth_client):  # add project_language_xref to params
+    """Test to create a language"""
+
+    payload = {
+        "name": "Test Language",
+        "description": "Test Language Description",
+        # "project language": project_language_xref.uuid
+    }
+    res = auth_client.post(LANGUAGES_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
     assert res.data["name"] == payload["name"]

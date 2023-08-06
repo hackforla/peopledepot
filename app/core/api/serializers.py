@@ -11,6 +11,7 @@ from core.models import RecurringEvent
 from core.models import Skill
 from core.models import SponsorPartner
 from core.models import User
+from core.models import Language
 
 
 class PracticeAreaSerializer(serializers.ModelSerializer):
@@ -223,4 +224,24 @@ class SkillSerializer(serializers.ModelSerializer):
             "uuid",
             "created_at",
             "updated_at",
+        )
+
+
+class LanguageSerializer(serializers.ModelSerializer):
+    """
+    Used to retrieve Language info
+    """
+    class Meta:
+        model = Language
+        fields = (
+            "uuid",
+            "name",
+            "description",
+            "logo",
+            "updated_on"
+        )
+        read_only_fields = (
+            "uuid",
+            "created_at",
+            "updated_on",
         )
