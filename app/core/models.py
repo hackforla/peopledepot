@@ -270,3 +270,19 @@ class Skill(AbstractBaseModel):
 
     def __str__(self):
         return f"{self.name}"
+
+
+class Language(AbstractBaseModel):
+	"""
+	Language table to update a shared data store 
+    (associated with project_language_xref)
+	"""
+	# id = models.IntegerField(primary_key=True) # guide says this field is not necessary
+	name = models.CharField(max_length=255)
+	description = models.TextField(blank=True)
+	logo = models.URLField(blank=True) 
+	updated_on = models.CharField(max_length=255) # if same as updated field, guide says this field is not necessary
+    # project_language_xref = models.ForeignKey(Project_Language_Xref, on_delete=models.CASCADE) #uncomment once created
+
+	def __str__(self): 
+		return f"{self.name}" 

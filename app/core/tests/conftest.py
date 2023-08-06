@@ -10,6 +10,8 @@ from ..models import Project
 from ..models import RecurringEvent
 from ..models import Skill
 from ..models import SponsorPartner
+from ..models import Language
+# from ..models import Project_Language_Xref # uncomment once created
 
 
 @pytest.fixture
@@ -108,3 +110,14 @@ def program_area():
 @pytest.fixture
 def skill():
     return Skill.objects.create(name="Test Skill")
+
+
+@pytest.fixture
+def language():
+    return Language.objects.create(name="Test Language")
+
+""" uncoment once created 
+@pytest.fixture
+def language(project_language_xref):
+    return Project_Language_Xref.objects.create(name="Test Language", project_language_xref=project_language_xref)
+"""

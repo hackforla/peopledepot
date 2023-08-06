@@ -40,3 +40,7 @@ def test_location(location):
 
 def test_skill(skill):
     assert str(skill) == "Test Skill"
+
+def test_language(language):
+    assert str(language) == "Test Language"
+
