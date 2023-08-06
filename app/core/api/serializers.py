@@ -12,6 +12,7 @@ from core.models import Skill
 from core.models import SponsorPartner
 from core.models import Technology
 from core.models import User
+from core.models import Language
 
 
 class PracticeAreaSerializer(serializers.ModelSerializer):
@@ -240,6 +241,25 @@ class TechnologySerializer(serializers.ModelSerializer):
             "url",
             "logo",
             "active",
+        )
+        read_only_fields = (
+            "uuid",
+            "created_at",
+            "updated_at",
+        )
+
+
+class LanguageSerializer(serializers.ModelSerializer):
+    """
+    Used to retrieve Language info
+    """
+    class Meta:
+        model = Language
+        fields = (
+            "uuid",
+            "name",
+            "description",
+            "logo",
         )
         read_only_fields = (
             "uuid",

@@ -290,3 +290,17 @@ class Technology(AbstractBaseModel):
 
     def __str__(self):
         return f"{self.name}"
+
+
+class Language(AbstractBaseModel):
+    """
+    Language table to update a shared data store(associated with project_language_xref)
+    """
+
+    name = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+    logo = models.URLField(blank=True)
+    # project_language_xref = models.ForeignKey(Project_Language_Xref, on_delete=models.CASCADE) #uncomment once created
+
+    def __str__(self):
+        return f"{self.name}"

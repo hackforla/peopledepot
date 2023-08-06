@@ -21,6 +21,7 @@ from ..models import RecurringEvent
 from ..models import Skill
 from ..models import SponsorPartner
 from ..models import Technology
+from ..models import Language
 from .serializers import FaqSerializer
 from .serializers import FaqViewedSerializer
 from .serializers import LocationSerializer
@@ -32,6 +33,7 @@ from .serializers import SkillSerializer
 from .serializers import SponsorPartnerSerializer
 from .serializers import TechnologySerializer
 from .serializers import UserSerializer
+from .serializers import LanguageSerializer
 
 
 class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
@@ -266,3 +268,17 @@ class TechnologyViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = Technology.objects.all()
     serializer_class = TechnologySerializer
+
+
+@extend_schema_view(
+    list=extend_schema(description="Return a list of all languages"),
+    create=extend_schema(description="Create a new language"),
+    retrieve=extend_schema(description="Return the details of a language"),
+    destroy=extend_schema(description="Delete a language"),
+    update=extend_schema(description="Update a language"),
+    partial_update=extend_schema(description="Patch a language"),
+)
+class LanguageViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = Language.objects.all()
+    serializer_class = LanguageSerializer

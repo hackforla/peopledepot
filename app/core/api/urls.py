@@ -13,6 +13,7 @@ from .views import SponsorPartnerViewSet
 from .views import TechnologyViewSet
 from .views import UserProfileAPIView
 from .views import UserViewSet
+from .views import LanguageViewSet
 
 router = routers.SimpleRouter()
 router.register(r"users", UserViewSet, basename="user")
@@ -26,6 +27,7 @@ router.register(r"locations", LocationViewSet, basename="location")
 router.register(r"program-areas", ProgramAreaViewSet, basename="program-area")
 router.register(r"skills", SkillViewSet, basename="skill")
 router.register(r"technologies", TechnologyViewSet, basename="technology")
+router.register(r"languages", LanguageViewSet, basename="language")
 
 urlpatterns = [
     path("me/", UserProfileAPIView.as_view(), name="my_profile"),

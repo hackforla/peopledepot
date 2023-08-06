@@ -16,6 +16,7 @@ from .models import Skill
 from .models import SponsorPartner
 from .models import Technology
 from .models import User
+from .models import Language
 
 
 class UserCreationForm(DefaultUserCreationForm):
@@ -197,3 +198,14 @@ class TechnologyAdmin(admin.ModelAdmin):
         "logo",
         "active",
     )
+
+
+@admin.register(Language)
+class LanguageAdmin(admin.ModelAdmin):
+    list_display = (
+        "name",
+        "description",
+        "logo",
+    )
+
+    list_filter = ("name",)
