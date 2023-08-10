@@ -30,8 +30,8 @@ from .serializers import ProjectSerializer
 from .serializers import RecurringEventSerializer
 from .serializers import SkillSerializer
 from .serializers import SponsorPartnerSerializer
-from .serializers import UserSerializer
 from .serializers import TechnologySerializer
+from .serializers import UserSerializer
 
 
 class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):

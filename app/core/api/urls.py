@@ -10,10 +10,9 @@ from .views import ProjectViewSet
 from .views import RecurringEventViewSet
 from .views import SkillViewSet
 from .views import SponsorPartnerViewSet
+from .views import TechnologyViewSet
 from .views import UserProfileAPIView
 from .views import UserViewSet
-from .views import TechnologyViewSet
-
 
 router = routers.SimpleRouter()
 router.register(r"users", UserViewSet, basename="user")

@@ -280,7 +280,7 @@ class Technology(AbstractBaseModel):
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True)
     url = models.URLField(blank=True)
-    logo = models.URLField(blank=True) 
+    logo = models.URLField(blank=True)
     active = models.BooleanField(null=True)
 
     # PK of this model is the ForeignKey for project_partner_xref

@@ -10,8 +10,8 @@ from core.models import Project
 from core.models import RecurringEvent
 from core.models import Skill
 from core.models import SponsorPartner
-from core.models import User
 from core.models import Technology
+from core.models import User
 
 
 class PracticeAreaSerializer(serializers.ModelSerializer):
@@ -214,6 +214,7 @@ class SkillSerializer(serializers.ModelSerializer):
     """
     Used to retrieve Skill info
     """
+
     class Meta:
         model = Skill
         fields = (

@@ -14,8 +14,8 @@ from .models import Project
 from .models import RecurringEvent
 from .models import Skill
 from .models import SponsorPartner
-from .models import User
 from .models import Technology
+from .models import User
 
 
 class UserCreationForm(DefaultUserCreationForm):
@@ -189,7 +189,7 @@ class SkillAdmin(admin.ModelAdmin):
 
 
 @admin.register(Technology)
-class Technology(admin.ModelAdmin):
+class TechnologyAdmin(admin.ModelAdmin):
     list_display = (
         "name",
         "description",
