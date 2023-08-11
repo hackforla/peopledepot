@@ -42,5 +42,9 @@ def test_skill(skill):
     assert str(skill) == "Test Skill"
 
 
+def test_technology(technology):
+    assert str(technology) == "Test Technology"
+
+
 def test_language(language):
     assert str(language) == "Test Language"

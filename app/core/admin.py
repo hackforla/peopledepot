@@ -14,6 +14,7 @@ from .models import Project
 from .models import RecurringEvent
 from .models import Skill
 from .models import SponsorPartner
+from .models import Technology
 from .models import User
 from .models import Language
 
@@ -186,6 +187,17 @@ class SkillAdmin(admin.ModelAdmin):
     )
 
     list_filter = ("name",)
+
+
+@admin.register(Technology)
+class TechnologyAdmin(admin.ModelAdmin):
+    list_display = (
+        "name",
+        "description",
+        "url",
+        "logo",
+        "active",
+    )
 
 
 @admin.register(Language)

@@ -10,6 +10,7 @@ from core.models import Project
 from core.models import RecurringEvent
 from core.models import Skill
 from core.models import SponsorPartner
+from core.models import Technology
 from core.models import User
 from core.models import Language
 
@@ -214,6 +215,7 @@ class SkillSerializer(serializers.ModelSerializer):
     """
     Used to retrieve Skill info
     """
+
     class Meta:
         model = Skill
         fields = (
@@ -227,17 +229,31 @@ class SkillSerializer(serializers.ModelSerializer):
         )
 
 
+<<<<<<< HEAD
 class LanguageSerializer(serializers.ModelSerializer):
     """
     Used to retrieve Language info
     """
     class Meta:
         model = Language
+=======
+class TechnologySerializer(serializers.ModelSerializer):
+    """Used to retrieve technology info"""
+
+    class Meta:
+        model = Technology
+>>>>>>> 3d3a91e (Feature technology table (#175))
         fields = (
             "uuid",
             "name",
             "description",
+<<<<<<< HEAD
             "logo",
+=======
+            "url",
+            "logo",
+            "active",
+>>>>>>> 3d3a91e (Feature technology table (#175))
         )
         read_only_fields = (
             "uuid",
