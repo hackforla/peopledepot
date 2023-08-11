@@ -270,3 +270,23 @@ class Skill(AbstractBaseModel):
 
     def __str__(self):
         return f"{self.name}"
+
+
+class Technology(AbstractBaseModel):
+    """
+    Dictionary of technologies used in projects
+    """
+
+    name = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+    url = models.URLField(blank=True)
+    logo = models.URLField(blank=True)
+    active = models.BooleanField(null=True)
+
+    # PK of this model is the ForeignKey for project_partner_xref
+
+    class Meta:
+        verbose_name_plural = "Technologies"
+
+    def __str__(self):
+        return f"{self.name}"

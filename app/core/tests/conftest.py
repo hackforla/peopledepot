@@ -10,6 +10,7 @@ from ..models import Project
 from ..models import RecurringEvent
 from ..models import Skill
 from ..models import SponsorPartner
+from ..models import Technology
 
 
 @pytest.fixture
@@ -108,3 +109,8 @@ def program_area():
 @pytest.fixture
 def skill():
     return Skill.objects.create(name="Test Skill")
+
+
+@pytest.fixture
+def technology():
+    return Technology.objects.create(name="Test Technology")

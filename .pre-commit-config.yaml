@@ -49,14 +49,14 @@ repos:
       - id: hadolint-docker
 
   - repo: https://github.com/ambv/black
-    rev: 23.1.0
+    rev: 23.7.0
     hooks:
       - id: black
         language_version: python3.10
         exclude: ^app/core/migrations/
 
   - repo: https://github.com/pycqa/flake8
-    rev: 6.0.0
+    rev: 6.1.0
     hooks:
       - id: flake8
         exclude: ^app/core/migrations/
@@ -84,13 +84,13 @@ repos:
         args: ["--filter-files", "--force-single-line-imports"]
 
   - repo: https://github.com/PyCQA/bandit
-    rev: 1.7.4
+    rev: 1.7.5
     hooks:
       - id: bandit
         exclude: ^app/core/tests/
 
   - repo: https://github.com/asottile/pyupgrade
-    rev: v3.3.1
+    rev: v3.10.1
     hooks:
       - id: pyupgrade
 
