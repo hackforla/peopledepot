@@ -194,7 +194,6 @@ class LanguageAdmin(admin.ModelAdmin):
         "name",
         "description",
         "logo",
-        # "updated_on"
     )
 
     list_filter = ("name",)
