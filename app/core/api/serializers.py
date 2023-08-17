@@ -238,10 +238,9 @@ class LanguageSerializer(serializers.ModelSerializer):
             "name",
             "description",
             "logo",
-            "updated_on"
         )
         read_only_fields = (
             "uuid",
             "created_at",
-            "updated_on",
+            "updated_at",
         )
