@@ -38,6 +38,10 @@ def test_location(location):
     assert str(location) == "Test Hack for L.A. HQ"
 
 
+def test_program_area(program_area):
+    assert str(program_area) == "Test Program Area"
+
+
 def test_skill(skill):
     assert str(skill) == "Test Skill"
 
