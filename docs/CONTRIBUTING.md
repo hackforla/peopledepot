@@ -146,6 +146,18 @@ upstream        https://github.com/hackforla/peopledepot.git (push)
    ./scripts/buildrun.sh
    ```
 
+   Note: if you encounter an error regarding internal load metadata, you can run 
+   ```
+   sudo vi ~/.docker/config.json
+   ```
+   you should see a configuration such as
+   ``` 
+   {
+      "credsStore": "desktop.exe"
+   }
+   ```
+   update credsStore to credStore, save, and run the buildrun.sh script again.
+
 1. Create a super user for logging into the web admin interface
 
    ```bash
