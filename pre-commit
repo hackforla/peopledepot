@@ -1,0 +1,23 @@
+2023-08-26T10:00:43,802 Using pip 23.2.1 from /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/pip (python 3.10)
+2023-08-26T10:00:43,802 Non-user install because site-packages writeable
+2023-08-26T10:00:43,818 Created temporary directory: /private/var/folders/cw/nvfs1_mx169636wvwm01c7b80000gn/T/pip-build-tracker-21punpd0
+2023-08-26T10:00:43,818 Initialized build tracking at /private/var/folders/cw/nvfs1_mx169636wvwm01c7b80000gn/T/pip-build-tracker-21punpd0
+2023-08-26T10:00:43,818 Created build tracker: /private/var/folders/cw/nvfs1_mx169636wvwm01c7b80000gn/T/pip-build-tracker-21punpd0
+2023-08-26T10:00:43,818 Entered build tracker: /private/var/folders/cw/nvfs1_mx169636wvwm01c7b80000gn/T/pip-build-tracker-21punpd0
+2023-08-26T10:00:43,819 Created temporary directory: /private/var/folders/cw/nvfs1_mx169636wvwm01c7b80000gn/T/pip-install-rfwz_4gv
+2023-08-26T10:00:43,819 ERROR: You must give at least one requirement to install (see "pip help install")
+2023-08-26T10:00:43,819 Exception information:
+2023-08-26T10:00:43,819 Traceback (most recent call last):
+2023-08-26T10:00:43,819   File "/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/pip/_internal/cli/base_command.py", line 180, in exc_logging_wrapper
+2023-08-26T10:00:43,819     status = run_func(*args)
+2023-08-26T10:00:43,819   File "/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/pip/_internal/cli/req_command.py", line 248, in wrapper
+2023-08-26T10:00:43,819     return func(self, options, args)
+2023-08-26T10:00:43,819   File "/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/pip/_internal/commands/install.py", line 342, in run
+2023-08-26T10:00:43,819     reqs = self.get_requirements(args, options, finder, session)
+2023-08-26T10:00:43,819   File "/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/pip/_internal/cli/req_command.py", line 464, in get_requirements
+2023-08-26T10:00:43,819     raise CommandError(
+2023-08-26T10:00:43,819 pip._internal.exceptions.CommandError: You must give at least one requirement to install (see "pip help install")
+2023-08-26T10:00:43,821 Remote version of pip: 23.2.1
+2023-08-26T10:00:43,821 Local version of pip:  23.2.1
+2023-08-26T10:00:43,822 Was pip installed by pip? True
+2023-08-26T10:00:43,822 Removed build tracker: '/private/var/folders/cw/nvfs1_mx169636wvwm01c7b80000gn/T/pip-build-tracker-21punpd0'
