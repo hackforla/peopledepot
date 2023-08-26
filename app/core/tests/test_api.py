@@ -253,7 +253,7 @@ def test_create_skill(auth_client):
 
 def test_create_technology(auth_client):
     """Test to create a Technology"""
-    
+
     payload = {
         "name": "Test Technology",
         "description": "Technology description",

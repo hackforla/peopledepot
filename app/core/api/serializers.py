@@ -3,6 +3,7 @@ from timezone_field.rest_framework import TimeZoneSerializerField
 
 from core.models import Faq
 from core.models import FaqViewed
+from core.models import Language
 from core.models import Location
 from core.models import PracticeArea
 from core.models import ProgramArea
@@ -12,7 +13,6 @@ from core.models import Skill
 from core.models import SponsorPartner
 from core.models import Technology
 from core.models import User
-from core.models import Language
 
 
 class PracticeAreaSerializer(serializers.ModelSerializer):
@@ -253,6 +253,7 @@ class LanguageSerializer(serializers.ModelSerializer):
     """
     Used to retrieve Language info
     """
+
     class Meta:
         model = Language
         fields = (
