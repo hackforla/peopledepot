@@ -13,6 +13,7 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 from ..models import Faq
 from ..models import FaqViewed
+from ..models import Language
 from ..models import Location
 from ..models import PracticeArea
 from ..models import ProgramArea
@@ -21,9 +22,9 @@ from ..models import RecurringEvent
 from ..models import Skill
 from ..models import SponsorPartner
 from ..models import Technology
-from ..models import Language
 from .serializers import FaqSerializer
 from .serializers import FaqViewedSerializer
+from .serializers import LanguageSerializer
 from .serializers import LocationSerializer
 from .serializers import PracticeAreaSerializer
 from .serializers import ProgramAreaSerializer
@@ -33,7 +34,6 @@ from .serializers import SkillSerializer
 from .serializers import SponsorPartnerSerializer
 from .serializers import TechnologySerializer
 from .serializers import UserSerializer
-from .serializers import LanguageSerializer
 
 
 class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):

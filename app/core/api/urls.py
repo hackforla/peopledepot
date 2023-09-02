@@ -3,6 +3,7 @@ from rest_framework import routers
 
 from .views import FaqViewedViewSet
 from .views import FaqViewSet
+from .views import LanguageViewSet
 from .views import LocationViewSet
 from .views import PracticeAreaViewSet
 from .views import ProgramAreaViewSet
@@ -13,7 +14,6 @@ from .views import SponsorPartnerViewSet
 from .views import TechnologyViewSet
 from .views import UserProfileAPIView
 from .views import UserViewSet
-from .views import LanguageViewSet
 
 router = routers.SimpleRouter()
 router.register(r"users", UserViewSet, basename="user")
