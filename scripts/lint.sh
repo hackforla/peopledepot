@@ -9,11 +9,11 @@ set -x
 # hadolint app/Dockerfile
 docker run --rm -i hadolint/hadolint < app/Dockerfile
 
-docker-compose exec -T web flake8 .
+docker-compose exec -T web black --exclude=migrations .
 
 # docker-compose exec -T web black --check --exclude=migrations .
 # docker-compose exec -T web black --diff --exclude=migrations .
-docker-compose exec -T web black --exclude=migrations .
+docker-compose exec -T web flake8 .
 
 docker-compose exec -T web isort . --force-single-line-imports
 
