@@ -2,8 +2,6 @@
 # See https://pre-commit.com/hooks.html for more hooks
 default_install_hook_types: [pre-commit, pre-push]
 default_stages: [commit, push]
-default_language_version:
-  python: python3.10
 fail_fast: true
 minimum_pre_commit_version: "2.18"
 repos:
@@ -52,7 +50,6 @@ repos:
     rev: 23.7.0
     hooks:
       - id: black
-        language_version: python3.10
         exclude: ^app/core/migrations/
 
   - repo: https://github.com/pycqa/flake8
