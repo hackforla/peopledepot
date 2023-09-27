@@ -86,17 +86,11 @@ class ProjectSerializer(serializers.ModelSerializer):
             "completed_at",
             "github_org_id",
             "github_primary_repo_id",
-            "github_primary_url",
             "hide",
-            "slack_url",
-            "google_drive_url",
             "google_drive_id",
-            "hfla_website_url",
             "image_logo",
             "image_hero",
             "image_icon",
-            "readme_url",
-            "wiki_url",
         )
         read_only_fields = (
             "uuid",
