@@ -3,7 +3,6 @@ from rest_framework import routers
 
 from .views import FaqViewedViewSet
 from .views import FaqViewSet
-from .views import LanguageViewSet
 from .views import LocationViewSet
 from .views import PermissionTypeViewSet
 from .views import PracticeAreaViewSet
@@ -28,7 +27,6 @@ router.register(r"locations", LocationViewSet, basename="location")
 router.register(r"program-areas", ProgramAreaViewSet, basename="program-area")
 router.register(r"skills", SkillViewSet, basename="skill")
 router.register(r"technologies", TechnologyViewSet, basename="technology")
-router.register(r"languages", LanguageViewSet, basename="language")
 router.register(r"permission-types", PermissionTypeViewSet, basename="permission-type")
 
 urlpatterns = [
