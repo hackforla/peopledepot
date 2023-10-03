@@ -17,7 +17,6 @@ LOCATION_URL = reverse("location-list")
 PROGRAM_AREA_URL = reverse("program-area-list")
 SKILL_URL = reverse("skill-list")
 TECHNOLOGY_URL = reverse("technology-list")
-LANGUAGES_URL = reverse("language-list")
 PERMISSION_TYPE = reverse("permission-type-list")
 
 CREATE_USER_PAYLOAD = {
@@ -260,19 +259,6 @@ def test_create_technology(auth_client):
         "active": True,
     }
     res = auth_client.post(TECHNOLOGY_URL, payload)
-    assert res.status_code == status.HTTP_201_CREATED
-    assert res.data["name"] == payload["name"]
-
-
-def test_create_language(auth_client):  # add project_language_xref to params
-    """Test to create a language"""
-
-    payload = {
-        "name": "Test Language",
-        "description": "Test Language Description",
-        # "project language": project_language_xref.uuid
-    }
-    res = auth_client.post(LANGUAGES_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
     assert res.data["name"] == payload["name"]
 
