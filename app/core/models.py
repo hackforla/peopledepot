@@ -311,8 +311,5 @@ class StackElementType(AbstractBaseModel):
 
     # PK of this model is the ForeignKey for stack_element
 
-    class Meta:
-        verbose_name_plural = "Stack Element Types"
-
     def __str__(self):
         return f"{self.name}"

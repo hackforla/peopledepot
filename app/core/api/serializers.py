@@ -265,7 +265,12 @@ class StackElementTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = StackElementType
         fields = (
+            "uuid",
             "name",
             "description",
         )
-        read_only_fields = ("uuid",)
+        read_only_fields = (
+            "uuid",
+            "created_at",
+            "updated_at",
+        )
