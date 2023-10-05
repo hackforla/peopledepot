@@ -34,7 +34,14 @@ Set up two-factor authentication on your account by following this [guide](https
 
 Before cloning your forked repository to your local machine, you must have Git installed. You can find instructions for installing Git for your operating system [**here**](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
 
-For Windows, you may want to [install a Windows Subsystem for Linux (WSL)](https://code.visualstudio.com/docs/remote/wsl) and then install Git from WSL.
+Installation Guide for Windows Users
+- we recommend [installing Windows Subsystem for Linux (WSL)](https://code.visualstudio.com/docs/remote/wsl). WSL provides a Linux-compatible environment that can prevent common errors during script execution.
+- After setting up WSL, install Git directly from the Linux terminal. This method can help avoid complications that sometimes arise when using Git Bash on Windows.
+- If you prefer Git Bash or encounter errors related to line endings when running scripts, the problem might be due to file conversions in Windows. To address this, configure Git as follows: 
+```bash
+    git config --system set autocrlf=false
+```
+<strong><em>Feel free to reach out in the [Hack for LA Slack channel](https://hackforla.slack.com/messages/people-depot/) if you encounter any errors while running scripts on Windows. </em></strong>
 
 Please note that if you have a Mac the page offers several options (see other option, if you need to conserve hard drive space) including:
 
