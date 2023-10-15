@@ -132,7 +132,8 @@ class SponsorPartnerSerializer(serializers.ModelSerializer):
             "partner_logo",
             "is_active",
             "url",
-            "is_sponsor",
+            "is_org_sponsor",
+            "is_org_partner",
         )
         read_only_fields = (
             "uuid",
