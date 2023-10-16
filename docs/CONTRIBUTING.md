@@ -37,7 +37,7 @@ Before cloning your forked repository to your local machine, you must have Git i
 Installation Guide for Windows Users
 - we recommend [installing Windows Subsystem for Linux (WSL)](https://code.visualstudio.com/docs/remote/wsl). WSL provides a Linux-compatible environment that can prevent common errors during script execution.
 - After setting up WSL, install Git directly from the Linux terminal. This method can help avoid complications that sometimes arise when using Git Bash on Windows.
-- If you prefer Git Bash or encounter errors related to line endings when running scripts, the problem might be due to file conversions in Windows. To address this, configure Git as follows: 
+- If you prefer Git Bash or encounter errors related to line endings when running scripts, the problem might be due to file conversions in Windows. To address this, configure Git as follows:
 ```bash
     git config --system set autocrlf=false
 ```
