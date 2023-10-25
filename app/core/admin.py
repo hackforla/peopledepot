@@ -5,6 +5,7 @@ from django.contrib.auth.forms import UserCreationForm as DefaultUserCreationFor
 from django.contrib.auth.forms import UsernameField
 from django.utils.translation import gettext_lazy as _
 
+from .models import Event
 from .models import Faq
 from .models import FaqViewed
 from .models import Location
@@ -12,7 +13,6 @@ from .models import PermissionType
 from .models import PracticeArea
 from .models import ProgramArea
 from .models import Project
-from .models import RecurringEvent
 from .models import Skill
 from .models import SponsorPartner
 from .models import Technology
@@ -119,8 +119,8 @@ class ProjectAdmin(admin.ModelAdmin):
     )
 
 
-@admin.register(RecurringEvent)
-class RecurringEventAdmin(admin.ModelAdmin):
+@admin.register(Event)
+class EventAdmin(admin.ModelAdmin):
     list_display = (
         "name",
         "start_time",

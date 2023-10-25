@@ -1,6 +1,7 @@
 import pytest
 from rest_framework.test import APIClient
 
+from ..models import Event
 from ..models import Faq
 from ..models import FaqViewed
 from ..models import Location
@@ -8,7 +9,6 @@ from ..models import PermissionType
 from ..models import PracticeArea
 from ..models import ProgramArea
 from ..models import Project
-from ..models import RecurringEvent
 from ..models import Skill
 from ..models import SponsorPartner
 from ..models import Technology
@@ -48,8 +48,8 @@ def project():
 
 
 @pytest.fixture
-def recurring_event(project):
-    return RecurringEvent.objects.create(name="Test Recurring Event", project=project)
+def event(project):
+    return Event.objects.create(name="Test Event", project=project)
 
 
 @pytest.fixture

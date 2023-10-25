@@ -8,7 +8,7 @@ pytestmark = pytest.mark.django_db
 
 ME_URL = reverse("my_profile")
 USERS_URL = reverse("user-list")
-RECURRING_EVENTS_URL = reverse("recurring-event-list")
+EVENTS_URL = reverse("event-list")
 PRACTICE_AREA_URL = reverse("practice-area-list")
 FAQS_URL = reverse("faq-list")
 FAQS_VIEWED_URL = reverse("faq-viewed-list")
@@ -153,8 +153,8 @@ def test_user_actions(client_name, action, endpoint, payload, expected_status, r
     assert res.status_code == expected_status
 
 
-def test_create_recurring_event(auth_client, project):
-    """Test that we can create a recurring event"""
+def test_create_event(auth_client, project):
+    """Test that we can create an event"""
 
     payload = {
         "name": "Test Weekly team meeting",
@@ -164,7 +164,7 @@ def test_create_recurring_event(auth_client, project):
         "additional_info": "Test description",
         "project": project.uuid,
     }
-    res = auth_client.post(RECURRING_EVENTS_URL, payload)
+    res = auth_client.post(EVENTS_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
     assert res.data["name"] == payload["name"]
 

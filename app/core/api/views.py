@@ -11,6 +11,7 @@ from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
+from ..models import Event
 from ..models import Faq
 from ..models import FaqViewed
 from ..models import Location
@@ -18,10 +19,10 @@ from ..models import PermissionType
 from ..models import PracticeArea
 from ..models import ProgramArea
 from ..models import Project
-from ..models import RecurringEvent
 from ..models import Skill
 from ..models import SponsorPartner
 from ..models import Technology
+from .serializers import EventSerializer
 from .serializers import FaqSerializer
 from .serializers import FaqViewedSerializer
 from .serializers import LocationSerializer
@@ -29,7 +30,6 @@ from .serializers import PermissionTypeSerializer
 from .serializers import PracticeAreaSerializer
 from .serializers import ProgramAreaSerializer
 from .serializers import ProjectSerializer
-from .serializers import RecurringEventSerializer
 from .serializers import SkillSerializer
 from .serializers import SponsorPartnerSerializer
 from .serializers import TechnologySerializer
@@ -126,17 +126,17 @@ class ProjectViewSet(viewsets.ModelViewSet):
 
 
 @extend_schema_view(
-    list=extend_schema(description="Return a list of all the recurring events"),
-    create=extend_schema(description="Create a new recurring event"),
-    retrieve=extend_schema(description="Return the details of a recurring event"),
-    destroy=extend_schema(description="Delete a recurring event"),
-    update=extend_schema(description="Update a recurring event"),
-    partial_update=extend_schema(description="Patch a recurring event"),
+    list=extend_schema(description="Return a list of all the events"),
+    create=extend_schema(description="Create a new event"),
+    retrieve=extend_schema(description="Return the details of an event"),
+    destroy=extend_schema(description="Delete an event"),
+    update=extend_schema(description="Update an event"),
+    partial_update=extend_schema(description="Patch an event"),
 )
-class RecurringEventViewSet(viewsets.ModelViewSet):
+class EventViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
-    queryset = RecurringEvent.objects.all()
-    serializer_class = RecurringEventSerializer
+    queryset = Event.objects.all()
+    serializer_class = EventSerializer
 
 
 @extend_schema_view(

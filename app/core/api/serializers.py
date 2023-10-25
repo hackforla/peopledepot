@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from timezone_field.rest_framework import TimeZoneSerializerField
 
+from core.models import Event
 from core.models import Faq
 from core.models import FaqViewed
 from core.models import Location
@@ -8,7 +9,6 @@ from core.models import PermissionType
 from core.models import PracticeArea
 from core.models import ProgramArea
 from core.models import Project
-from core.models import RecurringEvent
 from core.models import Skill
 from core.models import SponsorPartner
 from core.models import Technology
@@ -99,11 +99,11 @@ class ProjectSerializer(serializers.ModelSerializer):
         )
 
 
-class RecurringEventSerializer(serializers.ModelSerializer):
-    """Used to retrieve recurring_event info"""
+class EventSerializer(serializers.ModelSerializer):
+    """Used to retrieve event info"""
 
     class Meta:
-        model = RecurringEvent
+        model = Event
         fields = (
             "uuid",
             "name",
