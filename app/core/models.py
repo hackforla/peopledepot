@@ -145,9 +145,9 @@ https://api.github.com/repos/[org]/[repo]',
         return f"{self.name}"
 
 
-class RecurringEvent(AbstractBaseModel):
+class Event(AbstractBaseModel):
     """
-    Recurring Events
+    Events
     """
 
     name = models.CharField(max_length=255)

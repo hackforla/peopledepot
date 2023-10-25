@@ -14,8 +14,8 @@ def test_project(project):
     assert str(project) == "Test Project"
 
 
-def test_recurring_event(recurring_event):
-    assert str(recurring_event) == "Test Recurring Event"
+def test_event(event):
+    assert str(event) == "Test Event"
 
 
 def test_practice_area(practice_area):

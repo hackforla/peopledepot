@@ -1,6 +1,7 @@
 from django.urls import path
 from rest_framework import routers
 
+from .views import EventViewSet
 from .views import FaqViewedViewSet
 from .views import FaqViewSet
 from .views import LocationViewSet
@@ -8,7 +9,6 @@ from .views import PermissionTypeViewSet
 from .views import PracticeAreaViewSet
 from .views import ProgramAreaViewSet
 from .views import ProjectViewSet
-from .views import RecurringEventViewSet
 from .views import SkillViewSet
 from .views import SponsorPartnerViewSet
 from .views import TechnologyViewSet
@@ -18,7 +18,7 @@ from .views import UserViewSet
 router = routers.SimpleRouter()
 router.register(r"users", UserViewSet, basename="user")
 router.register(r"projects", ProjectViewSet, basename="project")
-router.register(r"recurring-events", RecurringEventViewSet, basename="recurring-event")
+router.register(r"events", EventViewSet, basename="event")
 router.register(r"practice-areas", PracticeAreaViewSet, basename="practice-area")
 router.register(r"sponsor-partners", SponsorPartnerViewSet, basename="sponsor-partner")
 router.register(r"faqs", FaqViewSet, basename="faq")
