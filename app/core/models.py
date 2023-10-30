@@ -131,29 +131,23 @@ class Project(AbstractBaseModel):
 "Authorization: token [gh_PAT]" \
 https://api.github.com/repos/[org]/[repo]',
     )
-    github_primary_url = models.CharField(max_length=255, blank=True)
     # current_status_id = models.ForeignKey("status", on_delete=models.PROTECT)
     hide = models.BooleanField(default=True)
     # location_id = models.ForeignKey("location", on_delete=models.PROTECT)
-    slack_url = models.URLField(blank=True)
-    google_drive_url = models.URLField(blank=True)
     google_drive_id = models.CharField(max_length=255, blank=True)
-    hfla_website_url = models.URLField(blank=True)
     # leads = models.ManyToManyField("lead")
     # leadership_type_id = models.ForeignKey("leadership_type", on_delete=models.PROTECT)
     image_logo = models.URLField(blank=True)
     image_hero = models.URLField(blank=True)
     image_icon = models.URLField(blank=True)
-    readme_url = models.URLField(blank=True)
-    wiki_url = models.URLField(blank=True)
 
     def __str__(self):
         return f"{self.name}"
 
 
-class RecurringEvent(AbstractBaseModel):
+class Event(AbstractBaseModel):
     """
-    Recurring Events
+    Events
     """
 
     name = models.CharField(max_length=255)
@@ -202,3 +196,106 @@ class Faq(AbstractBaseModel):
 
     def __str__(self):
         return f"{self.question}"
+
+
+class FaqViewed(AbstractBaseModel):
+    """
+    FaqViewed tracks how many times an FAQ has been viewed by serving as an instance of an FAQ being viewed.
+    """
+
+    faq = models.ForeignKey(Faq, on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = "FAQ view"
+
+    def __str__(self):
+        return f"{self.faq} viewed at {self.created_at.strftime('%b %d %Y %H:%M:%S')}"
+
+
+class Location(AbstractBaseModel):
+    """
+    Location for event
+    """
+
+    name = models.CharField(max_length=255, unique=True, verbose_name="Location name")
+    address_line_1 = models.CharField(max_length=255, unique=False)
+    address_line_2 = models.CharField(max_length=255, unique=False, blank=True)
+    city = models.CharField(max_length=100, unique=False)
+    state = models.CharField(max_length=2, unique=False)
+    zipcode = models.CharField(max_length=10, unique=False)
+    phone = PhoneNumberField(blank=True)
+
+    def __str__(self):
+        return f"{self.name}"
+
+
+class PracticeArea(AbstractBaseModel):
+    """
+    Practice Area
+    """
+
+    name = models.CharField(max_length=255, unique=True)
+    description = models.CharField(max_length=255, blank=True)
+
+    def __str__(self):
+        return f"{self.name}"
+
+
+class ProgramArea(AbstractBaseModel):
+    """
+    Dictionary of program areas (to be joined with project)
+    """
+
+    name = models.CharField(max_length=255, unique=True)
+    description = models.TextField(blank=True)
+    image = models.URLField(blank=True)
+
+    def __str__(self):
+        return f"{self.name}"
+
+
+class Skill(AbstractBaseModel):
+    """
+    Dictionary of skills
+    """
+
+    name = models.CharField(max_length=255, unique=True)
+    description = models.TextField(blank=True)
+
+    def __str__(self):
+        return f"{self.name}"
+
+
+class Technology(AbstractBaseModel):
+    """
+    Dictionary of technologies used in projects
+    """
+
+    name = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+    url = models.URLField(blank=True)
+    logo = models.URLField(blank=True)
+    active = models.BooleanField(null=True)
+
+    # PK of this model is the ForeignKey for project_partner_xref
+
+    class Meta:
+        verbose_name_plural = "Technologies"
+
+    def __str__(self):
+        return f"{self.name}"
+
+
+class PermissionType(AbstractBaseModel):
+    """
+    Permission Type
+    """
+
+    name = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+
+    def __str__(self):
+        if self.description and isinstance(self.description, str):
+            return f"{self.name}: {self.description}"
+        else:
+            return f"{self.name}"
