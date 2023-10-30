@@ -1,0 +1,14 @@
+black~=22.3.0
+cryptography~=37.0.2
+Django~=4.0.1
+django-extensions~=3.1.5
+django-linear-migrations~=2.12.0
+django-phonenumber-field[phonenumbers]~=6.3.0
+django-timezone-field==5.0
+djangorestframework~=3.13.1
+drf-jwt~=1.19.2
+drf-spectacular==0.22.1
+psycopg2-binary~=2.9.3
+pydot~=1.4.2
+pytz==2022.1
+tzdata==2022.1
