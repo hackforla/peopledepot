@@ -1,7 +1,17 @@
 import pytest
 from rest_framework.test import APIClient
 
-from ..models import Permission, Project, RecurringEvent
+from ..models import Event
+from ..models import Faq
+from ..models import FaqViewed
+from ..models import Location
+from ..models import PermissionType
+from ..models import PracticeArea
+from ..models import ProgramArea
+from ..models import Project
+from ..models import Skill
+from ..models import SponsorPartner
+from ..models import Technology
 
 
 @pytest.fixture
@@ -38,14 +48,14 @@ def project():
 
 
 @pytest.fixture
-def recurring_event(project):
-    return RecurringEvent.objects.create(name="Test Recurring Event", project=project)
+def event(project):
+    return Event.objects.create(name="Test Event", project=project)
 
 
 @pytest.fixture
-def permission(user, admin, project):
-    return Permission.objects.create(
-        name="Test Permission", user=user, project=project, created_by=admin
+def practice_area():
+    return PracticeArea.objects.create(
+        name="Test Practice Area", description="Test Description"
     )
 
 
@@ -70,3 +80,50 @@ def auth_client2(user2, client):
 def admin_client(admin, client):
     client.force_authenticate(user=admin)
     return client
+
+
+@pytest.fixture
+def sponsor_partner():
+    return SponsorPartner.objects.create(partner_name="Test Sponsor Partner")
+
+
+@pytest.fixture
+def faq():
+    return Faq.objects.create(question="Test Faq")
+
+
+@pytest.fixture
+def faq_viewed(faq):
+    return FaqViewed.objects.create(faq=faq)
+
+
+@pytest.fixture
+def location():
+    return Location.objects.create(name="Test Hack for L.A. HQ")
+
+
+@pytest.fixture
+def program_area():
+    return ProgramArea.objects.create(name="Test Program Area")
+
+
+@pytest.fixture
+def skill():
+    return Skill.objects.create(name="Test Skill")
+
+
+@pytest.fixture
+def technology():
+    return Technology.objects.create(name="Test Technology")
+
+
+@pytest.fixture
+def permission_type1():
+    return PermissionType.objects.create(name="Test Permission Type", description="")
+
+
+@pytest.fixture
+def permission_type2():
+    return PermissionType.objects.create(
+        name="Test Permission Type", description="A permission type description"
+    )

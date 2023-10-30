@@ -1,0 +1,123 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+default_install_hook_types: [pre-commit, pre-push]
+default_stages: [commit, push]
+fail_fast: true
+minimum_pre_commit_version: "2.18"
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      # identify invalid files
+      - id: check-ast
+      - id: check-yaml
+      - id: check-json
+      - id: check-toml
+      - id: check-executables-have-shebangs
+      - id: check-shebang-scripts-are-executable
+
+      # git checks
+      - id: check-merge-conflict
+      - id: check-added-large-files
+      - id: detect-private-key
+      - id: check-case-conflict
+      # - id: detect-aws-credentials
+
+      # python checks
+      - id: check-docstring-first
+      - id: check-builtin-literals
+      - id: debug-statements
+      - id: requirements-txt-fixer
+      - id: fix-encoding-pragma
+        args: [--remove]
+      - id: fix-byte-order-marker
+      - id: name-tests-test
+        args: [--pytest-test-first]
+
+      # general quality checks
+      - id: mixed-line-ending
+      - id: trailing-whitespace
+        args: [--markdown-linebreak-ext=md]
+      - id: check-executables-have-shebangs
+      - id: end-of-file-fixer
+
+  - repo: https://github.com/hadolint/hadolint
+    rev: v2.12.1-beta
+    hooks:
+      - id: hadolint-docker
+
+  - repo: https://github.com/ambv/black
+    rev: 23.7.0
+    hooks:
+      - id: black
+        exclude: ^app/core/migrations/
+
+  - repo: https://github.com/pycqa/flake8
+    rev: 6.1.0
+    hooks:
+      - id: flake8
+        exclude: ^app/core/migrations/
+        args: [--max-line-length=119, --max-complexity=4, --pytest-fixture-no-parentheses]
+        additional_dependencies:
+          [
+            flake8-bugbear,
+            dlint,
+            flake8-use-fstring,
+            flake8-use-pathlib,
+            flake8-builtins,
+            pep8-naming,
+            flake8-variables-names,
+            flake8-fixme,
+            flake8-executable,
+            flake8-pytest-style,
+            flake8-django,
+          ]
+
+  - repo: https://github.com/pycqa/isort
+    rev: 5.12.0
+    hooks:
+      - id: isort
+        name: isort (python)
+        args: ["--filter-files", "--force-single-line-imports"]
+
+  - repo: https://github.com/PyCQA/bandit
+    rev: 1.7.5
+    hooks:
+      - id: bandit
+        exclude: ^app/core/tests/
+
+  - repo: https://github.com/asottile/pyupgrade
+    rev: v3.10.1
+    hooks:
+      - id: pyupgrade
+
+  # - repo: https://github.com/econchick/interrogate
+  #   rev: 1.4.0
+  #   hooks:
+  #     - id: interrogate
+  #       args: [-vv, -i, --fail-under=80]
+
+  - repo: local
+    hooks:
+      - id: buildrun
+        name: buildrun
+        entry: ./scripts/buildrun.sh
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [push]
+      - id: test
+        name: test
+        entry: ./scripts/test.sh
+        language: system
+        pass_filenames: false
+        always_run: true
+        # verbose: true
+        # require_serial: true
+        stages: [push]
+      - id: check-django-migrations
+        name: Check django migrations
+        entry: ./scripts/check-migrations.sh
+        language: system
+        types: [python] # hook only runs if a python file is staged
+        pass_filenames: false

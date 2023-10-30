@@ -2,6 +2,8 @@
 # Generate the entire file as reference with this form:
 # https://www.toptal.com/developers/gitignore?templates=python,django,dotenv,vim,visualstudiocode
 
+temp
+
 ### django ###
 *.sqlite3
 app/.coverage
@@ -18,8 +20,13 @@ app/htmlcov
 [._]ss[a-gi-z]
 [._]sw[a-p]
 
+### python ###
+venv
+__pycache__
+
 ### VisualStudioCode ###
 .vscode/*
+.idea
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
@@ -29,3 +36,7 @@ app/htmlcov
 erd.png
 *,cover
 docs/build
+
+*.pyc
+
+.vscode

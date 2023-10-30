@@ -25,6 +25,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
+DJANGO_SUPERUSER_USERNAME = os.environ.get("DJANGO_SUPERUSER_USERNAME")
+DJANGO_SUPERUSER_EMAIL = os.environ.get("DJANGO_SUPERUSER_EMAIL")
+DJANGO_SUPERUSER_PASSWORD = os.environ.get("DJANGO_SUPERUSER_PASSWORD")
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DEBUG", default=0)
 
@@ -47,11 +51,11 @@ rsa_keys = {}
 # On django init we download jwks public keys which are used to validate jwt tokens.
 # For now there is no rotation of keys (seems like in Cognito decided not to implement it)
 if COGNITO_AWS_REGION and COGNITO_USER_POOL:
-    COGNITO_POOL_URL = "https://cognito-idp.{}.amazonaws.com/{}".format(
-        COGNITO_AWS_REGION, COGNITO_USER_POOL
+    COGNITO_POOL_URL = (
+        f"https://cognito-idp.{COGNITO_AWS_REGION}.amazonaws.com/{COGNITO_USER_POOL}"
     )
     pool_jwks_url = COGNITO_POOL_URL + "/.well-known/jwks.json"
-    jwks = json.loads(request.urlopen(pool_jwks_url).read())
+    jwks = json.loads(request.urlopen(pool_jwks_url).read())  # nosec B310
     rsa_keys = {key["kid"]: json.dumps(key) for key in jwks["keys"]}
 
 # Application definition
@@ -69,6 +73,7 @@ INSTALLED_APPS = [
     "drf_spectacular",
     "phonenumber_field",
     "timezone_field",
+    "django_linear_migrations",
     # Local
     "core",
 ]

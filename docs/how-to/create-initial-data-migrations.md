@@ -1,27 +1,44 @@
-# Create initial data migrations
+# Create initial data scripts
 
 ## Overview
 
-The goal is to convert our initial data into migration files so that they can be loaded into the database automatically
+The goal is to convert our initial data into scripts that can be loaded into the database when the backend is set up for the first time.
+
+These are the steps:
 
    1. Export the data into JSON
-   1. Call convert.py to generate a script for the data
-   1. Create a blank migration and call the initial data script from there
-   1. Test the migration
+   1. Generate a python script from the JSON data
+
+### Prerequisites
+
+The initial data exists in a Google spreadsheet, such as [this one for People Depot][pd-data-spreadsheet]. There should be individual sheets named after the model names the data correspond to, such as `SOC Major - Data`. The sheet name is useful for us to identify the model it corresponds to.
+
+The sheet should be formatted like so:
+
+- the first row contains the names of the field names in the model. The names must be exactly the same
+- rows 2 to n are the initial data for the model we want to turn into a script.
 
 ## Convert the data into JSON
 
-   1. Export the data from the spreadsheet
-      1. Find the sheet in the document for the data to export. Let's use the `SOC Major` data as our example
-      1. Make sure that the first row (column descriptions) is frozen. Otherwise, freeze it by selecting the first row in the sheet, Menu > View > Freeze > Up to row 1
-      1. Export to JSON. Export JSON > Export JSON for this sheet
+   1. Export the data from the Google [spreadsheet][pd-data-spreadsheet]
+      1. Find the sheet in the document containing the data to export. Let's use the `SOC Major - Data` data as our example. It's
+      1. Make sure that the first row (column names) is frozen. Otherwise, freeze it by selecting the first row in the sheet, then Menu > View > Freeze > Up to row 1
+      1. Export to JSON. Menu > Export JSON > Export JSON for this sheet
    1. Save the JSON into a file
       1. Select and copy all the JSON text
       1. Paste it into a new file and save it as [ModelNameInPascalCase]_export.json under app/core/initial_data/
-      1. The Pascal case is important in the next step to generate a python script to insert the data
-      1. **Potential problem**: There was a problem with the JSON exporter where it omitted the underscore in `occ_code`. It should be fixed now but it's good to pay attention to other column name problems and fix them in the [Google Apps script](https://thenewstack.io/how-to-convert-google-spreadsheet-to-json-formatted-text/#:~:text=To%20do%20this,%20click%20Extensions,save%20your%20work%20so%20far.) in the [spreadsheet](https://docs.google.com/spreadsheets/d/1x_zZ8JLS2hO-zG0jUocOJmX16jh-DF5dccrd_OEGNZ0/edit#gid=568640143).
+      1. The Pascal case is important in the next step to generate a python script to insert the data. It must match the model's class name for this to work.
+
+      **Potential data issue**
+      There was a problem with the JSON exporter where it omitted the underscore in `occ_code`. It should be fixed now but it's good to pay attention to other column name problems and fix them in the [Google Apps script][apps-script] in the [spreadsheet][pd-data-spreadsheet]. You will find out when the data insertion fails if there's a problem.
 
 ## Convert JSON into python
+
+   1. Make sure the backend is running
+
+      ```bash
+      ./scripts/buildrun.sh
+      ```
 
    1. Go to the project root and run this command
 
@@ -29,7 +46,7 @@ The goal is to convert our initial data into migration files so that they can be
       docker-compose exec web python scripts/convert.py core/initial_data/SOCMajor_export.json
       ```
 
-   1. Check that there's a new file called app/scripts/socmajor_seed.py and that it looks correct
+   1. Check that there's a new file called `app/core/scripts/socmajor_seed.py` and that it looks correct
       1. You can run it to verify, but will need to remove that data if you care about restoring the database state
          1. Run this command to run the script
 
@@ -37,69 +54,25 @@ The goal is to convert our initial data into migration files so that they can be
             docker-compose exec web python manage.py runscript socmajor_seed
             ```
 
-         1. To remove the data, go into the database and delete all from core_socmajor
+         1. To remove the data, go into the database and delete all rows from `core_socmajor`
 
             ```bash
             docker-compose exec web python manage.py dbshell
+
+            # now we have a shell to the db
 
             # see if all the seed data got inserted
             select count(*) from core_socmajor;
             # shows 22 rows
 
-            # now we're inside dbshell
             delete from core_socmajor;
             # DELETE 22
+
+            select count(*) from core_socmajor;
+            # shows 0 rows
 
             # ctrl-d to exit dbshell
             ```
 
-## Create the migration
-
-   1. Create a blank migration file (for the core app, because all our models are in there)
-
-      ```bash
-      docker-compose exec web python manage.py makemigrations --empty core --name socmajor_initial_data
-      ```
-
-   1. Call our script from the migration file
-
-      ```python
-      from django.db import migrations
-
-
-      def add_data(apps, schema_editor):
-          from ..scripts import socmajor_seed
-
-          socmajor_seed.run()
-
-
-      def delete_data(apps, schema_editor):
-          SOCMajor = apps.get_model("core", "SOCMajor")
-          SOCMajor.objects.all().delete()
-
-
-      class Migration(migrations.Migration):
-
-          dependencies = [
-              ("core", "0007_socmajor"),
-          ]
-
-          operations = [migrations.RunPython(add_data, delete_data)]
-      ```
-
-      1. We pass 2 arguments to RunPython: functions for forward and reverse migrations
-      1. add_data calls the seed script
-      1. delete_data empties the table
-
-   1. Verify the migration works
-
-      ```bash
-      # apply the new migration
-      docker-compose exec web python manage.py migrate core
-
-      # reversing to a previous migration (best to go back just 1 from the current count)
-      docker-compose exec web python manage.py migrate core 0004
-
-      # forwarding to the latest migration
-      docker-compose exec web python manage.py migrate core
-      ```
+[pd-data-spreadsheet]: https://docs.google.com/spreadsheets/d/1x_zZ8JLS2hO-zG0jUocOJmX16jh-DF5dccrd_OEGNZ0/
+[apps-script]: https://thenewstack.io/how-to-convert-google-spreadsheet-to-json-formatted-text/#:~:text=To%20do%20this,%20click%20Extensions,save%20your%20work%20so%20far.

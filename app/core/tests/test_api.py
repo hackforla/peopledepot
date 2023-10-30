@@ -8,7 +8,16 @@ pytestmark = pytest.mark.django_db
 
 ME_URL = reverse("my_profile")
 USERS_URL = reverse("user-list")
-RECURRING_EVENTS_URL = reverse("recurring-event-list")
+EVENTS_URL = reverse("event-list")
+PRACTICE_AREA_URL = reverse("practice-area-list")
+FAQS_URL = reverse("faq-list")
+FAQS_VIEWED_URL = reverse("faq-viewed-list")
+SPONSOR_PARTNERS_URL = reverse("sponsor-partner-list")
+LOCATION_URL = reverse("location-list")
+PROGRAM_AREA_URL = reverse("program-area-list")
+SKILL_URL = reverse("skill-list")
+TECHNOLOGY_URL = reverse("technology-list")
+PERMISSION_TYPE = reverse("permission-type-list")
 
 CREATE_USER_PAYLOAD = {
     "username": "TestUserAPI",
@@ -133,12 +142,130 @@ user_actions_test_data = [
 
 
 @pytest.mark.parametrize(
-    "client_name,action,endpoint,payload,expected_status", user_actions_test_data
+    ("client_name", "action", "endpoint", "payload", "expected_status"),
+    user_actions_test_data,
 )
 def test_user_actions(client_name, action, endpoint, payload, expected_status, request):
-
     client = request.getfixturevalue(client_name)
     action_fn = getattr(client, action)
     url = request.getfixturevalue(endpoint)
     res = action_fn(url, payload)
     assert res.status_code == expected_status
+
+
+def test_create_event(auth_client, project):
+    """Test that we can create an event"""
+
+    payload = {
+        "name": "Test Weekly team meeting",
+        "start_time": "18:00:00",
+        "duration_in_min": 60,
+        "video_conference_url": "https://zoom.com/link",
+        "additional_info": "Test description",
+        "project": project.uuid,
+    }
+    res = auth_client.post(EVENTS_URL, payload)
+    assert res.status_code == status.HTTP_201_CREATED
+    assert res.data["name"] == payload["name"]
+
+
+def test_create_sponsor_partner(auth_client):
+    payload = {
+        "partner_name": "Test Partner",
+        "partner_logo": "http://www.logourl.com",
+        "is_active": True,
+        "url": "http://www.testurl.org",
+        "is_sponsor": True,
+    }
+    res = auth_client.post(SPONSOR_PARTNERS_URL, payload)
+    assert res.status_code == status.HTTP_201_CREATED
+
+
+def test_create_practice_area(auth_client):
+    payload = {
+        "name": "Test API for creating practice area",
+        "description": "See name.  Description is optional.",
+    }
+    res = auth_client.post(PRACTICE_AREA_URL, payload)
+    assert res.status_code == status.HTTP_201_CREATED
+    assert res.data["name"] == payload["name"]
+
+
+def test_create_faq(auth_client):
+    payload = {
+        "question": "How do I work on an issue",
+        "answer": "See CONTRIBUTING.md",
+        "tool_tip_name": "How to work on an issue",
+    }
+    res = auth_client.post(FAQS_URL, payload)
+    assert res.status_code == status.HTTP_201_CREATED
+    assert res.data["question"] == payload["question"]
+
+
+def test_get_faq_viewed(auth_client, faq_viewed):
+    """test retrieving faq_viewed"""
+
+    res = auth_client.get(FAQS_VIEWED_URL)
+
+    assert res.data[0]["faq"] == faq_viewed.faq.pk
+
+
+def test_create_location(auth_client):
+    """Test that we can create a location"""
+
+    payload = {
+        "name": "Test Hack for L.A. HQ",
+        "address_line_1": "123 Hacker Way",
+        "address_line_2": "Suite 456",
+        "city": "Los Angeles",
+        "state": "CA",
+        "zip": "90210",
+    }
+    res = auth_client.post(LOCATION_URL, payload)
+    assert res.status_code == status.HTTP_201_CREATED
+
+
+def test_create_program_area(auth_client):
+    """Test that we can create a program area"""
+
+    payload = {
+        "name": "Test program area",
+        "description": "About program area",
+        "image": "http://www.imageurl.com",
+    }
+    res = auth_client.post(PROGRAM_AREA_URL, payload)
+    assert res.status_code == status.HTTP_201_CREATED
+    assert res.data["name"] == payload["name"]
+
+
+def test_create_skill(auth_client):
+    """Test that we can create a skill"""
+
+    payload = {
+        "name": "Test Skill",
+        "description": "Skill Description",
+    }
+    res = auth_client.post(SKILL_URL, payload)
+    assert res.status_code == status.HTTP_201_CREATED
+    assert res.data["name"] == payload["name"]
+
+
+def test_create_technology(auth_client):
+    payload = {
+        "name": "Test Technology",
+        "description": "Technology description",
+        "url": "http://www.testurl.org",
+        "logo": "http://www.logourl.com",
+        "active": True,
+    }
+    res = auth_client.post(TECHNOLOGY_URL, payload)
+    assert res.status_code == status.HTTP_201_CREATED
+    assert res.data["name"] == payload["name"]
+
+
+def test_create_permission_type(auth_client):
+    payload = {"name": "adminGlobal", "description": "Can CRUD anything"}
+    res = auth_client.post(PERMISSION_TYPE, payload)
+    assert res.status_code == status.HTTP_201_CREATED
+    assert res.data["name"] == payload["name"]
+    assert res.data["description"] == payload["description"]
