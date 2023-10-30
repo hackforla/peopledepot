@@ -16,5 +16,6 @@ pyparsing~=3.0.9
 pytest~=6.2.5
 pytest-cov~=3.0.0
 pytest-django~=4.5.2
+python-dotenv==1.0.0
 pytz==2022.1
 tzdata==2022.1
