@@ -1,6 +1,6 @@
 from core.models import ProgramArea
 
-def run():
+def run(_a, _b):
 
     status = ProgramArea(uuid=1, name="Citizen Engagement")
     status.save()
