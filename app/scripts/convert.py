@@ -7,6 +7,7 @@
 # docker-compose exec web python core/scripts/convert.py core/fixtures/userstatus_export.json
 # to apply the seed script:
 # docker-compose exec web python manage.py runscript userstatus-seed
+import string
 import sys
 import json
 import os
@@ -21,7 +22,12 @@ def to_key_value(input):
     # print(input)
     values = []
     for key, value in input.items():
-        values.append(f'{key}="{value}"')
+        if (key =="id"):
+            key = "uuid"
+        if ( key=="uuid" and isinstance(value, int)):
+            values.append(f'{key}={value}')
+        else:
+            values.append(f'{key}="{value}"')
 
     # print(values)
     return ", ".join(values)
