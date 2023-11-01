@@ -76,6 +76,7 @@ INSTALLED_APPS = [
     "django_linear_migrations",
     # Local
     "core",
+    "data",
 ]
 
 MIDDLEWARE = [
