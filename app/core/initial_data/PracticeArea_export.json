@@ -1,0 +1,18 @@
+[
+  {
+    "uuid": 1,
+    "name": "Development"
+  },
+  {
+    "uuid": 2,
+    "name": "Project Management"
+  },
+  {
+    "uuid": 3,
+    "name": "Design"
+  },
+  {
+    "uuid": 4,
+    "name": "Professional Development"
+  }
+]
