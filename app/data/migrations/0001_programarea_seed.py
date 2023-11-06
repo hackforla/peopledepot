@@ -1,17 +1,17 @@
 
 from django.db import migrations
-from core.scripts.programarea_seed import run as run_seed
+from core.scripts.programarea_seed import run
 
    
 class Migration(migrations.Migration):
 
     initial = True
     dependencies = [
-        ('core', '__latest__')
+        ('core', '0018_rename_recurringevent_event')
     ]
 
     operations = [
-        migrations.RunPython(run_seed, migrations.RunPython.noop)
+        migrations.RunPython(run, migrations.RunPython.noop)
     ]
         
         

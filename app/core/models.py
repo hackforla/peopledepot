@@ -243,6 +243,18 @@ class PracticeArea(AbstractBaseModel):
         return f"{self.name}"
 
 
+class PracticeArea2(AbstractBaseModel):
+    """
+    Practice Area
+    """
+
+    name = models.CharField(max_length=255, unique=True)
+    description = models.CharField(max_length=255, blank=True)
+
+    def __str__(self):
+        return f"{self.name}"
+
+
 class ProgramArea(AbstractBaseModel):
     """
     Dictionary of program areas (to be joined with project)
