@@ -26,6 +26,7 @@ class AbstractBaseModel(models.Model):
     def __repr__(self):
         return f"<{self.__class__.__name__} {self.uuid}>"
 
+
 class User(PermissionsMixin, AbstractBaseUser, AbstractBaseModel):
     """
     Table contains cognito-users & django-users.
