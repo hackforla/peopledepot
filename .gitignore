@@ -21,7 +21,8 @@ app/htmlcov
 [._]sw[a-p]
 
 ### python ###
-venv
+venv/
+venv-peopledepot/
 __pycache__
 
 ### VisualStudioCode ###

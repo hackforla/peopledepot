@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import include, path
 from rest_framework import routers
 
 from .views import EventViewSet
@@ -31,6 +31,7 @@ router.register(r"permission-types", PermissionTypeViewSet, basename="permission
 
 urlpatterns = [
     path("me/", UserProfileAPIView.as_view(), name="my_profile"),
+    path('accounts/', include('allauth.urls')),
 ]
 
 urlpatterns += router.urls

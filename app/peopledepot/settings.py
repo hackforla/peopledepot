@@ -45,6 +45,9 @@ COGNITO_AUDIENCE = None
 COGNITO_POOL_URL = (
     None  # will be set few lines of code later, if configuration provided
 )
+COGNITO_CLIENT_ID = os.environ.get("COGNITO_CLIENT_ID")
+COGNITO_CLIENT_SECRET = os.environ.get("COGNITO_CLIENT_SECRET`")
+
 
 rsa_keys = {}
 # To avoid circular imports, we keep this logic here.
@@ -77,7 +80,26 @@ INSTALLED_APPS = [
     # Local
     "core",
     "data",
+    # allauth requirements
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    # ... include the providers you want to enable:
+    'allauth.socialaccount.providers.amazon_cognito',
+
 ]
+
+SOCIALACCOUNT_PROVIDERS = {
+    'amazon_cognito': {
+        'DOMAIN': 'https://peopledepot.auth.us-east-2.amazoncognito.com',
+        'APP': {
+            'client_id': f'{COGNITO_CLIENT_ID}',
+            'client_secret': f'{COGNITO_CLIENT_SECRET}',
+            'secret': '',
+            'key': ''
+        }
+    }
+}
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -88,6 +110,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.RemoteUserMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
 ROOT_URLCONF = "peopledepot.urls"
@@ -103,6 +126,8 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                # `allauth` needs this from django
+                'django.template.context_processors.request',
             ],
         },
     },
@@ -171,8 +196,10 @@ AUTH_USER_MODEL = "core.User"
 
 AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.RemoteUserBackend",
-    "django.contrib.auth.backends.ModelBackend",
-]
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+    # `allauth` specific authentication methods, such as login by email
+    'allauth.account.auth_backends.AuthenticationBackend',]
 
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": ("core.api.permissions.DenyAny",),
