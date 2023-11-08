@@ -1,6 +1,6 @@
 from core.models import PracticeArea
 
-def run(_a, _b):
+def run(__state_apps__, __schema_editor__):
 
     status = PracticeArea(uuid=1, name="Development")
     status.save()

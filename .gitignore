@@ -11,6 +11,7 @@ app/htmlcov
 
 ### dotenv ###
 .env.dev
+venv-peopledepot/
 
 ### Vim ###
 # Swap
