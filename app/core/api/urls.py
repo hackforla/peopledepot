@@ -30,8 +30,7 @@ router.register(r"technologies", TechnologyViewSet, basename="technology")
 router.register(r"permission-types", PermissionTypeViewSet, basename="permission-type")
 
 urlpatterns = [
-    path("me/", UserProfileAPIView.as_view(), name="my_profile"),
-    path('accounts/', include('allauth.urls')),
+    path("me/", UserProfileAPIView.as_view(), name="my_profile")
 ]
 
 urlpatterns += router.urls
