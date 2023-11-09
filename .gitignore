@@ -13,6 +13,7 @@ app/htmlcov
 ### .env.dev
 .env.dev
 .env
+envsettings.sh
 
 ### Vim ###
 # Swap
