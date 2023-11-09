@@ -4,4 +4,6 @@ IFS=$'\n\t'
 set -x
 
 # run tests and show code coverage
-docker-compose exec -T web pytest
+# filter tests using -k <filter>
+# ex: test.sh -k program_area --no-cov
+docker-compose exec -T web pytest "$@"
