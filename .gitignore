@@ -11,6 +11,7 @@ app/htmlcov
 
 ### dotenv ###
 .env.dev
+.env
 
 ### Vim ###
 # Swap
@@ -22,6 +23,7 @@ app/htmlcov
 
 ### python ###
 venv
+venv-peopledepot/
 __pycache__
 
 ### VisualStudioCode ###
