@@ -1,9 +1,12 @@
+import os
+import time
 from django.contrib.auth import get_user_model
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import OpenApiExample
 from drf_spectacular.utils import OpenApiParameter
 from drf_spectacular.utils import extend_schema
 from drf_spectacular.utils import extend_schema_view
+import requests
 from rest_framework import mixins
 from rest_framework import viewsets
 from rest_framework.generics import GenericAPIView
@@ -11,7 +14,7 @@ from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
-from ..models import Event
+from ..models import Event, User
 from ..models import Faq
 from ..models import FaqViewed
 from ..models import Location
@@ -34,6 +37,42 @@ from .serializers import SkillSerializer
 from .serializers import SponsorPartnerSerializer
 from .serializers import TechnologySerializer
 from .serializers import UserSerializer
+
+from rest_framework.views import APIView
+from django.views.decorators.csrf import csrf_exempt
+import hashlib
+import hmac
+import time
+from django.http import JsonResponse
+from django.core import serializers
+
+API_SECRET=os.environ.get('API_SECRET')
+
+MAX_TOLERANCE_SECONDS=10
+
+class SecureApiView(GenericAPIView):
+    permission_classes=[]
+    @csrf_exempt
+    def post(self, request: requests):
+        api_key = request.headers.get('X-API-Key', '')
+        timestamp = request.headers.get('X-API-Timestamp', '')
+        signature = request.headers.get('X-API-Signature', '')
+
+        current_timestamp = str(int(time.time()))
+        if abs(int(timestamp) - int(current_timestamp)) > 10:
+            return JsonResponse({'error': 'Invalid timestamp'}, status=400)
+
+        # Recreate the message and calculate the expected signature
+        expected_signature = hmac.new(API_SECRET.encode('utf-8'), f"{timestamp}{api_key}".encode('utf-8'), hashlib.sha256).hexdigest()
+
+        # Compare the calculated signature with the one sent in the request
+        if signature == expected_signature:
+            # Signature is valid, process the request
+            user_data = serializers.serialize("json", User.objects.all())
+            return JsonResponse({'message': 'API call successful', 'data': request.data, 'users': user_data})
+        else:
+            # Invalid signature, reject the request
+            return JsonResponse({'error': 'Invalid signature'}, status=401)
 
 
 class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):

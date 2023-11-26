@@ -12,6 +12,7 @@ export DJANGO_SUPERUSER_PASSWORD=admin
 # SQL_HOST=db
 # SQL_PORT=5432
 export DATABASE=postgres
+export API_SECRET=people-depot-api-secret
 
 export COGNITO_AWS_REGION=us-east-2
 export COGNITO_USER_POOL=us-east-2_i2EKGBFG1

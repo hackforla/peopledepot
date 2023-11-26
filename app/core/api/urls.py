@@ -1,6 +1,7 @@
 from django.urls import path
 from rest_framework import routers
 from django.views.generic import TemplateView
+from .views import SecureApiView
 
 
 from .views import EventViewSet
@@ -33,7 +34,8 @@ router.register(r"technologies", TechnologyViewSet, basename="technology")
 router.register(r"permission-types", PermissionTypeViewSet, basename="permission-type")
 
 urlpatterns = [
-    path("me/", UserProfileAPIView.as_view(), name="my_profile"),
+    path('secure-api/', SecureApiView.as_view(), name='secure_api'),
+    path('me/', UserProfileAPIView.as_view(), name='my_profile'),
     path('home/', TemplateView.as_view(template_name='common/home.html'), name='home'),
     # path('no_staff_access/', no_staff_access, name='no_staff_access'),
 ]
