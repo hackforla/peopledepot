@@ -201,8 +201,8 @@ class ProgramAreaSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ProgramArea
-        fields = ("uuid", "name", "description", "image")
-        read_only_fields = ("uuid", "created_at", "updated_at")
+        fields = ("id", "name", "description", "image")
+        read_only_fields = ("id", "created_at", "updated_at")
 
 
 class SkillSerializer(serializers.ModelSerializer):

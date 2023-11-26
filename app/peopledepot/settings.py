@@ -39,7 +39,7 @@ DEBUG = os.environ.get("DEBUG", default=0)
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 
 # Single sign on
-LOGIN_REDIRECT_URL = '/admin/'
+LOGIN_REDIRECT_URL = '/accounts/'
 ACCOUNT_LOGOUT_REDIRECT_URL = 'account_login'
 
 # Cognito stuff

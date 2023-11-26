@@ -237,7 +237,7 @@ class LocationViewSet(viewsets.ModelViewSet):
     partial_update=extend_schema(description="Patch a program area"),
 )
 class ProgramAreaViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticated]
+    permission_classes = []
     queryset = ProgramArea.objects.all()
     serializer_class = ProgramAreaSerializer
 

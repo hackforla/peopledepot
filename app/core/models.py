@@ -11,12 +11,25 @@ from timezone_field import TimeZoneField
 
 class AbstractBaseModel(models.Model):
     """
-    Base abstract model, that has `uuid` instead of `id` and included `created_at`, `updated_at` fields.
+    Base abstract model, that has `uuid` instead of `uuid` and included `created_at`, `updated_at` fields.
+    """
+    created_at = models.DateTimeField("Created at", auto_now_add=True)
+    updated_at = models.DateTimeField("Updated at", auto_now=True)
+
+    class Meta:
+        abstract = True
+
+
+
+class AbstractBaseModelUuid(AbstractBaseModel):
+    """
+    Base abstract model, that has `uuid` instead of `uuid` and included `created_at`, `updated_at` fields.
     """
 
     uuid = models.UUIDField(
         primary_key=True, default=uuid.uuid4, editable=False, unique=True
     )
+    
     created_at = models.DateTimeField("Created at", auto_now_add=True)
     updated_at = models.DateTimeField("Updated at", auto_now=True)
 
@@ -27,7 +40,25 @@ class AbstractBaseModel(models.Model):
         return f"<{self.__class__.__name__} {self.uuid}>"
 
 
-class User(PermissionsMixin, AbstractBaseUser, AbstractBaseModel):
+class AbstractBaseModelId(AbstractBaseModel):
+    """
+    Base abstract model, that has `uuid` instead of `uuid` and included `created_at`, `updated_at` fields.
+    """
+
+
+    
+    created_at = models.DateTimeField("Created at", auto_now_add=True)
+    updated_at = models.DateTimeField("Updated at", auto_now=True)
+
+    class Meta:
+        abstract = True
+
+    def __repr__(self):
+        return f"<{self.__class__.__name__} {self.uuid}>"
+
+
+
+class User(PermissionsMixin, AbstractBaseUser, AbstractBaseModelUuid):
     """
     Table contains cognito-users & django-users.
 
@@ -110,7 +141,7 @@ class User(PermissionsMixin, AbstractBaseUser, AbstractBaseModel):
         return f"{self.email}"
 
 
-class Project(AbstractBaseModel):
+class Project(AbstractBaseModelUuid):
     """
     List of projects
     """
@@ -145,7 +176,7 @@ https://api.github.com/repos/[org]/[repo]',
         return f"{self.name}"
 
 
-class Event(AbstractBaseModel):
+class Event(AbstractBaseModelUuid):
     """
     Events
     """
@@ -170,7 +201,7 @@ class Event(AbstractBaseModel):
         return f"{self.name}"
 
 
-class SponsorPartner(AbstractBaseModel):
+class SponsorPartner(AbstractBaseModelUuid):
     """
     Dictionary of sponsors and partners
     """
@@ -187,7 +218,7 @@ class SponsorPartner(AbstractBaseModel):
         return f"{self.partner_name}"
 
 
-class Faq(AbstractBaseModel):
+class Faq(AbstractBaseModelUuid):
     question = models.CharField(max_length=255, unique=True)
     answer = models.CharField(max_length=255, blank=True)
     tool_tip_name = models.CharField(max_length=255, blank=True)
@@ -198,7 +229,7 @@ class Faq(AbstractBaseModel):
         return f"{self.question}"
 
 
-class FaqViewed(AbstractBaseModel):
+class FaqViewed(AbstractBaseModelUuid):
     """
     FaqViewed tracks how many times an FAQ has been viewed by serving as an instance of an FAQ being viewed.
     """
@@ -212,7 +243,7 @@ class FaqViewed(AbstractBaseModel):
         return f"{self.faq} viewed at {self.created_at.strftime('%b %d %Y %H:%M:%S')}"
 
 
-class Location(AbstractBaseModel):
+class Location(AbstractBaseModelUuid):
     """
     Location for event
     """
@@ -229,7 +260,7 @@ class Location(AbstractBaseModel):
         return f"{self.name}"
 
 
-class PracticeArea(AbstractBaseModel):
+class PracticeArea(AbstractBaseModelUuid):
     """
     Practice Area
     """
@@ -241,10 +272,11 @@ class PracticeArea(AbstractBaseModel):
         return f"{self.name}"
 
 
-class ProgramArea(AbstractBaseModel):
+class ProgramArea(AbstractBaseModelId):
     """
     Dictionary of program areas (to be joined with project)
     """
+    id = models.AutoField(primary_key=True)
 
     name = models.CharField(max_length=255, unique=True)
     description = models.TextField(blank=True)
@@ -254,7 +286,7 @@ class ProgramArea(AbstractBaseModel):
         return f"{self.name}"
 
 
-class Skill(AbstractBaseModel):
+class Skill(AbstractBaseModelUuid):
     """
     Dictionary of skills
     """
@@ -266,7 +298,7 @@ class Skill(AbstractBaseModel):
         return f"{self.name}"
 
 
-class Technology(AbstractBaseModel):
+class Technology(AbstractBaseModelUuid):
     """
     Dictionary of technologies used in projects
     """
@@ -286,7 +318,7 @@ class Technology(AbstractBaseModel):
         return f"{self.name}"
 
 
-class PermissionType(AbstractBaseModel):
+class PermissionType(AbstractBaseModelUuid):
     """
     Permission Type
     """
