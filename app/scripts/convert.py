@@ -22,10 +22,10 @@ def to_key_value(input):
     # print(input)
     values = []
     for key, value in input.items():
-        if (key =="id"):
+        if key == "id":
             key = "uuid"
-        if ( key=="uuid" and isinstance(value, int)):
-            values.append(f'{key}={value}')
+        if key == "uuid" and isinstance(value, int):
+            values.append(f"{key}={value}")
         else:
             values.append(f'{key}="{value}"')
 
@@ -62,7 +62,6 @@ def convert(file_path):
 
 
 if __name__ == "__main__":
-
     try:
         arg = sys.argv[1]
     except IndexError:

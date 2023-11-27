@@ -42,7 +42,7 @@ The sheet should be formatted like so:
       ./scripts/buildrun.sh
       ```
 
-   
+
    1. Go to the project root and run this command
 
       ```bash
@@ -80,7 +80,7 @@ The sheet should be formatted like so:
 [pd-data-spreadsheet]: https://docs.google.com/spreadsheets/d/1x_zZ8JLS2hO-zG0jUocOJmX16jh-DF5dccrd_OEGNZ0/
 [apps-script]: https://thenewstack.io/how-to-convert-google-spreadsheet-to-json-formatted-text/#:~:text=To%20do%20this,%20click%20Extensions,save%20your%20work%20so%20far.
 
-## Call Script From Migration 
+## Call Script From Migration
 - Look for name of the last migration file in data/migrations directory
 - Create a script in the same directory named <number>_<model in lowercase>_seed.py with the following contents and
 replace `<model in lower case>`` and `<name of last script>` with appropriate values:
@@ -88,7 +88,7 @@ replace `<model in lower case>`` and `<name of last script>` with appropriate va
 from django.db import migrations
 from core.scripts.<model in lower case>_seed import run
 
-   
+
 class Migration(migrations.Migration):
 
     initial = True
@@ -101,7 +101,7 @@ For example:
 from django.db import migrations
 from core.scripts.booktypes_seed import run
 
-   
+
 class Migration(migrations.Migration):
 
     initial = True

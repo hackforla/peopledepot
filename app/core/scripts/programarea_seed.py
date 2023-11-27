@@ -1,7 +1,7 @@
 from core.models import ProgramArea
 
-def run(__state_apps__, __schema_editor__):
 
+def run(__state_apps__, __schema_editor__):
     status = ProgramArea(uuid=1, name="Citizen Engagement")
     status.save()
     status = ProgramArea(uuid=2, name="Civic Tech Infrastructure")
