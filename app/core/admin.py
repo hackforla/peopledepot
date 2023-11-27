@@ -15,6 +15,7 @@ from .models import ProgramArea
 from .models import Project
 from .models import Skill
 from .models import SponsorPartner
+from .models import StackElementType
 from .models import Technology
 from .models import User
 
@@ -203,3 +204,11 @@ class TechnologyAdmin(admin.ModelAdmin):
 @admin.register(PermissionType)
 class PermissionTypeAdmin(admin.ModelAdmin):
     list_display = ("name", "description")
+
+
+@admin.register(StackElementType)
+class StackElementType(admin.ModelAdmin):
+    list_display = (
+        "name",
+        "description",
+    )
