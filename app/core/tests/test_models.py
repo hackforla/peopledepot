@@ -38,6 +38,10 @@ def test_location(location):
     assert str(location) == "Test Hack for L.A. HQ"
 
 
+def test_program_area(program_area):
+    assert str(program_area) == "Test Program Area"
+
+
 def test_skill(skill):
     assert str(skill) == "Test Skill"
 
@@ -58,3 +62,7 @@ def test_permission_type2(permission_type2):
     assert (
         str(permission_type2) == "Test Permission Type: A permission type description"
     )
+
+
+def test_stack_element_type(stack_element_type):
+    assert str(stack_element_type) == "Test Stack Element Type"

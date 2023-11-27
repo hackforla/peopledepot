@@ -11,6 +11,7 @@ from ..models import ProgramArea
 from ..models import Project
 from ..models import Skill
 from ..models import SponsorPartner
+from ..models import StackElementType
 from ..models import Technology
 
 
@@ -127,3 +128,8 @@ def permission_type2():
     return PermissionType.objects.create(
         name="Test Permission Type", description="A permission type description"
     )
+
+
+@pytest.fixture
+def stack_element_type():
+    return StackElementType.objects.create(name="Test Stack Element Type")

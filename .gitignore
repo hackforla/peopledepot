@@ -2,7 +2,8 @@
 # Generate the entire file as reference with this form:
 # https://www.toptal.com/developers/gitignore?templates=python,django,dotenv,vim,visualstudiocode
 
-temp
+temp/
+.DS_Store
 
 ### django ###
 *.sqlite3
@@ -11,6 +12,7 @@ app/htmlcov
 
 ### dotenv ###
 .env.dev
+.env
 venv-peopledepot/
 
 ### Vim ###
@@ -23,6 +25,7 @@ venv-peopledepot/
 
 ### python ###
 venv
+venv-peopledepot/
 __pycache__
 
 ### VisualStudioCode ###

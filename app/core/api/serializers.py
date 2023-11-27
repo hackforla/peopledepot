@@ -11,6 +11,7 @@ from core.models import ProgramArea
 from core.models import Project
 from core.models import Skill
 from core.models import SponsorPartner
+from core.models import StackElementType
 from core.models import Technology
 from core.models import User
 
@@ -251,6 +252,23 @@ class PermissionTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = PermissionType
         fields = ("uuid", "name", "description")
+        read_only_fields = (
+            "uuid",
+            "created_at",
+            "updated_at",
+        )
+
+
+class StackElementTypeSerializer(serializers.ModelSerializer):
+    """Used to retrieve stack element types"""
+
+    class Meta:
+        model = StackElementType
+        fields = (
+            "uuid",
+            "name",
+            "description",
+        )
         read_only_fields = (
             "uuid",
             "created_at",

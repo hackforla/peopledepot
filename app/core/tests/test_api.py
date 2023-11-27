@@ -2,7 +2,9 @@ import pytest
 from django.urls import reverse
 from rest_framework import status
 
+from core.api.serializers import ProgramAreaSerializer
 from core.api.serializers import UserSerializer
+from core.models import ProgramArea
 
 pytestmark = pytest.mark.django_db
 
@@ -18,6 +20,7 @@ PROGRAM_AREA_URL = reverse("program-area-list")
 SKILL_URL = reverse("skill-list")
 TECHNOLOGY_URL = reverse("technology-list")
 PERMISSION_TYPE = reverse("permission-type-list")
+STACK_ELEMENT_TYPE_URL = reverse("stack-element-type-list")
 
 CREATE_USER_PAYLOAD = {
     "username": "TestUserAPI",
@@ -238,6 +241,25 @@ def test_create_program_area(auth_client):
     assert res.data["name"] == payload["name"]
 
 
+def test_list_program_area(auth_client):
+    """Test that we can list program areas"""
+
+    payload = {
+        "name": "Test program area",
+        "description": "About program area",
+        "image": "http://www.imageurl.com",
+    }
+    res = auth_client.post(PROGRAM_AREA_URL, payload)
+
+    res = auth_client.get(PROGRAM_AREA_URL)
+
+    program_areas = ProgramArea.objects.all()
+    expected_data = ProgramAreaSerializer(program_areas, many=True).data
+
+    assert res.status_code == status.HTTP_200_OK
+    assert res.data == expected_data
+
+
 def test_create_skill(auth_client):
     """Test that we can create a skill"""
 
@@ -269,3 +291,13 @@ def test_create_permission_type(auth_client):
     assert res.status_code == status.HTTP_201_CREATED
     assert res.data["name"] == payload["name"]
     assert res.data["description"] == payload["description"]
+
+
+def test_create_stack_element_type(auth_client):
+    payload = {
+        "name": "Test Stack Element Type",
+        "description": "Stack Element Type description",
+    }
+    res = auth_client.post(STACK_ELEMENT_TYPE_URL, payload)
+    assert res.status_code == status.HTTP_201_CREATED
+    assert res.data["name"] == payload["name"]
