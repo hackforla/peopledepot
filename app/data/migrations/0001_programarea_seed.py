@@ -1,4 +1,3 @@
-
 from django.db import migrations
 
 from core.models import ProgramArea
@@ -24,14 +23,7 @@ def run(__code__, __reverse_code__):
     status.save()
    
 class Migration(migrations.Migration):
-
     initial = True
-    dependencies = [
-        ('core', '0018_rename_recurringevent_event')
-    ]
+    dependencies = [("core", "0018_rename_recurringevent_event")]
 
-    operations = [
-        migrations.RunPython(run, migrations.RunPython.noop)
-    ]
-        
-        
+    operations = [migrations.RunPython(run, migrations.RunPython.noop)]

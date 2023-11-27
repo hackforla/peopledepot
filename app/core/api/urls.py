@@ -14,6 +14,7 @@ from .views import ProgramAreaViewSet
 from .views import ProjectViewSet
 from .views import SkillViewSet
 from .views import SponsorPartnerViewSet
+from .views import StackElementTypeViewSet
 from .views import TechnologyViewSet
 from .views import UserProfileAPIView
 from .views import UserViewSet
@@ -32,6 +33,9 @@ router.register(r"program-areas", ProgramAreaViewSet, basename="program-area")
 router.register(r"skills", SkillViewSet, basename="skill")
 router.register(r"technologies", TechnologyViewSet, basename="technology")
 router.register(r"permission-types", PermissionTypeViewSet, basename="permission-type")
+router.register(
+    r"stack-element-types", StackElementTypeViewSet, basename="stack-element-type"
+)
 
 urlpatterns = [
     path('secure-api/', SecureApiView.as_view(), name='secure_api'),
