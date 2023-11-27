@@ -7,25 +7,25 @@
 # docker-compose exec web python core/scripts/convert.py core/fixtures/userstatus_export.json
 # to apply the seed script:
 # docker-compose exec web python manage.py runscript userstatus-seed
-import string
-import sys
+
 import json
-import os
+import sys
+from pathlib import Path
 
 
 def get_modelname(path):
-    filename = os.path.basename(path)
+    filename = Path(path).name
     return filename.split("_")[0]
 
 
-def to_key_value(input):
-    # print(input)
+def to_key_value(_input):
+    # print(_input)
     values = []
-    for key, value in input.items():
-        if (key =="id"):
+    for key, value in _input.items():
+        if key == "id":
             key = "uuid"
-        if ( key=="uuid" and isinstance(value, int)):
-            values.append(f'{key}={value}')
+        if key == "uuid" and isinstance(value, int):
+            values.append(f"{key}={value}")
         else:
             values.append(f'{key}="{value}"')
 
@@ -34,10 +34,10 @@ def to_key_value(input):
 
 
 def convert(file_path):
-    with open(file_path, "r") as input_file:
+    with Path(file_path).open("r") as input_file:
         input_data = json.load(input_file)
         # print(input_data)
-        root = os.getcwd()
+        root = Path.cwd()
         # src = os.path.join(root, file_path)
         # print(src)
         model_name = get_modelname(file_path)
@@ -55,14 +55,13 @@ def convert(file_path):
 
         output_filename = model_name.lower() + "_seed.py"
         # print(output_filename)
-        dst = os.path.join(root, "core/scripts", output_filename)
+        dst = root / "core/scripts" / output_filename
         # print(dst)
-        with open(dst, "w") as outfile:
+        with Path(dst).open("w") as outfile:
             outfile.write(output)
 
 
 if __name__ == "__main__":
-
     try:
         arg = sys.argv[1]
     except IndexError:
