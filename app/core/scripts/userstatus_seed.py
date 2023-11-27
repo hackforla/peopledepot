@@ -4,7 +4,8 @@ from core.models import UserStatus
 def run():
     status = UserStatus(
         name="Inactive",
-        description="Member who has not checked into their project or Community of Practice for 4 weeks and does not have a timeAwayHold",
+        description="Member who has not checked into their project or "
+        "Community of Practice for 4 weeks and does not have a timeAwayHold",
     )
     status.save()
     status = UserStatus(
