@@ -43,7 +43,7 @@ def convert(file_path):
         model_name = get_modelname(file_path)
 
         output = f"from core.models import {model_name}\n\n"
-        output += "def run(_a, _b):\n\n"
+        output += "def run(__state_apps__, __schema_editor__):\n\n"
         for i in input_data:
             values = to_key_value(i)
             line = f"    status = {model_name}({values})\n"

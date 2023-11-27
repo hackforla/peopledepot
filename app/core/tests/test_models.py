@@ -62,3 +62,7 @@ def test_permission_type2(permission_type2):
     assert (
         str(permission_type2) == "Test Permission Type: A permission type description"
     )
+
+
+def test_stack_element_type(stack_element_type):
+    assert str(stack_element_type) == "Test Stack Element Type"
