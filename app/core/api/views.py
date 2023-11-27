@@ -53,7 +53,7 @@ MAX_TOLERANCE_SECONDS=10
 class SecureApiView(GenericAPIView):
     permission_classes=[]
     @csrf_exempt
-    def post(self, request: requests):
+    def get(self, request: requests):
         api_key = request.headers.get('X-API-Key', '')
         timestamp = request.headers.get('X-API-Timestamp', '')
         signature = request.headers.get('X-API-Signature', '')

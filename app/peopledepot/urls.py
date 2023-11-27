@@ -20,5 +20,5 @@ urlpatterns = [
         name="redoc",
     ),
     path('accounts/', include('allauth.urls')),
-    path('admin/', include('allauth.urls')),
+    # path('admin/', include('allauth.urls')),
 ]
