@@ -24,7 +24,7 @@ The sheet should be formatted like so:
 
 1. Export the data from the Google [spreadsheet][pd-data-spreadsheet]
 
-    1. Find the sheet in the document containing the data to export. Let's use the `ProgramArea - Data` data as our example. It's
+    1. Find the sheet in the document containing the data to export. Let's use the `ProgramArea - Data` data as our example.
     1. Make sure that the first row (column names) is frozen. Otherwise, freeze it by selecting the first row in the sheet, then Menu > View > Freeze > Up to row 1
     1. Export to JSON. Menu > Export JSON > Export JSON for this sheet
 
@@ -85,12 +85,12 @@ The sheet should be formatted like so:
 
 ## Combine Script in Migration
 
-- Look for name of the last migration file in data/migrations directory
+- Look for name of the last migration file in `core/data/migrations` directory
 
 - Create a script in the same directory named `<number>_<model in lowercase>_seed.py` with the following contents and
     replace `<model in lower case>` and `<name of last script>` with appropriate values:
 
-    ```python
+    ```py
     from django.db import migrations
 
     from core.models import <model in CamelCase>
@@ -109,7 +109,7 @@ The sheet should be formatted like so:
 
     For example:
 
-    ```python
+    ```py
     from django.db import migrations
 
     from core.models import BookType
@@ -118,7 +118,6 @@ The sheet should be formatted like so:
     def run(__code__, __reverse_code__):
         status = BookType(uuid=1, name="Example Book")
         status.save()
-
 
 
     class Migration(migrations.Migration):
