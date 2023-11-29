@@ -14,8 +14,8 @@ import json
 import os
 from pathlib import Path
 from urllib import request
-# import dotenv
-# dotenv.load_dotenv()
+import dotenv
+dotenv.load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -53,7 +53,7 @@ COGNITO_POOL_URL = (
 )
 COGNITO_CLIENT_ID = os.environ.get("COGNITO_CLIENT_ID")
 COGNITO_CLIENT_SECRET = os.environ.get("COGNITO_CLIENT_SECRET`")
-
+print('Debug cognito', COGNITO_CLIENT_ID)
 
 rsa_keys = {}
 # To avoid circular imports, we keep this logic here.

@@ -1,5 +1,6 @@
 import os
 import time
+import random
 from django.contrib.auth import get_user_model
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import OpenApiExample
@@ -42,6 +43,7 @@ from .serializers import UserSerializer
 
 from rest_framework.views import APIView
 from django.views.decorators.csrf import csrf_exempt
+from core.models import User
 import hashlib
 import hmac
 import time
@@ -52,10 +54,7 @@ API_SECRET=os.environ.get('API_SECRET')
 
 MAX_TOLERANCE_SECONDS=10
 
-class SecureApiView(GenericAPIView):
-    permission_classes=[]
-    @csrf_exempt
-    def get(self, request: requests):
+def is_expected_signature(request):
         api_key = request.headers.get('X-API-Key', '')
         timestamp = request.headers.get('X-API-Timestamp', '')
         signature = request.headers.get('X-API-Signature', '')
@@ -66,9 +65,33 @@ class SecureApiView(GenericAPIView):
 
         # Recreate the message and calculate the expected signature
         expected_signature = hmac.new(API_SECRET.encode('utf-8'), f"{timestamp}{api_key}".encode('utf-8'), hashlib.sha256).hexdigest()
+        return(signature == expected_signature)
+ 
+class SecureCreateUserFromCognito(GenericAPIView):
+    permission_classes=[]
+    @csrf_exempt
+    def post(self, request: requests):
+        is_signature_matched = is_expected_signature()
 
         # Compare the calculated signature with the one sent in the request
-        if signature == expected_signature:
+        if is_signature_matched:
+            # Signature is valid, process the request
+            suffix=random.randrange(1, 100000)
+            User.objects.create(username=f'Ethan {suffix}')
+            return JsonResponse({'message': 'API call successful', 'data': request.data, 'users': user_data})
+        else:
+            # Invalid signature, reject the request
+            return JsonResponse({'error': 'Invalid signature'}, status=401)
+
+
+class SecureApiView(GenericAPIView):
+    permission_classes=[]
+    @csrf_exempt
+    def get(self, request: requests):
+        is_signature_matched = is_expected_signature(request)
+
+        # Compare the calculated signature with the one sent in the request
+        if is_signature_matched:
             # Signature is valid, process the request
             user_data = serializers.serialize("json", User.objects.all())
             return JsonResponse({'message': 'API call successful', 'data': request.data, 'users': user_data})
