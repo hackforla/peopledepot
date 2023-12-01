@@ -9,4 +9,4 @@ set -x
 "$SCRIPT_DIR"/lint.sh
 "$SCRIPT_DIR"/test.sh
 
-pre-commit run --all-files
+pre-commit run --all-files --show-diff-on-failure
