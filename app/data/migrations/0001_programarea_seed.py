@@ -4,24 +4,19 @@ from core.models import ProgramArea
 
 
 def run(__code__, __reverse_code__):
-    status = ProgramArea(uuid=1, name="Citizen Engagement")
-    status.save()
-    status = ProgramArea(uuid=2, name="Civic Tech Infrastructure")
-    status.save()
-    status = ProgramArea(uuid=3, name="Diversity / Equity and Inclusion")
-    status.save()
-    status = ProgramArea(uuid=4, name="Environment")
-    status.save()
-    status = ProgramArea(uuid=5, name="Justice")
-    status.save()
-    status = ProgramArea(uuid=6, name="Social Safety Net")
-    status.save()
-    status = ProgramArea(uuid=7, name="Vote / Representation")
-    status.save()
-    status = ProgramArea(uuid=8, name="Workforce Development")
-    status.save()
-    status = ProgramArea(uuid=9, name="Community of Practice")
-    status.save()
+    items = [
+        (1, "Citizen Engagement"),
+        (2, "Civic Tech Infrastructure"),
+        (3, "Diversity / Equity and Inclusion"),
+        (4, "Environment"),
+        (5, "Justice"),
+        (6, "Social Safety Net"),
+        (7, "Vote / Representation"),
+        (8, "Workforce Development"),
+        (9, "Community of Practice"),
+    ]
+    for uuid, name in items:
+        ProgramArea.objects.create(uuid=uuid, name=name)
 
 
 class Migration(migrations.Migration):
