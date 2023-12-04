@@ -72,10 +72,10 @@ The sheet should be formatted like so:
 
             # see if all the seed data got inserted
             select count(*) from core_programarea;
-            # shows 22 rows
+            # shows 9 rows
 
             delete from core_programarea;
-            # DELETE 22
+            # DELETE 9
 
             select count(*) from core_programarea;
             # shows 0 rows
