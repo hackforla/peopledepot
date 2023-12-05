@@ -87,17 +87,18 @@ The sheet should be formatted like so:
 
 - Look for name of the last migration file in `core/data/migrations` directory
 
-- Create a script in the same directory named `<number>_<model in lowercase>_seed.py` with the following contents and
+- Create a script in the same directory named `<number>_<modelnameinlowercase>_seed.py` with the following contents and
     replace `<model in lower case>` and `<name of last script>` with appropriate values:
 
     ```py
     from django.db import migrations
 
-    from core.models import <model in CamelCase>
+    from core.models import <ModelNameInPascalCase>
 
 
     def run(__code__, __reverse_code__):
-        <paste everything in seed script here>
+
+        <paste everything in seed script's run function here>
 
 
     class Migration(migrations.Migration):
@@ -116,8 +117,13 @@ The sheet should be formatted like so:
 
 
     def run(__code__, __reverse_code__):
-        status = BookType(uuid=1, name="Example Book")
-        status.save()
+
+        items = [
+            (1, "Hard Cover"),
+            (2, "Soft Cover"),
+        ]
+        for uuid, name in items:
+            BookType.objects.create(uuid=uuid, name=name)
 
 
     class Migration(migrations.Migration):
