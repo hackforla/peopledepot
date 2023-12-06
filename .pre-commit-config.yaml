@@ -46,6 +46,12 @@ repos:
     hooks:
       - id: hadolint-docker
 
+  - repo: https://github.com/asottile/pyupgrade
+    rev: v3.10.1
+    hooks:
+      - id: pyupgrade
+        args: [--py310-plus]
+
   - repo: https://github.com/ambv/black
     rev: 23.7.0
     hooks:
@@ -85,11 +91,6 @@ repos:
     hooks:
       - id: bandit
         exclude: ^app/core/tests/
-
-  - repo: https://github.com/asottile/pyupgrade
-    rev: v3.10.1
-    hooks:
-      - id: pyupgrade
 
   # - repo: https://github.com/econchick/interrogate
   #   rev: 1.4.0
