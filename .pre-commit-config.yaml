@@ -115,6 +115,11 @@ repos:
   #     - id: interrogate
   #       args: [-vv, -i, --fail-under=80]
 
+  - repo: https://github.com/mxr/sync-pre-commit-deps
+    rev: v0.0.1
+    hooks:
+      - id: sync-pre-commit-deps
+
   - repo: local
     hooks:
       - id: buildrun
