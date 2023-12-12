@@ -179,8 +179,7 @@ class SponsorPartner(AbstractBaseModel):
     partner_logo = models.URLField(blank=True)
     is_active = models.BooleanField(null=True)
     url = models.URLField(blank=True)
-    is_org_sponsor = models.BooleanField(null=True)
-    is_org_partner = models.BooleanField(null=True)
+    is_sponsor = models.BooleanField(null=True)
 
     # PK of this model is the ForeignKey for project_partner_xref
 

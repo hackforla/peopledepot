@@ -144,8 +144,7 @@ class SponsorPartnerAdmin(admin.ModelAdmin):
         "partner_logo",
         "is_active",
         "url",
-        "is_org_sponsor",
-        "is_org_partner",
+        "is_sponsor",
     )
 
 
