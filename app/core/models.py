@@ -21,7 +21,7 @@ class AbstractBaseModel(models.Model):
 
 
 
-class AbstractBaseModelUuid(AbstractBaseModel):
+class AbstractBaseModel(AbstractBaseModel):
     """
     Base abstract model, that has `uuid` instead of `uuid` and included `created_at`, `updated_at` fields.
     """
@@ -40,25 +40,7 @@ class AbstractBaseModelUuid(AbstractBaseModel):
         return f"<{self.__class__.__name__} {self.uuid}>"
 
 
-class AbstractBaseModelId(AbstractBaseModel):
-    """
-    Base abstract model, that has `uuid` instead of `uuid` and included `created_at`, `updated_at` fields.
-    """
-
-
-    
-    created_at = models.DateTimeField("Created at", auto_now_add=True)
-    updated_at = models.DateTimeField("Updated at", auto_now=True)
-
-    class Meta:
-        abstract = True
-
-    def __repr__(self):
-        return f"<{self.__class__.__name__} {self.uuid}>"
-
-
-
-class User(PermissionsMixin, AbstractBaseUser, AbstractBaseModelUuid):
+class User(PermissionsMixin, AbstractBaseUser, AbstractBaseModel):
     """
     Table contains cognito-users & django-users.
 
@@ -94,7 +76,7 @@ class User(PermissionsMixin, AbstractBaseUser, AbstractBaseModelUuid):
     email = models.EmailField("Email address", blank=True)  # allow non-unique emails
     is_staff = models.BooleanField(
         "staff status",
-        default=False,
+        default=True,
         help_text="Designates whether the user can log into this admin site.",
     )
 
@@ -141,7 +123,7 @@ class User(PermissionsMixin, AbstractBaseUser, AbstractBaseModelUuid):
         return f"{self.email}"
 
 
-class Project(AbstractBaseModelUuid):
+class Project(AbstractBaseModel):
     """
     List of projects
     """
@@ -176,7 +158,7 @@ https://api.github.com/repos/[org]/[repo]',
         return f"{self.name}"
 
 
-class Event(AbstractBaseModelUuid):
+class Event(AbstractBaseModel):
     """
     Events
     """
@@ -201,7 +183,7 @@ class Event(AbstractBaseModelUuid):
         return f"{self.name}"
 
 
-class SponsorPartner(AbstractBaseModelUuid):
+class SponsorPartner(AbstractBaseModel):
     """
     Dictionary of sponsors and partners
     """
@@ -218,7 +200,7 @@ class SponsorPartner(AbstractBaseModelUuid):
         return f"{self.partner_name}"
 
 
-class Faq(AbstractBaseModelUuid):
+class Faq(AbstractBaseModel):
     question = models.CharField(max_length=255, unique=True)
     answer = models.CharField(max_length=255, blank=True)
     tool_tip_name = models.CharField(max_length=255, blank=True)
@@ -229,7 +211,7 @@ class Faq(AbstractBaseModelUuid):
         return f"{self.question}"
 
 
-class FaqViewed(AbstractBaseModelUuid):
+class FaqViewed(AbstractBaseModel):
     """
     FaqViewed tracks how many times an FAQ has been viewed by serving as an instance of an FAQ being viewed.
     """
@@ -243,7 +225,7 @@ class FaqViewed(AbstractBaseModelUuid):
         return f"{self.faq} viewed at {self.created_at.strftime('%b %d %Y %H:%M:%S')}"
 
 
-class Location(AbstractBaseModelUuid):
+class Location(AbstractBaseModel):
     """
     Location for event
     """
@@ -260,7 +242,7 @@ class Location(AbstractBaseModelUuid):
         return f"{self.name}"
 
 
-class PracticeArea(AbstractBaseModelUuid):
+class PracticeArea(AbstractBaseModel):
     """
     Practice Area
     """
@@ -272,11 +254,10 @@ class PracticeArea(AbstractBaseModelUuid):
         return f"{self.name}"
 
 
-class ProgramArea(AbstractBaseModelId):
+class ProgramArea(AbstractBaseModel):
     """
     Dictionary of program areas (to be joined with project)
     """
-    id = models.AutoField(primary_key=True)
 
     name = models.CharField(max_length=255, unique=True)
     description = models.TextField(blank=True)
@@ -286,7 +267,7 @@ class ProgramArea(AbstractBaseModelId):
         return f"{self.name}"
 
 
-class Skill(AbstractBaseModelUuid):
+class Skill(AbstractBaseModel):
     """
     Dictionary of skills
     """
@@ -298,7 +279,7 @@ class Skill(AbstractBaseModelUuid):
         return f"{self.name}"
 
 
-class Technology(AbstractBaseModelUuid):
+class Technology(AbstractBaseModel):
     """
     Dictionary of technologies used in projects
     """
@@ -318,7 +299,7 @@ class Technology(AbstractBaseModelUuid):
         return f"{self.name}"
 
 
-class PermissionType(AbstractBaseModelUuid):
+class PermissionType(AbstractBaseModel):
     """
     Permission Type
     """

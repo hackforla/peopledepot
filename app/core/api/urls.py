@@ -42,7 +42,6 @@ urlpatterns = [
     path('secure-api/newcognitouser', SecureCreateUserFromCognito.as_view(),name='secure_new_user'),
     path('me/', UserProfileAPIView.as_view(), name='my_profile'),
     path('home/', TemplateView.as_view(template_name='common/home.html'), name='home'),
-    # path('no_staff_access/', no_staff_access, name='no_staff_access'),
 ]
 
 urlpatterns += router.urls
