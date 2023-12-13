@@ -11,12 +11,11 @@ app/.coverage
 app/htmlcov
 
 ### dotenv ###
-### .env.dev
-.env.dev
 .env
+.env.secret.*
 secrets/
 .DS_Store
-venv-peopledepot/
+
 
 ### Vim ###
 # Swap

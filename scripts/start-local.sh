@@ -4,7 +4,10 @@
 #    - DJANGO_SUPERUSER
 #    - DJANGO_SUPERUSER_PASSWORD
 #    - DJANGO_SUPERUSER_EMAIL
-source loadenv .env.local
+if [[ $PWD != *"app"* ]]; then
+    cd app
+fi
+source ../scripts/loadenv.sh .env.secret.local
 echo Admin user = $DJANGO_SUPERUSER email = $DJANGO_SUPERUSER_EMAIL
 if [[ $1 != "" ]]; then
     port=$1
@@ -28,13 +31,12 @@ echo
 python manage.py migrate
 migrate_success=$?
 
-echo Executing python manage.py shell to check if user exists
+echo
+echo --- Executing python manage.py shell to check if $DJANGO_SUPERUSER_USERNAME exists
+echo
 python manage.py shell -c "from core.models import User; exists = (User.objects.filter(username='$DJANGO_SUPERUSER_USERNAME').exists()); sys.exit(0 if exists else 1)"
 superuser_exists=$?
 
-echo
-echo $DJANGO_SUPERUSER_USERNAME
-echo
 if [ $superuser_exists -eq 1 ]; then
   echo
   echo --- Executing python manage.py createsuperuser ---
@@ -63,7 +65,9 @@ fi
 
 if [ $success -eq 1 ]; then
   read -p "Press [Ctrl-c] to abort, [Enter] to run server with errors..."
+else
+  echo
+  echo --- All prep steps successful!  Executing python manage.py runserver
+  echo
 fi
-echo
-echo
 python manage.py runserver 0.0.0.0:$port
