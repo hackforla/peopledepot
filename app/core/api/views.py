@@ -36,9 +36,7 @@ from .serializers import StackElementTypeSerializer
 from .serializers import TechnologySerializer
 from .serializers import UserSerializer
 
-from rest_framework.views import APIView
-from django.views.decorators.csrf import csrf_exempt
-from core.models import User
+from rest_framework.generics import GenericAPIView
 
 import time
 
