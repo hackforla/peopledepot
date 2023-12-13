@@ -62,29 +62,37 @@ def is_expected_signature(request):
         current_timestamp = str(int(time.time()))
         if abs(int(timestamp) - int(current_timestamp)) > 10:
             return JsonResponse({'error': 'Invalid timestamp'}, status=400)
+        print("api_key", api_key, "timestamp", timestamp, "signature", signature)
 
         # Recreate the message and calculate the expected signature
         expected_signature = hmac.new(API_SECRET.encode('utf-8'), f"{timestamp}{api_key}".encode('utf-8'), hashlib.sha256).hexdigest()
         return(signature == expected_signature)
  
-class SecureCreateUserFromCognito(GenericAPIView):
+class SecureCreateUser(GenericAPIView):
     permission_classes=[]
     @csrf_exempt
     def post(self, request: requests):
-        is_signature_matched = is_expected_signature()
+        print("posting create user")
+        is_signature_matched = is_expected_signature(request)
+        print("signature matches", is_signature_matched)
 
         # Compare the calculated signature with the one sent in the request
         if is_signature_matched:
             # Signature is valid, process the request
-            suffix=random.randrange(1, 100000)
-            User.objects.create(username=f'Ethan {suffix}')
-            return JsonResponse({'message': 'API call successful', 'data': request.data, 'users': user_data})
+            data = request.POST
+            username = data.get("username")
+            first_name = data.get("first_name")
+            last_name = data.get("last_name")
+            email = data.get("email") 
+            print("Updating user")       
+            User.objects.create(username=username, first_name=first_name, last_name=last_name, email=email)
+            return JsonResponse({'message': 'API call successful', 'data': request.data, 'user': data})
         else:
             # Invalid signature, reject the request
             return JsonResponse({'error': 'Invalid signature'}, status=401)
 
 
-class SecureApiView(GenericAPIView):
+class SecureGetUsers(GenericAPIView):
     permission_classes=[]
     @csrf_exempt
     def get(self, request: requests):
@@ -360,3 +368,6 @@ class StackElementTypeViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = StackElementType.objects.all()
     serializer_class = StackElementTypeSerializer
+    
+    
+ 

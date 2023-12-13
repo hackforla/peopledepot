@@ -23,7 +23,7 @@ def to_key_value(_input):
     values = []
     for key, value in _input.items():
         if key == "id":
-            key = "uuid"
+            key = "id"
         if key == "uuid" and isinstance(value, int):
             values.append(f"{key}={value}")
         else:

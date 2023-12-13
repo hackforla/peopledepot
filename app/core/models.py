@@ -9,7 +9,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 from timezone_field import TimeZoneField
 
 
-class AbstractBaseModel(models.Model):
+class AbstractBase(models.Model):
     """
     Base abstract model, that has `uuid` instead of `uuid` and included `created_at`, `updated_at` fields.
     """
@@ -21,7 +21,7 @@ class AbstractBaseModel(models.Model):
 
 
 
-class AbstractBaseModel(AbstractBaseModel):
+class AbstractBaseModel(AbstractBase):
     """
     Base abstract model, that has `uuid` instead of `uuid` and included `created_at`, `updated_at` fields.
     """
@@ -39,6 +39,21 @@ class AbstractBaseModel(AbstractBaseModel):
     def __repr__(self):
         return f"<{self.__class__.__name__} {self.uuid}>"
 
+class AbstractBaseModelId(AbstractBase):
+    """
+    Base abstract model, that has `id` instead of `uuid` and included `created_at`, `updated_at` fields.
+    """
+
+    id = models.AutoField(primary_key=True, editable=False, unique=True)
+    
+    created_at = models.DateTimeField("Created at", auto_now_add=True)
+    updated_at = models.DateTimeField("Updated at", auto_now=True)
+
+    class Meta:
+        abstract = True
+
+    def __repr__(self):
+        return f"<{self.__class__.__name__} {self.id}>"
 
 class User(PermissionsMixin, AbstractBaseUser, AbstractBaseModel):
     """
@@ -254,7 +269,7 @@ class PracticeArea(AbstractBaseModel):
         return f"{self.name}"
 
 
-class ProgramArea(AbstractBaseModel):
+class ProgramArea(AbstractBaseModelId):
     """
     Dictionary of program areas (to be joined with project)
     """

@@ -1,7 +1,7 @@
 from django.urls import path
 from rest_framework import routers
 from django.views.generic import TemplateView
-from .views import SecureApiView, SecureCreateUserFromCognito
+from .views import SecureGetUsers, SecureCreateUser
 
 
 from .views import EventViewSet
@@ -38,10 +38,9 @@ router.register(
 )
 
 urlpatterns = [
-    path('secure-api/getusers', SecureApiView.as_view(), name='secure_api_get_users'),
-    path('secure-api/newcognitouser', SecureCreateUserFromCognito.as_view(),name='secure_new_user'),
+    path('secure-api/getusers', SecureGetUsers.as_view(), name='secure_api_get_users'),
+    path('secure-api/createuser', SecureCreateUser.as_view(),name='secure_new_user'),
     path('me/', UserProfileAPIView.as_view(), name='my_profile'),
-    path('home/', TemplateView.as_view(template_name='common/home.html'), name='home'),
 ]
 
 urlpatterns += router.urls
