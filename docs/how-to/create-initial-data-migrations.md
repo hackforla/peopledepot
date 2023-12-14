@@ -93,12 +93,13 @@ The sheet should be formatted like so:
     ```py
     from django.db import migrations
 
-    from core.models import <ModelNameInPascalCase>
+    from core.models import ModelNameInPascalCase
 
 
     def run(__code__, __reverse_code__):
-
-        <paste everything in seed script's run function here>
+        # paste everything in seed script's run function here
+        # remove pass below
+        pass
 
 
     class Migration(migrations.Migration):
@@ -117,7 +118,6 @@ The sheet should be formatted like so:
 
 
     def run(__code__, __reverse_code__):
-
         items = [
             (1, "Hard Cover"),
             (2, "Soft Cover"),
