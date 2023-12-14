@@ -289,13 +289,13 @@ This command will unstage a file that you don't want included in the commit. The
 git reset HEAD “filename.ext”
 ```
 
-### 4.8 Run pre-commit checks
+### 4.8 Install pre-commit
 
-**Important: before committing each file, make sure to run the pre-commit hook:\***
+This will check your changes for common problems.
 
-```bash
-./scripts/precommit-check.sh
-```
+See the [Pre-commit page](tools/pre-commit.md) for installation instructions.
+
+For consistency, an automated bot will perform the same checks on the repository side when you open a pull request.
 
 ### 4.9 Commit staged changes
 
