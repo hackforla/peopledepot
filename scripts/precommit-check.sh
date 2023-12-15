@@ -8,5 +8,3 @@ set -x
 "$SCRIPT_DIR"/buildrun.sh
 "$SCRIPT_DIR"/lint.sh
 "$SCRIPT_DIR"/test.sh
-
-pre-commit run --all-files

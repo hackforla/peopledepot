@@ -178,7 +178,8 @@ def test_create_sponsor_partner(auth_client):
         "partner_logo": "http://www.logourl.com",
         "is_active": True,
         "url": "http://www.testurl.org",
-        "is_sponsor": True,
+        "is_org_sponsor": True,
+        "is_org_partner": True,
     }
     res = auth_client.post(SPONSOR_PARTNERS_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
