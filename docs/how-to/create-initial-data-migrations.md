@@ -31,7 +31,7 @@ The sheet should be formatted like so:
 1. Save the JSON into a file
 
     1. Select and copy all the JSON text
-    1. Paste it into a new file and save it as [ModelNameInPascalCase]_export.json under app/core/initial_data/
+    1. Paste it into a new file and save it as <ModelNameInPascalCase>\_export.json under app/core/initial_data/
     1. The Pascal case is important in the next step to generate a python script to insert the data. It must match the model's class name for this to work.
 
     **Potential data issue**
@@ -57,31 +57,31 @@ The sheet should be formatted like so:
 
     1. You can run it to verify, but will need to remove that data if you care about restoring the database state
 
-        1. Run this command to run the script
+    1. Run this command to run the script
 
-            ```bash
-            docker-compose exec web python manage.py runscript programarea_seed
-            ```
+    ```bash
+    docker-compose exec web python manage.py runscript programarea_seed
+    ```
 
-        1. To remove the data, go into the database and delete all rows from `core_programarea`
+    1. To remove the data, go into the database and delete all rows from `core_programarea`
 
-            ```bash
-            docker-compose exec web python manage.py dbshell
+    ```bash
+    docker-compose exec web python manage.py dbshell
 
-            # now we have a shell to the db
+    # now we have a shell to the db
 
-            # see if all the seed data got inserted
-            select count(*) from core_programarea;
-            # shows 9 rows
+    # see if all the seed data got inserted
+    select count(*) from core_programarea;
+    # shows 9 rows
 
-            delete from core_programarea;
-            # DELETE 9
+    delete from core_programarea;
+    # DELETE 9
 
-            select count(*) from core_programarea;
-            # shows 0 rows
+    select count(*) from core_programarea;
+    # shows 0 rows
 
-            # ctrl-d to exit dbshell
-            ```
+    # ctrl-d to exit dbshell
+    ```
 
 ## Combine Script in Migration
 
@@ -106,7 +106,8 @@ The sheet should be formatted like so:
         initial = True
         dependencies = [("data", "<name of last script, or contents of max_migration.txt>")]
 
-        operations = [migrations.RunPython(run, migrations.RunPython.noop)]
+
+    operations = [migrations.RunPython(run, migrations.RunPython.noop)]
     ```
 
     For example:
@@ -130,7 +131,8 @@ The sheet should be formatted like so:
         initial = True
         dependencies = [("data", "0011_author_seed")]
 
-        operations = [migrations.RunPython(run, migrations.RunPython.noop)]
+
+    operations = [migrations.RunPython(run, migrations.RunPython.noop)]
     ```
 
 [apps-script]: https://thenewstack.io/how-to-convert-google-spreadsheet-to-json-formatted-text/#:~:text=To%20do%20this,%20click%20Extensions,save%20your%20work%20so%20far.
