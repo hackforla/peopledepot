@@ -49,8 +49,9 @@ class SecureCreateUser(GenericAPIView):
             first_name = data.get("first_name")
             last_name = data.get("last_name")
             email = data.get("email") 
-            print("Updating user")       
-            User.objects.create(uuid=uuid, username=username, first_name=first_name, last_name=last_name, email=email)
+            print("Updating user") 
+            if not User.objects.filter(uuid=uuid).exists():
+                User.objects.create(uuid=uuid, username=username, first_name=first_name, last_name=last_name, email=email)
             return JsonResponse({'message': 'API call successful', 'data': request.data, 'user': data})
         else:
             # Invalid signature, reject the request
