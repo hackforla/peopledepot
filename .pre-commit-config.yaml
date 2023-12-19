@@ -134,6 +134,21 @@ repos:
       - id: ruff-format
         exclude: ^app/core/migrations/
 
+  - repo: https://github.com/executablebooks/mdformat
+    rev: 0.7.17
+    hooks:
+      - id: mdformat
+        exclude: |
+          (?x)^(
+            .github/ISSUE_TEMPLATE/|
+            docs/CONTRIBUTING.md$|
+            docs/index.md$|
+            docs/license.md$
+          )
+        additional_dependencies:
+          - mdformat-admon
+          - mdformat-mkdocs[recommended]>=2.0.0
+
   - repo: local
     hooks:
       - id: buildrun
