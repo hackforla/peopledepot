@@ -184,7 +184,7 @@ In `app/core/admin.py`
     from .models import RecurringEvent
     ```
 
-1. Register the model
+1. Register the model with the admin site
 
     ```python
     @admin.register(RecurringEvent)  # (2)!
@@ -239,7 +239,7 @@ Check that everything's working and there are no issues, which should be the cas
 
 ## API
 
-There's several components to adding API endpoints: Model(already done), Serializer, View, and Router.
+There's several components to adding API endpoints: Model(already done), Serializer, View, and Route.
 
 ### Add serializer
 
@@ -333,7 +333,7 @@ In `app/core/api/views.py`
         1. For now use `permission_classes = [IsAuthenticated]`
         1. It doesn't control permissions the way we want, but we will fix it later.
 
-??? note "Extended example"
+??? note "Extended example: Query Params"
     This example shows how to add a filter params. It's done for the [user model](https://github.com/hackforla/peopledepot/issues/15) as a [requirement](https://github.com/hackforla/peopledepot/issues/10) from VRMS.
 
     1. Here's a more complex API doc example (this example is using the User model's ViewSet)
@@ -396,11 +396,12 @@ In `app/core/api/views.py`
         class UserViewSet(viewsets.ModelViewSet):
             ...
 
-            def get_queryset(self):
+            # (1)!
+            def get_queryset(self):  # (2)!
                 """
                 Optionally filter users by an 'email' and/or 'username' query paramerter in the URL
                 """
-                queryset = get_user_model().objects.all()
+                queryset = get_user_model().objects.all()  # (3)!
                 email = self.request.query_params.get("email")
                 if email is not None:
                     queryset = queryset.filter(email=email)
