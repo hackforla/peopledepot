@@ -2,6 +2,8 @@ import os
 import time
 import requests
 
+from core.api.secure_serializers import SecureUserSerializer
+
 from ..models import User
 from django.contrib.auth.models import Group
 from rest_framework.generics import GenericAPIView
@@ -11,6 +13,8 @@ import hashlib
 import hmac
 import time
 from django.http import JsonResponse
+# from rest_framework import serializers as rest_serializers
+from rest_framework import serializers, viewsets
 from django.core import serializers
 
 API_SECRET=os.environ.get('API_SECRET')
@@ -58,22 +62,23 @@ class SecureCreateUser(GenericAPIView):
             return JsonResponse({'error': 'Invalid signature'}, status=401)
 
 
+class SecureUserViewSet(viewsets.ReadOnlyModelViewSet):
+    permission_classes = []
+    queryset = User.objects.all()
+    serializer_class = SecureUserSerializer
+    
+    
 class SecureGetUsers(GenericAPIView):
     permission_classes=[]
 
     @csrf_exempt
     def get(self, request: requests):
-        user_fields = (
-            "first_name", "last_name", "email", "username", "current_job_title", "target_job_title", 
-            "current_skills", "target_skills", "linkedin_account", "github_handle", 
-            "is_active", "is_staff", "is_superuser", "groups"
-        )
+
         group_fields = ("name")        
 
         # Compare the calculated signature with the one sent in the request
         if is_expected_signature(request):
-            # Signature is valid, process the request
-            user_data = serializers.serialize("json", User.objects.all(), fields=user_fields)
+            user_data = serializers.serialize("json", User.objects.all())
             group_data = serializers.serialize("json", Group.objects.all(), fields=group_fields)
             return JsonResponse({'message': 'API call successful', 'data': request.data, 'users': user_data, 'groups': group_data})
         else:
