@@ -7,7 +7,7 @@
 if [[ $PWD != *"app"* ]]; then
     cd app
 fi
-source ../scripts/loadenv.sh .env.secret.local
+source ../scripts/loadenv.sh .env.dev
 echo Admin user = $DJANGO_SUPERUSER email = $DJANGO_SUPERUSER_EMAIL
 if [[ $1 != "" ]]; then
     port=$1
