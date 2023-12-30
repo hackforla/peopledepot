@@ -14,8 +14,6 @@ import json
 import os
 from pathlib import Path
 from urllib import request
-# import dotenv
-# dotenv.load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -39,8 +37,8 @@ DEBUG = os.environ.get("DEBUG", default=0)
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 
 # Single sign on
-LOGIN_REDIRECT_URL = '/admin/'
-ACCOUNT_LOGOUT_REDIRECT_URL = 'account_login'
+LOGIN_REDIRECT_URL="/admin/"
+# ACCOUNT_LOGOUT_REDIRECT_URL = 'account_login'
 
 # Cognito stuff
 COGNITO_AWS_REGION = os.environ.get("COGNITO_AWS_REGION", default=None)
@@ -53,7 +51,6 @@ COGNITO_POOL_URL = (
 )
 COGNITO_CLIENT_ID = os.environ.get("COGNITO_CLIENT_ID")
 COGNITO_CLIENT_SECRET = os.environ.get("COGNITO_CLIENT_SECRET`")
-
 
 rsa_keys = {}
 # To avoid circular imports, we keep this logic here.
