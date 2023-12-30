@@ -1,3 +1,4 @@
+!#/bin/bash
 if [ -d scripts ]; then
     if [[ $PATH != *"$PWD/scripts"* ]]; then
         export PATH=$PATH:$PWD/scripts
