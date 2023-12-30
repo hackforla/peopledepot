@@ -20,7 +20,7 @@ while IFS= read -r line; do
   if [[ -n "$line" ]]; then
     echo "export $line"
     export "$line"
-  fi  
+  fi
 done < <(grep -v '^#' "$file")
 echo Super user $DJANGO_SUPERUSER_USERNAME
 echo Settings module $DJANGO_SETTINGS_MODULE
