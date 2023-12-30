@@ -37,7 +37,7 @@ DEBUG = os.environ.get("DEBUG", default=0)
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 
 # Single sign on
-LOGIN_REDIRECT_URL="/admin/"
+LOGIN_REDIRECT_URL = "/admin/"
 # ACCOUNT_LOGOUT_REDIRECT_URL = 'account_login'
 
 # Cognito stuff
@@ -84,23 +84,22 @@ INSTALLED_APPS = [
     "core",
     "data",
     # allauth requirements
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
     # ... include the providers you want to enable:
-    'allauth.socialaccount.providers.amazon_cognito',
-
+    "allauth.socialaccount.providers.amazon_cognito",
 ]
 
 SOCIALACCOUNT_PROVIDERS = {
-    'amazon_cognito': {
-        'DOMAIN': 'https://peopledepot.auth.us-east-2.amazoncognito.com',
-        'APP': {
-            'client_id': f'{COGNITO_CLIENT_ID}',
-            'client_secret': f'{COGNITO_CLIENT_SECRET}',
-            'secret': '',
-            'key': ''
-        }
+    "amazon_cognito": {
+        "DOMAIN": "https://peopledepot.auth.us-east-2.amazoncognito.com",
+        "APP": {
+            "client_id": f"{COGNITO_CLIENT_ID}",
+            "client_secret": f"{COGNITO_CLIENT_SECRET}",
+            "secret": "",
+            "key": "",
+        },
     }
 }
 
@@ -122,7 +121,7 @@ ROOT_URLCONF = "peopledepot.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        'DIRS': [os.path.join(BASE_DIR,'templates')],
+        "DIRS": [os.path.join(BASE_DIR, "templates")],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -131,7 +130,7 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
                 # `allauth` needs this from django
-                'django.template.context_processors.request',
+                "django.template.context_processors.request",
             ],
         },
     },
@@ -197,13 +196,14 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "core.User"
-ACCOUNT_EMAIL_VERIFICATION = 'none' 
+ACCOUNT_EMAIL_VERIFICATION = "none"
 AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.RemoteUserBackend",
     # Needed to login by username in Django admin, regardless of `allauth`
-    'django.contrib.auth.backends.ModelBackend',
+    "django.contrib.auth.backends.ModelBackend",
     # `allauth` specific authentication methods, such as login by email
-    'allauth.account.auth_backends.AuthenticationBackend',]
+    "allauth.account.auth_backends.AuthenticationBackend",
+]
 
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": ("core.api.permissions.DenyAny",),
