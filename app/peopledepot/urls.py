@@ -22,5 +22,4 @@ urlpatterns = [
     ),
     path('no_admin_access/', TemplateView.as_view(template_name='admin/no_admin_access.html'), name='no_admin_access'),
     path('accounts/', include('allauth.urls')),
-    path('admin/', include('allauth.urls')),
 ]
