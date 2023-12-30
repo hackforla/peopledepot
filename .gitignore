@@ -2,7 +2,8 @@
 # Generate the entire file as reference with this form:
 # https://www.toptal.com/developers/gitignore?templates=python,django,dotenv,vim,visualstudiocode
 
-temp
+temp/
+.DS_Store
 
 ### django ###
 *.sqlite3
@@ -36,6 +37,8 @@ __pycache__
 !.vscode/*.code-snippets
 
 erd.png
+*,cover
+docs/build
 
 *.pyc
 
