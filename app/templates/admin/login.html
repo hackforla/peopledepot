@@ -1,0 +1,10 @@
+{% extends "admin/login.html" %}
+
+{% block content %}
+  {% if user.is_authenticated and not user.is_staff %}
+    <p>You do not have sufficient permissions to access the admin interface.</p>
+    <p><a href="{% url 'no_admin_access' %}">Go to Special Page</a></p>
+  {% else %}
+    {{ block.super }}
+  {% endif %}
+{% endblock %}
