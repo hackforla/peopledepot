@@ -10,11 +10,11 @@ temp/
 app/.coverage
 app/htmlcov
 
-### dotenv ###
 ### .env.dev
 .env.dev
 .env
-venv-peopledepot/
+.env.local
+venv/
 
 ### Vim ###
 # Swap

@@ -144,7 +144,7 @@ upstream        https://github.com/hackforla/peopledepot.git (push)
 1. Create an .env.dev file from .env.dev-docker-eample
 
    ```bash
-   cp .env.dev-sample .env.dev
+   cp .env.dev-docker-example .env.dev
    ```
 
 1. Build and run the project via the script (this includes running `docker-compose up`)
