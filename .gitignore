@@ -10,13 +10,11 @@ temp/
 app/.coverage
 app/htmlcov
 
-### dotenv ###
-.env
+### .env.dev
 .env.dev
-.env.secret.*
-secrets/
-.DS_Store
-
+.env
+.env.local
+venv/
 
 ### Vim ###
 # Swap

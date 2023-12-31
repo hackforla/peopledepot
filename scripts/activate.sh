@@ -7,10 +7,12 @@ if [ "$sourced" != "true" ]; then
     exit 1
 fi
 
+# next comment is to ignore shellcheck error for the following line when pre-commit runs
+# shellcheck disable=SC1091
 source ./venv/bin/activate
-# next comment is to ignore flake8 error for the following line when pre-commit runs
-# flake8: noqa
-if [[ "$?" == 0 ]]; then
+
+# if previous command completed successfully echo success message, else echo failure message
+if true; then
   echo "Sourced OK (called from ${BASH_SOURCE[1]})"
 else
   echo "ERROR: activation failed (called from ${BASH_SOURCE[1]})"
