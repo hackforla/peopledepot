@@ -1,7 +1,7 @@
 #!/bin/bash
 echo SQL USER "$SQL_USER"
 export file=$1
-echo "file = $file / $1 / $2"
+echo "file = $file"
 if [ "$file" == "" ]
 then
   echo "File not specified.  Using .env.dev"
