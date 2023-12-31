@@ -6,7 +6,7 @@ if [ "$sourced" != "true" ]; then
     echo "Error, script not sourced.  Please run 'source ./activate.sh'"
     exit 1
 fi
-if [[ source ./venv/bin/activate == 0 ]]; then
+if source ./venv/bin/activate == 0 ; then
   echo "Sourced OK (called from ${BASH_SOURCE[1]})"
 else
   echo "ERROR: activation failed (called from ${BASH_SOURCE[1]})"
