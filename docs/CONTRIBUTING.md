@@ -141,7 +141,7 @@ upstream        https://github.com/hackforla/peopledepot.git (push)
 
 1. Start Docker Desktop
 1. Run `docker container ls` to verify Docker Desktop is running. If it is not running you will get the message: `Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?`
-1. Create an .env.dev file from .env.dev-sample
+1. Create an .env.dev file from .env.dev-docker-eample
 
    ```bash
    cp .env.dev-sample .env.dev
