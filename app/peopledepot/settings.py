@@ -121,6 +121,8 @@ ROOT_URLCONF = "peopledepot.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
+        # next comment is to ignore flake8 error for the following line when pre-commit runs
+        # flake8: noqa
         "DIRS": [os.path.join(BASE_DIR, "templates")],
         "APP_DIRS": True,
         "OPTIONS": {

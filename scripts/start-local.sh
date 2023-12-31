@@ -8,7 +8,7 @@ if [[ $PWD != *"app"* ]]; then
     cd app || return 1
 fi
 # "result =" is necessary or the line fails pre-commit checks
-result = source ../scripts/loadenv.sh .env.dev
+result=source ../scripts/loadenv.sh .env.dev
 echo Admin user = "$DJANGO_SUPERUSER" email = "$DJANGO_SUPERUSER_EMAIL"
 if [[ $1 != "" ]]; then
     port=$1
