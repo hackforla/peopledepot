@@ -146,7 +146,7 @@ upstream        https://github.com/hackforla/peopledepot.git (push)
    ```bash
    cp .env.dev-docker-example .env.dev
    ```
-1. Inspect values.  If necessary, get values for keys from a team member or 1password. 
+1. Inspect values.  If necessary, get values for keys from a team member or 1password.
   - Do not worry about the COGNITO values unless you plan on signing in using COGNITO.  
   - SECRET_KEY has to be set but for development the value can be anything.
 
