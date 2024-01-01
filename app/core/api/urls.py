@@ -16,8 +16,6 @@ from .views import TechnologyViewSet
 from .views import UserProfileAPIView
 from .views import UserViewSet
 
-# from .views import no_staff_access
-
 router = routers.SimpleRouter()
 router.register(r"users", UserViewSet, basename="user")
 router.register(r"projects", ProjectViewSet, basename="project")
