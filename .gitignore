@@ -10,9 +10,10 @@ temp/
 app/.coverage
 app/htmlcov
 
-### .env.dev
-.env.dev
+### env related
 .env
+.env.dev
+.env.docker
 .env.local
 venv/
 

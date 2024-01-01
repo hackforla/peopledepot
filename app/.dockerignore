@@ -1,4 +1,6 @@
 .env.dev
+.env.docker
+.env.local
 .dockerignore
 Dockerfile
 app/.coverage
