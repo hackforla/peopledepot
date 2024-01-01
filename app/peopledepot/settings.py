@@ -9,7 +9,6 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
-# from allauth.account.adapter import DefaultAccountAdapter
 import json
 import os
 from pathlib import Path
@@ -38,7 +37,6 @@ ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 
 # Single sign on
 LOGIN_REDIRECT_URL = "/admin/"
-# ACCOUNT_LOGOUT_REDIRECT_URL = 'account_login'
 
 # Cognito stuff
 COGNITO_AWS_REGION = os.environ.get("COGNITO_AWS_REGION", default=None)
@@ -113,7 +111,6 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "allauth.account.middleware.AccountMiddleware",
-    # "core.middleware.StaffAccessMiddleware", # for no_staff_access
 ]
 
 ROOT_URLCONF = "peopledepot.urls"
