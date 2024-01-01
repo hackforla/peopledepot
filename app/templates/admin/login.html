@@ -2,8 +2,11 @@
 
 {% block content %}
   {% if user.is_authenticated and not user.is_staff %}
-    <p>You do not have sufficient permissions to access the admin interface.</p>
-    <p><a href="{% url 'no_admin_access' %}">Go to Special Page</a></p>
+    <p>
+      Welcome {{ user.username }}!   You have sucsessfuly registered an account with People Depot.  
+      To access the menu, contact an administrator.
+    </p>
+    <p><a href="{% url 'admin:logout' %}?next=/accounts/login">Log out</a></p>
   {% else %}
     {{ block.super }}
   {% endif %}
