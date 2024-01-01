@@ -3,7 +3,7 @@
 {% block content %}
   {% if user.is_authenticated and not user.is_staff %}
     <p>
-      Welcome {{ user.username }}!   You have sucsessfuly registered an account with People Depot.  
+      Welcome {{ user.username }}!   You have sucsessfuly registered an account with People Depot.
       To access the menu, contact an administrator.
     </p>
     <p><a href="{% url 'admin:logout' %}?next=/accounts/login">Log out</a></p>
