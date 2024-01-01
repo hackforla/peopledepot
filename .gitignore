@@ -27,7 +27,6 @@ venv/
 
 ### python ###
 venv/
-venv-peopledepot/
 __pycache__
 
 ### VisualStudioCode ###
