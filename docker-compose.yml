@@ -10,6 +10,7 @@ services:
       - 8000:8000
     env_file:
       - ./.env.dev
+    container_name: people_depot_dev
     depends_on:
       - db
   db:
@@ -20,6 +21,7 @@ services:
       - POSTGRES_USER=people_depot
       - POSTGRES_PASSWORD=people_depot
       - POSTGRES_DB=people_depot_dev
-
+    container_name: people_depot_db_dev
 volumes:
   postgres_data:
+
