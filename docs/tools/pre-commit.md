@@ -8,9 +8,15 @@ The pre-commit checks should be fast while the pre-push hooks will take longer s
 
 It's recommended to install "global" tools via pipx, which installs packages in an isolated environment rather than the global python environment.
 
-1. [Install pipx](https://pipx.pypa.io/latest/installation/)
+1. If running Mac, install pre-commit with this command:
 
-1. Install pre-commit
+   ```
+   brew install pre-commit
+   ```
+
+1. If not running Mac, 
+   - [Install pipx](https://pipx.pypa.io/latest/installation/)
+   - Install pre-commit
 
    ```bash
    pipx install pre-commit
