@@ -10,9 +10,10 @@ temp/
 app/.coverage
 app/htmlcov
 
-### .env.dev
-.env.dev
+### env related
 .env
+.env.dev
+.env.docker
 .env.local
 venv/
 
@@ -26,7 +27,6 @@ venv/
 
 ### python ###
 venv/
-venv-peopledepot/
 __pycache__
 
 ### VisualStudioCode ###

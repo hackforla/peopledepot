@@ -37,7 +37,7 @@ router.register(
 router.register(r"secure-api/getusers", SecureUserViewSet, basename="secure-api-getusers")
 
 urlpatterns = [
-    # path('secure-api/getusers', SecureUserViewSet.as_view(), name='secure_api_getusers'),
+    path('secure-api/getusers', SecureUserViewSet.as_view(), name='secure_api_getusers'),
     path('secure-api/createuser', SecureCreateUser.as_view(),name='secure_api_createuser'),
     path('me/', UserProfileAPIView.as_view(), name='my_profile'),
 ]
