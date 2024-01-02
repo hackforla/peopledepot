@@ -13,9 +13,9 @@ The pre-commit checks should be fast while the pre-push hooks will take longer s
    - [Install pipx](https://pipx.pypa.io/latest/installation/)
    - Install pre-commit
 
-   ```bash
-   pipx install pre-commit
-   ```
+    ```bash
+    pipx install pre-commit
+    ```
 
 1. If running Mac, installing pre-commit as above does not work.  You can install pre-commit with this command:
 
@@ -25,11 +25,11 @@ The pre-commit checks should be fast while the pre-push hooks will take longer s
 
 1. Add the hook to git
 
-   ```bash
-   pre-commit install
-   ```
+    ```bash
+    pre-commit install
+    ```
 
-   Pre-commit is now set up to check your files whenever you commit or push code.
+    Pre-commit is now set up to check your files whenever you commit or push code.
 
 1. Test by adding an empty commit
 
@@ -43,32 +43,35 @@ The pre-commit checks should be fast while the pre-push hooks will take longer s
 
 - To skip the checks temporarily, you can do one of these
 
-    '''bash
+    ```bash
     # skip all the hooks
     git commit --no-verify
+
     # skip specific hooks
     SKIP=black,flake8 git commit
-    '''
+    ```
 
 - Manually run the hooks (this runs it against all files rather than only changed files)
 
-   ```bash
-   pre-commit run --all-files
-   ```
+    ```bash
+    pre-commit run --all-files
+    ```
 
 - More commands to run the hooks
 
-   ```bash
-   # run the hooks for the push staga
-   pre-commit run --all-files --hook-stage push
-   # run the hooks for the commit stage
-   pre-commit run --all-files --hook-stage commit
-   # run the hooks for
-   pre-commit run test --all-files --hook-stage push
-   ```
+    ```bash
+    # run the hooks for the push staga
+    pre-commit run --all-files --hook-stage push
+
+    # run the hooks for the commit stage
+    pre-commit run --all-files --hook-stage commit
+
+    # run the hooks for
+    pre-commit run test --all-files --hook-stage push
+    ```
 
 - Update pre-commit and plugins to the latest version
 
-   ```bash
-   pre-commit autoupdate
-   ```
+    ```bash
+    pre-commit autoupdate
+    ```
