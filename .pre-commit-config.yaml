@@ -81,7 +81,7 @@ repos:
             flake8-bugbear,
             dlint,
             flake8-use-fstring,
-            # flake8-use-pathlib,
+            flake8-use-pathlib,
             flake8-builtins,
             pep8-naming,
             flake8-variables-names,
