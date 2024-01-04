@@ -8,7 +8,11 @@ if [[ $PWD != *"app"* ]]; then
     cd app || return 1
 fi
 # "result =" is necessary or the line fails pre-commit checks
-result=source loadenv.sh .env.local
+source ../scripts/loadenv.sh .env.local
+if [[ "$DJANGO_SETTINGS_MODULE" == "" ]]; then
+    echo "ERROR: DJANGO_SETTINGS_MODULE is not defined.  Aborting."
+    return 1
+fi
 echo Admin user = "$DJANGO_SUPERUSER" email = "$DJANGO_SUPERUSER_EMAIL"
 if [[ $1 != "" ]]; then
     port=$1

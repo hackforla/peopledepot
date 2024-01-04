@@ -19,7 +19,7 @@ fi
 while IFS= read -r line; do
   if [[ -n "$line" ]]; then
     echo "export $line"
-    export "$line?"
+    export "$line"
   fi
 done < <(grep -v '^#' "$file")
 echo Super user "$DJANGO_SUPERUSER_USERNAME"
