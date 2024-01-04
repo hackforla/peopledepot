@@ -10,6 +10,5 @@ cp .env.local-example .env.local
 2. Inspect .env.local and change values as appropriate.
 3. From the terminal in the app directory, run:
 ```
-source ../scripts/setscriptpath.sh
-source start-local.sh
+source ../scripts/start-local.sh
 ```
