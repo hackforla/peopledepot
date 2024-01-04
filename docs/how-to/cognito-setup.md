@@ -21,5 +21,3 @@ The following steps come from https://docs.allauth.org/en/latest/socialaccount/p
   - Set OpenID Connect Scopes to OPENID, EMAIL, and PROFILE
 
 4. Go to App Integration > Domain Name section and create a domain prefix for your Cognito User Pool.
-
-
