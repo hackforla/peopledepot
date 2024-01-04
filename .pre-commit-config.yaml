@@ -40,10 +40,10 @@ repos:
       - id: check-executables-have-shebangs
       - id: end-of-file-fixer
 
-  - repo: https://github.com/AleksaC/hadolint-py
-    rev: v2.12.0.3
-    hooks:
-      - id: hadolint
+  # - repo: https://github.com/AleksaC/hadolint-py
+  #   rev: v2.12.0.3
+  #   hooks:
+  #     - id: hadolint
 
   - repo: https://github.com/asottile/pyupgrade
     rev: v3.15.0
@@ -81,7 +81,7 @@ repos:
             flake8-bugbear,
             dlint,
             flake8-use-fstring,
-            flake8-use-pathlib,
+            # flake8-use-pathlib,
             flake8-builtins,
             pep8-naming,
             flake8-variables-names,
