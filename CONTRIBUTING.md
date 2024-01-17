@@ -86,29 +86,29 @@ The following steps will clone (create) a local copy of the forked repository on
 
 1. Create a new folder in your computer that will contain `hackforla` projects.
 
-In your command line interface (Terminal, Git Bash, Powershell), move to where you want your new folder to be placed and create a new folder in your computer that will contain `hackforla` projects. After that, navigate into the folder(directory) you just created.
+    In your command line interface (Terminal, Git Bash, Powershell), move to where you want your new folder to be placed and create a new folder in your computer that will contain `hackforla` projects. After that, navigate into the folder(directory) you just created.
 
-For example:
+    For example:
 
-```bash
-cd /projects
-mkdir hackforla
-cd hackforla
-```
+    ```bash
+    cd /projects
+    mkdir hackforla
+    cd hackforla
+    ```
 
 1. From the hackforla directory created in previous section:
 
-```bash
-git clone https://github.com/<your_GitHub_user_name>/peopledepot.git
-```
+    ```bash
+    git clone https://github.com/<your_GitHub_user_name>/peopledepot.git
+    ```
 
-For example if your GitHub username was `octocat`:
+    For example if your GitHub username was `octocat`:
 
-```bash
-git clone https://github.com/octocat/peopledepot.git
-```
+    ```bash
+    git clone https://github.com/octocat/peopledepot.git
+    ```
 
-!!! note "You can also clone using ssh which is more secure but requires more setup. Because of the additional setup, cloning using https as shown above is recommended"
+    !!! note "You can also clone using ssh which is more secure but requires more setup. Because of the additional setup, cloning using https as shown above is recommended"
 
 You should now have a new folder in your `hackforla` folder called `peopledepot`. Verify this by changing into the new directory:
 
