@@ -140,7 +140,6 @@ repos:
       - id: mdformat
         exclude: |
           (?x)^(
-            .github/ISSUE_TEMPLATE/|
             docs/CONTRIBUTING.md$|
             docs/index.md$|
             docs/license.md$
