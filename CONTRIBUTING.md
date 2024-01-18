@@ -1,4 +1,4 @@
-# Contributing to People Depot
+# Contributing
 
 Thank you for volunteering your time! The following is a set of guidelines for contributing to the peopledepot repository, which is hosted on GitHub.
 
@@ -35,12 +35,15 @@ Set up two-factor authentication on your account by following this [guide](https
 Before cloning your forked repository to your local machine, you must have Git installed. You can find instructions for installing Git for your operating system [**here**](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
 
 Installation Guide for Windows Users
+
 - we recommend [installing Windows Subsystem for Linux (WSL)](https://code.visualstudio.com/docs/remote/wsl). WSL provides a Linux-compatible environment that can prevent common errors during script execution.
 - After setting up WSL, install Git directly from the Linux terminal. This method can help avoid complications that sometimes arise when using Git Bash on Windows.
 - If you prefer Git Bash or encounter errors related to line endings when running scripts, the problem might be due to file conversions in Windows. To address this, configure Git as follows:
+
 ```bash
-    git config --system set autocrlf=false
+git config --system set autocrlf=false
 ```
+
 <strong><em>Feel free to reach out in the [Hack for LA Slack channel](https://hackforla.slack.com/messages/people-depot/) if you encounter any errors while running scripts on Windows. </em></strong>
 
 Please note that if you have a Mac the page offers several options (see other option, if you need to conserve hard drive space) including:
@@ -54,8 +57,8 @@ Please note that if you have a Mac the page offers several options (see other op
 Install or make sure [docker][docker-install] and [docker-compose][docker-compose-install] are installed on your computer
 
 ```bash
-    docker -v
-    docker-compose -v
+docker -v
+docker-compose -v
 ```
 
 The recommended installation method for your operating system can be found [here](https://docs.docker.com/install/). <strong><em>Feel free to reach out in the [Hack for LA Slack channel](https://hackforla.slack.com/messages/people-depot/) if you have trouble installing docker on your system</em></strong>
@@ -91,7 +94,7 @@ mkdir hackforla
 cd hackforla
 ```
 
-2. From the hackforla directory created in previous section:
+1. From the hackforla directory created in previous section:
 
 ```bash
 git clone https://github.com/<your_GitHub_user_name>/peopledepot.git
@@ -140,24 +143,26 @@ upstream        https://github.com/hackforla/peopledepot.git (push)
 ### 2.3 Build and run using Docker locally
 
 1. Start Docker Desktop
-1. Run `docker container ls` to verify Docker Desktop is running. If it is not running you will get the message: `Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?`
-1. Create an .env.secret.dev file from .env.secret.dev
 
-   ```bash
-   cp .env.example.dev .env.secret.dev
-   ```
+1. Run `docker container ls` to verify Docker Desktop is running. If it is not running you will get the message: `Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?`
+
+1. Create an .env.dev file from .env.dev-sample
+
+    ```bash
+    cp .env.dev-sample .env.dev
+    ```
 
 1. Build and run the project via the script (this includes running `docker-compose up`)
 
-   ```bash
-   ./scripts/buildrun.sh
-   ```
+    ```bash
+    ./scripts/buildrun.sh
+    ```
 
 1. Create a super user for logging into the web admin interface
 
-   ```bash
-   docker-compose exec web python manage.py createsuperuser --no-input
-   ```
+    ```bash
+    docker-compose exec web python manage.py createsuperuser --no-input
+    ```
 
 1. Browse to the web admin interface at `http://localhost:8000/admin/` and confirm the admin site is running. Use DJANGO_SUPERUSER_USERNAME and DJANGO_SUPERUSER_PASSWORD from .env.dev for credentials.
 
@@ -189,9 +194,9 @@ To restore a database to its original state and remove any data manually added, 
 From Docker:
 
 1. Open Containers section
-2. Delete people-db-1 container
-3. Open Images Tab
-4. Remove djangorestapipostrgresql image
+1. Delete people-db-1 container
+1. Open Images Tab
+1. Remove djangorestapipostrgresql image
 
 ## 4. Fixing Issues
 
@@ -202,8 +207,8 @@ Find an issue in Prioritized Backlog [here](https://github.com/hackforla/peopled
 If you joined the peopledepot repository as described in a previous section:
 
 1. Assign the issue to yourself and move it to "In progress" column.
-2. Follow the steps in the issue description to complete the issue.
-3. Make sure to comment your ETA and Availability when you first assign yourself.
+1. Follow the steps in the issue description to complete the issue.
+1. Make sure to comment your ETA and Availability when you first assign yourself.
 
 If you don't have privileges, add a comment that you are working on the issue.
 
@@ -347,18 +352,24 @@ git push --set-upstream origin <name-of-branch>
 #### 4.11.2 Complete pull request from GitHub
 
 1. Click the green button to create a Pull Request (PR)
-2. Add a short title in the subject line
-3. In the body of the comment, add the following, replacing `<issue-number>` with the issue you worked on:
+1. Add a short title in the subject line
+1. In the body of the comment, add the following, replacing `<issue-number>` with the issue you worked on:
 
 ```bash
 fixes #<issue-number>
 ```
 
-4. Below this, add a brief description of the changes you made
-5. Click the green "Create pull request" button
-6. Add the PR to the project board
+1. Below this, add a brief description of the changes you made
+1. Click the green "Create pull request" button
+1. Add the PR to the project board
 
-## 5. Synch Main Changes
+## 5. Documentation
+
+We highly encourage contributors to add and update documentation in the same pull request as the code. This will ensure that the docs and features are synchronized.
+
+Please see the [MkDocs page](tools/mkdocs.md) for how to view documentation changes locally using the mkdocs in docker.
+
+## 6. Sync Main Changes
 
 Your fork of this repository on GitHub, and your local clone of that fork, will get out of sync with the (upstream) repository as others update the repository. (That's what has happened when you see something like "This branch is 1 commit behind peopledepot:main" on your forked repository.)
 
@@ -394,7 +405,7 @@ git push
 
 If you go to your online GitHub repository this should remove the message "This branch is x commit behind peopledepot:main".
 
-## 5. Creating Issues
+## 7. Creating Issues
 
 To create a new issue, please use the blank issue template (available when you click New Issue). If you want to create an issue for other projects to use, please create the issue in your own repository and send a slack message to one of your hack night hosts with the link.
 
@@ -405,12 +416,12 @@ To create a new issue, please use the blank issue template (available when you c
 You can go to these links and submit an issue:
 
 - [Docker](https://github.com/docker)
-- [Flake8](https://github.com/pycqa/flake8)
-- [Black](https://github.com/psf/black)
-- [isort](https://github.com/pycqa/isort/)
+- [Flake8][flake8-docs]
+- [Black][black-docs]
+- [isort][isort-docs]
 
-[docker-install]: https://docs.docker.com/get-docker/
-[docker-compose-install]: https://docs.docker.com/compose/install/
-[flake8-docs]: https://github.com/pycqa/flake8
 [black-docs]: https://github.com/psf/black
+[docker-compose-install]: https://docs.docker.com/compose/install/
+[docker-install]: https://docs.docker.com/get-docker/
+[flake8-docs]: https://github.com/pycqa/flake8
 [isort-docs]: https://github.com/pycqa/isort/
