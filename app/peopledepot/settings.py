@@ -83,26 +83,7 @@ INSTALLED_APPS = [
     # Local
     "core",
     "data",
-    # allauth requirements
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    # ... include the providers you want to enable:
-    'allauth.socialaccount.providers.amazon_cognito',
-
 ]
-
-SOCIALACCOUNT_PROVIDERS = {
-    'amazon_cognito': {
-        'DOMAIN': 'https://peopledepot.auth.us-east-2.amazoncognito.com',
-        'APP': {
-            'client_id': f'{COGNITO_CLIENT_ID}',
-            'client_secret': f'{COGNITO_CLIENT_SECRET}',
-            'secret': '',
-            'key': ''
-        }
-    }
-}
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",

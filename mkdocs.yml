@@ -1,0 +1,49 @@
+site_name: People Depot Docs
+repo_url: https://github.com/hackforla/peopledepot
+repo_name: hackforla/peopledepot
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  features:
+    - content.action.edit
+    - content.code.annotate
+    - content.code.copy
+    - content.code.select
+    - navigation.expand
+    - navigation.indexes
+    - navigation.sections
+
+plugins:
+  - search
+  - autolinks
+  - awesome-pages
+
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - md_in_html
+  - pymdownx.betterem
+  - pymdownx.blocks.details
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - toc:
+      title: On this page
+      permalink: true
+
+watch:
+  - README.md
+  - CONTRIBUTING.md
+  - LICENSE
