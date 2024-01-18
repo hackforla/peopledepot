@@ -10,9 +10,12 @@ temp/
 app/.coverage
 app/htmlcov
 
-### dotenv ###
-.env.dev
+### env related
 .env
+.env.dev
+.env.docker
+.env.local
+venv/
 
 ### Vim ###
 # Swap
@@ -23,8 +26,7 @@ app/htmlcov
 [._]sw[a-p]
 
 ### python ###
-venv
-venv-peopledepot/
+venv/
 __pycache__
 
 ### VisualStudioCode ###

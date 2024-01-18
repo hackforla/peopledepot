@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - main
+      - auth-code2
 jobs:
   deploy:
     runs-on: ubuntu-latest

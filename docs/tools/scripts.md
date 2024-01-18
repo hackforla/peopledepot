@@ -25,4 +25,4 @@ These scripts assume you are using bash.
 
 1. **createsuperuser.sh** - creates a default superuser.
 
-    1. This assumes that `DJANGO_SUPERUSER_USERNAME` and `DJANGO_SUPERUSER_PASSWORD` are set in `.env.dev`
+    1. This assumes that `DJANGO_SUPERUSER_USERNAME` and `DJANGO_SUPERUSER_PASSWORD` are set in `.env.docker`
