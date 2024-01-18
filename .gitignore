@@ -12,9 +12,8 @@ app/htmlcov
 
 ### dotenv ###
 .env
-.env.dev
-.env.secret.*
-secrets/
+.env.local
+.env.docker
 .DS_Store
 
 

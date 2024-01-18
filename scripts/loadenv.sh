@@ -4,8 +4,8 @@ export file=$1
 echo "file = $file / $1 / $2"
 if [ "$file" == "" ]
 then
-  echo "File not specified.  Using .env.dev"
-  file=".env.dev"
+  echo "File not specified.  Using .env.local"
+  file=".env.local"
 fi
 
 echo "Loading environment variables from $file"
