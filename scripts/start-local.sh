@@ -8,6 +8,12 @@ if [[ $PWD != *"app"* ]]; then
     cd app
 fi
 source ../scripts/loadenv.sh
+
+if [ $DJANGO_SETTINGS_MODULE == "" ]; then
+  echo --- ERROR: DJANGO_SETTINGS_MODULE not set.  Exiting.
+  return 1
+fi
+
 echo Admin user = $DJANGO_SUPERUSER email = $DJANGO_SUPERUSER_EMAIL
 if [[ $1 != "" ]]; then
     port=$1
@@ -23,51 +29,38 @@ echo
 echo --- Executing python manage.py makemigrations ---
 echo
 python manage.py makemigrations
-makemigration_success=$?
+if [ $? -ne 0 ]; then
+  echo --- ERROR: python manage.py makemigrations failed.  See errors above. ---
+  return 1
+fi
 
 echo
 echo --- Executing python manage.py migrate ---
 echo
 python manage.py migrate
-migrate_success=$?
+if [ $? -ne 0 ]; then
+  echo --- ERROR: python manage.py migrate failed.  See errors above. ---
+  return 1
+fi
 
-echo
-echo --- Executing python manage.py shell to check if $DJANGO_SUPERUSER_USERNAME exists
-echo
+echo Executing python manage.py shell to check if user exists
 python manage.py shell -c "from core.models import User; exists = (User.objects.filter(username='$DJANGO_SUPERUSER_USERNAME').exists()); sys.exit(0 if exists else 1)"
 superuser_exists=$?
 
+echo
+echo
+echo
 if [ $superuser_exists -eq 1 ]; then
   echo
   echo --- Executing python manage.py createsuperuser ---
   echo 
-  python manage.py createsuperuser --username $DJANGO_SUPERUSER_USERNAME --email $DJANGO_SUPERUSER_EMAIL --no-input
+  python manage.py createsuperuser --username $DJANGO_SUPERUSER --email $DJANGO_SUPERUSER_EMAIL --no-input
 else
-  echo --- INFO: Skipping python manage.py createsuperuser - super user $DJANGO_SUPERUSER_USERNAME already exists.
+  echo --- INFO: Skipping python manage.py createsuperuser - super user $DJANGO_SUPERUSER already exists.
 fi
-createsuperuser_success=$?
+if [ $? -ne 0 ]; then
+  echo --- ERROR: python manage.py createsuperuser failed.  See errors above.
+  return 1
+ fi
 
-success=0
-if [ $makemigration_success -eq 1 ]; then
-  success=1
-  echo --- ERROR: python manage.py makemigrations failed.  See errors above.
-fi
-
-if [ $migrate_success -eq 1 ]; then
-  success=1
-  echo --- ERROR: python manage.py migrate failed.  See errors above.
-fi
-
-if [ $createsuperuser_success -eq 1 ]; then
-  success=1
-  echo --- ERROR: python manage.py createsuper failed.  See errors above.
-fi
-
-if [ $success -eq 1 ]; then
-  read -p "Press [Ctrl-c] to abort, [Enter] to run server with errors..."
-else
-  echo
-  echo --- All prep steps successful!  Executing python manage.py runserver
-  echo
-fi
 python manage.py runserver 0.0.0.0:$port
