@@ -1,0 +1,9 @@
+nav:
+  - index.md
+  - Get Started:
+    - CONTRIBUTING.md
+  - architecture
+  - how-to
+  - tools
+  - ...
+  - license.md

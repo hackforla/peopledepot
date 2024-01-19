@@ -28,6 +28,13 @@ services:
       - 8005:8000
     volumes:
       - .:/app
+  mkdocs:
+    image: hackforlaops/mkdocs:latest
+    command: mkdocs serve --dev-addr 0.0.0.0:8000
+    ports:
+      - 8005:8000
+    volumes:
+      - .:/app
       - POSTGRES_HOST=localhost
 
     ports:
