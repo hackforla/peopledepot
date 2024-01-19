@@ -9,7 +9,7 @@ services:
     ports:
       - 8000:8000
     env_file:
-      - ./.env.secret.dev
+      - ./.env.docker
     depends_on:
       - db
   db:
@@ -21,24 +21,15 @@ services:
       - POSTGRES_USER=people_depot
       - POSTGRES_PASSWORD=people_depot
       - POSTGRES_DB=people_depot_dev
-  mkdocs:
-    image: hackforlaops/mkdocs:latest
-    command: mkdocs serve --dev-addr 0.0.0.0:8000
-    ports:
-      - 8005:8000
-    volumes:
-      - .:/app
-  mkdocs:
-    image: hackforlaops/mkdocs:latest
-    command: mkdocs serve --dev-addr 0.0.0.0:8000
-    ports:
-      - 8005:8000
-    volumes:
-      - .:/app
-      - POSTGRES_HOST=localhost
-
     ports:
       - 5432:5432
+  mkdocs:
+    image: hackforlaops/mkdocs:latest
+    command: mkdocs serve --dev-addr 0.0.0.0:8000
+    ports:
+      - 8005:8000
+    volumes:
+      - .:/app
 
 volumes:
   postgres_data:
