@@ -9,6 +9,7 @@ from core.models import PermissionType
 from core.models import PracticeArea
 from core.models import ProgramArea
 from core.models import Project
+from core.models import Sdg
 from core.models import Skill
 from core.models import SponsorPartner
 from core.models import StackElementType
@@ -269,6 +270,26 @@ class StackElementTypeSerializer(serializers.ModelSerializer):
             "uuid",
             "name",
             "description",
+        )
+        read_only_fields = (
+            "uuid",
+            "created_at",
+            "updated_at",
+        )
+
+
+class SdgSerializer(serializers.ModelSerializer):
+    """
+    Used to retrieve Sdg
+    """
+
+    class Meta:
+        model = Sdg
+        fields = (
+            "uuid",
+            "name",
+            "description",
+            "image",
         )
         read_only_fields = (
             "uuid",
