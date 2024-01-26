@@ -13,6 +13,7 @@ from .models import PermissionType
 from .models import PracticeArea
 from .models import ProgramArea
 from .models import Project
+from .models import Sdg
 from .models import Skill
 from .models import SponsorPartner
 from .models import StackElementType
@@ -213,3 +214,8 @@ class StackElementType(admin.ModelAdmin):
         "name",
         "description",
     )
+
+
+@admin.register(Sdg)
+class Sdg(admin.ModelAdmin):
+    list_display = ("name", "description", "image")
