@@ -34,8 +34,5 @@ services:
       - .:/app
       - POSTGRES_HOST=localhost
 
-    ports:
-      - 5432:5432
-
 volumes:
   postgres_data:
