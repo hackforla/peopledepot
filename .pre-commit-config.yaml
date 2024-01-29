@@ -2,11 +2,10 @@
 # See https://pre-commit.com/hooks.html for more hooks
 default_install_hook_types: [pre-commit, pre-push]
 default_stages: [commit, push]
-fail_fast: true
 minimum_pre_commit_version: "2.18"
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.4.0
+    rev: v4.5.0
     hooks:
       # identify invalid files
       - id: check-ast
@@ -41,10 +40,10 @@ repos:
       - id: check-executables-have-shebangs
       - id: end-of-file-fixer
 
-  # - repo: https://github.com/hadolint/hadolint
-  #   rev: v2.12.1-beta
-  #   hooks:
-  #     - id: hadolint-docker
+  - repo: https://github.com/AleksaC/hadolint-py
+    rev: v2.12.0.3
+    hooks:
+      - id: hadolint
 
   - repo: https://github.com/asottile/pyupgrade
     rev: v3.15.0
@@ -89,10 +88,12 @@ repos:
             flake8-executable,
             flake8-pytest-style,
             flake8-django,
+            flake8-comprehensions,
+            flake8-tidy-imports,
           ]
 
   - repo: https://github.com/pycqa/isort
-    rev: 5.12.0
+    rev: 5.13.2
     hooks:
       - id: isort
         name: isort (python)
@@ -104,10 +105,10 @@ repos:
       - id: bandit
         exclude: ^app/core/tests/
 
-  - repo: https://github.com/asottile/pyupgrade
-    rev: v3.10.1
+  - repo: https://github.com/shellcheck-py/shellcheck-py
+    rev: v0.9.0.6
     hooks:
-      - id: pyupgrade
+    -   id: shellcheck
 
   # - repo: https://github.com/econchick/interrogate
   #   rev: 1.4.0
@@ -115,6 +116,37 @@ repos:
   #     - id: interrogate
   #       args: [-vv, -i, --fail-under=80]
 
+  # disabled because it reformats this yaml file
+  # - repo: https://github.com/mxr/sync-pre-commit-deps
+  #   rev: v0.0.1
+  #   hooks:
+  #     - id: sync-pre-commit-deps
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    # Ruff version.
+    rev: v0.1.14
+    hooks:
+      # Run the linter.
+      - id: ruff
+        args: [ --fix ]
+        exclude: ^app/core/migrations/
+      # Run the formatter.
+      - id: ruff-format
+        exclude: ^app/core/migrations/
+
+  - repo: https://github.com/executablebooks/mdformat
+    rev: 0.7.17
+    hooks:
+      - id: mdformat
+        exclude: |
+          (?x)^(
+            docs/CONTRIBUTING.md$|
+            docs/index.md$|
+            docs/license.md$
+          )
+        additional_dependencies:
+          - mdformat-admon
+          - mdformat-mkdocs[recommended]>=2.0.0
 
   - repo: local
     hooks:
@@ -140,3 +172,6 @@ repos:
         language: system
         types: [python] # hook only runs if a python file is staged
         pass_filenames: false
+
+ci:
+    skip: [check-django-migrations]
