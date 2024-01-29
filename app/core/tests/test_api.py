@@ -25,7 +25,8 @@ STACK_ELEMENT_TYPE_URL = reverse("stack-element-type-list")
 CREATE_USER_PAYLOAD = {
     "username": "TestUserAPI",
     "password": "testpass",
-    # time_zone is required because django_timezone_field doesn't yet support the blank string
+    # time_zone is required because django_timezone_field doesn't yet support
+    # the blank string
     "time_zone": "America/Los_Angeles",
 }
 
