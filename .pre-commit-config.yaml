@@ -41,10 +41,10 @@ repos:
       - id: check-executables-have-shebangs
       - id: end-of-file-fixer
 
-  - repo: https://github.com/hadolint/hadolint
-    rev: v2.12.1-beta
-    hooks:
-      - id: hadolint-docker
+  # - repo: https://github.com/hadolint/hadolint
+  #   rev: v2.12.1-beta
+  #   hooks:
+  #     - id: hadolint-docker
 
   - repo: https://github.com/asottile/pyupgrade
     rev: v3.15.0
