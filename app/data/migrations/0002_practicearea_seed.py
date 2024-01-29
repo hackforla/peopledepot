@@ -1,8 +1,8 @@
 from django.db import migrations
 from core.models import PracticeArea
 
-def run(__code__, __reverse_code__):
 
+def run(__code__, __reverse_code__):
     status = PracticeArea(uuid=1, name="Development")
     status.save()
     status = PracticeArea(uuid=2, name="Project Management")
@@ -18,6 +18,8 @@ class Migration(migrations.Migration):
     dependencies = [("data", "0001_programarea_seed")]
 
     operations = [migrations.RunPython(run, migrations.RunPython.noop)]
+
+
 from django.db import migrations
 from core.models import PracticeArea
 

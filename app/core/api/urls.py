@@ -17,6 +17,7 @@ from .views import StackElementTypeViewSet
 from .views import TechnologyViewSet
 from .views import UserProfileAPIView
 from .views import UserViewSet
+
 # from .views import no_staff_access
 
 router = routers.SimpleRouter()
@@ -35,12 +36,18 @@ router.register(r"permission-types", PermissionTypeViewSet, basename="permission
 router.register(
     r"stack-element-types", StackElementTypeViewSet, basename="stack-element-type"
 )
-router.register(r"secure-api/getusers", SecureUserViewSet, basename="secure-api-getusers")
+router.register(
+    r"secure-api/getusers", SecureUserViewSet, basename="secure-api-getusers"
+)
 
 urlpatterns = [
     # path('secure-api/getusers', SecureUserViewSet.as_view(), name='secure_api_getusers'),
-    path('secure-api/createuser', SecureCreateUser.as_view(),name='secure_api_createuser'),
-    path('me/', UserProfileAPIView.as_view(), name='my_profile'),
+    path(
+        "secure-api/createuser",
+        SecureCreateUser.as_view(),
+        name="secure_api_createuser",
+    ),
+    path("me/", UserProfileAPIView.as_view(), name="my_profile"),
 ]
 
 urlpatterns += router.urls

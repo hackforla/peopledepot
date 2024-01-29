@@ -5,13 +5,16 @@ from django.contrib.auth.models import Group
 from core.models import User
 from timezone_field.rest_framework import TimeZoneSerializerField
 
+
 class GroupSerializer(rest_serializers.ModelSerializer):
     class Meta:
         model = Group
-        fields = ('id',)
+        fields = ("id",)
+
 
 class SecureUserSerializer(rest_serializers.ModelSerializer):
     """Used to retrieve user info"""
+
     time_zone = TimeZoneSerializerField(use_pytz=False)
     # groups = rest_serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     groups = GroupSerializer(many=True, read_only=True)
