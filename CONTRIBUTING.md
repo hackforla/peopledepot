@@ -420,12 +420,6 @@ You can go to these links and submit an issue:
 - [Black][black-docs]
 - [isort][isort-docs]
 
-[black-docs]: https://github.com/psf/black
-[docker-compose-install]: https://docs.docker.com/compose/install/
-[docker-install]: https://docs.docker.com/get-docker/
-[flake8-docs]: https://github.com/pycqa/flake8
-[isort-docs]: https://github.com/pycqa/isort/
-
 # Contributing
 
 Thank you for volunteering your time! The following is a set of guidelines for contributing to the peopledepot repository, which is hosted on GitHub.
