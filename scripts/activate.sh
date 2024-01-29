@@ -14,4 +14,3 @@ else
   echo "ERROR: activation failed (called from ${BASH_SOURCE[1]})"
 fi
 echo Done
-

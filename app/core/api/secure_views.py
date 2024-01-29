@@ -84,4 +84,3 @@ class SecureGetUsers(GenericAPIView):
         else:
             # Invalid signature, reject the request
             return JsonResponse({'error': 'Invalid signature'}, status=401)
-
