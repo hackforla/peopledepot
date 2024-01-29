@@ -21,6 +21,10 @@ services:
       - POSTGRES_USER=people_depot
       - POSTGRES_PASSWORD=people_depot
       - POSTGRES_DB=people_depot_dev
+      - POSTGRES_HOST=localhost
+
+    ports:
+      - 5432:5432
   mkdocs:
     image: hackforlaops/mkdocs:latest
     command: mkdocs serve --dev-addr 0.0.0.0:8000
