@@ -1,4 +1,4 @@
-If you have a requirement to run on your local machine or you are unable to get it to work on 
+If you have a requirement to run on your local machine or you are unable to get it to work on
 Docker, do the following steps.  WARNING: If you run into issues you will get limited support.
 
 Run these commands from the root directory:

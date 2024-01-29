@@ -5,14 +5,14 @@
 {% load static %}
 
 {% block content %}
-  <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}?v=d"> 
+  <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}?v=d">
 
     {% if process == "connect" %}
         {% element h1 %}
             {% blocktrans with provider.name as provider %}Connect {{ provider }}{% endblocktrans %}
         {% endelement %}
         <p>
-            {% blocktrans with provider.name as provider %}You are about to connect a new third-party account from {{ provider }}.   This account will be specific to HackForLA applications.  
+            {% blocktrans with provider.name as provider %}You are about to connect a new third-party account from {{ provider }}.   This account will be specific to HackForLA applications.
             {% endblocktrans %}
         </p>
     {% else %}

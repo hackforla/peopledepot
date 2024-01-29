@@ -5,7 +5,7 @@ from django.contrib.auth.models import Group
 from core.models import User
 from timezone_field.rest_framework import TimeZoneSerializerField
 
-class GroupSerializer(rest_serializers.ModelSerializer):    
+class GroupSerializer(rest_serializers.ModelSerializer):
     class Meta:
         model = Group
         fields = ('id',)

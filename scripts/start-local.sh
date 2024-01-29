@@ -40,7 +40,7 @@ superuser_exists=$?
 if [ $superuser_exists -eq 1 ]; then
   echo
   echo --- Executing python manage.py createsuperuser ---
-  echo 
+  echo
   python manage.py createsuperuser --username $DJANGO_SUPERUSER_USERNAME --email $DJANGO_SUPERUSER_EMAIL --no-input
 else
   echo --- INFO: Skipping python manage.py createsuperuser - super user $DJANGO_SUPERUSER_USERNAME already exists.
