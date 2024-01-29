@@ -32,7 +32,7 @@ def is_expected_signature(request):
         print("api_key", api_key, "timestamp", timestamp, "signature", signature)
 
         # Recreate the message and calculate the expected signature
-        expected_signature = hmac.new(API_SECRET.encode('utf-8'), f"{timestamp}{api_key}".encode('utf-8'), hashlib.sha256).hexdigest()
+        expected_signature = hmac.new(API_SECRET.encode('utf-8'), f"{timestamp}{api_key}".encode(), hashlib.sha256).hexdigest()
         return(signature == expected_signature)
 
 
