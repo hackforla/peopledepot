@@ -302,6 +302,3 @@ class StackElementTypeViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = StackElementType.objects.all()
     serializer_class = StackElementTypeSerializer
-    
-    
- 

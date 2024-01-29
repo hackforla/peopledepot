@@ -34,7 +34,7 @@ def is_expected_signature(request):
         # Recreate the message and calculate the expected signature
         expected_signature = hmac.new(API_SECRET.encode('utf-8'), f"{timestamp}{api_key}".encode('utf-8'), hashlib.sha256).hexdigest()
         return(signature == expected_signature)
- 
+
 
 class SecureCreateUser(GenericAPIView):
     permission_classes=[]
@@ -52,8 +52,8 @@ class SecureCreateUser(GenericAPIView):
             username = data.get("username")
             first_name = data.get("first_name")
             last_name = data.get("last_name")
-            email = data.get("email") 
-            print("Updating user") 
+            email = data.get("email")
+            print("Updating user")
             if not User.objects.filter(uuid=uuid).exists():
                 User.objects.create(uuid=uuid, username=username, first_name=first_name, last_name=last_name, email=email)
             return JsonResponse({'message': 'API call successful', 'data': request.data, 'user': data})
@@ -66,15 +66,15 @@ class SecureUserViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = []
     queryset = User.objects.all()
     serializer_class = SecureUserSerializer
-    
-    
+
+
 class SecureGetUsers(GenericAPIView):
     permission_classes=[]
 
     @csrf_exempt
     def get(self, request: requests):
 
-        group_fields = ("name")        
+        group_fields = ("name")
 
         # Compare the calculated signature with the one sent in the request
         if is_expected_signature(request):
@@ -84,4 +84,3 @@ class SecureGetUsers(GenericAPIView):
         else:
             # Invalid signature, reject the request
             return JsonResponse({'error': 'Invalid signature'}, status=401)
-
