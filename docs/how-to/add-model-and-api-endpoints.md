@@ -227,23 +227,22 @@ This is code that serializes objects into strings for the API endpoints, and des
     class RecurringEventSerializer(serializers.ModelSerializer):
         """Used to retrieve recurring_event info"""
 
-
-    class Meta:
-        model = RecurringEvent
-        fields = (
-            "uuid",
-            "name",
-            "start_time",
-            "duration_in_min",
-            "video_conference_url",
-            "additional_info",
-            "project",
-        )
-        read_only_fields = (
-            "uuid",
-            "created_at",
-            "updated_at",
-        )
+        class Meta:
+            model = RecurringEvent
+            fields = (
+                "uuid",
+                "name",
+                "start_time",
+                "duration_in_min",
+                "video_conference_url",
+                "additional_info",
+                "project",
+            )
+            read_only_fields = (
+                "uuid",
+                "created_at",
+                "updated_at",
+            )
     ```
 
     [link to code](https://github.com/hackforla/peopledepot/blob/09e2856b6dd8038aedbbc9b42c3a44009be1fd2f/app/core/api/serializers.py#L82-L100)
@@ -374,19 +373,18 @@ This example shows how to add a filter params. It's done for the [user model](ht
     class UserViewSet(viewsets.ModelViewSet):
         ...
 
-
-    def get_queryset(self):
-        """
-        Optionally filter users by an 'email' and/or 'username' query paramerter in the URL
-        """
-        queryset = get_user_model().objects.all()
-        email = self.request.query_params.get("email")
-        if email is not None:
-            queryset = queryset.filter(email=email)
-        username = self.request.query_params.get("username")
-        if username is not None:
-            queryset = queryset.filter(username=username)
-        return queryset
+        def get_queryset(self):
+            """
+            Optionally filter users by an 'email' and/or 'username' query paramerter in the URL
+            """
+            queryset = get_user_model().objects.all()
+            email = self.request.query_params.get("email")
+            if email is not None:
+                queryset = queryset.filter(email=email)
+            username = self.request.query_params.get("username")
+            if username is not None:
+                queryset = queryset.filter(username=username)
+            return queryset
     ```
 
     [link to code](https://github.com/hackforla/peopledepot/blob/09e2856b6dd8038aedbbc9b42c3a44009be1fd2f/app/core/api/views.py#L84-L95)
@@ -416,7 +414,7 @@ This example shows how to add a filter params. It's done for the [user model](ht
     1. First param is the URL prefix use in the API routes. It is, by convention, plural
         - This would show up in the URL like this: `http://localhost/api/v1/recuring-events/` and `http://localhost/api/v1/recuring-events/<uuid>`
     1. Second param is the viewset class which defines the API actions
-    1. `basename` is the name used for generating the endpoint names, such as [basename]-list, [basename]-detail, etc. It's in the singular form. This is automatically generated if the viewset definition contains a `queryset` attribute, but it's required if the viewset overrides that with the `get_queryset` function
+    1. `basename` is the name used for generating the endpoint names, such as <basename>-list, <basename>-detail, etc. It's in the singular form. This is automatically generated if the viewset definition contains a `queryset` attribute, but it's required if the viewset overrides that with the `get_queryset` function
         - `reverse("recurring-event-list")` would return `http://localhost/api/v1/recuring-events/`
 
 ### Add API tests
@@ -437,18 +435,17 @@ For the CRUD operations, since we're using `ModelViewSet` where all the actions 
     def test_create_recurring_event(auth_client, project):
         """Test that we can create a recurring event"""
 
-
-    payload = {
-        "name": "Test Weekly team meeting",
-        "start_time": "18:00:00",
-        "duration_in_min": 60,
-        "video_conference_url": "https://zoom.com/link",
-        "additional_info": "Test description",
-        "project": project.uuid,
-    }
-    res = auth_client.post(RECURRING_EVENTS_URL, payload)
-    assert res.status_code == status.HTTP_201_CREATED
-    assert res.data["name"] == payload["name"]
+        payload = {
+            "name": "Test Weekly team meeting",
+            "start_time": "18:00:00",
+            "duration_in_min": 60,
+            "video_conference_url": "https://zoom.com/link",
+            "additional_info": "Test description",
+            "project": project.uuid,
+        }
+        res = auth_client.post(RECURRING_EVENTS_URL, payload)
+        assert res.status_code == status.HTTP_201_CREATED
+        assert res.data["name"] == payload["name"]
     ```
 
     [link to code](https://github.com/hackforla/peopledepot/blob/097f8f254534c1e53bc23f14ef71afbed0b70fa0/app/core/tests/test_api.py#L150-L163)

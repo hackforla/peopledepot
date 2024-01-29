@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
-
+# from allauth.account.adapter import DefaultAccountAdapter
 import json
 import os
 from pathlib import Path
@@ -36,6 +36,10 @@ DEBUG = os.environ.get("DEBUG", default=0)
 # For example: 'DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]'
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 
+# Single sign on
+LOGIN_REDIRECT_URL="/admin/"
+# ACCOUNT_LOGOUT_REDIRECT_URL = 'account_login'
+
 # Cognito stuff
 COGNITO_AWS_REGION = os.environ.get("COGNITO_AWS_REGION", default=None)
 COGNITO_USER_POOL = os.environ.get("COGNITO_USER_POOL", default=None)
@@ -45,6 +49,8 @@ COGNITO_AUDIENCE = None
 COGNITO_POOL_URL = (
     None  # will be set few lines of code later, if configuration provided
 )
+COGNITO_CLIENT_ID = os.environ.get("COGNITO_CLIENT_ID")
+COGNITO_CLIENT_SECRET = os.environ.get("COGNITO_CLIENT_SECRET`")
 
 rsa_keys = {}
 # To avoid circular imports, we keep this logic here.
@@ -88,6 +94,8 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.RemoteUserMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "allauth.account.middleware.AccountMiddleware",
+    # "core.middleware.StaffAccessMiddleware", # for no_staff_access
 ]
 
 ROOT_URLCONF = "peopledepot.urls"
@@ -95,7 +103,7 @@ ROOT_URLCONF = "peopledepot.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        'DIRS': [os.path.join(BASE_DIR,'templates')],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -103,6 +111,8 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                # `allauth` needs this from django
+                'django.template.context_processors.request',
             ],
         },
     },
@@ -168,11 +178,13 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "core.User"
-
+ACCOUNT_EMAIL_VERIFICATION = 'none' 
 AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.RemoteUserBackend",
-    "django.contrib.auth.backends.ModelBackend",
-]
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+    # `allauth` specific authentication methods, such as login by email
+    'allauth.account.auth_backends.AuthenticationBackend',]
 
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": ("core.api.permissions.DenyAny",),
