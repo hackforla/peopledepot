@@ -1,3 +1,5 @@
+import time
+
 from django.contrib.auth import get_user_model
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import OpenApiExample
@@ -6,6 +8,7 @@ from drf_spectacular.utils import extend_schema
 from drf_spectacular.utils import extend_schema_view
 from rest_framework import mixins
 from rest_framework import viewsets
+from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
@@ -35,11 +38,6 @@ from .serializers import SponsorPartnerSerializer
 from .serializers import StackElementTypeSerializer
 from .serializers import TechnologySerializer
 from .serializers import UserSerializer
-
-from rest_framework.generics import GenericAPIView
-
-
-import time
 
 
 class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):

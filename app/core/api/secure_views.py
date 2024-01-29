@@ -1,22 +1,23 @@
-import os
-import time
-import requests
-
-from core.api.secure_serializers import SecureUserSerializer
-
-from ..models import User
-from django.contrib.auth.models import Group
-from rest_framework.generics import GenericAPIView
-from django.views.decorators.csrf import csrf_exempt
-from core.models import User
 import hashlib
 import hmac
+import os
 import time
+
+import requests
+from django.contrib.auth.models import Group
+from django.core import serializers
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 # from rest_framework import serializers as rest_serializers
-from rest_framework import serializers, viewsets
-from django.core import serializers
+from rest_framework import serializers
+from rest_framework import viewsets
+from rest_framework.generics import GenericAPIView
+
+from core.api.secure_serializers import SecureUserSerializer
+from core.models import User
+
+from ..models import User
 
 API_SECRET = os.environ.get("API_SECRET")
 
