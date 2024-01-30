@@ -24,7 +24,7 @@ usage() {
 
 exit_abnormal() {
   usage
-  exit
+  exit 1
 }
 
 migrate() {
