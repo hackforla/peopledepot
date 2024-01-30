@@ -161,7 +161,7 @@ upstream        https://github.com/hackforla/peopledepot.git (push)
 1. Create a super user for logging into the web admin interface
 
     ```bash
-    
+
     ```
 
 1. Browse to the web admin interface at `http://localhost:8000/admin/` and confirm the admin site is running. Use DJANGO_SUPERUSER_USERNAME and DJANGO_SUPERUSER_PASSWORD from .env.docker for credentials.
@@ -419,12 +419,6 @@ You can go to these links and submit an issue:
 - [Flake8][flake8-docs]
 - [Black][black-docs]
 - [isort][isort-docs]
-
-[black-docs]: https://github.com/psf/black
-[docker-compose-install]: https://docs.docker.com/compose/install/
-[docker-install]: https://docs.docker.com/get-docker/
-[flake8-docs]: https://github.com/pycqa/flake8
-[isort-docs]: https://github.com/pycqa/isort/
 
 # Contributing
 

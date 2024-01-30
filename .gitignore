@@ -11,11 +11,11 @@ app/.coverage
 app/htmlcov
 
 ### dotenv ###
-.env
-.env.local
+.env.dev
 .env.docker
-.DS_Store
-
+.env.local
+.env.test
+.env
 
 ### Vim ###
 # Swap
@@ -26,7 +26,7 @@ app/htmlcov
 [._]sw[a-p]
 
 ### python ###
-venv/
+venv
 venv-peopledepot/
 __pycache__
 

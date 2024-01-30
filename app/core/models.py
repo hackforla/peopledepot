@@ -9,27 +9,14 @@ from phonenumber_field.modelfields import PhoneNumberField
 from timezone_field import TimeZoneField
 
 
-class AbstractBase(models.Model):
+class AbstractBaseModel(models.Model):
     """
-    Base abstract model, that has `uuid` instead of `uuid` and included `created_at`, `updated_at` fields.
-    """
-    created_at = models.DateTimeField("Created at", auto_now_add=True)
-    updated_at = models.DateTimeField("Updated at", auto_now=True)
-
-    class Meta:
-        abstract = True
-
-
-
-class AbstractBaseModel(AbstractBase):
-    """
-    Base abstract model, that has `uuid` instead of `uuid` and included `created_at`, `updated_at` fields.
+    Base abstract model, that has `uuid` instead of `id` and included `created_at`, `updated_at` fields.
     """
 
     uuid = models.UUIDField(
         primary_key=True, default=uuid.uuid4, editable=False, unique=True
     )
-    
     created_at = models.DateTimeField("Created at", auto_now_add=True)
     updated_at = models.DateTimeField("Updated at", auto_now=True)
 
@@ -39,21 +26,6 @@ class AbstractBaseModel(AbstractBase):
     def __repr__(self):
         return f"<{self.__class__.__name__} {self.uuid}>"
 
-class AbstractBaseModelId(AbstractBase):
-    """
-    Base abstract model, that has `id` instead of `uuid` and included `created_at`, `updated_at` fields.
-    """
-
-    id = models.AutoField(primary_key=True, editable=False, unique=True)
-    
-    created_at = models.DateTimeField("Created at", auto_now_add=True)
-    updated_at = models.DateTimeField("Updated at", auto_now=True)
-
-    class Meta:
-        abstract = True
-
-    def __repr__(self):
-        return f"<{self.__class__.__name__} {self.id}>"
 
 class User(PermissionsMixin, AbstractBaseUser, AbstractBaseModel):
     """
@@ -76,14 +48,16 @@ class User(PermissionsMixin, AbstractBaseUser, AbstractBaseModel):
     # Common fields #
     # For cognito-users username will contain `sub` claim from jwt token
     # (unique identifier (UUID) for the authenticated user).
-    # For django-users it will contain username which will be used to login into django-admin site
+    # For django-users it will contain username which will be used to login
+    # into django-admin site
     username = models.CharField(
         "Username", max_length=255, unique=True, validators=[username_validator]
     )
     is_active = models.BooleanField("Active", default=True)
 
     # Cognito-user related fields #
-    # some additional fields which will be filled-out only for users registered via Cognito
+    # some additional fields which will be filled-out only for users
+    # registered via Cognito
     pass
 
     # Django-user related fields #
@@ -91,7 +65,7 @@ class User(PermissionsMixin, AbstractBaseUser, AbstractBaseModel):
     email = models.EmailField("Email address", blank=True)  # allow non-unique emails
     is_staff = models.BooleanField(
         "staff status",
-        default=True,
+        default=False,
         help_text="Designates whether the user can log into this admin site.",
     )
 
@@ -111,7 +85,8 @@ class User(PermissionsMixin, AbstractBaseUser, AbstractBaseModel):
 
     # desired_roles = models.ManyToManyField("Role")
     # availability = models.IntegerField()  # not in ERD, is a separate table. Want to confirm to remove this
-    # referred_by = models.ForeignKey(referrer, on_delete=models.PROTECT) # FK to referrer
+    # referred_by = models.ForeignKey(referrer, on_delete=models.PROTECT) # FK
+    # to referrer
 
     linkedin_account = models.CharField(max_length=255, blank=True)
     github_handle = models.CharField(max_length=255, blank=True)
@@ -122,7 +97,8 @@ class User(PermissionsMixin, AbstractBaseUser, AbstractBaseModel):
     texting_ok = models.BooleanField(default=True)
 
     time_zone = TimeZoneField(blank=True, use_pytz=False, default="America/Los_Angeles")
-    # conduct = models.BooleanField()  # not in ERD. Maybe we should remove this
+    # conduct = models.BooleanField()  # not in ERD. Maybe we should remove
+    # this
 
     objects = UserManager()
 
@@ -270,7 +246,7 @@ class PracticeArea(AbstractBaseModel):
         return f"{self.name}"
 
 
-class ProgramArea(AbstractBaseModelId):
+class ProgramArea(AbstractBaseModel):
     """
     Dictionary of program areas (to be joined with project)
     """

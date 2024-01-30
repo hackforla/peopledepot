@@ -58,7 +58,7 @@ repos:
         args: [--target-version, "4.0"]
 
   - repo: https://github.com/psf/black-pre-commit-mirror
-    rev: 23.12.0
+    rev: 23.12.1
     hooks:
       - id: black
         exclude: ^app/core/migrations/
@@ -68,10 +68,10 @@ repos:
     hooks:
       - id: blacken-docs
         additional_dependencies:
-        - black==23.12.0
+        - black==23.12.1
 
   - repo: https://github.com/pycqa/flake8
-    rev: 6.1.0
+    rev: 7.0.0
     hooks:
       - id: flake8
         exclude: ^app/core/migrations/
@@ -81,7 +81,6 @@ repos:
             flake8-bugbear,
             dlint,
             flake8-use-fstring,
-            flake8-use-pathlib,
             flake8-builtins,
             pep8-naming,
             flake8-variables-names,
@@ -101,7 +100,7 @@ repos:
         args: ["--filter-files", "--force-single-line-imports"]
 
   - repo: https://github.com/PyCQA/bandit
-    rev: 1.7.6
+    rev: 1.7.7
     hooks:
       - id: bandit
         exclude: ^app/core/tests/
@@ -117,10 +116,37 @@ repos:
   #     - id: interrogate
   #       args: [-vv, -i, --fail-under=80]
 
-  - repo: https://github.com/mxr/sync-pre-commit-deps
-    rev: v0.0.1
+  # disabled because it reformats this yaml file
+  # - repo: https://github.com/mxr/sync-pre-commit-deps
+  #   rev: v0.0.1
+  #   hooks:
+  #     - id: sync-pre-commit-deps
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    # Ruff version.
+    rev: v0.1.14
     hooks:
-      - id: sync-pre-commit-deps
+      # Run the linter.
+      - id: ruff
+        args: [ --fix ]
+        exclude: ^app/core/migrations/
+      # Run the formatter.
+      - id: ruff-format
+        exclude: ^app/core/migrations/
+
+  - repo: https://github.com/executablebooks/mdformat
+    rev: 0.7.17
+    hooks:
+      - id: mdformat
+        exclude: |
+          (?x)^(
+            docs/CONTRIBUTING.md$|
+            docs/index.md$|
+            docs/license.md$
+          )
+        additional_dependencies:
+          - mdformat-admon
+          - mdformat-mkdocs[recommended]>=2.0.0
 
   - repo: local
     hooks:
