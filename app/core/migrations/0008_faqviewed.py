@@ -15,25 +15,10 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='FaqViewed',
             fields=[
-                ('uuid',
-                 models.UUIDField(
-                     default=uuid.uuid4,
-                     editable=False,
-                     primary_key=True,
-                     serialize=False,
-                     unique=True)),
-                ('created_at',
-                 models.DateTimeField(
-                     auto_now_add=True,
-                     verbose_name='Created at')),
-                ('updated_at',
-                 models.DateTimeField(
-                     auto_now=True,
-                     verbose_name='Updated at')),
-                ('faq',
-                 models.ForeignKey(
-                     on_delete=django.db.models.deletion.CASCADE,
-                     to='core.faq')),
+                ('uuid', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False, unique=True)),
+                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='Created at')),
+                ('updated_at', models.DateTimeField(auto_now=True, verbose_name='Updated at')),
+                ('faq', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='core.faq')),
             ],
             options={
                 'verbose_name': 'FAQ view',
