@@ -8,5 +8,5 @@ set -x
 
 # This command requires the DJANGO_SUPERUSER_USERNAME and
 # DJANGO_SUPERUSER_PASSWORD environmental variables to be set when django starts
-print("DJANGO_SUPERUSER_USERNAME: $DJANGO_SUPERUSER_USERNAME")
+echo "DJANGO_SUPERUSER_USERNAME: $DJANGO_SUPERUSER_USERNAME"
 docker-compose exec web python manage.py createsuperuser --no-input
