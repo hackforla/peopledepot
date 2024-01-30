@@ -8,12 +8,9 @@ if [ "$sourced" != "true" ]; then
     return 1
 fi
 # shellcheck disable=SC1091
-source $VENV_NAME/bin/activate
-
-# shellcheck disable=SC2181
-if [[ "$?" == 0 ]]; then
-  echo "Sourced OK"
-  echo Done
-else
+source $VENV_NAME/bin/activate || {
   echo "ERROR: activation failed"
-fi
+  return 1
+}
+echo "Sourced OK"
+echo Done

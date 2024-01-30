@@ -5,22 +5,17 @@
 #    - DJANGO_SUPERUSER_PASSWORD
 #    - DJANGO_SUPERUSER_EMAIL
 if [[ $PWD != *"app"* ]]; then
-    # shellcheck disable=SC2164
-    cd app
-    # shellcheck disable=SC2181
-    if [[ $? != 0 ]]; then
+    cd app || {
         echo "ERROR: cd app failed"
         return 1
-    fi
+    }
 fi
 
 # shellcheck disable=SC1091
-source ../scripts/loadenv.sh
-# shellcheck disable=SC2181
-if [[ $? != 0 ]]; then
+source ../scripts/loadenv.sh || {
     echo "ERROR: loadenv.sh failed"
     return 1
-fi
+}
 if [[ "$DJANGO_SETTINGS_MODULE" == "" ]]; then
     echo "ERROR: DJANGO_SETTINGS_MODULE not set"
     return 1
@@ -39,23 +34,19 @@ echo DJANGO_SETTINGS_MODULE "$DJANGO_SETTINGS_MODULE"
 echo
 echo --- Executing python manage.py makemigrations ---
 echo
-python manage.py makemigrations
-
-# shellcheck disable=SC2181
-if [[ $? != 0 ]]; then
+python manage.py makemigrations || {
     echo "ERROR: python manage.py makemigrations failed"
     return 1
-fi
+}
+
 
 echo
 echo --- Executing python manage.py migrate ---
 echo
-python manage.py migrate
-# shellcheck disable=SC2181
-if [[ $? != 0 ]]; then
+python manage.py migrate || {
     echo "ERROR: python manage.py migrate failed"
     return 1
-fi
+}
 
 echo
 echo --- Executing python manage.py shell to check if "$DJANGO_SUPERUSER_USERNAME" exists
