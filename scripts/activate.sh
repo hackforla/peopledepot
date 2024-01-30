@@ -5,14 +5,15 @@
 VENV_NAME=venv
 if [ "$sourced" != "true" ]; then
     echo "Error, script not sourced.  Please run 'source ./activate.sh'"
-    exit 1
+    return 1
 fi
 # shellcheck disable=SC1091
-source $VENV_NAME/bin/activate || echo "Error, $VENV_NAME/bin/activate not found.  Please run 'python3 -m venv $VENV_NAME' to create it." && exit 1
+source $VENV_NAME/bin/activate
+
 # shellcheck disable=SC2181
 if [[ "$?" == 0 ]]; then
-  echo "Sourced OK (called from ${BASH_SOURCE[1]})"
+  echo "Sourced OK"
+  echo Done
 else
-  echo "ERROR: activation failed (called from ${BASH_SOURCE[1]})"
+  echo "ERROR: activation failed"
 fi
-echo Done

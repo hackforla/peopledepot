@@ -5,10 +5,26 @@
 #    - DJANGO_SUPERUSER_PASSWORD
 #    - DJANGO_SUPERUSER_EMAIL
 if [[ $PWD != *"app"* ]]; then
-    cd app || echo "loadenv.sh not found." && exit 1
+    # shellcheck disable=SC2164
+    cd app
+    # shellcheck disable=SC2181
+    if [[ $? != 0 ]]; then
+        echo "ERROR: cd app failed"
+        return 1
+    fi
 fi
+
 # shellcheck disable=SC1091
-source ../scripts/loadenv.sh || echo "loadenv.sh not found." && exit 1
+source ../scripts/loadenv.sh
+# shellcheck disable=SC2181
+if [[ $? != 0 ]]; then
+    echo "ERROR: loadenv.sh failed"
+    return 1
+fi
+if [[ "$DJANGO_SETTINGS_MODULE" == "" ]]; then
+    echo "ERROR: DJANGO_SETTINGS_MODULE not set"
+    return 1
+fi
 echo Admin user = "$DJANGO_SUPERUSER" email = "$DJANGO_SUPERUSER_EMAIL"
 if [[ $1 != "" ]]; then
     port=$1
@@ -24,18 +40,28 @@ echo
 echo --- Executing python manage.py makemigrations ---
 echo
 python manage.py makemigrations
-makemigration_success=$?
+
+# shellcheck disable=SC2181
+if [[ $? != 0 ]]; then
+    echo "ERROR: python manage.py makemigrations failed"
+    return 1
+fi
 
 echo
 echo --- Executing python manage.py migrate ---
 echo
 python manage.py migrate
-migrate_success=$?
+# shellcheck disable=SC2181
+if [[ $? != 0 ]]; then
+    echo "ERROR: python manage.py migrate failed"
+    return 1
+fi
 
 echo
 echo --- Executing python manage.py shell to check if "$DJANGO_SUPERUSER_USERNAME" exists
 echo
 python manage.py shell -c "from core.models import User; exists = (User.objects.filter(username='$DJANGO_SUPERUSER_USERNAME').exists()); sys.exit(0 if exists else 1)"
+# shellcheck disable=SC2181
 superuser_exists=$?
 
 if [ $superuser_exists -eq 1 ]; then
@@ -46,29 +72,15 @@ if [ $superuser_exists -eq 1 ]; then
 else
   echo --- INFO: Skipping python manage.py createsuperuser - super user "$DJANGO_SUPERUSER_USERNAME" already exists.
 fi
-createsuperuser_success=$?
 
-success=0
-if [ $makemigration_success -eq 1 ]; then
-  success=1
-  echo --- ERROR: python manage.py makemigrations failed.  See errors above.
+# shellcheck disable=SC2181
+if [[ $? != 0 ]]; then
+    echo "ERROR: python manage.py createsuperuser failed"
+    return 1
 fi
 
-if [ $migrate_success -eq 1 ]; then
-  success=1
-  echo --- ERROR: python manage.py migrate failed.  See errors above.
-fi
+echo
+echo --- All prep steps successful!  Executing python manage.py runserver
+echo
 
-if [ $createsuperuser_success -eq 1 ]; then
-  success=1
-  echo --- ERROR: python manage.py createsuper failed.  See errors above.
-fi
-
-if [ $success -eq 1 ]; then
-  read -p -r "Press [Ctrl-c] to abort, [Enter] to run server with errors..."
-else
-  echo
-  echo --- All prep steps successful!  Executing python manage.py runserver
-  echo
-fi
 python manage.py runserver 0.0.0.0:"$port"

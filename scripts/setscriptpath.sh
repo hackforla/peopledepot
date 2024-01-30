@@ -8,5 +8,5 @@ if [ -d scripts ]; then
     fi
 else
     echo "ERROR: scripts directory not found.  Please run this script from the root of the project."
-    exit 1
+    return 1
 fi
