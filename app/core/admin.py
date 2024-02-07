@@ -217,5 +217,5 @@ class StackElementType(admin.ModelAdmin):
 
 
 @admin.register(Sdg)
-class Sdg(admin.ModelAdmin):
+class SdgAdmin(admin.ModelAdmin):
     list_display = ("name", "description", "image")

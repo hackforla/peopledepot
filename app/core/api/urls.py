@@ -33,7 +33,7 @@ router.register(r"permission-types", PermissionTypeViewSet, basename="permission
 router.register(
     r"stack-element-types", StackElementTypeViewSet, basename="stack-element-type"
 )
-router.register(r"sdg", SdgViewSet, basename="sdg")
+router.register(r"sdgs", SdgViewSet, basename="sdg")
 urlpatterns = [
     path("me/", UserProfileAPIView.as_view(), name="my_profile"),
 ]
