@@ -5,9 +5,11 @@ on:
 jobs:
   createCard:
     runs-on: ubuntu-latest
+    permissions:
+      repository-projects: write
     steps:
       - name: Create or Update Project Card
-        uses: peter-evans/create-or-update-project-card@v1
+        uses: peter-evans/create-or-update-project-card@v3
         with:
           project-name: "PD: Project Board"
           column-name: New Issue Review
