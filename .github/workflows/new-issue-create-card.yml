@@ -5,6 +5,8 @@ on:
 jobs:
   createCard:
     runs-on: ubuntu-latest
+    permissions:
+      repository-projects: write
     steps:
       - name: Create or Update Project Card
         uses: peter-evans/create-or-update-project-card@v3
