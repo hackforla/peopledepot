@@ -1,7 +1,7 @@
 #!/bin/bash
 echo SQL USER "$SQL_USER"
 export file=$1
-echo "file = $file / $1 / $2"
+echo "file = $file"
 if [ "$file" == "" ]
 then
   echo "File not specified.  Using .env.local"
@@ -18,8 +18,9 @@ then
 fi
 while IFS= read -r line; do
   if [[ -n "$line" ]]; then
-    echo "export $line"
-    export "{$line?}git "
+    export export_command="export $line"
+    echo "export_command = $export_command"
+    eval "$export_command"
   fi
 done < <(grep -v '^#' "$file")
 echo Super user "$DJANGO_SUPERUSER_USERNAME"

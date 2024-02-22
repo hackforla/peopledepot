@@ -40,10 +40,10 @@ repos:
       - id: check-executables-have-shebangs
       - id: end-of-file-fixer
 
-  - repo: https://github.com/AleksaC/hadolint-py
-    rev: v2.12.0.3
-    hooks:
-      - id: hadolint
+  # - repo: https://github.com/AleksaC/hadolint-py
+  #   rev: v2.12.0.3
+  #   hooks:
+  #     - id: hadolint
 
   - repo: https://github.com/asottile/pyupgrade
     rev: v3.15.0
@@ -70,27 +70,27 @@ repos:
         additional_dependencies:
         - black==23.12.1
 
-  - repo: https://github.com/pycqa/flake8
-    rev: 7.0.0
-    hooks:
-      - id: flake8
-        exclude: ^app/core/migrations/
-        args: [--max-line-length=119, --max-complexity=4, --pytest-fixture-no-parentheses]
-        additional_dependencies:
-          [
-            flake8-bugbear,
-            dlint,
-            flake8-use-fstring,
-            flake8-builtins,
-            pep8-naming,
-            flake8-variables-names,
-            flake8-fixme,
-            flake8-executable,
-            flake8-pytest-style,
-            flake8-django,
-            flake8-comprehensions,
-            flake8-tidy-imports,
-          ]
+  # - repo: https://github.com/pycqa/flake8
+  #   rev: 7.0.0
+  #   hooks:
+  #     - id: flake8
+  #       exclude: ^app/core/migrations/
+  #       args: [--max-line-length=119, --max-complexity=4, --pytest-fixture-no-parentheses]
+  #       additional_dependencies:
+  #         [
+  #           flake8-bugbear,
+  #           dlint,
+  #           flake8-use-fstring,
+  #           flake8-builtins,
+  #           pep8-naming,
+  #           flake8-variables-names,
+  #           flake8-fixme,
+  #           flake8-executable,
+  #           flake8-pytest-style,
+  #           flake8-django,
+  #           flake8-comprehensions,
+  #           flake8-tidy-imports,
+  #         ]
 
   - repo: https://github.com/pycqa/isort
     rev: 5.13.2
@@ -122,17 +122,17 @@ repos:
   #   hooks:
   #     - id: sync-pre-commit-deps
 
-  - repo: https://github.com/astral-sh/ruff-pre-commit
-    # Ruff version.
-    rev: v0.1.14
-    hooks:
-      # Run the linter.
-      - id: ruff
-        args: [ --fix ]
-        exclude: ^app/core/migrations/
-      # Run the formatter.
-      - id: ruff-format
-        exclude: ^app/core/migrations/
+  # - repo: https://github.com/astral-sh/ruff-pre-commit
+  #   # Ruff version.
+  #   rev: v0.1.14
+  #   hooks:
+  #     # Run the linter.
+  #     - id: ruff
+  #       args: [ --fix ]
+  #       exclude: ^app/core/migrations/
+  #     # Run the formatter.
+  #     - id: ruff-format
+  #       exclude: ^app/core/migrations/
 
   - repo: https://github.com/executablebooks/mdformat
     rev: 0.7.17

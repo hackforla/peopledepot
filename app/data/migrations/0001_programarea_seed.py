@@ -15,8 +15,8 @@ def run(__code__, __reverse_code__):
         (8, "Workforce Development"),
         (9, "Community of Practice"),
     ]
-    for uuid, name in items:
-        ProgramArea.objects.create(uuid=uuid, name=name)
+    for program_id, name in items:
+        ProgramArea.objects.create(id=program_id, name=name)
 
 
 class Migration(migrations.Migration):

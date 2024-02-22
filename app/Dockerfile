@@ -9,11 +9,12 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 # install system dependencies
-RUN apt-get update \
-  && apt-get --no-install-recommends install -y \
+# Query available versions of PostgreSQL
+RUN apt-get update
+RUN apt-cache policy postgresql
+RUN apt-get --no-install-recommends install -y \
   netcat=1.10-46 \
   gcc=4:10.2.1-1 \
-  postgresql=13+225 \
   graphviz=2.42.2-5 \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*

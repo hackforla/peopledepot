@@ -13,12 +13,12 @@ class AbstractBase(models.Model):
     """
     Base abstract model, that has `uuid` instead of `uuid` and included `created_at`, `updated_at` fields.
     """
+
     created_at = models.DateTimeField("Created at", auto_now_add=True)
     updated_at = models.DateTimeField("Updated at", auto_now=True)
 
     class Meta:
         abstract = True
-
 
 
 class AbstractBaseModel(AbstractBase):
@@ -29,7 +29,7 @@ class AbstractBaseModel(AbstractBase):
     uuid = models.UUIDField(
         primary_key=True, default=uuid.uuid4, editable=False, unique=True
     )
-    
+
     created_at = models.DateTimeField("Created at", auto_now_add=True)
     updated_at = models.DateTimeField("Updated at", auto_now=True)
 
@@ -39,13 +39,14 @@ class AbstractBaseModel(AbstractBase):
     def __repr__(self):
         return f"<{self.__class__.__name__} {self.uuid}>"
 
+
 class AbstractBaseModelId(AbstractBase):
     """
     Base abstract model, that has `id` instead of `uuid` and included `created_at`, `updated_at` fields.
     """
 
     id = models.AutoField(primary_key=True, editable=False, unique=True)
-    
+
     created_at = models.DateTimeField("Created at", auto_now_add=True)
     updated_at = models.DateTimeField("Updated at", auto_now=True)
 
@@ -54,6 +55,7 @@ class AbstractBaseModelId(AbstractBase):
 
     def __repr__(self):
         return f"<{self.__class__.__name__} {self.id}>"
+
 
 class User(PermissionsMixin, AbstractBaseUser, AbstractBaseModel):
     """
@@ -91,7 +93,7 @@ class User(PermissionsMixin, AbstractBaseUser, AbstractBaseModel):
     email = models.EmailField("Email address", blank=True)  # allow non-unique emails
     is_staff = models.BooleanField(
         "staff status",
-        default=True,
+        default=False,
         help_text="Designates whether the user can log into this admin site.",
     )
 
