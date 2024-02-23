@@ -111,5 +111,4 @@ class Migration(migrations.Migration):
     initial = True
     dependencies = [("data", "0002_practicearea_seed")]
 
-
     operations = [migrations.RunPython(run, migrations.RunPython.noop)]
