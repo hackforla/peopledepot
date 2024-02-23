@@ -112,4 +112,4 @@ class Migration(migrations.Migration):
     dependencies = [("data", "0002_practicearea_seed")]
 
 
-operations = [migrations.RunPython(run, migrations.RunPython.noop)]
+    operations = [migrations.RunPython(run, migrations.RunPython.noop)]
