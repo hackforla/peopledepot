@@ -45,7 +45,7 @@ class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
     def get_object(self):
         print("debug2", self.request.user.__dict__)
         print("debug2a", self.request.META)
-        print("debug2b", self.request.META.get('REMOTE_USER'))
+        print("debug2b", self.request.META.get("REMOTE_USER"))
         return self.request.user
 
     def get(self, request, *args, **kwargs):
