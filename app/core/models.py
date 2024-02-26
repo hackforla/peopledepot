@@ -314,3 +314,18 @@ class StackElementType(AbstractBaseModel):
 
     def __str__(self):
         return f"{self.name}"
+
+
+class Sdg(AbstractBaseModel):
+    """
+    Dictionary of SDGs
+    """
+
+    name = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+    image = models.URLField(blank=True)
+
+    # PK of this model is the ForeignKey for sdg_target_indicator
+
+    def __str__(self):
+        return f"{self.name}"

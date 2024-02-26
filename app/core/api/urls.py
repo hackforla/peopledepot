@@ -9,6 +9,7 @@ from .views import PermissionTypeViewSet
 from .views import PracticeAreaViewSet
 from .views import ProgramAreaViewSet
 from .views import ProjectViewSet
+from .views import SdgViewSet
 from .views import SkillViewSet
 from .views import SponsorPartnerViewSet
 from .views import StackElementTypeViewSet
@@ -32,7 +33,7 @@ router.register(r"permission-types", PermissionTypeViewSet, basename="permission
 router.register(
     r"stack-element-types", StackElementTypeViewSet, basename="stack-element-type"
 )
-
+router.register(r"sdgs", SdgViewSet, basename="sdg")
 urlpatterns = [
     path("me/", UserProfileAPIView.as_view(), name="my_profile"),
 ]
