@@ -46,7 +46,7 @@ COGNITO_USER_POOL = os.environ.get("COGNITO_USER_POOL", default=None)
 COGNITO_USER_POOL_NAME = os.environ.get("COGNITO_USER_POOL_NAME", default=None)
 # Provide this value if `id_token` is used for authentication (it contains 'aud' claim).
 # `access_token` doesn't have it, in this case keep the COGNITO_AUDIENCE empty
-COGNITO_AUDIENCE = None
+COGNITO_AUDIENCE = os.environ.get("COGNITO_CLIENT_ID", default=None)
 COGNITO_POOL_URL = (
     None  # will be set few lines of code later, if configuration provided
 )
@@ -96,16 +96,14 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    "django.middleware.security.SecurityMiddleware",
+n    "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
-    "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "django.contrib.auth.middleware.RemoteUserMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "allauth.account.middleware.AccountMiddleware",
-    # "core.middleware.StaffAccessMiddleware", # for no_staff_access
+    "django.contrib.auth.middleware.RemoteUserMiddleware",
 ]
 
 ROOT_URLCONF = "peopledepot.urls"
@@ -216,10 +214,10 @@ REST_FRAMEWORK = {
     ),
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
-
+print("rsa_keys: ", rsa_keys)
 JWT_AUTH = {
-    "JWT_PAYLOAD_GET_USERNAME_HANDLER": "core.utils.jwt.get_username_from_payload_handler",
-    "JWT_DECODE_HANDLER": "core.utils.jwt.cognito_jwt_decode_handler",
+    "JWT_PAYLOAD_GET_USERNAME_HANDLER": "core.utils.jwt2.get_username_from_payload_handler",
+    "JWT_DECODE_HANDLER": "core.utils.jwt2.cognito_jwt_decode_handler",
     "JWT_PUBLIC_KEY": rsa_keys,
     "JWT_ALGORITHM": "RS256",
     "JWT_AUDIENCE": COGNITO_AUDIENCE,

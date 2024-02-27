@@ -47,6 +47,9 @@ class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_object(self):
+        print("debug2", self.request.user.__dict__)
+        print("debug2a", self.request.META)
+        print("debug2b", self.request.META.get("REMOTE_USER"))
         return self.request.user
 
     def get(self, request, *args, **kwargs):
@@ -55,6 +58,7 @@ class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
 
         Get profile of current logged in user.
         """
+        print("debug3", self.request.user.__dict__)
         return self.retrieve(request, *args, **kwargs)
 
 
