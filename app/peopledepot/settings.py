@@ -80,14 +80,14 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "django.middleware.security.SecurityMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
-    "django.contrib.auth.middleware.RemoteUserMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django.contrib.auth.middleware.RemoteUserMiddleware",
 ]
 
 ROOT_URLCONF = "peopledepot.urls"
@@ -171,7 +171,7 @@ AUTH_USER_MODEL = "core.User"
 
 AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.RemoteUserBackend",
-    # "django.contrib.auth.backends.ModelBackend",
+    "django.contrib.auth.backends.ModelBackend",
 ]
 
 REST_FRAMEWORK = {
@@ -181,7 +181,7 @@ REST_FRAMEWORK = {
     ),
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
-
+print("rsa_keys: ", rsa_keys)
 JWT_AUTH = {
     "JWT_PAYLOAD_GET_USERNAME_HANDLER": "core.utils.jwt2.get_username_from_payload_handler",
     "JWT_DECODE_HANDLER": "core.utils.jwt2.cognito_jwt_decode_handler",
