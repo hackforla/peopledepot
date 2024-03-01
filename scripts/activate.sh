@@ -7,7 +7,7 @@ if [ "$sourced" != "true" ]; then
     echo "Error, script not sourced.  Please run 'source ./activate.sh'"
     return 1
 fi
-# shellcheck disable=SC1091
+# shellcheck source=/dev/null
 source $VENV_NAME/bin/activate || {
   echo "ERROR: activation failed"
   return 1

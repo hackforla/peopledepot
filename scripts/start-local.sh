@@ -11,8 +11,8 @@ if [[ $PWD != *"app"* ]]; then
     }
 fi
 
-# shellcheck disable=SC1091
-source ../scripts/loadenv.sh || {
+SCRIPT_DIR="$(dirname "$0")"
+"$SCRIPT_DIR"/loadenv.sh || {
     echo "ERROR: loadenv.sh failed"
     return 1
 }
@@ -52,22 +52,20 @@ echo
 echo --- Executing python manage.py shell to check if "$DJANGO_SUPERUSER_USERNAME" exists
 echo
 python manage.py shell -c "from core.models import User; exists = (User.objects.filter(username='$DJANGO_SUPERUSER_USERNAME').exists()); sys.exit(0 if exists else 1)"
-# shellcheck disable=SC2181
+
 superuser_exists=$?
 
 if [ $superuser_exists -eq 1 ]; then
   echo
   echo --- Executing python manage.py createsuperuser ---
   echo
-  python manage.py createsuperuser --username "$DJANGO_SUPERUSER_USERNAME" --email "$DJANGO_SUPERUSER_EMAIL" --no-input
-else
-  echo --- INFO: Skipping python manage.py createsuperuser - super user "$DJANGO_SUPERUSER_USERNAME" already exists.
-fi
-
-# shellcheck disable=SC2181
-if [[ $? != 0 ]]; then
+  if ! python manage.py createsuperuser --username "$DJANGO_SUPERUSER_USERNAME" --email "$DJANGO_SUPERUSER_EMAIL" --no-input;
+  then
     echo "ERROR: python manage.py createsuperuser failed"
     return 1
+  fi
+else
+  echo --- INFO: Skipping python manage.py createsuperuser - super user "$DJANGO_SUPERUSER_USERNAME" already exists.
 fi
 
 echo
