@@ -19,9 +19,10 @@ RUN apt-get update \
   && rm -rf /var/lib/apt/lists/*
 
 # install dependencies
-RUN pip install --no-cache-dir pip~=21.3.1
 COPY ./requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN \
+  pip install --no-cache-dir uv==0.1.15 \
+  && uv pip install --no-cache-dir --system -r requirements.txt
 
 # copy entrypoint.sh
 COPY ./entrypoint.sh .
