@@ -21,6 +21,12 @@ We shouldn't run this on every build, but we should do this manually every month
 uv pip compile requirements.in -o requirements.txt --no-header --upgrade
 ```
 
+Or run the script
+
+```bash
+./scripts/update-dependencies.sh
+```
+
 #### pip compile options
 
 Disable header in the generated file
