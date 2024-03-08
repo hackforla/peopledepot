@@ -31,3 +31,5 @@ These scripts assume you are using bash.
 
     - The image is saved to `app/erd.png`
     - This script is dependent on the `graphviz` package
+
+1. **update-dependencies.sh** - update python dependencies to the latest versions
