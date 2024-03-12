@@ -63,12 +63,12 @@ repos:
       - id: black
         exclude: ^app/core/migrations/
 
-  - repo: https://github.com/asottile/blacken-docs
+  - repo: https://github.com/adamchainz/blacken-docs
     rev: 1.16.0
     hooks:
       - id: blacken-docs
         additional_dependencies:
-        - black==23.12.1
+        - black==24.2.0
 
   - repo: https://github.com/pycqa/flake8
     rev: 7.0.0
