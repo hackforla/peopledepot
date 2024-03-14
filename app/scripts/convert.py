@@ -1,13 +1,14 @@
-# converts an spreadsheet-exported json into one that can be used in a django
+# converts an csv spreadsheet into one that can be used in a django
 # migration
 
 # example:
 # docker-compose exec web python core/scripts/convert.py \
-# core/initial_data/UserStatus_export.json
+# core/initial_data/UserStatus.csv
 
 # to apply the seed script:
 # docker-compose exec web python manage.py runscript userstatus-seed
 
+import csv
 import json
 import sys
 from pathlib import Path
@@ -15,13 +16,13 @@ from pathlib import Path
 
 def get_modelname(path):
     filename = Path(path).name
-    return filename.split("_")[0]
+    return filename.split(".")[0]
 
 
 def to_values_str(_input):
     values = []
     for key, value in _input.items():
-        if key == "uuid" and isinstance(value, int):
+        if key in ["uuid", "id"] and value.isdigit():
             values.append(f"{value}")
         else:
             values.append(f'"{value}"')
@@ -47,7 +48,23 @@ def to_keys_indexes_str(_input):
 
 def convert(file_path):
     with Path(file_path).open("r") as input_file:
-        input_data = json.load(input_file)
+        csv_data = csv.reader(input_file, delimiter=',')
+        rows_data = []
+
+        headers = []
+        headers_row = 1
+        for row in csv_data:
+            if headers_row == 1:
+                headers = row
+                headers_row = 0
+            else:
+                row_data = {}
+                for i in range(0, len(row)):
+                    if row[i]:
+                        row_data[headers[i]] = row[i]
+                rows_data.append(row_data)
+        
+        input_data = json.loads(json.dumps(rows_data))
         root = Path.cwd()
         model_name = get_modelname(file_path)
 
@@ -71,6 +88,6 @@ if __name__ == "__main__":
     try:
         arg = sys.argv[1]
     except IndexError:
-        raise SystemExit(f"Usage: {sys.argv[0]} <input json file>")
+        raise SystemExit(f"Usage: {sys.argv[0]} <input csv file>")
 
     convert(arg)
