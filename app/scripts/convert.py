@@ -48,7 +48,7 @@ def to_keys_indexes_str(_input):
 
 def convert(file_path):
     with Path(file_path).open("r") as input_file:
-        csv_data = csv.reader(input_file, delimiter=',')
+        csv_data = csv.reader(input_file, delimiter=",")
         rows_data = []
 
         headers = []
@@ -63,7 +63,7 @@ def convert(file_path):
                     if row[i]:
                         row_data[headers[i]] = row[i]
                 rows_data.append(row_data)
-        
+
         input_data = json.loads(json.dumps(rows_data))
         root = Path.cwd()
         model_name = get_modelname(file_path)
