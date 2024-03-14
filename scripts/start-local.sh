@@ -16,10 +16,6 @@ SCRIPT_DIR="$(dirname "$0")"
     echo "ERROR: loadenv.sh failed"
     return 1
 }
-if [[ "$DJANGO_SETTINGS_MODULE" == "" ]]; then
-    echo "ERROR: DJANGO_SETTINGS_MODULE not set"
-    return 1
-fi
 echo Admin user = "$DJANGO_SUPERUSER" email = "$DJANGO_SUPERUSER_EMAIL"
 if [[ $1 != "" ]]; then
     port=$1
@@ -29,7 +25,6 @@ else
     port=8000
 fi
 echo Port is "$port"
-echo DJANGO_SETTINGS_MODULE "$DJANGO_SETTINGS_MODULE"
 
 echo
 echo --- Executing python manage.py makemigrations ---
