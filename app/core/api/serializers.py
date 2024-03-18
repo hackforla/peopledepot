@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from timezone_field.rest_framework import TimeZoneSerializerField
 
+from core.models import Affiliate
+from core.models import Affiliation
 from core.models import Event
 from core.models import Faq
 from core.models import FaqViewed
@@ -11,7 +13,6 @@ from core.models import ProgramArea
 from core.models import Project
 from core.models import Sdg
 from core.models import Skill
-from core.models import SponsorPartner
 from core.models import StackElementType
 from core.models import Technology
 from core.models import User
@@ -122,11 +123,11 @@ class EventSerializer(serializers.ModelSerializer):
         )
 
 
-class SponsorPartnerSerializer(serializers.ModelSerializer):
+class AffiliateSerializer(serializers.ModelSerializer):
     """Used to retrieve Sponsor Partner info"""
 
     class Meta:
-        model = SponsorPartner
+        model = Affiliate
         fields = (
             "uuid",
             "partner_name",
@@ -296,3 +297,22 @@ class SdgSerializer(serializers.ModelSerializer):
             "created_at",
             "updated_at",
         )
+
+
+class AffiliationSerializer(serializers.ModelSerializer):
+    """
+    Used to retrieve Affiliation
+    """
+
+    class Meta:
+        model = Affiliation
+        fields = (
+            "uuid",
+            "affiliate",
+            "project",
+            "created_at",
+            "ended_at",
+            "is_sponsor",
+            "is_partner",
+        )
+        read_only_fields = ("uuid", "created_at", "updated_at")

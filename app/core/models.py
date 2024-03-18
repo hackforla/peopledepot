@@ -174,7 +174,7 @@ class Event(AbstractBaseModel):
         return f"{self.name}"
 
 
-class SponsorPartner(AbstractBaseModel):
+class Affiliate(AbstractBaseModel):
     """
     Dictionary of sponsors and partners
     """
@@ -186,7 +186,7 @@ class SponsorPartner(AbstractBaseModel):
     is_org_sponsor = models.BooleanField(null=True)
     is_org_partner = models.BooleanField(null=True)
 
-    # PK of this model is the ForeignKey for project_partner_xref
+    # PK of this model is the ForeignKey for project_affiliate_xref
 
     def __str__(self):
         return f"{self.partner_name}"
@@ -333,3 +333,36 @@ class Sdg(AbstractBaseModel):
 
     def __str__(self):
         return f"{self.name}"
+
+
+class Affiliation(AbstractBaseModel):
+    """
+    Sponsor/partner relationships stored in this table are project-dependent.
+    They can be both a sponsor and a partner for the same project,
+    so if is_sponsor is true, they are a project partner,
+    if is_sponsor is true, they are a project sponsor.
+    """
+
+    affiliate = models.ForeignKey(Affiliate, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    ended_at = models.DateTimeField("Ended at", null=True, blank=True)
+    is_sponsor = models.BooleanField(null=True)
+    is_partner = models.BooleanField(null=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["project", "affiliate"], name="unique_project_affiliate"
+            )
+        ]
+        db_table = "project_affiliate_xref"
+
+    def __str__(self):
+        if self.is_sponsor is True and self.is_partner is True:
+            return f"Sponsor {self.project} and Partner {self.affiliate}"
+        elif self.is_sponsor is True and self.is_partner is False:
+            return f"Sponsor {self.project}"
+        elif self.is_sponsor is False and self.is_partner is True:
+            return f"Partner {self.affiliate}"
+        else:
+            return "Neither a partner or a sponsor"
