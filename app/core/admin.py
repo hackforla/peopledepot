@@ -13,6 +13,7 @@ from .models import PermissionType
 from .models import PracticeArea
 from .models import ProgramArea
 from .models import Project
+from .models import ProjectSponsorPartnerXref
 from .models import Sdg
 from .models import Skill
 from .models import SponsorPartner
@@ -219,3 +220,9 @@ class StackElementType(admin.ModelAdmin):
 @admin.register(Sdg)
 class SdgAdmin(admin.ModelAdmin):
     list_display = ("name", "description", "image")
+
+
+@admin.register(ProjectSponsorPartnerXref)
+class ProjectSponsorParnterXrefAdmin(admin.ModelAdmin):
+    list_display = ("partner_id", "project_id", "created_at", "ended_at", "is_sponsor")
+    list_filter = ("is_sponsor", "partner_id", "project_id")
