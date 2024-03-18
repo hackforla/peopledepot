@@ -11,6 +11,8 @@ from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
+from ..models import Affiliate
+from ..models import Affiliation
 from ..models import Event
 from ..models import Faq
 from ..models import FaqViewed
@@ -21,9 +23,10 @@ from ..models import ProgramArea
 from ..models import Project
 from ..models import Sdg
 from ..models import Skill
-from ..models import SponsorPartner
 from ..models import StackElementType
 from ..models import Technology
+from .serializers import AffiliateSerializer
+from .serializers import AffiliationSerializer
 from .serializers import EventSerializer
 from .serializers import FaqSerializer
 from .serializers import FaqViewedSerializer
@@ -34,7 +37,6 @@ from .serializers import ProgramAreaSerializer
 from .serializers import ProjectSerializer
 from .serializers import SdgSerializer
 from .serializers import SkillSerializer
-from .serializers import SponsorPartnerSerializer
 from .serializers import StackElementTypeSerializer
 from .serializers import TechnologySerializer
 from .serializers import UserSerializer
@@ -160,17 +162,17 @@ class PracticeAreaViewSet(viewsets.ModelViewSet):
 
 
 @extend_schema_view(
-    list=extend_schema(description="Return a list of all the sponsor partners"),
-    create=extend_schema(description="Create a new sponsor partner"),
-    retrieve=extend_schema(description="Return the details of a sponsor partner"),
-    destroy=extend_schema(description="Delete a sponsor partner"),
-    update=extend_schema(description="Update a sponsor partner"),
-    partial_update=extend_schema(description="Patch a sponsor partner"),
+    list=extend_schema(description="Return a list of all the affiliates"),
+    create=extend_schema(description="Create a new affiliate"),
+    retrieve=extend_schema(description="Return the details of a affiliate"),
+    destroy=extend_schema(description="Delete a affiliate"),
+    update=extend_schema(description="Update a affiliate"),
+    partial_update=extend_schema(description="Patch a affiliate"),
 )
-class SponsorPartnerViewSet(viewsets.ModelViewSet):
+class AffiliateViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
-    queryset = SponsorPartner.objects.all()
-    serializer_class = SponsorPartnerSerializer
+    queryset = Affiliate.objects.all()
+    serializer_class = AffiliateSerializer
 
     # The following code can be uncommented and used later, but it's being left out
     # for simplicity's sake during initial model creation
@@ -179,7 +181,7 @@ class SponsorPartnerViewSet(viewsets.ModelViewSet):
     #     """
     #     Optionally filter sponsor partners by name, is_active, and/or is_sponsor query parameters in the URL
     #     """
-    #     queryset = SponsorPartner.objects.all()
+    #     queryset = Affiliate.objects.all()
     #     partner_name = self.request.query_params.get("partner_name")
     #     if partner_name is not None:
     #         queryset = queryset.filter(partner_name=partner_name)
@@ -314,3 +316,17 @@ class SdgViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = Sdg.objects.all()
     serializer_class = SdgSerializer
+
+
+@extend_schema_view(
+    list=extend_schema(description="Return a list of all the affiliations"),
+    create=extend_schema(description="Create a new affiliation"),
+    retrieve=extend_schema(description="Return the details of an affiliation"),
+    destroy=extend_schema(description="Delete an affiliation"),
+    update=extend_schema(description="Update an affiliation"),
+    partial_update=extend_schema(description="Patch an affiliation"),
+)
+class AffiliationViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = Affiliation.objects.all()
+    serializer_class = AffiliationSerializer
