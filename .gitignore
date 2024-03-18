@@ -12,6 +12,9 @@ app/htmlcov
 
 ### dotenv ###
 .env.dev
+.env.docker
+.env.local
+.env.test
 .env
 
 ### Vim ###
