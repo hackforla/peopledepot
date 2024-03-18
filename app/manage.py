@@ -15,7 +15,7 @@ def main():
     if django_settings_module == "" or django_settings_module is None:
         os.environ["DJANGO_SETTINGS_MODULE"] = "peopledepot.settings"
     else:
-        os.environ.setdefault("DJANGO_SETTINGS_MODULE", django_settings_module)
+        os.environ["DJANGO_SETTINGS_MODULE"] = django_settings_module
 
     print("DJANGO_SETTINGS_MODULE value: ", os.environ.get("DJANGO_SETTINGS_MODULE"))
     try:
