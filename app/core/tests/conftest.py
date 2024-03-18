@@ -9,6 +9,7 @@ from ..models import PermissionType
 from ..models import PracticeArea
 from ..models import ProgramArea
 from ..models import Project
+from ..models import Sdg
 from ..models import Skill
 from ..models import SponsorPartner
 from ..models import StackElementType
@@ -133,3 +134,8 @@ def permission_type2():
 @pytest.fixture
 def stack_element_type():
     return StackElementType.objects.create(name="Test Stack Element Type")
+
+
+@pytest.fixture
+def sdg():
+    return Sdg.objects.create(name="Test SDG name")
