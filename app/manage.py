@@ -8,16 +8,12 @@ def main():
     """Run administrative tasks."""
 
     django_settings_module = os.environ.get("DJANGO_SETTINGS_MODULE")
-    print(
-        "Value of django_settings_module before setting default:",
-        django_settings_module,
-    )
     if django_settings_module == "" or django_settings_module is None:
         os.environ["DJANGO_SETTINGS_MODULE"] = "peopledepot.settings"
     else:
         os.environ["DJANGO_SETTINGS_MODULE"] = django_settings_module
-
     print("DJANGO_SETTINGS_MODULE value: ", os.environ.get("DJANGO_SETTINGS_MODULE"))
+
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
