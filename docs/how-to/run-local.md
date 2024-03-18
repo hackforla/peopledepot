@@ -27,6 +27,8 @@ pip install -r requirements.txt
 
 # start local server
 ../scripts/start-local.sh
+# start server with alternate port
+# DJANGO_PORT=8001 ../scripts/start-local.sh
 
 # deactivate (exit) the virtual environment
 # to return to the system global environment
