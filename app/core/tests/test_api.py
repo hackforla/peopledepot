@@ -22,6 +22,7 @@ TECHNOLOGY_URL = reverse("technology-list")
 PERMISSION_TYPE = reverse("permission-type-list")
 STACK_ELEMENT_TYPE_URL = reverse("stack-element-type-list")
 SDG_URL = reverse("sdg-list")
+PROJECT_SPONSOR_PARTNER_XREF_URL = reverse("project-sponsor-partner-list")
 
 CREATE_USER_PAYLOAD = {
     "username": "TestUserAPI",
@@ -314,3 +315,17 @@ def test_create_sdg(auth_client):
     res = auth_client.post(SDG_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
     assert res.data["name"] == payload["name"]
+
+
+def test_create_project_sponsor_partner_xref(auth_client, project, sponsor_partner):
+    payload = {
+        "partner_id": sponsor_partner.uuid,
+        "project_id": project.uuid,
+        "ended_at": "2024-01-01 18:00:00",
+        "is_sponsor": True,
+    }
+    res = auth_client.post(PROJECT_SPONSOR_PARTNER_XREF_URL, payload)
+    assert res.status_code == status.HTTP_201_CREATED
+    assert res.data["is_sponsor"] == payload["is_sponsor"]
+    assert res.data["partner_id"] == payload["partner_id"]
+    assert res.data["project_id"] == payload["project_id"]
