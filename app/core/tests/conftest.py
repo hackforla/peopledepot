@@ -9,6 +9,7 @@ from ..models import PermissionType
 from ..models import PracticeArea
 from ..models import ProgramArea
 from ..models import Project
+from ..models import ProjectSponsorPartnerXref
 from ..models import Sdg
 from ..models import Skill
 from ..models import SponsorPartner
@@ -139,3 +140,17 @@ def stack_element_type():
 @pytest.fixture
 def sdg():
     return Sdg.objects.create(name="Test SDG name")
+
+
+@pytest.fixture
+def project_sponsor_partner_xref1(project, sponsor_partner):
+    return ProjectSponsorPartnerXref.objects.create(
+        is_sponsor=True, project_id=project, partner_id=sponsor_partner
+    )
+
+
+@pytest.fixture
+def project_sponsor_partner_xref2(project, sponsor_partner):
+    return ProjectSponsorPartnerXref.objects.create(
+        is_sponsor=False, project_id=project, partner_id=sponsor_partner
+    )

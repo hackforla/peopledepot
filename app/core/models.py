@@ -329,3 +329,23 @@ class Sdg(AbstractBaseModel):
 
     def __str__(self):
         return f"{self.name}"
+
+
+class ProjectSponsorPartnerXref(AbstractBaseModel):
+    """
+    Sponsor/partner relationships stored in this table are project-dependent.
+    They cannot be both a sponsor and a partner for the same project,
+    so if is_sponsor is FALSE they are a project partner,
+    if is_sponsor is TRUE they are a project sponsor.
+    """
+
+    partner_id = models.ForeignKey(SponsorPartner, on_delete=models.CASCADE)
+    project_id = models.ForeignKey(Project, on_delete=models.CASCADE)
+    ended_at = models.DateTimeField("Ended at", null=True, blank=True)
+    is_sponsor = models.BooleanField(null=True)
+
+    def __str__(self):
+        if self.is_sponsor:
+            return f"Sponsor {self.project_id}"
+        else:
+            return f"Partner {self.partner_id}"
