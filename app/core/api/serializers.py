@@ -308,8 +308,8 @@ class ProjectSponsorPartnerXrefSerializer(serializers.ModelSerializer):
         model = ProjectSponsorPartnerXref
         fields = (
             "uuid",
-            "partner_id",
-            "project_id",
+            "partner",
+            "project",
             "ended_at",
             "is_sponsor",
         )

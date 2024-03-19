@@ -145,12 +145,12 @@ def sdg():
 @pytest.fixture
 def project_sponsor_partner_xref1(project, sponsor_partner):
     return ProjectSponsorPartnerXref.objects.create(
-        is_sponsor=True, project_id=project, partner_id=sponsor_partner
+        is_sponsor=True, project=project, partner=sponsor_partner
     )
 
 
 @pytest.fixture
 def project_sponsor_partner_xref2(project, sponsor_partner):
     return ProjectSponsorPartnerXref.objects.create(
-        is_sponsor=False, project_id=project, partner_id=sponsor_partner
+        is_sponsor=False, project=project, partner=sponsor_partner
     )

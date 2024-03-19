@@ -224,5 +224,5 @@ class SdgAdmin(admin.ModelAdmin):
 
 @admin.register(ProjectSponsorPartnerXref)
 class ProjectSponsorParnterXrefAdmin(admin.ModelAdmin):
-    list_display = ("partner_id", "project_id", "created_at", "ended_at", "is_sponsor")
-    list_filter = ("is_sponsor", "partner_id", "project_id")
+    list_display = ("partner", "project", "created_at", "ended_at", "is_sponsor")
+    list_filter = ("is_sponsor", "partner", "project")

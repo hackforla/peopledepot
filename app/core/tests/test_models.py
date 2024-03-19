@@ -75,20 +75,10 @@ def test_sdg(sdg):
 def test_project_sponsor_partner_xref_is_sponsor(project_sponsor_partner_xref1):
     xref_instance = project_sponsor_partner_xref1
     assert xref_instance.is_sponsor is True
+    assert str(xref_instance) == f"Sponsor {xref_instance.project}"
 
 
 def test_project_sponsor_partner_xref_is_partner(project_sponsor_partner_xref2):
     xref_instance = project_sponsor_partner_xref2
     assert xref_instance.is_sponsor is False
-
-
-def test_project_sponsor_partner_xref_str_representation(
-    project_sponsor_partner_xref1, project_sponsor_partner_xref2
-):
-    # Test for Sponsor
-    xref_instance_sponsor = project_sponsor_partner_xref1
-    assert str(xref_instance_sponsor) == f"Sponsor {xref_instance_sponsor.project_id}"
-
-    # Test for Partner
-    xref_instance_partner = project_sponsor_partner_xref2
-    assert str(xref_instance_partner) == f"Partner {xref_instance_partner.partner_id}"
+    assert str(xref_instance) == f"Partner {xref_instance.partner}"

@@ -319,13 +319,13 @@ def test_create_sdg(auth_client):
 
 def test_create_project_sponsor_partner_xref(auth_client, project, sponsor_partner):
     payload = {
-        "partner_id": sponsor_partner.uuid,
-        "project_id": project.uuid,
+        "partner": sponsor_partner.pk,
+        "project": project.pk,
         "ended_at": "2024-01-01 18:00:00",
         "is_sponsor": True,
     }
     res = auth_client.post(PROJECT_SPONSOR_PARTNER_XREF_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
     assert res.data["is_sponsor"] == payload["is_sponsor"]
-    assert res.data["partner_id"] == payload["partner_id"]
-    assert res.data["project_id"] == payload["project_id"]
+    assert res.data["partner"] == payload["partner"]
+    assert res.data["project"] == payload["project"]

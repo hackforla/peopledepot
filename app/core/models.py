@@ -339,13 +339,13 @@ class ProjectSponsorPartnerXref(AbstractBaseModel):
     if is_sponsor is TRUE they are a project sponsor.
     """
 
-    partner_id = models.ForeignKey(SponsorPartner, on_delete=models.CASCADE)
-    project_id = models.ForeignKey(Project, on_delete=models.CASCADE)
+    partner = models.ForeignKey(SponsorPartner, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
     ended_at = models.DateTimeField("Ended at", null=True, blank=True)
-    is_sponsor = models.BooleanField(null=True)
+    is_sponsor = models.BooleanField(default=False)
 
     def __str__(self):
         if self.is_sponsor:
-            return f"Sponsor {self.project_id}"
+            return f"Sponsor {self.project}"
         else:
-            return f"Partner {self.partner_id}"
+            return f"Partner {self.partner}"
