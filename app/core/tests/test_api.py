@@ -21,6 +21,7 @@ SKILL_URL = reverse("skill-list")
 TECHNOLOGY_URL = reverse("technology-list")
 PERMISSION_TYPE = reverse("permission-type-list")
 STACK_ELEMENT_TYPE_URL = reverse("stack-element-type-list")
+SDG_URL = reverse("sdg-list")
 
 CREATE_USER_PAYLOAD = {
     "username": "TestUserAPI",
@@ -300,5 +301,16 @@ def test_create_stack_element_type(auth_client):
         "description": "Stack Element Type description",
     }
     res = auth_client.post(STACK_ELEMENT_TYPE_URL, payload)
+    assert res.status_code == status.HTTP_201_CREATED
+    assert res.data["name"] == payload["name"]
+
+
+def test_create_sdg(auth_client):
+    payload = {
+        "name": "Test SDG name",
+        "description": "Test SDG description",
+        "image": "https://unsplash.com",
+    }
+    res = auth_client.post(SDG_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
     assert res.data["name"] == payload["name"]

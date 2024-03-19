@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
+
 # from allauth.account.adapter import DefaultAccountAdapter
 import json
 import os
@@ -96,7 +97,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-n    "django.middleware.security.SecurityMiddleware",
+    "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -104,6 +105,7 @@ n    "django.middleware.security.SecurityMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django.contrib.auth.middleware.RemoteUserMiddleware",
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
 ROOT_URLCONF = "peopledepot.urls"
@@ -111,7 +113,7 @@ ROOT_URLCONF = "peopledepot.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [os.path.join(BASE_DIR, "templates")],
+        "DIRS": [Path(BASE_DIR) / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [

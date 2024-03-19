@@ -66,3 +66,7 @@ def test_permission_type2(permission_type2):
 
 def test_stack_element_type(stack_element_type):
     assert str(stack_element_type) == "Test Stack Element Type"
+
+
+def test_sdg(sdg):
+    assert str(sdg) == "Test SDG name"

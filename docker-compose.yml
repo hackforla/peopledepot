@@ -2,7 +2,6 @@ version: '3.8'
 
 services:
   web:
-    container_name: web
     build: ./app
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
@@ -10,11 +9,10 @@ services:
     ports:
       - 8000:8000
     env_file:
-      - ./.env.docker
+      - ./app/.env.docker
     depends_on:
       - db
   db:
-    container_name: db
     image: postgres:13.0-alpine
     volumes:
       - postgres_data:/var/lib/postgresql/data/
@@ -25,7 +23,6 @@ services:
     ports:
       - 5432:5432
   mkdocs:
-    container_name: mkdocs
     image: hackforlaops/mkdocs:latest
     command: mkdocs serve --dev-addr 0.0.0.0:8000
     ports:

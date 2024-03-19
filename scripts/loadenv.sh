@@ -24,5 +24,5 @@ while IFS= read -r line; do
   fi
 done < <(grep -v '^#' "$file")
 echo Super user "$DJANGO_SUPERUSER_USERNAME"
-echo Settings module "$DJANGO_SETTINGS_MODULE"
+echo Allowed "$DJANGO_ALLOWED_HOSTS"
 echo SQL USER "$SQL_USER"

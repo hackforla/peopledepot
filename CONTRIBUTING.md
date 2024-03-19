@@ -146,10 +146,10 @@ upstream        https://github.com/hackforla/peopledepot.git (push)
 
 1. Run `docker container ls` to verify Docker Desktop is running. If it is not running you will get the message: `Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?`
 
-1. Create an .env.docker file from .env.docker-example
+1. Create an .env.docker file from .env.docker-sample
 
     ```bash
-    cp .env.docker-example .env.docker
+    cp .env.docker-sample .env.docker
     ```
 
 1. Build and run the project via the script (this includes running `docker-compose up`)

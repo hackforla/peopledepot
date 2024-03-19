@@ -45,8 +45,6 @@ class AbstractBaseModelId(AbstractBase):
     Base abstract model, that has `id` instead of `uuid` and included `created_at`, `updated_at` fields.
     """
 
-    id = models.AutoField(primary_key=True, editable=False, unique=True)
-
     created_at = models.DateTimeField("Created at", auto_now_add=True)
     updated_at = models.DateTimeField("Updated at", auto_now=True)
 
@@ -341,6 +339,21 @@ class StackElementType(AbstractBaseModel):
     description = models.TextField(blank=True)
 
     # PK of this model is the ForeignKey for stack_element
+
+    def __str__(self):
+        return f"{self.name}"
+
+
+class Sdg(AbstractBaseModel):
+    """
+    Dictionary of SDGs
+    """
+
+    name = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+    image = models.URLField(blank=True)
+
+    # PK of this model is the ForeignKey for sdg_target_indicator
 
     def __str__(self):
         return f"{self.name}"

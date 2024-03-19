@@ -2,7 +2,7 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-SCRIPT_DIR="$(dirname "$0")"
+SCRIPT_DIR="$(dirname "${BASH_SOURCE[0]}")"
 # https://codefather.tech/blog/bash-get-script-directory/
 
 usage() {

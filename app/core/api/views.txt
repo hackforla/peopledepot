@@ -53,7 +53,7 @@ class IsStaffUser(BasePermission):
         print("Debug user", request.user.is_staff, request.user.is_authenticated, request.user.is_superuser, request.user.is_active, request.user.is_anonymous, request.user.username, request.user.email, request.user.first_name, request.user.last_name, request.user.is_staff, request.user.is_superuser, request.user.is_active)
         print(request.user.__dict__)
         return request.user.is_staff
-    
+
 class IsStaffUserOrReadOnly(BasePermission):
     """
     Custom permission to only allow staff users.
@@ -61,8 +61,8 @@ class IsStaffUserOrReadOnly(BasePermission):
 
     def has_permission(self, request, view):
         # Check if user is authenticated and is_staff is True
-        return request.user.is_staff or request.method in SAFE_METHODS 
-    
+        return request.user.is_staff or request.method in SAFE_METHODS
+
 class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
     serializer_class = UserSerializer
     permission_classes = [IsAuthenticated]
@@ -322,6 +322,3 @@ class StackElementTypeViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = StackElementType.objects.all()
     serializer_class = StackElementTypeSerializer
-    
-    
- 

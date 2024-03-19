@@ -6,6 +6,7 @@ from drf_spectacular.utils import extend_schema
 from drf_spectacular.utils import extend_schema_view
 from rest_framework import mixins
 from rest_framework import viewsets
+from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
@@ -18,6 +19,7 @@ from ..models import PermissionType
 from ..models import PracticeArea
 from ..models import ProgramArea
 from ..models import Project
+from ..models import Sdg
 from ..models import Skill
 from ..models import SponsorPartner
 from ..models import StackElementType
@@ -30,16 +32,12 @@ from .serializers import PermissionTypeSerializer
 from .serializers import PracticeAreaSerializer
 from .serializers import ProgramAreaSerializer
 from .serializers import ProjectSerializer
+from .serializers import SdgSerializer
 from .serializers import SkillSerializer
 from .serializers import SponsorPartnerSerializer
 from .serializers import StackElementTypeSerializer
 from .serializers import TechnologySerializer
 from .serializers import UserSerializer
-
-from rest_framework.generics import GenericAPIView
-
-
-import time
 
 
 class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
@@ -306,6 +304,17 @@ class StackElementTypeViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = StackElementType.objects.all()
     serializer_class = StackElementTypeSerializer
-    
-    
- 
+
+
+@extend_schema_view(
+    list=extend_schema(description="Return a list of all the recurring events"),
+    create=extend_schema(description="Create a new recurring event"),
+    retrieve=extend_schema(description="Return the details of a recurring event"),
+    destroy=extend_schema(description="Delete a recurring event"),
+    update=extend_schema(description="Update a recurring event"),
+    partial_update=extend_schema(description="Patch a recurring event"),
+)
+class SdgViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = Sdg.objects.all()
+    serializer_class = SdgSerializer
