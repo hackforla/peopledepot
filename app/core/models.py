@@ -350,7 +350,7 @@ class ProjectSponsorPartnerXref(AbstractBaseModel):
                 fields=["project", "partner"], name="unique_project_partner"
             )
         ]
-    
+
     def __str__(self):
         if self.is_sponsor:
             return f"Sponsor {self.project}"
