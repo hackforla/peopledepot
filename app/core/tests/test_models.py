@@ -70,3 +70,15 @@ def test_stack_element_type(stack_element_type):
 
 def test_sdg(sdg):
     assert str(sdg) == "Test SDG name"
+
+
+def test_project_sponsor_partner_xref_is_sponsor(project_sponsor_partner_xref1):
+    xref_instance = project_sponsor_partner_xref1
+    assert xref_instance.is_sponsor is True
+    assert str(xref_instance) == f"Sponsor {xref_instance.project}"
+
+
+def test_project_sponsor_partner_xref_is_partner(project_sponsor_partner_xref2):
+    xref_instance = project_sponsor_partner_xref2
+    assert xref_instance.is_sponsor is False
+    assert str(xref_instance) == f"Partner {xref_instance.partner}"

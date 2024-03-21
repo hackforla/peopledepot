@@ -9,6 +9,7 @@ from core.models import PermissionType
 from core.models import PracticeArea
 from core.models import ProgramArea
 from core.models import Project
+from core.models import ProjectSponsorPartnerXref
 from core.models import Sdg
 from core.models import Skill
 from core.models import SponsorPartner
@@ -296,3 +297,20 @@ class SdgSerializer(serializers.ModelSerializer):
             "created_at",
             "updated_at",
         )
+
+
+class ProjectSponsorPartnerXrefSerializer(serializers.ModelSerializer):
+    """
+    Used to retrieve ProjectSponsorPartnerXref
+    """
+
+    class Meta:
+        model = ProjectSponsorPartnerXref
+        fields = (
+            "uuid",
+            "partner",
+            "project",
+            "ended_at",
+            "is_sponsor",
+        )
+        read_only_fields = ("uuid", "created_at", "updated_at")
