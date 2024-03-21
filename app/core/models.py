@@ -344,6 +344,13 @@ class ProjectSponsorPartnerXref(AbstractBaseModel):
     ended_at = models.DateTimeField("Ended at", null=True, blank=True)
     is_sponsor = models.BooleanField(default=False)
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["project", "partner"], name="unique_project_partner"
+            )
+        ]
+    
     def __str__(self):
         if self.is_sponsor:
             return f"Sponsor {self.project}"
