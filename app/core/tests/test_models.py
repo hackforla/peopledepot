@@ -58,8 +58,8 @@ def test_skill(skill):
     assert str(skill) == "Test Skill"
 
 
-def test_technology(technology):
-    assert str(technology) == "Test Technology"
+def test_stack_element(stack_element):
+    assert str(stack_element) == "Test Stack Element"
 
 
 def test_permission_type1(permission_type1):
