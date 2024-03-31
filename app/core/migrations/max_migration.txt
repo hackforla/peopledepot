@@ -1,1 +1,1 @@
-0024_checktype
+0025_stackelement_delete_technology
