@@ -21,7 +21,7 @@ cp .env.local-example .env.local
 python -m venv venv
 
 # activate (enter) the virtual environment
-source ../scripts/activate.sh
+source venv/bin/activate.sh
 # install dependencies
 pip install -r requirements.txt
 
