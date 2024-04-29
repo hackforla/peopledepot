@@ -4,6 +4,7 @@ about: Instructions for optimizing images
 title: 'Lighthouse: Image Optimization'
 labels: ''
 assignees: ''
+
 ---
 
 ### Overview
