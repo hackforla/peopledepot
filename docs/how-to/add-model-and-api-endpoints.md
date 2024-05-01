@@ -106,16 +106,36 @@ Since we overrode the `__str__` function, we need to write a test for it.
         assert str(recurring_event) == "Test Recurring Event"
     ```
 
+    ```python
+    def test_recurring_event(recurring_event):
+        assert str(recurring_event) == "Test Recurring Event"
+    ```
+
     [link to code](https://github.com/hackforla/peopledepot/blob/aad76446fc9ce3942d4f6290322ca1f73279703e/app/core/tests/test_models.py#L17-L18)
 
-    1. Pass in our fixture so that the model object is created for us.
-    1. The `__str__` method should be tested since it's an override of the default Django method.
-    1. Write assertion(s) to check that what's passed into the model is what it contains. The simplest thing to check is the `__str__` method.
+1. Run the test script to show it passing
 
 1. Run the test script to show it passing
 
     ```bash
     ./scripts/test.sh
+    ```
+
+### Check point 1
+
+This is a good place to pause, check, and commit progress.
+
+1. Run pre-commit checks
+
+    ```bash
+    ./scripts/precommit-check.sh
+    ```
+
+1. Add and commit changes
+
+    ```bash
+    git add -A
+    git commit -m "feat: add model: recurring_event"
     ```
 
 ### Check point 1

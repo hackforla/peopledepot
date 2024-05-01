@@ -18,7 +18,7 @@ SPONSOR_PARTNERS_URL = reverse("sponsor-partner-list")
 LOCATION_URL = reverse("location-list")
 PROGRAM_AREA_URL = reverse("program-area-list")
 SKILL_URL = reverse("skill-list")
-TECHNOLOGY_URL = reverse("technology-list")
+STACK_ELEMENT_URL = reverse("stack-element-list")
 PERMISSION_TYPE = reverse("permission-type-list")
 STACK_ELEMENT_TYPE_URL = reverse("stack-element-type-list")
 SDG_URL = reverse("sdg-list")
@@ -275,15 +275,15 @@ def test_create_skill(auth_client):
     assert res.data["name"] == payload["name"]
 
 
-def test_create_technology(auth_client):
+def test_create_stack_element(auth_client):
     payload = {
-        "name": "Test Technology",
-        "description": "Technology description",
+        "name": "Test StackElement",
+        "description": "StackElement description",
         "url": "http://www.testurl.org",
         "logo": "http://www.logourl.com",
         "active": True,
     }
-    res = auth_client.post(TECHNOLOGY_URL, payload)
+    res = auth_client.post(STACK_ELEMENT_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
     assert res.data["name"] == payload["name"]
 

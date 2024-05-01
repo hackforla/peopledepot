@@ -16,8 +16,8 @@ from .models import Project
 from .models import Sdg
 from .models import Skill
 from .models import SponsorPartner
+from .models import StackElement
 from .models import StackElementType
-from .models import Technology
 from .models import User
 
 
@@ -192,8 +192,8 @@ class SkillAdmin(admin.ModelAdmin):
     list_filter = ("name",)
 
 
-@admin.register(Technology)
-class TechnologyAdmin(admin.ModelAdmin):
+@admin.register(StackElement)
+class StackElementAdmin(admin.ModelAdmin):
     list_display = (
         "name",
         "description",

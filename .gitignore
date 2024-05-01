@@ -4,6 +4,7 @@
 
 temp/
 .DS_Store
+temp
 
 ### django ###
 *.sqlite3

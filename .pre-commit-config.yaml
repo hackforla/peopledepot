@@ -2,6 +2,7 @@
 # See https://pre-commit.com/hooks.html for more hooks
 default_install_hook_types: [pre-commit, pre-push]
 default_stages: [commit, push]
+fail_fast: true
 minimum_pre_commit_version: "2.18"
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
