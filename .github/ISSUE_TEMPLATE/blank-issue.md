@@ -4,7 +4,6 @@ about: Consistent formatting makes Issues concise and easy to navigate.
 title: ''
 labels: ''
 assignees: ''
-
 ---
 
 ### Overview

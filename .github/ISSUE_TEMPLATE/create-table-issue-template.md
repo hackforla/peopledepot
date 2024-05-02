@@ -4,7 +4,6 @@ about: Create an issue for each table required
 title: 'Create Table: [name of table]'
 labels: 'role: back end, size: 2pt'
 assignees: ''
-
 ---
 
 ### Overview

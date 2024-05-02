@@ -4,7 +4,6 @@ about: Provides new team members a link to team roster to input their informatio
 title: ''
 labels: documentation, good first issue, question
 assignees: ''
-
 ---
 
 ### Overview

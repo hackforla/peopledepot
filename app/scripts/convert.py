@@ -46,7 +46,7 @@ def to_keys_indexes_str(_input):
     return ", ".join(values)
 
 
-def to_json(data): # noqa: C901
+def to_json(data):  # noqa: C901
     rows_data = []
     headers = []
     headers_row = 1
@@ -62,13 +62,13 @@ def to_json(data): # noqa: C901
                 else:
                     row_data[headers[i]] = ""
             rows_data.append(row_data)
-    
+
     return rows_data
 
 
-def convert(file_path): # noqa: C901
+def convert(file_path):  # noqa: C901
     with Path(file_path).open("r") as input_file:
-        csv_data = csv.reader(input_file, delimiter=',')
+        csv_data = csv.reader(input_file, delimiter=",")
         input_data = json.loads(json.dumps(to_json(csv_data)))
         root = Path.cwd()
         model_name = get_modelname(file_path)
