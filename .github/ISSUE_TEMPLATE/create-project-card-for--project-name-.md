@@ -4,7 +4,6 @@ about: Gather information to add this project to HackforLA's website
 title: ''
 labels: documentation, good first issue, question
 assignees: ''
-
 ---
 
 ### Overview

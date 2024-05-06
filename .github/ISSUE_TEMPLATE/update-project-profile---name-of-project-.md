@@ -1,11 +1,9 @@
 ---
 name: 'Update Project Profile: [name of project]'
-about: We are making a project home page for each project and need some additional
-  info
+about: We are making a project home page for each project and need some additional info
 title: 'Update Project Profile: [name of project]'
 labels: documentation
 assignees: ''
-
 ---
 
 ### Overview

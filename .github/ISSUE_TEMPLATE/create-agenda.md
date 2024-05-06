@@ -4,7 +4,6 @@ about: Assign issue to all team members day after meetup in prep for next meetup
 title: ''
 labels: documentation, help wanted, question
 assignees: ''
-
 ---
 
 ### Overview

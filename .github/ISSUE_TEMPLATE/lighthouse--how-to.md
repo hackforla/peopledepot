@@ -4,7 +4,6 @@ about: Provides overview of how to use Lighthouse and links to additional resour
 title: 'Lighthouse: How To'
 labels: ''
 assignees: ''
-
 ---
 
 ### Overview
