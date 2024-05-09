@@ -5,6 +5,7 @@ from core.models import Event
 from core.models import Faq
 from core.models import FaqViewed
 from core.models import Location
+from core.models import Permission
 from core.models import PermissionType
 from core.models import PracticeArea
 from core.models import ProgramArea
@@ -295,4 +296,23 @@ class SdgSerializer(serializers.ModelSerializer):
             "uuid",
             "created_at",
             "updated_at",
+        )
+
+class PermissionSerializer(serializers.ModelSerializer):
+    """Used to retrieve permission"""
+
+    class Meta:
+        model = Permission
+        fields = (
+            "user_id",
+            "project_id",
+            "practice_area_id",
+            "permission_type_id",
+            "granted",
+            "ended"
+        )
+        read_only_fields = (
+            "user_id",
+            "granted",
+            "ended"
         )

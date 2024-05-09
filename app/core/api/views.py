@@ -15,6 +15,7 @@ from ..models import Event
 from ..models import Faq
 from ..models import FaqViewed
 from ..models import Location
+from ..models import Permission
 from ..models import PermissionType
 from ..models import PracticeArea
 from ..models import ProgramArea
@@ -28,6 +29,7 @@ from .serializers import EventSerializer
 from .serializers import FaqSerializer
 from .serializers import FaqViewedSerializer
 from .serializers import LocationSerializer
+from .serializers import PermissionSerializer
 from .serializers import PermissionTypeSerializer
 from .serializers import PracticeAreaSerializer
 from .serializers import ProgramAreaSerializer
@@ -314,3 +316,9 @@ class SdgViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = Sdg.objects.all()
     serializer_class = SdgSerializer
+
+
+class PermissionViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = Permission.objects.all()
+    serializer_class = PermissionSerializer
