@@ -30,6 +30,6 @@ We need to add seed data for the [Replace with TABLE NAME] table, because it won
 - 1.02 tables folder: https://github.com/hackforla/peopledepot/blob/main/app/core/migrations/
 
 #### Resources gathered during the completion of this issue
-- 2.01 table: 
-- 2.02 json file (after commit): 
+- 2.01 table:
+- 2.02 json file (after commit):
 - 2.03 script that adds seed data:
