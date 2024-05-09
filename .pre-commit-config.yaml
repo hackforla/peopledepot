@@ -175,4 +175,5 @@ repos:
         pass_filenames: false
 
 ci:
+  autoupdate_schedule: quarterly
   skip: [check-django-migrations]
