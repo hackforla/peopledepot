@@ -40,7 +40,7 @@ router.register(
 router.register(
     r"secure-api/getusers", SecureUserViewSet, basename="secure-api-getusers"
 )
-
+router.register(r"sdgs", SdgViewSet, basename="sdg")
 router.register(r"sdgs", SdgViewSet, basename="sdg")
 urlpatterns = [
     # path('secure-api/getusers', SecureUserViewSet.as_view(), name='secure_api_getusers'),

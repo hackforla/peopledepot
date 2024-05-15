@@ -76,14 +76,16 @@ class User(PermissionsMixin, AbstractBaseUser, AbstractBaseModel):
     # Common fields #
     # For cognito-users username will contain `sub` claim from jwt token
     # (unique identifier (UUID) for the authenticated user).
-    # For django-users it will contain username which will be used to login into django-admin site
+    # For django-users it will contain username which will be used to login
+    # into django-admin site
     username = models.CharField(
         "Username", max_length=255, unique=True, validators=[username_validator]
     )
     is_active = models.BooleanField("Active", default=True)
 
     # Cognito-user related fields #
-    # some additional fields which will be filled-out only for users registered via Cognito
+    # some additional fields which will be filled-out only for users
+    # registered via Cognito
     pass
 
     # Django-user related fields #
@@ -111,7 +113,8 @@ class User(PermissionsMixin, AbstractBaseUser, AbstractBaseModel):
 
     # desired_roles = models.ManyToManyField("Role")
     # availability = models.IntegerField()  # not in ERD, is a separate table. Want to confirm to remove this
-    # referred_by = models.ForeignKey(referrer, on_delete=models.PROTECT) # FK to referrer
+    # referred_by = models.ForeignKey(referrer, on_delete=models.PROTECT) # FK
+    # to referrer
 
     linkedin_account = models.CharField(max_length=255, blank=True)
     github_handle = models.CharField(max_length=255, blank=True)
@@ -122,7 +125,8 @@ class User(PermissionsMixin, AbstractBaseUser, AbstractBaseModel):
     texting_ok = models.BooleanField(default=True)
 
     time_zone = TimeZoneField(blank=True, use_pytz=False, default="America/Los_Angeles")
-    # conduct = models.BooleanField()  # not in ERD. Maybe we should remove this
+    # conduct = models.BooleanField()  # not in ERD. Maybe we should remove
+    # this
 
     objects = UserManager()
 

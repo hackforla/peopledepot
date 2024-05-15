@@ -161,7 +161,7 @@ upstream        https://github.com/hackforla/peopledepot.git (push)
 1. Create a super user for logging into the web admin interface
 
     ```bash
-
+    docker-compose exec web python manage.py createsuperuser --no-input
     ```
 
 1. Browse to the web admin interface at `http://localhost:8000/admin/` and confirm the admin site is running. Use DJANGO_SUPERUSER_USERNAME and DJANGO_SUPERUSER_PASSWORD from .env.docker for credentials.
