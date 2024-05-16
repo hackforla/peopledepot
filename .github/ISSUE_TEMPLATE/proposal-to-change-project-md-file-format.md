@@ -4,6 +4,7 @@ about: To propose changes to project.md file format
 title: Proposal to change project.md file format [that accomplishes x]
 labels: documentation, enhancement
 assignees: ''
+
 ---
 
 ### Overview

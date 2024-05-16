@@ -4,6 +4,7 @@ about: Instructions for addressing the cross-origin linking vulnerabilities
 title: 'Lighthouse Issue: Cross-origin destinations are unsafe'
 labels: ''
 assignees: ''
+
 ---
 
 ### Overview

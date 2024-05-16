@@ -4,6 +4,7 @@ about: AKA Links must have discernible text
 title: 'Lighthouse: Accessibility - Links'
 labels: ''
 assignees: ''
+
 ---
 
 ### Overview
