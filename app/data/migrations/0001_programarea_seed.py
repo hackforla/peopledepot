@@ -4,16 +4,17 @@ from core.models import ProgramArea
 
 
 def run(__code__, __reverse_code__):
+    START_WITH = 1000
     items = [
-        (1, "Citizen Engagement"),
-        (2, "Civic Tech Infrastructure"),
-        (3, "Diversity / Equity and Inclusion"),
-        (4, "Environment"),
-        (5, "Justice"),
-        (6, "Social Safety Net"),
-        (7, "Vote / Representation"),
-        (8, "Workforce Development"),
-        (9, "Community of Practice"),
+        (1 + START_WITH, "Citizen Engagement"),
+        (2 + START_WITH, "Civic Tech Infrastructure"),
+        (3 + START_WITH, "Diversity / Equity and Inclusion"),
+        (4 + START_WITH, "Environment"),
+        (5 + START_WITH, "Justice"),
+        (6 + START_WITH, "Social Safety Net"),
+        (7 + START_WITH, "Vote / Representation"),
+        (8 + START_WITH, "Workforce Development"),
+        (9 + START_WITH, "Community of Practice"),
     ]
     for program_id, name in items:
         ProgramArea.objects.create(id=program_id, name=name)
