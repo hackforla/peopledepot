@@ -6,8 +6,8 @@ The goal is to convert our initial data into scripts that can be loaded into the
 
 These are the steps:
 
-1. Export the data into JSON
-1. Generate a python script from the JSON data
+1. Export the data into a csv file
+1. Generate a python script from the csv data
 
 ### Prerequisites
 
@@ -20,24 +20,17 @@ The sheet should be formatted like so:
 - the first row contains the names of the field names in the model. The names must be exactly the same
 - rows 2 to n are the initial data for the model we want to turn into a script.
 
-## Convert the data into JSON
+It is required that there be data in the first column of the sheet.
+
+## Gather data for preparation
 
 1. Export the data from the Google [spreadsheet][pd-data-spreadsheet]
 
     1. Find the sheet in the document containing the data to export. Let's use the `ProgramArea - Data` data as our example.
-    1. Make sure that the first row (column names) is frozen. Otherwise, freeze it by selecting the first row in the sheet, then Menu > View > Freeze > Up to row 1
-    1. Export to JSON. Menu > Export JSON > Export JSON for this sheet
+    1. Go to File -> Download -> Comma Separated Values (.csv). This will download the sheet as a .csv file.
+    1. Copy the file to the app/core/initial_data directory.
 
-1. Save the JSON into a file
-
-    1. Select and copy all the JSON text
-    1. Paste it into a new file and save it as <ModelNameInPascalCase>\_export.json under app/core/initial_data/
-    1. The Pascal case is important in the next step to generate a python script to insert the data. It must match the model's class name for this to work.
-
-    **Potential data issue**
-    There was a problem with the JSON exporter where it omitted the underscore in `occ_code`. It should be fixed now but it's good to pay attention to other column name problems and fix them in the [Google Apps script][apps-script] in the [spreadsheet][pd-data-spreadsheet]. You will find out when the data insertion fails if there's a problem.
-
-## Convert JSON into Python script
+## Convert data into Python script
 
 1. Start Docker
 
@@ -50,7 +43,7 @@ The sheet should be formatted like so:
 1. Go to the project root and run this command
 
     ```bash
-    docker-compose exec web python scripts/convert.py core/initial_data/ProgramArea_export.json
+    docker-compose exec web python scripts/convert.py "core/initial_data/PD_ Table and field explanations  - ProgramArea - Data.csv"
     ```
 
 1. Check that there's a new file called `app/core/scripts/programarea_seed.py` and that it looks correct
@@ -135,5 +128,4 @@ The sheet should be formatted like so:
     operations = [migrations.RunPython(run, migrations.RunPython.noop)]
     ```
 
-[apps-script]: https://thenewstack.io/how-to-convert-google-spreadsheet-to-json-formatted-text/#:~:text=To%20do%20this,%20click%20Extensions,save%20your%20work%20so%20far.
 [pd-data-spreadsheet]: https://docs.google.com/spreadsheets/d/1x_zZ8JLS2hO-zG0jUocOJmX16jh-DF5dccrd_OEGNZ0/

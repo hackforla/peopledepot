@@ -1,6 +1,8 @@
 import pytest
 from rest_framework.test import APIClient
 
+from ..models import Affiliate
+from ..models import Affiliation
 from ..models import Event
 from ..models import Faq
 from ..models import FaqViewed
@@ -11,7 +13,6 @@ from ..models import ProgramArea
 from ..models import Project
 from ..models import Sdg
 from ..models import Skill
-from ..models import SponsorPartner
 from ..models import StackElementType
 from ..models import Technology
 
@@ -85,8 +86,8 @@ def admin_client(admin, client):
 
 
 @pytest.fixture
-def sponsor_partner():
-    return SponsorPartner.objects.create(partner_name="Test Sponsor Partner")
+def affiliate():
+    return Affiliate.objects.create(partner_name="Test Affiliate")
 
 
 @pytest.fixture
@@ -139,3 +140,31 @@ def stack_element_type():
 @pytest.fixture
 def sdg():
     return Sdg.objects.create(name="Test SDG name")
+
+
+@pytest.fixture
+def affiliation1(project, affiliate):
+    return Affiliation.objects.create(
+        is_sponsor=True, is_partner=False, project=project, affiliate=affiliate
+    )
+
+
+@pytest.fixture
+def affiliation2(project, affiliate):
+    return Affiliation.objects.create(
+        is_sponsor=False, is_partner=True, project=project, affiliate=affiliate
+    )
+
+
+@pytest.fixture
+def affiliation3(project, affiliate):
+    return Affiliation.objects.create(
+        is_sponsor=True, is_partner=True, project=project, affiliate=affiliate
+    )
+
+
+@pytest.fixture
+def affiliation4(project, affiliate):
+    return Affiliation.objects.create(
+        is_sponsor=False, is_partner=False, project=project, affiliate=affiliate
+    )

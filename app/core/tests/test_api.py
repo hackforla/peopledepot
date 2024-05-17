@@ -14,7 +14,7 @@ EVENTS_URL = reverse("event-list")
 PRACTICE_AREA_URL = reverse("practice-area-list")
 FAQS_URL = reverse("faq-list")
 FAQS_VIEWED_URL = reverse("faq-viewed-list")
-SPONSOR_PARTNERS_URL = reverse("sponsor-partner-list")
+AFFILIATE_URL = reverse("affiliate-list")
 LOCATION_URL = reverse("location-list")
 PROGRAM_AREA_URL = reverse("program-area-list")
 SKILL_URL = reverse("skill-list")
@@ -22,6 +22,7 @@ TECHNOLOGY_URL = reverse("technology-list")
 PERMISSION_TYPE = reverse("permission-type-list")
 STACK_ELEMENT_TYPE_URL = reverse("stack-element-type-list")
 SDG_URL = reverse("sdg-list")
+AFFILIATION_URL = reverse("affiliation-list")
 
 CREATE_USER_PAYLOAD = {
     "username": "TestUserAPI",
@@ -174,7 +175,7 @@ def test_create_event(auth_client, project):
     assert res.data["name"] == payload["name"]
 
 
-def test_create_sponsor_partner(auth_client):
+def test_create_affiliate(auth_client):
     payload = {
         "partner_name": "Test Partner",
         "partner_logo": "http://www.logourl.com",
@@ -183,7 +184,7 @@ def test_create_sponsor_partner(auth_client):
         "is_org_sponsor": True,
         "is_org_partner": True,
     }
-    res = auth_client.post(SPONSOR_PARTNERS_URL, payload)
+    res = auth_client.post(AFFILIATE_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
 
 
@@ -315,3 +316,19 @@ def test_create_sdg(auth_client):
     res = auth_client.post(SDG_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
     assert res.data["name"] == payload["name"]
+
+
+def test_create_affiliation(auth_client, project, affiliate):
+    payload = {
+        "affiliate": affiliate.pk,
+        "project": project.pk,
+        "ended_at": "2024-01-01 18:00:00",
+        "is_sponsor": False,
+        "is_partner": True,
+    }
+    res = auth_client.post(AFFILIATION_URL, payload)
+    assert res.status_code == status.HTTP_201_CREATED
+    assert res.data["is_sponsor"] == payload["is_sponsor"]
+    assert res.data["is_partner"] == payload["is_partner"]
+    assert res.data["affiliate"] == payload["affiliate"]
+    assert res.data["project"] == payload["project"]
