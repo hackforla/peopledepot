@@ -12,7 +12,7 @@ if [[ $PWD != *"app"* ]]; then
 fi
 
 SCRIPT_DIR="$(dirname "$0")"
-"$SCRIPT_DIR"/loadenv.sh || {
+"$SCRIPT_DIR"/loadenv.sh || loadenv.sh ||  {
     echo "ERROR: loadenv.sh failed"
     return 1
 }

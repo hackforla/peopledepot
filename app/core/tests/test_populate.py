@@ -1,5 +1,5 @@
 from django.test import TestCase
-from .setup_users import BaseTestCase
+from .base_test_case import BaseTestCase
 
 class TestPopulate(BaseTestCase):
     def test_populate(self):

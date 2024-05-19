@@ -1,6 +1,6 @@
 from django.db import migrations
 
-from django.contrib.auth.models import Group
+from core.models import PermissionType
 from data.group_data import PROJECT_LEAD, \
         PRACTICE_AREA_LEAD,\
         GLOBAL_ADMIN,\
@@ -19,7 +19,7 @@ def run(__code__, __reverse_code__):
         VERIFIED_USER,
     ]
     for name in items:
-        Group.objects.create(name=name)
+        PermissionType.objects.create(name=name)
 
 
 class Migration(migrations.Migration):

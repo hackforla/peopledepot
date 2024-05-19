@@ -1,1 +1,1 @@
-0004_django_group_seed
+0004_permission_type_seed
