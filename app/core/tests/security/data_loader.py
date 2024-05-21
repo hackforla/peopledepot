@@ -66,15 +66,15 @@ class UserData:
             {"first_name": paul_name, "project_name": people_depot_project, "permission_type_name": project_team_member},
             {"first_name": garry_name, "permission_type_name": global_admin},
             {"first_name": valerie_name, "permission_type_name": verified_user},
-            {"first_name": zani_name, "project_name": website_project, "permission_type_name": project_team_member},
+            {"first_name": zani_name, "project_name": website_project, "permission_type_name": project_lead},
         ]
 
         for data in related_data:
             user = cls.get_user(data["first_name"])
             params = copy.deepcopy(data)
             del params["first_name"]
-            cls.create_related_data (user=user, permission_type_name=data["permission_type_name"], project_name=project_name)
-        
+            print("Params", user.first_name, params)
+            cls.create_related_data (user=user, **params)        
 
     @classmethod
     def initialize_data(cls):
