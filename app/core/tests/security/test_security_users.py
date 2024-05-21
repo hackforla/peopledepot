@@ -7,7 +7,6 @@ class TestUser(TestCase):
     def testSetup(self):
         UserData.initialize_data()
         assert UserData.data_loaded == True
-        print(UserData.users)
         
     def test_get_all_users(self):
         test_data = [
@@ -39,14 +38,3 @@ class TestUser(TestCase):
 # ZANI_PEOPLE_DEPOT_DATA = { "first_name": "Zani",  "project_name": PEOPLE_DEPOT_PROJECT,"permission_type_name":PROJECT_LEAD}
 # ZANI_WEBSITE_ROLE_ASSIGNMENT_DATA = { "project_name": WEBSITE_PROJECT,"permission_type_name":PROJECT_TEAM_MEMBER}
 
-# def create_permission(*, user=None, permission_type_name=None, project_name=None):
-#     permission_type = PermissionType.objects.get(name=permission_type_name)
-#     if project_name:
-#         project_data = { "project":  Project.objects.get(name=project_name or "")}
-#     else:
-#         project_data = {}
-#     print("project_data", project_data)
-#     user_permission = PermissionAssignment.objects.create(user=user, permission_type=permission_type, **project_data)
-#     print("user_permission", user_permission)
-#     user_permission.save()
-#     return user_permission
