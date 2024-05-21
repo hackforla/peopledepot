@@ -26,10 +26,7 @@ class TestUser(TestCase):
                 self.assertTrue(logged_in_user is not None)
                 self.assertEqual(response.status_code, 200, f"Expected status code 200, got {response.status_code}. Response: {response.data}")
 
-    def get_user(self, username):
-        # Implement your logic to retrieve user object based on username
-        pass
-
+   
 # WANDA_USER_DATA = { "first_name": "Wanda", "project_name": WEBSITE_PROJECT,"permission_type_name": PROJECT_LEAD}
 # WALLY_USER_DATA = { "first_name": "Wally",  "project_name": WEBSITE_PROJECT,"permission_type_name": PROJECT_TEAM_MEMBER}
 # WINONA_USER_DATA = { "first_name": "Winona",  "project_name": WEBSITE_PROJECT,"permission_type_name": PROJECT_TEAM_MEMBER}

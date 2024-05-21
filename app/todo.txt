@@ -1,0 +1,4 @@
+Remove app constants from test/constants
+Rename test comments
+Remove comments
+Remove get_user that is not used

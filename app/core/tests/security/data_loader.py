@@ -1,5 +1,6 @@
 from core.models import User
-from .constants import (website_project, people_depot_project, project_lead, project_team_member, global_admin, verified_user, wanda_name, wally_name, winona_name, zani_name, patti_name, patrick_name, paul_name, garry_name, valerie_name)
+from .seed_constants import (website_project, people_depot_project, wanda_name, wally_name, winona_name, zani_name, patti_name, patrick_name, paul_name, garry_name, valerie_name)
+from core.constants import (project_lead, project_team_member, global_admin, verified_user)
 
 class UserData:   
     data_loaded = False
@@ -65,36 +66,3 @@ class UserData:
         cls.garry_user = cls.get_user(garry_name)
         cls.valerie_user = cls.get_user(valerie_name)
 
-# # data_loader.py
-
-# class DataLoader:
-#     user_data_loaded = False
-#     wally_name = "Wally"
-#     wanda_name = "Wanda"
-#     winona_name = "Winona"
-#     zani_name = "Zani"
-#     patti_name = "Patti"
-#     patrick_name = "Patrick"
-#     paul_name = "Paul"
-#     garry_name = "Garry"
-#     valerie_name = "Valerie"
-#     website_project = "website"
-#     people_depot_project = "people-depot"
-#     project_lead = "ProjectLead"
-#     project_team_member = "ProjectMember"
-#     global_admin = "GlobalAdmin"
-#     verified_user = "VerifiedUser"
-
-#     @classmethod
-#     def prepopulate_test_data(cls):
-#         if not cls.data_loaded:
-#             print("Creating data")
-#             cls.load_data()
-#             cls.user_data_loaded = True
-
-#     @staticmethod
-#     def load_data():
-#         from django.core.management import call_command
-
-#         # Load your data here, e.g., calling a custom management command
-#         call_command('your_custom_management_command_to_load_data')
