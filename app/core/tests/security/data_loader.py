@@ -78,9 +78,11 @@ class UserData:
 
     @classmethod
     def initialize_data(cls):
+        print("Initializing data")
         if not cls.data_loaded:
             cls.load_data()
             cls.data_loaded = True
+        print("Creating data")
             
         cls.wally_user = cls.get_user(wally_name)
         cls.wanda_user = cls.get_user(wanda_name)
