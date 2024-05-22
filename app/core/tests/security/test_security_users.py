@@ -8,37 +8,19 @@ from .seed_constants import (wally_name, wanda_name, winona_name, zani_name, pat
 @pytest.mark.django_db
 class TestUser:
     
-    @pytest.mark.django_db    
-    def test_project_permission_assignment(self):
-        UserData.initialize_data()
-        logged_in_user_name = wally_name
+    def test_global_admin(self):
+        logged_in_user_name = garry_name
         logged_in_user = UserData.get_user(logged_in_user_name)
         client = APIClient()
-        client.force_authenticate(user=logged_in_user)
-        url = reverse('user-list')  # Update this to your actual URL name
-        response = client.get(url)
-        print(logged_in_user)
-        print(response.__dict__)
-        
-    @pytest.mark.django_db
-    def test_get_all_users(self):
-        test_data = [
-            ("Wanda", ["Wanda", "Winona", "Wally"], "Wanda and Winona users"),
-            ("Winona", ["Wanda", "Winona", "Wally"], "Wanda and Winona users"),
-            # Add more test cases as needed
-        ]
-        
-        UserData.initialize_data()
-
-        client = APIClient()
-        logged_in_user_name = wally_name
-        logged_in_user = UserData.get_user(logged_in_user_name)
         client.force_authenticate(user=logged_in_user)
         url = reverse('user-list')  # Update this to your actual URL name
         response = client.get(url)
         assert logged_in_user is not None
-        assert response.status_code==200, f"Expected status code 200, got {response.status_code}. Response: {response.data}"
-
+        assert response.status_code == 200
+        assert len(response.json()) == len(UserData.users)
+    
+        
+ 
    
 # WANDA_USER_DATA = { "first_name": "Wanda", "project_name": WEBSITE_PROJECT,"permission_type_name": PROJECT_LEAD}
 # WALLY_USER_DATA = { "first_name": "Wally",  "project_name": WEBSITE_PROJECT,"permission_type_name": PROJECT_TEAM_MEMBER}
