@@ -17,9 +17,8 @@ from ..models import Skill
 from ..models import StackElementType
 from ..models import Technology
 
-@pytest.mark.django_db
 @pytest.fixture
-def user_tests_initialization():
+def user_tests_init():
     print("User tests initialization")
     UserData.initialize_data()
 

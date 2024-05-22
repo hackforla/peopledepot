@@ -4,7 +4,7 @@ from rest_framework.test import APIClient
 from core.tests.security.data_loader import UserData
 from .seed_constants import (wally_name, wanda_name, winona_name, zani_name, patti_name, patrick_name, paul_name, garry_name, valerie_name)
 
-@pytest.mark.usefixtures("user_tests_initialization")
+@pytest.mark.usefixtures("user_tests_init")
 @pytest.mark.django_db
 class TestUser:
     
