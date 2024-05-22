@@ -1,10 +1,11 @@
 import pytest
 from django.urls import reverse
 from rest_framework import status
+from rest_framework.test import APIClient
 
 from core.api.serializers import ProgramAreaSerializer
 from core.api.serializers import UserSerializer
-from core.models import ProgramArea
+from core.models import ProgramArea, User
 
 pytestmark = pytest.mark.django_db
 
@@ -59,12 +60,28 @@ def test_get_profile(auth_client):
     assert res.status_code == status.HTTP_200_OK
     assert res.data["username"] == "TestUser"
 
+def test_get_users2():
+    django_user_model = User
+    create_user(django_user_model, username="TestUser2", password="testpass")
+    create_user(django_user_model, username="TestUser3", password="testpass")
+    auth_client = APIClient()
+    res = auth_client.get(USERS_URL)
+    print("debug", res.data)
+
+    assert res.status_code == status.HTTP_200_OK
+    assert len(res.data) == 3
+
+    users = django_user_model.objects.all().order_by("created_at")
+    serializer = UserSerializer(users, many=True)
+    assert res.data == serializer.data
+
 
 def test_get_users(auth_client, django_user_model):
     create_user(django_user_model, username="TestUser2", password="testpass")
     create_user(django_user_model, username="TestUser3", password="testpass")
 
     res = auth_client.get(USERS_URL)
+    print("debug", res.data)
 
     assert res.status_code == status.HTTP_200_OK
     assert len(res.data) == 3

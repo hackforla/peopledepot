@@ -1,12 +1,23 @@
-from django.test import TestCase
 from django.urls import reverse
 from rest_framework.test import APIClient
-from .data_loader import UserData
+from core.tests.security.data_loader import UserData
+from .seed_constants import (wally_name, wanda_name, winona_name, zani_name, patti_name, patrick_name, paul_name, garry_name, valerie_name)
 
-class TestUser(TestCase):
-    def testSetup(self):
+class TestUser:
+    def testDataSetup(self):
+        print("Setting up test data")
         UserData.initialize_data()
         assert UserData.data_loaded == True
+        
+    def test_project_permission_assignment(self):
+        logged_in_user_name = wally_name
+        logged_in_user = UserData.get_user(logged_in_user_name)
+        client = APIClient()
+        client.force_authenticate(user=logged_in_user)
+        url = reverse('user-list')  # Update this to your actual URL name
+        response = client.get(url)
+        print(logged_in_user)
+        print(response.__dict__)
         
     def test_get_all_users(self):
         test_data = [
