@@ -44,6 +44,7 @@ from .serializers import TechnologySerializer
 from .serializers import UserSerializer
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
+from core.constants import global_admin
 
 class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
     serializer_class = UserSerializer
@@ -114,27 +115,26 @@ class UserViewSet(viewsets.ModelViewSet):
         current_username = self.request.user.username
 
         print("current_username", current_username, get_user_model().objects.all().count())         
-        # current_user = get_user_model().objects.get(username=current_username)
-        # user_permissions = PermissionAssignment.objects.filter(user=current_user)
-        # global_admin_permission = user_permissions(user=current_user, permission_type__name='global_admin').exists()
+        current_user = get_user_model().objects.get(username=current_username)
+        user_permissions = PermissionAssignment.objects.filter(user=current_user)
+        print("debug user", current_user)
+        global_admin_permission = user_permissions.filter(user=current_user, permission_type__name=global_admin).exists()
         
-        # if global_admin_permission:
-        #     queryset = get_user_model().objects.all()
-        # else:
-        #     projects = [p.project for p in user_permissions if p.project is not None]
-        #     if not projects:
-        #         return Response([], status=status.HTTP_200_OK)  # Return an empty list if no project-specific permissions
-        #     queryset = get_user_model().objects.filter(permission__project__in=projects).distinct()
+        if global_admin_permission:
+            print("Here is the global admin")
+            queryset = get_user_model().objects.all()
+        else:
+            projects = [p.project for p in user_permissions if p.project is not None]
+            queryset = get_user_model().objects.filter(permissionassignment__project__in=projects)
         
         # return users       
-        queryset = get_user_model().objects.all()
-        print("query set", queryset.count())
+        # print("query set", queryset.count())
         email = self.request.query_params.get("email")
         if email is not None:
             queryset = queryset.filter(email=email)
-        username = self.request.query_params.get("username")
-        if username is not None:
-            queryset = queryset.filter(username=username)
+        # username = self.request.query_params.get("username")
+        # if username is not None:
+        #     queryset = queryset.filter(username=username)
         print("query set 2", queryset.count())
         return queryset
 

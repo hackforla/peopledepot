@@ -25,23 +25,22 @@ class TestUser:
         assert len(response.json()) == len(UserData.users)
 
 
-    def test_project_lead(self):
-        logged_in_user, response = self.authenticate_user(garry_name)
+    def test_project_lead(self, user_tests_init):
+        logged_in_user, response = self.authenticate_user(wanda_name)
         assert logged_in_user is not None
         assert response.status_code == 200
-        # assert len(response.json()) == 4
+        assert len(response.json()) == 4
         
  
-   
-# WANDA_USER_DATA = { "first_name": "Wanda", "project_name": WEBSITE_PROJECT,"permission_type_name": PROJECT_LEAD}
-# WALLY_USER_DATA = { "first_name": "Wally",  "project_name": WEBSITE_PROJECT,"permission_type_name": PROJECT_TEAM_MEMBER}
-# WINONA_USER_DATA = { "first_name": "Winona",  "project_name": WEBSITE_PROJECT,"permission_type_name": PROJECT_TEAM_MEMBER}
-# PATRICK_USER_DATA = { "first_name": "Patrick",  "project_name": PEOPLE_DEPOT_PROJECT,"permission_type_name": PROJECT_LEAD}
-# PATTI_USER_DATA = { "first_name": "Patti",  "project_name": PEOPLE_DEPOT_PROJECT,"permission_type_name": PROJECT_TEAM_MEMBER}
-# PERRY_USER_DATA = { "first_name": "Perry",  "project_name": PEOPLE_DEPOT_PROJECT,"permission_type_name": PROJECT_TEAM_MEMBER}
-# GARRY_USER_DATA = { "first_name": "Garry",  "permission_type_name": GLOBAL_ADMIN}
-# VALERIE_USER_DATA = { "first_name": "Valerie",  "permission_type_name": VERIFIED_USER}
+    def test_project_team_member(self, user_tests_init):
+        logged_in_user, response = self.authenticate_user(wally_name)
+        assert logged_in_user is not None
+        assert response.status_code == 200
+        assert len(response.json()) == 4
 
-# ZANI_PEOPLE_DEPOT_DATA = { "first_name": "Zani",  "project_name": PEOPLE_DEPOT_PROJECT,"permission_type_name":PROJECT_LEAD}
-# ZANI_WEBSITE_ROLE_ASSIGNMENT_DATA = { "project_name": WEBSITE_PROJECT,"permission_type_name":PROJECT_TEAM_MEMBER}
+    def test_no_project(self, user_tests_init):
+        logged_in_user, response = self.authenticate_user(valerie_name)
+        assert logged_in_user is not None
+        assert response.status_code == 200
+        assert len(response.json()) == 0
 
