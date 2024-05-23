@@ -4,6 +4,7 @@ from rest_framework.test import APIClient
 from core.tests.security.data_loader import UserData
 from .seed_constants import (wally_name, wanda_name, winona_name, zani_name, patti_name, patrick_name, paul_name, garry_name, valerie_name)
 from django.contrib.auth import get_user_model
+from core.pd_util import PdUtil
 
 @pytest.mark.django_db
 class TestUser:
@@ -16,6 +17,9 @@ class TestUser:
         url = reverse('user-list')  # Update this to your actual URL name
         response = client.get(url)
         return logged_in_user, response
+    
+    def test_lead_util(self, user_tests_init):
+        assert PdUtil.is_admin(UserData.garry_user)
 
     def test_global_admin(self, user_tests_init):
         logged_in_user, response = self.authenticate_user(garry_name)

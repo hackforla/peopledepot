@@ -66,7 +66,6 @@ def test_get_users2():
     create_user(django_user_model, username="TestUser3", password="testpass")
     auth_client = APIClient()
     res = auth_client.get(USERS_URL)
-    print("debug", res.data)
 
     assert res.status_code == status.HTTP_200_OK
     assert len(res.data) == 3

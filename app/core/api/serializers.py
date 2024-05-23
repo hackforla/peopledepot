@@ -16,6 +16,8 @@ from core.models import Skill
 from core.models import StackElementType
 from core.models import Technology
 from core.models import User
+from core.pd_util import PdUtil
+from core.constants import read_fields
 
 
 class PracticeAreaSerializer(serializers.ModelSerializer):
@@ -44,7 +46,17 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = (
+        # def get(self, instance):
+        #     requesting_user = self.context['request'].user
+        #     serialized_user = instance
+        #     if PdUtil.can_see_secure(requesting_user, serialized_user):
+        #         self.fields = read_fields["user"]["secure"]
+        #     elif PdUtil.can_see_basic(requesting_user, serialized_user):
+        #         self.fields = read_fields["user"]["basic"]
+        #     else:
+        #         message = "You do not have permission to view this user"
+        #         raise PermissionError(message)
+        fields = (    
             "uuid",
             "username",
             "created_at",
