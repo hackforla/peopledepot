@@ -20,6 +20,11 @@ class TestUser:
     
     def test_lead_util(self, user_tests_init):
         assert PdUtil.is_admin(UserData.garry_user)
+        assert not PdUtil.is_admin(UserData.wanda_user)
+        assert PdUtil.can_read_basic(UserData.wally_user, UserData.winona_user)
+        assert PdUtil.can_read_basic(UserData.wally_user, UserData.wanda_user)
+        assert not PdUtil.can_read_basic(UserData.wally_user, UserData.paul_user)
+        assert not PdUtil.can_read_basic(UserData.wally_user, UserData.garry_user)
 
     def test_global_admin(self, user_tests_init):
         logged_in_user, response = self.authenticate_user(garry_name)

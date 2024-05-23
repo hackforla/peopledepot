@@ -18,14 +18,15 @@ class PdUtil:
         requesting_projects = PermissionAssignment.objects.filter(
             user = requesting_user,
             permission_type__name=PermissionTypeValue.project_lead).values(
-                'permission_type__project').distinct()
+                "project").distinct()
         serialized_projects = PermissionAssignment.objects.filter(
             user = serialized_user,
             permission_type__name=PermissionTypeValue.project_lead).values(
-                'permission_type__project').distinct() 
+                "project").distinct() 
         return requesting_projects.intersection(serialized_projects).exists()       
 
     @staticmethod
     def can_read_basic(requesting_user, serialized_user):
-        """Check if requesting user can see basic user info"""
-        return requesting_user.is_authenticated and requesting_user != serialized_user
+        requesting_projects = PermissionAssignment.objects.filter(user = requesting_user).values("project")
+        serialized_projects = PermissionAssignment.objects.filter(user = serialized_user).values("project")
+        return requesting_projects.intersection(serialized_projects).exists()       
