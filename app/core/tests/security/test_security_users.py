@@ -25,6 +25,10 @@ class TestUser:
         assert PdUtil.can_read_basic(UserData.wally_user, UserData.wanda_user)
         assert not PdUtil.can_read_basic(UserData.wally_user, UserData.paul_user)
         assert not PdUtil.can_read_basic(UserData.wally_user, UserData.garry_user)
+        assert PdUtil.can_read_secure(UserData.wanda_user, UserData.wally_user)
+        assert not PdUtil.can_read_secure(UserData.wally_user, UserData.wanda_user)
+        assert not PdUtil.can_read_secure(UserData.wanda_user, UserData.paul_user)
+
 
     def test_global_admin(self, user_tests_init):
         logged_in_user, response = self.authenticate_user(garry_name)

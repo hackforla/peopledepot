@@ -20,8 +20,7 @@ class PdUtil:
             permission_type__name=PermissionTypeValue.project_lead).values(
                 "project").distinct()
         serialized_projects = PermissionAssignment.objects.filter(
-            user = serialized_user,
-            permission_type__name=PermissionTypeValue.project_lead).values(
+            user = serialized_user).values(
                 "project").distinct() 
         return requesting_projects.intersection(serialized_projects).exists()       
 
