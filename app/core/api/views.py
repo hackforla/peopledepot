@@ -125,7 +125,8 @@ class UserViewSet(viewsets.ModelViewSet):
             queryset = get_user_model().objects.all()
         else:
             projects = [p.project for p in user_permissions if p.project is not None]
-            queryset = get_user_model().objects.filter(permissionassignment__project__in=projects)
+            queryset = get_user_model().objects.filter(permissionassignment__project__in=projects).distinct()
+
         
         # return users       
         # print("query set", queryset.count())

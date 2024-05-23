@@ -48,10 +48,10 @@ class TestUser:
         logged_in_user, response = self.authenticate_user(zani_name)
         assert logged_in_user is not None
         assert response.status_code == 200
-        print(response.json())
+        print("debug multi json", response.json())
         for user in response.json():
             print("debug multi project user", user["first_name"])
-        assert len(response.json()) == 8
+        assert len(response.json()) == 7
         assert fields_match(wanda_name, response.json(), read_fields["user"]["secure"] )
         assert fields_match(paul_name, response.json(), read_fields["user"]["basic"] )
 
