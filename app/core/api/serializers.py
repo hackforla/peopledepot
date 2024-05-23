@@ -46,16 +46,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        # def get(self, instance):
-        #     requesting_user = self.context['request'].user
-        #     serialized_user = instance
-        #     if PdUtil.can_see_secure(requesting_user, serialized_user):
-        #         self.fields = read_fields["user"]["secure"]
-        #     elif PdUtil.can_see_basic(requesting_user, serialized_user):
-        #         self.fields = read_fields["user"]["basic"]
-        #     else:
-        #         message = "You do not have permission to view this user"
-        #         raise PermissionError(message)
+       
         fields = (    
             "uuid",
             "username",
@@ -85,7 +76,28 @@ class UserSerializer(serializers.ModelSerializer):
             "email",
         )
 
+    def to_representation(self, instance):
+        print("debug representation")
+        representation = super().to_representation(instance)
+        filtered_representation = {}
 
+        requesting_user = self.context['request'].user
+        serialized_user = instance
+        if PdUtil.can_read_secure(requesting_user, serialized_user):
+            print("Can see secure")
+            represent_fields = read_fields["user"]["secure"]
+        elif PdUtil.can_read_basic(requesting_user, serialized_user):
+            print ("Can see basic")
+            represent_fields = read_fields["user"]["basic"]
+        else:
+            message = "You do not have permission to view this user"
+            raise PermissionError(message)
+        for field_name in represent_fields:
+            filtered_representation[field_name] = representation[field_name]
+        print("Representation", representation)
+        print("Filtered representation", filtered_representation)
+        return filtered_representation
+ 
 class ProjectSerializer(serializers.ModelSerializer):
     """Used to retrieve project info"""
 

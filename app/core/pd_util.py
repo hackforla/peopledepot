@@ -26,6 +26,8 @@ class PdUtil:
 
     @staticmethod
     def can_read_basic(requesting_user, serialized_user):
+        if PdUtil.is_admin(requesting_user):
+            return True
         requesting_projects = PermissionAssignment.objects.filter(user = requesting_user).values("project")
         serialized_projects = PermissionAssignment.objects.filter(user = serialized_user).values("project")
         return requesting_projects.intersection(serialized_projects).exists()       

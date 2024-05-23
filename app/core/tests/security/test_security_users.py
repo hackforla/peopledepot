@@ -43,12 +43,14 @@ class TestUser:
         assert logged_in_user is not None
         assert response.status_code == 200
         assert len(response.json()) == 4
+        assert fields_match(response.json(), )
         
  
     def test_project_team_member(self, user_tests_init):
         logged_in_user, response = self.authenticate_user(wally_name)
         assert logged_in_user is not None
         assert response.status_code == 200
+        print("debug json", response.json())
         assert len(response.json()) == 4
 
     def test_no_project(self, user_tests_init):
