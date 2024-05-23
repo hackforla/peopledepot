@@ -2,6 +2,8 @@ import copy
 from core.models import PermissionAssignment, PermissionType, Project, User
 from .seed_constants import (website_project, people_depot_project, wanda_name, wally_name, winona_name, zani_name, patti_name, patrick_name, paul_name, garry_name, valerie_name)
 from core.constants import (project_lead, project_team_member, global_admin, verified_user)
+from django.contrib.auth import get_user_model
+UserModel = get_user_model()
 
 class UserData:   
     data_loaded = False
@@ -32,6 +34,7 @@ class UserData:
             email=email   
         )
         cls.users[first_name] = user
+        user.save()
         return user
         
     def create_related_data(*, user=None, permission_type_name=None, project_name=None):
@@ -79,11 +82,7 @@ class UserData:
     @classmethod
     def initialize_data(cls):
         print("Initializing data")
-        if not cls.data_loaded:
-            cls.load_data()
-            cls.data_loaded = True
-        print("Creating data")
-            
+        cls.load_data()
         cls.wally_user = cls.get_user(wally_name)
         cls.wanda_user = cls.get_user(wanda_name)
         cls.winona_user = cls.get_user(winona_name)

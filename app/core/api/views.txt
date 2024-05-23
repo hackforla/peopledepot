@@ -110,33 +110,31 @@ class UserViewSet(viewsets.ModelViewSet):
         """
         Optionally filter users by an 'email' and/or 'username' query paramerter in the URL
         """
-        UserModel = get_user_model()
-        current_username = self.request.user.username
-
-        print("current_username", current_username, get_user_model().objects.all().count())         
-        # current_user = get_user_model().objects.get(username=current_username)
-        # user_permissions = PermissionAssignment.objects.filter(user=current_user)
-        # global_admin_permission = user_permissions(user=current_user, permission_type__name='global_admin').exists()
+        current_username = self.request.GET.get('username')  # Assume current username is passed as a query parameter
+        
+        if not current_username:
+            return Response({'error': 'username is required'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        current_user = get_object_or_404(User, username=current_username)
+        user_permissions = PermissionAssignment.objects.filter(user=current_user)
+        global_admin_permission = user_permissions(user=current_user, permission_type__name='global_admin').exists()
         
         # if global_admin_permission:
-        #     queryset = get_user_model().objects.all()
+        users = User.objects.all()
         # else:
         #     projects = [p.project for p in user_permissions if p.project is not None]
         #     if not projects:
         #         return Response([], status=status.HTTP_200_OK)  # Return an empty list if no project-specific permissions
-        #     queryset = get_user_model().objects.filter(permission__project__in=projects).distinct()
+        #     users = User.objects.filter(permission__project__in=projects).distinct()
         
-        # return users       
+        return Response([user.username for user in users], status=status.HTTP_200_OK)        
         queryset = get_user_model().objects.all()
-        print("query set", queryset.count())
         email = self.request.query_params.get("email")
         if email is not None:
             queryset = queryset.filter(email=email)
         username = self.request.query_params.get("username")
         if username is not None:
             queryset = queryset.filter(username=username)
-        print("query set 2", queryset.count())
-        return queryset
 
 
 @extend_schema_view(
