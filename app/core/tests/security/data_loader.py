@@ -57,6 +57,7 @@ class UserData:
             
         user_names = [wanda_name, wally_name, winona_name, zani_name, patti_name, patrick_name, paul_name, garry_name, valerie_name]
         for name in user_names:
+            
             cls.create_user(first_name=name, permission_type_name=verified_user)
             
         related_data = [
@@ -77,7 +78,10 @@ class UserData:
             params = copy.deepcopy(data)
             del params["first_name"]
             print("Params", user.first_name, params)
-            cls.create_related_data (user=user, **params)        
+            cls.create_related_data (user=user, **params)
+        
+        for user in User.objects.all():
+            print("debug userx", user.first_name)        
 
     @classmethod
     def initialize_data(cls):
