@@ -14,6 +14,7 @@ descriptions = {
     zani_name: "Website member and People Depot project lead",
     patti_name: "People Depot member",
     patrick_name: "People Depot project lead",
+    valerie_name: "Verified user, no project",
     garry_name: "Global admin",
 }
 

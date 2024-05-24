@@ -25,7 +25,7 @@ def user_tests_init():
     
 @pytest.fixture
 def user_tests_init2():
-    print("User tests initialization")
+    print("User tests initialization2")
     UserData2.initialize_data()
 
 

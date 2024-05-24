@@ -1,6 +1,6 @@
 import copy
 from core.models import PermissionAssignment, PermissionType, Project, User
-from core.tests.util.seed_constants import (website_project, people_depot_project, wanda_name, wally_name, winona_name, zani_name, patti_name, patrick_name, garry_name, valerie_name)
+from core.tests.util.seed_constants import (website_project, people_depot_project, wanda_name, wally_name, winona_name, zani_name, patti_name, patrick_name, garry_name, valerie_name, descriptions)
 from core.constants import (project_lead, project_team_member, global_admin, verified_user)
 from django.contrib.auth import get_user_model
 UserModel = get_user_model()
@@ -18,6 +18,7 @@ class UserData2:
 
     @classmethod
     def get_user(cls, first_name):
+        print("Debug get_user", first_name, cls.users, cls.users.get(first_name))
         return cls.users.get(first_name)
 
     @classmethod
@@ -34,10 +35,16 @@ class UserData2:
             email=email   
         )
         cls.users[first_name] = user
+        print("Debug create user", first_name, cls.users)
         user.save()
         return user
         
-    def create_related_data(*, user=None, permission_type_name=None, project_name=None):
+    @classmethod
+    def create_related_data(cls, *, user=None, permission_type_name=None, project_name=None):
+        print("Debug create related data", permission_type_name, project_name)
+        print(PermissionType.objects.all())
+        for permission_type in PermissionType.objects.all():
+            print("Debug permission type", permission_type.name)
         permission_type = PermissionType.objects.get(name=permission_type_name)
         if project_name:
             project_data = { "project":  Project.objects.get(name=project_name)}
@@ -59,7 +66,8 @@ class UserData2:
         x = 0
         for name in user_names:
             x += 1
-            cls.create_user(first_name=name, description=f"{name} user {x}")
+            print("Debug about to call create user", name, descriptions[name])
+            cls.create_user(first_name=name, description=descriptions[name])
             
         related_data = [
             {"first_name": wanda_name, "project_name": website_project, "permission_type_name": project_lead},

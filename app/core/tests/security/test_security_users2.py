@@ -9,6 +9,10 @@ from django.contrib.auth import get_user_model
 from core.pd_util import PdUtil
 from core.constants import read_fields
 
+count_website_members = 4
+count_people_depot_members = 3
+count_members_either = 6
+
 def fields_match(first_name, user_data, fields):
     for user in user_data:
         if user["first_name"] == first_name:
@@ -102,45 +106,47 @@ class TestUser:
         assert not PdUtil.can_read_secure(UserData2.wally_user, UserData2.wanda_user)
 
 
-    # def test_global_admin(self, user_tests_init):
-    #     logged_in_user, response = self.authenticate_user(garry_name)
-    #     assert logged_in_user is not None
-    #     assert response.status_code == 200
-    #     assert get_user_model().objects.count() > 0
-    #     assert len(response.json()) == len(UserData2.users)
+    def test_global_admin(self, user_tests_init2):
+        logged_in_user, response = self.authenticate_user(garry_name)
+        assert logged_in_user is not None
+        assert response.status_code == 200
+        assert get_user_model().objects.count() > 0
+        assert len(response.json()) == len(UserData2.users)
         
-    # def test_multi_project_user(self, user_tests_init):
-    #     logged_in_user, response = self.authenticate_user(zani_name)
-    #     assert logged_in_user is not None
-    #     assert response.status_code == 200
-    #     print("debug multi json", response.json())
-    #     for user in response.json():
-    #         print("debug multi project user", user["first_name"])
-    #     assert len(response.json()) == 7
-    #     assert fields_match(wanda_name, response.json(), read_fields["user"]["secure"] )
-    #     assert fields_match(paul_name, response.json(), read_fields["user"]["basic"] )
+    def test_multi_project_user(self, user_tests_init2):
+        print("Debug Zani name", zani_name)
+        logged_in_user, response = self.authenticate_user(zani_name)
+        print("Debug multi", zani_name, logged_in_user, UserData2.zani_user, UserData2.users    )
+        assert logged_in_user is not None
+        assert response.status_code == 200
+        print("debug multi json", response.json())
+        for user in response.json():
+            print("debug multi project user", user["first_name"])
+        assert len(response.json()) == count_members_either
+        assert fields_match(wanda_name, response.json(), read_fields["user"]["secure"] )
+        assert fields_match(patrick_name, response.json(), read_fields["user"]["basic"] )
 
 
-    # def test_project_lead(self, user_tests_init):
-    #     logged_in_user, response = self.authenticate_user(wanda_name)
-    #     assert logged_in_user is not None
-    #     assert response.status_code == 200
-    #     assert len(response.json()) == 4
-    #     assert fields_match(winona_name, response.json(), read_fields["user"]["secure"] )
+    def test_project_lead(self, user_tests_init2):
+        logged_in_user, response = self.authenticate_user(wanda_name)
+        assert logged_in_user is not None
+        assert response.status_code == 200
+        assert len(response.json()) == count_website_members
+        assert fields_match(winona_name, response.json(), read_fields["user"]["secure"] )
         
  
-    # def test_project_team_member(self, user_tests_init):
-    #     logged_in_user, response = self.authenticate_user(wally_name)
-    #     assert logged_in_user is not None
-    #     assert response.status_code == 200
-    #     print("debug json", response.json())
-    #     assert fields_match(winona_name, response.json(), read_fields["user"]["basic"] )
-    #     assert fields_match(wanda_name, response.json(), read_fields["user"]["basic"] )
-    #     assert len(response.json()) == 4
+    def test_project_team_member(self, user_tests_init2):
+        logged_in_user, response = self.authenticate_user(wally_name)
+        assert logged_in_user is not None
+        assert response.status_code == 200
+        print("debug json", response.json())
+        assert fields_match(winona_name, response.json(), read_fields["user"]["basic"] )
+        assert fields_match(wanda_name, response.json(), read_fields["user"]["basic"] )
+        assert len(response.json()) == count_website_members
 
-    # def test_no_project(self, user_tests_init):
-    #     logged_in_user, response = self.authenticate_user(valerie_name)
-    #     assert logged_in_user is not None
-    #     assert response.status_code == 200
-    #     assert len(response.json()) == 0
+    def test_no_project(self, user_tests_init2):
+        logged_in_user, response = self.authenticate_user(valerie_name)
+        assert logged_in_user is not None
+        assert response.status_code == 200
+        assert len(response.json()) == 0
 
