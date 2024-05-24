@@ -2,6 +2,7 @@ import pytest
 from rest_framework.test import APIClient
 
 from .security.data_loader import UserData
+from .security.data_loader2 import UserData2
 from ..models import Affiliate
 from ..models import Affiliation
 from ..models import Event
@@ -21,6 +22,12 @@ from ..models import Technology
 def user_tests_init():
     print("User tests initialization")
     UserData.initialize_data()
+    
+@pytest.fixture
+def user_tests_init2():
+    print("User tests initialization")
+    UserData2.initialize_data()
+
 
 @pytest.fixture
 @pytest.mark.django_db
