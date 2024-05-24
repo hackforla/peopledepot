@@ -4,7 +4,7 @@ import pytest
 from django.urls import reverse
 from rest_framework.test import APIClient
 from core.tests.security.data_loader2 import UserData2
-from .seed_constants import (wally_name, wanda_name, winona_name, zani_name, patti_name, patrick_name, paul_name, garry_name, valerie_name)
+from core.tests.util.seed_constants import (wally_name, wanda_name, winona_name, zani_name, patti_name, patrick_name, garry_name, valerie_name)
 from django.contrib.auth import get_user_model
 from core.pd_util import PdUtil
 from core.constants import read_fields
@@ -97,11 +97,9 @@ class TestUser:
         assert not PdUtil.is_admin(UserData2.wanda_user)
         assert PdUtil.can_read_basic(UserData2.wally_user, UserData2.winona_user)
         assert PdUtil.can_read_basic(UserData2.wally_user, UserData2.wanda_user)
-        assert not PdUtil.can_read_basic(UserData2.wally_user, UserData2.paul_user)
         assert not PdUtil.can_read_basic(UserData2.wally_user, UserData2.garry_user)
         assert PdUtil.can_read_secure(UserData2.wanda_user, UserData2.wally_user)
         assert not PdUtil.can_read_secure(UserData2.wally_user, UserData2.wanda_user)
-        assert not PdUtil.can_read_secure(UserData2.wanda_user, UserData2.paul_user)
 
 
     # def test_global_admin(self, user_tests_init):

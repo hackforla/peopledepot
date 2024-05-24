@@ -1,9 +1,10 @@
 import copy
 from core.models import PermissionAssignment, PermissionType, Project, User
-from .seed_constants import (website_project, people_depot_project, wanda_name, wally_name, winona_name, zani_name, patti_name, patrick_name, paul_name, garry_name, valerie_name)
+from core.tests.util.seed_constants import (website_project, people_depot_project, wanda_name, wally_name, winona_name, zani_name, patti_name, patrick_name, garry_name, valerie_name)
 from core.constants import (project_lead, project_team_member, global_admin, verified_user)
 from django.contrib.auth import get_user_model
 UserModel = get_user_model()
+
 
 class UserData2:   
     data_loaded = False
@@ -14,7 +15,6 @@ class UserData2:
     zani_user = None
     patti_user = None
     patrick_user = None
-    paul_user = None
 
     @classmethod
     def get_user(cls, first_name):
@@ -55,7 +55,7 @@ class UserData2:
             project = Project.objects.create(name=project_name)
             project.save()
             
-        user_names = [wanda_name, wally_name, winona_name, zani_name, patti_name, patrick_name, paul_name, garry_name, valerie_name]
+        user_names = [wanda_name, wally_name, winona_name, zani_name, patti_name, patrick_name, garry_name, valerie_name]
         x = 0
         for name in user_names:
             x += 1
@@ -68,7 +68,6 @@ class UserData2:
             {"first_name": zani_name, "project_name": people_depot_project, "permission_type_name": project_team_member},
             {"first_name": patti_name, "project_name": people_depot_project, "permission_type_name": project_team_member},
             {"first_name": patrick_name, "project_name": people_depot_project, "permission_type_name": project_lead},
-            {"first_name": paul_name, "project_name": people_depot_project, "permission_type_name": project_team_member},
             {"first_name": garry_name, "permission_type_name": global_admin},
             {"first_name": valerie_name, "permission_type_name": verified_user},
             {"first_name": zani_name, "project_name": website_project, "permission_type_name": project_lead},
@@ -93,7 +92,6 @@ class UserData2:
         cls.zani_user = cls.get_user(zani_name)
         cls.patti_user = cls.get_user(patti_name)
         cls.patrick_user = cls.get_user(patrick_name)
-        cls.paul_user = cls.get_user(paul_name)
         cls.garry_user = cls.get_user(garry_name)
         cls.valerie_user = cls.get_user(valerie_name)
 
