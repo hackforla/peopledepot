@@ -80,9 +80,15 @@ class UserSerializer(serializers.ModelSerializer):
         print("debug representation")
         representation = super().to_representation(instance)
         filtered_representation = {}
+        request = self.context.get("request")
 
-        requesting_user = self.context['request'].user
-        serialized_user = instance
+        requesting_user: User = request.user
+        serialized_user: User = instance
+        print("debug users", requesting_user.first_name, serialized_user.first_name)
+        print("debug can read secure", PdUtil.can_read_secure(requesting_user, serialized_user))
+        print("debug can read basic", PdUtil.can_read_basic(requesting_user, serialized_user))
+        if request.method != "GET":
+            return representation
         if PdUtil.can_read_secure(requesting_user, serialized_user):
             print("Can see secure")
             represent_fields = read_fields["user"]["secure"]

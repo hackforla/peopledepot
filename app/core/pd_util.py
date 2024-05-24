@@ -13,7 +13,7 @@ class PdUtil:
     @staticmethod
     def can_read_secure(requesting_user, serialized_user):
         """Check if requesting user can see secure user info"""
-        if PdUtil.is_admin(requesting_user):
+        if PdUtil.is_admin(requesting_user) or requesting_user == serialized_user:
             return True
         requesting_projects = PermissionAssignment.objects.filter(
             user = requesting_user,
