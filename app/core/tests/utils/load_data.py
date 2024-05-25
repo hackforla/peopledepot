@@ -8,7 +8,7 @@ UserModel = get_user_model()
 from core.tests.utils.seed_data import Seed
 
 
-class UserData:   
+class LoadData:   
     data_loaded = False
     @classmethod
     def load_data(cls):
