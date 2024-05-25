@@ -1,7 +1,7 @@
 import pytest
 from rest_framework.test import APIClient
 
-from .security.data_loader import UserData2
+from .security.data_loader import UserData
 from ..models import Affiliate
 from ..models import Affiliation
 from ..models import Event
@@ -19,9 +19,9 @@ from ..models import Technology
 
     
 @pytest.fixture
-def user_tests_init2():
+def user_tests_init():
     print("User tests initialization2")
-    UserData2.initialize_data()
+    UserData.initialize_data()
 
 
 @pytest.fixture

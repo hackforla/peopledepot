@@ -96,7 +96,7 @@ class TestUser:
         response = client.get(url)
         return logged_in_user, response
     
-    def test_can_read_logic(self, user_tests_init2):
+    def test_can_read_logic(self, user_tests_init):
         assert PdUtil.is_admin(Seed.garry.user)
         assert not PdUtil.is_admin(Seed.wanda.user)
         assert PdUtil.can_read_basic(Seed.wally.user, Seed.winona.user)
@@ -106,14 +106,14 @@ class TestUser:
         assert not PdUtil.can_read_secure(Seed.wally.user, Seed.wanda.user)
 
 
-    def test_global_admin(self, user_tests_init2):
+    def test_global_admin(self, user_tests_init):
         logged_in_user, response = self.authenticate_user(Seed.garry.first_name)
         assert logged_in_user is not None
         assert response.status_code == 200
         assert get_user_model().objects.count() > 0
         assert len(response.json()) == len(SeedUser.users)
         
-    def test_multi_project_user(self, user_tests_init2):
+    def test_multi_project_user(self, user_tests_init):
         logged_in_user, response = self.authenticate_user(Seed.zani.first_name)
         print("Debug multi", Seed.zani.first_name, logged_in_user, Seed.zani.user, SeedUser.users    )
         assert logged_in_user is not None
@@ -126,7 +126,7 @@ class TestUser:
         assert fields_match(Seed.patrick.first_name, response.json(), read_fields["user"]["basic"] )
 
 
-    def test_project_lead(self, user_tests_init2):
+    def test_project_lead(self, user_tests_init):
         logged_in_user, response = self.authenticate_user(Seed.wanda.first_name)
         assert logged_in_user is not None
         assert response.status_code == 200
@@ -134,7 +134,7 @@ class TestUser:
         assert fields_match(Seed.winona.first_name, response.json(), read_fields["user"]["secure"] )
         
  
-    def test_project_team_member(self, user_tests_init2):
+    def test_project_team_member(self, user_tests_init):
         logged_in_user, response = self.authenticate_user(Seed.wally.first_name)
         assert logged_in_user is not None
         assert response.status_code == 200
@@ -143,7 +143,7 @@ class TestUser:
         assert fields_match(Seed.wanda.first_name, response.json(), read_fields["user"]["basic"] )
         assert len(response.json()) == count_website_members
 
-    def test_no_project(self, user_tests_init2):
+    def test_no_project(self, user_tests_init):
         logged_in_user, response = self.authenticate_user(Seed.valerie.first_name)
         assert logged_in_user is not None
         assert response.status_code == 200
