@@ -19,70 +19,6 @@ def fields_match(first_name, user_data, fields):
             return set(user.keys()) == set(fields)
     return False
 
-user_actions_test_data = [
-    (
-        "admin_client",
-        "post",
-        "users_url",
-        CREATE_USER_PAYLOAD,
-        status.HTTP_201_CREATED,
-    ),
-    ("admin_client", "get", "users_url", {}, status.HTTP_200_OK),
-    (
-        "auth_client",
-        "post",
-        "users_url",
-        CREATE_USER_PAYLOAD,
-        status.HTTP_201_CREATED,
-    ),
-    ("auth_client", "get", "users_url", {}, status.HTTP_200_OK),
-    (
-        "auth_client",
-        "patch",
-        "user_url",
-        {"first_name": "TestUser2"},
-        status.HTTP_200_OK,
-    ),
-    (
-        "auth_client",
-        "put",
-        "user_url",
-        CREATE_USER_PAYLOAD,
-        status.HTTP_200_OK,
-    ),
-    ("auth_client", "delete", "user_url", {}, status.HTTP_204_NO_CONTENT),
-    (
-        "admin_client",
-        "patch",
-        "user_url",
-        {"first_name": "TestUser2"},
-        status.HTTP_200_OK,
-    ),
-    (
-        "admin_client",
-        "put",
-        "user_url",
-        CREATE_USER_PAYLOAD,
-        status.HTTP_200_OK,
-    ),
-    ("admin_client", "delete", "user_url", {}, status.HTTP_204_NO_CONTENT),
-    (
-        "auth_client2",
-        "patch",
-        "user_url",
-        {"first_name": "TestUser2"},
-        status.HTTP_200_OK,
-    ),
-    (
-        "auth_client2",
-        "put",
-        "user_url",
-        CREATE_USER_PAYLOAD,
-        status.HTTP_200_OK,
-    ),
-    ("auth_client2", "delete", "user_url", {}, status.HTTP_204_NO_CONTENT),
-]
-
 
 @pytest.mark.django_db
 class TestUser:
@@ -97,6 +33,15 @@ class TestUser:
         return logged_in_user, response
     
     
+    def test_validate_update_fields(self, user_tests_init):
+        logged_in_user, response = self.authenticate_user(Seed.garry.first_name)
+        assert logged_in_user is not None
+        assert response.status_code == 200
+        assert get_user_model().objects.count() > 0
+        assert len(response.json()) == len(SeedUser.users)
+        PermissionUtil.validate_fields(Seed.garry.user, Seed.valerie.user, ["first_name"])
+        PermissionUtil.validate_fields(Seed.wanda.user, Seed.wally.user, ["first_name"])
+
     def test_can_read_logic(self, user_tests_init):
 
         print(f"Assert Garry {Seed.garry.user.last_name} is admin")

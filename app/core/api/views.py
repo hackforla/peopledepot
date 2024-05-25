@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from core.permission_util import PermissionUtil
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import OpenApiExample
 from drf_spectacular.utils import OpenApiParameter
@@ -102,6 +103,8 @@ class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
     update=extend_schema(description="Update the given user"),
     partial_update=extend_schema(description="Partially update the given user"),
 )
+
+
 class UserViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     serializer_class = UserSerializer
@@ -114,31 +117,31 @@ class UserViewSet(viewsets.ModelViewSet):
         UserModel = get_user_model()
         current_username = self.request.user.username
 
-        print("current_username", current_username, get_user_model().objects.all().count())         
         current_user = get_user_model().objects.get(username=current_username)
         user_permissions = PermissionAssignment.objects.filter(user=current_user)
-        print("debug user", current_user)
         global_admin_permission = user_permissions.filter(user=current_user, permission_type__name=global_admin).exists()
         
-        if global_admin_permission:
-            print("Here is the global admin")
+        if PermissionUtil.is_admin(current_user):
             queryset = get_user_model().objects.all()
         else:
             projects = [p.project for p in user_permissions if p.project is not None]
             queryset = get_user_model().objects.filter(permissionassignment__project__in=projects).distinct()
-
-        
-        # return users       
-        # print("query set", queryset.count())
         email = self.request.query_params.get("email")
         if email is not None:
             queryset = queryset.filter(email=email)
-        # username = self.request.query_params.get("username")
-        # if username is not None:
-        #     queryset = queryset.filter(username=username)
+        username = self.request.query_params.get("username")
+        if username is not None:
+            queryset = queryset.filter(username=username)
         print("query set 2", queryset.count())
         return queryset
 
+    def update(self, request, *args, **kwargs):
+        PermissionUtil.validate_fields(request)
+        return super().update(request, *args, **kwargs)
+
+    def partial_update(self, request, *args, **kwargs):
+        PermissionUtil.validate_fields(request)
+        return super().partial_update(request, *args, **kwargs)
 
 @extend_schema_view(
     list=extend_schema(description="Return a list of all the projects"),
