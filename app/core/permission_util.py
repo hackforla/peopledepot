@@ -1,6 +1,6 @@
 from core.constants import PermissionTypeValue
-from core.models import PermissionAssignment
-class PdUtil:
+from core.models import PermissionAssignment, User
+class PermissionUtil:
     @staticmethod
     def is_admin(user):
         """Check if user is an admin"""
@@ -11,9 +11,9 @@ class PdUtil:
     
     
     @staticmethod
-    def can_read_secure(requesting_user, serialized_user):
+    def can_read_user_secure(requesting_user: User, serialized_user: User):
         """Check if requesting user can see secure user info"""
-        if PdUtil.is_admin(requesting_user) or requesting_user == serialized_user:
+        if PermissionUtil.is_admin(requesting_user) or requesting_user == serialized_user:
             return True
         requesting_projects = PermissionAssignment.objects.filter(
             user = requesting_user,
@@ -24,9 +24,10 @@ class PdUtil:
                 "project").distinct() 
         return requesting_projects.intersection(serialized_projects).exists()       
 
+
     @staticmethod
-    def can_read_basic(requesting_user, serialized_user):
-        if PdUtil.is_admin(requesting_user):
+    def can_read_user_basic(requesting_user: User, serialized_user: User):
+        if PermissionUtil.is_admin(requesting_user):
             return True
         requesting_projects = PermissionAssignment.objects.filter(user = requesting_user).values("project")
         serialized_projects = PermissionAssignment.objects.filter(user = serialized_user).values("project")

@@ -16,7 +16,7 @@ from core.models import Skill
 from core.models import StackElementType
 from core.models import Technology
 from core.models import User
-from core.pd_util import PdUtil
+from core.permission_util import PermissionUtil
 from core.constants import read_fields
 
 
@@ -85,14 +85,14 @@ class UserSerializer(serializers.ModelSerializer):
         requesting_user: User = request.user
         serialized_user: User = instance
         print("debug users", requesting_user.first_name, serialized_user.first_name)
-        print("debug can read secure", PdUtil.can_read_secure(requesting_user, serialized_user))
-        print("debug can read basic", PdUtil.can_read_basic(requesting_user, serialized_user))
+        print("debug can read secure", PermissionUtil.can_read_user_secure(requesting_user, serialized_user))
+        print("debug can read basic", PermissionUtil.can_read_user_basic(requesting_user, serialized_user))
         if request.method != "GET":
             return representation
-        if PdUtil.can_read_secure(requesting_user, serialized_user):
+        if PermissionUtil.can_read_user_secure(requesting_user, serialized_user):
             print("Can see secure")
             represent_fields = read_fields["user"]["secure"]
-        elif PdUtil.can_read_basic(requesting_user, serialized_user):
+        elif PermissionUtil.can_read_user_basic(requesting_user, serialized_user):
             print ("Can see basic")
             represent_fields = read_fields["user"]["basic"]
         else:

@@ -4,7 +4,7 @@ import pytest
 from django.urls import reverse
 from rest_framework.test import APIClient
 from django.contrib.auth import get_user_model
-from core.pd_util import PdUtil
+from core.permission_util import PermissionUtil
 from core.constants import read_fields
 from core.tests.utils.seed_data import Seed
 from core.tests.utils.seed_user import SeedUser
@@ -96,14 +96,18 @@ class TestUser:
         response = client.get(url)
         return logged_in_user, response
     
+    
     def test_can_read_logic(self, user_tests_init):
-        assert PdUtil.is_admin(Seed.garry.user)
-        assert not PdUtil.is_admin(Seed.wanda.user)
-        assert PdUtil.can_read_basic(Seed.wally.user, Seed.winona.user)
-        assert PdUtil.can_read_basic(Seed.wally.user, Seed.wanda.user)
-        assert not PdUtil.can_read_basic(Seed.wally.user, Seed.garry.user)
-        assert PdUtil.can_read_secure(Seed.wanda.user, Seed.wally.user)
-        assert not PdUtil.can_read_secure(Seed.wally.user, Seed.wanda.user)
+
+        print(f"Assert Garry {Seed.garry.user.last_name} is admin")
+        assert PermissionUtil.is_admin(Seed.garry.user)        
+        print(f"Assert Garry {Seed.wanda.user.last_name} is admin")        
+        assert not PermissionUtil.is_admin(Seed.wanda.user)
+        assert PermissionUtil.can_read_user_basic(Seed.wally.user, Seed.winona.user)
+        assert PermissionUtil.can_read_user_basic(Seed.wally.user, Seed.wanda.user)
+        assert not PermissionUtil.can_read_user_basic(Seed.wally.user, Seed.garry.user)
+        assert PermissionUtil.can_read_user_secure(Seed.wanda.user, Seed.wally.user)
+        assert not PermissionUtil.can_read_user_secure(Seed.wally.user, Seed.wanda.user)
 
 
     def test_global_admin(self, user_tests_init):
