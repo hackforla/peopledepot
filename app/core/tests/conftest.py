@@ -1,7 +1,7 @@
 import pytest
 from rest_framework.test import APIClient
 
-from .security.data_loader2 import UserData2
+from .security.data_loader import UserData2
 from ..models import Affiliate
 from ..models import Affiliation
 from ..models import Event

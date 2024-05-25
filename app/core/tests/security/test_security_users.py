@@ -3,7 +3,6 @@ from rest_framework import status
 import pytest
 from django.urls import reverse
 from rest_framework.test import APIClient
-from core.tests.security.data_loader2 import UserData2
 from django.contrib.auth import get_user_model
 from core.pd_util import PdUtil
 from core.constants import read_fields
