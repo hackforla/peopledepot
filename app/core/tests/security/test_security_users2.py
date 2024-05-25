@@ -4,10 +4,11 @@ import pytest
 from django.urls import reverse
 from rest_framework.test import APIClient
 from core.tests.security.data_loader2 import UserData2
-from core.tests.util.seed_constants import (wally_name, wanda_name, winona_name, zani_name, patti_name, patrick_name, garry_name, valerie_name)
 from django.contrib.auth import get_user_model
 from core.pd_util import PdUtil
 from core.constants import read_fields
+from core.tests.utils.seed_data import Seed
+from core.tests.utils.seed_user import SeedUser
 
 count_website_members = 4
 count_people_depot_members = 3
@@ -89,63 +90,62 @@ class TestUser:
     
     @classmethod
     def authenticate_user(cls, user_name):
-        logged_in_user = UserData2.get_user(user_name)
+        logged_in_user = SeedUser.get_user(user_name)
         client = APIClient()
         client.force_authenticate(user=logged_in_user)
         url = reverse('user-list')  # Update this to your actual URL name
         response = client.get(url)
         return logged_in_user, response
     
-    def test_lead_util(self, user_tests_init2):
-        assert PdUtil.is_admin(UserData2.garry_user)
-        assert not PdUtil.is_admin(UserData2.wanda_user)
-        assert PdUtil.can_read_basic(UserData2.wally_user, UserData2.winona_user)
-        assert PdUtil.can_read_basic(UserData2.wally_user, UserData2.wanda_user)
-        assert not PdUtil.can_read_basic(UserData2.wally_user, UserData2.garry_user)
-        assert PdUtil.can_read_secure(UserData2.wanda_user, UserData2.wally_user)
-        assert not PdUtil.can_read_secure(UserData2.wally_user, UserData2.wanda_user)
+    def test_can_read_logic(self, user_tests_init2):
+        assert PdUtil.is_admin(Seed.garry.user)
+        assert not PdUtil.is_admin(Seed.wanda.user)
+        assert PdUtil.can_read_basic(Seed.wally.user, Seed.winona.user)
+        assert PdUtil.can_read_basic(Seed.wally.user, Seed.wanda.user)
+        assert not PdUtil.can_read_basic(Seed.wally.user, Seed.garry.user)
+        assert PdUtil.can_read_secure(Seed.wanda.user, Seed.wally.user)
+        assert not PdUtil.can_read_secure(Seed.wally.user, Seed.wanda.user)
 
 
     def test_global_admin(self, user_tests_init2):
-        logged_in_user, response = self.authenticate_user(garry_name)
+        logged_in_user, response = self.authenticate_user(Seed.garry.first_name)
         assert logged_in_user is not None
         assert response.status_code == 200
         assert get_user_model().objects.count() > 0
-        assert len(response.json()) == len(UserData2.users)
+        assert len(response.json()) == len(SeedUser.users)
         
     def test_multi_project_user(self, user_tests_init2):
-        print("Debug Zani name", zani_name)
-        logged_in_user, response = self.authenticate_user(zani_name)
-        print("Debug multi", zani_name, logged_in_user, UserData2.zani_user, UserData2.users    )
+        logged_in_user, response = self.authenticate_user(Seed.zani.first_name)
+        print("Debug multi", Seed.zani.first_name, logged_in_user, Seed.zani.user, SeedUser.users    )
         assert logged_in_user is not None
         assert response.status_code == 200
         print("debug multi json", response.json())
         for user in response.json():
             print("debug multi project user", user["first_name"])
         assert len(response.json()) == count_members_either
-        assert fields_match(wanda_name, response.json(), read_fields["user"]["secure"] )
-        assert fields_match(patrick_name, response.json(), read_fields["user"]["basic"] )
+        assert fields_match(Seed.wanda.first_name, response.json(), read_fields["user"]["secure"] )
+        assert fields_match(Seed.patrick.first_name, response.json(), read_fields["user"]["basic"] )
 
 
     def test_project_lead(self, user_tests_init2):
-        logged_in_user, response = self.authenticate_user(wanda_name)
+        logged_in_user, response = self.authenticate_user(Seed.wanda.first_name)
         assert logged_in_user is not None
         assert response.status_code == 200
         assert len(response.json()) == count_website_members
-        assert fields_match(winona_name, response.json(), read_fields["user"]["secure"] )
+        assert fields_match(Seed.winona.first_name, response.json(), read_fields["user"]["secure"] )
         
  
     def test_project_team_member(self, user_tests_init2):
-        logged_in_user, response = self.authenticate_user(wally_name)
+        logged_in_user, response = self.authenticate_user(Seed.wally.first_name)
         assert logged_in_user is not None
         assert response.status_code == 200
         print("debug json", response.json())
-        assert fields_match(winona_name, response.json(), read_fields["user"]["basic"] )
-        assert fields_match(wanda_name, response.json(), read_fields["user"]["basic"] )
+        assert fields_match(Seed.winona.first_name, response.json(), read_fields["user"]["basic"] )
+        assert fields_match(Seed.wanda.first_name, response.json(), read_fields["user"]["basic"] )
         assert len(response.json()) == count_website_members
 
     def test_no_project(self, user_tests_init2):
-        logged_in_user, response = self.authenticate_user(valerie_name)
+        logged_in_user, response = self.authenticate_user(Seed.valerie.first_name)
         assert logged_in_user is not None
         assert response.status_code == 200
         assert len(response.json()) == 0

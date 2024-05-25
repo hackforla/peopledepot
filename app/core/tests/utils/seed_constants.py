@@ -1,5 +1,6 @@
-wally_name = "Wally"
+
 wanda_name = "Wanda"
+wally_name = "Wally"
 winona_name = "Winona"
 zani_name = "Zani"
 patti_name = "Patti"

@@ -1,14 +1,16 @@
-from app.core.models import PermissionAssignment, PermissionType, Project, User
+from core.models import PermissionAssignment, PermissionType, Project, User
 
 
-class seed_user:    
+class SeedUser:  
+    users = {}  
 
     
-    def __init__(self, first_name, last_name, description):
+    def __init__(self, first_name, description):
         self.first_name = first_name
-        self.last_name = last_name
+        self.last_name = description
         self.user_name = f"{first_name}{description}"
-        self.user = seed_user.create_user(first_name=first_name)
+        self.user = SeedUser.create_user(first_name=first_name)
+        self.users[first_name] = self.user
     
     
     @classmethod
@@ -16,8 +18,8 @@ class seed_user:
         return cls.users.get(first_name)
 
     @classmethod
-    def create_user(cls, *, first_name, project_name=None, other_user_data={}):
-        last_name = f"{permission_type_name}{project_name}"
+    def create_user(cls, *, first_name, description = None, other_user_data={}):
+        last_name = f"{description}"
         email = f"{first_name}{last_name}@example.com"
         username = email
 
@@ -31,8 +33,9 @@ class seed_user:
         cls.users[first_name] = user
         user.save()
         return user
-        
-    def create_related_data(*, user=None, permission_type_name=None, project_name=None):
+    
+    @classmethod
+    def create_related_data(cls, *, user=None, permission_type_name=None, project_name=None):
         permission_type = PermissionType.objects.get(name=permission_type_name)
         if project_name:
             project_data = { "project":  Project.objects.get(name=project_name)}
