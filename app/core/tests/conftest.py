@@ -20,15 +20,8 @@ from ..models import Technology
     
 @pytest.fixture
 def user_tests_init():
-    print("User tests initialization2")
     LoadData.initialize_data()
 
-
-@pytest.fixture
-@pytest.mark.django_db
-def init_foo():
-    print("Init foo")
-    LoadData.initialize_data()
 
 @pytest.fixture
 def user(django_user_model):

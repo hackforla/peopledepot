@@ -42,9 +42,7 @@ class LoadData:
             params = copy.deepcopy(data)
             del params["first_name"]
             SeedUser.create_related_data (user=user, **params)
-        
-        for user in User.objects.all():
-            print("debug userx", user.first_name)        
+                
 
     @classmethod
     def initialize_data(cls):

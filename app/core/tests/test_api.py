@@ -24,7 +24,6 @@ PERMISSION_TYPE = reverse("permission-type-list")
 STACK_ELEMENT_TYPE_URL = reverse("stack-element-type-list")
 SDG_URL = reverse("sdg-list")
 AFFILIATION_URL = reverse("affiliation-list")
-print("debug ME_URL", ME_URL)
 
 CREATE_USER_PAYLOAD = {
     "username": "TestUserAPI",

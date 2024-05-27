@@ -56,9 +56,7 @@ class TestUser:
 
     def test_can_read_logic(self, user_tests_init):
 
-        print(f"Assert Garry {Seed.garry.user.last_name} is admin")
         assert PermissionUtil.is_admin(Seed.garry.user)        
-        print(f"Assert Garry {Seed.wanda.user.last_name} is admin")        
         assert not PermissionUtil.is_admin(Seed.wanda.user)
         assert PermissionUtil.can_read_user_basic(Seed.wally.user, Seed.winona.user)
         assert PermissionUtil.can_read_user_basic(Seed.wally.user, Seed.wanda.user)
@@ -76,12 +74,8 @@ class TestUser:
         
     def test_multi_project_user(self, user_tests_init):
         logged_in_user, response = self.authenticate_user(Seed.zani.first_name)
-        print("Debug multi", Seed.zani.first_name, logged_in_user, Seed.zani.user, SeedUser.users    )
         assert logged_in_user is not None
         assert response.status_code == 200
-        print("debug multi json", response.json())
-        for user in response.json():
-            print("debug multi project user", user["first_name"])
         assert len(response.json()) == count_members_either
         assert fields_match(Seed.wanda.first_name, response.json(), Fields.read["user"][PermissionValue.global_admin] )
         assert fields_match(Seed.patrick.first_name, response.json(), Fields.read["user"][PermissionValue.basic] )

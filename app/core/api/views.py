@@ -131,8 +131,7 @@ class UserViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(email=email)
         username = self.request.query_params.get("username")
         if username is not None:
-            queryset = queryset.filter(username=username)
-        print("query set 2", queryset.count())
+            queryset = queryset.filter(username=username)        
         return queryset
 
     def update(self, request, *args, **kwargs):

@@ -95,8 +95,6 @@ class UserSerializer(serializers.ModelSerializer):
             raise PermissionError(message)
         for field_name in represent_fields:
             filtered_representation[field_name] = representation[field_name]
-        print("Representation", representation)
-        print("Filtered representation", filtered_representation)
         return filtered_representation
  
 class ProjectSerializer(serializers.ModelSerializer):

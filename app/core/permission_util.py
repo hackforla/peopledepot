@@ -18,9 +18,6 @@ class PermissionUtil:
         """Check if requesting user can see secure user info"""
         if PermissionUtil.is_admin(requesting_user) or requesting_user == serialized_user:
             return True
-        print("requesting_user", requesting_user.first_name,)
-        for item in PermissionAssignment.objects.all():
-            print("project", item.user.first_name, item.project and item.project.name, item.permission_type.name, PermissionValue.project_admin)
         requesting_projects = PermissionAssignment.objects.filter(
             user = requesting_user,
             permission_type__name=PermissionValue.project_admin).values(
@@ -28,8 +25,6 @@ class PermissionUtil:
         serialized_projects = PermissionAssignment.objects.filter(
             user = serialized_user).values(
                 "project").distinct() 
-        print("requesting_projects", requesting_projects)
-        print("serialized_projects", serialized_projects)
         return requesting_projects.intersection(serialized_projects).exists()       
 
 
