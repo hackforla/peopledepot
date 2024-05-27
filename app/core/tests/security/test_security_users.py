@@ -48,8 +48,10 @@ class TestUser:
         assert logged_in_user is not None
         assert response.status_code == 200
         assert get_user_model().objects.count() > 0
-        show_test_info(f"Field logic: validate global admin Garry can see Fields.read['user'][global_admin]")
+        show_test_info("Validating validate_fields function")
+        show_test_info(f"Field logic: validate list of fields for global admin when viewing a user ")
         PermissionUtil.validate_fields(Seed.garry.user, Seed.valerie.user, ["first_name"])
+        show_test_info(f"Field logic: validate list of fields for website admin when viewing a website member ")
         PermissionUtil.validate_fields(Seed.wanda.user, Seed.wally.user, ["first_name"])
         with pytest.raises(Exception):
             PermissionUtil.validate_fields(Seed.wanda.user, Seed.wally.user, ["bogus_field"])
