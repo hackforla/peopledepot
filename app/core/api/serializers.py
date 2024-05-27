@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from timezone_field.rest_framework import TimeZoneSerializerField
+from core.constants import PermissionValue
 
 from core.models import Affiliate
 from core.models import Affiliation
@@ -17,7 +18,7 @@ from core.models import StackElementType
 from core.models import Technology
 from core.models import User
 from core.permission_util import PermissionUtil
-from core.constants import read_fields
+from core.constants import Fields
 
 
 class PracticeAreaSerializer(serializers.ModelSerializer):
@@ -77,24 +78,18 @@ class UserSerializer(serializers.ModelSerializer):
         )
 
     def to_representation(self, instance):
-        print("debug representation")
         representation = super().to_representation(instance)
         filtered_representation = {}
         request = self.context.get("request")
 
         requesting_user: User = request.user
         serialized_user: User = instance
-        print("debug users", requesting_user.first_name, serialized_user.first_name)
-        print("debug can read secure", PermissionUtil.can_read_user_secure(requesting_user, serialized_user))
-        print("debug can read basic", PermissionUtil.can_read_user_basic(requesting_user, serialized_user))
         if request.method != "GET":
             return representation
         if PermissionUtil.can_read_user_secure(requesting_user, serialized_user):
-            print("Can see secure")
-            represent_fields = read_fields["user"]["secure"]
+            represent_fields = Fields.read["user"][PermissionValue.global_admin]
         elif PermissionUtil.can_read_user_basic(requesting_user, serialized_user):
-            print ("Can see basic")
-            represent_fields = read_fields["user"]["basic"]
+            represent_fields = Fields.read["user"][PermissionValue.basic]
         else:
             message = "You do not have permission to view this user"
             raise PermissionError(message)

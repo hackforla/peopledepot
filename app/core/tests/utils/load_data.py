@@ -1,7 +1,7 @@
 import copy
 from core.models import Project, User
 from core.tests.utils.seed_constants import (website_project, people_depot_project)
-from core.constants import (project_lead, project_team_member, global_admin, verified_user)
+from core.constants import PermissionValue
 from django.contrib.auth import get_user_model
 from core.tests.utils.seed_user import SeedUser
 UserModel = get_user_model()
@@ -26,15 +26,15 @@ class LoadData:
         Seed.valerie = SeedUser("Valerie", "Verified user, no project")
 
         related_data = [
-            {"first_name": Seed.wanda.first_name, "project_name": website_project, "permission_type_name": project_lead},
-            {"first_name": Seed.wally.first_name, "project_name": website_project, "permission_type_name": project_team_member},
-            {"first_name": Seed.winona.first_name, "project_name": website_project, "permission_type_name": project_team_member},
-            {"first_name": Seed.zani.first_name, "project_name": people_depot_project, "permission_type_name": project_team_member},
-            {"first_name": Seed.patti.first_name, "project_name": people_depot_project, "permission_type_name": project_team_member},
-            {"first_name": Seed.patrick.first_name, "project_name": people_depot_project, "permission_type_name": project_lead},
-            {"first_name": Seed.garry.first_name, "permission_type_name": global_admin},
-            {"first_name": Seed.valerie.first_name, "permission_type_name": verified_user},
-            {"first_name": Seed.zani.first_name, "project_name": website_project, "permission_type_name": project_lead},
+            {"first_name": Seed.wanda.first_name, "project_name": website_project, "permission_type_name": PermissionValue.project_admin},
+            {"first_name": Seed.wally.first_name, "project_name": website_project, "permission_type_name": PermissionValue.project_team_member},
+            {"first_name": Seed.winona.first_name, "project_name": website_project, "permission_type_name": PermissionValue.project_team_member},
+            {"first_name": Seed.zani.first_name, "project_name": people_depot_project, "permission_type_name": PermissionValue.project_team_member},
+            {"first_name": Seed.patti.first_name, "project_name": people_depot_project, "permission_type_name": PermissionValue.project_team_member},
+            {"first_name": Seed.patrick.first_name, "project_name": people_depot_project, "permission_type_name": PermissionValue.project_admin},
+            {"first_name": Seed.garry.first_name, "permission_type_name": PermissionValue.global_admin},
+            {"first_name": Seed.valerie.first_name, "permission_type_name": PermissionValue.verified_user},
+            {"first_name": Seed.zani.first_name, "project_name": website_project, "permission_type_name": PermissionValue.project_admin},
         ]
 
         for data in related_data:

@@ -1,3 +1,12 @@
+# Change fields that can be viewed in code to what Bonnie specified
+# Change fields that can be viewed in my wiki to what Bonnie specified
+# Add more tests for update
+# Add print statements to explain what is being tested
+# Add tests for the patch API
+# Add tests for and implement put (disallow), post, and delete API
+# Update my Wiki for put, patch, post, delete
+# Add proposals
+
 from core.tests.test_api import CREATE_USER_PAYLOAD
 from rest_framework import status
 import pytest
@@ -5,9 +14,10 @@ from django.urls import reverse
 from rest_framework.test import APIClient
 from django.contrib.auth import get_user_model
 from core.permission_util import PermissionUtil
-from core.constants import read_fields
+from core.constants import Fields, PermissionValue
 from core.tests.utils.seed_data import Seed
 from core.tests.utils.seed_user import SeedUser
+from core.tests.utils.utils_test import show_test_info
 
 count_website_members = 4
 count_people_depot_members = 3
@@ -33,14 +43,16 @@ class TestUser:
         return logged_in_user, response
     
     
-    def test_validate_update_fields(self, user_tests_init):
+    def test_validate_fields_update(self, user_tests_init):
         logged_in_user, response = self.authenticate_user(Seed.garry.first_name)
         assert logged_in_user is not None
         assert response.status_code == 200
         assert get_user_model().objects.count() > 0
-        assert len(response.json()) == len(SeedUser.users)
+        show_test_info(f"Field logic: validate global admin Garry can see Fields.read['user'][global_admin]")
         PermissionUtil.validate_fields(Seed.garry.user, Seed.valerie.user, ["first_name"])
         PermissionUtil.validate_fields(Seed.wanda.user, Seed.wally.user, ["first_name"])
+        with pytest.raises(Exception):
+            PermissionUtil.validate_fields(Seed.wanda.user, Seed.wally.user, ["bogus_field"])
 
     def test_can_read_logic(self, user_tests_init):
 
@@ -71,8 +83,8 @@ class TestUser:
         for user in response.json():
             print("debug multi project user", user["first_name"])
         assert len(response.json()) == count_members_either
-        assert fields_match(Seed.wanda.first_name, response.json(), read_fields["user"]["secure"] )
-        assert fields_match(Seed.patrick.first_name, response.json(), read_fields["user"]["basic"] )
+        assert fields_match(Seed.wanda.first_name, response.json(), Fields.read["user"][PermissionValue.global_admin] )
+        assert fields_match(Seed.patrick.first_name, response.json(), Fields.read["user"][PermissionValue.basic] )
 
 
     def test_project_lead(self, user_tests_init):
@@ -80,7 +92,7 @@ class TestUser:
         assert logged_in_user is not None
         assert response.status_code == 200
         assert len(response.json()) == count_website_members
-        assert fields_match(Seed.winona.first_name, response.json(), read_fields["user"]["secure"] )
+        assert fields_match(Seed.winona.first_name, response.json(), Fields.read["user"][PermissionValue.global_admin] )
         
  
     def test_project_team_member(self, user_tests_init):
@@ -88,8 +100,8 @@ class TestUser:
         assert logged_in_user is not None
         assert response.status_code == 200
         print("debug json", response.json())
-        assert fields_match(Seed.winona.first_name, response.json(), read_fields["user"]["basic"] )
-        assert fields_match(Seed.wanda.first_name, response.json(), read_fields["user"]["basic"] )
+        assert fields_match(Seed.winona.first_name, response.json(), Fields.read["user"][PermissionValue.basic] )
+        assert fields_match(Seed.wanda.first_name, response.json(), Fields.read["user"][PermissionValue.basic] )
         assert len(response.json()) == count_website_members
 
     def test_no_project(self, user_tests_init):

@@ -1,22 +1,17 @@
 from django.db import migrations
 
 from core.models import PermissionType
-from core.constants import project_lead, \
-        practice_area_lead,\
-        global_admin,\
-        project_team_member,\
-        practice_area_team_member,\
-        verified_user\
+from core.constants import PermissionValue
 
 
 def run(__code__, __reverse_code__):
     items = [
-        project_lead,
-        practice_area_lead,
-        global_admin,
-        project_team_member,
-        practice_area_team_member,
-        verified_user,
+        PermissionValue.project_admin,
+        PermissionValue.practice_area_admin,
+        PermissionValue.global_admin,
+        PermissionValue.project_team_member,
+        PermissionValue.practice_area_team_member,
+        PermissionValue.verified_user,
     ]
     for name in items:
         PermissionType.objects.create(name=name)

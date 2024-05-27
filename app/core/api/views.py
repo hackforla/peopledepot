@@ -45,7 +45,7 @@ from .serializers import TechnologySerializer
 from .serializers import UserSerializer
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
-from core.constants import global_admin
+from core.constants import PermissionValue
 
 class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
     serializer_class = UserSerializer
@@ -119,7 +119,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
         current_user = get_user_model().objects.get(username=current_username)
         user_permissions = PermissionAssignment.objects.filter(user=current_user)
-        global_admin_permission = user_permissions.filter(user=current_user, permission_type__name=global_admin).exists()
+        global_admin_permission = user_permissions.filter(user=current_user, permission_type__name=PermissionValue.global_admin).exists()
         
         if PermissionUtil.is_admin(current_user):
             queryset = get_user_model().objects.all()
