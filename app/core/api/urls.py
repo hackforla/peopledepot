@@ -1,5 +1,10 @@
 from django.urls import path
+from core.api.cutom_token_api import CustomTokenObtainView
 from rest_framework import routers
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
 
 from .views import AffiliateViewSet
 from .views import AffiliationViewSet
@@ -42,6 +47,9 @@ router.register(
 )
 urlpatterns = [
     path("me/", UserProfileAPIView.as_view(), name="my_profile"),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/token/', CustomTokenObtainView.as_view(), name='token_obtain'),
+
 ]
 
 urlpatterns += router.urls

@@ -1,12 +1,18 @@
 # Change fields that can be viewed in code to what Bonnie specified
+# Add update api test
+# Write API to get token
+# Create a demo script for adding users with password of Hello2024.
+# Create a shell script for doing a get
+# Create a shell script for doing a patch
 # Change fields that can be viewed in my wiki to what Bonnie specified
 # Add more tests for update
 # Add print statements to explain what is being tested
 # Add tests for the patch API
 # Add tests for and implement put (disallow), post, and delete API
 # Update my Wiki for put, patch, post, delete
-# Add proposals
-
+# Add proposals:
+#   - use flag instead of role for admin and verified
+# . -
 from core.tests.test_api import CREATE_USER_PAYLOAD
 from rest_framework import status
 import pytest
@@ -43,28 +49,66 @@ class TestUser:
         return logged_in_user, response
     
     
-    def test_validate_fields_update(self, user_tests_init):
+    def test_is_fields_valid_update(self, user_tests_init):
         logged_in_user, response = self.authenticate_user(Seed.garry.first_name)
         assert logged_in_user is not None
         assert response.status_code == 200
         assert get_user_model().objects.count() > 0
-        show_test_info("Validating validate_fields function")
-        show_test_info(f"Field logic: validate list of fields for global admin when viewing a user ")
-        PermissionUtil.validate_fields(Seed.garry.user, Seed.valerie.user, ["first_name"])
-        show_test_info(f"Field logic: validate list of fields for website admin when viewing a website member ")
-        PermissionUtil.validate_fields(Seed.wanda.user, Seed.wally.user, ["first_name"])
+        show_test_info("")
+        show_test_info("==== Validating is_fields_valid function ====")
+        show_test_info("")
+        show_test_info("==> Validating global admin")
+        show_test_info("")
+        show_test_info(f"global admin will succeed for first name, last name, and email")
+        PermissionUtil.is_fields_valid(Seed.garry.user, Seed.valerie.user, ["first_name", "last_name", "email"])
+        show_test_info(f"global admin will raise exception for created_at")
         with pytest.raises(Exception):
-            PermissionUtil.validate_fields(Seed.wanda.user, Seed.wally.user, ["bogus_field"])
+            PermissionUtil.is_fields_valid(Seed.garry.user, Seed.valerie.user, ["created_at"])
+        show_test_info("")
+        show_test_info("==> Validating project admin")
+        show_test_info(f"project admin will succeed for first name, last name, and email with a project member")
+        PermissionUtil.is_fields_valid(Seed.wanda.user, Seed.wally.user, ["first_name", "last_name"])
+        show_test_info(f"project admin will  raise exception for current title / project member combo")
+        with pytest.raises(Exception):
+            PermissionUtil.is_fields_valid(Seed.wanda.user, Seed.wally.user, ["current_title"])
+        show_test_info(f"project admin will raise exception for first name (or any field) / non-project member combo")
+        with pytest.raises(Exception):
+            PermissionUtil.is_fields_valid(Seed.wanda.user, Seed.patti.user, ["first_name"])
+        show_test_info("")
+        show_test_info("=== Validating project member ===")
+        show_test_info("Validate project member cannot update first name of another project member")
+        with pytest.raises(Exception):
+            PermissionUtil.is_fields_valid(Seed.wally.user, Seed.winona.user, ["first_name"])
+        show_test_info("==> Validating combo user with both project admin and project member roles")
+        show_test_info("Validate combo user can update first name of a project member for which they are a project admin")
+        PermissionUtil.is_fields_valid(Seed.zani.user, Seed.wally.user, ["first_name"])
+        show_test_info("Validate combo user cannot update first name of a project member for which they are not a project admin")
+        with pytest.raises(Exception):
+            PermissionUtil.is_fields_valid(Seed.zani.user, Seed.patti.user, ["first_name"])
+        
 
     def test_can_read_logic(self, user_tests_init):
-
+        show_test_info("=== Validating logic for can read===")
+        show_test_info("==> is admin")
+        show_test_info("Validate is_admin returns true for a global admin and false for a project admin")
         assert PermissionUtil.is_admin(Seed.garry.user)        
         assert not PermissionUtil.is_admin(Seed.wanda.user)
+
+        show_test_info("Globan admin can read senstive fields of any user")
+        assert PermissionUtil.can_read_user_secure(Seed.garry.user, Seed.valerie.user)
+        
+        show_test_info("==> project member")
+        show_test_info("Project member can read basic info for another project member")
         assert PermissionUtil.can_read_user_basic(Seed.wally.user, Seed.winona.user)
+        show_test_info("Team member can read basic info for another project member")
         assert PermissionUtil.can_read_user_basic(Seed.wally.user, Seed.wanda.user)
+        show_test_info("Team member can read basic info for another project member")
         assert not PermissionUtil.can_read_user_basic(Seed.wally.user, Seed.garry.user)
-        assert PermissionUtil.can_read_user_secure(Seed.wanda.user, Seed.wally.user)
         assert not PermissionUtil.can_read_user_secure(Seed.wally.user, Seed.wanda.user)
+        
+        show_test_info("==> project admin")
+        assert PermissionUtil.can_read_user_secure(Seed.wanda.user, Seed.wally.user)
+
 
 
     def test_global_admin(self, user_tests_init):
@@ -83,7 +127,7 @@ class TestUser:
         assert fields_match(Seed.patrick.first_name, response.json(), Fields.read["user"][PermissionValue.basic] )
 
 
-    def test_project_lead(self, user_tests_init):
+    def test_project_admin(self, user_tests_init):
         logged_in_user, response = self.authenticate_user(Seed.wanda.first_name)
         assert logged_in_user is not None
         assert response.status_code == 200
@@ -95,7 +139,6 @@ class TestUser:
         logged_in_user, response = self.authenticate_user(Seed.wally.first_name)
         assert logged_in_user is not None
         assert response.status_code == 200
-        print("debug json", response.json())
         assert fields_match(Seed.winona.first_name, response.json(), Fields.read["user"][PermissionValue.basic] )
         assert fields_match(Seed.wanda.first_name, response.json(), Fields.read["user"][PermissionValue.basic] )
         assert len(response.json()) == count_website_members
@@ -106,3 +149,5 @@ class TestUser:
         assert response.status_code == 200
         assert len(response.json()) == 0
 
+        
+        

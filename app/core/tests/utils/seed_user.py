@@ -1,5 +1,5 @@
 from core.models import PermissionAssignment, PermissionType, Project, User
-
+from core.tests.seed_constants import password
 
 class SeedUser:  
     users = {}  
@@ -28,7 +28,9 @@ class SeedUser:
             username=username,
             first_name=first_name,
             last_name=last_name,
-            email=email   
+            email=email,
+            password=password,
+            is_active=True,
         )
         cls.users[first_name] = user
         user.save()

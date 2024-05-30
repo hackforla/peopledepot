@@ -1,6 +1,6 @@
 import copy
 from core.models import Project, User
-from core.tests.utils.seed_constants import (website_project, people_depot_project)
+from core.tests.seed_constants import (website_project, people_depot_project)
 from core.constants import PermissionValue
 from django.contrib.auth import get_user_model
 from core.tests.utils.seed_user import SeedUser

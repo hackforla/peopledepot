@@ -133,14 +133,30 @@ class UserViewSet(viewsets.ModelViewSet):
         if username is not None:
             queryset = queryset.filter(username=username)        
         return queryset
-
-    def update(self, request, *args, **kwargs):
-        PermissionUtil.validate_fields(request)
-        return super().update(request, *args, **kwargs)
-
+    
     def partial_update(self, request, *args, **kwargs):
-        PermissionUtil.validate_fields(request)
-        return super().partial_update(request, *args, **kwargs)
+        instance = self.get_object()
+
+        # Get the parameters for the update
+        update_data = request.data
+
+        # Log or print the instance and update_data for debugging
+        PermissionUtil.is_fields_valid(request.user, instance, update_data)
+        response = super().partial_update(request, *args, **kwargs)
+        return response
+
+
+    # def partial_update(self, request, *args, **kwargs):
+    #     instance = self.get_object()
+
+    #     # Get the parameters for the update
+    #     update_data = request.data
+
+    #     # Log or print the instance and update_data for debugging
+    #     print("Object being updated:", instance)
+    #     print("Update parameters:", update_data)
+
+    #     PermissionUtil.is_fields_valid(request.user, instance, update_data)
 
 @extend_schema_view(
     list=extend_schema(description="Return a list of all the projects"),
