@@ -44,11 +44,8 @@ class PermissionUtil:
     def has_project_admin_user_update_privs(requesting_user: User, serialized_user: User):
         if PermissionUtil.is_admin(requesting_user):
             return True
-        print(requesting_user.first_name, serialized_user.first_name)
         requesting_projects = PermissionAssignment.objects.filter(user = requesting_user, permission_type__name = PermissionValue.project_admin).values("project")
         serialized_projects = PermissionAssignment.objects.filter(user = serialized_user).values("project")
-        print("debug requesting_projects", requesting_projects)
-        print("debug serialized_projects", serialized_projects)
         return requesting_projects.intersection(serialized_projects).exists()       
 
     @staticmethod
@@ -60,18 +57,12 @@ class PermissionUtil:
 
     @staticmethod 
     def is_fields_valid(requesting_user, target_user, request_fields):
-        print("Debug checking fields")
         if PermissionUtil.has_global_admin_user_update_privs(requesting_user, target_user):
-            print("Admin has global admin privs")
             valid_fields = Fields.update["user"][PermissionValue.global_admin]
         elif PermissionUtil.has_project_admin_user_update_privs(requesting_user, target_user):
-            print("Admin has project admin privs")
             valid_fields = Fields.update["user"][PermissionValue.project_admin]
         else:
-            print("Raising")
             raise PermissionError("You do not have permission to update this user")
-        print("Valid fields: ", valid_fields)
-        print("Set of request fields: ", set(request_fields))
         disallowed_fields = set(request_fields) - set(valid_fields)
         if disallowed_fields:
             raise ValidationError(f"Invalid fields: {', '.join(disallowed_fields)}")
