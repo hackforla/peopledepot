@@ -161,17 +161,22 @@ class Event(AbstractBaseModel):
     additional_info = models.TextField(blank=True)
 
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    must_attend = models.JSONField(default=list)
+    should_attend = models.JSONField(default=list)
+    could_attend = models.JSONField(default=list)
     # location_id = models.ForeignKey("Location", on_delete=models.DO_NOTHING)
     # event_type_id = models.ForeignKey("EventType", on_delete=models.DO_NOTHING)
     # brigade_id = models.ForeignKey("Brigade", on_delete=models.DO_NOTHING)
     # day_of_week = models.ForeignKey("DayOfWeek", on_delete=models.DO_NOTHING)
-    # must_roles = models.ManyToManyField("Role")
-    # should_roles = models.ManyToManyField("Role")
-    # could_roles = models.ManyToManyField("Role")
     # frequency_id = models.ForeignKey("Frequency", on_delete=models.DO_NOTHING)
 
     def __str__(self):
-        return f"{self.name}"
+        return (
+            f"Event: {self.name}, "
+            f"Must_Attend: {self.must_attend}, "
+            f"Should_Attend: {self.should_attend}, "
+            f"Could_Attend: {self.could_attend}"
+        )
 
 
 class Affiliate(AbstractBaseModel):

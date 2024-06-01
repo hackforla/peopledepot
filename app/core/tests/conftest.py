@@ -52,7 +52,17 @@ def project():
 
 @pytest.fixture
 def event(project):
-    return Event.objects.create(name="Test Event", project=project)
+    return Event.objects.create(
+        name="All",
+        project=project,
+        must_attend=(
+            '[{"practice_area":"Professional Development","permisstion_type":"adminProject"},'
+            '{"practice_area":"Development","permisstion_type":"practiceLeadProject"},'
+            '{"practice_area":"Design","permisstion_type":"practiceLeadJrProject"}]'
+        ),
+        should_attend='[{"practice_area":"Development","permission_type":"memberProject"}]',
+        could_attend='[{"practice_area":"Design","permission_type":"memberGeneral"}]',
+    )
 
 
 @pytest.fixture

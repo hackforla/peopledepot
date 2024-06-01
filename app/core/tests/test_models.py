@@ -15,7 +15,15 @@ def test_project(project):
 
 
 def test_event(event):
-    assert str(event) == "Test Event"
+    expected_str = (
+        'Event: All, Must_Attend: [{"practice_area":"Professional Development",'
+        '"permisstion_type":"adminProject"},{"practice_area":"Development",'
+        '"permisstion_type":"practiceLeadProject"},{"practice_area":"Design",'
+        '"permisstion_type":"practiceLeadJrProject"}], Should_Attend: [{"practice_area":'
+        '"Development","permission_type":"memberProject"}], Could_Attend: [{"practice_area":'
+        '"Design","permission_type":"memberGeneral"}]'
+    )
+    assert str(event) == expected_str
 
 
 def test_practice_area(practice_area):
