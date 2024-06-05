@@ -51,17 +51,35 @@ def project():
 
 
 @pytest.fixture
-def event(project):
+def event_pm(project):
+    return Event.objects.create(
+        name="PM",
+        project=project,
+        must_attend=[
+            {"practice_area": "Development", "permission_type": "practiceLeadProject"},
+            {"practice_area": "Design", "permission_type": "practiceLeadJrProject"},
+        ],
+        should_attend=[
+            {"practice_area": "Development", "permission_type": "memberProject"},
+            {"practice_area": "Design", "permission_type": "adminProject"},
+        ],
+        could_attend=[{"practice_area": "Design", "permission_type": "memberGeneral"}],
+    )
+
+
+@pytest.fixture
+def event_all(project):
     return Event.objects.create(
         name="All",
         project=project,
-        must_attend=(
-            '[{"practice_area":"Professional Development","permisstion_type":"adminProject"},'
-            '{"practice_area":"Development","permisstion_type":"practiceLeadProject"},'
-            '{"practice_area":"Design","permisstion_type":"practiceLeadJrProject"}]'
-        ),
-        should_attend='[{"practice_area":"Development","permission_type":"memberProject"}]',
-        could_attend='[{"practice_area":"Design","permission_type":"memberGeneral"}]',
+        must_attend=[
+            {
+                "practice_area": "Professional Development",
+                "permission_type": "adminProject",
+            }
+        ],
+        should_attend=[],
+        could_attend=[],
     )
 
 
