@@ -1,5 +1,7 @@
 import pytest
 
+from ..models import Event
+
 pytestmark = pytest.mark.django_db
 
 
@@ -14,8 +16,18 @@ def test_project(project):
     assert str(project) == "Test Project"
 
 
-def test_event(event):
-    assert str(event) == "Test Event"
+def filter_objects_by_name(objects_list, name):
+    return [obj for obj in objects_list if getattr(obj, "name", None) == name]
+
+
+def test_event_projects_admins_must_attend(event_all, event_pm):
+    projects_admins_must_attend = Event.objects.filter(
+        must_attend__contains=[{"permission_type": "adminProject"}]
+    )
+
+    assert projects_admins_must_attend.count() == 1
+    assert len(filter_objects_by_name(projects_admins_must_attend, "All")) == 1
+    assert len(filter_objects_by_name(projects_admins_must_attend, "PM")) == 0
 
 
 def test_practice_area(practice_area):

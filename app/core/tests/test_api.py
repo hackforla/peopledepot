@@ -169,6 +169,20 @@ def test_create_event(auth_client, project):
         "video_conference_url": "https://zoom.com/link",
         "additional_info": "Test description",
         "project": project.uuid,
+        "must_attend": [
+            {
+                "practice_area": "Professional Development",
+                "permission_type": "adminProject",
+            },
+            {"practice_area": "Development", "permission_type": "practiceLeadProject"},
+            {"practice_area": "Design", "permission_type": "practiceLeadJrProject"},
+        ],
+        "should_attend": [
+            {"practice_area": "Development", "permission_type": "memberProject"}
+        ],
+        "could_attend": [
+            {"practice_area": "Design", "permission_type": "memberGeneral"}
+        ],
     }
     res = auth_client.post(EVENTS_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED

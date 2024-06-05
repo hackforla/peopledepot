@@ -1,1 +1,1 @@
-0022_rename_sponsorpartner_affiliate_affiliation_and_more
+0023_event_could_attend_event_must_attend_and_more
