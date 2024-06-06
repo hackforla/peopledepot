@@ -11,17 +11,19 @@ if [[ $PWD != *"app"* ]]; then
     }
 fi
 
-SCRIPT_DIR="$(dirname "$0")"
-"$SCRIPT_DIR"/loadenv.sh || loadenv.sh ||  {
+loadenv.sh ||  {
     echo "ERROR: loadenv.sh failed"
     return 1
 }
 echo Admin user = "$DJANGO_SUPERUSER" email = "$DJANGO_SUPERUSER_EMAIL"
-if [[ $1 != "" ]]; then
+if [[ $1x != "x" ]]; then
+    echo Setting port to param "$1"
     port=$1
 elif [[ "$DJANGO_PORT" != "" ]]; then
+    echo Setting port to DJANGO_PORT "$DJANGO_PORT"
     port=$DJANGO_PORT
 else
+    echo Setting port to 8000
     port=8000
 fi
 echo Port is "$port"
@@ -46,8 +48,7 @@ python manage.py migrate || {
 echo
 echo --- Executing python manage.py shell to check if "$DJANGO_SUPERUSER_USERNAME" exists
 echo
-python manage.py shell -c "from core.models import User; exists = (User.objects.filter(username='$DJANGO_SUPERUSER_USERNAME').exists()); sys.exit(0 if exists else 1)"
-
+python manage.py shell -c "import sys; from core.models import User; exists = User.objects.filter(username='admin1111').exists(); sys.exit(0 if exists else 1)"
 superuser_exists=$?
 
 if [ $superuser_exists -eq 1 ]; then

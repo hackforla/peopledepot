@@ -13,9 +13,9 @@ class LoadData:
     @classmethod
     def load_data(cls):
         projects = [website_project, people_depot_project]
-        for project_name in projects:
-            project = Project.objects.create(name=project_name)
-            project.save() 
+        # for project_name in projects:
+        #     project = Project.objects.create(name=project_name)
+        #     project.save() 
         Seed.wanda = SeedUser("Wanda", "Website project lead")
         Seed.wally = SeedUser("Wally", "Website member")
         Seed.winona = SeedUser("Winona", "Website member")
