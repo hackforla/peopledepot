@@ -28,7 +28,7 @@ Let's start!
 
         In `app/core/tests/test_models.py`
 
-        ```python
+        ```python title="app/core/tests/test_models.py" linenums="1"
         def test_recurring_event_model(project):
             from datetime import datetime
 
@@ -63,7 +63,7 @@ Let's start!
 
 Add the following to `app/core/models.py`
 
-```python
+```python title="app/core/models.py" linenums="1"
 class RecurringEvent(AbstractBaseModel):  # (1)!
     """
     Recurring Events
@@ -118,7 +118,7 @@ This generates the database migration files
 
         Add the following to `app/core/tests/conftest.py`
 
-        ```python
+        ```python title="app/core/tests/conftest.py" linenums="1"
         @pytest.fixture
         # (1)!
         def recurring_event(project):  # (2)!
@@ -138,7 +138,7 @@ This generates the database migration files
 
         Add the following to `app/core/tests/test_models.py`
 
-        ```python
+        ```python title="app/core/tests/test_models.py" linenums="1"
         def test_recurring_event(recurring_event):  # (1)!
             # (2)!
             assert str(recurring_event) == "Test Recurring Event"  # (3)!
@@ -180,13 +180,13 @@ In `app/core/admin.py`
 
 1. Import the new model
 
-    ```python
+    ```python title="app/core/admin.py" linenums="1"
     from .models import RecurringEvent
     ```
 
 1. Register the model with the admin site
 
-    ```python
+    ```python title="app/core/admin.py" linenums="1"
     @admin.register(RecurringEvent)  # (2)!
     class RecurringEventAdmin(admin.ModelAdmin):  # (1)!
         list_display = (  # (3)!
@@ -249,13 +249,13 @@ In `app/core/api/serializers.py`
 
 1. Import the new model
 
-    ```python
+    ```python title="app/core/api/serializers.py" linenums="1"
     from core.models import RecurringEvent
     ```
 
 1. Add a serializer class
 
-    ```python
+    ```python title="app/core/api/serializers.py" linenums="1"
     class RecurringEventSerializer(serializers.ModelSerializer):  # (1)!
         """Used to retrieve recurring_event info"""
 
@@ -305,13 +305,13 @@ In `app/core/api/views.py`
 
 1. Import the serializer
 
-    ```python
+    ```python title="app/core/api/views.py" linenums="1"
     from .serializers import RecurringEventSerializer
     ```
 
 1. Add the [viewset](https://www.django-rest-framework.org/api-guide/viewsets/) and CRUD API endpoint descriptions
 
-    ```python
+    ```python title="app/core/api/views.py" linenums="1"
     @extend_schema_view(  # (2)!
         list=extend_schema(description="Return a list of all the recurring events"),
         create=extend_schema(description="Create a new recurring event"),
@@ -338,7 +338,7 @@ In `app/core/api/views.py`
 
     1. Here's a more complex API doc example (this example is using the User model's ViewSet)
 
-        ```python
+        ```python title="app/core/api/views.py" linenums="1"
         @extend_schema_view(
             list=extend_schema(  # (2)!
                 summary="Users List",
@@ -392,7 +392,7 @@ In `app/core/api/views.py`
 
     1. Add any query params according to the requirements (this example is using the User model's ViewSet)
 
-        ```python
+        ```python title="app/core/api/views.py" linenums="1"
         class UserViewSet(viewsets.ModelViewSet):
             ...
 
@@ -422,13 +422,13 @@ In `app/core/api/urls.py`
 
 1. Import the viewset.
 
-    ```python
+    ```python title="app/core/api/urls.py" linenums="1"
     from .views import RecurringEventViewSet
     ```
 
 1. [Register](https://www.django-rest-framework.org/api-guide/routers/#usage) the viewset to the [router](https://www.django-rest-framework.org/api-guide/routers/)
 
-    ```python
+    ```python title="app/core/api/urls.py" linenums="1"
     router.register(r"recurring-events", RecurringEventViewSet, basename="recurring-event")
     # (1)!
     ```
@@ -447,13 +447,13 @@ In `app/core/api/urls.py`
 
     1. Import API URL
 
-        ```python
+        ```python title="app/core/tests/test_api.py" linenums="1"
         RECURRING_EVENTS_URL = reverse("recurring-event-list")
         ```
 
     1. Add test case
 
-        ```python
+        ```python title="app/core/tests/test_api.py" linenums="1"
         def test_create_recurring_event(auth_client, project):
             """Test that we can create a recurring event"""
 
