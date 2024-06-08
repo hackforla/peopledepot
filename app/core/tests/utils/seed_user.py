@@ -8,8 +8,9 @@ class SeedUser:
     def __init__(self, first_name, description):
         self.first_name = first_name
         self.last_name = description
-        self.user_name = f"{first_name}{description}"
-        self.user = SeedUser.create_user(first_name=first_name)
+        self.user_name = f"{first_name}@example.com"
+        self.email = self.user_name
+        self.user = SeedUser.create_user(first_name=first_name, description=description)
         self.users[first_name] = self.user
     
     
@@ -21,7 +22,7 @@ class SeedUser:
     def create_user(cls, *, first_name, description = None, other_user_data={}):
         last_name = f"{description}"
         email = f"{first_name}{last_name}@example.com"
-        username = email
+        username = first_name
 
         print("Creating user", first_name)
         user = User.objects.create(
@@ -29,9 +30,9 @@ class SeedUser:
             first_name=first_name,
             last_name=last_name,
             email=email,
-            password=password,
             is_active=True,
         )
+        user.set_password(password)
         cls.users[first_name] = user
         user.save()
         return user
