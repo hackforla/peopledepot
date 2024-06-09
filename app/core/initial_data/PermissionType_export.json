@@ -1,0 +1,34 @@
+[
+    {
+        "uuid":1, 
+        "name":"adminGlobal",
+        "description":"Granted to People Depo Admins. Can CRUD anything."},
+    {
+        "uuid":2, 
+        "name":"adminVrms", 
+        "description":"Granted to VRMS the application.  Can R anything and update permissions for users to the level of Admin Brigade"},
+    {
+        "uuid":3, 
+        "name":"adminBrigade", 
+        "description":"Granted to Brigage Leads.  Can CRUD anything related to a user or project assigned to their brigade "},
+    {
+        "uuid":4, 
+        "name":"adminProject", 
+        "description":"Granted to Product Managers.  Can Read and Update anything related to their assigned project"},
+    {
+        "uuid":5, 
+        "name":"practiceLeadProject", 
+        "description":"Granted when a user is promoted or assigned to be a Project Lead.  Can R and U anything related to people in their practice area (must attend lead events)"},
+    {
+        "uuid":6, 
+        "name":"practiceLeadJrProject", 
+        "description":"Granted when a user is promoted or assigned to be a Jr Project Lead.  Can R and U anything related to people in their practice area (should attend lead events)"},
+    {
+        "uuid":7, 
+        "name":"memberProject", 
+        "description":"Granted when a user joins a project.  Can Read anything related to their project that is visible"},
+    {
+        "uuid":8, 
+        "name":"memberGeneral", 
+        "description":"Granted when a user finishes onboaring.  Can express interest in a project's open role if they are the role"}
+]
