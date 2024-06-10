@@ -396,12 +396,11 @@ In `app/core/api/views.py`
         class UserViewSet(viewsets.ModelViewSet):
             ...
 
-            # (1)!
-            def get_queryset(self):  # (2)!
+            def get_queryset(self):  # (1)!
                 """
                 Optionally filter users by an 'email' and/or 'username' query paramerter in the URL
                 """
-                queryset = get_user_model().objects.all()  # (3)!
+                queryset = get_user_model().objects.all()  # (2)!
                 email = self.request.query_params.get("email")
                 if email is not None:
                     queryset = queryset.filter(email=email)
@@ -412,7 +411,9 @@ In `app/core/api/views.py`
         ```
 
         1. Notice the `queryset` property is now the `get_queryset(()` function which returns the queryset.
-        1. The `get_queryset()` function overrides the default and lets us filter the objects returned to the client if they pass in a query param.
+
+            The `get_queryset()` function overrides the default and lets us filter the objects returned to the client if they pass in a query param.
+
         1. Start with all the model objects and filter them based on any available query params.
 
 ### Register API endpoints
@@ -428,8 +429,8 @@ In `app/core/api/urls.py`
 1. [Register](https://www.django-rest-framework.org/api-guide/routers/#usage) the viewset to the [router](https://www.django-rest-framework.org/api-guide/routers/)
 
     ```python
-    # (1)!
     router.register(r"recurring-events", RecurringEventViewSet, basename="recurring-event")
+    # (1)!
     ```
 
     1. Params
