@@ -21,7 +21,6 @@ RUN \
   && apt-get install --no-install-recommends -yqq \
   netcat=1.10-46 \
   gcc=4:10.2.1-1 \
-  postgresql=13+225+deb11u1\
   graphviz=2.42.2-5
 
 # install dependencies
