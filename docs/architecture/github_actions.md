@@ -6,7 +6,7 @@ These are the github actions used in the project.
 
 ```bash
 .github/workflows/
-├── deploy-docs.yml # (1)!
+└── deploy-docs.yml # (1)!
 ```
 
 1. Deploy Documentation
