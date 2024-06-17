@@ -3,7 +3,7 @@ from django.db import migrations
 from core.models import PermissionType
 
 
-def run(__code__, __reverse_code__):
+def insert_data(__code__, __reverse_code__):
     items = [
         (1, "adminGlobal", "Granted to People Depo Admins. Can CRUD anything."),
         (
@@ -46,8 +46,11 @@ def run(__code__, __reverse_code__):
         PermissionType.objects.create(uuid=uuid, name=name, description=description)
 
 
+def clear_table(__code__, __reverse_code__):
+    PermissionType.objects.all().delete()
+
+
 class Migration(migrations.Migration):
-    initial = True
     dependencies = [("data", "0003_sdg_seed")]
 
-    operations = [migrations.RunPython(run, migrations.RunPython.noop)]
+    operations = [migrations.RunPython(insert_data, clear_table)]
