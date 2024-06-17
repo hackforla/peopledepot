@@ -3,7 +3,7 @@ from django.db import migrations
 from core.models import ProgramArea
 
 
-def run(__code__, __reverse_code__):
+def forward(__code__, __reverse_code__):
     items = [
         (1, "Citizen Engagement"),
         (2, "Civic Tech Infrastructure"),
@@ -19,8 +19,11 @@ def run(__code__, __reverse_code__):
         ProgramArea.objects.create(uuid=uuid, name=name)
 
 
+def reverse(__code__, __reverse_code__):
+    ProgramArea.objects.all().delete()
+
+
 class Migration(migrations.Migration):
-    initial = True
     dependencies = [("core", "0018_rename_recurringevent_event")]
 
-    operations = [migrations.RunPython(run, migrations.RunPython.noop)]
+    operations = [migrations.RunPython(forward, reverse)]
