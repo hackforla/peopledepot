@@ -2,7 +2,7 @@ from django.db import migrations
 from core.models import PracticeArea
 
 
-def run(__code__, __reverse_code__):
+def forward(__code__, __reverse_code__):
     items = [
         (1, "Development"),
         (2, "Project Management"),
@@ -13,8 +13,11 @@ def run(__code__, __reverse_code__):
         PracticeArea.objects.create(uuid=uuid, name=name)
 
 
+def reverse(__code__, __reverse_code__):
+    PracticeArea.objects.all().delete()
+
+
 class Migration(migrations.Migration):
-    initial = True
     dependencies = [("data", "0001_programarea_seed")]
 
-    operations = [migrations.RunPython(run, migrations.RunPython.noop)]
+    operations = [migrations.RunPython(forward, reverse)]

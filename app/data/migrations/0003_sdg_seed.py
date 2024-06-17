@@ -3,7 +3,7 @@ from django.db import migrations
 from core.models import Sdg
 
 
-def run(__code__, __reverse_code__):
+def forward(__code__, __reverse_code__):
     items = [
         (1, "No Poverty", "End poverty in all its forms everywhere", "sdg01.png"),
         (
@@ -107,8 +107,11 @@ def run(__code__, __reverse_code__):
         Sdg.objects.create(uuid=uuid, name=name, description=description, image=image)
 
 
+def reverse(__code__, __reverse_code__):
+    Sdg.objects.all().delete()
+
+
 class Migration(migrations.Migration):
-    initial = True
     dependencies = [("data", "0002_practicearea_seed")]
 
-    operations = [migrations.RunPython(run, migrations.RunPython.noop)]
+    operations = [migrations.RunPython(forward, reverse)]
