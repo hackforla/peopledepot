@@ -32,14 +32,45 @@ class LoadData:
         Seed.valerie = SeedUser("Valerie", "Verified user")
 
         related_data = [
-            {"first_name": Seed.wanda.first_name, "project_name": website_project, "permission_type_name": PermissionValue.project_admin},
-            {"first_name": Seed.wally.first_name, "project_name": website_project, "permission_type_name": PermissionValue.project_team_member},
-            {"first_name": Seed.winona.first_name, "project_name": website_project, "permission_type_name": PermissionValue.project_team_member},
-            {"first_name": Seed.zani.first_name, "project_name": people_depot_project, "permission_type_name": PermissionValue.project_team_member},
-            {"first_name": Seed.patti.first_name, "project_name": people_depot_project, "permission_type_name": PermissionValue.project_team_member},
-            {"first_name": Seed.patrick.first_name, "project_name": people_depot_project, "permission_type_name": PermissionValue.project_admin},
-            {"first_name": Seed.garry.first_name, "permission_type_name": PermissionValue.global_admin},
-            {"first_name": Seed.zani.first_name, "project_name": website_project, "permission_type_name": PermissionValue.project_admin},
+            {
+                "first_name": Seed.wanda.first_name,
+                "project_name": website_project,
+                "permission_type_name": PermissionValue.project_admin,
+            },
+            {
+                "first_name": Seed.wally.first_name,
+                "project_name": website_project,
+                "permission_type_name": PermissionValue.project_team_member,
+            },
+            {
+                "first_name": Seed.winona.first_name,
+                "project_name": website_project,
+                "permission_type_name": PermissionValue.project_team_member,
+            },
+            {
+                "first_name": Seed.zani.first_name,
+                "project_name": people_depot_project,
+                "permission_type_name": PermissionValue.project_team_member,
+            },
+            {
+                "first_name": Seed.patti.first_name,
+                "project_name": people_depot_project,
+                "permission_type_name": PermissionValue.project_team_member,
+            },
+            {
+                "first_name": Seed.patrick.first_name,
+                "project_name": people_depot_project,
+                "permission_type_name": PermissionValue.project_admin,
+            },
+            {
+                "first_name": Seed.garry.first_name,
+                "permission_type_name": PermissionValue.global_admin,
+            },
+            {
+                "first_name": Seed.zani.first_name,
+                "project_name": website_project,
+                "permission_type_name": PermissionValue.project_admin,
+            },
             {
                 "first_name": Seed.wanda.first_name,
                 "project_name": website_project,

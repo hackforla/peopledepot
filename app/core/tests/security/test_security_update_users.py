@@ -19,11 +19,11 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient
 
+from core.constants import FieldPermissions
 from core.constants import Fields
 from core.constants import PermissionValue
 from core.models import User
 from core.permission_util import PermissionUtil
-from core.constants import FieldPermissions, PermissionValue
 from core.tests.utils.seed_data import Seed
 from core.tests.utils.seed_user import SeedUser
 from core.tests.utils.utils_test import show_test_info
