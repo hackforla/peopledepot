@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-# Function to look at child or sibling app directory, if one exists.  
+# Function to look at child or sibling app directory, if one exists.
 # Useful if called from the scripts directory or root directory
 search_app() {
     original_dir=$(pwd)

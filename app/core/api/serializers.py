@@ -1,7 +1,8 @@
 from rest_framework import serializers
 from timezone_field.rest_framework import TimeZoneSerializerField
-from core.constants import PermissionValue
 
+from core.constants import Fields
+from core.constants import PermissionValue
 from core.models import Affiliate
 from core.models import Affiliation
 from core.models import Event
@@ -18,7 +19,6 @@ from core.models import StackElementType
 from core.models import Technology
 from core.models import User
 from core.permission_util import PermissionUtil
-from core.constants import Fields
 
 
 class PracticeAreaSerializer(serializers.ModelSerializer):
@@ -47,8 +47,8 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-       
-        fields = (    
+
+        fields = (
             "uuid",
             "username",
             "created_at",
@@ -96,7 +96,8 @@ class UserSerializer(serializers.ModelSerializer):
         for field_name in represent_fields:
             filtered_representation[field_name] = representation[field_name]
         return filtered_representation
- 
+
+
 class ProjectSerializer(serializers.ModelSerializer):
     """Used to retrieve project info"""
 

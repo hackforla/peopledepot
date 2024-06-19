@@ -1,5 +1,3 @@
-
-
 class PermissionValue:
     practice_area_admin = "PracticeAreaAdmin"
     global_admin = "GlobalAdmin"
@@ -8,6 +6,7 @@ class PermissionValue:
     verified_user = "VerifiedUser"
     project_admin = "ProjectAdmin"
     basic = "basic"
+
 
 class Fields:
     read = {

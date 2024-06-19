@@ -344,14 +344,20 @@ class PermissionAssignment(AbstractBaseModel):
     """
     Permissions
     """
+
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     permission_type = models.ForeignKey(PermissionType, on_delete=models.CASCADE)
-    project = models.ForeignKey(Project, blank=True, null=True, on_delete=models.CASCADE)
-    practiceArea = models.ForeignKey(PracticeArea, blank=True, null=True, on_delete = models.CASCADE)
+    project = models.ForeignKey(
+        Project, blank=True, null=True, on_delete=models.CASCADE
+    )
+    practiceArea = models.ForeignKey(
+        PracticeArea, blank=True, null=True, on_delete=models.CASCADE
+    )
 
     def __str__(self):
         project_name = self.project.name if self.project else "No project"
-        return f"{self.user.username} {self.permission_type.name} {project_name}"  
+        return f"{self.user.username} {self.permission_type.name} {project_name}"
+
 
 class Affiliation(AbstractBaseModel):
     """

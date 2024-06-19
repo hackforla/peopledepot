@@ -1,4 +1,3 @@
-
 wanda_name = "Wanda"
 wally_name = "Wally"
 winona_name = "Winona"
@@ -85,4 +84,3 @@ people_depot_project = "People Depot"
 #     ),
 #     ("auth_client2", "delete", "user_url", {}, status.HTTP_204_NO_CONTENT),
 # ]
-

@@ -5,7 +5,8 @@ from rest_framework.test import APIClient
 
 from core.api.serializers import ProgramAreaSerializer
 from core.api.serializers import UserSerializer
-from core.models import ProgramArea, User
+from core.models import ProgramArea
+from core.models import User
 
 pytestmark = pytest.mark.django_db
 
@@ -61,16 +62,12 @@ def test_get_profile(auth_client):
     assert res.data["username"] == "TestUser"
 
 
-
-
-
 def test_get_single_user(auth_client, user):
     res = auth_client.get(f"{USERS_URL}?email={user.email}")
     assert res.status_code == status.HTTP_200_OK
 
     res = auth_client.get(f"{USERS_URL}?username={user.username}")
     assert res.status_code == status.HTTP_200_OK
-
 
 
 def test_create_event(auth_client, project):

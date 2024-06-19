@@ -1,14 +1,18 @@
-from rest_framework.permissions import BasePermission, SAFE_METHODS
-from core.permission_util import PermissionUtil
+from rest_framework.permissions import SAFE_METHODS
+from rest_framework.permissions import BasePermission
+
 from core.models import PermissionAssignment
+from core.permission_util import PermissionUtil
+
 
 class IsAdmin(BasePermission):
     def has_permission(self, request, __view__):
         return PermissionUtil.is_admin(request.user)
-    
+
     def has_object_permission(self, request, __view__, __obj__):
         return PermissionUtil.is_admin(request.user)
-    
+
+
 class IsAdminOrReadOnly(BasePermission):
     """
     Custom permission to only allow admins to edit it, while allowing read-only access to authenticated users.
@@ -18,9 +22,10 @@ class IsAdminOrReadOnly(BasePermission):
         # Allow any read-only actions if the user is authenticated
         if request.method in SAFE_METHODS:
             return request.user and request.user.is_authenticated
-        
+
         # Allow edit actions (POST, PUT, DELETE) only if the user is an admin
         return PermissionUtil.is_admin(request.user)
+
 
 class UserPermission(BasePermission):
     # User view restricts read access to users
@@ -31,6 +36,7 @@ class UserPermission(BasePermission):
         if request.method in SAFE_METHODS:
             return PermissionUtil.can_read_user_basic(request.user, obj)
         return PermissionUtil.can_update_user(request.user, obj)
+
 
 class DenyAny(BasePermission):
     def has_permission(self, __request__, __view__):
