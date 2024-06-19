@@ -8,4 +8,3 @@ cd $BASE_DIR
 # Add the base directory to the PYTHONPATH
 export PYTHONPATH=$BASE_DIR:$PYTHONPATH
 python manage.py load_command
-

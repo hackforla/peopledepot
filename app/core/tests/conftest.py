@@ -2,6 +2,7 @@ import pytest
 from rest_framework.test import APIClient
 
 from core.tests.utils.load_data import LoadData
+
 from ..models import Affiliate
 from ..models import Affiliation
 from ..models import Event
@@ -17,7 +18,7 @@ from ..models import Skill
 from ..models import StackElementType
 from ..models import Technology
 
-    
+
 @pytest.fixture
 def user_tests_init():
     LoadData.initialize_data()

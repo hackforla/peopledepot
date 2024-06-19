@@ -1,7 +1,8 @@
 from rest_framework import serializers
 from timezone_field.rest_framework import TimeZoneSerializerField
-from core.constants import PermissionValue
 
+from core.constants import Fields
+from core.constants import PermissionValue
 from core.models import Affiliate
 from core.models import Affiliation
 from core.models import Event
@@ -47,8 +48,8 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-       
-        fields = (    
+
+        fields = (
             "uuid",
             "username",
             "created_at",

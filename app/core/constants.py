@@ -8,7 +8,6 @@ class PermissionValue:
 _global_admin = PermissionValue.global_admin
 _practice_area_lead = PermissionValue.practice_area_lead
 _project_team_member = PermissionValue.project_team_member
-_project_admin = PermissionValue.project_admin
 _self_value = PermissionValue.self_value
 
 def get_fields(field_privs, crud_priv):

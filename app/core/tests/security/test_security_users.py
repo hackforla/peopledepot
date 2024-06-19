@@ -13,12 +13,14 @@
 # Add proposals:
 #   - use flag instead of role for admin and verified
 # . -
-from core.tests.test_api import CREATE_USER_PAYLOAD
-from rest_framework import status
 import pytest
-from django.urls import reverse
-from rest_framework.test import APIClient
 from django.contrib.auth import get_user_model
+from django.urls import reverse
+from rest_framework import status
+from rest_framework.test import APIClient
+
+from core.constants import Fields
+from core.constants import PermissionValue
 from core.permission_util import PermissionUtil
 from core.constants import FieldPermissions, PermissionValue
 from core.tests.utils.seed_data import Seed
@@ -29,6 +31,7 @@ count_website_members = 4
 count_people_depot_members = 3
 count_members_either = 6
 
+
 def fields_match(first_name, user_data, fields):
     for user in user_data:
         if user["first_name"] == first_name:
@@ -38,13 +41,12 @@ def fields_match(first_name, user_data, fields):
 
 @pytest.mark.django_db
 class TestUser:
-    
     @classmethod
     def authenticate_user(cls, user_name):
         logged_in_user = SeedUser.get_user(user_name)
         client = APIClient()
         client.force_authenticate(user=logged_in_user)
-        url = reverse('user-list')  # Update this to your actual URL name
+        url = reverse("user-list")  # Update this to your actual URL name
         response = client.get(url)
         return logged_in_user, response
     
@@ -76,7 +78,9 @@ class TestUser:
             PermissionUtil.validate_update_request(Seed.wanda.user, Seed.patti.user, ["first_name"])
         show_test_info("")
         show_test_info("=== Validating project member ===")
-        show_test_info("Validate project member cannot update first name of another project member")
+        show_test_info(
+            "Validate project member cannot update first name of another project member"
+        )
         with pytest.raises(Exception):
             PermissionUtil.validate_update_request(Seed.wally.user, Seed.winona.user, ["first_name"])
         show_test_info("==> Validating combo user with both project admin and project member roles")
@@ -90,8 +94,10 @@ class TestUser:
     def test_can_read_logic(self, user_tests_init):
         show_test_info("=== Validating logic for can read===")
         show_test_info("==> is admin")
-        show_test_info("Validate is_admin returns true for a global admin and false for a project admin")
-        assert PermissionUtil.is_admin(Seed.garry.user)        
+        show_test_info(
+            "Validate is_admin returns true for a global admin and false for a project admin"
+        )
+        assert PermissionUtil.is_admin(Seed.garry.user)
         assert not PermissionUtil.is_admin(Seed.wanda.user)
 
         show_test_info("Globan admin can read senstive fields of any user")
@@ -107,7 +113,7 @@ class TestUser:
         assert not PermissionUtil.can_read_all_user(Seed.wally.user, Seed.wanda.user)
         
         show_test_info("==> project admin")
-        assert PermissionUtil.can_read_all_user(Seed.wanda.user, Seed.wally.user)
+        assert PermissionUtil.can_read_user_secure(Seed.wanda.user, Seed.wally.user)
 
 
 
@@ -117,7 +123,7 @@ class TestUser:
         assert response.status_code == 200
         assert get_user_model().objects.count() > 0
         assert len(response.json()) == len(SeedUser.users)
-        
+
     def test_multi_project_user(self, user_tests_init):
         logged_in_user, response = self.authenticate_user(Seed.zani.first_name)
         assert logged_in_user is not None
@@ -132,15 +138,26 @@ class TestUser:
         assert logged_in_user is not None
         assert response.status_code == 200
         assert len(response.json()) == count_website_members
-        assert fields_match(Seed.winona.first_name, response.json(), FieldPermissions.read_fields["user"][PermissionValue.global_admin] )
-        
- 
+        assert fields_match(
+            Seed.winona.first_name,
+            response.json(),
+            Fields.read["user"][PermissionValue.global_admin],
+        )
+
     def test_project_team_member(self, user_tests_init):
         logged_in_user, response = self.authenticate_user(Seed.wally.first_name)
         assert logged_in_user is not None
         assert response.status_code == 200
-        assert fields_match(Seed.winona.first_name, response.json(), FieldPermissions.read_fields["user"][PermissionValue.basic] )
-        assert fields_match(Seed.wanda.first_name, response.json(), FieldPermissions.read_fields["user"][PermissionValue.basic] )
+        assert fields_match(
+            Seed.winona.first_name,
+            response.json(),
+            Fields.read["user"][PermissionValue.basic],
+        )
+        assert fields_match(
+            Seed.wanda.first_name,
+            response.json(),
+            Fields.read["user"][PermissionValue.basic],
+        )
         assert len(response.json()) == count_website_members
 
     def test_no_project(self, user_tests_init):
@@ -148,6 +165,3 @@ class TestUser:
         assert logged_in_user is not None
         assert response.status_code == 200
         assert len(response.json()) == 0
-
-        
-        
