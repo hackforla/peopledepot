@@ -22,7 +22,7 @@ from django.urls import reverse
 from rest_framework.test import APIClient
 from django.contrib.auth import get_user_model
 from core.permission_util import PermissionUtil
-from core.constants import Fields, PermissionValue
+from core.constants import FieldPermissions, PermissionValue
 from core.tests.utils.seed_data import Seed
 from core.tests.utils.seed_user import SeedUser
 from core.tests.utils.utils_test import show_test_info

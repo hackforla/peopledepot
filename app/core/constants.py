@@ -1,60 +1,174 @@
-
-
 class PermissionValue:
-    practice_area_admin = "PracticeAreaAdmin"
+    practice_area_lead = "PracticeAreaAdmin"
     global_admin = "GlobalAdmin"
     project_team_member = "ProjectTeamMember"
-    practice_area_team_member = "PracticeAreaTeamMember"
-    verified_user = "VerifiedUser"
     project_admin = "ProjectAdmin"
-    basic = "basic"
+    self_value = "Self"
 
-class Fields:
-    read = {
-        "user": {
-            PermissionValue.global_admin: (
-                "uuid",
-                "username",
-                "created_at",
-                "updated_at",
-                "email",
-                "first_name",
-                "last_name",
-                "linkedin_account",
-                "github_handle",
-                "slack_id",
-                "phone",
-                "texting_ok",
-            ),
-            PermissionValue.basic: ("username", "slack_id", "first_name", "last_name"),
-        },
+_global_admin = PermissionValue.global_admin
+_practice_area_lead = PermissionValue.practice_area_lead
+_project_team_member = PermissionValue.project_team_member
+_project_admin = PermissionValue.project_admin
+_self_value = PermissionValue.self_value
+
+def get_fields(field_privs, crud_priv):
+    ret_array = []
+    for key, value in field_privs.items():
+        if crud_priv in value:
+            ret_array.append(key)
+    return ret_array
+
+def get_field_permissions():
+    permissions = {"user": {
+        _self_value: {},
+        _project_team_member: {},
+        _practice_area_lead: {},
+        _global_admin: {},
+    }}
+
+    permissions["user"][_self_value] = { 'uuid': "R",
+        "created_at": "R",
+        "updated_at": "R",
+        "is_superuser": "R",
+        "is_active": "R",
+        "is_staff": "R",
+        # "is_verified": "R",
+        "username": "R",
+        "first_name": "CRU",
+        "last_name": "CRU",
+        "gmail": "CRU",
+        "preferred_email": "CRU",
+        "linkedin_account": "CRU",
+        "github_handle": "CRU",
+        "phone": "CRU",
+        "texting_ok": "CRU",
+        # "intake_current_job_title": "CR",
+        # "intake_target_job_title": "CR",
+        "current_job_title": "CRU",
+        "target_job_title": "CRU",
+        # "intake_current_skills": "CR",
+        # "intake_target_skills": "CR",
+        "current_skills": "CRU",
+        "target_skills": "CRU",
     }
-    update = {
-        "user": {
-            PermissionValue.global_admin: (
-                "uuid",
-                "username",
-                "email",
-                "first_name",
-                "last_name",
-                "linkedin_account",
-                "github_handle",
-                "slack_id",
-                "phone",
-                "texting_ok",
-            ),
-            PermissionValue.project_admin: (
-                "uuid",
-                "username",
-                "first_name",
-                "last_name",
-                "linkedin_account",
-                "github_handle",
-                "slack_id",
-                "phone",
-                "texting_ok",
-                "time_zone",
-            ),
-            PermissionValue.basic: ("username", "slack_id", "first_name", "last_name"),
-        },
+    permissions["user"][_project_team_member] = {
+        "uuid": "R",
+        "created_at": "R",
+        "updated_at": "R",
+        "is_superuser": "R",
+        "is_active": "R",
+        "is_staff": "R",
+        # "is_verified": "R",
+        "username": "R",
+        "first_name": "R",
+        "last_name": "R",
+        "gmail": "R",
+        "preferred_email": "R",
+        "linkedin_account": "R",
+        "github_handle": "R",
+        "phone": "X",
+        "texting_ok": "X",
+        # "intake_current_job_title": "R",
+        # "intake_target_job_title": "R",
+        "current_job_title": "R",
+        "target_job_title": "R",
+        # "intake_current_skills": "R",
+        # "intake_target_skills": "R",
+        "current_skills": "R",
+        "target_skills": "R",
     }
+   
+    permissions["user"][_practice_area_lead] = {
+        "uuid": "R",
+        "created_at": "R",
+        "updated_at": "R",
+        "is_superuser": "R",
+        "is_active": "R",
+        "is_staff": "R",
+        # "is_verified": "R",
+        "username": "R",
+        "first_name": "RU",
+        "last_name": "RU",
+        "gmail": "R",
+        "preferred_email": "R",
+        "linkedin_account": "RU",
+        "github_handle": "RU",
+        "phone": "RU",
+        "texting_ok": "RU",
+        # "intake_current_job_title": "R",
+        # "intake_target_job_title": "R",
+        "current_job_title": "R",
+        "target_job_title": "R",
+        # "intake_current_skills": "R",
+        # "intake_target_skills": "R",
+        "current_skills": "R",
+        "target_skills": "R",
+    }
+    
+    permissions["user"][_global_admin] = {
+        "uuid": "R",
+        "created_at": "R",
+        "updated_at": "R",
+        # "is_superuser": "R",
+        "is_active": "R",
+        "is_staff": "R",
+        # "is_verified": "R",
+        "username": "R",
+        "first_name": "RU",
+        "last_name": "RU",
+        "gmail": "R",
+        "preferred_email": "R",
+        "linkedin_account": "RU",
+        "github_handle": "RU",
+        "phone": "RU",
+        "texting_ok": "RU",
+        # "intake_current_job_title": "R",
+        # "intake_target_job_title": "R",
+        "current_job_title": "R",
+        "target_job_title": "R",
+        # "intake_current_skills": "R",
+        # "intake_target_skills": "R",
+        # "current_skills": "R",
+        "target_skills": "R",
+    }
+    return permissions
+
+
+class FieldPermissions:
+    
+    permissions = get_field_permissions()
+    
+    _read_fields_for_self = get_fields(permissions["user"][_self_value], "R")
+    _read_fields_for_practice_area_lead = get_fields(permissions["user"][_practice_area_lead], "R")
+    _read_fields_for_project_team_member = get_fields(permissions["user"][_project_team_member], "R")
+    _read_fields_for_global_admin = get_fields(permissions["user"][_global_admin], "R")
+    read_fields = { "user": {
+        _practice_area_lead: _read_fields_for_practice_area_lead,
+        _global_admin: _read_fields_for_global_admin,
+        _project_team_member: _read_fields_for_project_team_member,
+        _self_value: _read_fields_for_self,
+    }}
+    
+    _read_fields_for_self = get_fields(permissions["user"][_self_value], "R")
+    _read_fields_for_practice_area_lead = get_fields(permissions["user"][_practice_area_lead], "R")
+    _read_fields_for_project_team_member = get_fields(permissions["user"][_project_team_member], "R")
+    _read_fields_for_global_admin = get_fields(permissions["user"][_global_admin], "R")
+    read_fields = { "user": {
+        _self_value: _read_fields_for_self,
+        _project_team_member: _read_fields_for_project_team_member,
+        _practice_area_lead: _read_fields_for_practice_area_lead,
+        _global_admin: _read_fields_for_global_admin,
+    }}
+   
+    _update_fields_for_self = get_fields(permissions["user"][_self_value], "U")
+    _update_fields_for_practice_area_lead = get_fields(permissions["user"][_practice_area_lead], "U")
+    _update_fields_for_project_team_member = get_fields(permissions["user"][_project_team_member], "U")
+    _update_fields_for_global_admin = get_fields(permissions["user"][_global_admin], "U")
+    update_fields = { "user": {
+        _self_value: _update_fields_for_self,
+        _practice_area_lead: _update_fields_for_practice_area_lead,
+        _project_team_member: _update_fields_for_project_team_member,
+        _global_admin: _update_fields_for_global_admin,
+    }}
+
+        

@@ -9,7 +9,7 @@ import uuid
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("core", "0022_rename_sponsorpartner_affiliate_affiliation_and_more"),
+        ("core", "0023_event_could_attend_event_must_attend_and_more"),
     ]
 
     operations = [

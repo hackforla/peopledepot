@@ -1,6 +1,6 @@
 from core.constants import PermissionValue
 from core.models import PermissionAssignment, User
-from .constants import PermissionValue, Fields
+from .constants import PermissionValue, FieldPermissions
 from rest_framework.exceptions import ValidationError
 
 class PermissionUtil:
@@ -14,7 +14,7 @@ class PermissionUtil:
     
     
     @staticmethod
-    def can_read_user_secure(requesting_user: User, serialized_user: User):
+    def can_read_all_user(requesting_user: User, serialized_user: User):
         """Check if requesting user can see secure user info"""
         if PermissionUtil.is_admin(requesting_user) or requesting_user == serialized_user:
             return True
@@ -29,7 +29,7 @@ class PermissionUtil:
 
 
     @staticmethod
-    def can_read_user_basic(requesting_user: User, serialized_user: User):
+    def can_read_basic_user(requesting_user: User, serialized_user: User):
         if PermissionUtil.is_admin(requesting_user):
             return True
         requesting_projects = PermissionAssignment.objects.filter(user = requesting_user).values("project")
@@ -49,18 +49,15 @@ class PermissionUtil:
         return requesting_projects.intersection(serialized_projects).exists()       
 
     @staticmethod
-    def validate_request_fields(request):
+    def validate_update_request(request):
         request_fields = request.json().keys()
         requesting_user = request.context.get("request").user
         target_user = User.objects.get(uuid=request.context.get("uuid"))
-        PermissionUtil.is_fields_valid(requesting_user, target_user, request_fields)
 
-    @staticmethod 
-    def is_fields_valid(requesting_user, target_user, request_fields):
         if PermissionUtil.has_global_admin_user_update_privs(requesting_user, target_user):
-            valid_fields = Fields.update["user"][PermissionValue.global_admin]
+            valid_fields = FieldPermissions.update_fields["user"][PermissionValue.global_admin]
         elif PermissionUtil.has_project_admin_user_update_privs(requesting_user, target_user):
-            valid_fields = Fields.update["user"][PermissionValue.project_admin]
+            valid_fields = FieldPermissions.update_fields["user"][PermissionValue.project_admin]
         else:
             raise PermissionError("You do not have permission to update this user")
         disallowed_fields = set(request_fields) - set(valid_fields)

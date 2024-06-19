@@ -58,6 +58,7 @@ def test_get_profile(auth_client):
     res = auth_client.get(ME_URL)
 
     assert res.status_code == status.HTTP_200_OK
+    print("debug", res.data)
     assert res.data["username"] == "TestUser"
 
 

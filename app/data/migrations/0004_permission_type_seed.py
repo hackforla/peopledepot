@@ -7,11 +7,9 @@ from core.constants import PermissionValue
 def run(__code__, __reverse_code__):
     items = [
         PermissionValue.project_admin,
-        PermissionValue.practice_area_admin,
+        PermissionValue.practice_area_lead,
         PermissionValue.global_admin,
         PermissionValue.project_team_member,
-        PermissionValue.practice_area_team_member,
-        PermissionValue.verified_user,
     ]
     for name in items:
         PermissionType.objects.create(name=name)

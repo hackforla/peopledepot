@@ -54,7 +54,11 @@ class User(PermissionsMixin, AbstractBaseUser, AbstractBaseModel):
         "Username", max_length=255, unique=True, validators=[username_validator]
     )
     is_active = models.BooleanField("Active", default=True)
-
+    is_staff = models.BooleanField(
+        "staff status",
+        default=False,
+        help_text="Designates whether the user can log into this admin site.",
+    )
     # Cognito-user related fields #
     # some additional fields which will be filled-out only for users
     # registered via Cognito
@@ -63,12 +67,6 @@ class User(PermissionsMixin, AbstractBaseUser, AbstractBaseModel):
     # Django-user related fields #
     # password is inherited from AbstractBaseUser
     email = models.EmailField("Email address", blank=True)  # allow non-unique emails
-    is_staff = models.BooleanField(
-        "staff status",
-        default=False,
-        help_text="Designates whether the user can log into this admin site.",
-    )
-
     first_name = models.CharField(max_length=255, blank=True)
     last_name = models.CharField(max_length=255, blank=True)
     gmail = models.EmailField(blank=True)

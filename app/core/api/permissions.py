@@ -29,7 +29,7 @@ class UserPermission(BasePermission):
 
     def has_object_permission(self, request, view, obj):
         if request.method in SAFE_METHODS:
-            return PermissionUtil.can_read_user_basic(request.user, obj)
+            return PermissionUtil.can_read_basic_user(request.user, obj)
         return PermissionUtil.can_update_user(request.user, obj)
 
 class DenyAny(BasePermission):
