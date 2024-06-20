@@ -20,12 +20,13 @@ from ..models import Technology
 from .in_memory_db import setup_in_memory_db
 
 
-@pytest.fixture(scope='session')
+@pytest.fixture(scope="session")
 def init_in_memory():
     # Setup an in-memory SQLite database
     db = setup_in_memory_db()
     yield db
     db.close()
+
 
 @pytest.fixture
 def user_tests_init():

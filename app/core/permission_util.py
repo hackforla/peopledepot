@@ -77,7 +77,9 @@ class PermissionUtil:
         request_fields = request.json().keys()
         requesting_user = request.context.get("request").user
         target_user = User.objects.get(uuid=request.context.get("uuid"))
-        PermissionUtil.validate_fields_updateable(requesting_user, target_user, request_fields)
+        PermissionUtil.validate_fields_updateable(
+            requesting_user, target_user, request_fields
+        )
 
     @staticmethod 
     def validate_fields_updateable(requesting_user, target_user, request_fields):
