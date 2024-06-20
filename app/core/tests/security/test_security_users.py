@@ -126,7 +126,7 @@ class TestUser:
         assert response.status_code == 200
         assert len(response.json()) == count_members_either
         assert fields_match(Seed.wanda.first_name, response.json(), FieldPermissions.read_fields["user"][PermissionValue.global_admin] )
-        assert fields_match(Seed.patrick.first_name, response.json(), FieldPermissions.read_fields["user"][PermissionValue.basic] )
+        assert fields_match(Seed.patrick.first_name, response.json(), FieldPermissions.read_fields["user"][PermissionValue.project_team_member] )
 
 
     def test_project_admin(self, user_tests_init):
