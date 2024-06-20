@@ -1,7 +1,7 @@
 from rest_framework.exceptions import ValidationError
 
-from core.constants import UserCruPermissions
 from core.constants import PermissionValue
+from core.constants import UserCruPermissions
 from core.models import PermissionAssignment
 from core.models import User
 

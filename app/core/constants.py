@@ -1,4 +1,5 @@
 from .permission_value import PermissionValue
+
 _global_admin = PermissionValue.global_admin
 _practice_area_lead = PermissionValue.practice_area_lead
 _project_team_member = PermissionValue.project_team_member
