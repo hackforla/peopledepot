@@ -19,12 +19,12 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient
 
+from core.constants import FieldPermissions
 from core.constants import PermissionValue
 from core.permission_util import PermissionUtil
 from core.tests.utils.seed_data import Seed
 from core.tests.utils.seed_user import SeedUser
 from core.tests.utils.utils_test import show_test_info
-from core.constants import FieldPermissions
 
 count_website_members = 4
 count_people_depot_members = 3
@@ -59,35 +59,64 @@ class TestUser:
         show_test_info("")
         show_test_info("==> Validating global admin")
         show_test_info("")
-        show_test_info(f"global admin will succeed for first name, last name, and gmail")
-        PermissionUtil.validate_fields_updateable(Seed.garry.user, Seed.valerie.user, ["first_name", "last_name", "gmail"])
+        show_test_info(
+            f"global admin will succeed for first name, last name, and gmail"
+        )
+        PermissionUtil.validate_fields_updateable(
+            Seed.garry.user, Seed.valerie.user, ["first_name", "last_name", "gmail"]
+        )
         show_test_info(f"global admin will raise exception for created_at")
         with pytest.raises(Exception):
-            PermissionUtil.validate_update_request(Seed.garry.user, Seed.valerie.user, ["created_at"])
+            PermissionUtil.validate_update_request(
+                Seed.garry.user, Seed.valerie.user, ["created_at"]
+            )
         show_test_info("")
         show_test_info("==> Validating project admin")
-        show_test_info(f"project admin will succeed for first name, last name, and email with a project member")
-        PermissionUtil.validate_update_request(Seed.wanda.user, Seed.wally.user, ["first_name", "last_name"])
-        show_test_info(f"project admin will  raise exception for current title / project member combo")
+        show_test_info(
+            f"project admin will succeed for first name, last name, and email with a project member"
+        )
+        PermissionUtil.validate_update_request(
+            Seed.wanda.user, Seed.wally.user, ["first_name", "last_name"]
+        )
+        show_test_info(
+            f"project admin will  raise exception for current title / project member combo"
+        )
         with pytest.raises(Exception):
-            PermissionUtil.validate_update_request(Seed.wanda.user, Seed.wally.user, ["current_title"])
-        show_test_info(f"project admin will raise exception for first name (or any field) / non-project member combo")
+            PermissionUtil.validate_update_request(
+                Seed.wanda.user, Seed.wally.user, ["current_title"]
+            )
+        show_test_info(
+            f"project admin will raise exception for first name (or any field) / non-project member combo"
+        )
         with pytest.raises(Exception):
-            PermissionUtil.validate_update_request(Seed.wanda.user, Seed.patti.user, ["first_name"])
+            PermissionUtil.validate_update_request(
+                Seed.wanda.user, Seed.patti.user, ["first_name"]
+            )
         show_test_info("")
         show_test_info("=== Validating project member ===")
         show_test_info(
             "Validate project member cannot update first name of another project member"
         )
         with pytest.raises(Exception):
-            PermissionUtil.validate_update_request(Seed.wally.user, Seed.winona.user, ["first_name"])
-        show_test_info("==> Validating combo user with both project admin and project member roles")
-        show_test_info("Validate combo user can update first name of a project member for which they are a project admin")
-        PermissionUtil.validate_update_request(Seed.zani.user, Seed.wally.user, ["first_name"])
-        show_test_info("Validate combo user cannot update first name of a project member for which they are not a project admin")
+            PermissionUtil.validate_update_request(
+                Seed.wally.user, Seed.winona.user, ["first_name"]
+            )
+        show_test_info(
+            "==> Validating combo user with both project admin and project member roles"
+        )
+        show_test_info(
+            "Validate combo user can update first name of a project member for which they are a project admin"
+        )
+        PermissionUtil.validate_update_request(
+            Seed.zani.user, Seed.wally.user, ["first_name"]
+        )
+        show_test_info(
+            "Validate combo user cannot update first name of a project member for which they are not a project admin"
+        )
         with pytest.raises(Exception):
-            PermissionUtil.validate_update_request(Seed.zani.user, Seed.patti.user, ["first_name"])
-        
+            PermissionUtil.validate_update_request(
+                Seed.zani.user, Seed.patti.user, ["first_name"]
+            )
 
     def test_can_read_logic(self, user_tests_init):
         show_test_info("=== Validating logic for can read===")

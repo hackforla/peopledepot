@@ -1,9 +1,10 @@
 from rest_framework.exceptions import ValidationError
 
+from core.constants import FieldPermissions
 from core.constants import PermissionValue
 from core.models import PermissionAssignment
 from core.models import User
-from core.constants import FieldPermissions
+
 
 class PermissionUtil:
     @staticmethod
@@ -81,12 +82,20 @@ class PermissionUtil:
             requesting_user, target_user, request_fields
         )
 
-    @staticmethod 
+    @staticmethod
     def validate_fields_updateable(requesting_user, target_user, request_fields):
-        if PermissionUtil.has_global_admin_user_update_privs(requesting_user, target_user):
-            valid_fields = FieldPermissions.update_fields["user"][PermissionValue.global_admin]
-        elif PermissionUtil.has_project_admin_user_update_privs(requesting_user, target_user):
-            valid_fields = FieldPermissions.update_fields["user"][PermissionValue.practice_area_lead]
+        if PermissionUtil.has_global_admin_user_update_privs(
+            requesting_user, target_user
+        ):
+            valid_fields = FieldPermissions.update_fields["user"][
+                PermissionValue.global_admin
+            ]
+        elif PermissionUtil.has_project_admin_user_update_privs(
+            requesting_user, target_user
+        ):
+            valid_fields = FieldPermissions.update_fields["user"][
+                PermissionValue.practice_area_lead
+            ]
         else:
             raise PermissionError("You do not have permission to update this user")
         disallowed_fields = set(request_fields) - set(valid_fields)
