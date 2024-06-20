@@ -1,4 +1,4 @@
-# 
+#
 class PermissionValue:
     practice_area_lead = "PracticeAreaAdmin"
     global_admin = "GlobalAdmin"
@@ -142,7 +142,7 @@ def get_field_permissions():
 
 class FieldPermissions:
     permissions = get_field_permissions()
-    
+
     _read_fields_for_self = get_fields(permissions["user"][_self_value], "R")
     _read_fields_for_practice_area_lead = get_fields(
         permissions["user"][_practice_area_lead], "R"
@@ -161,15 +161,21 @@ class FieldPermissions:
     }
 
     _update_fields_for_self = get_fields(permissions["user"][_self_value], "U")
-    _update_fields_for_practice_area_lead = get_fields(permissions["user"][_practice_area_lead], "U")
-    _update_fields_for_project_team_member = get_fields(permissions["user"][_project_team_member], "U")
-    _update_fields_for_global_admin = get_fields(permissions["user"][_global_admin], "U")
-    update_fields = { "user": {
-        _self_value: _update_fields_for_self,
-        _practice_area_lead: _update_fields_for_practice_area_lead,
-        _project_team_member: _update_fields_for_project_team_member,
-        _global_admin: _update_fields_for_global_admin,
-    }}
+    _update_fields_for_practice_area_lead = get_fields(
+        permissions["user"][_practice_area_lead], "U"
+    )
+    _update_fields_for_project_team_member = get_fields(
+        permissions["user"][_project_team_member], "U"
+    )
+    _update_fields_for_global_admin = get_fields(
+        permissions["user"][_global_admin], "U"
+    )
+    update_fields = {
+        "user": {
+            _self_value: _update_fields_for_self,
+            _practice_area_lead: _update_fields_for_practice_area_lead,
+            _project_team_member: _update_fields_for_project_team_member,
+            _global_admin: _update_fields_for_global_admin,
+        }
+    }
     print("debug update fields", update_fields)
-
-        

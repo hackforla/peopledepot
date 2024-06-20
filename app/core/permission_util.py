@@ -79,13 +79,19 @@ class PermissionUtil:
         request_fields = request.json().keys()
         requesting_user = request.context.get("request").user
         target_user = User.objects.get(uuid=request.context.get("uuid"))
-        PermissionUtil.validate_fields_updateable(requesting_user, target_user, request_fields)
+        PermissionUtil.validate_fields_updateable(
+            requesting_user, target_user, request_fields
+        )
 
-    @staticmethod 
+    @staticmethod
     def is_fields_valid(requesting_user, target_user, request_fields):
-        if PermissionUtil.has_global_admin_user_update_privs(requesting_user, target_user):
+        if PermissionUtil.has_global_admin_user_update_privs(
+            requesting_user, target_user
+        ):
             valid_fields = Fields.update["user"][PermissionValue.global_admin]
-        elif PermissionUtil.has_project_admin_user_update_privs(requesting_user, target_user):
+        elif PermissionUtil.has_project_admin_user_update_privs(
+            requesting_user, target_user
+        ):
             valid_fields = Fields.update["user"][PermissionValue.project_admin]
         else:
             raise PermissionError("You do not have permission to update this user")
