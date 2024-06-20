@@ -75,10 +75,6 @@ class LoadData:
                 "permission_type_name": PermissionValue.global_admin,
             },
             {
-                "first_name": Seed.valerie.first_name,
-                "permission_type_name": PermissionValue.verified_user,
-            },
-            {
                 "first_name": Seed.zani.first_name,
                 "project_name": website_project,
                 "permission_type_name": PermissionValue.project_admin,

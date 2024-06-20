@@ -148,7 +148,7 @@ class UserViewSet(viewsets.ModelViewSet):
         update_data = request.data
 
         # Log or print the instance and update_data for debugging
-        PermissionUtil.validate_update_request(request.user, instance, update_data)
+        PermissionUtil.validate_fields_updateable(request.user, instance, update_data)
         response = super().partial_update(request, *args, **kwargs)
         return response
 

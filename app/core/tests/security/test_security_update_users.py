@@ -19,7 +19,6 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient
 
-from core.constants import Fields
 from core.constants import PermissionValue
 from core.models import User
 from core.permission_util import PermissionUtil
@@ -71,16 +70,17 @@ class TestUser:
         # assert response.status_code == 200
         # assert get_user_model().objects.count() > 0
         show_test_info("==> Testing update global admin")
-        show_test_info("Global admin can update last name and email field using API")
+        show_test_info("Global admin can update last name and gmail field using API")
         user = SeedUser.get_user(Seed.valerie.first_name)
         url = reverse("user-detail", args=[user.uuid])
         data = {
             "last_name": "Updated",
-            "email": "update@example.com",
+            "gmail": "update@example.com",
         }
         client = APIClient()
         client.force_authenticate(user=Seed.garry.user)
         response = client.patch(url, data, format="json")
+        print(response.data)
         assert response.status_code == status.HTTP_200_OK
 
         show_test_info("Global admin cannot update created_at")

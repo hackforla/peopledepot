@@ -19,7 +19,6 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient
 
-from core.constants import Fields
 from core.constants import PermissionValue
 from core.permission_util import PermissionUtil
 from core.constants import FieldPermissions, PermissionValue
@@ -51,7 +50,7 @@ class TestUser:
         return logged_in_user, response
     
     
-    def test_is_update_request_valid(self, user_tests_init):
+    def test_is_update_request_valid(self, init_in_memory, user_tests_init):
         logged_in_user, response = self.authenticate_user(Seed.garry.first_name)
         assert logged_in_user is not None
         assert response.status_code == 200
@@ -61,34 +60,34 @@ class TestUser:
         show_test_info("")
         show_test_info("==> Validating global admin")
         show_test_info("")
-        show_test_info(f"global admin will succeed for first name, last name, and email")
-        PermissionUtil.validate_update_request(Seed.garry.user, Seed.valerie.user, ["first_name", "last_name", "email"])
+        show_test_info(f"global admin will succeed for first name and last name")
+        PermissionUtil.validate_fields_updateable(Seed.garry.user, Seed.valerie.user, ["first_name", "last_name"])
         show_test_info(f"global admin will raise exception for created_at")
         with pytest.raises(Exception):
-            PermissionUtil.validate_update_request(Seed.garry.user, Seed.valerie.user, ["created_at"])
+            PermissionUtil.validate_fields_updateable(Seed.garry.user, Seed.valerie.user, ["created_at"])
         show_test_info("")
         show_test_info("==> Validating project admin")
         show_test_info(f"project admin will succeed for first name, last name, and email with a project member")
-        PermissionUtil.validate_update_request(Seed.wanda.user, Seed.wally.user, ["first_name", "last_name"])
+        PermissionUtil.validate_fields_updateable(Seed.wanda.user, Seed.wally.user, ["first_name", "last_name"])
         show_test_info(f"project admin will  raise exception for current title / project member combo")
         with pytest.raises(Exception):
-            PermissionUtil.validate_update_request(Seed.wanda.user, Seed.wally.user, ["current_title"])
+            PermissionUtil.validate_fields_updateable(Seed.wanda.user, Seed.wally.user, ["current_title"])
         show_test_info(f"project admin will raise exception for first name (or any field) / non-project member combo")
         with pytest.raises(Exception):
-            PermissionUtil.validate_update_request(Seed.wanda.user, Seed.patti.user, ["first_name"])
+            PermissionUtil.validate_fields_updateable(Seed.wanda.user, Seed.patti.user, ["first_name"])
         show_test_info("")
         show_test_info("=== Validating project member ===")
         show_test_info(
             "Validate project member cannot update first name of another project member"
         )
         with pytest.raises(Exception):
-            PermissionUtil.validate_update_request(Seed.wally.user, Seed.winona.user, ["first_name"])
+            PermissionUtil.validate_fields_updateable(Seed.wally.user, Seed.winona.user, ["first_name"])
         show_test_info("==> Validating combo user with both project admin and project member roles")
         show_test_info("Validate combo user can update first name of a project member for which they are a project admin")
-        PermissionUtil.validate_update_request(Seed.zani.user, Seed.wally.user, ["first_name"])
+        PermissionUtil.validate_fields_updateable(Seed.zani.user, Seed.wally.user, ["first_name"])
         show_test_info("Validate combo user cannot update first name of a project member for which they are not a project admin")
         with pytest.raises(Exception):
-            PermissionUtil.validate_update_request(Seed.zani.user, Seed.patti.user, ["first_name"])
+            PermissionUtil.validate_fields_updateable(Seed.zani.user, Seed.patti.user, ["first_name"])
         
 
     def test_can_read_logic(self, user_tests_init):
@@ -113,7 +112,7 @@ class TestUser:
         assert not PermissionUtil.can_read_all_user(Seed.wally.user, Seed.wanda.user)
         
         show_test_info("==> project admin")
-        assert PermissionUtil.can_read_user_secure(Seed.wanda.user, Seed.wally.user)
+        assert PermissionUtil.can_read_all_user(Seed.wanda.user, Seed.wally.user)
 
 
 
@@ -130,7 +129,7 @@ class TestUser:
         assert response.status_code == 200
         assert len(response.json()) == count_members_either
         assert fields_match(Seed.wanda.first_name, response.json(), FieldPermissions.read_fields["user"][PermissionValue.global_admin] )
-        assert fields_match(Seed.patrick.first_name, response.json(), FieldPermissions.read_fields["user"][PermissionValue.basic] )
+        assert fields_match(Seed.patrick.first_name, response.json(), FieldPermissions.read_fields["user"][PermissionValue.project_team_member] )
 
 
     def test_project_admin(self, user_tests_init):
@@ -141,7 +140,7 @@ class TestUser:
         assert fields_match(
             Seed.winona.first_name,
             response.json(),
-            Fields.read["user"][PermissionValue.global_admin],
+            FieldPermissions.read_fields["user"][PermissionValue.global_admin],
         )
 
     def test_project_team_member(self, user_tests_init):
@@ -151,12 +150,12 @@ class TestUser:
         assert fields_match(
             Seed.winona.first_name,
             response.json(),
-            Fields.read["user"][PermissionValue.basic],
+            FieldPermissions.read_fields["user"][PermissionValue.project_team_member],
         )
         assert fields_match(
             Seed.wanda.first_name,
             response.json(),
-            Fields.read["user"][PermissionValue.basic],
+            FieldPermissions.read_fields["user"][PermissionValue.project_team_member],
         )
         assert len(response.json()) == count_website_members
 

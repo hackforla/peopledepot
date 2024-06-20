@@ -7,7 +7,6 @@ from core.constants import PermissionValue
 from core.models import PermissionAssignment
 from core.models import User
 
-from .constants import Fields
 from .constants import PermissionValue
 
 
@@ -83,13 +82,15 @@ class PermissionUtil:
         request_fields = request.json().keys()
         requesting_user = request.context.get("request").user
         target_user = User.objects.get(uuid=request.context.get("uuid"))
+        PermissionUtil.validate_fields_updateable(requesting_user, target_user, request_fields)
 
     @staticmethod 
-    def is_fields_valid(requesting_user, target_user, request_fields):
+    def validate_fields_updateable(requesting_user, target_user, request_fields):
+        print("debug update fields", FieldPermissions.update_fields)
         if PermissionUtil.has_global_admin_user_update_privs(requesting_user, target_user):
-            valid_fields = Fields.update["user"][PermissionValue.global_admin]
+            valid_fields = FieldPermissions.update_fields["user"][PermissionValue.global_admin]
         elif PermissionUtil.has_project_admin_user_update_privs(requesting_user, target_user):
-            valid_fields = Fields.update["user"][PermissionValue.project_admin]
+            valid_fields = FieldPermissions.update_fields["user"][PermissionValue.practice_area_lead]
         else:
             raise PermissionError("You do not have permission to update this user")
         disallowed_fields = set(request_fields) - set(valid_fields)
