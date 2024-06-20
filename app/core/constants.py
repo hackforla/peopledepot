@@ -1,12 +1,4 @@
-#
-class PermissionValue:
-    practice_area_lead = "PracticeAreaAdmin"
-    global_admin = "GlobalAdmin"
-    project_team_member = "ProjectTeamMember"
-    project_admin = "ProjectAdmin"
-    self_value = "Self"
-
-
+from .permission_value import PermissionValue
 _global_admin = PermissionValue.global_admin
 _practice_area_lead = PermissionValue.practice_area_lead
 _project_team_member = PermissionValue.project_team_member
@@ -140,7 +132,7 @@ def get_field_permissions():
     return permissions
 
 
-class FieldPermissions:
+class UserCruPermissions:
     permissions = get_field_permissions()
 
     _read_fields_for_self = get_fields(permissions["user"][_self_value], "R")

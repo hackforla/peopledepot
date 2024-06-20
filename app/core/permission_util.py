@@ -1,6 +1,6 @@
 from rest_framework.exceptions import ValidationError
 
-from core.constants import FieldPermissions
+from core.constants import UserCruPermissions
 from core.constants import PermissionValue
 from core.models import PermissionAssignment
 from core.models import User
@@ -87,13 +87,13 @@ class PermissionUtil:
         if PermissionUtil.has_global_admin_user_update_privs(
             requesting_user, target_user
         ):
-            valid_fields = FieldPermissions.update_fields["user"][
+            valid_fields = UserCruPermissions.update_fields["user"][
                 PermissionValue.global_admin
             ]
         elif PermissionUtil.has_project_admin_user_update_privs(
             requesting_user, target_user
         ):
-            valid_fields = FieldPermissions.update_fields["user"][
+            valid_fields = UserCruPermissions.update_fields["user"][
                 PermissionValue.practice_area_lead
             ]
         else:

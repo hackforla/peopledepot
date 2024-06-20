@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from timezone_field.rest_framework import TimeZoneSerializerField
 
-from core.constants import FieldPermissions
+from core.constants import UserCruPermissions
 from core.constants import PermissionValue
 from core.models import Affiliate
 from core.models import Affiliation
@@ -84,14 +84,14 @@ class UserSerializer(serializers.ModelSerializer):
     def get_read_fields(__cls__, requesting_user: User, serialized_user: User):
         if PermissionUtil.can_read_all_user(requesting_user, serialized_user):
             print("Can read all user")
-            represent_fields = FieldPermissions.read_fields["user"][
+            represent_fields = UserCruPermissions.read_fields["user"][
                 PermissionValue.global_admin
             ]
             print("represent_fields", represent_fields)
-            print("FieldPermissions.read_fields", FieldPermissions.read_fields)
+            print("UserCruPermissions.read_fields", UserCruPermissions.read_fields)
         elif PermissionUtil.can_read_basic_user(requesting_user, serialized_user):
             print("Here")
-            represent_fields = FieldPermissions.read_fields["user"][
+            represent_fields = UserCruPermissions.read_fields["user"][
                 PermissionValue.project_team_member
             ]
         else:
