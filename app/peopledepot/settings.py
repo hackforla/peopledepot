@@ -216,7 +216,7 @@ REST_FRAMEWORK = {
     ),
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
-print("rsa_keys: ", rsa_keys)
+
 JWT_AUTH = {
     "JWT_PAYLOAD_GET_USERNAME_HANDLER": "core.utils.jwt2.get_username_from_payload_handler",
     "JWT_DECODE_HANDLER": "core.utils.jwt2.cognito_jwt_decode_handler",

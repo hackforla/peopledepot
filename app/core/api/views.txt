@@ -50,8 +50,6 @@ class IsStaffUser(BasePermission):
 
     def has_permission(self, request, view):
         # Check if user is authenticated and is_staff is True
-        print("Debug user", request.user.is_staff, request.user.is_authenticated, request.user.is_superuser, request.user.is_active, request.user.is_anonymous, request.user.username, request.user.email, request.user.first_name, request.user.last_name, request.user.is_staff, request.user.is_superuser, request.user.is_active)
-        print(request.user.__dict__)
         return request.user.is_staff
 
 class IsStaffUserOrReadOnly(BasePermission):
