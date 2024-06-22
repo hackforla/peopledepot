@@ -3,6 +3,8 @@ from rest_framework import routers
 
 from .secure_views import SecureCreateUser
 from .secure_views import SecureUserViewSet
+from .views import AffiliateViewSet
+from .views import AffiliationViewSet
 from .views import EventViewSet
 from .views import FaqViewedViewSet
 from .views import FaqViewSet
@@ -13,7 +15,6 @@ from .views import ProgramAreaViewSet
 from .views import ProjectViewSet
 from .views import SdgViewSet
 from .views import SkillViewSet
-from .views import SponsorPartnerViewSet
 from .views import StackElementTypeViewSet
 from .views import TechnologyViewSet
 from .views import UserProfileAPIView
@@ -26,7 +27,7 @@ router.register(r"users", UserViewSet, basename="user")
 router.register(r"projects", ProjectViewSet, basename="project")
 router.register(r"events", EventViewSet, basename="event")
 router.register(r"practice-areas", PracticeAreaViewSet, basename="practice-area")
-router.register(r"sponsor-partners", SponsorPartnerViewSet, basename="sponsor-partner")
+router.register(r"affiliates", AffiliateViewSet, basename="affiliate")
 router.register(r"faqs", FaqViewSet, basename="faq")
 router.register(r"faqs-viewed", FaqViewedViewSet, basename="faq-viewed")
 router.register(r"locations", LocationViewSet, basename="location")
@@ -42,6 +43,11 @@ router.register(
 )
 router.register(r"sdgs", SdgViewSet, basename="sdg")
 router.register(r"sdgs", SdgViewSet, basename="sdg")
+router.register(
+    r"affiliations",
+    AffiliationViewSet,
+    basename="affiliation",
+)
 urlpatterns = [
     # path('secure-api/getusers', SecureUserViewSet.as_view(), name='secure_api_getusers'),
     path(

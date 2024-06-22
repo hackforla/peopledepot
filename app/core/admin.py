@@ -5,6 +5,8 @@ from django.contrib.auth.forms import UserCreationForm as DefaultUserCreationFor
 from django.contrib.auth.forms import UsernameField
 from django.utils.translation import gettext_lazy as _
 
+from .models import Affiliate
+from .models import Affiliation
 from .models import Event
 from .models import Faq
 from .models import FaqViewed
@@ -15,7 +17,6 @@ from .models import ProgramArea
 from .models import Project
 from .models import Sdg
 from .models import Skill
-from .models import SponsorPartner
 from .models import StackElementType
 from .models import Technology
 from .models import User
@@ -138,8 +139,8 @@ class PracticeAreaAdmin(admin.ModelAdmin):
     )
 
 
-@admin.register(SponsorPartner)
-class SponsorPartnerAdmin(admin.ModelAdmin):
+@admin.register(Affiliate)
+class AffiliateAdmin(admin.ModelAdmin):
     list_display = (
         "partner_name",
         "partner_logo",
@@ -219,3 +220,16 @@ class StackElementType(admin.ModelAdmin):
 @admin.register(Sdg)
 class SdgAdmin(admin.ModelAdmin):
     list_display = ("name", "description", "image")
+
+
+@admin.register(Affiliation)
+class AffiliationAdmin(admin.ModelAdmin):
+    list_display = (
+        "affiliate",
+        "project",
+        "created_at",
+        "ended_at",
+        "is_sponsor",
+        "is_partner",
+    )
+    list_filter = ("is_sponsor", "is_partner", "affiliate", "project")
