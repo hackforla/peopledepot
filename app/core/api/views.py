@@ -6,6 +6,7 @@ from drf_spectacular.utils import extend_schema
 from drf_spectacular.utils import extend_schema_view
 from rest_framework import mixins
 from rest_framework import viewsets
+from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
@@ -35,8 +36,6 @@ from .serializers import SponsorPartnerSerializer
 from .serializers import StackElementTypeSerializer
 from .serializers import TechnologySerializer
 from .serializers import UserSerializer
-
-from rest_framework.generics import GenericAPIView
 
 
 class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
@@ -299,6 +298,3 @@ class StackElementTypeViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = StackElementType.objects.all()
     serializer_class = StackElementTypeSerializer
-    
-    
- 
