@@ -10,7 +10,6 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
-# from allauth.account.adapter import DefaultAccountAdapter
 import json
 import os
 from pathlib import Path
@@ -37,11 +36,10 @@ DEBUG = os.environ.get("DEBUG", default=0)
 # For example: 'DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]'
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 
-# Single sign on
+# Feature: SSO
 LOGIN_REDIRECT_URL = "/admin/"
-# ACCOUNT_LOGOUT_REDIRECT_URL = 'account_login'
 
-# Cognito stuff
+# Feature: SSO - Cognito stuff
 COGNITO_AWS_REGION = os.environ.get("COGNITO_AWS_REGION", default=None)
 COGNITO_USER_POOL = os.environ.get("COGNITO_USER_POOL", default=None)
 COGNITO_USER_POOL_NAME = os.environ.get("COGNITO_USER_POOL_NAME", default=None)
@@ -67,7 +65,6 @@ if COGNITO_AWS_REGION and COGNITO_USER_POOL:
     rsa_keys = {key["kid"]: json.dumps(key) for key in jwks["keys"]}
 
 # Application definition
-
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -85,12 +82,13 @@ INSTALLED_APPS = [
     # Local
     "core",
     "data",
+    # Feature: SSO
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
     # include the providers you want to enable:
     "allauth.socialaccount.providers.amazon_cognito",
-    # autocomplete light
+    # Feature: SSO - autocomplete
     "dal",
     "dal_select2",
     "queryset_sequence",
@@ -121,13 +119,14 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
-                # `allauth` needs this from django
+                # Feature: SSO - `allauth` needs this from django
                 "django.template.context_processors.request",
             ],
         },
     },
 ]
 
+# Feature: SSO
 SOCIALACCOUNT_STORE_TOKENS = True
 SOCIALACCOUNT_PROVIDERS = {
     "amazon_cognito": {
@@ -140,6 +139,7 @@ SOCIALACCOUNT_PROVIDERS = {
         },
     },
 }
+
 WSGI_APPLICATION = "peopledepot.wsgi.application"
 
 

@@ -9,27 +9,14 @@ from phonenumber_field.modelfields import PhoneNumberField
 from timezone_field import TimeZoneField
 
 
-class AbstractBase(models.Model):
+class AbstractBaseModel(models.Model):
     """
-    Base abstract model, that has `uuid` instead of `uuid` and included `created_at`, `updated_at` fields.
-    """
-
-    created_at = models.DateTimeField("Created at", auto_now_add=True)
-    updated_at = models.DateTimeField("Updated at", auto_now=True)
-
-    class Meta:
-        abstract = True
-
-
-class AbstractBaseModel(AbstractBase):
-    """
-    Base abstract model, that has `uuid` instead of `uuid` and included `created_at`, `updated_at` fields.
+    Base abstract model, that has `uuid` instead of `id` and included `created_at`, `updated_at` fields.
     """
 
     uuid = models.UUIDField(
         primary_key=True, default=uuid.uuid4, editable=False, unique=True
     )
-
     created_at = models.DateTimeField("Created at", auto_now_add=True)
     updated_at = models.DateTimeField("Updated at", auto_now=True)
 
@@ -38,21 +25,6 @@ class AbstractBaseModel(AbstractBase):
 
     def __repr__(self):
         return f"<{self.__class__.__name__} {self.uuid}>"
-
-
-class AbstractBaseModelId(AbstractBase):
-    """
-    Base abstract model, that has `id` instead of `uuid` and included `created_at`, `updated_at` fields.
-    """
-
-    created_at = models.DateTimeField("Created at", auto_now_add=True)
-    updated_at = models.DateTimeField("Updated at", auto_now=True)
-
-    class Meta:
-        abstract = True
-
-    def __repr__(self):
-        return f"<{self.__class__.__name__} {self.id}>"
 
 
 class User(PermissionsMixin, AbstractBaseUser, AbstractBaseModel):
@@ -189,20 +161,25 @@ class Event(AbstractBaseModel):
     additional_info = models.TextField(blank=True)
 
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    must_attend = models.JSONField(default=list)
+    should_attend = models.JSONField(default=list)
+    could_attend = models.JSONField(default=list)
     # location_id = models.ForeignKey("Location", on_delete=models.DO_NOTHING)
     # event_type_id = models.ForeignKey("EventType", on_delete=models.DO_NOTHING)
     # brigade_id = models.ForeignKey("Brigade", on_delete=models.DO_NOTHING)
     # day_of_week = models.ForeignKey("DayOfWeek", on_delete=models.DO_NOTHING)
-    # must_roles = models.ManyToManyField("Role")
-    # should_roles = models.ManyToManyField("Role")
-    # could_roles = models.ManyToManyField("Role")
     # frequency_id = models.ForeignKey("Frequency", on_delete=models.DO_NOTHING)
 
     def __str__(self):
-        return f"{self.name}"
+        return (
+            f"Event: {self.name}, "
+            f"Must_Attend: {self.must_attend}, "
+            f"Should_Attend: {self.should_attend}, "
+            f"Could_Attend: {self.could_attend}"
+        )
 
 
-class SponsorPartner(AbstractBaseModel):
+class Affiliate(AbstractBaseModel):
     """
     Dictionary of sponsors and partners
     """
@@ -214,7 +191,7 @@ class SponsorPartner(AbstractBaseModel):
     is_org_sponsor = models.BooleanField(null=True)
     is_org_partner = models.BooleanField(null=True)
 
-    # PK of this model is the ForeignKey for project_partner_xref
+    # PK of this model is the ForeignKey for project_affiliate_xref
 
     def __str__(self):
         return f"{self.partner_name}"
@@ -274,7 +251,7 @@ class PracticeArea(AbstractBaseModel):
         return f"{self.name}"
 
 
-class ProgramArea(AbstractBaseModelId):
+class ProgramArea(AbstractBaseModel):
     """
     Dictionary of program areas (to be joined with project)
     """
@@ -361,3 +338,36 @@ class Sdg(AbstractBaseModel):
 
     def __str__(self):
         return f"{self.name}"
+
+
+class Affiliation(AbstractBaseModel):
+    """
+    Sponsor/partner relationships stored in this table are project-dependent.
+    They can be both a sponsor and a partner for the same project,
+    so if is_sponsor is true, they are a project partner,
+    if is_sponsor is true, they are a project sponsor.
+    """
+
+    affiliate = models.ForeignKey(Affiliate, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    ended_at = models.DateTimeField("Ended at", null=True, blank=True)
+    is_sponsor = models.BooleanField(null=True)
+    is_partner = models.BooleanField(null=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["project", "affiliate"], name="unique_project_affiliate"
+            )
+        ]
+        db_table = "project_affiliate_xref"
+
+    def __str__(self):
+        if self.is_sponsor is True and self.is_partner is True:
+            return f"Sponsor {self.project} and Partner {self.affiliate}"
+        elif self.is_sponsor is True and self.is_partner is False:
+            return f"Sponsor {self.project}"
+        elif self.is_sponsor is False and self.is_partner is True:
+            return f"Partner {self.affiliate}"
+        else:
+            return "Neither a partner or a sponsor"
