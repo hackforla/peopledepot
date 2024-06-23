@@ -41,6 +41,42 @@ from .serializers import StackElementTypeSerializer
 from .serializers import TechnologySerializer
 from .serializers import UserSerializer
 
+import requests
+from django.shortcuts import render, redirect
+from django.conf import settings
+from peopledepot.settings import COGNITO_CLIENT_ID, COGNITO_AWS_REGION, COGNITO_DOMAIN
+
+
+def custom_login(request):
+    error_message = None
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        
+        # Cognito configuration
+        auth_url = f"https://{COGNITO_DOMAIN}.auth.{COGNITO_AWS_REGION}.amazoncognito.com/oauth2/token"
+        data = {
+            'grant_type': 'password',
+            'client_id': COGNITO_CLIENT_ID,
+            'username': username,
+            'password': password,
+            'scope': 'openid'
+        }
+        headers = {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        }
+        
+        response = requests.post(auth_url, data=data, headers=headers)
+        if response.status_code == 200:
+            # Successful login
+            tokens = response.json()
+            # Handle successful login here (e.g., set session, redirect, etc.)
+            return redirect('success_page')  # Change to your success page
+        else:
+            error_message = 'Invalid username or password'
+
+    return render(request, 'accounts/custom_login.html', {'error_message': error_message})
+
 
 class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
     serializer_class = UserSerializer

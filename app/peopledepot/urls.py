@@ -4,8 +4,10 @@ from django.urls import path
 from drf_spectacular.views import SpectacularAPIView
 from drf_spectacular.views import SpectacularRedocView
 from drf_spectacular.views import SpectacularSwaggerView
+from core.api.views import custom_login
 
 urlpatterns = [
+    path('accounts/login/', custom_login, name='custom_login'),
     path("accounts/", include("allauth.urls")),
     path("admin/", admin.site.urls),
     path("api/v1/", include("core.api.urls")),

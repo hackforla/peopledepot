@@ -41,6 +41,7 @@ LOGIN_REDIRECT_URL = "/admin/"
 # Cognito stuff
 COGNITO_AWS_REGION = os.environ.get("COGNITO_AWS_REGION", default=None)
 COGNITO_USER_POOL = os.environ.get("COGNITO_USER_POOL", default=None)
+COGNITO_DOMAIN = os.environ.get("COGNITO_DOMAIN", default=None)
 # Provide this value if `id_token` is used for authentication (it contains 'aud' claim).
 # `access_token` doesn't have it, in this case keep the COGNITO_AUDIENCE empty
 COGNITO_AUDIENCE = None
