@@ -54,7 +54,7 @@ from django.conf import settings
 def cognito_callback(request):
     code = request.GET.get('code')
     if not code:
-        return redirect('custom_login')
+        return redirect('cognito_login')
 
     # Exchange the authorization code for tokens
     token_url = f'https://{COGNITO_DOMAIN}.auth.{COGNITO_AWS_REGION}.amazoncognito.com/oauth2/token'
@@ -80,13 +80,13 @@ def cognito_callback(request):
         # For demonstration, we just redirect to a success page
         return redirect('success_page')  # Change to your success page
 
-    return render(request, 'accounts/custom_login.html', {'error_message': 'Authentication failed'})
+    return render(request, 'accounts/cognito_login.html', {'error_message': 'Authentication failed'})
 
 
 import os
 from django.shortcuts import render
 
-def custom_login(request):
+def cognito_login(request):
     cognito_domain = os.getenv('COGNITO_DOMAIN', 'default_value')  # Replace 'default_value' with a default value or leave it empty
     cognito_client_id = os.getenv('COGNITO_CLIENT_ID', 'default_value')
     cognito_redirect_uri = os.getenv('COGNITO_REDIRECT_URI', 'default_value')
@@ -94,7 +94,7 @@ def custom_login(request):
     cognito_aws_region = os.getenv('COGNITO_AWS_REGION', 'default_value')
 
     error_message = None
-    return render(request, 'accounts/custom_login.html', {
+    return render(request, 'accounts/cognito_login.html', {
         'cognito_domain': cognito_domain,
         'cognito_client_id': cognito_client_id,
         'cognito_redirect_uri': cognito_redirect_uri,
