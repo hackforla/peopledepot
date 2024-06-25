@@ -18,6 +18,7 @@ def cognito_jwt_decode_handler(token):
     https://aws.amazon.com/premiumsupport/knowledge-center/decode-verify-cognito-json-token/
     Almost the same as default 'rest_framework_jwt.utils.jwt_decode_handler', but 'secret_key' feature is skipped
     """
+    print("Debug jwt decode handler")
     options = {"verify_exp": api_settings.JWT_VERIFY_EXPIRATION}
     unverified_header = jwt.get_unverified_header(token)
     if "kid" not in unverified_header:

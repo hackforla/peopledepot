@@ -6,18 +6,15 @@
 </head>
 <body>
     <h2>Login</h2>
-    <form method="POST" action="{% url 'custom_login' %}">
-        {% csrf_token %}
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
-        <br>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-        <br>
-        <button type="submit">Login</button>
-    </form>
+    <button id="cognito-login-btn">Login with Cognito</button>
     {% if error_message %}
         <p style="color: red;">{{ error_message }}</p>
     {% endif %}
+
+    <script type="text/javascript">
+        document.getElementById('cognito-login-btn').onclick = function() {
+            window.location.href = "https://{{ cognito_domain }}.auth.{{ cognito_aws_region }}.amazoncognito.com/login?client_id={{ cognito_client_id }}&response_type=token&scope=openid&redirect_uri={{ cognito_callback_url }}";
+        };
+    </script>
 </body>
 </html>

@@ -46,37 +46,62 @@ from django.shortcuts import render, redirect
 from django.conf import settings
 from peopledepot.settings import COGNITO_CLIENT_ID, COGNITO_AWS_REGION, COGNITO_DOMAIN
 
+from peopledepot.settings import COGNITO_CLIENT_ID, COGNITO_AWS_REGION, COGNITO_DOMAIN
+import requests
+from django.shortcuts import render, redirect
+from django.conf import settings
+
+def cognito_callback(request):
+    code = request.GET.get('code')
+    if not code:
+        return redirect('custom_login')
+
+    # Exchange the authorization code for tokens
+    token_url = f'https://{COGNITO_DOMAIN}.auth.{COGNITO_AWS_REGION}.amazoncognito.com/oauth2/token'
+    redirect_uri = 'YOUR_REDIRECT_URI'
+    data = {
+        'grant_type': 'authorization_code',
+        'client_id': COGNITO_CLIENT_ID,
+        'code': code,
+        'redirect_uri': redirect_uri
+    }
+    headers = {
+        'Content-Type': 'application/x-www-form-urlencoded'
+    }
+
+    response = requests.post(token_url, data=data, headers=headers)
+    if response.status_code == 200:
+        tokens = response.json()
+        id_token = tokens.get('id_token')
+
+        # Here you can use the id_token to authenticate the user in your Django app
+        # This might involve verifying the token and creating a session
+
+        # For demonstration, we just redirect to a success page
+        return redirect('success_page')  # Change to your success page
+
+    return render(request, 'accounts/custom_login.html', {'error_message': 'Authentication failed'})
+
+
+import os
+from django.shortcuts import render
 
 def custom_login(request):
+    cognito_domain = os.getenv('COGNITO_DOMAIN', 'default_value')  # Replace 'default_value' with a default value or leave it empty
+    cognito_client_id = os.getenv('COGNITO_CLIENT_ID', 'default_value')
+    cognito_redirect_uri = os.getenv('COGNITO_REDIRECT_URI', 'default_value')
+    cognito_callback_url = os.getenv('COGNITO_CALLBACK_URL', 'default_value')
+    cognito_aws_region = os.getenv('COGNITO_AWS_REGION', 'default_value')
+
     error_message = None
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        
-        # Cognito configuration
-        auth_url = f"https://{COGNITO_DOMAIN}.auth.{COGNITO_AWS_REGION}.amazoncognito.com/oauth2/token"
-        data = {
-            'grant_type': 'password',
-            'client_id': COGNITO_CLIENT_ID,
-            'username': username,
-            'password': password,
-            'scope': 'openid'
-        }
-        headers = {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        }
-        
-        response = requests.post(auth_url, data=data, headers=headers)
-        if response.status_code == 200:
-            # Successful login
-            tokens = response.json()
-            # Handle successful login here (e.g., set session, redirect, etc.)
-            return redirect('success_page')  # Change to your success page
-        else:
-            error_message = 'Invalid username or password'
-
-    return render(request, 'accounts/custom_login.html', {'error_message': error_message})
-
+    return render(request, 'accounts/custom_login.html', {
+        'cognito_domain': cognito_domain,
+        'cognito_client_id': cognito_client_id,
+        'cognito_redirect_uri': cognito_redirect_uri,
+        'cognito_aws_region': cognito_aws_region,
+        'cognito_callback_url': cognito_callback_url,
+        'error_message': error_message,
+    })
 
 class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
     serializer_class = UserSerializer

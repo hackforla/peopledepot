@@ -44,13 +44,13 @@ COGNITO_USER_POOL = os.environ.get("COGNITO_USER_POOL", default=None)
 COGNITO_DOMAIN = os.environ.get("COGNITO_DOMAIN", default=None)
 # Provide this value if `id_token` is used for authentication (it contains 'aud' claim).
 # `access_token` doesn't have it, in this case keep the COGNITO_AUDIENCE empty
-COGNITO_AUDIENCE = None
 COGNITO_POOL_URL = (
     None  # will be set few lines of code later, if configuration provided
 )
 COGNITO_CLIENT_ID = os.environ.get("COGNITO_CLIENT_ID")
-COGNITO_CLIENT_SECRET = os.environ.get("COGNITO_CLIENT_SECRET`")
-
+COGNITO_AUDIENCE = COGNITO_CLIENT_ID
+COGNITO_CLIENT_SECRET = os.environ.get("COGNITO_CLIENT_SECRET`") or ""
+print("COGNITO_AUDIENCE", COGNITO_AUDIENCE)
 rsa_keys = {}
 # To avoid circular imports, we keep this logic here.
 # On django init we download jwks public keys which are used to validate jwt tokens.
@@ -89,6 +89,7 @@ INSTALLED_APPS = [
     # ... include the providers you want to enable:
     "allauth.socialaccount.providers.amazon_cognito",
 ]
+DEBUG = True
 
 SOCIALACCOUNT_PROVIDERS = {
     "amazon_cognito": {
@@ -99,9 +100,13 @@ SOCIALACCOUNT_PROVIDERS = {
             "secret": "",
             "key": "",
         },
-    }
+       'AUTH_PARAMS': {
+            'scope': 'openid profile email',
+        },
+        'OAUTH2_CLIENT_CLASS': 'allauth.socialaccount.providers.oauth2.client.OAuth2Client',
+     }
 }
-
+print("Debug SOCIALACCOUNT_PROVIDERS", SOCIALACCOUNT_PROVIDERS)
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -187,13 +192,33 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
-
+SITE_ID = 1
 STATIC_URL = "static/"
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+        },
+        'allauth': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+        },
+    },
+}
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+SOCIALACCOUNT_ADAPTER = 'adapters.MySocialAccountAdapter'
 
 AUTH_USER_MODEL = "core.User"
 ACCOUNT_EMAIL_VERIFICATION = "none"
