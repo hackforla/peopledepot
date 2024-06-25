@@ -41,15 +41,7 @@ from .serializers import StackElementTypeSerializer
 from .serializers import TechnologySerializer
 from .serializers import UserSerializer
 
-import requests
-from django.shortcuts import render, redirect
-from django.conf import settings
-from peopledepot.settings import COGNITO_CLIENT_ID, COGNITO_AWS_REGION, COGNITO_DOMAIN
-
-from peopledepot.settings import COGNITO_CLIENT_ID, COGNITO_AWS_REGION, COGNITO_DOMAIN
-import requests
-from django.shortcuts import render, redirect
-from django.conf import settings
+from django.shortcuts import render
 
 import os
 
