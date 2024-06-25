@@ -44,11 +44,6 @@ from .serializers import StackElementTypeSerializer
 from .serializers import TechnologySerializer
 from .serializers import UserSerializer
 
-from django.shortcuts import render
-
-import os
-
-from django.shortcuts import render
 
 def cognito_login(request):
     cognito_domain = os.getenv(
