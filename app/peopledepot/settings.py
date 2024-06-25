@@ -45,7 +45,7 @@ COGNITO_USER_POOL = os.environ.get("COGNITO_USER_POOL", default=None)
 COGNITO_DOMAIN = os.environ.get("COGNITO_DOMAIN", default=None)
 # Provide this value if `id_token` is used for authentication (it contains 'aud' claim).
 # `access_token` doesn't have it, in this case keep the COGNITO_AUDIENCE empty
-COGNITO_AUDIENCE = None
+COGNITO_AUDIENCE = os.environ.get("COGNITO_CLIENT_ID", default=None)
 COGNITO_POOL_URL = (
     None  # will be set few lines of code later, if configuration provided
 )
