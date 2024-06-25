@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
+
 import json
 import os
 from pathlib import Path
@@ -98,11 +99,11 @@ SOCIALACCOUNT_PROVIDERS = {
             "secret": "",
             "key": "",
         },
-       'AUTH_PARAMS': {
-            'scope': 'openid profile email',
+        "AUTH_PARAMS": {
+            "scope": "openid profile email",
         },
-        'OAUTH2_CLIENT_CLASS': 'allauth.socialaccount.providers.oauth2.client.OAuth2Client',
-     }
+        "OAUTH2_CLIENT_CLASS": "allauth.socialaccount.providers.oauth2.client.OAuth2Client",
+    }
 }
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
