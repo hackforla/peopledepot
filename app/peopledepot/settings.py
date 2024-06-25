@@ -44,11 +44,11 @@ COGNITO_USER_POOL = os.environ.get("COGNITO_USER_POOL", default=None)
 COGNITO_DOMAIN = os.environ.get("COGNITO_DOMAIN", default=None)
 # Provide this value if `id_token` is used for authentication (it contains 'aud' claim).
 # `access_token` doesn't have it, in this case keep the COGNITO_AUDIENCE empty
+COGNITO_AUDIENCE = None
 COGNITO_POOL_URL = (
     None  # will be set few lines of code later, if configuration provided
 )
 COGNITO_CLIENT_ID = os.environ.get("COGNITO_CLIENT_ID")
-COGNITO_AUDIENCE = None
 COGNITO_CLIENT_SECRET = os.environ.get("COGNITO_CLIENT_SECRET`") or ""
 rsa_keys = {}
 # To avoid circular imports, we keep this logic here.
@@ -189,7 +189,6 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
-SITE_ID = 1
 STATIC_URL = "static/"
 
 # Default primary key field type
