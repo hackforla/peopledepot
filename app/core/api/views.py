@@ -1,9 +1,6 @@
 import os
 
-import requests
-from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.shortcuts import redirect
 from django.shortcuts import render
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import OpenApiExample
@@ -16,10 +13,6 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
-
-from peopledepot.settings import COGNITO_AWS_REGION
-from peopledepot.settings import COGNITO_CLIENT_ID
-from peopledepot.settings import COGNITO_DOMAIN
 
 from ..models import Affiliate
 from ..models import Affiliation
