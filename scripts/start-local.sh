@@ -11,10 +11,6 @@ if [[ $PWD != *"app"* ]]; then
     }
 fi
 
-# loadenv.sh || {
-#     echo "ERROR: loadenv.sh failed"
-#     return 1
-# }
 echo Admin user = "$DJANGO_SUPERUSER" email = "$DJANGO_SUPERUSER_EMAIL"
 if [[ $1 != "" ]]; then
     port=$1

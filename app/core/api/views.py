@@ -51,39 +51,8 @@ import requests
 from django.shortcuts import render, redirect
 from django.conf import settings
 
-def cognito_callback(request):
-    code = request.GET.get('code')
-    if not code:
-        return redirect('cognito_login')
-
-    # Exchange the authorization code for tokens
-    token_url = f'https://{COGNITO_DOMAIN}.auth.{COGNITO_AWS_REGION}.amazoncognito.com/oauth2/token'
-    redirect_uri = 'YOUR_REDIRECT_URI'
-    data = {
-        'grant_type': 'authorization_code',
-        'client_id': COGNITO_CLIENT_ID,
-        'code': code,
-        'redirect_uri': redirect_uri
-    }
-    headers = {
-        'Content-Type': 'application/x-www-form-urlencoded'
-    }
-
-    response = requests.post(token_url, data=data, headers=headers)
-    if response.status_code == 200:
-        tokens = response.json()
-        id_token = tokens.get('id_token')
-
-        # Here you can use the id_token to authenticate the user in your Django app
-        # This might involve verifying the token and creating a session
-
-        # For demonstration, we just redirect to a success page
-        return redirect('success_page')  # Change to your success page
-
-    return render(request, 'accounts/cognito_login.html', {'error_message': 'Authentication failed'})
-
-
 import os
+
 from django.shortcuts import render
 
 def cognito_login(request):

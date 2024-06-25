@@ -48,9 +48,8 @@ COGNITO_POOL_URL = (
     None  # will be set few lines of code later, if configuration provided
 )
 COGNITO_CLIENT_ID = os.environ.get("COGNITO_CLIENT_ID")
-COGNITO_AUDIENCE = COGNITO_CLIENT_ID
+COGNITO_AUDIENCE = None
 COGNITO_CLIENT_SECRET = os.environ.get("COGNITO_CLIENT_SECRET`") or ""
-print("COGNITO_AUDIENCE", COGNITO_AUDIENCE)
 rsa_keys = {}
 # To avoid circular imports, we keep this logic here.
 # On django init we download jwks public keys which are used to validate jwt tokens.
@@ -89,7 +88,6 @@ INSTALLED_APPS = [
     # ... include the providers you want to enable:
     "allauth.socialaccount.providers.amazon_cognito",
 ]
-DEBUG = True
 
 SOCIALACCOUNT_PROVIDERS = {
     "amazon_cognito": {
@@ -106,7 +104,6 @@ SOCIALACCOUNT_PROVIDERS = {
         'OAUTH2_CLIENT_CLASS': 'allauth.socialaccount.providers.oauth2.client.OAuth2Client',
      }
 }
-print("Debug SOCIALACCOUNT_PROVIDERS", SOCIALACCOUNT_PROVIDERS)
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -194,34 +191,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 SITE_ID = 1
 STATIC_URL = "static/"
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-        },
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['console'],
-            'level': 'DEBUG',
-        },
-        'allauth': {
-            'handlers': ['console'],
-            'level': 'DEBUG',
-        },
-    },
-}
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-SOCIALACCOUNT_ADAPTER = 'adapters.MySocialAccountAdapter'
 
 AUTH_USER_MODEL = "core.User"
-ACCOUNT_EMAIL_VERIFICATION = "none"
 AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.RemoteUserBackend",
     # Needed to login by username in Django admin, regardless of `allauth`
@@ -239,8 +215,8 @@ REST_FRAMEWORK = {
 }
 
 JWT_AUTH = {
-    "JWT_PAYLOAD_GET_USERNAME_HANDLER": "core.utils.jwt.get_username_from_payload_handler",
-    "JWT_DECODE_HANDLER": "core.utils.jwt.cognito_jwt_decode_handler",
+    "JWT_PAYLOAD_GET_USERNAME_HANDLER": "core.utils.jwt_handler.get_username_from_payload_handler",
+    "JWT_DECODE_HANDLER": "core.utils.jwt_handler.cognito_jwt_decode_handler",
     "JWT_PUBLIC_KEY": rsa_keys,
     "JWT_ALGORITHM": "RS256",
     "JWT_AUDIENCE": COGNITO_AUDIENCE,
