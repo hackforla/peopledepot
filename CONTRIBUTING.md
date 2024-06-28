@@ -244,7 +244,7 @@ git checkout -b <new-branch-name>-15
 
 ### 4.3 Make changes
 
-Make changes to fix the issue.  If creating a new table or API, read [Add Model and API End Points](./docs/how-to/add-model-and-api-endpoints.md)
+Make changes to fix the issue.  If creating a new table or API, read [Add Model and API End Points](./docs/how-to/add-model-and-api-endpoints.md).
 
 ### 4.4 Pull to get the most recent code
 
