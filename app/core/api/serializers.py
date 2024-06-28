@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from timezone_field.rest_framework import TimeZoneSerializerField
+from django.contrib.auth.models import Group
 
 from core.models import Affiliate
 from core.models import Affiliation
@@ -37,10 +38,22 @@ class PracticeAreaSerializer(serializers.ModelSerializer):
         )
 
 
-class UserSerializer(serializers.ModelSerializer):
-    """Used to retrieve user info"""
+class GroupSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Group
+        fields = ("id","name")
 
+
+class UserSerializer(serializers.ModelSerializer):
+    """
+    Serializer for User model.
+    
+    Parameters:
+    - include_groups (bool): Flag to include user groups in the serialized output.
+    """
     time_zone = TimeZoneSerializerField(use_pytz=False)
+    # see get_groups method
+    groups = serializers.SerializerMethodField()
 
     class Meta:
         model = User
@@ -64,6 +77,7 @@ class UserSerializer(serializers.ModelSerializer):
             "phone",
             "texting_ok",
             "time_zone",
+            "groups",
         )
         read_only_fields = (
             "uuid",
@@ -72,6 +86,13 @@ class UserSerializer(serializers.ModelSerializer):
             "username",
             "email",
         )
+
+    def get_groups(self, obj):
+        include_groups = self.context.get('include_groups', False)
+        if include_groups:
+            return GroupSerializer(obj.groups.all(), many=True).data
+        return None
+
 
 
 class ProjectSerializer(serializers.ModelSerializer):

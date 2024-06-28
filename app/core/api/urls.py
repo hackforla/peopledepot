@@ -1,8 +1,7 @@
 from django.urls import path
 from rest_framework import routers
 
-from .secured_views import SecuredCreateUser
-from .secured_views import SecuredUserViewSet
+from .secret_views import SecretUserViewSet
 from .views import AffiliateViewSet
 from .views import AffiliationViewSet
 from .views import EventViewSet
@@ -37,7 +36,7 @@ router.register(
     r"stack-element-types", StackElementTypeViewSet, basename="stack-element-type"
 )
 router.register(
-    r"secured-api/getusers", SecuredUserViewSet, basename="secured-api-getusers"
+    r"secret-api/getusers", SecretUserViewSet, basename="secret-api-getusers"
 )
 router.register(r"sdgs", SdgViewSet, basename="sdg")
 router.register(r"sdgs", SdgViewSet, basename="sdg")
@@ -47,12 +46,6 @@ router.register(
     basename="affiliation",
 )
 urlpatterns = [
-    # path('secured-api/getusers', SecuredUserViewSet.as_view(), name='secured_api_getusers'),
-    path(
-        "secured-api/createuser",
-        SecuredCreateUser.as_view(),
-        name="secured_api_createuser",
-    ),
     path("me/", UserProfileAPIView.as_view(), name="my_profile"),
 ]
 
