@@ -1,6 +1,7 @@
+import os
 from django.shortcuts import render
 
-def cognito_login(request):
+def cognito_redirect_login(request):
     cognito_domain = os.getenv(
         "COGNITO_DOMAIN", "default_value"
     )  # Replace 'default_value' with a default value or leave it empty
@@ -12,7 +13,7 @@ def cognito_login(request):
     error_message = None
     return render(
         request,
-        "accounts/cognito_login.html",
+        "accounts/cognito_redirect_login.html",
         {
             "cognito_domain": cognito_domain,
             "cognito_client_id": cognito_client_id,
