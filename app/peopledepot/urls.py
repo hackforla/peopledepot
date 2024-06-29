@@ -5,7 +5,7 @@ from drf_spectacular.views import SpectacularAPIView
 from drf_spectacular.views import SpectacularRedocView
 from drf_spectacular.views import SpectacularSwaggerView
 
-from core.api.views import cognito_login
+from peopledepot.url_methods import cognito_login
 
 urlpatterns = [
     path("accounts/login/", cognito_login, name="cognito_login"),
