@@ -1,5 +1,6 @@
 from django.shortcuts import render
 
+
 def cognito_login(request):
     cognito_domain = os.getenv(
         "COGNITO_DOMAIN", "default_value"
@@ -22,5 +23,3 @@ def cognito_login(request):
             "error_message": error_message,
         },
     )
-
-
