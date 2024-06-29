@@ -23,5 +23,3 @@ def cognito_redirect_login(request):
             "error_message": error_message,
         },
     )
-
-
