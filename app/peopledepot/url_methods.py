@@ -1,5 +1,7 @@
 import os
+
 from django.shortcuts import render
+
 
 def cognito_redirect_login(request):
     cognito_domain = os.getenv(
