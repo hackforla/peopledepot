@@ -61,6 +61,7 @@ platformdirs==4.2.0
     # via black
 pluggy==1.4.0
     # via pytest
+pre-commit==3.7.1
 psycopg2-binary==2.9.9
 pycodestyle==2.11.1
     # via flake8

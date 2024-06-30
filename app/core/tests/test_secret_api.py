@@ -21,19 +21,19 @@ class SecretUserViewSetTests(APITestCase):
 
     def test_access_with_invalid_signature(self):
         response = self.client.get(secret_url, HTTP_X_API_Key=SECRET_API_KEY, HTTP_X_API_Timestamp=str(int(time.time())), HTTP_X_API_Signature='invalidsignature')
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        assert response.status_code == status.HTTP_403_FORBIDDEN)
 
     def test_access_with_invalid_timestamp(self):
         invalid_timestamp = str(int(time.time()) - 20)  # Invalid timestamp (too old)
         signature = self.generate_signature(SECRET_API_KEY, invalid_timestamp)
         response = self.client.get(secret_url, HTTP_X_API_Key=SECRET_API_KEY, HTTP_X_API_Timestamp=invalid_timestamp, HTTP_X_API_Signature=signature)
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        assert response.status_code == status.HTTP_403_FORBIDDEN
 
     def test_succeeds_with_valid_signature_without_authentication(self):
         timestamp = str(int(time.time()))
         signature = self.generate_signature(SECRET_API_KEY, timestamp)
         response = self.client.get(secret_url, HTTP_X_API_Key=SECRET_API_KEY, HTTP_X_API_Timestamp=timestamp, HTTP_X_API_Signature=signature)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        assert response.status_code == status.HTTP_200_OK
         self.client.force_authenticate(user=None)  # Log out the user
 
     def test_succeeds_with_valid_signature_and_authentication(self):
@@ -42,7 +42,7 @@ class SecretUserViewSetTests(APITestCase):
         timestamp = str(int(time.time()))
         signature = self.generate_signature(SECRET_API_KEY, timestamp)
         response = self.client.get(secret_url, HTTP_X_API_Key=SECRET_API_KEY, HTTP_X_API_Timestamp=timestamp, HTTP_X_API_Signature=signature)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        assert response.status_code == status.HTTP_200_OK
         self.client.force_authenticate(user=None)  # Log out the user
 
     def test_list_users(self):
@@ -57,7 +57,7 @@ class SecretUserViewSetTests(APITestCase):
         timestamp = str(int(time.time()))
         signature = self.generate_signature(SECRET_API_KEY, timestamp)
         response = self.client.get(secret_url, HTTP_X_API_Key=SECRET_API_KEY, HTTP_X_API_Timestamp=timestamp, HTTP_X_API_Signature=signature)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        assert response.status_code == status.HTTP_200_OK
 
         group_count = len(response.data[0]["groups"])
-        self.assertEqual(group_count, 2)
+        assertEqual(group_count, 2)
