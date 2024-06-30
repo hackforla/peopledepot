@@ -60,4 +60,4 @@ class SecretUserViewSetTests(APITestCase):
         assert response.status_code == status.HTTP_200_OK
 
         group_count = len(response.data[0]["groups"])
-        assertEqual(group_count, 2)
+        self.assertEqual(group_count, 2)
