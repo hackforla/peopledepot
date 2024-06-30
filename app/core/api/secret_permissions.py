@@ -8,6 +8,7 @@ from rest_framework.exceptions import PermissionDenied
 from rest_framework.permissions import BasePermission
 from django.conf import settings
 
+
 class _ApiFields:
     def __init__(self, api_key: str, timestamp: str, signature: str):
         self.api_key = api_key
