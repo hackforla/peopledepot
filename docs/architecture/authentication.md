@@ -8,11 +8,16 @@ Cognito is a single sign-on system from AWS. It allows multiple apps to accept a
 
 We're invested in AWS, so we might as well use this too.
 
-## How we implement it
+## How Cognito was implemented in development
 
-We're following the implementation from the [djangostar tutorial](https://djangostars.com/blog/bootstrap-django-app-with-cognito/).
+Cognito was implented in dev using [djangostar tutorial](https://djangostars.com/blog/bootstrap-django-app-with-cognito/).
 
-These are the steps involved:
+
+1. Created app client called "backend" within the vrms-dev user pool, with ALLOW_ADMIN_USER_PASSWORD_AUTH enabled
+1. "Domain Name" is already created at [https://hackforla-vrms-dev.auth.us-west-2.amazoncognito.com](https://hackforla-vrms-dev.auth.us-west-2.amazoncognito.com)
+1. In "App client settings", enabled openid, email, and profile, set callback URL [http://localhost:8000/admin](http://localhost:8000/admin)
+
+## Flow
 
 1. Backend downloads JWKS from Cognito User Pool on launch
 1. User submits credentials and gets id_token and access_token
@@ -20,13 +25,7 @@ These are the steps involved:
 1. Backend verifies token and processes request
 1. User gets response from authenticated API
 
-## Current Dev Setup
-
-1. Created app client called "backend within the vrms-dev user pool, with ALLOW_ADMIN_USER_PASSWORD_AUTH enabled
-1. "Domain Name" is already created at [https://hackforla-vrms-dev.auth.us-west-2.amazoncognito.com](https://hackforla-vrms-dev.auth.us-west-2.amazoncognito.com)
-1. In "App client settings", enabled Implicit grant and openid, Callback URL [http://localhost:8000/admin](http://localhost:8000/admin)
-
-## How it works now with the dev user pool and local development backend
+## How To Use
 
 1. [Create a cognito user](https://hackforla-vrms-dev.auth.us-west-2.amazoncognito.com/login?client_id=3e3bi1ct2ks9rcktrde8v60v3u&response_type=token&scope=openid&redirect_uri=http://localhost:8000/admin) and login from the Hosted UI (from App client settings). Successful login will redirect to localhost:8000/admin with the necessary tokens
 1. Take the access_token from the URL and make a GET request to http://localhost:8000/api/v1/me (Headers key=Authorization, value=Bearer <token>)
