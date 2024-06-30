@@ -2,11 +2,11 @@ import hashlib
 import hmac
 import time
 
-from core.constants import message_invalid_signature
 from django.conf import settings
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.permissions import BasePermission
-from django.conf import settings
+
+from core.constants import message_invalid_signature
 
 
 class _ApiFields:
