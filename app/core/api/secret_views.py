@@ -1,9 +1,10 @@
 # from rest_framework import serializers as rest_serializers
-from core.api.secret_permissions import HasValidSignature
 from rest_framework import viewsets
 
+from core.api.secret_permissions import HasValidSignature
 from core.api.serializers import UserSerializer
 from core.models import User
+
 
 class SecretUserViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = [HasValidSignature]
@@ -15,5 +16,5 @@ class SecretUserViewSet(viewsets.ReadOnlyModelViewSet):
     # to include groups in the response
     def get_serializer_context(self):
         context = super().get_serializer_context()
-        context['include_groups'] = True
-        return context  
+        context["include_groups"] = True
+        return context
