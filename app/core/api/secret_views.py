@@ -1,7 +1,7 @@
 # from rest_framework import serializers as rest_serializers
-from core.api.secret_permissions import HasValidSignature
 from rest_framework import viewsets
 
+from core.api.secret_permissions import HasValidSignature
 from core.api.serializers import UserSerializer
 from core.models import User
 

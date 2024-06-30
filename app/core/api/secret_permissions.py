@@ -1,11 +1,12 @@
-import time
-from core.constants import message_invalid_signature
-import hmac
 import hashlib
+import hmac
+import time
+
+from core.constants import message_invalid_signature
+from django.conf import settings
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.permissions import BasePermission
 from django.conf import settings
-
 
 class _ApiFields:
     def __init__(self, api_key: str, timestamp: str, signature: str):
@@ -22,7 +23,6 @@ def _get_request_api_fields(request) -> _ApiFields:
 
 
 def _is_expected_signature(api_key: str, timestamp: str, signature: str) -> bool:
-
     current_timestamp = int(time.time())
     request_timestamp = int(timestamp)
     if abs(current_timestamp - request_timestamp) > 10:

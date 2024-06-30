@@ -1,9 +1,13 @@
-import time
-import hmac
 import hashlib
+import hmac
+import time
+
+from django.contrib.auth.models import Group
 from django.urls import reverse
-from rest_framework.test import APITestCase, APIClient
 from rest_framework import status
+from rest_framework.test import APIClient
+from rest_framework.test import APITestCase
+
 from core.models import User
 from peopledepot.settings import SECRET_API_KEY
 from django.contrib.auth.models import Group

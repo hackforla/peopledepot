@@ -1,6 +1,6 @@
+from django.contrib.auth.models import Group
 from rest_framework import serializers
 from timezone_field.rest_framework import TimeZoneSerializerField
-from django.contrib.auth.models import Group
 
 from core.models import Affiliate
 from core.models import Affiliation
