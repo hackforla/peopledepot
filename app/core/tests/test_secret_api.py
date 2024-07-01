@@ -10,7 +10,6 @@ from rest_framework.test import APITestCase
 
 from core.models import User
 from peopledepot.settings import SECRET_API_KEY
-from django.contrib.auth.models import Group
 
 secret_url = reverse("secret-api-getusers-list")
 
