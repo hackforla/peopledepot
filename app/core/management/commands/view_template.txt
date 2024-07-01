@@ -1,0 +1,8 @@
+@extend_schema_view(
+    list=extend_schema(description="Return a list of all the {verbose_plural}"),
+    retrieve=extend_schema(description="Retrieve a {verbose_name}"),
+)
+class {model_name}ViewSet(viewsets.ReadOnlyModelViewSet):
+    permission_classes = []
+    queryset = {model_name}.objects.all()
+    serializer_class = {model_name}Serializer

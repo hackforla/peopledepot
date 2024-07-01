@@ -2,6 +2,7 @@ from rest_framework import serializers
 from timezone_field.rest_framework import TimeZoneSerializerField
 
 from core.models import Affiliate
+from core.models import UserPermissions
 from core.models import Affiliation
 from core.models import Event
 from core.models import Faq
@@ -316,3 +317,11 @@ class AffiliationSerializer(serializers.ModelSerializer):
             "is_partner",
         )
         read_only_fields = ("uuid", "created_at", "updated_at")
+
+
+class UserPermissionsSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = UserPermissions
+        fields = ("uuid", "created_at", "updated_at")
+        read_only_fields = ("uuid", "updated_at", "created_at")
