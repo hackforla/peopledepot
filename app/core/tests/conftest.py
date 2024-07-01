@@ -20,7 +20,7 @@ from ..models import Technology
 
 
 @pytest.fixture
-def create_user_admin():
+def created_user_admin():
     return User.objects.create_user(
         username="AdminUser",
         email="adminuser@example.com",
@@ -30,7 +30,7 @@ def create_user_admin():
 
 
 @pytest.fixture
-def create_user_permissions():
+def created_user_permissions():
     user1 = User.objects.create(username="TestUser1", email="TestUser1@example.com")
     user2 = User.objects.create(username="TestUser2", email="TestUser2@example.com")
     project = Project.objects.create(name="Test Project")
