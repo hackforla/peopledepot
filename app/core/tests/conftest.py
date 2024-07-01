@@ -2,6 +2,8 @@ import pytest
 from rest_framework.test import APIClient
 
 from ..models import Affiliate
+from ..models import User
+from ..models import UserPermissions
 from ..models import Affiliation
 from ..models import Event
 from ..models import Faq
@@ -15,6 +17,38 @@ from ..models import Sdg
 from ..models import Skill
 from ..models import StackElementType
 from ..models import Technology
+
+
+@pytest.fixture
+def create_user_admin():
+    return User.objects.create_user(
+        username="AdminUser",
+        email="adminuser@example.com",
+        password="adminuser",
+        is_superuser=True,
+    )
+
+
+@pytest.fixture
+def create_user_permissions():
+    user1 = User.objects.create(username="TestUser1", email="TestUser1@example.com")
+    user2 = User.objects.create(username="TestUser2", email="TestUser2@example.com")
+    project = Project.objects.create(name="Test Project")
+    permission_type = PermissionType.objects.first()
+    practice_area = PracticeArea.objects.first()
+    user1_permission = UserPermissions.objects.create(
+        user=user1,
+        permission_type=permission_type,
+        project=project,
+        practice_area=practice_area,
+    )
+    user2_permissions = UserPermissions.objects.create(
+        user=user2,
+        permission_type=permission_type,
+        project=project,
+        practice_area=practice_area,
+    )
+    return [user1_permission, user2_permissions]
 
 
 @pytest.fixture

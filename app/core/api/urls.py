@@ -2,6 +2,7 @@ from django.urls import path
 from rest_framework import routers
 
 from .views import AffiliateViewSet
+from .views import UserPermissionsViewSet
 from .views import AffiliationViewSet
 from .views import EventViewSet
 from .views import FaqViewedViewSet
@@ -19,6 +20,9 @@ from .views import UserProfileAPIView
 from .views import UserViewSet
 
 router = routers.SimpleRouter()
+router.register(
+    r"aapi/v1/user-permissionss", UserPermissionsViewSet, basename="user-permissions"
+)
 router.register(r"users", UserViewSet, basename="user")
 router.register(r"projects", ProjectViewSet, basename="project")
 router.register(r"events", EventViewSet, basename="event")

@@ -1,1 +1,1 @@
-0023_event_could_attend_event_must_attend_and_more
+0024_userpermissions_and_more
