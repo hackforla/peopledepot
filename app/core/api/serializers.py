@@ -17,6 +17,7 @@ from core.models import Skill
 from core.models import StackElementType
 from core.models import Technology
 from core.models import User
+from core.models import UserPermissions
 from core.permission_util import PermissionUtil
 from constants import global_admin, project_team_member
 

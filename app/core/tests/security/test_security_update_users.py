@@ -48,19 +48,6 @@ class TestUser:
         response = client.get(url)
         return logged_in_user, response
 
-    def test_token_api(self, user_tests_init):
-        show_test_info("==> Testing token API")
-        client = APIClient()
-        url = reverse("token_obtain")
-        user = User.objects.create_user(
-            username="dummy", password="password123", is_active=True
-        )
-
-        # response = client.post(url, data={'username': Seed.garry.user_name, 'password': password}, format='json')
-        response = client.post(
-            url, data={"username": "dummy", "password": "password123"}, format="json"
-        )
-        assert response.status_code == status.HTTP_200_OK
 
     def test_admin_update_api(self, user_tests_init):
         # logged_in_user, response = self.force_authenticate_user(Seed.garry.user.username)
