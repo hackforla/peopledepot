@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from timezone_field.rest_framework import TimeZoneSerializerField
 
+from core.constants import UserCruPermissions
+from core.constants import PermissionValue
 from core.models import Affiliate
 from core.models import Affiliation
 from core.models import Event
@@ -16,6 +18,7 @@ from core.models import Skill
 from core.models import StackElementType
 from core.models import Technology
 from core.models import User
+from core.permission_util import PermissionUtil
 
 
 class PracticeAreaSerializer(serializers.ModelSerializer):
@@ -44,11 +47,15 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
+
         fields = (
             "uuid",
             "username",
             "created_at",
             "updated_at",
+            "is_superuser",
+            "is_staff",
+            "is_active",
             "email",
             "first_name",
             "last_name",
@@ -72,6 +79,46 @@ class UserSerializer(serializers.ModelSerializer):
             "username",
             "email",
         )
+
+    @staticmethod
+    def get_read_fields(__cls__, requesting_user: User, serialized_user: User):
+        if PermissionUtil.can_read_all_user(requesting_user, serialized_user):
+            print("Can read all user")
+            represent_fields = UserCruPermissions.read_fields["user"][
+                PermissionValue.global_admin
+            ]
+            print("represent_fields", represent_fields)
+            print("UserCruPermissions.read_fields", UserCruPermissions.read_fields)
+        elif PermissionUtil.can_read_basic_user(requesting_user, serialized_user):
+            print("Here")
+            represent_fields = UserCruPermissions.read_fields["user"][
+                PermissionValue.project_team_member
+            ]
+        else:
+            message = "You do not have permission to view this user"
+            raise PermissionError(message)
+        print(represent_fields)
+        return represent_fields
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        request = self.context.get("request")
+        requesting_user: User = request.user
+        serialized_user: User = instance
+        if request.method != "GET":
+            return representation
+
+        read_fields = UserSerializer.get_read_fields(
+            self, requesting_user, serialized_user
+        )
+        print("debug read_fields", read_fields)
+        print("debug representation", representation)
+
+        new_representation = {}
+        for field_name in read_fields:
+            new_representation[field_name] = representation[field_name]
+        print("new_representation", new_representation)
+        return new_representation
 
 
 class ProjectSerializer(serializers.ModelSerializer):

@@ -1,15 +1,21 @@
 from django.contrib.auth import get_user_model
+from django.shortcuts import get_object_or_404
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import OpenApiExample
 from drf_spectacular.utils import OpenApiParameter
 from drf_spectacular.utils import extend_schema
 from drf_spectacular.utils import extend_schema_view
 from rest_framework import mixins
+from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.response import Response
+
+from core.constants import PermissionValue
+from core.permission_util import PermissionUtil
 
 from ..models import Affiliate
 from ..models import Affiliation
@@ -17,6 +23,7 @@ from ..models import Event
 from ..models import Faq
 from ..models import FaqViewed
 from ..models import Location
+from ..models import PermissionAssignment
 from ..models import PermissionType
 from ..models import PracticeArea
 from ..models import ProgramArea
@@ -25,6 +32,7 @@ from ..models import Sdg
 from ..models import Skill
 from ..models import StackElementType
 from ..models import Technology
+from ..models import User
 from .serializers import AffiliateSerializer
 from .serializers import AffiliationSerializer
 from .serializers import EventSerializer
@@ -107,7 +115,24 @@ class UserViewSet(viewsets.ModelViewSet):
         """
         Optionally filter users by an 'email' and/or 'username' query paramerter in the URL
         """
-        queryset = get_user_model().objects.all()
+        UserModel = get_user_model()
+        current_username = self.request.user.username
+
+        current_user = get_user_model().objects.get(username=current_username)
+        user_permissions = PermissionAssignment.objects.filter(user=current_user)
+        global_admin_permission = user_permissions.filter(
+            user=current_user, permission_type__name=PermissionValue.global_admin
+        ).exists()
+
+        if PermissionUtil.is_admin(current_user):
+            queryset = get_user_model().objects.all()
+        else:
+            projects = [p.project for p in user_permissions if p.project is not None]
+            queryset = (
+                get_user_model()
+                .objects.filter(permissionassignment__project__in=projects)
+                .distinct()
+            )
         email = self.request.query_params.get("email")
         if email is not None:
             queryset = queryset.filter(email=email)
@@ -115,6 +140,29 @@ class UserViewSet(viewsets.ModelViewSet):
         if username is not None:
             queryset = queryset.filter(username=username)
         return queryset
+
+    def partial_update(self, request, *args, **kwargs):
+        instance = self.get_object()
+
+        # Get the parameters for the update
+        update_data = request.data
+
+        # Log or print the instance and update_data for debugging
+        PermissionUtil.validate_fields_updateable(request.user, instance, update_data)
+        response = super().partial_update(request, *args, **kwargs)
+        return response
+
+    # def partial_update(self, request, *args, **kwargs):
+    #     instance = self.get_object()
+
+    #     # Get the parameters for the update
+    #     update_data = request.data
+
+    #     # Log or print the instance and update_data for debugging
+    #     print("Object being updated:", instance)
+    #     print("Update parameters:", update_data)
+
+    #     PermissionUtil.is_fields_valid(request.user, instance, update_data)
 
 
 @extend_schema_view(

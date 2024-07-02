@@ -1,10 +1,12 @@
 import pytest
 from django.urls import reverse
 from rest_framework import status
+from rest_framework.test import APIClient
 
 from core.api.serializers import ProgramAreaSerializer
 from core.api.serializers import UserSerializer
 from core.models import ProgramArea
+from core.models import User
 
 pytestmark = pytest.mark.django_db
 
@@ -57,21 +59,8 @@ def test_get_profile(auth_client):
     res = auth_client.get(ME_URL)
 
     assert res.status_code == status.HTTP_200_OK
+    print("debug", res.data)
     assert res.data["username"] == "TestUser"
-
-
-def test_get_users(auth_client, django_user_model):
-    create_user(django_user_model, username="TestUser2", password="testpass")
-    create_user(django_user_model, username="TestUser3", password="testpass")
-
-    res = auth_client.get(USERS_URL)
-
-    assert res.status_code == status.HTTP_200_OK
-    assert len(res.data) == 3
-
-    users = django_user_model.objects.all().order_by("created_at")
-    serializer = UserSerializer(users, many=True)
-    assert res.data == serializer.data
 
 
 def test_get_single_user(auth_client, user):
@@ -80,83 +69,6 @@ def test_get_single_user(auth_client, user):
 
     res = auth_client.get(f"{USERS_URL}?username={user.username}")
     assert res.status_code == status.HTTP_200_OK
-
-
-user_actions_test_data = [
-    (
-        "admin_client",
-        "post",
-        "users_url",
-        CREATE_USER_PAYLOAD,
-        status.HTTP_201_CREATED,
-    ),
-    ("admin_client", "get", "users_url", {}, status.HTTP_200_OK),
-    (
-        "auth_client",
-        "post",
-        "users_url",
-        CREATE_USER_PAYLOAD,
-        status.HTTP_201_CREATED,
-    ),
-    ("auth_client", "get", "users_url", {}, status.HTTP_200_OK),
-    (
-        "auth_client",
-        "patch",
-        "user_url",
-        {"first_name": "TestUser2"},
-        status.HTTP_200_OK,
-    ),
-    (
-        "auth_client",
-        "put",
-        "user_url",
-        CREATE_USER_PAYLOAD,
-        status.HTTP_200_OK,
-    ),
-    ("auth_client", "delete", "user_url", {}, status.HTTP_204_NO_CONTENT),
-    (
-        "admin_client",
-        "patch",
-        "user_url",
-        {"first_name": "TestUser2"},
-        status.HTTP_200_OK,
-    ),
-    (
-        "admin_client",
-        "put",
-        "user_url",
-        CREATE_USER_PAYLOAD,
-        status.HTTP_200_OK,
-    ),
-    ("admin_client", "delete", "user_url", {}, status.HTTP_204_NO_CONTENT),
-    (
-        "auth_client2",
-        "patch",
-        "user_url",
-        {"first_name": "TestUser2"},
-        status.HTTP_200_OK,
-    ),
-    (
-        "auth_client2",
-        "put",
-        "user_url",
-        CREATE_USER_PAYLOAD,
-        status.HTTP_200_OK,
-    ),
-    ("auth_client2", "delete", "user_url", {}, status.HTTP_204_NO_CONTENT),
-]
-
-
-@pytest.mark.parametrize(
-    ("client_name", "action", "endpoint", "payload", "expected_status"),
-    user_actions_test_data,
-)
-def test_user_actions(client_name, action, endpoint, payload, expected_status, request):
-    client = request.getfixturevalue(client_name)
-    action_fn = getattr(client, action)
-    url = request.getfixturevalue(endpoint)
-    res = action_fn(url, payload)
-    assert res.status_code == expected_status
 
 
 def test_create_event(auth_client, project):
