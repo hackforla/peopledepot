@@ -2,7 +2,6 @@ from django.urls import path
 from rest_framework import routers
 
 from .views import AffiliateViewSet
-from .views import UserPermissionsViewSet
 from .views import AffiliationViewSet
 from .views import EventViewSet
 from .views import FaqViewedViewSet
@@ -16,6 +15,7 @@ from .views import SdgViewSet
 from .views import SkillViewSet
 from .views import StackElementTypeViewSet
 from .views import TechnologyViewSet
+from .views import UserPermissionsViewSet
 from .views import UserProfileAPIView
 from .views import UserViewSet
 

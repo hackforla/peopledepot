@@ -2,8 +2,6 @@ import pytest
 from rest_framework.test import APIClient
 
 from ..models import Affiliate
-from ..models import User
-from ..models import UserPermissions
 from ..models import Affiliation
 from ..models import Event
 from ..models import Faq
@@ -17,6 +15,8 @@ from ..models import Sdg
 from ..models import Skill
 from ..models import StackElementType
 from ..models import Technology
+from ..models import User
+from ..models import UserPermissions
 
 
 @pytest.fixture

@@ -40,6 +40,22 @@ class PracticeAreaSerializer(serializers.ModelSerializer):
         )
 
 
+class UserPermissionsSerializer(serializers.ModelSerializer):
+    """Used to retrieve user permissions"""
+
+    class Meta:
+        model = UserPermissions
+        fields = (
+            "uuid",
+            "created_at",
+            "updated_at",
+            "user",
+            "permission_type",
+            "project",
+            "practice_area",
+        )
+
+
 class UserSerializer(serializers.ModelSerializer):
     """Used to retrieve user info"""
 
@@ -84,9 +100,7 @@ class UserSerializer(serializers.ModelSerializer):
     def get_read_fields(__cls__, requesting_user: User, serialized_user: User):
         if PermissionUtil.can_read_all_user(requesting_user, serialized_user):
             print("Can read all user")
-            represent_fields = UserCruPermissions.read_fields["user"][
-                global_admin
-            ]
+            represent_fields = UserCruPermissions.read_fields["user"][global_admin]
             print("represent_fields", represent_fields)
             print("UserCruPermissions.read_fields", UserCruPermissions.read_fields)
         elif PermissionUtil.can_read_basic_user(requesting_user, serialized_user):

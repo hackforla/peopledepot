@@ -17,7 +17,6 @@ from rest_framework.response import Response
 from core.permission_util import PermissionUtil
 
 from ..models import Affiliate
-from ..models import UserPermissions
 from ..models import Affiliation
 from ..models import Event
 from ..models import Faq
@@ -32,9 +31,8 @@ from ..models import Sdg
 from ..models import Skill
 from ..models import StackElementType
 from ..models import Technology
-from ..models import User
+from ..models import UserPermissions
 from .serializers import AffiliateSerializer
-from .serializers import UserPermissionsSerializer
 from .serializers import AffiliationSerializer
 from .serializers import EventSerializer
 from .serializers import FaqSerializer
@@ -48,6 +46,7 @@ from .serializers import SdgSerializer
 from .serializers import SkillSerializer
 from .serializers import StackElementTypeSerializer
 from .serializers import TechnologySerializer
+from .serializers import UserPermissionsSerializer
 from .serializers import UserSerializer
 
 

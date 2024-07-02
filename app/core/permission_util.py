@@ -81,15 +81,11 @@ class PermissionUtil:
         if PermissionUtil.has_global_admin_user_update_privs(
             requesting_user, target_user
         ):
-            valid_fields = UserCruPermissions.update_fields["user"][
-                global_admin
-            ]
+            valid_fields = UserCruPermissions.update_fields["user"][global_admin]
         elif PermissionUtil.has_project_admin_user_update_privs(
             requesting_user, target_user
         ):
-            valid_fields = UserCruPermissions.update_fields["user"][
-                practice_area_admin
-            ]
+            valid_fields = UserCruPermissions.update_fields["user"][practice_area_admin]
         else:
             raise PermissionError("You do not have permission to update this user")
         disallowed_fields = set(request_fields) - set(valid_fields)

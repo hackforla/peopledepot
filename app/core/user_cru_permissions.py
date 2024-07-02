@@ -1,5 +1,6 @@
 from constants import global_admin, practice_area_admin, project_team_member, self_value
 
+
 def _get_fields(field_privs, crud_priv):
     ret_array = []
     for key, value in field_privs.items():

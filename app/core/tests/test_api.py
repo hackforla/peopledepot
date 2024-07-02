@@ -234,7 +234,9 @@ def test_create_stack_element_type(auth_client):
     assert res.data["name"] == payload["name"]
 
 
-def test_get_user_permissions(created_user_admin, created_user_permissions, auth_client):
+def test_get_user_permissions(
+    created_user_admin, created_user_permissions, auth_client
+):
     auth_client.force_authenticate(user=created_user_admin)
     permissions = created_user_permissions
     res = auth_client.get(USER_PERMISSIONS_URL)
