@@ -1,8 +1,8 @@
 from rest_framework.exceptions import ValidationError
 
-from app.core.user_cru_permissions import UserCruPermissions
-from app.core.user_cru_permissions import PermissionValue
-from core.models import PermissionAssignment
+from core.user_cru_permissions import UserCruPermissions
+from constants import project_lead, practice_area_admin
+from core.models import UserPermissions
 from core.models import User
 
 
@@ -10,13 +10,7 @@ class PermissionUtil:
     @staticmethod
     def is_admin(user):
         """Check if user is an admin"""
-        return (
-            user.is_superuser
-            or PermissionValue.global_admin
-            in PermissionAssignment.objects.filter(user=user).values_list(
-                "permission_type__name", flat=True
-            )
-        )
+        return user.is_superuser
 
     @staticmethod
     def can_read_all_user(requesting_user: User, serialized_user: User):
@@ -27,15 +21,15 @@ class PermissionUtil:
         ):
             return True
         requesting_projects = (
-            PermissionAssignment.objects.filter(
+            UserPermissions.objects.filter(
                 user=requesting_user,
-                permission_type__name=PermissionValue.project_admin,
+                permission_type__name=project_lead,
             )
             .values("project")
             .distinct()
         )
         serialized_projects = (
-            PermissionAssignment.objects.filter(user=serialized_user)
+            UserPermissions.objects.filter(user=serialized_user)
             .values("project")
             .distinct()
         )
@@ -45,10 +39,10 @@ class PermissionUtil:
     def can_read_basic_user(requesting_user: User, serialized_user: User):
         if PermissionUtil.is_admin(requesting_user):
             return True
-        requesting_projects = PermissionAssignment.objects.filter(
+        requesting_projects = UserPermissions.objects.filter(
             user=requesting_user
         ).values("project")
-        serialized_projects = PermissionAssignment.objects.filter(
+        serialized_projects = UserPermissions.objects.filter(
             user=serialized_user
         ).values("project")
         return requesting_projects.intersection(serialized_projects).exists()
@@ -65,10 +59,10 @@ class PermissionUtil:
     ):
         if PermissionUtil.is_admin(requesting_user):
             return True
-        requesting_projects = PermissionAssignment.objects.filter(
-            user=requesting_user, permission_type__name=PermissionValue.project_admin
+        requesting_projects = UserPermissions.objects.filter(
+            user=requesting_user, permission_type__name=project_lead
         ).values("project")
-        serialized_projects = PermissionAssignment.objects.filter(
+        serialized_projects = UserPermissions.objects.filter(
             user=serialized_user
         ).values("project")
         return requesting_projects.intersection(serialized_projects).exists()
@@ -88,13 +82,13 @@ class PermissionUtil:
             requesting_user, target_user
         ):
             valid_fields = UserCruPermissions.update_fields["user"][
-                PermissionValue.global_admin
+                global_admin
             ]
         elif PermissionUtil.has_project_admin_user_update_privs(
             requesting_user, target_user
         ):
             valid_fields = UserCruPermissions.update_fields["user"][
-                PermissionValue.practice_area_lead
+                practice_area_admin
             ]
         else:
             raise PermissionError("You do not have permission to update this user")

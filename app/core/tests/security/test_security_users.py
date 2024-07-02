@@ -19,8 +19,7 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient
 
-from app.core.user_cru_permissions import UserCruPermissions
-from app.core.user_cru_permissions import PermissionValue
+from core.user_cru_permissions import UserCruPermissions
 from core.permission_util import PermissionUtil
 from core.tests.utils.seed_data import Seed
 from core.tests.utils.seed_user import SeedUser
@@ -157,12 +156,12 @@ class TestUser:
         assert fields_match(
             Seed.wanda.first_name,
             response.json(),
-            UserCruPermissions.read_fields["user"][PermissionValue.global_admin],
+            UserCruPermissions.read_fields["user"][global_admin],
         )
         assert fields_match(
             Seed.patrick.first_name,
             response.json(),
-            UserCruPermissions.read_fields["user"][PermissionValue.project_team_member],
+            UserCruPermissions.read_fields["user"][project_team_member],
         )
 
     def test_project_admin(self, user_tests_init):
@@ -173,7 +172,7 @@ class TestUser:
         assert fields_match(
             Seed.winona.first_name,
             response.json(),
-            UserCruPermissions.read_fields["user"][PermissionValue.global_admin],
+            UserCruPermissions.read_fields["user"][global_admin],
         )
 
     def test_project_team_member(self, user_tests_init):
@@ -183,12 +182,12 @@ class TestUser:
         assert fields_match(
             Seed.winona.first_name,
             response.json(),
-            UserCruPermissions.read_fields["user"][PermissionValue.project_team_member],
+            UserCruPermissions.read_fields["user"][project_team_member],
         )
         assert fields_match(
             Seed.wanda.first_name,
             response.json(),
-            UserCruPermissions.read_fields["user"][PermissionValue.project_team_member],
+            UserCruPermissions.read_fields["user"][project_team_member],
         )
         assert len(response.json()) == count_website_members
 

@@ -1,7 +1,7 @@
 from rest_framework.permissions import SAFE_METHODS
 from rest_framework.permissions import BasePermission
 
-from core.models import PermissionAssignment
+from core.models import UserPermissions
 from core.permission_util import PermissionUtil
 
 
@@ -27,7 +27,7 @@ class IsAdminOrReadOnly(BasePermission):
         return PermissionUtil.is_admin(request.user)
 
 
-class UserPermission(BasePermission):
+class UserPermissions(BasePermission):
     # User view restricts read access to users
     def has_permission(self, __request__, __view__):
         return True

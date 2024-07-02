@@ -1,8 +1,7 @@
 from rest_framework import serializers
 from timezone_field.rest_framework import TimeZoneSerializerField
 
-from app.core.user_cru_permissions import UserCruPermissions
-from app.core.user_cru_permissions import PermissionValue
+from core.user_cru_permissions import UserCruPermissions
 from core.models import Affiliate
 from core.models import Affiliation
 from core.models import Event
@@ -19,6 +18,7 @@ from core.models import StackElementType
 from core.models import Technology
 from core.models import User
 from core.permission_util import PermissionUtil
+from constants import global_admin, project_team_member
 
 
 class PracticeAreaSerializer(serializers.ModelSerializer):
@@ -85,14 +85,14 @@ class UserSerializer(serializers.ModelSerializer):
         if PermissionUtil.can_read_all_user(requesting_user, serialized_user):
             print("Can read all user")
             represent_fields = UserCruPermissions.read_fields["user"][
-                PermissionValue.global_admin
+                global_admin
             ]
             print("represent_fields", represent_fields)
             print("UserCruPermissions.read_fields", UserCruPermissions.read_fields)
         elif PermissionUtil.can_read_basic_user(requesting_user, serialized_user):
             print("Here")
             represent_fields = UserCruPermissions.read_fields["user"][
-                PermissionValue.project_team_member
+                project_team_member
             ]
         else:
             message = "You do not have permission to view this user"

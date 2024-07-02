@@ -14,7 +14,6 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 
-from core.constants import PermissionValue
 from core.permission_util import PermissionUtil
 
 from ..models import Affiliate
@@ -24,7 +23,7 @@ from ..models import Event
 from ..models import Faq
 from ..models import FaqViewed
 from ..models import Location
-from ..models import PermissionAssignment
+from ..models import UserPermissions
 from ..models import PermissionType
 from ..models import PracticeArea
 from ..models import ProgramArea
@@ -121,9 +120,9 @@ class UserViewSet(viewsets.ModelViewSet):
         current_username = self.request.user.username
 
         current_user = get_user_model().objects.get(username=current_username)
-        user_permissions = PermissionAssignment.objects.filter(user=current_user)
+        user_permissions = UserPermissions.objects.filter(user=current_user)
         global_admin_permission = user_permissions.filter(
-            user=current_user, permission_type__name=PermissionValue.global_admin
+            user=current_user, permission_type__name=global_admin
         ).exists()
 
         if PermissionUtil.is_admin(current_user):
@@ -132,7 +131,7 @@ class UserViewSet(viewsets.ModelViewSet):
             projects = [p.project for p in user_permissions if p.project is not None]
             queryset = (
                 get_user_model()
-                .objects.filter(permissionassignment__project__in=projects)
+                .objects.filter(UserPermissions__project__in=projects)
                 .distinct()
             )
         email = self.request.query_params.get("email")

@@ -1,9 +1,4 @@
-from .permission_value import PermissionValue
-_global_admin = PermissionValue.global_admin
-_practice_area_lead = PermissionValue.practice_area_lead
-_project_team_member = PermissionValue.project_team_member
-_self_value = PermissionValue.self_value
-
+from constants import global_admin, practice_area_admin, project_team_member, self_value
 
 def _get_fields(field_privs, crud_priv):
     ret_array = []
@@ -16,14 +11,14 @@ def _get_fields(field_privs, crud_priv):
 def _get_field_permissions():
     permissions = {
         "user": {
-            _self_value: {},
-            _project_team_member: {},
-            _practice_area_lead: {},
-            _global_admin: {},
+            self_value: {},
+            project_team_member: {},
+            practice_area_admin: {},
+            global_admin: {},
         }
     }
 
-    permissions["user"][_self_value] = {
+    permissions["user"][self_value] = {
         "uuid": "R",
         "created_at": "R",
         "updated_at": "R",
@@ -49,7 +44,7 @@ def _get_field_permissions():
         "current_skills": "CRU",
         "target_skills": "CRU",
     }
-    permissions["user"][_project_team_member] = {
+    permissions["user"][project_team_member] = {
         "uuid": "R",
         "created_at": "R",
         "updated_at": "R",
@@ -76,7 +71,7 @@ def _get_field_permissions():
         "target_skills": "R",
     }
 
-    permissions["user"][_practice_area_lead] = {
+    permissions["user"][practice_area_admin] = {
         "uuid": "R",
         "created_at": "R",
         "updated_at": "R",
@@ -103,7 +98,7 @@ def _get_field_permissions():
         "target_skills": "R",
     }
 
-    permissions["user"][_global_admin] = {
+    permissions["user"][global_admin] = {
         "uuid": "R",
         "created_at": "R",
         "updated_at": "R",
@@ -135,39 +130,39 @@ def _get_field_permissions():
 class UserCruPermissions:
     permissions = _get_field_permissions()
 
-    _read_fields_for_self = _get_fields(permissions["user"][_self_value], "R")
-    _read_fields_for_practice_area_lead = _get_fields(
-        permissions["user"][_practice_area_lead], "R"
+    _read_fields_for_self = _get_fields(permissions["user"][self_value], "R")
+    _read_fields_for_practice_area_admin = _get_fields(
+        permissions["user"][practice_area_admin], "R"
     )
     _read_fields_for_project_team_member = _get_fields(
-        permissions["user"][_project_team_member], "R"
+        permissions["user"][project_team_member], "R"
     )
-    _read_fields_for_global_admin = _get_fields(permissions["user"][_global_admin], "R")
+    _read_fields_for_global_admin = _get_fields(permissions["user"][global_admin], "R")
     read_fields = {
         "user": {
-            _self_value: _read_fields_for_self,
-            _project_team_member: _read_fields_for_project_team_member,
-            _practice_area_lead: _read_fields_for_practice_area_lead,
-            _global_admin: _read_fields_for_global_admin,
+            self_value: _read_fields_for_self,
+            project_team_member: _read_fields_for_project_team_member,
+            practice_area_admin: _read_fields_for_practice_area_admin,
+            global_admin: _read_fields_for_global_admin,
         }
     }
 
-    _update_fields_for_self = _get_fields(permissions["user"][_self_value], "U")
-    _update_fields_for_practice_area_lead = _get_fields(
-        permissions["user"][_practice_area_lead], "U"
+    _update_fields_for_self = _get_fields(permissions["user"][self_value], "U")
+    _update_fields_for_practice_area_admin = _get_fields(
+        permissions["user"][practice_area_admin], "U"
     )
     _update_fields_for_project_team_member = _get_fields(
-        permissions["user"][_project_team_member], "U"
+        permissions["user"][project_team_member], "U"
     )
     _update_fields_for_global_admin = _get_fields(
-        permissions["user"][_global_admin], "U"
+        permissions["user"][global_admin], "U"
     )
     update_fields = {
         "user": {
-            _self_value: _update_fields_for_self,
-            _practice_area_lead: _update_fields_for_practice_area_lead,
-            _project_team_member: _update_fields_for_project_team_member,
-            _global_admin: _update_fields_for_global_admin,
+            self_value: _update_fields_for_self,
+            practice_area_admin: _update_fields_for_practice_area_admin,
+            project_team_member: _update_fields_for_project_team_member,
+            global_admin: _update_fields_for_global_admin,
         }
     }
     print("debug update fields", update_fields)
