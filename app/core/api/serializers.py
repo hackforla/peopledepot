@@ -53,6 +53,7 @@ class UserPermissionsSerializer(serializers.ModelSerializer):
             "practice_area",
         )
 
+
 class UserSerializer(serializers.ModelSerializer):
     """Used to retrieve user info"""
 
