@@ -5,7 +5,7 @@ _project_team_member = PermissionValue.project_team_member
 _self_value = PermissionValue.self_value
 
 
-def get_fields(field_privs, crud_priv):
+def _get_fields(field_privs, crud_priv):
     ret_array = []
     for key, value in field_privs.items():
         if crud_priv in value:
@@ -13,7 +13,7 @@ def get_fields(field_privs, crud_priv):
     return ret_array
 
 
-def get_field_permissions():
+def _get_field_permissions():
     permissions = {
         "user": {
             _self_value: {},
@@ -133,16 +133,16 @@ def get_field_permissions():
 
 
 class UserCruPermissions:
-    permissions = get_field_permissions()
+    permissions = _get_field_permissions()
 
-    _read_fields_for_self = get_fields(permissions["user"][_self_value], "R")
-    _read_fields_for_practice_area_lead = get_fields(
+    _read_fields_for_self = _get_fields(permissions["user"][_self_value], "R")
+    _read_fields_for_practice_area_lead = _get_fields(
         permissions["user"][_practice_area_lead], "R"
     )
-    _read_fields_for_project_team_member = get_fields(
+    _read_fields_for_project_team_member = _get_fields(
         permissions["user"][_project_team_member], "R"
     )
-    _read_fields_for_global_admin = get_fields(permissions["user"][_global_admin], "R")
+    _read_fields_for_global_admin = _get_fields(permissions["user"][_global_admin], "R")
     read_fields = {
         "user": {
             _self_value: _read_fields_for_self,
@@ -152,14 +152,14 @@ class UserCruPermissions:
         }
     }
 
-    _update_fields_for_self = get_fields(permissions["user"][_self_value], "U")
-    _update_fields_for_practice_area_lead = get_fields(
+    _update_fields_for_self = _get_fields(permissions["user"][_self_value], "U")
+    _update_fields_for_practice_area_lead = _get_fields(
         permissions["user"][_practice_area_lead], "U"
     )
-    _update_fields_for_project_team_member = get_fields(
+    _update_fields_for_project_team_member = _get_fields(
         permissions["user"][_project_team_member], "U"
     )
-    _update_fields_for_global_admin = get_fields(
+    _update_fields_for_global_admin = _get_fields(
         permissions["user"][_global_admin], "U"
     )
     update_fields = {

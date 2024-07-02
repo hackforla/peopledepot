@@ -311,6 +311,28 @@ class PermissionType(AbstractBaseModel):
             return f"{self.name}"
 
 
+class UserPermissions(AbstractBaseModel):
+    """
+    User Permissions
+    """
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    permission_type = models.ForeignKey(PermissionType, on_delete=models.CASCADE)
+    practice_area = models.ForeignKey(PracticeArea, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["user", "permission_type", "project", "practice_area"],
+                name="unique_user_permission",
+            )
+        ]
+
+    def __str__(self):
+        return f"{self.user} has permission {self.permission_type}"
+
+
 class StackElementType(AbstractBaseModel):
     """
     Stack element type used to update a shared data store across projects

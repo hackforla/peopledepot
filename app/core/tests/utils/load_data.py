@@ -2,7 +2,7 @@ import copy
 
 from django.contrib.auth import get_user_model
 
-from core.constants import PermissionValue
+from app.core.user_cru_permissions import PermissionValue
 from core.models import Project
 from core.models import User
 from core.tests.seed_constants import people_depot_project

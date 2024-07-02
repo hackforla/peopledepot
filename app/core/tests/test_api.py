@@ -10,6 +10,7 @@ from core.models import User
 
 pytestmark = pytest.mark.django_db
 
+USER_PERMISSIONS_URL = reverse("user-permissions-list")
 ME_URL = reverse("my_profile")
 USERS_URL = reverse("user-list")
 EVENTS_URL = reverse("event-list")
@@ -231,6 +232,14 @@ def test_create_stack_element_type(auth_client):
     res = auth_client.post(STACK_ELEMENT_TYPE_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
     assert res.data["name"] == payload["name"]
+
+
+def test_get_user_permissions(created_user_admin, created_user_permissions, auth_client):
+    auth_client.force_authenticate(user=created_user_admin)
+    permissions = created_user_permissions
+    res = auth_client.get(USER_PERMISSIONS_URL)
+    assert len(res.data) == len(permissions)
+    assert res.status_code == status.HTTP_200_OK
 
 
 def test_create_sdg(auth_client):

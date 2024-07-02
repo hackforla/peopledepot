@@ -18,6 +18,7 @@ from core.constants import PermissionValue
 from core.permission_util import PermissionUtil
 
 from ..models import Affiliate
+from ..models import UserPermissions
 from ..models import Affiliation
 from ..models import Event
 from ..models import Faq
@@ -34,6 +35,7 @@ from ..models import StackElementType
 from ..models import Technology
 from ..models import User
 from .serializers import AffiliateSerializer
+from .serializers import UserPermissionsSerializer
 from .serializers import AffiliationSerializer
 from .serializers import EventSerializer
 from .serializers import FaqSerializer
@@ -378,3 +380,16 @@ class AffiliationViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = Affiliation.objects.all()
     serializer_class = AffiliationSerializer
+
+
+@extend_schema_view(
+    list=extend_schema(description="Return a list of all the user permissions"),
+    create=extend_schema(description="Create a new user permission"),
+    retrieve=extend_schema(description="Return the details of a user permission"),
+    destroy=extend_schema(description="Delete a user permission"),
+    partial_update=extend_schema(description="Patch a user permission"),
+)
+class UserPermissionsViewSet(viewsets.ReadOnlyModelViewSet):
+    permission_classes = []
+    queryset = UserPermissions.objects.all()
+    serializer_class = UserPermissionsSerializer

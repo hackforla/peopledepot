@@ -19,8 +19,8 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient
 
-from core.constants import UserCruPermissions
-from core.constants import PermissionValue
+from app.core.user_cru_permissions import UserCruPermissions
+from app.core.user_cru_permissions import PermissionValue
 from core.permission_util import PermissionUtil
 from core.tests.utils.seed_data import Seed
 from core.tests.utils.seed_user import SeedUser
