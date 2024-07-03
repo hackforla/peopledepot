@@ -316,9 +316,9 @@ class UserPermissions(AbstractBaseModel):
     User Permissions
     """
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="permissions")
     permission_type = models.ForeignKey(PermissionType, on_delete=models.CASCADE)
-    practice_area = models.ForeignKey(PracticeArea, on_delete=models.CASCADE)
+    practice_area = models.ForeignKey(PracticeArea, on_delete=models.CASCADE, blank=True, null=True)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
 
     class Meta:

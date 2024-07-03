@@ -100,12 +100,8 @@ class UserSerializer(serializers.ModelSerializer):
     @staticmethod
     def get_read_fields(__cls__, requesting_user: User, serialized_user: User):
         if PermissionUtil.can_read_all_user(requesting_user, serialized_user):
-            print("Can read all user")
             represent_fields = UserCruPermissions.read_fields["user"][global_admin]
-            print("represent_fields", represent_fields)
-            print("UserCruPermissions.read_fields", UserCruPermissions.read_fields)
         elif PermissionUtil.can_read_basic_user(requesting_user, serialized_user):
-            print("Here")
             represent_fields = UserCruPermissions.read_fields["user"][
                 project_team_member
             ]
@@ -116,7 +112,9 @@ class UserSerializer(serializers.ModelSerializer):
         return represent_fields
 
     def to_representation(self, instance):
+        print("to representation a")
         representation = super().to_representation(instance)
+        print("to representation b")
         request = self.context.get("request")
         requesting_user: User = request.user
         serialized_user: User = instance

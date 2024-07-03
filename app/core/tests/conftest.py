@@ -1,3 +1,4 @@
+from core.tests.utils.load_data  import LoadData
 import pytest
 from rest_framework.test import APIClient
 
@@ -36,7 +37,7 @@ def created_user_permissions():
     project = Project.objects.create(name="Test Project")
     permission_type = PermissionType.objects.first()
     practice_area = PracticeArea.objects.first()
-    user1_permission = UserPermissions.objects.create(
+    user1_permission = xreate(
         user=user1,
         permission_type=permission_type,
         project=project,
@@ -50,6 +51,10 @@ def created_user_permissions():
     )
     return [user1_permission, user2_permissions]
 
+
+@pytest.fixture
+def load_test_user_data():
+    LoadData.load_data()
 
 @pytest.fixture
 def user(django_user_model):

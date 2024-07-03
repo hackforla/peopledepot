@@ -47,6 +47,7 @@ def user_url(user):
 
 
 def create_user(django_user_model, **params):
+    print("Calling create_user in test_api.py")
     return django_user_model.objects.create_user(**params)
 
 

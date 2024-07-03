@@ -1,12 +1,10 @@
 from django.contrib.auth import get_user_model
-from django.shortcuts import get_object_or_404
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import OpenApiExample
 from drf_spectacular.utils import OpenApiParameter
 from drf_spectacular.utils import extend_schema
 from drf_spectacular.utils import extend_schema_view
 from rest_framework import mixins
-from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import RetrieveModelMixin
@@ -115,22 +113,22 @@ class UserViewSet(viewsets.ModelViewSet):
         """
         Optionally filter users by an 'email' and/or 'username' query paramerter in the URL
         """
-        UserModel = get_user_model()
         current_username = self.request.user.username
+        print("Debug current_username", current_username)
 
         current_user = get_user_model().objects.get(username=current_username)
         user_permissions = UserPermissions.objects.filter(user=current_user)
-        global_admin_permission = user_permissions.filter(
-            user=current_user, permission_type__name=global_admin
-        ).exists()
+        print("super?", current_user.is_superuser)
 
         if PermissionUtil.is_admin(current_user):
+            print("all users")
             queryset = get_user_model().objects.all()
         else:
+            print("project users")
             projects = [p.project for p in user_permissions if p.project is not None]
             queryset = (
                 get_user_model()
-                .objects.filter(UserPermissions__project__in=projects)
+                .objects.filter(permissions__project__in=projects)
                 .distinct()
             )
         email = self.request.query_params.get("email")
@@ -142,14 +140,20 @@ class UserViewSet(viewsets.ModelViewSet):
         return queryset
 
     def partial_update(self, request, *args, **kwargs):
+        print("Debug partial update2a called", args, kwargs, request.data)
+        print(self)
         instance = self.get_object()
+        print("Debug partial update3 called", instance)
 
         # Get the parameters for the update
         update_data = request.data
+        print("debug 2")
 
         # Log or print the instance and update_data for debugging
         PermissionUtil.validate_fields_updateable(request.user, instance, update_data)
+        print("debug 3")
         response = super().partial_update(request, *args, **kwargs)
+        print("debug 4")
         return response
 
     # def partial_update(self, request, *args, **kwargs):

@@ -18,6 +18,7 @@ from django.contrib.auth import get_user_model
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient
+from core.tests.utils.seed_constants import valerie_name, garry_name
 
 from core.models import User
 from core.permission_util import PermissionUtil
@@ -49,21 +50,18 @@ class TestUser:
         return logged_in_user, response
 
 
-    def test_admin_update_api(self, user_tests_init):
-        # logged_in_user, response = self.force_authenticate_user(Seed.garry.user.username)
-        # assert logged_in_user is not None
-        # assert response.status_code == 200
-        # assert get_user_model().objects.count() > 0
+    def test_admin_update_api(self, load_test_user_data): # 
         show_test_info("==> Testing update global admin")
         show_test_info("Global admin can update last name and gmail field using API")
-        user = SeedUser.get_user(Seed.valerie.first_name)
+        user = SeedUser.get_user(valerie_name)
         url = reverse("user-detail", args=[user.uuid])
         data = {
             "last_name": "Updated",
             "gmail": "update@example.com",
         }
         client = APIClient()
-        client.force_authenticate(user=Seed.garry.user)
+        client.force_authenticate(user=SeedUser.get_user(garry_name))
+        print("Debug Calling patch", data)
         response = client.patch(url, data, format="json")
         print(response.data)
         assert response.status_code == status.HTTP_200_OK

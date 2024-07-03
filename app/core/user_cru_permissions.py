@@ -166,4 +166,3 @@ class UserCruPermissions:
             global_admin: _update_fields_for_global_admin,
         }
     }
-    print("debug update fields", update_fields)
