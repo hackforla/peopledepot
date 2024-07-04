@@ -136,7 +136,6 @@ class UserViewSet(viewsets.ModelViewSet):
         return queryset
 
     def partial_update(self, request, *args, **kwargs):
-        print(self)
         instance = self.get_object()
 
         # Get the parameters for the update

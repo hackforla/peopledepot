@@ -22,7 +22,7 @@ class SeedUser:
         return cls.users.get(first_name)
 
     @classmethod
-    def create_user(cls, *, first_name, description=None, other_user_data={}):
+    def create_user(cls, *, first_name, description=None):
         last_name = f"{description}"
         email = f"{first_name}{last_name}@example.com"
         username = first_name
