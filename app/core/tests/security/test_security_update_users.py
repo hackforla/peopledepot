@@ -18,7 +18,7 @@ from django.contrib.auth import get_user_model
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient
-from core.tests.utils.seed_constants import valerie_name, garry_name
+from core.tests.utils.seed_constants import valerie_name, garry_name, wally_name, wanda_name, winona_name, zani_name, patti_name, patrick_name
 
 from core.models import User
 from core.permission_util import PermissionUtil
@@ -71,3 +71,73 @@ class TestUser:
         response = client.patch(url, data, format="json")
         assert response.status_code == status.HTTP_400_BAD_REQUEST
         assert "created_at" in response.json()[0]
+
+    def test_is_update_request_valid(self, load_test_user_data): 
+        logged_in_user, response = self.authenticate_user(SeedUser.get_user(garry_name).first_name)
+        assert logged_in_user is not None
+        assert response.status_code == 200
+        assert get_user_model().objects.count() > 0
+        show_test_info("")
+        show_test_info("==== Validating is_fields_valid function ====")
+        show_test_info("")
+        show_test_info("==> Validating global admin")
+        show_test_info("")
+        show_test_info(
+            f"global admin will succeed for first name, last name, and gmail"
+        )
+        PermissionUtil.validate_fields_updateable(
+            SeedUser.get_user(garry_name), SeedUser.get_user(valerie_name), ["first_name", "last_name", "gmail"]
+        )
+        show_test_info(f"global admin will raise exception for created_at")
+        with pytest.raises(Exception):
+            PermissionUtil.validate_fields_updateable(
+                SeedUser.get_user(garry_name), SeedUser.get_user(valerie_name), ["created_at"]
+            )
+        show_test_info("")
+        show_test_info("==> Validating project admin")
+        show_test_info(
+            f"project admin will succeed for first name, last name, and email with a project member"
+        )
+        PermissionUtil.validate_fields_updateable(
+            SeedUser.get_user(wanda_name), SeedUser.get_user(wally_name), ["first_name", "last_name"]
+        )
+        show_test_info(
+            f"project admin will  raise exception for current title / project member combo"
+        )
+        with pytest.raises(Exception):
+            PermissionUtil.validate_fields_updateable(
+                SeedUser.get_user(wanda_name), SeedUser.get_user(wally_name), ["current_title"]
+            )
+        show_test_info(
+            f"project admin will raise exception for first name (or any field) / non-project member combo"
+        )
+        with pytest.raises(Exception):
+            PermissionUtil.validate_fields_updateable(
+                SeedUser.get_user(wanda_name), SeedUser.get_user(patti_name), ["first_name"]
+            )
+        show_test_info("")
+        show_test_info("=== Validating project member ===")
+        show_test_info(
+            "Validate project member cannot update first name of another project member"
+        )
+        with pytest.raises(Exception):
+            PermissionUtil.validate_fields_updateable(
+                SeedUser.get_user(wally_name), SeedUser.get_user(winona_name), ["first_name"]
+            )
+        show_test_info(
+            "==> Validating combo user with both project admin and project member roles"
+        )
+        show_test_info(
+            "Validate combo user can update first name of a project member for which they are a project admin"
+        )
+        PermissionUtil.validate_fields_updateable(
+            SeedUser.get_user(zani_name), SeedUser.get_user(wally_name), ["first_name"]
+        )
+        show_test_info(
+            "Validate combo user cannot update first name of a project member for which they are not a project admin"
+        )
+        with pytest.raises(Exception):
+            PermissionUtil.validate_fields_updateable(
+                SeedUser.get_user(zani_name), SeedUser.get_user(patti_name), ["first_name"]
+            )
+

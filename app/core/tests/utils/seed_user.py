@@ -4,6 +4,7 @@ from core.models import PermissionType
 from core.models import Project
 from core.models import User
 from core.tests.utils.seed_constants import password
+from django.urls import reverse
 
 
 class SeedUser:
@@ -18,10 +19,13 @@ class SeedUser:
         self.users[first_name] = self.user
 
     @classmethod
-    def force_authenticate(cls, client, username):
-        user = SeedUser.get_user(username)
-        client.force_authenticate(user=user)
-        return client
+    def force_authenticate(cls, client, user_name):
+        logged_in_user = SeedUser.get_user(user_name)
+        client.force_authenticate(user=logged_in_user)
+        url = reverse("user-list")  # Update this to your actual URL name
+        response = client.get(url)
+        return logged_in_user, response
+    
     @classmethod
     def get_user(cls, first_name):
         return cls.users.get(first_name)
