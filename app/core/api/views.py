@@ -114,17 +114,13 @@ class UserViewSet(viewsets.ModelViewSet):
         Optionally filter users by an 'email' and/or 'username' query paramerter in the URL
         """
         current_username = self.request.user.username
-        print("Debug current_username", current_username)
 
         current_user = get_user_model().objects.get(username=current_username)
         user_permissions = UserPermissions.objects.filter(user=current_user)
-        print("super?", current_user.is_superuser)
 
         if PermissionUtil.is_admin(current_user):
-            print("all users")
             queryset = get_user_model().objects.all()
         else:
-            print("project users")
             projects = [p.project for p in user_permissions if p.project is not None]
             queryset = (
                 get_user_model()
@@ -140,10 +136,8 @@ class UserViewSet(viewsets.ModelViewSet):
         return queryset
 
     def partial_update(self, request, *args, **kwargs):
-        print("Debug partial update2a called", args, kwargs, request.data)
         print(self)
         instance = self.get_object()
-        print("Debug partial update3 called", instance)
 
         # Get the parameters for the update
         update_data = request.data

@@ -44,9 +44,7 @@ class SeedUser:
     ):
         permission_type = PermissionType.objects.get(name=permission_type_name)
         if project_name:
-            print("Creating related data for", user, permission_type_name, project_name)
             project_data = {"project": Project.objects.get(name=project_name)}
-            print("Project data", project_data)
         else:
             project_data = {}
         user_permission = UserPermissions.objects.create(

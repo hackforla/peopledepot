@@ -47,7 +47,6 @@ def user_url(user):
 
 
 def create_user(django_user_model, **params):
-    print("Calling create_user in test_api.py")
     return django_user_model.objects.create_user(**params)
 
 
@@ -61,7 +60,6 @@ def test_get_profile(auth_client):
     res = auth_client.get(ME_URL)
 
     assert res.status_code == status.HTTP_200_OK
-    print("debug", res.data)
     assert res.data["username"] == "TestUser"
 
 

@@ -125,7 +125,6 @@ class UserSerializer(serializers.ModelSerializer):
         new_representation = {}
         for field_name in read_fields:
             new_representation[field_name] = representation[field_name]
-        print("new_representation", new_representation)
         return new_representation
 
 
