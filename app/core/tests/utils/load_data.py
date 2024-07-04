@@ -3,8 +3,7 @@ import copy
 from django.contrib.auth import get_user_model
 from core.models import Project
 from constants import project_lead, project_team_member
-from core.tests.seed_constants import people_depot_project, garry_name, valerie_name, patti_name, patrick_name, wanda_name, wally_name, winona_name, zani_name
-from core.tests.seed_constants import website_project
+from core.tests.utils.seed_constants import people_depot_project, garry_name, valerie_name, patti_name, patrick_name, wanda_name, wally_name, winona_name, zani_name, website_project
 from core.tests.utils.seed_user import SeedUser
 
 UserModel = get_user_model()
