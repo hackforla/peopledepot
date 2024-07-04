@@ -59,13 +59,14 @@ class UserPermissionsSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     """Used to retrieve user info"""
+    time_zone = TimeZoneSerializerField(use_pytz=False)
 
     class Meta:
         model = User
 
         # to_representation overrides the need for fields
         # if fields is removed, syntax checker will complain
-        fields = ()
+        fields = "__all__"
 
 
     @staticmethod

@@ -20,6 +20,7 @@ descriptions = {
 
 website_project = "Website"
 people_depot_project = "People Depot"
+password = "Hello2024"
 
 # user_actions_test_data = [
 #     (

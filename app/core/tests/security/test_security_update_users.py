@@ -61,7 +61,6 @@ class TestUser:
         client = APIClient()
         client.force_authenticate(user=SeedUser.get_user(garry_name))
         response = client.patch(url, data, format="json")
-        print(response.data)
         assert response.status_code == status.HTTP_200_OK
 
         show_test_info("Global admin cannot update created_at")
