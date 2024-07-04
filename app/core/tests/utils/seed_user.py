@@ -1,3 +1,4 @@
+from core.tests.utils.utils_test import show_test_info
 from core.models import UserPermissions
 from core.models import PermissionType
 from core.models import Project
@@ -50,6 +51,6 @@ class SeedUser:
         user_permission = UserPermissions.objects.create(
             user=user, permission_type=permission_type, **project_data
         )
-        print("Created user permission", user_permission)
+        show_test_info("Created user permission " + user.username + " " + permission_type.name)
         user_permission.save()
         return user_permission

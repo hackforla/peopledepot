@@ -141,26 +141,11 @@ class UserViewSet(viewsets.ModelViewSet):
 
         # Get the parameters for the update
         update_data = request.data
-        print("debug 2")
 
         # Log or print the instance and update_data for debugging
         PermissionUtil.validate_fields_updateable(request.user, instance, update_data)
-        print("debug 3")
         response = super().partial_update(request, *args, **kwargs)
-        print("debug 4")
         return response
-
-    # def partial_update(self, request, *args, **kwargs):
-    #     instance = self.get_object()
-
-    #     # Get the parameters for the update
-    #     update_data = request.data
-
-    #     # Log or print the instance and update_data for debugging
-    #     print("Object being updated:", instance)
-    #     print("Update parameters:", update_data)
-
-    #     PermissionUtil.is_fields_valid(request.user, instance, update_data)
 
 
 @extend_schema_view(
