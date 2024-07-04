@@ -18,6 +18,11 @@ class SeedUser:
         self.users[first_name] = self.user
 
     @classmethod
+    def force_authenticate(cls, client, username):
+        user = SeedUser.get_user(username)
+        client.force_authenticate(user=user)
+        return client
+    @classmethod
     def get_user(cls, first_name):
         return cls.users.get(first_name)
 
