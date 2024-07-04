@@ -1,4 +1,7 @@
-from constants import global_admin, practice_area_admin, project_team_member, self_value
+from constants import global_admin
+from constants import practice_area_admin
+from constants import project_team_member
+from constants import self_value
 
 
 def _get_fields(field_privs, crud_priv):

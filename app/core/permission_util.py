@@ -1,9 +1,11 @@
 from rest_framework.exceptions import ValidationError
 
-from core.user_cru_permissions import UserCruPermissions
-from constants import global_admin, project_lead, practice_area_admin
-from core.models import UserPermissions
+from constants import global_admin
+from constants import practice_area_admin
+from constants import project_lead
 from core.models import User
+from core.models import UserPermissions
+from core.user_cru_permissions import UserCruPermissions
 
 
 class PermissionUtil:

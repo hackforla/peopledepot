@@ -1,7 +1,8 @@
 from rest_framework import serializers
 from timezone_field.rest_framework import TimeZoneSerializerField
 
-from core.user_cru_permissions import UserCruPermissions
+from constants import global_admin
+from constants import project_team_member
 from core.models import Affiliate
 from core.models import Affiliation
 from core.models import Event
@@ -19,7 +20,7 @@ from core.models import Technology
 from core.models import User
 from core.models import UserPermissions
 from core.permission_util import PermissionUtil
-from constants import global_admin, project_team_member
+from core.user_cru_permissions import UserCruPermissions
 
 
 class PracticeAreaSerializer(serializers.ModelSerializer):
@@ -59,6 +60,7 @@ class UserPermissionsSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     """Used to retrieve user info"""
+
     time_zone = TimeZoneSerializerField(use_pytz=False)
 
     class Meta:
@@ -67,7 +69,6 @@ class UserSerializer(serializers.ModelSerializer):
         # to_representation overrides the need for fields
         # if fields is removed, syntax checker will complain
         fields = "__all__"
-
 
     @staticmethod
     def _get_read_fields(__cls__, requesting_user: User, serialized_user: User):

@@ -1,9 +1,20 @@
 import copy
 
 from django.contrib.auth import get_user_model
+
+from constants import project_lead
+from constants import project_team_member
 from core.models import Project
-from constants import project_lead, project_team_member
-from core.tests.utils.seed_constants import people_depot_project, garry_name, valerie_name, patti_name, patrick_name, wanda_name, wally_name, winona_name, zani_name, website_project
+from core.tests.utils.seed_constants import garry_name
+from core.tests.utils.seed_constants import patrick_name
+from core.tests.utils.seed_constants import patti_name
+from core.tests.utils.seed_constants import people_depot_project
+from core.tests.utils.seed_constants import valerie_name
+from core.tests.utils.seed_constants import wally_name
+from core.tests.utils.seed_constants import wanda_name
+from core.tests.utils.seed_constants import website_project
+from core.tests.utils.seed_constants import winona_name
+from core.tests.utils.seed_constants import zani_name
 from core.tests.utils.seed_user import SeedUser
 
 UserModel = get_user_model()
@@ -21,9 +32,14 @@ class LoadData:
         SeedUser.create_user(first_name="Wanda", description="Website project lead")
         SeedUser.create_user(first_name="Wally", description="Website member")
         SeedUser.create_user(first_name="Winona", description="Website member")
-        SeedUser.create_user(first_name="Zani", description="Website member and People Depot project lead")
+        SeedUser.create_user(
+            first_name="Zani",
+            description="Website member and People Depot project lead",
+        )
         SeedUser.create_user(first_name="Patti", description="People Depot member")
-        SeedUser.create_user(first_name="Patrick", description="People Depot project lead")
+        SeedUser.create_user(
+            first_name="Patrick", description="People Depot project lead"
+        )
         SeedUser.create_user(first_name="Garry", description="Global admin")
         SeedUser.get_user(garry_name).is_superuser = True
         SeedUser.get_user(garry_name).save()

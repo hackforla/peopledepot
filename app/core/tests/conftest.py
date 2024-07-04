@@ -1,6 +1,7 @@
-from core.tests.utils.load_data  import LoadData
 import pytest
 from rest_framework.test import APIClient
+
+from core.tests.utils.load_data import LoadData
 
 from ..models import Affiliate
 from ..models import Affiliation
@@ -55,6 +56,7 @@ def created_user_permissions():
 @pytest.fixture
 def load_test_user_data():
     LoadData.load_data()
+
 
 @pytest.fixture
 def user(django_user_model):

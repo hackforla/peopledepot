@@ -20,7 +20,6 @@ from ..models import Event
 from ..models import Faq
 from ..models import FaqViewed
 from ..models import Location
-from ..models import UserPermissions
 from ..models import PermissionType
 from ..models import PracticeArea
 from ..models import ProgramArea

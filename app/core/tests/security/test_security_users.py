@@ -17,12 +17,21 @@ import pytest
 from django.contrib.auth import get_user_model
 from django.urls import reverse
 from rest_framework.test import APIClient
-from constants import global_admin, project_team_member
-from core.tests.utils.seed_constants import valerie_name, garry_name, wally_name, wanda_name, winona_name, zani_name, patti_name, patrick_name
-from core.user_cru_permissions import UserCruPermissions
+
+from constants import global_admin
+from constants import project_team_member
 from core.permission_util import PermissionUtil
+from core.tests.utils.seed_constants import garry_name
+from core.tests.utils.seed_constants import patrick_name
+from core.tests.utils.seed_constants import patti_name
+from core.tests.utils.seed_constants import valerie_name
+from core.tests.utils.seed_constants import wally_name
+from core.tests.utils.seed_constants import wanda_name
+from core.tests.utils.seed_constants import winona_name
+from core.tests.utils.seed_constants import zani_name
 from core.tests.utils.seed_user import SeedUser
 from core.tests.utils.utils_test import show_test_info
+from core.user_cru_permissions import UserCruPermissions
 
 count_website_members = 4
 count_people_depot_members = 3
@@ -47,8 +56,10 @@ class TestUser:
         response = client.get(url)
         return logged_in_user, response
 
-    def test_is_update_request_valid(self, load_test_user_data): 
-        logged_in_user, response = self.authenticate_user(SeedUser.get_user(garry_name).first_name)
+    def test_is_update_request_valid(self, load_test_user_data):
+        logged_in_user, response = self.authenticate_user(
+            SeedUser.get_user(garry_name).first_name
+        )
         assert logged_in_user is not None
         assert response.status_code == 200
         assert get_user_model().objects.count() > 0
@@ -61,12 +72,16 @@ class TestUser:
             f"global admin will succeed for first name, last name, and gmail"
         )
         PermissionUtil.validate_fields_updateable(
-            SeedUser.get_user(garry_name), SeedUser.get_user(valerie_name), ["first_name", "last_name", "gmail"]
+            SeedUser.get_user(garry_name),
+            SeedUser.get_user(valerie_name),
+            ["first_name", "last_name", "gmail"],
         )
         show_test_info(f"global admin will raise exception for created_at")
         with pytest.raises(Exception):
             PermissionUtil.validate_fields_updateable(
-                SeedUser.get_user(garry_name), SeedUser.get_user(valerie_name), ["created_at"]
+                SeedUser.get_user(garry_name),
+                SeedUser.get_user(valerie_name),
+                ["created_at"],
             )
         show_test_info("")
         show_test_info("==> Validating project admin")
@@ -74,21 +89,27 @@ class TestUser:
             f"project admin will succeed for first name, last name, and email with a project member"
         )
         PermissionUtil.validate_fields_updateable(
-            SeedUser.get_user(wanda_name), SeedUser.get_user(wally_name), ["first_name", "last_name"]
+            SeedUser.get_user(wanda_name),
+            SeedUser.get_user(wally_name),
+            ["first_name", "last_name"],
         )
         show_test_info(
             f"project admin will  raise exception for current title / project member combo"
         )
         with pytest.raises(Exception):
             PermissionUtil.validate_fields_updateable(
-                SeedUser.get_user(wanda_name), SeedUser.get_user(wally_name), ["current_title"]
+                SeedUser.get_user(wanda_name),
+                SeedUser.get_user(wally_name),
+                ["current_title"],
             )
         show_test_info(
             f"project admin will raise exception for first name (or any field) / non-project member combo"
         )
         with pytest.raises(Exception):
             PermissionUtil.validate_fields_updateable(
-                SeedUser.get_user(wanda_name), SeedUser.get_user(patti_name), ["first_name"]
+                SeedUser.get_user(wanda_name),
+                SeedUser.get_user(patti_name),
+                ["first_name"],
             )
         show_test_info("")
         show_test_info("=== Validating project member ===")
@@ -97,7 +118,9 @@ class TestUser:
         )
         with pytest.raises(Exception):
             PermissionUtil.validate_fields_updateable(
-                SeedUser.get_user(wally_name), SeedUser.get_user(winona_name), ["first_name"]
+                SeedUser.get_user(wally_name),
+                SeedUser.get_user(winona_name),
+                ["first_name"],
             )
         show_test_info(
             "==> Validating combo user with both project admin and project member roles"
@@ -113,7 +136,9 @@ class TestUser:
         )
         with pytest.raises(Exception):
             PermissionUtil.validate_fields_updateable(
-                SeedUser.get_user(zani_name), SeedUser.get_user(patti_name), ["first_name"]
+                SeedUser.get_user(zani_name),
+                SeedUser.get_user(patti_name),
+                ["first_name"],
             )
 
     def test_can_read_logic(self, load_test_user_data):
@@ -126,29 +151,45 @@ class TestUser:
         assert not PermissionUtil.is_admin(SeedUser.get_user(wanda_name))
 
         show_test_info("Globan admin can read senstive fields of any user")
-        assert PermissionUtil.can_read_all_user(SeedUser.get_user(garry_name), SeedUser.get_user(valerie_name))
+        assert PermissionUtil.can_read_all_user(
+            SeedUser.get_user(garry_name), SeedUser.get_user(valerie_name)
+        )
 
         show_test_info("==> project member")
         show_test_info("Project member can read basic info for another project member")
-        assert PermissionUtil.can_read_basic_user(SeedUser.get_user(wally_name), SeedUser.get_user(winona_name))
+        assert PermissionUtil.can_read_basic_user(
+            SeedUser.get_user(wally_name), SeedUser.get_user(winona_name)
+        )
         show_test_info("Team member can read basic info for another project member")
-        assert PermissionUtil.can_read_basic_user(SeedUser.get_user(wally_name), SeedUser.get_user(wanda_name))
+        assert PermissionUtil.can_read_basic_user(
+            SeedUser.get_user(wally_name), SeedUser.get_user(wanda_name)
+        )
         show_test_info("Team member can read basic info for another project member")
-        assert not PermissionUtil.can_read_basic_user(SeedUser.get_user(wally_name), SeedUser.get_user(garry_name))
-        assert not PermissionUtil.can_read_all_user(SeedUser.get_user(wally_name), SeedUser.get_user(wanda_name))
+        assert not PermissionUtil.can_read_basic_user(
+            SeedUser.get_user(wally_name), SeedUser.get_user(garry_name)
+        )
+        assert not PermissionUtil.can_read_all_user(
+            SeedUser.get_user(wally_name), SeedUser.get_user(wanda_name)
+        )
 
         show_test_info("==> project admin")
-        assert PermissionUtil.can_read_all_user(SeedUser.get_user(wanda_name), SeedUser.get_user(wally_name))
+        assert PermissionUtil.can_read_all_user(
+            SeedUser.get_user(wanda_name), SeedUser.get_user(wally_name)
+        )
 
     def test_global_admin(self, load_test_user_data):
-        logged_in_user, response = self.authenticate_user(SeedUser.get_user(garry_name).first_name)
+        logged_in_user, response = self.authenticate_user(
+            SeedUser.get_user(garry_name).first_name
+        )
         assert logged_in_user is not None
         assert response.status_code == 200
         assert get_user_model().objects.count() > 0
         assert len(response.json()) == len(SeedUser.users)
 
     def test_multi_project_user(self, load_test_user_data):
-        logged_in_user, response = self.authenticate_user(SeedUser.get_user(zani_name).first_name)
+        logged_in_user, response = self.authenticate_user(
+            SeedUser.get_user(zani_name).first_name
+        )
         assert logged_in_user is not None
         assert response.status_code == 200
         assert len(response.json()) == count_members_either
@@ -164,7 +205,9 @@ class TestUser:
         )
 
     def test_project_admin(self, load_test_user_data):
-        logged_in_user, response = self.authenticate_user(SeedUser.get_user(wanda_name).first_name)
+        logged_in_user, response = self.authenticate_user(
+            SeedUser.get_user(wanda_name).first_name
+        )
         assert logged_in_user is not None
         assert response.status_code == 200
         assert len(response.json()) == count_website_members
@@ -175,7 +218,9 @@ class TestUser:
         )
 
     def test_project_team_member(self, load_test_user_data):
-        logged_in_user, response = self.authenticate_user(SeedUser.get_user(wally_name).first_name)
+        logged_in_user, response = self.authenticate_user(
+            SeedUser.get_user(wally_name).first_name
+        )
         assert logged_in_user is not None
         assert response.status_code == 200
         assert fields_match(
