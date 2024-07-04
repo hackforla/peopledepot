@@ -60,45 +60,16 @@ class UserPermissionsSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     """Used to retrieve user info"""
 
-    time_zone = TimeZoneSerializerField(use_pytz=False)
-
     class Meta:
         model = User
 
-        fields = (
-            "uuid",
-            "username",
-            "created_at",
-            "updated_at",
-            "is_superuser",
-            "is_staff",
-            "is_active",
-            "email",
-            "first_name",
-            "last_name",
-            "gmail",
-            "preferred_email",
-            "current_job_title",
-            "target_job_title",
-            "current_skills",
-            "target_skills",
-            "linkedin_account",
-            "github_handle",
-            "slack_id",
-            "phone",
-            "texting_ok",
-            "time_zone",
-        )
-        read_only_fields = (
-            "uuid",
-            "created_at",
-            "updated_at",
-            "username",
-            "email",
-        )
+        # to_representation overrides the need for fields
+        # if fields is removed, syntax checker will complain
+        fields = ()
+
 
     @staticmethod
-    def get_read_fields(__cls__, requesting_user: User, serialized_user: User):
+    def _get_read_fields(__cls__, requesting_user: User, serialized_user: User):
         if PermissionUtil.can_read_all_user(requesting_user, serialized_user):
             represent_fields = UserCruPermissions.read_fields["user"][global_admin]
         elif PermissionUtil.can_read_basic_user(requesting_user, serialized_user):
@@ -118,7 +89,7 @@ class UserSerializer(serializers.ModelSerializer):
         if request.method != "GET":
             return representation
 
-        read_fields = UserSerializer.get_read_fields(
+        read_fields = UserSerializer._get_read_fields(
             self, requesting_user, serialized_user
         )
 

@@ -8,7 +8,6 @@ from core.tests.seed_constants import website_project
 from core.tests.utils.seed_user import SeedUser
 
 UserModel = get_user_model()
-from core.tests.utils.seed_data import Seed
 
 
 class LoadData:

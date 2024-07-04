@@ -21,7 +21,6 @@ from constants import global_admin, project_team_member
 from core.tests.utils.seed_constants import valerie_name, garry_name, wally_name, wanda_name, winona_name, zani_name, patti_name, patrick_name
 from core.user_cru_permissions import UserCruPermissions
 from core.permission_util import PermissionUtil
-from core.tests.utils.seed_data import Seed
 from core.tests.utils.seed_user import SeedUser
 from core.tests.utils.utils_test import show_test_info
 

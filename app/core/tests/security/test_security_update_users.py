@@ -22,7 +22,6 @@ from core.tests.utils.seed_constants import valerie_name, garry_name
 
 from core.models import User
 from core.permission_util import PermissionUtil
-from core.tests.utils.seed_data import Seed
 from core.tests.utils.seed_user import SeedUser
 from core.tests.utils.utils_test import show_test_info
 

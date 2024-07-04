@@ -44,6 +44,7 @@ def _get_field_permissions():
         # "intake_target_skills": "CR",
         "current_skills": "CRU",
         "target_skills": "CRU",
+        "time_zone": "R",
     }
     permissions["user"][project_team_member] = {
         "uuid": "R",
@@ -70,6 +71,7 @@ def _get_field_permissions():
         # "intake_target_skills": "R",
         "current_skills": "R",
         "target_skills": "R",
+        "time_zone": "R",
     }
 
     permissions["user"][practice_area_admin] = {
@@ -97,6 +99,7 @@ def _get_field_permissions():
         # "intake_target_skills": "R",
         "current_skills": "R",
         "target_skills": "R",
+        "time_zone": "R",
     }
 
     permissions["user"][global_admin] = {
@@ -124,6 +127,7 @@ def _get_field_permissions():
         # "intake_target_skills": "CRU",
         # "current_skills": "CRU",
         "target_skills": "CRU",
+        "time_zone": "CR",
     }
     return permissions
 

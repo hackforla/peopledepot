@@ -21,7 +21,7 @@ from .views import UserViewSet
 
 router = routers.SimpleRouter()
 router.register(
-    r"aapi/v1/user-permissionss", UserPermissionsViewSet, basename="user-permissions"
+    r"api/v1/user-permissions", UserPermissionsViewSet, basename="user-permissions"
 )
 router.register(r"users", UserViewSet, basename="user")
 router.register(r"projects", ProjectViewSet, basename="project")
