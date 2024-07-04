@@ -108,13 +108,10 @@ class UserSerializer(serializers.ModelSerializer):
         else:
             message = "You do not have permission to view this user"
             raise PermissionError(message)
-        print(represent_fields)
         return represent_fields
 
     def to_representation(self, instance):
-        print("to representation a")
         representation = super().to_representation(instance)
-        print("to representation b")
         request = self.context.get("request")
         requesting_user: User = request.user
         serialized_user: User = instance
@@ -124,8 +121,6 @@ class UserSerializer(serializers.ModelSerializer):
         read_fields = UserSerializer.get_read_fields(
             self, requesting_user, serialized_user
         )
-        print("debug read_fields", read_fields)
-        print("debug representation", representation)
 
         new_representation = {}
         for field_name in read_fields:

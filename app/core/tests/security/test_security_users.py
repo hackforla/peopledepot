@@ -192,8 +192,7 @@ class TestUser:
         assert len(response.json()) == count_website_members
 
     def test_no_project(self, load_test_user_data):
-        logged_in_user, response = self.authenticate_user(SeedUser.get_user(valerie_name))
-        print("Debug seeduser", response, SeedUser.users, SeedUser.get_user(valerie_name))
+        logged_in_user, response = self.authenticate_user(valerie_name)
         assert logged_in_user is not None
         assert response.status_code == 200
         assert len(response.json()) == 0

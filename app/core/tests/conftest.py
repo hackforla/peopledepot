@@ -37,7 +37,7 @@ def created_user_permissions():
     project = Project.objects.create(name="Test Project")
     permission_type = PermissionType.objects.first()
     practice_area = PracticeArea.objects.first()
-    user1_permission = xreate(
+    user1_permission = UserPermissions.objects.create(
         user=user1,
         permission_type=permission_type,
         project=project,
