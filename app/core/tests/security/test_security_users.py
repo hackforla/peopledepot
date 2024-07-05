@@ -41,7 +41,8 @@ class TestUser:
     @classmethod
     def authenticate_user(cls, user_name):
         client = APIClient()
-        return SeedUser.force_authenticate(client, user_name)
+        response = SeedUser.force_authenticate_get_user(client, user_name)
+        return response
 
 
     def test_can_read_logic(self, load_test_user_data):
@@ -92,9 +93,9 @@ class TestUser:
         )
 
     def test_project_admin(self, load_test_user_data):
-        logged_in_user, response = self.authenticate_user(SeedUser.get_user(wanda_name).first_name)
-        assert logged_in_user is not None
+        response = self.authenticate_user(SeedUser.get_user(wanda_name).first_name)
         assert response.status_code == 200
+        print("debug 2", response.json())
         assert len(response.json()) == count_website_members
         assert fields_match(
             SeedUser.get_user(winona_name).first_name,

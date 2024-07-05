@@ -1,7 +1,7 @@
 from core.tests.utils.load_data  import LoadData
 import pytest
 from rest_framework.test import APIClient
-
+from django.core.management import call_command
 from ..models import Affiliate
 from ..models import Affiliation
 from ..models import Event
@@ -28,6 +28,10 @@ def created_user_admin():
         password="adminuser",
         is_superuser=True,
     )
+@pytest.fixture(scope='session')
+def django_db_setup(django_db_setup, django_db_blocker):
+    with django_db_blocker.unblock():
+        call_command('load_command')
 
 
 @pytest.fixture
@@ -52,9 +56,10 @@ def created_user_permissions():
     return [user1_permission, user2_permissions]
 
 
-@pytest.fixture
+@pytest.fixture()
 def load_test_user_data():
-    LoadData.load_data()
+    pass
+    # LoadData.load_data()
 
 @pytest.fixture
 def user(django_user_model):

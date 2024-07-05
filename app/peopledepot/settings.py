@@ -45,7 +45,7 @@ COGNITO_AUDIENCE = None
 COGNITO_POOL_URL = (
     None  # will be set few lines of code later, if configuration provided
 )
-
+TEST_RUNNER = "core.tests.custom_test_runner.CustomTestRunner"
 rsa_keys = {}
 # To avoid circular imports, we keep this logic here.
 # On django init we download jwks public keys which are used to validate jwt tokens.
