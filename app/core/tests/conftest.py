@@ -191,7 +191,9 @@ def technology():
 
 @pytest.fixture
 def permission_type1():
-    return PermissionType.objects.create(name="Test Permission Type", description="", rank=1000)
+    return PermissionType.objects.create(
+        name="Test Permission Type", description="", rank=1000
+    )
 
 
 @pytest.fixture

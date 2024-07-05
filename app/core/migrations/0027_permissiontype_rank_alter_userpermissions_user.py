@@ -11,7 +11,7 @@ class Migration(migrations.Migration):
         ("core", "0026_alter_userpermissions_practice_area"),
     ]
 
-    operations = [ 
+    operations = [
         migrations.AlterField(
             model_name="userpermissions",
             name="user",

@@ -19,6 +19,9 @@ def reverse(__code__, __reverse_code__):
 
 
 class Migration(migrations.Migration):
-    dependencies = [("data", "0003_sdg_seed"),("core", "0028_alter_permissiontype_name")]
+    dependencies = [
+        ("data", "0003_sdg_seed"),
+        ("core", "0028_alter_permissiontype_name"),
+    ]
 
     operations = [migrations.RunPython(forward, reverse)]
