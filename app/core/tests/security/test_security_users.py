@@ -53,7 +53,6 @@ class TestUser:
         response = SeedUser.force_authenticate_get_user(client, user_name)
         return response
 
-
     def test_can_read_logic(self):
         show_test_info("=== Validating logic for can read===")
         show_test_info("==> is admin")

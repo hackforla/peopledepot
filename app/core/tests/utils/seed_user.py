@@ -5,7 +5,6 @@ from core.models import Project
 from core.models import User
 from core.models import UserPermissions
 from core.tests.utils.seed_constants import password
-from django.urls import reverse
 from core.tests.utils.utils_test import show_test_info
 
 
