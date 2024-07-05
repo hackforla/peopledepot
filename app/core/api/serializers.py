@@ -116,9 +116,11 @@ class UserSerializer(serializers.ModelSerializer):
         serialized_user: User = instance
         if request.method != "GET":
             return representation
-        highest_ranked_name = PermissionUtil.get_highest_ranked_permission_type(requesting_user, serialized_user)
+        highest_ranked_name = PermissionUtil.get_highest_ranked_permission_type(
+            requesting_user, serialized_user
+        )
         read_fields = UserCruPermissions.read_fields[highest_ranked_name]
- 
+
         new_representation = {}
         for field_name in read_fields:
             new_representation[field_name] = representation[field_name]

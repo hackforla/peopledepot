@@ -59,31 +59,47 @@ class TestUser:
         assert not PermissionUtil.is_admin(SeedUser.get_user(wanda_name))
 
     def test_admin_highest_for_admin(self):
-        assert PermissionUtil.get_highest_ranked_permission_type(
-            SeedUser.get_user(garry_name), SeedUser.get_user(valerie_name)
-        ) == global_admin
+        assert (
+            PermissionUtil.get_highest_ranked_permission_type(
+                SeedUser.get_user(garry_name), SeedUser.get_user(valerie_name)
+            )
+            == global_admin
+        )
 
     def test_team_member_highest_for_two_team_members(self):
-        assert PermissionUtil.get_highest_ranked_permission_type(
-            SeedUser.get_user(wally_name), SeedUser.get_user(winona_name)
-        ) == project_team_member
-        assert PermissionUtil.get_highest_ranked_permission_type(
-            SeedUser.get_user(wally_name), SeedUser.get_user(wanda_name)
-        ) == project_team_member
+        assert (
+            PermissionUtil.get_highest_ranked_permission_type(
+                SeedUser.get_user(wally_name), SeedUser.get_user(winona_name)
+            )
+            == project_team_member
+        )
+        assert (
+            PermissionUtil.get_highest_ranked_permission_type(
+                SeedUser.get_user(wally_name), SeedUser.get_user(wanda_name)
+            )
+            == project_team_member
+        )
 
     def test_team_member_cannot_read_fields_of_non_team_member(self):
-        assert PermissionUtil.get_highest_ranked_permission_type(
-            SeedUser.get_user(wally_name), SeedUser.get_user(garry_name)
-        ) == ""
+        assert (
+            PermissionUtil.get_highest_ranked_permission_type(
+                SeedUser.get_user(wally_name), SeedUser.get_user(garry_name)
+            )
+            == ""
+        )
 
     def test_team_member_cannot_read_ields_of_other_team(self):
-        assert not PermissionUtil.get_highest_ranked_permission_type(
-            SeedUser.get_user(wally_name), SeedUser.get_user(wanda_name)
-        ) == ""
-
+        assert (
+            not PermissionUtil.get_highest_ranked_permission_type(
+                SeedUser.get_user(wally_name), SeedUser.get_user(wanda_name)
+            )
+            == ""
+        )
 
     def test_get_url_results_for_multi_project_requester(self):
-        response = self.force_authenticate_get_user(SeedUser.get_user(zani_name).first_name)
+        response = self.force_authenticate_get_user(
+            SeedUser.get_user(zani_name).first_name
+        )
         assert response.status_code == 200
         assert len(response.json()) == count_members_either
         # assert fields for wanda, who is on same team, match project_lead reads
@@ -100,7 +116,9 @@ class TestUser:
         )
 
     def test_get_url_results_for_project_admin(self):
-        response = self.force_authenticate_get_user(SeedUser.get_user(wanda_name).first_name)
+        response = self.force_authenticate_get_user(
+            SeedUser.get_user(wanda_name).first_name
+        )
         assert response.status_code == 200
         assert len(response.json()) == count_website_members
         assert fields_match_for_get_user(
@@ -110,7 +128,9 @@ class TestUser:
         )
 
     def test_get_results_for_users_on_same_teamp(self):
-        response = self.force_authenticate_get_user(SeedUser.get_user(wally_name).first_name)
+        response = self.force_authenticate_get_user(
+            SeedUser.get_user(wally_name).first_name
+        )
         assert response.status_code == 200
         assert fields_match_for_get_user(
             SeedUser.get_user(winona_name).first_name,
