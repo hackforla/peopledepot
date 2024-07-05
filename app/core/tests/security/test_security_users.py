@@ -53,33 +53,32 @@ class TestUser:
         response = SeedUser.force_authenticate_get_user(client, user_name)
         return response
 
-    def test_can_read_logic(self):
-        show_test_info("=== Validating logic for can read===")
-        show_test_info("==> is admin")
-        show_test_info(
-            "Validate is_admin returns true for a global admin and false for a project admin"
-        )
+    def test_global_admin_user_is_admin(self):
         assert PermissionUtil.is_admin(SeedUser.get_user(garry_name))
+    
+    def test_non_global_admin_user_is_not_admin(self):
         assert not PermissionUtil.is_admin(SeedUser.get_user(wanda_name))
 
-        show_test_info("Globan admin can read senstive fields of any user")
+    def test_admin_user_can_read_all(self):
         assert PermissionUtil.can_read_all_user(
             SeedUser.get_user(garry_name), SeedUser.get_user(valerie_name)
         )
 
-        show_test_info("==> project member")
-        show_test_info("Project member can read basic info for another project member")
+    def test_team_member_can_read_basic_of_other_team_member(self):
         assert PermissionUtil.can_read_basic_user(
             SeedUser.get_user(wally_name), SeedUser.get_user(winona_name)
-        )
-        show_test_info("Team member can read basic info for another project member")
+        )    
         assert PermissionUtil.can_read_basic_user(
             SeedUser.get_user(wally_name), SeedUser.get_user(wanda_name)
         )
+
+    def test_team_member_cannot_read_basic_member_of_non_team_member(self):
         show_test_info("Team member can read basic info for another project member")
         assert not PermissionUtil.can_read_basic_user(
             SeedUser.get_user(wally_name), SeedUser.get_user(garry_name)
         )
+        
+    def test_team_member_cannot_read_all_of_other_team_member(self):
         assert not PermissionUtil.can_read_all_user(
             SeedUser.get_user(wally_name), SeedUser.get_user(wanda_name)
         )
