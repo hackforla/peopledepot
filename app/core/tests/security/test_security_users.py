@@ -101,12 +101,12 @@ class TestUser:
         assert fields_match(
             SeedUser.get_user(wanda_name).first_name,
             response.json(),
-            UserCruPermissions.read_fields["user"][global_admin],
+            UserCruPermissions.read_fields[global_admin],
         )
         assert fields_match(
             SeedUser.get_user(patrick_name).first_name,
             response.json(),
-            UserCruPermissions.read_fields["user"][project_team_member],
+            UserCruPermissions.read_fields[project_team_member],
         )
 
     def test_project_admin(self):
@@ -116,7 +116,7 @@ class TestUser:
         assert fields_match(
             SeedUser.get_user(winona_name).first_name,
             response.json(),
-            UserCruPermissions.read_fields["user"][global_admin],
+            UserCruPermissions.read_fields[global_admin],
         )
 
     def test_project_team_member(self):
@@ -125,12 +125,12 @@ class TestUser:
         assert fields_match(
             SeedUser.get_user(winona_name).first_name,
             response.json(),
-            UserCruPermissions.read_fields["user"][project_team_member],
+            UserCruPermissions.read_fields[project_team_member],
         )
         assert fields_match(
             SeedUser.get_user(wanda_name).first_name,
             response.json(),
-            UserCruPermissions.read_fields["user"][project_team_member],
+            UserCruPermissions.read_fields[project_team_member],
         )
         assert len(response.json()) == count_website_members
 
