@@ -14,7 +14,6 @@
 #   - use flag instead of role for admin and verified
 # . -
 import pytest
-from django.contrib.auth import get_user_model
 from rest_framework.test import APIClient
 
 from constants import global_admin
@@ -29,7 +28,6 @@ from core.tests.utils.seed_constants import wanda_name
 from core.tests.utils.seed_constants import winona_name
 from core.tests.utils.seed_constants import zani_name
 from core.tests.utils.seed_user import SeedUser
-from core.tests.utils.utils_test import show_test_info
 from core.user_cru_permissions import UserCruPermissions
 
 count_website_members = 4

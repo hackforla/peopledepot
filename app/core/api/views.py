@@ -10,7 +10,6 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from rest_framework.response import Response
 
 from core.permission_util import PermissionUtil
 

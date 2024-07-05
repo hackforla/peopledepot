@@ -1,8 +1,6 @@
 from rest_framework import serializers
 from timezone_field.rest_framework import TimeZoneSerializerField
 
-from constants import global_admin
-from constants import project_team_member
 from constants import self_value
 from core.models import Affiliate
 from core.models import Affiliation
@@ -107,7 +105,6 @@ class UserSerializer(serializers.ModelSerializer):
             requesting_user, serialized_user
         )
         return UserCruPermissions.read_fields[highest_ranked_name]
-
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
