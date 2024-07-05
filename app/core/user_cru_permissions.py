@@ -93,7 +93,7 @@ def _user_field_permissions():
         # "intake_target_skills": "R",
         "current_skills": "R",
         "target_skills": "R",
-        "time_zone": "R"
+        "time_zone": "R",
     }
 
     permissions[practice_area_admin] = {
@@ -121,7 +121,7 @@ def _user_field_permissions():
         # "intake_target_skills": "R",
         "current_skills": "R",
         "target_skills": "R",
-        "time_zone": "R"
+        "time_zone": "R",
     }
 
     permissions[global_admin] = {
@@ -149,7 +149,7 @@ def _user_field_permissions():
         # "intake_target_skills": "CRU",
         # "current_skills": "CRU",
         "target_skills": "CRU",
-        "time_zone": "CR"
+        "time_zone": "CR",
     }
     return permissions
 
