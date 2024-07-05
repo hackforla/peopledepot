@@ -1,7 +1,7 @@
+from core.user_cru_permissions import UserCruPermissions
 from rest_framework.permissions import SAFE_METHODS
 from rest_framework.permissions import BasePermission
 
-from core.models import UserPermissions
 from core.permission_util import PermissionUtil
 
 
@@ -34,8 +34,11 @@ class UserPermissions(BasePermission):
 
     def has_object_permission(self, request, view, obj):
         if request.method in SAFE_METHODS:
-            return PermissionUtil.can_read_basic_user(request.user, obj)
-        return PermissionUtil.can_update_user(request.user, obj)
+            return PermissionUtil.get_highest_ranked_permission_type(request.user, obj) !=""
+        highest_ranked_name = PermissionUtil.get_highest_ranked_permission_type(request.user, obj)
+        read_fields = UserCruPermissions.read_fields[highest_ranked_name]
+        return len(set(read_fields)) > 0
+
 
 
 class DenyAny(BasePermission):

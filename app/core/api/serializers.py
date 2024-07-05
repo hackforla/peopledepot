@@ -108,17 +108,6 @@ class UserSerializer(serializers.ModelSerializer):
         )
         return UserCruPermissions.read_fields[highest_ranked_name]
 
-        # if PermissionUtil.is_admin(requesting_user):
-        #     represent_fields = UserCruPermissions.read_fields[global_admin]
-
-        # if PermissionUtil.can_read_all_user(requesting_user, serialized_user):
-        #     represent_fields = UserCruPermissions.read_fields[global_admin]
-        # elif PermissionUtil.can_read_basic_user(requesting_user, serialized_user):
-        #     represent_fields = UserCruPermissions.read_fields[project_team_member]
-        # else:
-        #     message = "You do not have permission to view this user"
-        #     raise PermissionError(message)
-        # return represent_fields
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)

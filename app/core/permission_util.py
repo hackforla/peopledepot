@@ -36,18 +36,6 @@ class PermissionUtil:
         return user.is_superuser
 
     @staticmethod
-    def can_read_basic_user(requesting_user: User, serialized_user: User):
-        if PermissionUtil.is_admin(requesting_user):
-            return True
-        requesting_projects = UserPermissions.objects.filter(
-            user=requesting_user
-        ).values("project")
-        serialized_projects = UserPermissions.objects.filter(
-            user=serialized_user
-        ).values("project")
-        return requesting_projects.intersection(serialized_projects).exists()
-
-    @staticmethod
     def has_global_admin_user_update_privs(
         requesting_user: User, serialized_user: User
     ):
