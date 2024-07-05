@@ -11,6 +11,7 @@ def _get_fields(field_privs, crud_priv):
             ret_array.append(key)
     return ret_array
 
+
 def _self_register_field_permissions():
     return {
         "username",
@@ -32,6 +33,7 @@ def _self_register_field_permissions():
         "target_skills",
         "time_zone",
     }
+
 
 def _me_field_permissions():
     return {
@@ -61,6 +63,7 @@ def _me_field_permissions():
         "target_skills": "RU",
         "time_zone": "R",
     }
+
 
 def _user_field_permissions():
     permissions = {

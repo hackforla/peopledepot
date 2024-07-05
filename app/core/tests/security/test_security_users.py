@@ -55,7 +55,7 @@ class TestUser:
 
     def test_global_admin_user_is_admin(self):
         assert PermissionUtil.is_admin(SeedUser.get_user(garry_name))
-    
+
     def test_non_global_admin_user_is_not_admin(self):
         assert not PermissionUtil.is_admin(SeedUser.get_user(wanda_name))
 
@@ -67,7 +67,7 @@ class TestUser:
     def test_team_member_can_read_basic_of_other_team_member(self):
         assert PermissionUtil.can_read_basic_user(
             SeedUser.get_user(wally_name), SeedUser.get_user(winona_name)
-        )    
+        )
         assert PermissionUtil.can_read_basic_user(
             SeedUser.get_user(wally_name), SeedUser.get_user(wanda_name)
         )
@@ -77,7 +77,7 @@ class TestUser:
         assert not PermissionUtil.can_read_basic_user(
             SeedUser.get_user(wally_name), SeedUser.get_user(garry_name)
         )
-        
+
     def test_team_member_cannot_read_all_of_other_team_member(self):
         assert not PermissionUtil.can_read_all_user(
             SeedUser.get_user(wally_name), SeedUser.get_user(wanda_name)
