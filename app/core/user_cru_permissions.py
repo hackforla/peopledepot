@@ -67,14 +67,13 @@ def _me_field_permissions():
 
 def _user_field_permissions():
     permissions = {
-        "user": {
-            project_team_member: {},
-            practice_area_admin: {},
-            global_admin: {},
-        },
+        project_team_member: {},
+        practice_area_admin: {},
+        global_admin: {}
     }
 
-    permissions["user"][project_team_member] = {
+
+    permissions[project_team_member] = {
         "uuid": "R",
         "created_at": "R",
         "updated_at": "R",
@@ -99,10 +98,10 @@ def _user_field_permissions():
         # "intake_target_skills": "R",
         "current_skills": "R",
         "target_skills": "R",
-        "time_zone": "R",
+        "time_zone": "R"
     }
 
-    permissions["user"][practice_area_admin] = {
+    permissions[practice_area_admin] = {
         "uuid": "R",
         "created_at": "R",
         "updated_at": "R",
@@ -127,10 +126,10 @@ def _user_field_permissions():
         # "intake_target_skills": "R",
         "current_skills": "R",
         "target_skills": "R",
-        "time_zone": "R",
+        "time_zone": "R"
     }
 
-    permissions["user"][global_admin] = {
+    permissions[global_admin] = {
         "uuid": "R",
         "created_at": "R",
         "updated_at": "R",
@@ -155,7 +154,7 @@ def _user_field_permissions():
         # "intake_target_skills": "CRU",
         # "current_skills": "CRU",
         "target_skills": "CRU",
-        "time_zone": "CR",
+        "time_zone": "CR"
     }
     return permissions
 
@@ -164,33 +163,29 @@ class UserCruPermissions:
     permissions = _user_field_permissions()
 
     _read_fields_for_practice_area_admin = _get_fields(
-        permissions["user"][practice_area_admin], "R"
+        permissions[practice_area_admin], "R"
     )
     _read_fields_for_project_team_member = _get_fields(
-        permissions["user"][project_team_member], "R"
+        permissions[project_team_member], "R"
     )
-    _read_fields_for_global_admin = _get_fields(permissions["user"][global_admin], "R")
+    _read_fields_for_global_admin = _get_fields(permissions[global_admin], "R")
     read_fields = {
-        "user": {
-            project_team_member: _read_fields_for_project_team_member,
-            practice_area_admin: _read_fields_for_practice_area_admin,
-            global_admin: _read_fields_for_global_admin,
-        }
+        project_team_member: _read_fields_for_project_team_member,
+        practice_area_admin: _read_fields_for_practice_area_admin,
+        global_admin: _read_fields_for_global_admin,
     }
 
     _update_fields_for_practice_area_admin = _get_fields(
-        permissions["user"][practice_area_admin], "U"
+        permissions[practice_area_admin], "U"
     )
     _update_fields_for_project_team_member = _get_fields(
-        permissions["user"][project_team_member], "U"
+        permissions[project_team_member], "U"
     )
     _update_fields_for_global_admin = _get_fields(
-        permissions["user"][global_admin], "U"
+        permissions[global_admin], "U"
     )
     update_fields = {
-        "user": {
-            practice_area_admin: _update_fields_for_practice_area_admin,
-            project_team_member: _update_fields_for_project_team_member,
-            global_admin: _update_fields_for_global_admin,
-        }
+        practice_area_admin: _update_fields_for_practice_area_admin,
+        project_team_member: _update_fields_for_project_team_member,
+        global_admin: _update_fields_for_global_admin,
     }

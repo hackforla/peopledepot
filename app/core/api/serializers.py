@@ -73,9 +73,9 @@ class UserSerializer(serializers.ModelSerializer):
     @staticmethod
     def _get_read_fields(__cls__, requesting_user: User, serialized_user: User):
         if PermissionUtil.can_read_all_user(requesting_user, serialized_user):
-            represent_fields = UserCruPermissions.read_fields["user"][global_admin]
+            represent_fields = UserCruPermissions.read_fields[global_admin]
         elif PermissionUtil.can_read_basic_user(requesting_user, serialized_user):
-            represent_fields = UserCruPermissions.read_fields["user"][
+            represent_fields = UserCruPermissions.read_fields[
                 project_team_member
             ]
         else:
