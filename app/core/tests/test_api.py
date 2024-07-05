@@ -5,8 +5,9 @@ from rest_framework.test import APIClient
 
 from core.api.serializers import ProgramAreaSerializer
 from core.api.serializers import UserSerializer
-from core.models import ProgramArea, UserPermissions
+from core.models import ProgramArea
 from core.models import User
+from core.models import UserPermissions
 
 pytestmark = pytest.mark.django_db
 
