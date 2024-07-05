@@ -75,9 +75,7 @@ class UserSerializer(serializers.ModelSerializer):
         if PermissionUtil.can_read_all_user(requesting_user, serialized_user):
             represent_fields = UserCruPermissions.read_fields[global_admin]
         elif PermissionUtil.can_read_basic_user(requesting_user, serialized_user):
-            represent_fields = UserCruPermissions.read_fields[
-                project_team_member
-            ]
+            represent_fields = UserCruPermissions.read_fields[project_team_member]
         else:
             message = "You do not have permission to view this user"
             raise PermissionError(message)

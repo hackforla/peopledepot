@@ -66,12 +66,7 @@ def _me_field_permissions():
 
 
 def _user_field_permissions():
-    permissions = {
-        project_team_member: {},
-        practice_area_admin: {},
-        global_admin: {}
-    }
-
+    permissions = {project_team_member: {}, practice_area_admin: {}, global_admin: {}}
 
     permissions[project_team_member] = {
         "uuid": "R",
@@ -98,7 +93,7 @@ def _user_field_permissions():
         # "intake_target_skills": "R",
         "current_skills": "R",
         "target_skills": "R",
-        "time_zone": "R"
+        "time_zone": "R",
     }
 
     permissions[practice_area_admin] = {
@@ -126,7 +121,7 @@ def _user_field_permissions():
         # "intake_target_skills": "R",
         "current_skills": "R",
         "target_skills": "R",
-        "time_zone": "R"
+        "time_zone": "R",
     }
 
     permissions[global_admin] = {
@@ -154,7 +149,7 @@ def _user_field_permissions():
         # "intake_target_skills": "CRU",
         # "current_skills": "CRU",
         "target_skills": "CRU",
-        "time_zone": "CR"
+        "time_zone": "CR",
     }
     return permissions
 
@@ -181,9 +176,7 @@ class UserCruPermissions:
     _update_fields_for_project_team_member = _get_fields(
         permissions[project_team_member], "U"
     )
-    _update_fields_for_global_admin = _get_fields(
-        permissions[global_admin], "U"
-    )
+    _update_fields_for_global_admin = _get_fields(permissions[global_admin], "U")
     update_fields = {
         practice_area_admin: _update_fields_for_practice_area_admin,
         project_team_member: _update_fields_for_project_team_member,
