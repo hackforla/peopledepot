@@ -50,7 +50,7 @@ class TestUser:
         response = client.get(url)
         return logged_in_user, response
 
-    def test_admin_update_api(self, load_test_user_data):  #
+    def test_admin_update_api(self):  #
         show_test_info("==> Testing update global admin")
         show_test_info("Global admin can update last name and gmail field using API")
         user = SeedUser.get_user(valerie_name)
@@ -73,7 +73,7 @@ class TestUser:
         assert response.status_code == status.HTTP_400_BAD_REQUEST
         assert "created_at" in response.json()[0]
 
-    def test_is_update_request_valid(self, load_test_user_data): 
+    def test_is_update_request_valid(self): 
         logged_in_user, response = self.authenticate_user(SeedUser.get_user(garry_name).first_name)
         assert logged_in_user is not None
         assert response.status_code == 200

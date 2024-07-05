@@ -54,7 +54,7 @@ class TestUser:
         return response
 
 
-    def test_can_read_logic(self, load_test_user_data):
+    def test_can_read_logic(self):
         show_test_info("=== Validating logic for can read===")
         show_test_info("==> is admin")
         show_test_info(
@@ -90,14 +90,13 @@ class TestUser:
             SeedUser.get_user(wanda_name), SeedUser.get_user(wally_name)
         )
 
-    def test_global_admin(self, load_test_user_data):
-        logged_in_userresponse = self.authenticate_user(SeedUser.get_user(garry_name).first_name)
-        assert logged_in_user is not None
+    def test_global_admin(self):
+        response = self.authenticate_user(SeedUser.get_user(garry_name).first_name)
         assert response.status_code == 200
         assert get_user_model().objects.count() > 0
         assert len(response.json()) == len(SeedUser.users)
 
-    def test_multi_project_user(self, load_test_user_data):
+    def test_multi_project_user(self):
         response = self.authenticate_user(SeedUser.get_user(zani_name).first_name)
         assert response.status_code == 200
         assert len(response.json()) == count_members_either
@@ -112,10 +111,9 @@ class TestUser:
             UserCruPermissions.read_fields["user"][project_team_member],
         )
 
-    def test_project_admin(self, load_test_user_data):
+    def test_project_admin(self):
         response = self.authenticate_user(SeedUser.get_user(wanda_name).first_name)
         assert response.status_code == 200
-        print("debug 2", response.json())
         assert len(response.json()) == count_website_members
         assert fields_match(
             SeedUser.get_user(winona_name).first_name,
@@ -123,7 +121,7 @@ class TestUser:
             UserCruPermissions.read_fields["user"][global_admin],
         )
 
-    def test_project_team_member(self, load_test_user_data):
+    def test_project_team_member(self):
         response = self.authenticate_user(SeedUser.get_user(wally_name).first_name)
         assert response.status_code == 200
         assert fields_match(
@@ -138,7 +136,7 @@ class TestUser:
         )
         assert len(response.json()) == count_website_members
 
-    def test_no_project(self, load_test_user_data):
+    def test_no_project(self):
         response = self.authenticate_user(valerie_name)
         assert response.status_code == 200
         assert len(response.json()) == 0

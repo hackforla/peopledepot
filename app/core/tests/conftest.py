@@ -55,11 +55,6 @@ def created_user_permissions():
     return [user1_permission, user2_permissions]
 
 
-@pytest.fixture()
-def load_test_user_data():
-    pass
-
-
 @pytest.fixture
 def user(django_user_model):
     return django_user_model.objects.create_user(
