@@ -22,6 +22,8 @@ from core.tests.utils.seed_constants import valerie_name, garry_name, wally_name
 
 from core.models import User
 from core.permission_util import PermissionUtil
+from core.tests.utils.seed_constants import garry_name
+from core.tests.utils.seed_constants import valerie_name
 from core.tests.utils.seed_user import SeedUser
 from core.tests.utils.utils_test import show_test_info
 
@@ -48,8 +50,7 @@ class TestUser:
         response = client.get(url)
         return logged_in_user, response
 
-
-    def test_admin_update_api(self, load_test_user_data): # 
+    def test_admin_update_api(self, load_test_user_data):  #
         show_test_info("==> Testing update global admin")
         show_test_info("Global admin can update last name and gmail field using API")
         user = SeedUser.get_user(valerie_name)

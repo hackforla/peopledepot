@@ -1,4 +1,3 @@
-from core.tests.utils.load_data  import LoadData
 import pytest
 from rest_framework.test import APIClient
 from django.core.management import call_command
@@ -59,7 +58,7 @@ def created_user_permissions():
 @pytest.fixture()
 def load_test_user_data():
     pass
-    # LoadData.load_data()
+
 
 @pytest.fixture
 def user(django_user_model):
