@@ -1,7 +1,4 @@
-from constants import global_admin
-from constants import practice_area_admin
-from constants import project_team_member
-from constants import self_value
+from constants import global_admin, practice_area_admin, project_team_member, project_lead
 
 
 def _get_fields(field_privs, crud_priv):
@@ -123,6 +120,8 @@ def _user_field_permissions():
         "target_skills": "R",
         "time_zone": "R",
     }
+    
+    permissions[project_lead] = permissions[practice_area_admin].copy()
 
     permissions[global_admin] = {
         "uuid": "R",
@@ -147,7 +146,7 @@ def _user_field_permissions():
         "target_job_title": "CRU",
         # "intake_current_skills": "CRU",
         # "intake_target_skills": "CRU",
-        # "current_skills": "CRU",
+        "current_skills": "CRU",
         "target_skills": "CRU",
         "time_zone": "CR",
     }
@@ -157,6 +156,9 @@ def _user_field_permissions():
 class UserCruPermissions:
     permissions = _user_field_permissions()
 
+    _read_fields_for_project_lead = _get_fields(
+        permissions[project_lead], "R"
+    )
     _read_fields_for_practice_area_admin = _get_fields(
         permissions[practice_area_admin], "R"
     )
@@ -165,6 +167,7 @@ class UserCruPermissions:
     )
     _read_fields_for_global_admin = _get_fields(permissions[global_admin], "R")
     read_fields = {
+        project_lead: _read_fields_for_project_lead,
         project_team_member: _read_fields_for_project_team_member,
         practice_area_admin: _read_fields_for_practice_area_admin,
         global_admin: _read_fields_for_global_admin,

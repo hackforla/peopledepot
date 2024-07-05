@@ -71,15 +71,44 @@ class UserSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     @staticmethod
+    def _get_highest_ranked_permission_type(requesting_user: User, serialized_user: User):
+        if PermissionUtil.is_admin(requesting_user):
+            return global_admin
+        
+        requesting_projects = UserPermissions.objects.filter(
+            user=requesting_user
+        ).values("project__name", "permission_type__name",  "permission_type__rank")
+        serialized_projects = UserPermissions.objects.filter(
+            user=serialized_user
+        ).values("project__name")
+        highest_ranked_permission = 1000
+        highest_ranked_name = ""
+        for requesting_project in requesting_projects:
+            for serialized_project in serialized_projects:
+                if requesting_project["project__name"] == serialized_project["project__name"]:
+                    if requesting_project["permission_type__rank"] < highest_ranked_permission:
+                        highest_ranked_permission = requesting_project["permission_type__rank"]
+                        highest_ranked_name = requesting_project["permission_type__name"]
+        return highest_ranked_name        
+        
+        
+    @staticmethod
     def _get_read_fields(__cls__, requesting_user: User, serialized_user: User):
-        if PermissionUtil.can_read_all_user(requesting_user, serialized_user):
-            represent_fields = UserCruPermissions.read_fields[global_admin]
-        elif PermissionUtil.can_read_basic_user(requesting_user, serialized_user):
-            represent_fields = UserCruPermissions.read_fields[project_team_member]
-        else:
-            message = "You do not have permission to view this user"
-            raise PermissionError(message)
-        return represent_fields
+        highest_ranked_name = UserSerializer._get_highest_ranked_permission_type(requesting_user, serialized_user)
+        print("highest_ranked_name", highest_ranked_name)
+        return UserCruPermissions.read_fields[highest_ranked_name]
+        
+        # if PermissionUtil.is_admin(requesting_user):
+        #     represent_fields = UserCruPermissions.read_fields[global_admin]
+            
+        # if PermissionUtil.can_read_all_user(requesting_user, serialized_user):
+        #     represent_fields = UserCruPermissions.read_fields[global_admin]
+        # elif PermissionUtil.can_read_basic_user(requesting_user, serialized_user):
+        #     represent_fields = UserCruPermissions.read_fields[project_team_member]
+        # else:
+        #     message = "You do not have permission to view this user"
+        #     raise PermissionError(message)
+        # return represent_fields
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)

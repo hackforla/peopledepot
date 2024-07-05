@@ -15,15 +15,13 @@
 # . -
 import pytest
 from django.contrib.auth import get_user_model
-from django.urls import reverse
 from rest_framework.test import APIClient
 
-from constants import global_admin
+from constants import global_admin, project_lead
 from constants import project_team_member
 from core.permission_util import PermissionUtil
 from core.tests.utils.seed_constants import garry_name
 from core.tests.utils.seed_constants import patrick_name
-from core.tests.utils.seed_constants import patti_name
 from core.tests.utils.seed_constants import valerie_name
 from core.tests.utils.seed_constants import wally_name
 from core.tests.utils.seed_constants import wanda_name
@@ -41,6 +39,8 @@ count_members_either = 6
 def fields_match(first_name, user_data, fields):
     for user in user_data:
         if user["first_name"] == first_name:
+            print("debug 1", set(user.keys()))
+            print("debug 2", set(fields))
             return set(user.keys()) == set(fields)
     return False
 
@@ -100,7 +100,7 @@ class TestUser:
         assert fields_match(
             SeedUser.get_user(wanda_name).first_name,
             response.json(),
-            UserCruPermissions.read_fields[global_admin],
+            UserCruPermissions.read_fields[project_lead],
         )
         assert fields_match(
             SeedUser.get_user(patrick_name).first_name,
