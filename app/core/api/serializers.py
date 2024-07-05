@@ -1,8 +1,9 @@
 from rest_framework import serializers
 from timezone_field.rest_framework import TimeZoneSerializerField
 
-from constants import global_admin, self_value
+from constants import global_admin
 from constants import project_team_member
+from constants import self_value
 from core.models import Affiliate
 from core.models import Affiliation
 from core.models import Event
@@ -69,8 +70,7 @@ class ProfileSerializer(serializers.ModelSerializer):
         # to_representation overrides the need for fields
         # if fields is removed, syntax checker will complain
         fields = "__all__"
-        
-        
+
     def to_representation(self, instance):
         representation = super().to_representation(instance)
         request = self.context.get("request")
@@ -83,11 +83,11 @@ class ProfileSerializer(serializers.ModelSerializer):
 
         read_fields = UserCruPermissions.read_fields[self_value]
 
-
         new_representation = {}
         for field_name in read_fields:
             new_representation[field_name] = representation[field_name]
         return new_representation
+
 
 class UserSerializer(serializers.ModelSerializer):
     """Used to retrieve user info"""
@@ -99,16 +99,18 @@ class UserSerializer(serializers.ModelSerializer):
 
         # to_representation overrides the need for fields
         # if fields is removed, syntax checker will complain
-        fields = "__all__"        
-        
+        fields = "__all__"
+
     @staticmethod
     def _get_read_fields(__cls__, requesting_user: User, serialized_user: User):
-        highest_ranked_name = UserSerializer._get_highest_ranked_permission_type(requesting_user, serialized_user)
+        highest_ranked_name = UserSerializer._get_highest_ranked_permission_type(
+            requesting_user, serialized_user
+        )
         return UserCruPermissions.read_fields[highest_ranked_name]
-        
+
         # if PermissionUtil.is_admin(requesting_user):
         #     represent_fields = UserCruPermissions.read_fields[global_admin]
-            
+
         # if PermissionUtil.can_read_all_user(requesting_user, serialized_user):
         #     represent_fields = UserCruPermissions.read_fields[global_admin]
         # elif PermissionUtil.can_read_basic_user(requesting_user, serialized_user):
