@@ -99,29 +99,7 @@ class UserSerializer(serializers.ModelSerializer):
 
         # to_representation overrides the need for fields
         # if fields is removed, syntax checker will complain
-        fields = "__all__"
-
-    @staticmethod
-    def _get_highest_ranked_permission_type(requesting_user: User, serialized_user: User):
-        if PermissionUtil.is_admin(requesting_user):
-            return global_admin
-        
-        requesting_projects = UserPermissions.objects.filter(
-            user=requesting_user
-        ).values("project__name", "permission_type__name",  "permission_type__rank")
-        serialized_projects = UserPermissions.objects.filter(
-            user=serialized_user
-        ).values("project__name")
-        highest_ranked_permission = 1000
-        highest_ranked_name = ""
-        for requesting_project in requesting_projects:
-            for serialized_project in serialized_projects:
-                if requesting_project["project__name"] == serialized_project["project__name"]:
-                    if requesting_project["permission_type__rank"] < highest_ranked_permission:
-                        highest_ranked_permission = requesting_project["permission_type__rank"]
-                        highest_ranked_name = requesting_project["permission_type__name"]
-        return highest_ranked_name        
-        
+        fields = "__all__"        
         
     @staticmethod
     def _get_read_fields(__cls__, requesting_user: User, serialized_user: User):
@@ -147,11 +125,9 @@ class UserSerializer(serializers.ModelSerializer):
         serialized_user: User = instance
         if request.method != "GET":
             return representation
-
-        read_fields = UserSerializer._get_read_fields(
-            self, requesting_user, serialized_user
-        )
-
+        highest_ranked_name = PermissionUtil.get_highest_ranked_permission_type(requesting_user, serialized_user)
+        read_fields = UserCruPermissions.read_fields[highest_ranked_name]
+ 
         new_representation = {}
         for field_name in read_fields:
             new_representation[field_name] = representation[field_name]

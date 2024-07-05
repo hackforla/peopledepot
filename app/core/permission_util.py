@@ -10,32 +10,30 @@ from core.user_cru_permissions import UserCruPermissions
 
 class PermissionUtil:
     @staticmethod
+    def get_highest_ranked_permission_type(requesting_user: User, serialized_user: User):
+        if PermissionUtil.is_admin(requesting_user):
+            return global_admin
+        
+        requesting_projects = UserPermissions.objects.filter(
+            user=requesting_user
+        ).values("project__name", "permission_type__name",  "permission_type__rank")
+        serialized_projects = UserPermissions.objects.filter(
+            user=serialized_user
+        ).values("project__name")
+        highest_ranked_permission = 1000
+        highest_ranked_name = ""
+        for requesting_project in requesting_projects:
+            for serialized_project in serialized_projects:
+                if requesting_project["project__name"] == serialized_project["project__name"]:
+                    if requesting_project["permission_type__rank"] < highest_ranked_permission:
+                        highest_ranked_permission = requesting_project["permission_type__rank"]
+                        highest_ranked_name = requesting_project["permission_type__name"]
+        return highest_ranked_name        
+
+    @staticmethod
     def is_admin(user):
         """Check if user is an admin"""
         return user.is_superuser
-
-    @staticmethod
-    def can_read_all_user(requesting_user: User, serialized_user: User):
-        """Check if requesting user can see secure user info"""
-        if (
-            PermissionUtil.is_admin(requesting_user)
-            or requesting_user == serialized_user
-        ):
-            return True
-        requesting_projects = (
-            UserPermissions.objects.filter(
-                user=requesting_user,
-                permission_type__name=project_lead,
-            )
-            .values("project")
-            .distinct()
-        )
-        serialized_projects = (
-            UserPermissions.objects.filter(user=serialized_user)
-            .values("project")
-            .distinct()
-        )
-        return requesting_projects.intersection(serialized_projects).exists()
 
     @staticmethod
     def can_read_basic_user(requesting_user: User, serialized_user: User):

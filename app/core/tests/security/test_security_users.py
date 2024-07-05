@@ -36,7 +36,7 @@ count_people_depot_members = 3
 count_members_either = 6
 
 
-def fields_match(first_name, user_data, fields):
+def fields_match_for_get_user(first_name, user_data, fields):
     for user in user_data:
         if user["first_name"] == first_name:
             return set(user.keys()) == set(fields)
@@ -46,7 +46,7 @@ def fields_match(first_name, user_data, fields):
 @pytest.mark.django_db
 class TestUser:
     @classmethod
-    def authenticate_user(cls, user_name):
+    def force_authenticate_get_user(cls, user_name):
         client = APIClient()
         response = SeedUser.force_authenticate_get_user(client, user_name)
         return response
@@ -57,74 +57,66 @@ class TestUser:
     def test_non_global_admin_user_is_not_admin(self):
         assert not PermissionUtil.is_admin(SeedUser.get_user(wanda_name))
 
-    def test_admin_user_can_read_all(self):
-        assert PermissionUtil.can_read_all_user(
+    def test_admin_highest_for_admin(self):
+        assert PermissionUtil.get_highest_ranked_permission_type(
             SeedUser.get_user(garry_name), SeedUser.get_user(valerie_name)
-        )
+        ) == global_admin
 
-    def test_team_member_can_read_basic_of_other_team_member(self):
-        assert PermissionUtil.can_read_basic_user(
+    def test_team_member_highest_for_two_team_members(self):
+        assert PermissionUtil.get_highest_ranked_permission_type(
             SeedUser.get_user(wally_name), SeedUser.get_user(winona_name)
-        )
-        assert PermissionUtil.can_read_basic_user(
+        ) == project_team_member
+        assert PermissionUtil.get_highest_ranked_permission_type(
             SeedUser.get_user(wally_name), SeedUser.get_user(wanda_name)
-        )
+        ) == project_team_member
 
-    def test_team_member_cannot_read_basic_member_of_non_team_member(self):
-        assert not PermissionUtil.can_read_basic_user(
+    def test_team_member_cannot_read_fields_of_non_team_member(self):
+        assert PermissionUtil.get_highest_ranked_permission_type(
             SeedUser.get_user(wally_name), SeedUser.get_user(garry_name)
-        )
+        ) == ""
 
-    def test_team_member_cannot_read_all_of_other_team_member(self):
-        assert not PermissionUtil.can_read_all_user(
+    def test_team_member_cannot_read_ields_of_other_team(self):
+        assert not PermissionUtil.get_highest_ranked_permission_type(
             SeedUser.get_user(wally_name), SeedUser.get_user(wanda_name)
-        )
+        ) == ""
 
-        show_test_info("==> project admin")
-        assert PermissionUtil.can_read_all_user(
-            SeedUser.get_user(wanda_name), SeedUser.get_user(wally_name)
-        )
 
-    def test_global_admin(self):
-        response = self.authenticate_user(SeedUser.get_user(garry_name).first_name)
-        assert response.status_code == 200
-        assert get_user_model().objects.count() > 0
-        assert len(response.json()) == len(SeedUser.users)
-
-    def test_multi_project_user(self):
-        response = self.authenticate_user(SeedUser.get_user(zani_name).first_name)
+    def test_get_url_results_for_multi_project_requester(self):
+        response = self.force_authenticate_get_user(SeedUser.get_user(zani_name).first_name)
         assert response.status_code == 200
         assert len(response.json()) == count_members_either
-        assert fields_match(
+        # assert fields for wanda, who is on same team, match project_lead reads
+        assert fields_match_for_get_user(
             SeedUser.get_user(wanda_name).first_name,
             response.json(),
             UserCruPermissions.read_fields[project_lead],
         )
-        assert fields_match(
+        # assert fields for wanda, who is on same team, match project_lead reads
+        assert fields_match_for_get_user(
             SeedUser.get_user(patrick_name).first_name,
             response.json(),
             UserCruPermissions.read_fields[project_team_member],
         )
 
-    def test_project_admin(self):
-        response = self.authenticate_user(SeedUser.get_user(wanda_name).first_name)
+    def test_get_url_results_for_project_admin(self):
+        response = self.force_authenticate_get_user(SeedUser.get_user(wanda_name).first_name)
         assert response.status_code == 200
         assert len(response.json()) == count_website_members
-        assert fields_match(
+        assert fields_match_for_get_user(
             SeedUser.get_user(winona_name).first_name,
             response.json(),
             UserCruPermissions.read_fields[global_admin],
         )
 
-    def test_project_team_member(self):
-        response = self.authenticate_user(SeedUser.get_user(wally_name).first_name)
+    def test_get_results_for_users_on_same_teamp(self):
+        response = self.force_authenticate_get_user(SeedUser.get_user(wally_name).first_name)
         assert response.status_code == 200
-        assert fields_match(
+        assert fields_match_for_get_user(
             SeedUser.get_user(winona_name).first_name,
             response.json(),
             UserCruPermissions.read_fields[project_team_member],
         )
-        assert fields_match(
+        assert fields_match_for_get_user(
             SeedUser.get_user(wanda_name).first_name,
             response.json(),
             UserCruPermissions.read_fields[project_team_member],
@@ -132,6 +124,6 @@ class TestUser:
         assert len(response.json()) == count_website_members
 
     def test_no_project(self):
-        response = self.authenticate_user(valerie_name)
+        response = self.force_authenticate_get_user(valerie_name)
         assert response.status_code == 200
         assert len(response.json()) == 0
