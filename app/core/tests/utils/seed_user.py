@@ -1,3 +1,5 @@
+from django.urls import reverse
+
 from core.models import PermissionType
 from core.models import Project
 from core.models import User
@@ -25,7 +27,7 @@ class SeedUser:
         url = reverse("user-list")  # Update this to your actual URL name
         response = client.get(url)
         return response
-    
+
     @classmethod
     def get_user(cls, first_name):
         return cls.users.get(first_name)

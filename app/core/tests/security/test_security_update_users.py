@@ -18,12 +18,17 @@ from django.contrib.auth import get_user_model
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient
-from core.tests.utils.seed_constants import valerie_name, garry_name, wally_name, wanda_name, winona_name, zani_name, patti_name, patrick_name
 
 from core.models import User
 from core.permission_util import PermissionUtil
 from core.tests.utils.seed_constants import garry_name
+from core.tests.utils.seed_constants import patrick_name
+from core.tests.utils.seed_constants import patti_name
 from core.tests.utils.seed_constants import valerie_name
+from core.tests.utils.seed_constants import wally_name
+from core.tests.utils.seed_constants import wanda_name
+from core.tests.utils.seed_constants import winona_name
+from core.tests.utils.seed_constants import zani_name
 from core.tests.utils.seed_user import SeedUser
 from core.tests.utils.utils_test import show_test_info
 
@@ -87,12 +92,16 @@ class TestUser:
             f"global admin will succeed for first name, last name, and gmail"
         )
         PermissionUtil.validate_fields_updateable(
-            SeedUser.get_user(garry_name), SeedUser.get_user(valerie_name), ["first_name", "last_name", "gmail"]
+            SeedUser.get_user(garry_name),
+            SeedUser.get_user(valerie_name),
+            ["first_name", "last_name", "gmail"],
         )
         show_test_info(f"global admin will raise exception for created_at")
         with pytest.raises(Exception):
             PermissionUtil.validate_fields_updateable(
-                SeedUser.get_user(garry_name), SeedUser.get_user(valerie_name), ["created_at"]
+                SeedUser.get_user(garry_name),
+                SeedUser.get_user(valerie_name),
+                ["created_at"],
             )
         show_test_info("")
         show_test_info("==> Validating project admin")
@@ -100,21 +109,27 @@ class TestUser:
             f"project admin will succeed for first name, last name, and email with a project member"
         )
         PermissionUtil.validate_fields_updateable(
-            SeedUser.get_user(wanda_name), SeedUser.get_user(wally_name), ["first_name", "last_name"]
+            SeedUser.get_user(wanda_name),
+            SeedUser.get_user(wally_name),
+            ["first_name", "last_name"],
         )
         show_test_info(
             f"project admin will  raise exception for current title / project member combo"
         )
         with pytest.raises(Exception):
             PermissionUtil.validate_fields_updateable(
-                SeedUser.get_user(wanda_name), SeedUser.get_user(wally_name), ["current_title"]
+                SeedUser.get_user(wanda_name),
+                SeedUser.get_user(wally_name),
+                ["current_title"],
             )
         show_test_info(
             f"project admin will raise exception for first name (or any field) / non-project member combo"
         )
         with pytest.raises(Exception):
             PermissionUtil.validate_fields_updateable(
-                SeedUser.get_user(wanda_name), SeedUser.get_user(patti_name), ["first_name"]
+                SeedUser.get_user(wanda_name),
+                SeedUser.get_user(patti_name),
+                ["first_name"],
             )
         show_test_info("")
         show_test_info("=== Validating project member ===")
@@ -123,7 +138,9 @@ class TestUser:
         )
         with pytest.raises(Exception):
             PermissionUtil.validate_fields_updateable(
-                SeedUser.get_user(wally_name), SeedUser.get_user(winona_name), ["first_name"]
+                SeedUser.get_user(wally_name),
+                SeedUser.get_user(winona_name),
+                ["first_name"],
             )
         show_test_info(
             "==> Validating combo user with both project admin and project member roles"
@@ -139,6 +156,7 @@ class TestUser:
         )
         with pytest.raises(Exception):
             PermissionUtil.validate_fields_updateable(
-                SeedUser.get_user(zani_name), SeedUser.get_user(patti_name), ["first_name"]
+                SeedUser.get_user(zani_name),
+                SeedUser.get_user(patti_name),
+                ["first_name"],
             )
-
