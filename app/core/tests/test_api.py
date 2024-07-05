@@ -222,7 +222,6 @@ def test_create_technology(auth_client):
 
 def test_create_permission_type(auth_client):
     payload = {"name": "foobar", "description": "Can CRUD anything", "rank": 1000}
-    print("Debug payload", payload)
     res = auth_client.post(PERMISSION_TYPE, payload)
     assert res.status_code == status.HTTP_201_CREATED
     assert res.data["name"] == payload["name"]

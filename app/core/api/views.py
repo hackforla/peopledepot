@@ -45,10 +45,11 @@ from .serializers import StackElementTypeSerializer
 from .serializers import TechnologySerializer
 from .serializers import UserPermissionsSerializer
 from .serializers import UserSerializer
+from .serializers import ProfileSerializer
 
 
 class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
-    serializer_class = UserSerializer
+    serializer_class = ProfileSerializer
     permission_classes = [IsAuthenticated]
 
     def get_object(self):

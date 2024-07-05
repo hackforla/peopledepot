@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from timezone_field.rest_framework import TimeZoneSerializerField
 
-from constants import global_admin
+from constants import global_admin, self_value
 from constants import project_team_member
 from core.models import Affiliate
 from core.models import Affiliation
@@ -58,6 +58,37 @@ class UserPermissionsSerializer(serializers.ModelSerializer):
         )
 
 
+class ProfileSerializer(serializers.ModelSerializer):
+    """Used to retrieve user info"""
+
+    time_zone = TimeZoneSerializerField(use_pytz=False)
+
+    class Meta:
+        model = User
+
+        # to_representation overrides the need for fields
+        # if fields is removed, syntax checker will complain
+        fields = "__all__"
+        
+        
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        request = self.context.get("request")
+        requesting_user: User = request.user
+        serialized_user: User = instance
+        if requesting_user != serialized_user:
+            raise PermissionError("You can only use profile endpoint for your own user")
+        if request.method != "GET":
+            return representation
+
+        read_fields = UserCruPermissions.read_fields[self_value]
+
+
+        new_representation = {}
+        for field_name in read_fields:
+            new_representation[field_name] = representation[field_name]
+        return new_representation
+
 class UserSerializer(serializers.ModelSerializer):
     """Used to retrieve user info"""
 
@@ -95,7 +126,6 @@ class UserSerializer(serializers.ModelSerializer):
     @staticmethod
     def _get_read_fields(__cls__, requesting_user: User, serialized_user: User):
         highest_ranked_name = UserSerializer._get_highest_ranked_permission_type(requesting_user, serialized_user)
-        print("highest_ranked_name", highest_ranked_name)
         return UserCruPermissions.read_fields[highest_ranked_name]
         
         # if PermissionUtil.is_admin(requesting_user):

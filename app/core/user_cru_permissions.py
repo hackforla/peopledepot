@@ -1,4 +1,4 @@
-from constants import global_admin, practice_area_admin, project_team_member, project_lead
+from constants import global_admin, practice_area_admin, project_team_member, project_lead, self_value
 
 
 def _get_fields(field_privs, crud_priv):
@@ -64,6 +64,35 @@ def me_field_permissions():
 
 def _user_field_permissions():
     permissions = {project_team_member: {}, practice_area_admin: {}, global_admin: {}}
+
+    permissions[self_value] = {
+        "uuid": "R",
+        "created_at": "R",
+        "updated_at": "R",
+        "is_superuser": "R",
+        "is_active": "R",
+        "is_staff": "R",
+        # "is_verified": "R",
+        "username": "R",
+        "first_name": "RU",
+        "last_name": "RU",
+        "gmail": "RU",
+        "preferred_email": "RU",
+        "linkedin_account": "RU",
+        "github_handle": "RU",
+        "phone": "RU",
+        "texting_ok": "RU",
+        # "intake_current_job_title": "CR",
+        # "intake_target_job_title": "CR",
+        "current_job_title": "RU",
+        "target_job_title": "RU",
+        # "intake_current_skills": "CR",
+        # "intake_target_skills": "CR",
+        "current_skills": "RU",
+        "target_skills": "RU",
+        "time_zone": "R",
+    }
+
 
     permissions[project_team_member] = {
         "uuid": "R",
@@ -162,11 +191,16 @@ class UserCruPermissions:
     _read_fields_for_practice_area_admin = _get_fields(
         permissions[practice_area_admin], "R"
     )
+    _read_fields_for_self_value = _get_fields(
+        permissions[self_value], "R"
+    )
+    
     _read_fields_for_project_team_member = _get_fields(
         permissions[project_team_member], "R"
     )
     _read_fields_for_global_admin = _get_fields(permissions[global_admin], "R")
     read_fields = {
+        self_value: _read_fields_for_self_value,
         project_lead: _read_fields_for_project_lead,
         project_team_member: _read_fields_for_project_team_member,
         practice_area_admin: _read_fields_for_practice_area_admin,

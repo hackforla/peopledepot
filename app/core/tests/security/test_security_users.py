@@ -39,8 +39,6 @@ count_members_either = 6
 def fields_match(first_name, user_data, fields):
     for user in user_data:
         if user["first_name"] == first_name:
-            print("debug 1", set(user.keys()))
-            print("debug 2", set(fields))
             return set(user.keys()) == set(fields)
     return False
 
