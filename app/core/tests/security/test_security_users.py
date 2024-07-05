@@ -53,7 +53,6 @@ class TestUser:
         response = SeedUser.force_authenticate_get_user(client, user_name)
         return response
 
-
     def test_can_read_logic(self, load_test_user_data):
         show_test_info("=== Validating logic for can read===")
         show_test_info("==> is admin")
@@ -91,7 +90,9 @@ class TestUser:
         )
 
     def test_global_admin(self, load_test_user_data):
-        logged_in_userresponse = self.authenticate_user(SeedUser.get_user(garry_name).first_name)
+        logged_in_userresponse = self.authenticate_user(
+            SeedUser.get_user(garry_name).first_name
+        )
         assert logged_in_user is not None
         assert response.status_code == 200
         assert get_user_model().objects.count() > 0
