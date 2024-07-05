@@ -73,7 +73,6 @@ class TestUser:
         )
 
     def test_team_member_cannot_read_basic_member_of_non_team_member(self):
-        show_test_info("Team member can read basic info for another project member")
         assert not PermissionUtil.can_read_basic_user(
             SeedUser.get_user(wally_name), SeedUser.get_user(garry_name)
         )

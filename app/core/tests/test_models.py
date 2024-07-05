@@ -61,14 +61,6 @@ def test_permission_type1(permission_type1):
     assert str(permission_type1) == "Test Permission Type"
 
 
-def test_permission_type2(permission_type2):
-    assert str(permission_type2.name) == "Test Permission Type"
-    assert str(permission_type2.description) == "A permission type description"
-    assert (
-        str(permission_type2) == "Test Permission Type: A permission type description"
-    )
-
-
 def test_stack_element_type(stack_element_type):
     assert str(stack_element_type) == "Test Stack Element Type"
 

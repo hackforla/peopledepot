@@ -279,7 +279,7 @@ class PermissionTypeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PermissionType
-        fields = ("uuid", "name", "description")
+        fields = ("uuid", "name", "description", "rank")
         read_only_fields = (
             "uuid",
             "created_at",

@@ -301,8 +301,9 @@ class PermissionType(AbstractBaseModel):
     Permission Type
     """
 
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, unique=True)
     description = models.TextField(blank=True)
+    rank = models.IntegerField(unique=True)
 
     def __str__(self):
         if self.description and isinstance(self.description, str):
