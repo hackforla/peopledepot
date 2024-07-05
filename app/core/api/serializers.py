@@ -108,7 +108,6 @@ class UserSerializer(serializers.ModelSerializer):
         )
         return UserCruPermissions.read_fields[highest_ranked_name]
 
-
     def to_representation(self, instance):
         representation = super().to_representation(instance)
         request = self.context.get("request")
