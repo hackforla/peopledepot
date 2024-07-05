@@ -17,7 +17,8 @@ import pytest
 from django.contrib.auth import get_user_model
 from rest_framework.test import APIClient
 
-from constants import global_admin, project_lead
+from constants import global_admin
+from constants import project_lead
 from constants import project_team_member
 from core.permission_util import PermissionUtil
 from core.tests.utils.seed_constants import garry_name

@@ -1,8 +1,9 @@
 from rest_framework import serializers
 from timezone_field.rest_framework import TimeZoneSerializerField
 
-from constants import global_admin, self_value
+from constants import global_admin
 from constants import project_team_member
+from constants import self_value
 from core.models import Affiliate
 from core.models import Affiliation
 from core.models import Event
@@ -69,8 +70,7 @@ class ProfileSerializer(serializers.ModelSerializer):
         # to_representation overrides the need for fields
         # if fields is removed, syntax checker will complain
         fields = "__all__"
-        
-        
+
     def to_representation(self, instance):
         representation = super().to_representation(instance)
         request = self.context.get("request")
@@ -83,11 +83,11 @@ class ProfileSerializer(serializers.ModelSerializer):
 
         read_fields = UserCruPermissions.read_fields[self_value]
 
-
         new_representation = {}
         for field_name in read_fields:
             new_representation[field_name] = representation[field_name]
         return new_representation
+
 
 class UserSerializer(serializers.ModelSerializer):
     """Used to retrieve user info"""
@@ -102,13 +102,15 @@ class UserSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     @staticmethod
-    def _get_highest_ranked_permission_type(requesting_user: User, serialized_user: User):
+    def _get_highest_ranked_permission_type(
+        requesting_user: User, serialized_user: User
+    ):
         if PermissionUtil.is_admin(requesting_user):
             return global_admin
-        
+
         requesting_projects = UserPermissions.objects.filter(
             user=requesting_user
-        ).values("project__name", "permission_type__name",  "permission_type__rank")
+        ).values("project__name", "permission_type__name", "permission_type__rank")
         serialized_projects = UserPermissions.objects.filter(
             user=serialized_user
         ).values("project__name")
@@ -116,21 +118,32 @@ class UserSerializer(serializers.ModelSerializer):
         highest_ranked_name = ""
         for requesting_project in requesting_projects:
             for serialized_project in serialized_projects:
-                if requesting_project["project__name"] == serialized_project["project__name"]:
-                    if requesting_project["permission_type__rank"] < highest_ranked_permission:
-                        highest_ranked_permission = requesting_project["permission_type__rank"]
-                        highest_ranked_name = requesting_project["permission_type__name"]
-        return highest_ranked_name        
-        
-        
+                if (
+                    requesting_project["project__name"]
+                    == serialized_project["project__name"]
+                ):
+                    if (
+                        requesting_project["permission_type__rank"]
+                        < highest_ranked_permission
+                    ):
+                        highest_ranked_permission = requesting_project[
+                            "permission_type__rank"
+                        ]
+                        highest_ranked_name = requesting_project[
+                            "permission_type__name"
+                        ]
+        return highest_ranked_name
+
     @staticmethod
     def _get_read_fields(__cls__, requesting_user: User, serialized_user: User):
-        highest_ranked_name = UserSerializer._get_highest_ranked_permission_type(requesting_user, serialized_user)
+        highest_ranked_name = UserSerializer._get_highest_ranked_permission_type(
+            requesting_user, serialized_user
+        )
         return UserCruPermissions.read_fields[highest_ranked_name]
-        
+
         # if PermissionUtil.is_admin(requesting_user):
         #     represent_fields = UserCruPermissions.read_fields[global_admin]
-            
+
         # if PermissionUtil.can_read_all_user(requesting_user, serialized_user):
         #     represent_fields = UserCruPermissions.read_fields[global_admin]
         # elif PermissionUtil.can_read_basic_user(requesting_user, serialized_user):

@@ -37,6 +37,7 @@ from .serializers import FaqViewedSerializer
 from .serializers import LocationSerializer
 from .serializers import PermissionTypeSerializer
 from .serializers import PracticeAreaSerializer
+from .serializers import ProfileSerializer
 from .serializers import ProgramAreaSerializer
 from .serializers import ProjectSerializer
 from .serializers import SdgSerializer
@@ -45,7 +46,6 @@ from .serializers import StackElementTypeSerializer
 from .serializers import TechnologySerializer
 from .serializers import UserPermissionsSerializer
 from .serializers import UserSerializer
-from .serializers import ProfileSerializer
 
 
 class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):

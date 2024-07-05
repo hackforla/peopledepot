@@ -1,4 +1,8 @@
-from constants import global_admin, practice_area_admin, project_team_member, project_lead, self_value
+from constants import global_admin
+from constants import practice_area_admin
+from constants import project_lead
+from constants import project_team_member
+from constants import self_value
 
 
 def _get_fields(field_privs, crud_priv):
@@ -93,7 +97,6 @@ def _user_field_permissions():
         "time_zone": "R",
     }
 
-
     permissions[project_team_member] = {
         "uuid": "R",
         "created_at": "R",
@@ -149,7 +152,7 @@ def _user_field_permissions():
         "target_skills": "R",
         "time_zone": "R",
     }
-    
+
     permissions[project_lead] = permissions[practice_area_admin].copy()
 
     permissions[global_admin] = {
@@ -185,16 +188,12 @@ def _user_field_permissions():
 class UserCruPermissions:
     permissions = _user_field_permissions()
 
-    _read_fields_for_project_lead = _get_fields(
-        permissions[project_lead], "R"
-    )
+    _read_fields_for_project_lead = _get_fields(permissions[project_lead], "R")
     _read_fields_for_practice_area_admin = _get_fields(
         permissions[practice_area_admin], "R"
     )
-    _read_fields_for_self_value = _get_fields(
-        permissions[self_value], "R"
-    )
-    
+    _read_fields_for_self_value = _get_fields(permissions[self_value], "R")
+
     _read_fields_for_project_team_member = _get_fields(
         permissions[project_team_member], "R"
     )
