@@ -68,7 +68,7 @@ class TestUser:
         }
         response = client.patch(url, data, format="json")
         assert response.status_code == status.HTTP_200_OK
-    
+
     def test_admin_cannot_update_created_at(self):
         requester = SeedUser.get_user(garry_name)
         client = APIClient()
@@ -89,7 +89,7 @@ class TestUser:
         )
         assert logged_in_user is not None
         assert response.status_code == status.HTTP_200_OK
-        
+
     def validate_fields_updateable(self):
         PermissionUtil.validate_fields_updateable(
             SeedUser.get_user(garry_name),
@@ -104,6 +104,7 @@ class TestUser:
                 SeedUser.get_user(valerie_name),
                 ["created_at"],
             )
+
     def test_project_lead_can_update_name(self):
         PermissionUtil.validate_fields_updateable(
             SeedUser.get_user(wanda_name),
@@ -134,13 +135,17 @@ class TestUser:
                 SeedUser.get_user(winona_name),
                 ["first_name"],
             )
- 
-    def test_multi_project_requester_can_update_first_name_of_member_if_requester_is_project_leader(self):
+
+    def test_multi_project_requester_can_update_first_name_of_member_if_requester_is_project_leader(
+        self,
+    ):
         PermissionUtil.validate_fields_updateable(
             SeedUser.get_user(zani_name), SeedUser.get_user(wally_name), ["first_name"]
         )
 
-    def test_multi_project_user_cannot_update_first_name_of_member_if_reqiester_is_project_member(self):
+    def test_multi_project_user_cannot_update_first_name_of_member_if_reqiester_is_project_member(
+        self,
+    ):
         with pytest.raises(Exception):
             PermissionUtil.validate_fields_updateable(
                 SeedUser.get_user(zani_name),

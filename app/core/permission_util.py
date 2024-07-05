@@ -10,13 +10,15 @@ from core.user_cru_permissions import UserCruPermissions
 
 class PermissionUtil:
     @staticmethod
-    def get_highest_ranked_permission_type(requesting_user: User, serialized_user: User):
+    def get_highest_ranked_permission_type(
+        requesting_user: User, serialized_user: User
+    ):
         if PermissionUtil.is_admin(requesting_user):
             return global_admin
-        
+
         requesting_projects = UserPermissions.objects.filter(
             user=requesting_user
-        ).values("project__name", "permission_type__name",  "permission_type__rank")
+        ).values("project__name", "permission_type__name", "permission_type__rank")
         serialized_projects = UserPermissions.objects.filter(
             user=serialized_user
         ).values("project__name")
@@ -24,11 +26,21 @@ class PermissionUtil:
         highest_ranked_name = ""
         for requesting_project in requesting_projects:
             for serialized_project in serialized_projects:
-                if requesting_project["project__name"] == serialized_project["project__name"]:
-                    if requesting_project["permission_type__rank"] < highest_ranked_permission:
-                        highest_ranked_permission = requesting_project["permission_type__rank"]
-                        highest_ranked_name = requesting_project["permission_type__name"]
-        return highest_ranked_name        
+                if (
+                    requesting_project["project__name"]
+                    == serialized_project["project__name"]
+                ):
+                    if (
+                        requesting_project["permission_type__rank"]
+                        < highest_ranked_permission
+                    ):
+                        highest_ranked_permission = requesting_project[
+                            "permission_type__rank"
+                        ]
+                        highest_ranked_name = requesting_project[
+                            "permission_type__name"
+                        ]
+        return highest_ranked_name
 
     @staticmethod
     def is_admin(user):
