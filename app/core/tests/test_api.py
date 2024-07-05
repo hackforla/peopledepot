@@ -5,7 +5,7 @@ from rest_framework.test import APIClient
 
 from core.api.serializers import ProgramAreaSerializer
 from core.api.serializers import UserSerializer
-from core.models import ProgramArea
+from core.models import ProgramArea, UserPermissions
 from core.models import User
 
 pytestmark = pytest.mark.django_db
@@ -241,9 +241,9 @@ def test_get_user_permissions(
     created_user_admin, created_user_permissions, auth_client
 ):
     auth_client.force_authenticate(user=created_user_admin)
-    permissions = created_user_permissions
+    db_count = UserPermissions.objects.count()
     res = auth_client.get(USER_PERMISSIONS_URL)
-    assert len(res.data) == len(permissions)
+    assert len(res.data) == db_count
     assert res.status_code == status.HTTP_200_OK
 
 
