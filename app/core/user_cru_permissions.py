@@ -66,12 +66,7 @@ def me_field_permissions():
 
 
 def _user_field_permissions():
-    permissions = {
-        project_team_member: {},
-        practice_area_admin: {},
-        global_admin: {}
-    }
-
+    permissions = {project_team_member: {}, practice_area_admin: {}, global_admin: {}}
 
     permissions[project_team_member] = {
         "uuid": "R",
@@ -181,9 +176,7 @@ class UserCruPermissions:
     _update_fields_for_project_team_member = _get_fields(
         permissions[project_team_member], "U"
     )
-    _update_fields_for_global_admin = _get_fields(
-        permissions[global_admin], "U"
-    )
+    _update_fields_for_global_admin = _get_fields(permissions[global_admin], "U")
     update_fields = {
         practice_area_admin: _update_fields_for_practice_area_admin,
         project_team_member: _update_fields_for_project_team_member,
