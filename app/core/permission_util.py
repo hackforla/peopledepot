@@ -99,13 +99,11 @@ class PermissionUtil:
         highest_ranked_name = PermissionUtil.get_lowest_ranked_permission_type(
             requesting_user, target_user
         )
-        print("debug highest ranked name", highest_ranked_name)
         if highest_ranked_name == "":
             raise PermissionError("You do not have permission to update this user")
         valid_fields = UserCruPermissions.update_fields[highest_ranked_name]
         if len(valid_fields) == 0:
             raise PermissionError("You do not have permission to update this user")
-        print("debug valid fields", valid_fields)
         disallowed_fields = set(request_fields) - set(valid_fields)
         if disallowed_fields:
             raise ValidationError(f"Invalid fields: {', '.join(disallowed_fields)}")

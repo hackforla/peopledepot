@@ -3,7 +3,7 @@ import copy
 from django.contrib.auth import get_user_model
 
 from constants import project_lead
-from constants import project_team_member
+from constants import project_member
 from core.models import Project
 from core.tests.utils.seed_constants import garry_name
 from core.tests.utils.seed_constants import patrick_name
@@ -54,22 +54,22 @@ class LoadData:
             {
                 "first_name": SeedUser.get_user(wally_name).first_name,
                 "project_name": website_project,
-                "permission_type_name": project_team_member,
+                "permission_type_name": project_member,
             },
             {
                 "first_name": SeedUser.get_user(winona_name).first_name,
                 "project_name": website_project,
-                "permission_type_name": project_team_member,
+                "permission_type_name": project_member,
             },
             {
                 "first_name": SeedUser.get_user(zani_name).first_name,
                 "project_name": people_depot_project,
-                "permission_type_name": project_team_member,
+                "permission_type_name": project_member,
             },
             {
                 "first_name": SeedUser.get_user(patti_name).first_name,
                 "project_name": people_depot_project,
-                "permission_type_name": project_team_member,
+                "permission_type_name": project_member,
             },
             {
                 "first_name": SeedUser.get_user(patrick_name).first_name,
@@ -89,22 +89,22 @@ class LoadData:
             {
                 "first_name": SeedUser.get_user(wally_name).first_name,
                 "project_name": website_project,
-                "permission_type_name": project_team_member,
+                "permission_type_name": project_member,
             },
             {
                 "first_name": SeedUser.get_user(winona_name).first_name,
                 "project_name": website_project,
-                "permission_type_name": project_team_member,
+                "permission_type_name": project_member,
             },
             {
                 "first_name": SeedUser.get_user(zani_name).first_name,
                 "project_name": people_depot_project,
-                "permission_type_name": project_team_member,
+                "permission_type_name": project_member,
             },
             {
                 "first_name": SeedUser.get_user(patti_name).first_name,
                 "project_name": people_depot_project,
-                "permission_type_name": project_team_member,
+                "permission_type_name": project_member,
             },
             {
                 "first_name": SeedUser.get_user(patrick_name).first_name,

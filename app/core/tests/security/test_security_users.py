@@ -18,7 +18,7 @@ from rest_framework.test import APIClient
 
 from constants import global_admin
 from constants import project_lead
-from constants import project_team_member
+from constants import project_member
 from core.permission_util import PermissionUtil
 from core.tests.utils.seed_constants import garry_name
 from core.tests.utils.seed_constants import patrick_name
@@ -69,13 +69,13 @@ class TestUser:
             PermissionUtil.get_lowest_ranked_permission_type(
                 SeedUser.get_user(wally_name), SeedUser.get_user(winona_name)
             )
-            == project_team_member
+            == project_member
         )
         assert (
             PermissionUtil.get_lowest_ranked_permission_type(
                 SeedUser.get_user(wally_name), SeedUser.get_user(wanda_name)
             )
-            == project_team_member
+            == project_member
         )
 
     def test_team_member_cannot_read_fields_of_non_team_member(self):
@@ -110,7 +110,7 @@ class TestUser:
         assert fields_match_for_get_user(
             SeedUser.get_user(patrick_name).first_name,
             response.json(),
-            UserCruPermissions.read_fields[project_team_member],
+            UserCruPermissions.read_fields[project_member],
         )
 
     def test_get_url_results_for_project_admin(self):
@@ -133,12 +133,12 @@ class TestUser:
         assert fields_match_for_get_user(
             SeedUser.get_user(winona_name).first_name,
             response.json(),
-            UserCruPermissions.read_fields[project_team_member],
+            UserCruPermissions.read_fields[project_member],
         )
         assert fields_match_for_get_user(
             SeedUser.get_user(wanda_name).first_name,
             response.json(),
-            UserCruPermissions.read_fields[project_team_member],
+            UserCruPermissions.read_fields[project_member],
         )
         assert len(response.json()) == count_website_members
 

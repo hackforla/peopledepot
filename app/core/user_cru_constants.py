@@ -1,7 +1,7 @@
 from constants import global_admin
 from constants import practice_area_admin
 from constants import project_lead
-from constants import project_team_member
+from constants import project_member
 from constants import self_value
 
 self_register_field_permissions = {
@@ -56,7 +56,7 @@ me_field_permissions = {
 
 
 user_field_permissions = {
-    project_team_member: {},
+    project_member: {},
     practice_area_admin: {},
     global_admin: {},
 }
@@ -89,7 +89,7 @@ user_field_permissions[self_value] = {
     "time_zone": "R",
 }
 
-user_field_permissions[project_team_member] = {
+user_field_permissions[project_member] = {
     "uuid": "R",
     "created_at": "R",
     "updated_at": "R",

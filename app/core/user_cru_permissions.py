@@ -1,7 +1,7 @@
 from constants import global_admin
 from constants import practice_area_admin
 from constants import project_lead
-from constants import project_team_member
+from constants import project_member
 from constants import self_value
 from core.user_cru_constants import user_field_permissions
 
@@ -18,9 +18,7 @@ class UserCruPermissions:
     read_fields = {
         self_value: _get_fields(user_field_permissions[self_value], "R"),
         project_lead: _get_fields(user_field_permissions[project_lead], "R"),
-        project_team_member: _get_fields(
-            user_field_permissions[project_team_member], "R"
-        ),
+        project_member: _get_fields(user_field_permissions[project_member], "R"),
         practice_area_admin: _get_fields(user_field_permissions[project_lead], "R"),
         global_admin: _get_fields(user_field_permissions[global_admin], "R"),
     }
@@ -28,9 +26,7 @@ class UserCruPermissions:
     update_fields = {
         self_value: _get_fields(user_field_permissions[self_value], "U"),
         project_lead: _get_fields(user_field_permissions[project_lead], "U"),
-        project_team_member: _get_fields(
-            user_field_permissions[project_team_member], "U"
-        ),
+        project_member: _get_fields(user_field_permissions[project_member], "U"),
         practice_area_admin: _get_fields(user_field_permissions[project_lead], "U"),
         global_admin: _get_fields(user_field_permissions[global_admin], "U"),
     }

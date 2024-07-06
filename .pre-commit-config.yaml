@@ -30,8 +30,6 @@ repos:
       - id: fix-encoding-pragma
         args: [--remove]
       - id: fix-byte-order-marker
-      - id: name-tests-test
-        args: [--pytest-test-first]
 
       # general quality checks
       - id: mixed-line-ending
@@ -74,8 +72,7 @@ repos:
     rev: 7.0.0
     hooks:
       - id: flake8
-        exclude: "^app/core/migrations/|^app/data/migrations/|^app/core/scripts"
-        args: [--max-line-length=119, --max-complexity=4, --pytest-fixture-no-parentheses]
+        args: [--max-complexity=4, --pytest-fixture-no-parentheses]
         additional_dependencies:
           [
             flake8-bugbear,
