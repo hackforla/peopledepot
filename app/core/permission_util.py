@@ -6,7 +6,6 @@ More detailed description of module
 from rest_framework.exceptions import ValidationError
 
 from constants import global_admin
-from constants import project_lead
 from core.models import User
 from core.models import UserPermissions
 from core.user_cru_permissions import UserCruPermissions
@@ -61,23 +60,19 @@ class PermissionUtil:
         return user.is_superuser
 
     @staticmethod
-    def has_global_admin_user_update_privs(requesting_user: User, target_user: User):
-        return PermissionUtil.is_admin(requesting_user)
-
-    @staticmethod
-    def has_project_admin_user_update_privs(requesting_user: User, target_user: User):
-        if PermissionUtil.is_admin(requesting_user):
-            return True
-        requesting_projects = UserPermissions.objects.filter(
-            user=requesting_user, permission_type__name=project_lead
-        ).values("project")
-        serialized_projects = UserPermissions.objects.filter(user=target_user).values(
-            "project"
-        )
-        return requesting_projects.intersection(serialized_projects).exists()
-
-    @staticmethod
     def validate_update_request(request):
+        """Validate that the requesting user has permission to update the specified fields
+        of the target user.
+
+        Args:
+            request: the request object
+
+        Raises:
+            PermissionError or ValidationError
+
+        Returns:
+            None
+        """
         request_fields = request.json().keys()
         requesting_user = request.context.get("request").user
         target_user = User.objects.get(uuid=request.context.get("uuid"))
@@ -87,6 +82,20 @@ class PermissionUtil:
 
     @staticmethod
     def validate_fields_updateable(requesting_user, target_user, request_fields):
+        """Validate that the requesting user has permission to update the specified fields
+        of the target user.
+
+        Args:
+            requesting_user (user): the user that is making the request
+            target_user (user): the user that is being updated
+            request_fields (json): the fields that are being updated
+
+        Raises:
+            PermissionError or ValidationError
+
+        Returns:
+            None
+        """
         highest_ranked_name = PermissionUtil.get_lowest_ranked_permission_type(
             requesting_user, target_user
         )
