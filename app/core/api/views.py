@@ -1,4 +1,3 @@
-from django.contrib.auth import get_user_model
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import OpenApiExample
 from drf_spectacular.utils import OpenApiParameter
@@ -112,20 +111,8 @@ class UserViewSet(viewsets.ModelViewSet):
         """
         Optionally filter users by an 'email' and/or 'username' query paramerter in the URL
         """
-        current_username = self.request.user.username
+        queryset = PermissionUtil.get_user_queryset(self.request)
 
-        current_user = get_user_model().objects.get(username=current_username)
-        user_permissions = UserPermissions.objects.filter(user=current_user)
-
-        if PermissionUtil.is_admin(current_user):
-            queryset = get_user_model().objects.all()
-        else:
-            projects = [p.project for p in user_permissions if p.project is not None]
-            queryset = (
-                get_user_model()
-                .objects.filter(permissions__project__in=projects)
-                .distinct()
-            )
         email = self.request.query_params.get("email")
         if email is not None:
             queryset = queryset.filter(email=email)

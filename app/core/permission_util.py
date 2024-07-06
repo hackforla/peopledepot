@@ -55,6 +55,32 @@ class PermissionUtil:
         return lowest_permission_name
 
     @staticmethod
+    def get_user_queryset(request):
+        """Get the queryset of users that the requesting user has permission to view.
+
+        Called from get_queryset in UserViewSet in views.py.
+
+        Args:
+            request: the request object
+
+        Returns:
+            queryset: the queryset of users that the requesting user has permission to view
+        """
+        current_username = request.user.username
+
+        current_user = User.objects.get(username=current_username)
+        user_permissions = UserPermissions.objects.filter(user=current_user)
+
+        if PermissionUtil.is_admin(current_user):
+            queryset = User.objects.all()
+        else:
+            # Get the users with user permissions for the same projects
+            # that the requester has permission to view
+            projects = [p.project for p in user_permissions if p.project is not None]
+            queryset = User.objects.filter(permissions__project__in=projects).distinct()
+        return queryset
+
+    @staticmethod
     def is_admin(user):
         """Check if user is an admin"""
         return user.is_superuser
