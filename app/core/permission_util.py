@@ -96,6 +96,7 @@ class PermissionUtil:
         Returns:
             None
         """
+
         highest_ranked_name = PermissionUtil.get_lowest_ranked_permission_type(
             requesting_user, target_user
         )
