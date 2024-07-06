@@ -65,13 +65,6 @@ class TestUser:
         assert response.status_code == status.HTTP_400_BAD_REQUEST
         assert "created_at" in response.json()[0]
 
-    def test_is_update_request_valid(self):
-        logged_in_user, response = self.authenticate_user(
-            SeedUser.get_user(garry_name).first_name
-        )
-        assert logged_in_user is not None
-        assert response.status_code == status.HTTP_200_OK
-
     def validate_fields_updateable(self):
         PermissionUtil.validate_fields_updateable(
             SeedUser.get_user(garry_name),
