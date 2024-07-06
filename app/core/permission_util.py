@@ -20,14 +20,13 @@ class PermissionUtil:
         If the requesting user is an admin, returns global_admin.
 
         Otherwise, it looks for the projects that both the requesting user and the serialized user are granted
-        in user permissions. It then returns the highest ranked permission type that the requesting user has for
-        that project.
+        in user permissions. It then returns the permission type name of the lowest ranked matched permission.
 
         If the requesting user has no permissions over the serialized user, returns an empty string.
 
         Args:
-            requesting_user (User): _description_
-            target_user (User): _description_
+            requesting_user (User): user that initiates the API request
+            target_user (User): a user that is part of the API response currently being serialized
 
         Returns:
             str: permission type name of highest permission type the requesting user has relative
@@ -37,45 +36,24 @@ class PermissionUtil:
         if PermissionUtil.is_admin(requesting_user):
             return global_admin
 
-        requesting_user_permissions = UserPermissions.objects.filter(
-            user=requesting_user
-        ).values("project__name", "permission_type__name", "permission_type__rank")
-        target_user_projects = UserPermissions.objects.filter(user=target_user).values(
-            "project__name"
-        )
+        target_user_project_names = UserPermissions.objects.filter(
+            user=target_user
+        ).values_list("project__name", flat=True)
+
+        matched_requester_permissions = UserPermissions.objects.filter(
+            user=requesting_user, project__name__in=target_user_project_names
+        ).values("permission_type__name", "permission_type__rank")
+
         lowest_permission_rank = 1000
         lowest_permission_name = ""
-        for requesting_permission in requesting_user_permissions:
-            lowest_permission_name, lowest_permission_rank = (
-                PermissionUtil._get_lowest_rank_from_target_projects(
-                    requesting_permission,
-                    target_user_projects,
-                    lowest_permission_rank,
-                    lowest_permission_name,
-                )
-            )
-        return lowest_permission_name
+        for matched_permission in matched_requester_permissions:
+            matched_permission_rank = matched_permission["permission_type__rank"]
+            matched_permission_name = matched_permission["permission_type__name"]
+            if matched_permission_rank < lowest_permission_rank:
+                lowest_permission_rank = matched_permission_rank
+                lowest_permission_name = matched_permission_name
 
-    @staticmethod
-    def _get_lowest_rank_from_target_projects(
-        requesting_permission,
-        target_user_projects,
-        lowest_permission_rank,
-        lowest_permission_name,
-    ):
-        requesting_project_name = requesting_permission["project__name"]
-        requesting_permission_name = requesting_permission["permission_type__name"]
-        requesting_permission_rank = requesting_permission["permission_type__rank"]
-        new_lowest_permission_name = lowest_permission_name
-        new_lowest_permission_rank = lowest_permission_rank
-        for target_project in target_user_projects:
-            target_project_name = target_project["project__name"]
-            projects_are_same = requesting_project_name == target_project_name
-            rank_is_lower = requesting_permission_rank < new_lowest_permission_rank
-            if projects_are_same and rank_is_lower:
-                new_lowest_permission_rank = requesting_permission_rank
-                new_lowest_permission_name = requesting_permission_name
-        return new_lowest_permission_name, new_lowest_permission_rank
+        return lowest_permission_name
 
     @staticmethod
     def is_admin(user):
