@@ -28,7 +28,7 @@ from core.tests.utils.seed_constants import wanda_name
 from core.tests.utils.seed_constants import winona_name
 from core.tests.utils.seed_constants import zani_name
 from core.tests.utils.seed_user import SeedUser
-from core.user_cru_permissions import read_fields
+from core.user_cru_permissions import user_read_fields
 
 count_website_members = 4
 count_people_depot_members = 3
@@ -104,13 +104,13 @@ class TestUser:
         assert fields_match_for_get_user(
             SeedUser.get_user(wanda_name).first_name,
             response.json(),
-            read_fields[project_lead],
+            user_read_fields[project_lead],
         )
         # assert fields for wanda, who is on same team, match project_lead reads
         assert fields_match_for_get_user(
             SeedUser.get_user(patrick_name).first_name,
             response.json(),
-            read_fields[project_member],
+            user_read_fields[project_member],
         )
 
     def test_get_url_results_for_project_admin(self):
@@ -122,7 +122,7 @@ class TestUser:
         assert fields_match_for_get_user(
             SeedUser.get_user(winona_name).first_name,
             response.json(),
-            read_fields[global_admin],
+            user_read_fields[global_admin],
         )
 
     def test_get_results_for_users_on_same_teamp(self):
@@ -133,12 +133,12 @@ class TestUser:
         assert fields_match_for_get_user(
             SeedUser.get_user(winona_name).first_name,
             response.json(),
-            read_fields[project_member],
+            user_read_fields[project_member],
         )
         assert fields_match_for_get_user(
             SeedUser.get_user(wanda_name).first_name,
             response.json(),
-            read_fields[project_member],
+            user_read_fields[project_member],
         )
         assert len(response.json()) == count_website_members
 

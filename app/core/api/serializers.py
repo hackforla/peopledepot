@@ -19,7 +19,7 @@ from core.models import Technology
 from core.models import User
 from core.models import UserPermissions
 from core.permission_util import PermissionUtil
-from core.user_cru_permissions import read_fields
+from core.user_cru_permissions import user_read_fields
 
 
 class PracticeAreaSerializer(serializers.ModelSerializer):
@@ -80,7 +80,7 @@ class ProfileSerializer(serializers.ModelSerializer):
             return representation
 
         new_representation = {}
-        for field_name in read_fields[self_value]:
+        for field_name in user_read_fields[self_value]:
             new_representation[field_name] = representation[field_name]
         return new_representation
 
@@ -102,7 +102,7 @@ class UserSerializer(serializers.ModelSerializer):
         highest_ranked_name = UserSerializer._get_highest_ranked_permission_type(
             requesting_user, target_user
         )
-        return read_fields[highest_ranked_name]
+        return user_read_fields[highest_ranked_name]
 
     def to_representation(self, instance):
         request = self.context.get("request")
@@ -117,7 +117,7 @@ class UserSerializer(serializers.ModelSerializer):
             raise PermissionError("You do not have permission to view this user")
 
         new_representation = {}
-        for field_name in read_fields[highest_ranked_name]:
+        for field_name in user_read_fields[highest_ranked_name]:
             new_representation[field_name] = representation[field_name]
         return new_representation
 

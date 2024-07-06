@@ -14,7 +14,7 @@ def _get_fields(field_privs, crud_priv):
     return ret_array
 
 
-read_fields = {
+user_read_fields = {
     self_value: _get_fields(user_field_permissions[self_value], "R"),
     project_lead: _get_fields(user_field_permissions[project_lead], "R"),
     project_member: _get_fields(user_field_permissions[project_member], "R"),
@@ -22,7 +22,7 @@ read_fields = {
     global_admin: _get_fields(user_field_permissions[global_admin], "R"),
 }
 
-update_fields = {
+user_update_fields = {
     self_value: _get_fields(user_field_permissions[self_value], "U"),
     project_lead: _get_fields(user_field_permissions[project_lead], "U"),
     project_member: _get_fields(user_field_permissions[project_member], "U"),
