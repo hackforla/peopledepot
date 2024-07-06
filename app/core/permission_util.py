@@ -6,9 +6,9 @@ More detailed description of module
 from rest_framework.exceptions import ValidationError
 
 from constants import global_admin
+from core.derived_user_cru_permissions import user_update_fields
 from core.models import User
 from core.models import UserPermissions
-from core.user_cru_permissions import user_update_fields
 
 
 class PermissionUtil:

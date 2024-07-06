@@ -1,3 +1,10 @@
+"""
+The specified values in these dictionaries are based on the requirements of the project.  They
+are in a format to simplify understanding and mapping to the requirements.  The values are used to derive the values
+in derived_user_cru_permissions.py.  The application uses the derived values for implementing the
+requirements.
+"""
+
 from constants import global_admin
 from constants import practice_area_admin
 from constants import project_lead
@@ -26,7 +33,9 @@ self_register_field_permissions = {
 }
 
 
-me_field_permissions = {
+# permissions for the "me" endpoint which is used for the user to view and
+# update their own information
+me_endpoint_permissions = {
     "uuid": "R",
     "created_at": "R",
     "updated_at": "R",
@@ -55,6 +64,8 @@ me_field_permissions = {
 }
 
 
+# permissions for the user endpoint which is used for creating, viewing, and updating
+#
 user_field_permissions = {
     project_member: {},
     practice_area_admin: {},

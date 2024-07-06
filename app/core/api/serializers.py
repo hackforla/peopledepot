@@ -1,7 +1,8 @@
 from rest_framework import serializers
 from timezone_field.rest_framework import TimeZoneSerializerField
 
-from constants import self_value
+from core.derived_user_cru_permissions import me_endpoint_read_fields
+from core.derived_user_cru_permissions import user_read_fields
 from core.models import Affiliate
 from core.models import Affiliation
 from core.models import Event
@@ -19,7 +20,6 @@ from core.models import Technology
 from core.models import User
 from core.models import UserPermissions
 from core.permission_util import PermissionUtil
-from core.user_cru_permissions import user_read_fields
 
 
 class PracticeAreaSerializer(serializers.ModelSerializer):
@@ -80,7 +80,7 @@ class ProfileSerializer(serializers.ModelSerializer):
             return representation
 
         new_representation = {}
-        for field_name in user_read_fields[self_value]:
+        for field_name in me_endpoint_read_fields:
             new_representation[field_name] = representation[field_name]
         return new_representation
 

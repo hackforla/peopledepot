@@ -19,6 +19,7 @@ from rest_framework.test import APIClient
 from constants import global_admin
 from constants import project_lead
 from constants import project_member
+from core.derived_user_cru_permissions import user_read_fields
 from core.permission_util import PermissionUtil
 from core.tests.utils.seed_constants import garry_name
 from core.tests.utils.seed_constants import patrick_name
@@ -28,7 +29,6 @@ from core.tests.utils.seed_constants import wanda_name
 from core.tests.utils.seed_constants import winona_name
 from core.tests.utils.seed_constants import zani_name
 from core.tests.utils.seed_user import SeedUser
-from core.user_cru_permissions import user_read_fields
 
 count_website_members = 4
 count_people_depot_members = 3

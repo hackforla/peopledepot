@@ -1,8 +1,8 @@
 from rest_framework.permissions import SAFE_METHODS
 from rest_framework.permissions import BasePermission
 
+from core.derived_user_cru_permissions import user_read_fields
 from core.permission_util import PermissionUtil
-from core.user_cru_permissions import user_read_fields
 
 
 class IsAdmin(BasePermission):
