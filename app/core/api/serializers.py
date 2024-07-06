@@ -73,8 +73,8 @@ class ProfileSerializer(serializers.ModelSerializer):
         representation = super().to_representation(instance)
         request = self.context.get("request")
         requesting_user: User = request.user
-        serialized_user: User = instance
-        if requesting_user != serialized_user:
+        target_user: User = instance
+        if requesting_user != target_user:
             raise PermissionError("You can only use profile endpoint for your own user")
         if request.method != "GET":
             return representation
@@ -100,22 +100,23 @@ class UserSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     @staticmethod
-    def _get_read_fields(__cls__, requesting_user: User, serialized_user: User):
+    def _get_read_fields(__cls__, requesting_user: User, target_user: User):
         highest_ranked_name = UserSerializer._get_highest_ranked_permission_type(
-            requesting_user, serialized_user
+            requesting_user, target_user
         )
         return UserCruPermissions.read_fields[highest_ranked_name]
 
     def to_representation(self, instance):
-        representation = super().to_representation(instance)
         request = self.context.get("request")
+        representation = super().to_representation(instance)
         requesting_user: User = request.user
-        serialized_user: User = instance
-        if request.method != "GET":
-            return representation
-        highest_ranked_name = PermissionUtil.get_highest_ranked_permission_type(
-            requesting_user, serialized_user
+        target_user: User = instance
+
+        highest_ranked_name = PermissionUtil.get_lowest_ranked_permission_type(
+            requesting_user, target_user
         )
+        if highest_ranked_name == "":
+            raise PermissionError("You do not have permission to view this user")
         read_fields = UserCruPermissions.read_fields[highest_ranked_name]
 
         new_representation = {}

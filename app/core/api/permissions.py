@@ -35,10 +35,10 @@ class UserPermissions(BasePermission):
     def has_object_permission(self, request, view, obj):
         if request.method in SAFE_METHODS:
             return (
-                PermissionUtil.get_highest_ranked_permission_type(request.user, obj)
+                PermissionUtil.get_lowest_ranked_permission_type(request.user, obj)
                 != ""
             )
-        highest_ranked_name = PermissionUtil.get_highest_ranked_permission_type(
+        highest_ranked_name = PermissionUtil.get_lowest_ranked_permission_type(
             request.user, obj
         )
         read_fields = UserCruPermissions.read_fields[highest_ranked_name]

@@ -58,7 +58,7 @@ class TestUser:
 
     def test_admin_highest_for_admin(self):
         assert (
-            PermissionUtil.get_highest_ranked_permission_type(
+            PermissionUtil.get_lowest_ranked_permission_type(
                 SeedUser.get_user(garry_name), SeedUser.get_user(valerie_name)
             )
             == global_admin
@@ -66,13 +66,13 @@ class TestUser:
 
     def test_team_member_highest_for_two_team_members(self):
         assert (
-            PermissionUtil.get_highest_ranked_permission_type(
+            PermissionUtil.get_lowest_ranked_permission_type(
                 SeedUser.get_user(wally_name), SeedUser.get_user(winona_name)
             )
             == project_team_member
         )
         assert (
-            PermissionUtil.get_highest_ranked_permission_type(
+            PermissionUtil.get_lowest_ranked_permission_type(
                 SeedUser.get_user(wally_name), SeedUser.get_user(wanda_name)
             )
             == project_team_member
@@ -80,7 +80,7 @@ class TestUser:
 
     def test_team_member_cannot_read_fields_of_non_team_member(self):
         assert (
-            PermissionUtil.get_highest_ranked_permission_type(
+            PermissionUtil.get_lowest_ranked_permission_type(
                 SeedUser.get_user(wally_name), SeedUser.get_user(garry_name)
             )
             == ""
@@ -88,7 +88,7 @@ class TestUser:
 
     def test_team_member_cannot_read_ields_of_other_team(self):
         assert (
-            not PermissionUtil.get_highest_ranked_permission_type(
+            not PermissionUtil.get_lowest_ranked_permission_type(
                 SeedUser.get_user(wally_name), SeedUser.get_user(wanda_name)
             )
             == ""

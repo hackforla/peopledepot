@@ -209,11 +209,13 @@ class UserCruPermissions:
     _update_fields_for_practice_area_admin = _get_fields(
         permissions[practice_area_admin], "U"
     )
+    _update_fields_for_project_lead = _get_fields(permissions[project_lead], "U")
     _update_fields_for_project_team_member = _get_fields(
         permissions[project_team_member], "U"
     )
     _update_fields_for_global_admin = _get_fields(permissions[global_admin], "U")
     update_fields = {
+        project_lead: _update_fields_for_project_lead,
         practice_area_admin: _update_fields_for_practice_area_admin,
         project_team_member: _update_fields_for_project_team_member,
         global_admin: _update_fields_for_global_admin,
