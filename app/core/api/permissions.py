@@ -2,7 +2,7 @@ from rest_framework.permissions import SAFE_METHODS
 from rest_framework.permissions import BasePermission
 
 from core.permission_util import PermissionUtil
-from core.user_cru_permissions import UserCruPermissions
+from core.user_cru_permissions import read_fields
 
 
 class IsAdmin(BasePermission):
@@ -41,8 +41,7 @@ class UserPermissions(BasePermission):
         highest_ranked_name = PermissionUtil.get_lowest_ranked_permission_type(
             request.user, obj
         )
-        read_fields = UserCruPermissions.read_fields[highest_ranked_name]
-        return len(set(read_fields)) > 0
+        return len(set(read_fields[highest_ranked_name])) > 0
 
 
 class DenyAny(BasePermission):

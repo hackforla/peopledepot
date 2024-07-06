@@ -14,19 +14,18 @@ def _get_fields(field_privs, crud_priv):
     return ret_array
 
 
-class UserCruPermissions:
-    read_fields = {
-        self_value: _get_fields(user_field_permissions[self_value], "R"),
-        project_lead: _get_fields(user_field_permissions[project_lead], "R"),
-        project_member: _get_fields(user_field_permissions[project_member], "R"),
-        practice_area_admin: _get_fields(user_field_permissions[project_lead], "R"),
-        global_admin: _get_fields(user_field_permissions[global_admin], "R"),
-    }
+read_fields = {
+    self_value: _get_fields(user_field_permissions[self_value], "R"),
+    project_lead: _get_fields(user_field_permissions[project_lead], "R"),
+    project_member: _get_fields(user_field_permissions[project_member], "R"),
+    practice_area_admin: _get_fields(user_field_permissions[project_lead], "R"),
+    global_admin: _get_fields(user_field_permissions[global_admin], "R"),
+}
 
-    update_fields = {
-        self_value: _get_fields(user_field_permissions[self_value], "U"),
-        project_lead: _get_fields(user_field_permissions[project_lead], "U"),
-        project_member: _get_fields(user_field_permissions[project_member], "U"),
-        practice_area_admin: _get_fields(user_field_permissions[project_lead], "U"),
-        global_admin: _get_fields(user_field_permissions[global_admin], "U"),
-    }
+update_fields = {
+    self_value: _get_fields(user_field_permissions[self_value], "U"),
+    project_lead: _get_fields(user_field_permissions[project_lead], "U"),
+    project_member: _get_fields(user_field_permissions[project_member], "U"),
+    practice_area_admin: _get_fields(user_field_permissions[project_lead], "U"),
+    global_admin: _get_fields(user_field_permissions[global_admin], "U"),
+}

@@ -8,7 +8,7 @@ from rest_framework.exceptions import ValidationError
 from constants import global_admin
 from core.models import User
 from core.models import UserPermissions
-from core.user_cru_permissions import UserCruPermissions
+from core.user_cru_permissions import update_fields
 
 
 class PermissionUtil:
@@ -102,7 +102,7 @@ class PermissionUtil:
         )
         if highest_ranked_name == "":
             raise PermissionError("You do not have permission to update this user")
-        valid_fields = UserCruPermissions.update_fields[highest_ranked_name]
+        valid_fields = update_fields[highest_ranked_name]
         if len(valid_fields) == 0:
             raise PermissionError("You do not have permission to update this user")
         disallowed_fields = set(request_fields) - set(valid_fields)
