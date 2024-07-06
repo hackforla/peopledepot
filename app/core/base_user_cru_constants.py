@@ -120,11 +120,11 @@ user_field_permissions[project_member] = {
     # "intake_current_job_title": "R",
     # "intake_target_job_title": "R",
     "current_job_title": "R",
-    "target_job_title": "R",
+    # "target_job_title": "R",
     # "intake_current_skills": "R",
     # "intake_target_skills": "R",
     "current_skills": "R",
-    "target_skills": "R",
+    # "target_skills": "R",
     "time_zone": "R",
 }
 

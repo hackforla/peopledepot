@@ -14,6 +14,7 @@
 #   - use flag instead of role for admin and verified
 # . -
 import pytest
+from django.urls import reverse
 from rest_framework.test import APIClient
 
 from constants import global_admin
@@ -33,6 +34,8 @@ from core.tests.utils.seed_user import SeedUser
 count_website_members = 4
 count_people_depot_members = 3
 count_members_either = 6
+
+_user_get_url = reverse("user-list")
 
 
 def fields_match_for_get_user(first_name, user_data, fields):
@@ -94,19 +97,28 @@ class TestUser:
             == ""
         )
 
-    def test_get_url_results_for_multi_project_requester(self):
-        response = self.force_authenticate_get_user(
-            SeedUser.get_user(zani_name).first_name
-        )
+    def test_get_url_results_for_multi_project_requester_when_project_lead(self):
+        client = APIClient()
+        client.force_authenticate(user=SeedUser.get_user(zani_name))
+        response = client.get(_user_get_url)
         assert response.status_code == 200
         assert len(response.json()) == count_members_either
-        # assert fields for wanda, who is on same team, match project_lead reads
+        # assert fields for zani, who is a project lead on same team as wanda,
+        # match project_lead fields
         assert fields_match_for_get_user(
-            SeedUser.get_user(wanda_name).first_name,
+            wanda_name,
             response.json(),
             user_read_fields[project_lead],
         )
-        # assert fields for wanda, who is on same team, match project_lead reads
+
+    def test_get_url_results_for_multi_project_requester_when_project_member(self):
+        client = APIClient()
+        client.force_authenticate(user=SeedUser.get_user(zani_name))
+        response = client.get(_user_get_url)
+        assert response.status_code == 200
+        assert len(response.json()) == count_members_either
+        # assert fields for zani, who is a project member on same team as wanda,
+        # match project_member fields
         assert fields_match_for_get_user(
             SeedUser.get_user(patrick_name).first_name,
             response.json(),
@@ -114,9 +126,9 @@ class TestUser:
         )
 
     def test_get_url_results_for_project_admin(self):
-        response = self.force_authenticate_get_user(
-            SeedUser.get_user(wanda_name).first_name
-        )
+        client = APIClient()
+        client.force_authenticate(user=SeedUser.get_user(wanda_name))
+        response = client.get(_user_get_url)
         assert response.status_code == 200
         assert len(response.json()) == count_website_members
         assert fields_match_for_get_user(
@@ -126,9 +138,10 @@ class TestUser:
         )
 
     def test_get_results_for_users_on_same_teamp(self):
-        response = self.force_authenticate_get_user(
-            SeedUser.get_user(wally_name).first_name
-        )
+        client = APIClient()
+        client.force_authenticate(user=SeedUser.get_user(wally_name))
+        response = client.get(_user_get_url)
+
         assert response.status_code == 200
         assert fields_match_for_get_user(
             SeedUser.get_user(winona_name).first_name,
@@ -143,6 +156,8 @@ class TestUser:
         assert len(response.json()) == count_website_members
 
     def test_no_project(self):
-        response = self.force_authenticate_get_user(valerie_name)
+        client = APIClient()
+        client.force_authenticate(user=SeedUser.get_user(valerie_name))
+        response = client.get(_user_get_url)
         assert response.status_code == 200
         assert len(response.json()) == 0
