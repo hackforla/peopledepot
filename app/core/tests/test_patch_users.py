@@ -27,16 +27,7 @@ def fields_match(first_name, user_data, fields):
 
 
 @pytest.mark.django_db
-class TestUser:
-    @classmethod
-    def authenticate_user(cls, user_name):
-        logged_in_user = SeedUser.get_user(user_name)
-        client = APIClient()
-        client.force_authenticate(user=logged_in_user)
-        url = reverse("user-list")  # Update this to your actual URL name
-        response = client.get(url)
-        return logged_in_user, response
-
+class TestPatchUser:
     def test_admin_update_request_succeeds(self):  #
         requester = SeedUser.get_user(garry_name)
         client = APIClient()

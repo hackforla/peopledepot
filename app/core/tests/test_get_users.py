@@ -46,7 +46,7 @@ def fields_match_for_get_user(first_name, user_data, fields):
 
 
 @pytest.mark.django_db
-class TestUser:
+class TestGetUser:
     @classmethod
     def force_authenticate_get_user(cls, user_name):
         client = APIClient()
@@ -155,7 +155,7 @@ class TestUser:
         )
         assert len(response.json()) == count_website_members
 
-    def test_no_project(self):
+    def test_no_user_permission(self):
         client = APIClient()
         client.force_authenticate(user=SeedUser.get_user(valerie_name))
         response = client.get(_user_get_url)
