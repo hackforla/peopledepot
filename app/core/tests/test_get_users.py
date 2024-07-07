@@ -47,12 +47,6 @@ def fields_match_for_get_user(first_name, user_data, fields):
 
 @pytest.mark.django_db
 class TestGetUser:
-    @classmethod
-    def force_authenticate_get_user(cls, user_name):
-        client = APIClient()
-        response = SeedUser.force_authenticate_get_user(client, user_name)
-        return response
-
     def test_global_admin_user_is_admin(self):
         assert PermissionUtil.is_admin(SeedUser.get_user(garry_name))
 
@@ -64,7 +58,7 @@ class TestGetUser:
             PermissionUtil.get_lowest_ranked_permission_type(
                 SeedUser.get_user(garry_name), SeedUser.get_user(valerie_name)
             )
-            == global_admin
+            == global_admin  # noqa W503
         )
 
     def test_team_member_highest_for_two_team_members(self):
@@ -72,13 +66,13 @@ class TestGetUser:
             PermissionUtil.get_lowest_ranked_permission_type(
                 SeedUser.get_user(wally_name), SeedUser.get_user(winona_name)
             )
-            == project_member
+            == project_member  # noqa W503
         )
         assert (
             PermissionUtil.get_lowest_ranked_permission_type(
                 SeedUser.get_user(wally_name), SeedUser.get_user(wanda_name)
             )
-            == project_member
+            == project_member  # noqa W503
         )
 
     def test_team_member_cannot_read_fields_of_non_team_member(self):
@@ -86,7 +80,7 @@ class TestGetUser:
             PermissionUtil.get_lowest_ranked_permission_type(
                 SeedUser.get_user(wally_name), SeedUser.get_user(garry_name)
             )
-            == ""
+            == ""  # noqa W503
         )
 
     def test_team_member_cannot_read_ields_of_other_team(self):
@@ -94,7 +88,7 @@ class TestGetUser:
             not PermissionUtil.get_lowest_ranked_permission_type(
                 SeedUser.get_user(wally_name), SeedUser.get_user(wanda_name)
             )
-            == ""
+            == ""  # noqa W503
         )
 
     def test_get_url_results_for_multi_project_requester_when_project_lead(self):

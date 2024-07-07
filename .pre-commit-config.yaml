@@ -31,6 +31,7 @@ repos:
         args: [--remove]
       - id: fix-byte-order-marker
       - id: name-tests-test
+        exclude: ^app/core/tests/utils/
         args: [--pytest-test-first]
 
       # general quality checks
