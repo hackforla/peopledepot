@@ -124,6 +124,8 @@ class UserViewSet(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         # Get the parameters for the update
         new_user_data = request.data
+        if "time_zone" not in new_user_data:
+            new_user_data["time_zone"] = "America/Los_Angeles"
 
         # Log or print the instance and update_data for debugging
         PermissionUtil.validate_fields_postable(request.user, new_user_data)

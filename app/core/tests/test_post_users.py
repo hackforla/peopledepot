@@ -42,7 +42,6 @@ class TestPostUser:
             "last_name": "created",
             "gmail": "create@example.com",
             "password": "password",
-            "time_zone": "America/Los_Angeles",
         }
         response = client.post(url, data, format="json")
         assert response.status_code == status.HTTP_201_CREATED
