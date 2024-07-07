@@ -33,6 +33,7 @@ repos:
       - id: name-tests-test
         exclude: |
           ^app/core/tests/utils/
+
           ^seed_constants.py
         args: [--pytest-test-first]
 
