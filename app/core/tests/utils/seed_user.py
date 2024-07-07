@@ -1,5 +1,3 @@
-from django.urls import reverse
-
 from core.models import PermissionType
 from core.models import Project
 from core.models import User
@@ -18,14 +16,6 @@ class SeedUser:
         self.email = self.user_name
         self.user = SeedUser.create_user(first_name=first_name, description=description)
         self.users[first_name] = self.user
-
-    @classmethod
-    def force_authenticate_get_user(cls, client, user_name):
-        logged_in_user = SeedUser.get_user(user_name)
-        client.force_authenticate(user=logged_in_user)
-        url = reverse("user-list")  # Update this to your actual URL name
-        response = client.get(url)
-        return response
 
     @classmethod
     def get_user(cls, first_name):

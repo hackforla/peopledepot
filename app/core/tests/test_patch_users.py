@@ -8,8 +8,7 @@ from rest_framework.test import force_authenticate
 
 from constants import project_lead
 from core.api.views import UserViewSet
-from core.base_user_cru_constants import user_field_permissions
-from core.derived_user_cru_permissions import derive_cru_fields
+from core.derived_user_cru_permissions2 import FieldPermissions
 from core.permission_util import PermissionUtil
 from core.tests.utils.seed_constants import garry_name
 from core.tests.utils.seed_constants import patti_name
@@ -72,13 +71,6 @@ class TestPatchUser:
         response = client.patch(url, data, format="json")
         assert response.status_code == status.HTTP_400_BAD_REQUEST
         assert "created_at" in response.json()[0]
-
-    def validate_fields_updateable(self):
-        PermissionUtil.validate_fields_patchable(
-            SeedUser.get_user(garry_name),
-            SeedUser.get_user(valerie_name),
-            ["first_name", "last_name", "gmail"],
-        )
 
     def test_created_at_not_updateable(self):
         with pytest.raises(ValidationError):
@@ -144,15 +136,11 @@ class TestPatchUser:
         server can be set to test values.
         """
 
-        user_field_permissions[project_lead] = {
-            "last_name": "CRU",
-            "gmail": "CRU",
-        }
+        FieldPermissions.user_update_fields[project_lead] = ["last_name", "gmail"]
 
         requester = SeedUser.get_user(wanda_name)  # project lead for website
         update_data = {"last_name": "Smith", "gmail": "smith@example.com"}
         target_user = SeedUser.get_user(wally_name)
-        derive_cru_fields()
         response = patch_request_to_view(requester, target_user, update_data)
 
         assert response.status_code == status.HTTP_200_OK
@@ -164,9 +152,8 @@ class TestPatchUser:
         """
 
         requester = SeedUser.get_user(wanda_name)  # project lead for website
+        FieldPermissions.user_update_fields[project_lead] = ["gmail"]
         update_data = {"last_name": "Smith"}
         target_user = SeedUser.get_user(wally_name)
-        derive_cru_fields()
         response = patch_request_to_view(requester, target_user, update_data)
-
-        assert response.status_code == status.HTTP_200_OK
+        assert response.status_code == status.HTTP_400_BAD_REQUEST

@@ -44,7 +44,6 @@ class FieldPermissions:
 
     @classmethod
     def derive_cru_fields(cls):
-        print("Debug deriving cru fields")
         """Derives module variables that are used for defining which fields can be created, read, or updated.
 
         Called when this module is initially imported.  This function is also called by tests to reset these values.

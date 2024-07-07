@@ -122,8 +122,6 @@ class UserViewSet(viewsets.ModelViewSet):
         return queryset
 
     def create(self, request, *args, **kwargs):
-        print("Creating")
-
         # Get the parameters for the update
         new_user_data = request.data
 
