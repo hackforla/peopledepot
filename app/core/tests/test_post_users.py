@@ -40,14 +40,12 @@ def post_request_to_view(requester, target_user, create_data):
 
 @pytest.mark.django_db
 class TestPostUser:
-    @pytest.mark.skip(reason="This test is not yet implemented")
     def test_admin_create_request_succeeds(self):  #
         requester = SeedUser.get_user(garry_name)
         client = APIClient()
         client.force_authenticate(user=requester)
 
-        target_user = SeedUser.get_user(valerie_name)
-        url = reverse("user-detail", args=[target_user.uuid])
+        url = reverse("user-list")
         data = {
             "username": "createuser",
             "last_name": "created",
@@ -58,7 +56,7 @@ class TestPostUser:
         print(user_create_fields[global_admin])
         response = client.post(url, data, format="json")
         print(response.json())
-        assert response.status_code == status.HTTP_200_OK
+        assert response.status_code == status.HTTP_201_CREATED
 
     @pytest.mark.skip(reason="This test is not yet implemented")
     def test_admin_cannot_create_created_at(self):

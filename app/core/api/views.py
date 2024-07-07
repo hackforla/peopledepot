@@ -123,13 +123,12 @@ class UserViewSet(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         print("Creating")
-        instance = self.get_object()
 
         # Get the parameters for the update
-        update_data = request.data
+        new_user_data = request.data
 
         # Log or print the instance and update_data for debugging
-        PermissionUtil.validate_fields_postable(request.user, instance, update_data)
+        PermissionUtil.validate_fields_postable(request.user, new_user_data)
         response = super().create(request, *args, **kwargs)
         return response
 

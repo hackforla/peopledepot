@@ -138,7 +138,7 @@ class PermissionUtil:
             raise ValidationError(f"Invalid fields: {', '.join(disallowed_fields)}")
 
     @staticmethod
-    def validate_fields_postable(requesting_user, target_user, request_fields):
+    def validate_fields_postable(requesting_user, request_fields):
         """Validate that the requesting user has permission to post the specified fields
         of the new user
 
@@ -154,14 +154,9 @@ class PermissionUtil:
             None
         """
 
-        highest_ranked_name = PermissionUtil.get_lowest_ranked_permission_type(
-            requesting_user, target_user
-        )
-        if highest_ranked_name == "":
+        if not PermissionUtil.is_admin(requesting_user):
             raise PermissionError("You do not have permission to create a user")
-        valid_fields = user_create_fields[highest_ranked_name]
-        if len(valid_fields) == 0:
-            raise PermissionError("You do not have permission to create a user")
+        valid_fields = user_create_fields[global_admin]
         disallowed_fields = set(request_fields) - set(valid_fields)
         if disallowed_fields:
             raise ValidationError(
