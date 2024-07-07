@@ -3,7 +3,13 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.exceptions import ValidationError
 from rest_framework.test import APIClient
+from rest_framework.test import APIRequestFactory
+from rest_framework.test import force_authenticate
 
+from constants import project_lead
+from core.api.views import UserViewSet
+from core.base_user_cru_constants import user_field_permissions
+from core.derived_user_cru_permissions import derive_cru_fields
 from core.permission_util import PermissionUtil
 from core.tests.utils.seed_constants import garry_name
 from core.tests.utils.seed_constants import patti_name
@@ -24,6 +30,17 @@ def fields_match(first_name, user_data, fields):
         if user["first_name"] == first_name:
             return set(user.keys()) == set(fields)
     return False
+
+
+def patch_request_to_view(requester, target_user, update_data):
+    factory = APIRequestFactory()
+    request = factory.patch(
+        reverse("user-detail", args=[target_user.uuid]), update_data, format="json"
+    )
+    force_authenticate(request, user=requester)
+    view = UserViewSet.as_view({"patch": "partial_update"})
+    response = view(request, uuid=requester.uuid)
+    return response
 
 
 @pytest.mark.django_db
@@ -118,3 +135,38 @@ class TestPatchUser:
                 SeedUser.get_user(patti_name),
                 ["first_name"],
             )
+
+    def test_allowable_update_fields_configurable(self):
+        """Test that the fields that can be updated are configurable.
+
+        This test mocks a PATCH request to skip submitting the request to the server and instead
+        calls the view directly with the request.  This is done so that variables used by the
+        server can be set to test values.
+        """
+
+        user_field_permissions[project_lead] = {
+            "last_name": "CRU",
+            "gmail": "CRU",
+        }
+
+        requester = SeedUser.get_user(wanda_name)  # project lead for website
+        update_data = {"last_name": "Smith", "gmail": "smith@example.com"}
+        target_user = SeedUser.get_user(wally_name)
+        derive_cru_fields()
+        response = patch_request_to_view(requester, target_user, update_data)
+
+        assert response.status_code == status.HTTP_200_OK
+
+    def test_not_allowable_update_fields_configurable(self):
+        """Test that the fields that are not configured to be updated cannot be updated.
+
+        See documentation for test_allowable_update_fields_configurable for more information.
+        """
+
+        requester = SeedUser.get_user(wanda_name)  # project lead for website
+        update_data = {"last_name": "Smith"}
+        target_user = SeedUser.get_user(wally_name)
+        derive_cru_fields()
+        response = patch_request_to_view(requester, target_user, update_data)
+
+        assert response.status_code == status.HTTP_200_OK

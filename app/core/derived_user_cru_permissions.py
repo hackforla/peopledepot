@@ -31,27 +31,50 @@ def _get_fields_with_priv(field_permissions, cru_permission):
     return ret_array
 
 
+me_endpoint_read_fields = []
+me_endpoint_update_fields = []
+user_read_fields = {}
+user_update_fields = {}
+
 # *************************************************************
 # See pydoc at top of file for description of these variables *
 # *************************************************************
 
-me_endpoint_read_fields = _get_fields_with_priv(me_endpoint_permissions, "R")
-me_endpoint_update_fields = _get_fields_with_priv(me_endpoint_permissions, "U")
 
-user_read_fields = {
-    project_lead: _get_fields_with_priv(user_field_permissions[project_lead], "R"),
-    project_member: _get_fields_with_priv(user_field_permissions[project_member], "R"),
-    practice_area_admin: _get_fields_with_priv(
-        user_field_permissions[project_lead], "R"
-    ),
-    global_admin: _get_fields_with_priv(user_field_permissions[global_admin], "R"),
-}
+def derive_cru_fields():
+    """Derives module variables that are used for defining which fields can be created, read, or updated.
 
-user_update_fields = {
-    project_lead: _get_fields_with_priv(user_field_permissions[project_lead], "U"),
-    project_member: _get_fields_with_priv(user_field_permissions[project_member], "U"),
-    practice_area_admin: _get_fields_with_priv(
-        user_field_permissions[project_lead], "U"
-    ),
-    global_admin: _get_fields_with_priv(user_field_permissions[global_admin], "U"),
-}
+    Called when this module is initially imported.  This function is also called by tests to reset these values.
+    """
+    global me_endpoint_read_fields
+    global me_endpoint_update_fields
+    global user_read_fields
+    global user_update_fields
+
+    me_endpoint_read_fields = _get_fields_with_priv(me_endpoint_permissions, "R")
+    me_endpoint_update_fields = _get_fields_with_priv(me_endpoint_permissions, "U")
+
+    user_read_fields = {
+        project_lead: _get_fields_with_priv(user_field_permissions[project_lead], "R"),
+        project_member: _get_fields_with_priv(
+            user_field_permissions[project_member], "R"
+        ),
+        practice_area_admin: _get_fields_with_priv(
+            user_field_permissions[project_lead], "R"
+        ),
+        global_admin: _get_fields_with_priv(user_field_permissions[global_admin], "R"),
+    }
+
+    user_update_fields = {
+        project_lead: _get_fields_with_priv(user_field_permissions[project_lead], "U"),
+        project_member: _get_fields_with_priv(
+            user_field_permissions[project_member], "U"
+        ),
+        practice_area_admin: _get_fields_with_priv(
+            user_field_permissions[project_lead], "U"
+        ),
+        global_admin: _get_fields_with_priv(user_field_permissions[global_admin], "U"),
+    }
+
+
+derive_cru_fields()

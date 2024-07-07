@@ -38,8 +38,8 @@ count_members_either = 6
 _user_get_url = reverse("user-list")
 
 
-def fields_match_for_get_user(first_name, user_data, fields):
-    for user in user_data:
+def fields_match_for_get_user(first_name, response_data, fields):
+    for user in response_data:
         if user["first_name"] == first_name:
             return set(user.keys()) == set(fields)
     return False
