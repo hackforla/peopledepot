@@ -121,7 +121,8 @@ class UserViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(username=username)
         return queryset
 
-    def post(self, request, *args, **kwargs):
+    def create(self, request, *args, **kwargs):
+        print("Creating")
         instance = self.get_object()
 
         # Get the parameters for the update
@@ -129,7 +130,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
         # Log or print the instance and update_data for debugging
         PermissionUtil.validate_fields_postable(request.user, instance, update_data)
-        response = super().post(request, *args, **kwargs)
+        response = super().create(request, *args, **kwargs)
         return response
 
     def partial_update(self, request, *args, **kwargs):

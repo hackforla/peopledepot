@@ -109,6 +109,12 @@ class UserSerializer(serializers.ModelSerializer):
         # if fields is removed, syntax checker will complain
         fields = "__all__"
 
+    def create(self, validated_data):
+        # Ensure the default value is set for time_zone if not provided
+        if "time_zone" not in validated_data:
+            validated_data["time_zone"] = "America/Los_Angeles"
+        return super().create(validated_data)
+
     @staticmethod
     def _get_read_fields(__cls__, requesting_user: User, target_user: User):
         highest_ranked_name = UserSerializer._get_highest_ranked_permission_type(

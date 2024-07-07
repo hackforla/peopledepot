@@ -30,6 +30,7 @@ self_register_field_permissions = {
     "current_skills",
     "target_skills",
     "time_zone",
+    "password",
 }
 
 
@@ -98,6 +99,7 @@ user_field_permissions[self_value] = {
     "current_skills": "RU",
     "target_skills": "RU",
     "time_zone": "R",
+    "password": "U",
 }
 
 user_field_permissions[project_member] = {
@@ -186,4 +188,5 @@ user_field_permissions[global_admin] = {
     "current_skills": "CRU",
     "target_skills": "CRU",
     "time_zone": "CR",
+    "password": "CU",
 }
