@@ -2,7 +2,7 @@ from rest_framework import serializers
 from timezone_field.rest_framework import TimeZoneSerializerField
 
 from core.derived_user_cru_permissions import me_endpoint_read_fields
-from core.derived_user_cru_permissions import user_read_fields
+from core.derived_user_cru_permissions2 import FieldPermissions
 from core.models import Affiliate
 from core.models import Affiliation
 from core.models import Event
@@ -120,7 +120,7 @@ class UserSerializer(serializers.ModelSerializer):
         highest_ranked_name = UserSerializer._get_highest_ranked_permission_type(
             requesting_user, target_user
         )
-        return user_read_fields[highest_ranked_name]
+        return FieldPermissions.user_read_fields[highest_ranked_name]
 
     def to_representation(self, response_user):
         """Determine which fields are included in a response based on
@@ -147,7 +147,7 @@ class UserSerializer(serializers.ModelSerializer):
             raise PermissionError("You do not have permission to view this user")
 
         new_representation = {}
-        for field_name in user_read_fields[highest_ranked_name]:
+        for field_name in FieldPermissions.user_read_fields[highest_ranked_name]:
             new_representation[field_name] = representation[field_name]
         return new_representation
 

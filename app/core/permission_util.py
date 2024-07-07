@@ -6,9 +6,8 @@ More detailed description of module
 from rest_framework.exceptions import ValidationError
 
 from constants import global_admin
-from constants import project_lead
 from core.derived_user_cru_permissions import user_create_fields
-from core.derived_user_cru_permissions import user_update_fields
+from core.derived_user_cru_permissions2 import FieldPermissions
 from core.models import User
 from core.models import UserPermissions
 
@@ -130,11 +129,9 @@ class PermissionUtil:
         )
         if highest_ranked_name == "":
             raise PermissionError("You do not have permission to update this user")
-        valid_fields = user_update_fields[highest_ranked_name]
+        valid_fields = FieldPermissions.user_update_fields[highest_ranked_name]
         if len(valid_fields) == 0:
             raise PermissionError("You do not have permission to update this user")
-        print("debug 2", highest_ranked_name, request_fields, valid_fields)
-        print("debug 3", user_update_fields[project_lead])
 
         disallowed_fields = set(request_fields) - set(valid_fields)
         if disallowed_fields:
