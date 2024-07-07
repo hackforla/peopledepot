@@ -33,6 +33,7 @@ def _get_fields_with_priv(field_permissions, cru_permission):
 
 me_endpoint_read_fields = []
 me_endpoint_update_fields = []
+user_create_fields = {}
 user_read_fields = {}
 user_update_fields = {}
 
@@ -48,11 +49,23 @@ def derive_cru_fields():
     """
     global me_endpoint_read_fields
     global me_endpoint_update_fields
+    global user_create_fields
     global user_read_fields
     global user_update_fields
 
     me_endpoint_read_fields = _get_fields_with_priv(me_endpoint_permissions, "R")
     me_endpoint_update_fields = _get_fields_with_priv(me_endpoint_permissions, "U")
+
+    user_create_fields = {
+        project_lead: _get_fields_with_priv(user_field_permissions[project_lead], "C"),
+        project_member: _get_fields_with_priv(
+            user_field_permissions[project_member], "C"
+        ),
+        practice_area_admin: _get_fields_with_priv(
+            user_field_permissions[project_lead], "C"
+        ),
+        global_admin: _get_fields_with_priv(user_field_permissions[global_admin], "C"),
+    }
 
     user_read_fields = {
         project_lead: _get_fields_with_priv(user_field_permissions[project_lead], "R"),

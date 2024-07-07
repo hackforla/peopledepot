@@ -74,7 +74,7 @@ class TestPatchUser:
         assert "created_at" in response.json()[0]
 
     def validate_fields_updateable(self):
-        PermissionUtil.validate_fields_updateable(
+        PermissionUtil.validate_fields_patchable(
             SeedUser.get_user(garry_name),
             SeedUser.get_user(valerie_name),
             ["first_name", "last_name", "gmail"],
@@ -82,14 +82,14 @@ class TestPatchUser:
 
     def test_created_at_not_updateable(self):
         with pytest.raises(ValidationError):
-            PermissionUtil.validate_fields_updateable(
+            PermissionUtil.validate_fields_patchable(
                 SeedUser.get_user(garry_name),
                 SeedUser.get_user(valerie_name),
                 ["created_at"],
             )
 
     def test_project_lead_can_update_name(self):
-        PermissionUtil.validate_fields_updateable(
+        PermissionUtil.validate_fields_patchable(
             SeedUser.get_user(wanda_name),
             SeedUser.get_user(wally_name),
             ["first_name", "last_name"],
@@ -97,7 +97,7 @@ class TestPatchUser:
 
     def test_project_lead_cannot_update_current_title(self):
         with pytest.raises(ValidationError):
-            PermissionUtil.validate_fields_updateable(
+            PermissionUtil.validate_fields_patchable(
                 SeedUser.get_user(wanda_name),
                 SeedUser.get_user(wally_name),
                 ["current_title"],
@@ -105,7 +105,7 @@ class TestPatchUser:
 
     def test_cannot_update_first_name_for_member_of_other_project(self):
         with pytest.raises(PermissionError):
-            PermissionUtil.validate_fields_updateable(
+            PermissionUtil.validate_fields_patchable(
                 SeedUser.get_user(wanda_name),
                 SeedUser.get_user(patti_name),
                 ["first_name"],
@@ -113,7 +113,7 @@ class TestPatchUser:
 
     def test_team_member_cannot_update_first_name_for_member_of_same_project(self):
         with pytest.raises(PermissionError):
-            PermissionUtil.validate_fields_updateable(
+            PermissionUtil.validate_fields_patchable(
                 SeedUser.get_user(wally_name),
                 SeedUser.get_user(winona_name),
                 ["first_name"],
@@ -122,7 +122,7 @@ class TestPatchUser:
     def test_multi_project_requester_can_update_first_name_of_member_if_requester_is_project_leader(
         self,
     ):
-        PermissionUtil.validate_fields_updateable(
+        PermissionUtil.validate_fields_patchable(
             SeedUser.get_user(zani_name), SeedUser.get_user(wally_name), ["first_name"]
         )
 
@@ -130,7 +130,7 @@ class TestPatchUser:
         self,
     ):
         with pytest.raises(PermissionError):
-            PermissionUtil.validate_fields_updateable(
+            PermissionUtil.validate_fields_patchable(
                 SeedUser.get_user(zani_name),
                 SeedUser.get_user(patti_name),
                 ["first_name"],

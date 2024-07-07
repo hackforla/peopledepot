@@ -6,6 +6,7 @@ More detailed description of module
 from rest_framework.exceptions import ValidationError
 
 from constants import global_admin
+from core.derived_user_cru_permissions import user_create_fields
 from core.derived_user_cru_permissions import user_update_fields
 from core.models import User
 from core.models import UserPermissions
@@ -102,12 +103,12 @@ class PermissionUtil:
         request_fields = request.json().keys()
         requesting_user = request.context.get("request").user
         target_user = User.objects.get(uuid=request.context.get("uuid"))
-        PermissionUtil.validate_fields_updateable(
+        PermissionUtil.validate_fields_patchable(
             requesting_user, target_user, request_fields
         )
 
     @staticmethod
-    def validate_fields_updateable(requesting_user, target_user, request_fields):
+    def validate_fields_patchable(requesting_user, target_user, request_fields):
         """Validate that the requesting user has permission to update the specified fields
         of the target user.
 
@@ -129,6 +130,35 @@ class PermissionUtil:
         if highest_ranked_name == "":
             raise PermissionError("You do not have permission to update this user")
         valid_fields = user_update_fields[highest_ranked_name]
+        if len(valid_fields) == 0:
+            raise PermissionError("You do not have permission to update this user")
+        disallowed_fields = set(request_fields) - set(valid_fields)
+        if disallowed_fields:
+            raise ValidationError(f"Invalid fields: {', '.join(disallowed_fields)}")
+
+    @staticmethod
+    def validate_fields_postable(requesting_user, target_user, request_fields):
+        """Validate that the requesting user has permission to post the specified fields
+        of the new user
+
+        Args:
+            requesting_user (user): the user that is making the request
+            target_user (user): data for user being created
+            request_fields (json): the fields that are being updated
+
+        Raises:
+            PermissionError or ValidationError
+
+        Returns:
+            None
+        """
+
+        highest_ranked_name = PermissionUtil.get_lowest_ranked_permission_type(
+            requesting_user, target_user
+        )
+        if highest_ranked_name == "":
+            raise PermissionError("You do not have permission to update this user")
+        valid_fields = user_create_fields[highest_ranked_name]
         if len(valid_fields) == 0:
             raise PermissionError("You do not have permission to update this user")
         disallowed_fields = set(request_fields) - set(valid_fields)
