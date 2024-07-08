@@ -135,9 +135,6 @@ class PermissionUtil:
 
         disallowed_fields = set(request_fields) - set(valid_fields)
         if disallowed_fields:
-            print("debug", valid_fields)
-            print(highest_ranked_name)
-            print(FieldPermissions.user_patch_fields[highest_ranked_name])
             raise ValidationError(f"Invalid fields: {', '.join(disallowed_fields)}")
 
     @staticmethod
@@ -158,7 +155,6 @@ class PermissionUtil:
         """
 
         if not PermissionUtil.is_admin(requesting_user):
-            print(requesting_user.__dict__)
             raise PermissionError("You do not have permission to create a user")
         valid_fields = user_post_fields[global_admin]
         disallowed_fields = set(request_fields) - set(valid_fields)

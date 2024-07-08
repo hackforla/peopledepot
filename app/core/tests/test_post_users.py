@@ -33,11 +33,9 @@ def post_request_to_viewset(requester, create_data):
 @pytest.mark.django_db
 class TestPostUser:
     def setup_method(self):
-        print("Debug test setup")
         FieldPermissions.derive_cru_fields()
 
     def teardown_method(self):
-        print("Debug test tear downc")
         FieldPermissions.derive_cru_fields()
 
     def test_admin_post_request_succeeds(self):  #
