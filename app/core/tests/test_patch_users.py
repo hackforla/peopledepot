@@ -44,13 +44,19 @@ def patch_request_to_viewset(requester, target_user, update_data):
 
 @pytest.mark.django_db
 class TestPatchUser:
+    # Some tests change FieldPermission attribute values.
+    # derive_cru resets the values before each test - otherwise
+    # the tests would interfere with each other
     def setup_method(self):
         FieldPermissions.derive_cru_fields()
 
+    # Some tests change FieldPermission attribute values.
+    # derive_cru resets the values after each test
+    # Redundant with setup_method, but good practice
     def teardown_method(self):
         FieldPermissions.derive_cru_fields()
 
-    def test_admin_patch_request_succeeds(self):  #
+    def test_admin_patch_request_succeeds(self):
         requester = SeedUser.get_user(garry_name)
         client = APIClient()
         client.force_authenticate(user=requester)
