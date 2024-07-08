@@ -161,15 +161,15 @@ repos:
         pass_filenames: false
         always_run: true
         stages: [push]
-      # - id: test
-      #   name: test
-      #   entry: ./scripts/test.sh
-      #   language: system
-      #   pass_filenames: false
-      #   always_run: true
-      #   # verbose: true
-      #   # require_serial: true
-      #   stages: [push]
+      - id: test
+        name: test
+        entry: ./scripts/test.sh
+        language: system
+        pass_filenames: false
+        always_run: true
+        # verbose: true
+        # require_serial: true
+        stages: [push]
       - id: check-django-migrations
         name: Check django migrations
         entry: ./scripts/check-migrations.sh
