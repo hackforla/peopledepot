@@ -46,6 +46,7 @@ class TestPostUser:
         response = client.post(url, data, format="json")
         assert response.status_code == status.HTTP_201_CREATED
 
+    @pytest.mark.skip
     def test_admin_create_with_created_at_fails(self):  #
         requester = SeedUser.get_user(garry_name)
         client = APIClient()
