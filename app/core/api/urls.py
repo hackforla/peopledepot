@@ -1,6 +1,8 @@
 from django.urls import path
 from rest_framework import routers
 
+from core.api import views_for_token
+
 from .views import AffiliateViewSet
 from .views import AffiliationViewSet
 from .views import EventViewSet
@@ -42,6 +44,8 @@ router.register(
 )
 urlpatterns = [
     path("me/", UserProfileAPIView.as_view(), name="my_profile"),
+    path("get-code/", views_for_token.GetCodeView.as_view(), name="get-code"),
+    path("get-token/", views_for_token.GetTokenView.as_view(), name="get-token"),
 ]
 
 urlpatterns += router.urls

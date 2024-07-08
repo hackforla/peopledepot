@@ -182,15 +182,27 @@ REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
-JWT_AUTH = {
-    "JWT_PAYLOAD_GET_USERNAME_HANDLER": "core.utils.jwt.get_username_from_payload_handler",
-    "JWT_DECODE_HANDLER": "core.utils.jwt.cognito_jwt_decode_handler",
-    "JWT_PUBLIC_KEY": rsa_keys,
-    "JWT_ALGORITHM": "RS256",
-    "JWT_AUDIENCE": COGNITO_AUDIENCE,
-    "JWT_ISSUER": COGNITO_POOL_URL,
-    "JWT_AUTH_HEADER_PREFIX": "Bearer",
-}
+USE_COGNITO = os.getenv("USE_COGNITO", "true").lower() == "true"
+
+if USE_COGNITO:
+    JWT_AUTH = {
+        "JWT_PAYLOAD_GET_USERNAME_HANDLER": "core.utils.jwt.get_username_from_payload_handler",
+        "JWT_DECODE_HANDLER": "core.utils.jwt.cognito_jwt_decode_handler",
+        "JWT_PUBLIC_KEY": rsa_keys,
+        "JWT_ALGORITHM": "RS256",
+        "JWT_AUDIENCE": COGNITO_AUDIENCE,
+        "JWT_ISSUER": COGNITO_POOL_URL,
+        "JWT_AUTH_HEADER_PREFIX": "Bearer",
+    }
+else:
+    JWT_AUTH = {
+        "JWT_PAYLOAD_GET_USERNAME_HANDLER": "core.utils.jwt.get_username_from_payload_handler",
+        "JWT_DECODE_HANDLER": "rest_framework_jwt.utils.jwt_decode_handler",
+        "JWT_SECRET_KEY": SECRET_KEY,
+        "JWT_ALGORITHM": "HS256",
+        "JWT_AUTH_HEADER_PREFIX": "Bearer",
+    }
+
 
 GRAPH_MODELS = {"all_applications": True, "group_models": True}
 
