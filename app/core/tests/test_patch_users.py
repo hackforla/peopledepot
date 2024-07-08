@@ -44,6 +44,12 @@ def patch_request_to_view(requester, target_user, update_data):
 
 @pytest.mark.django_db
 class TestPatchUser:
+    def setup_method(self):
+        FieldPermissions.derive_cru_fields()
+
+    def teardown_method(self):
+        FieldPermissions.derive_cru_fields()
+
     def test_admin_update_request_succeeds(self):  #
         requester = SeedUser.get_user(garry_name)
         client = APIClient()

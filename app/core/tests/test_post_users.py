@@ -21,16 +21,25 @@ count_members_either = 6
 
 
 def post_request_to_view(requester, create_data):
+    new_data = create_data.copy()
     factory = APIRequestFactory()
-    request = factory.post(reverse("user-list"), data=create_data)
+    request = factory.post(reverse("user-list"), data=new_data, format="json")
     force_authenticate(request, user=requester)
     view = UserViewSet.as_view({"post": "create"})
-    response = view(request, uuid=requester.uuid)
+    response = view(request)
     return response
 
 
 @pytest.mark.django_db
 class TestPostUser:
+    def setup_method(self):
+        print("Debug test setup")
+        FieldPermissions.derive_cru_fields()
+
+    def teardown_method(self):
+        print("Debug test tear downc")
+        FieldPermissions.derive_cru_fields()
+
     def test_admin_create_request_succeeds(self):  #
         requester = SeedUser.get_user(garry_name)
         client = APIClient()
@@ -46,8 +55,7 @@ class TestPostUser:
         response = client.post(url, data, format="json")
         assert response.status_code == status.HTTP_201_CREATED
 
-    @pytest.mark.skip
-    def test_admin_create_with_created_at_fails(self):  #
+    def test_admin_create_with_created_at_fails(self):
         requester = SeedUser.get_user(garry_name)
         client = APIClient()
         client.force_authenticate(user=requester)
@@ -62,7 +70,7 @@ class TestPostUser:
             "created_at": "2022-01-01T00:00:00Z",
         }
         response = client.post(url, data, format="json")
-        assert response.status_code == status.HTTP_201_CREATED
+        assert response.status_code == status.HTTP_400_BAD_REQUEST
 
     def test_validate_fields_postable_raises_exception_for_created_at(self):
         with pytest.raises(ValidationError):
@@ -72,7 +80,7 @@ class TestPostUser:
             )
 
     def test_validate_fields_postable_raises_exception_for_project_lead(self):
-        with pytest.raises(ValidationError):
+        with pytest.raises(PermissionError):
             PermissionUtil.validate_fields_postable(
                 SeedUser.get_user(wanda_name), ["username", "password"]
             )
