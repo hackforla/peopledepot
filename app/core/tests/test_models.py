@@ -87,10 +87,8 @@ def test_affiliation_partner_and_sponsor(affiliation3):
     xref_instance = affiliation3
     assert xref_instance.is_sponsor is True
     assert xref_instance.is_partner is True
-    assert (
-        str(xref_instance)
-        == f"Sponsor {xref_instance.project} and Partner {xref_instance.affiliate}"
-    )
+    text = f"Sponsor {xref_instance.project} and Partner {xref_instance.affiliate}"
+    assert str(xref_instance) == text
 
 
 def test_affiliation_is_neither_partner_and_sponsor(affiliation4):

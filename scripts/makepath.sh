@@ -3,7 +3,7 @@
 
 # Function to look at child or sibling app directory, if one exists.
 # Useful if called from the scripts directory or root directory
-search_app() {
+search_app() { # noqa: E999
     original_dir=$(pwd)
     cd ../app 2>/dev/null || cd app 2>/dev/null
     current_dir=$(pwd)

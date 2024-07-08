@@ -34,6 +34,7 @@ def created_user_admin():
 def django_db_setup(django_db_setup, django_db_blocker):
     with django_db_blocker.unblock():
         call_command("load_command")
+    return None
 
 
 @pytest.fixture
