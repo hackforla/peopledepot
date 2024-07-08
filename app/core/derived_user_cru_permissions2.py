@@ -2,11 +2,11 @@
 
 Variables:
     me_endpoint_read_fields: list of fields that can be read by the requesting user for the me endpoint
-    me_endpoint_update_fields: list of fields that can be updated by the requesting user for the me endpoint
+    me_endpoint_patch_fields: list of fields that can be updated by the requesting user for the me endpoint
     * Note: me_end_point gets or updates information about the requesting user
 
     user_read_fields: list of fields that can be read by the requesting user for the user endpoint
-    user_update_fields: list of fields that can be updated by the requesting user for the user endpoint
+    user_patch_fields: list of fields that can be updated by the requesting user for the user endpoint
 """
 
 from constants import global_admin
@@ -33,10 +33,10 @@ def _get_fields_with_priv(field_permissions, cru_permission):
 
 class FieldPermissions:
     me_endpoint_read_fields = []
-    me_endpoint_update_fields = []
-    user_create_fields = {}
+    me_endpoint_patch_fields = []
+    user_post_fields = {}
     user_read_fields = {}
-    user_update_fields = {}
+    user_patch_fields = {}
 
     # *************************************************************
     # See pydoc at top of file for description of these variables *
@@ -52,11 +52,11 @@ class FieldPermissions:
         cls.me_endpoint_read_fields = _get_fields_with_priv(
             me_endpoint_permissions, "R"
         )
-        cls.me_endpoint_update_fields = _get_fields_with_priv(
+        cls.me_endpoint_patch_fields = _get_fields_with_priv(
             me_endpoint_permissions, "U"
         )
 
-        cls.user_create_fields = {
+        cls.user_post_fields = {
             project_lead: _get_fields_with_priv(
                 user_field_permissions[project_lead], "C"
             ),
@@ -86,7 +86,7 @@ class FieldPermissions:
             ),
         }
 
-        cls.user_update_fields = {
+        cls.user_patch_fields = {
             project_lead: _get_fields_with_priv(
                 user_field_permissions[project_lead], "U"
             ),

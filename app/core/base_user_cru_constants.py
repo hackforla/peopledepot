@@ -35,7 +35,7 @@ self_register_field_permissions = {
 
 
 # permissions for the "me" endpoint which is used for the user to view and
-# update their own information
+# patch their own information
 me_endpoint_permissions = {
     "uuid": "R",
     "created_at": "R",

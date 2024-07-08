@@ -6,7 +6,7 @@ More detailed description of module
 from rest_framework.exceptions import ValidationError
 
 from constants import global_admin
-from core.derived_user_cru_permissions import user_create_fields
+from core.derived_user_cru_permissions import user_post_fields
 from core.derived_user_cru_permissions2 import FieldPermissions
 from core.models import User
 from core.models import UserPermissions
@@ -87,8 +87,8 @@ class PermissionUtil:
         return user.is_superuser
 
     @staticmethod
-    def validate_update_request(request):
-        """Validate that the requesting user has permission to update the specified fields
+    def validate_patch_request(request):
+        """Validate that the requesting user has permission to patch the specified fields
         of the target user.
 
         Args:
@@ -109,7 +109,7 @@ class PermissionUtil:
 
     @staticmethod
     def validate_fields_patchable(requesting_user, target_user, request_fields):
-        """Validate that the requesting user has permission to update the specified fields
+        """Validate that the requesting user has permission to patch the specified fields
         of the target user.
 
         Args:
@@ -128,16 +128,16 @@ class PermissionUtil:
             requesting_user, target_user
         )
         if highest_ranked_name == "":
-            raise PermissionError("You do not have permission to update this user")
-        valid_fields = FieldPermissions.user_update_fields[highest_ranked_name]
+            raise PermissionError("You do not have permission to patch this user")
+        valid_fields = FieldPermissions.user_patch_fields[highest_ranked_name]
         if len(valid_fields) == 0:
-            raise PermissionError("You do not have permission to update this user")
+            raise PermissionError("You do not have permission to patch this user")
 
         disallowed_fields = set(request_fields) - set(valid_fields)
         if disallowed_fields:
             print("debug", valid_fields)
             print(highest_ranked_name)
-            print(FieldPermissions.user_update_fields[highest_ranked_name])
+            print(FieldPermissions.user_patch_fields[highest_ranked_name])
             raise ValidationError(f"Invalid fields: {', '.join(disallowed_fields)}")
 
     @staticmethod
@@ -160,9 +160,9 @@ class PermissionUtil:
         if not PermissionUtil.is_admin(requesting_user):
             print(requesting_user.__dict__)
             raise PermissionError("You do not have permission to create a user")
-        valid_fields = user_create_fields[global_admin]
+        valid_fields = user_post_fields[global_admin]
         disallowed_fields = set(request_fields) - set(valid_fields)
         if disallowed_fields:
             raise ValidationError(
-                f"Invalid fields: {', '.join(disallowed_fields)} {user_create_fields}"
+                f"Invalid fields: {', '.join(disallowed_fields)} {user_post_fields}"
             )

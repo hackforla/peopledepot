@@ -100,7 +100,7 @@ class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
     retrieve=extend_schema(description="Return the given user"),
     destroy=extend_schema(description="Delete the given user"),
     update=extend_schema(description="Update the given user"),
-    partial_update=extend_schema(description="Partially update the given user"),
+    partial_update=extend_schema(description="Partially patch the given user"),
 )
 class UserViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
@@ -227,7 +227,7 @@ class AffiliateViewSet(viewsets.ModelViewSet):
     retrieve=extend_schema(description="Return the given FAQ"),
     destroy=extend_schema(description="Delete the given FAQ"),
     update=extend_schema(description="Update the given FAQ"),
-    partial_update=extend_schema(description="Partially update the given FAQ"),
+    partial_update=extend_schema(description="Partially patch the given FAQ"),
 )
 class FaqViewSet(viewsets.ModelViewSet):
     queryset = Faq.objects.all()

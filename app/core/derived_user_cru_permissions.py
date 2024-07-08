@@ -2,11 +2,11 @@
 
 Variables:
     me_endpoint_read_fields: list of fields that can be read by the requesting user for the me endpoint
-    me_endpoint_update_fields: list of fields that can be updated by the requesting user for the me endpoint
+    me_endpoint_patch_fields: list of fields that can be updated by the requesting user for the me endpoint
     * Note: me_end_point gets or updates information about the requesting user
 
     user_read_fields: list of fields that can be read by the requesting user for the user endpoint
-    user_update_fields: list of fields that can be updated by the requesting user for the user endpoint
+    user_patch_fields: list of fields that can be updated by the requesting user for the user endpoint
 """
 
 from constants import global_admin
@@ -32,10 +32,10 @@ def _get_fields_with_priv(field_permissions, cru_permission):
 
 
 me_endpoint_read_fields = []
-me_endpoint_update_fields = []
-user_create_fields = {}
+me_endpoint_patch_fields = []
+user_post_fields = {}
 user_read_fields = {}
-user_update_fields = {}
+user_patch_fields = {}
 
 # *************************************************************
 # See pydoc at top of file for description of these variables *
@@ -48,15 +48,15 @@ def derive_cru_fields():
     Called when this module is initially imported.  This function is also called by tests to reset these values.
     """
     global me_endpoint_read_fields
-    global me_endpoint_update_fields
-    global user_create_fields
+    global me_endpoint_patch_fields
+    global user_post_fields
     global user_read_fields
-    global user_update_fields
+    global user_patch_fields
 
     me_endpoint_read_fields = _get_fields_with_priv(me_endpoint_permissions, "R")
-    me_endpoint_update_fields = _get_fields_with_priv(me_endpoint_permissions, "U")
+    me_endpoint_patch_fields = _get_fields_with_priv(me_endpoint_permissions, "U")
 
-    user_create_fields = {
+    user_post_fields = {
         project_lead: _get_fields_with_priv(user_field_permissions[project_lead], "C"),
         project_member: _get_fields_with_priv(
             user_field_permissions[project_member], "C"
@@ -78,7 +78,7 @@ def derive_cru_fields():
         global_admin: _get_fields_with_priv(user_field_permissions[global_admin], "R"),
     }
 
-    user_update_fields = {
+    user_patch_fields = {
         project_lead: _get_fields_with_priv(user_field_permissions[project_lead], "U"),
         project_member: _get_fields_with_priv(
             user_field_permissions[project_member], "U"

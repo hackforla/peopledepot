@@ -20,7 +20,7 @@ count_people_depot_members = 3
 count_members_either = 6
 
 
-def post_request_to_view(requester, create_data):
+def post_request_to_viewset(requester, create_data):
     new_data = create_data.copy()
     factory = APIRequestFactory()
     request = factory.post(reverse("user-list"), data=new_data, format="json")
@@ -40,7 +40,7 @@ class TestPostUser:
         print("Debug test tear downc")
         FieldPermissions.derive_cru_fields()
 
-    def test_admin_create_request_succeeds(self):  #
+    def test_admin_post_request_succeeds(self):  #
         requester = SeedUser.get_user(garry_name)
         client = APIClient()
         client.force_authenticate(user=requester)
@@ -55,7 +55,7 @@ class TestPostUser:
         response = client.post(url, data, format="json")
         assert response.status_code == status.HTTP_201_CREATED
 
-    def test_admin_create_with_created_at_fails(self):
+    def test_admin_post_with_created_at_fails(self):
         requester = SeedUser.get_user(garry_name)
         client = APIClient()
         client.force_authenticate(user=requester)
@@ -93,7 +93,7 @@ class TestPostUser:
         server can be set to test values.
         """
 
-        FieldPermissions.user_update_fields[global_admin] = [
+        FieldPermissions.user_patch_fields[global_admin] = [
             "username",
             "last_name",
             "gmail",
@@ -109,18 +109,18 @@ class TestPostUser:
             "time_zone": "America/Los_Angeles",
             "password": "password",
         }
-        response = post_request_to_view(requester, update_data)
+        response = post_request_to_viewset(requester, update_data)
 
         assert response.status_code == status.HTTP_201_CREATED
 
     def test_not_allowable_post_fields_configurable(self):
         """Test that the fields that are not configured to be updated cannot be updated.
 
-        See documentation for test_allowable_update_fields_configurable for more information.
+        See documentation for test_allowable_patch_fields_configurable for more information.
         """
 
         requester = SeedUser.get_user(garry_name)  # project lead for website
-        FieldPermissions.user_update_fields[project_lead] = ["gmail"]
+        FieldPermissions.user_patch_fields[project_lead] = ["gmail"]
         update_data = {"last_name": "Smith"}
-        response = post_request_to_view(requester, update_data)
+        response = post_request_to_viewset(requester, update_data)
         assert response.status_code == status.HTTP_400_BAD_REQUEST

@@ -31,7 +31,7 @@ def fields_match(first_name, user_data, fields):
     return False
 
 
-def patch_request_to_view(requester, target_user, update_data):
+def patch_request_to_viewset(requester, target_user, update_data):
     factory = APIRequestFactory()
     request = factory.patch(
         reverse("user-detail", args=[target_user.uuid]), update_data, format="json"
@@ -50,7 +50,7 @@ class TestPatchUser:
     def teardown_method(self):
         FieldPermissions.derive_cru_fields()
 
-    def test_admin_update_request_succeeds(self):  #
+    def test_admin_patch_request_succeeds(self):  #
         requester = SeedUser.get_user(garry_name)
         client = APIClient()
         client.force_authenticate(user=requester)
@@ -64,7 +64,7 @@ class TestPatchUser:
         response = client.patch(url, data, format="json")
         assert response.status_code == status.HTTP_200_OK
 
-    def test_admin_cannot_update_created_at(self):
+    def test_admin_cannot_patch_created_at(self):
         requester = SeedUser.get_user(garry_name)
         client = APIClient()
         client.force_authenticate(user=requester)
@@ -86,14 +86,14 @@ class TestPatchUser:
                 ["created_at"],
             )
 
-    def test_project_lead_can_update_name(self):
+    def test_project_lead_can_patch_name(self):
         PermissionUtil.validate_fields_patchable(
             SeedUser.get_user(wanda_name),
             SeedUser.get_user(wally_name),
             ["first_name", "last_name"],
         )
 
-    def test_project_lead_cannot_update_current_title(self):
+    def test_project_lead_cannot_patch_current_title(self):
         with pytest.raises(ValidationError):
             PermissionUtil.validate_fields_patchable(
                 SeedUser.get_user(wanda_name),
@@ -101,7 +101,7 @@ class TestPatchUser:
                 ["current_title"],
             )
 
-    def test_cannot_update_first_name_for_member_of_other_project(self):
+    def test_cannot_patch_first_name_for_member_of_other_project(self):
         with pytest.raises(PermissionError):
             PermissionUtil.validate_fields_patchable(
                 SeedUser.get_user(wanda_name),
@@ -109,7 +109,7 @@ class TestPatchUser:
                 ["first_name"],
             )
 
-    def test_team_member_cannot_update_first_name_for_member_of_same_project(self):
+    def test_team_member_cannot_patch_first_name_for_member_of_same_project(self):
         with pytest.raises(PermissionError):
             PermissionUtil.validate_fields_patchable(
                 SeedUser.get_user(wally_name),
@@ -117,14 +117,14 @@ class TestPatchUser:
                 ["first_name"],
             )
 
-    def test_multi_project_requester_can_update_first_name_of_member_if_requester_is_project_leader(
+    def test_multi_project_requester_can_patch_first_name_of_member_if_requester_is_project_leader(
         self,
     ):
         PermissionUtil.validate_fields_patchable(
             SeedUser.get_user(zani_name), SeedUser.get_user(wally_name), ["first_name"]
         )
 
-    def test_multi_project_user_cannot_update_first_name_of_member_if_reqiester_is_project_member(
+    def test_multi_project_user_cannot_patch_first_name_of_member_if_reqiester_is_project_member(
         self,
     ):
         with pytest.raises(PermissionError):
@@ -134,7 +134,7 @@ class TestPatchUser:
                 ["first_name"],
             )
 
-    def test_allowable_update_fields_configurable(self):
+    def test_allowable_patch_fields_configurable(self):
         """Test that the fields that can be updated are configurable.
 
         This test mocks a PATCH request to skip submitting the request to the server and instead
@@ -142,24 +142,24 @@ class TestPatchUser:
         server can be set to test values.
         """
 
-        FieldPermissions.user_update_fields[project_lead] = ["last_name", "gmail"]
+        FieldPermissions.user_patch_fields[project_lead] = ["last_name", "gmail"]
 
         requester = SeedUser.get_user(wanda_name)  # project lead for website
         update_data = {"last_name": "Smith", "gmail": "smith@example.com"}
         target_user = SeedUser.get_user(wally_name)
-        response = patch_request_to_view(requester, target_user, update_data)
+        response = patch_request_to_viewset(requester, target_user, update_data)
 
         assert response.status_code == status.HTTP_200_OK
 
-    def test_not_allowable_update_fields_configurable(self):
+    def test_not_allowable_patch_fields_configurable(self):
         """Test that the fields that are not configured to be updated cannot be updated.
 
-        See documentation for test_allowable_update_fields_configurable for more information.
+        See documentation for test_allowable_patch_fields_configurable for more information.
         """
 
         requester = SeedUser.get_user(wanda_name)  # project lead for website
-        FieldPermissions.user_update_fields[project_lead] = ["gmail"]
+        FieldPermissions.user_patch_fields[project_lead] = ["gmail"]
         update_data = {"last_name": "Smith"}
         target_user = SeedUser.get_user(wally_name)
-        response = patch_request_to_view(requester, target_user, update_data)
+        response = patch_request_to_viewset(requester, target_user, update_data)
         assert response.status_code == status.HTTP_400_BAD_REQUEST
