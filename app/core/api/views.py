@@ -46,9 +46,19 @@ from .serializers import UserPermissionsSerializer
 from .serializers import UserSerializer
 
 
-class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
+@extend_schema_view(
+    list=extend_schema(
+        summary="Your Profile",
+        description="Return your profile information",
+        parameters=[],
+    ),
+    retrieve=extend_schema(description="Fetch your user profile"),
+    partial_update=extend_schema(description="Update your profile"),
+)
+class UserProfileViewSet(RetrieveModelMixin, GenericAPIView):
     serializer_class = ProfileSerializer
     permission_classes = [IsAuthenticated]
+    http_method_names = ["get", "partial_update"]
 
     def get_object(self):
         return self.request.user
@@ -98,9 +108,8 @@ class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
     ),
     create=extend_schema(description="Create a new user"),
     retrieve=extend_schema(description="Return the given user"),
-    destroy=extend_schema(description="Delete the given user"),
     update=extend_schema(description="Update the given user"),
-    partial_update=extend_schema(description="Partially patch the given user"),
+    partial_update=extend_schema(description="Update the given user"),
 )
 class UserViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]

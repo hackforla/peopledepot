@@ -9,7 +9,6 @@ from constants import global_admin
 from constants import practice_area_admin
 from constants import project_lead
 from constants import project_member
-from constants import self_value
 
 self_register_field_permissions = {
     "username",
@@ -71,35 +70,6 @@ user_field_permissions = {
     project_member: {},
     practice_area_admin: {},
     global_admin: {},
-}
-
-user_field_permissions[self_value] = {
-    "uuid": "R",
-    "created_at": "R",
-    "updated_at": "R",
-    "is_superuser": "R",
-    "is_active": "R",
-    "is_staff": "R",
-    # "is_verified": "R",
-    "username": "R",
-    "first_name": "RU",
-    "last_name": "RU",
-    "gmail": "RU",
-    "preferred_email": "RU",
-    "linkedin_account": "RU",
-    "github_handle": "RU",
-    "phone": "RU",
-    "texting_ok": "RU",
-    # "intake_current_job_title": "CR",
-    # "intake_target_job_title": "CR",
-    "current_job_title": "RU",
-    "target_job_title": "RU",
-    # "intake_current_skills": "CR",
-    # "intake_target_skills": "CR",
-    "current_skills": "RU",
-    "target_skills": "RU",
-    "time_zone": "R",
-    "password": "U",
 }
 
 user_field_permissions[project_member] = {
