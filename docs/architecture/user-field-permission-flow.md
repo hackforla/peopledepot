@@ -5,7 +5,7 @@ Terminology:
 - team mate: a user assigned through UserPermissions to the same project as another user
 - any project member: a user assigned to a project through UserPermissions
 - general project member: a user assigned specifically as a project member to a project
-- \[base configuration file\]\[base-field-permissions-reference\] - file used to configure
+- [base configuration file][ase-field-permissions-reference] - file used to configure
     screate, read, and update access for fields based on the factors listed below.
 
 ### Row Level Privileges
