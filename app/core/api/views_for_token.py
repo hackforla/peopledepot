@@ -3,13 +3,14 @@ import secrets
 import jwt
 from django.conf import settings
 from django.contrib.auth import authenticate
-from django.contrib.auth.models import User
 from django.http import JsonResponse
 from drf_spectacular.utils import OpenApiExample
 from drf_spectacular.utils import OpenApiResponse
 from drf_spectacular.utils import extend_schema
 from rest_framework.permissions import AllowAny
 from rest_framework.views import APIView
+
+from core.models import User
 
 CODES = {}  # Temporary storage for codes
 
@@ -71,6 +72,9 @@ class GetCodeView(APIView):
 
 
 class GetTokenView(APIView):
+    permission_classes = [AllowAny]
+    authentication_classes = []
+
     @extend_schema(
         request={
             "application/json": {
@@ -112,11 +116,11 @@ class GetTokenView(APIView):
     )
     def post(self, request):
         code = request.data.get("code")
-        user_uuid = CODES.get(code)
-        if user_uuid:
-            user = User.objects.get(user_uuid=user_uuid)
+        uuid = CODES.get(code)
+        if uuid:
+            user = User.objects.get(uuid=uuid)
             token = jwt.encode(
-                {"user_uuid": user.uuid}, settings.SECRET_KEY, algorithm="HS256"
+                {"uuid": str(user.uuid)}, settings.SECRET_KEY, algorithm="HS256"
             )
             return JsonResponse({"token": token})
         else:
