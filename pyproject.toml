@@ -1,6 +1,6 @@
 [tool.ruff.lint]
 select = [ "PTH" ]
-[tool.black]
+ [tool.black]
 exclude = '''
 /(
   migrations|

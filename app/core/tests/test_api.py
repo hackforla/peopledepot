@@ -48,10 +48,6 @@ def create_user(django_user_model, **params):
     return django_user_model.objects.create_user(**params)
 
 
-def test_foo():
-    assert True
-
-
 def test_list_users_fail(client):
     res = client.get(USERS_URL)
 
