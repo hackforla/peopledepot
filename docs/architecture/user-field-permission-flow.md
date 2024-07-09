@@ -37,5 +37,5 @@ For the api/v1/users end point, the fields a requester can read or update of a t
 
 - if the requester is a global admin, then the requester can read and update any user row.\
     The specific fields tht are readable or updateable are configured in the file
-  
+
     [base-field-permissions-reference]: ../../app/core/base_user_cru_constants.py
