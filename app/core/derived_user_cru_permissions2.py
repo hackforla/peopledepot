@@ -13,8 +13,8 @@ from constants import global_admin
 from constants import practice_area_admin
 from constants import project_lead
 from constants import project_member
-from core.base_user_cru_constants import me_endpoint_permissions
-from core.base_user_cru_constants import user_field_permissions
+from core.user_field_permissions_constants import me_endpoint_permissions
+from core.user_field_permissions_constants import user_field_permissions
 
 
 # Gets the fields in field_permission that have the permission specified by cru_permission

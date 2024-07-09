@@ -6,7 +6,6 @@ More detailed description of module
 from rest_framework.exceptions import ValidationError
 
 from constants import global_admin
-from core.derived_user_cru_permissions import user_post_fields
 from core.derived_user_cru_permissions2 import FieldPermissions
 from core.models import User
 from core.models import UserPermissions
@@ -156,9 +155,9 @@ class PermissionUtil:
 
         if not PermissionUtil.is_admin(requesting_user):
             raise PermissionError("You do not have permission to create a user")
-        valid_fields = user_post_fields[global_admin]
+        valid_fields = FieldPermissions.user_post_fields[global_admin]
         disallowed_fields = set(request_fields) - set(valid_fields)
         if disallowed_fields:
             raise ValidationError(
-                f"Invalid fields: {', '.join(disallowed_fields)} {user_post_fields}"
+                f"Invalid fields: {', '.join(disallowed_fields)} {FieldPermissions.user_post_fields}"
             )
