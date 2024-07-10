@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from timezone_field.rest_framework import TimeZoneSerializerField
 
-from core.field_permissions import FieldPermissions
 from core.field_permissions2 import FieldPermissions2
 from core.models import Affiliate
 from core.models import Affiliation
@@ -92,7 +91,8 @@ class ProfileSerializer(serializers.ModelSerializer):
             return representation
 
         new_representation = {}
-        for field_name in FieldPermissions.fields_list["me"]["R"]:
+        print("debug", FieldPermissions2.me_endpoint_read_fields)
+        for field_name in FieldPermissions2.me_endpoint_read_fields:
             new_representation[field_name] = representation[field_name]
         return new_representation
 
@@ -114,7 +114,7 @@ class UserSerializer(serializers.ModelSerializer):
         highest_ranked_name = UserSerializer._get_highest_ranked_permission_type(
             requesting_user, target_user
         )
-        return FieldPermissions.fields_list["user"][highest_ranked_name]["R"]
+        return FieldPermissions2.user_read_fields[highest_ranked_name]
 
     def to_representation(self, response_user):
         """Determine which fields are included in a response based on
