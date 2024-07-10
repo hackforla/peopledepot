@@ -151,7 +151,7 @@ class TestPatchUser:
         server can be set to test values.
         """
 
-        FieldPermissions.fields_list["user"][project_lead]["U"] = ["last_name", "gmail"]
+        # FieldPermissions.fields_list["user"][project_lead]["U"] = ["last_name", "gmail"]
         FieldPermissions2.user_patch_fields[project_lead] = ["last_name", "gmail"]
 
         requester = SeedUser.get_user(wanda_name)  # project lead for website

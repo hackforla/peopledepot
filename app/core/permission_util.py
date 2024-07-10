@@ -6,7 +6,6 @@ More detailed description of module
 from rest_framework.exceptions import ValidationError
 
 from constants import global_admin
-from core.field_permissions import FieldPermissions
 from core.field_permissions2 import FieldPermissions2
 from core.models import User
 from core.models import UserPermissions
@@ -162,7 +161,6 @@ class PermissionUtil:
         if disallowed_fields:
             invalid_fields = ", ".join(disallowed_fields)
             valid_fields = ", ".join(valid_fields)
-            print("debug xxxxx", invalid_fields, "x", valid_fields)
             raise ValidationError(
                 f"Invalid fields: {invalid_fields}.   Valid fields are {valid_fields}."
             )

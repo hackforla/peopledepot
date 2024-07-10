@@ -91,7 +91,6 @@ class ProfileSerializer(serializers.ModelSerializer):
             return representation
 
         new_representation = {}
-        print("debug", FieldPermissions2.me_endpoint_read_fields)
         for field_name in FieldPermissions2.me_endpoint_read_fields:
             new_representation[field_name] = representation[field_name]
         return new_representation
