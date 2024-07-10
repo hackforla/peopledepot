@@ -20,7 +20,7 @@ from rest_framework.test import APIClient
 from constants import global_admin
 from constants import project_lead
 from constants import project_member
-from core.derived_user_cru_permissions2 import FieldPermissions
+from core.field_permissions import FieldPermissions
 from core.permission_util import PermissionUtil
 from core.tests.utils.seed_constants import garry_name
 from core.tests.utils.seed_constants import patrick_name
@@ -39,8 +39,12 @@ _user_get_url = reverse("user-list")
 
 
 def fields_match_for_get_user(first_name, response_data, fields):
+    print("debug match")
     for user in response_data:
+        print("debug", first_name, user["first_name"])
         if user["first_name"] == first_name:
+            print(set(user.keys()))
+            print("fields", fields)
             return set(user.keys()) == set(fields)
     return False
 
@@ -102,7 +106,7 @@ class TestGetUser:
         assert fields_match_for_get_user(
             wanda_name,
             response.json(),
-            FieldPermissions.user_read_fields[project_lead],
+            FieldPermissions.fields_list["user"][project_lead]["R"],
         )
 
     def test_get_url_results_for_multi_project_requester_when_project_member(self):
@@ -116,7 +120,7 @@ class TestGetUser:
         assert fields_match_for_get_user(
             SeedUser.get_user(patrick_name).first_name,
             response.json(),
-            FieldPermissions.user_read_fields[project_member],
+            FieldPermissions.fields_list["user"][project_member]["R"],
         )
 
     def test_get_url_results_for_project_admin(self):
@@ -128,7 +132,7 @@ class TestGetUser:
         assert fields_match_for_get_user(
             SeedUser.get_user(winona_name).first_name,
             response.json(),
-            FieldPermissions.user_read_fields[global_admin],
+            FieldPermissions.fields_list["user"][global_admin]["R"],
         )
 
     def test_get_results_for_users_on_same_teamp(self):
@@ -140,12 +144,12 @@ class TestGetUser:
         assert fields_match_for_get_user(
             SeedUser.get_user(winona_name).first_name,
             response.json(),
-            FieldPermissions.user_read_fields[project_member],
+            FieldPermissions.fields_list["user"][project_member]["R"],
         )
         assert fields_match_for_get_user(
             SeedUser.get_user(wanda_name).first_name,
             response.json(),
-            FieldPermissions.user_read_fields[project_member],
+            FieldPermissions.fields_list["user"][project_member]["R"],
         )
         assert len(response.json()) == count_website_members
 

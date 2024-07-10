@@ -8,7 +8,7 @@ from rest_framework.test import force_authenticate
 
 from constants import project_lead
 from core.api.views import UserViewSet
-from core.derived_user_cru_permissions2 import FieldPermissions
+from core.field_permissions import FieldPermissions
 from core.permission_util import PermissionUtil
 from core.tests.utils.seed_constants import garry_name
 from core.tests.utils.seed_constants import patti_name
@@ -148,7 +148,7 @@ class TestPatchUser:
         server can be set to test values.
         """
 
-        FieldPermissions.user_patch_fields[project_lead] = ["last_name", "gmail"]
+        FieldPermissions.fields_list["user"][project_lead]["U"] = ["last_name", "gmail"]
 
         requester = SeedUser.get_user(wanda_name)  # project lead for website
         update_data = {"last_name": "Smith", "gmail": "smith@example.com"}
@@ -164,7 +164,7 @@ class TestPatchUser:
         """
 
         requester = SeedUser.get_user(wanda_name)  # project lead for website
-        FieldPermissions.user_patch_fields[project_lead] = ["gmail"]
+        FieldPermissions.fields_list["user"][project_lead]["U"] = ["gmail"]
         update_data = {"last_name": "Smith"}
         target_user = SeedUser.get_user(wally_name)
         response = patch_request_to_viewset(requester, target_user, update_data)

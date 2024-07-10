@@ -9,7 +9,7 @@ from rest_framework.test import force_authenticate
 from constants import global_admin
 from constants import project_lead
 from core.api.views import UserViewSet
-from core.derived_user_cru_permissions2 import FieldPermissions
+from core.field_permissions import FieldPermissions
 from core.permission_util import PermissionUtil
 from core.tests.utils.seed_constants import garry_name
 from core.tests.utils.seed_constants import wanda_name
@@ -91,7 +91,7 @@ class TestPostUser:
         server can be set to test values.
         """
 
-        FieldPermissions.user_patch_fields[global_admin] = [
+        FieldPermissions.fields_list["user"][global_admin]["C"] = [
             "username",
             "last_name",
             "gmail",
@@ -118,7 +118,9 @@ class TestPostUser:
         """
 
         requester = SeedUser.get_user(garry_name)  # project lead for website
-        FieldPermissions.user_patch_fields[project_lead] = ["gmail"]
+        print("debug a")
+        FieldPermissions.fields_list["user"][project_lead]["U"] = ["gmail"]
+        print("debug b")
         update_data = {"last_name": "Smith"}
         response = post_request_to_viewset(requester, update_data)
         assert response.status_code == status.HTTP_400_BAD_REQUEST
