@@ -8,7 +8,7 @@ from rest_framework.test import force_authenticate
 
 from constants import project_lead
 from core.api.views import UserViewSet
-from core.field_permissions import FIeldPermissions
+from core.field_permissions import FieldPermissions
 from core.permission_util import PermissionUtil
 from core.tests.utils.seed_constants import garry_name
 from core.tests.utils.seed_constants import patti_name
@@ -48,13 +48,13 @@ class TestPatchUser:
     # derive_cru resets the values before each test - otherwise
     # the tests would interfere with each other
     def setup_method(self):
-        FIeldPermissions.derive_cru_fields()
+        FieldPermissions.derive_cru_fields()
 
     # Some tests change FieldPermission attribute values.
     # derive_cru resets the values after each test
     # Redundant with setup_method, but good practice
     def teardown_method(self):
-        FIeldPermissions.derive_cru_fields()
+        FieldPermissions.derive_cru_fields()
 
     def test_admin_patch_request_succeeds(self):
         requester = SeedUser.get_user(garry_name)
@@ -148,7 +148,7 @@ class TestPatchUser:
         server can be set to test values.
         """
 
-        FIeldPermissions.user_patch_fields[project_lead] = ["last_name", "gmail"]
+        FieldPermissions.user_patch_fields[project_lead] = ["last_name", "gmail"]
 
         requester = SeedUser.get_user(wanda_name)  # project lead for website
         update_data = {"last_name": "Smith", "gmail": "smith@example.com"}
@@ -164,7 +164,7 @@ class TestPatchUser:
         """
 
         requester = SeedUser.get_user(wanda_name)  # project lead for website
-        FIeldPermissions.user_patch_fields[project_lead] = ["gmail"]
+        FieldPermissions.user_patch_fields[project_lead] = ["gmail"]
         update_data = {"last_name": "Smith"}
         target_user = SeedUser.get_user(wally_name)
         response = patch_request_to_viewset(requester, target_user, update_data)
