@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from timezone_field.rest_framework import TimeZoneSerializerField
 
-from core.field_permissions2 import FieldPermissions2
+from core.field_permissions import FieldPermissions2
 from core.models import Affiliate
 from core.models import Affiliation
 from core.models import Event

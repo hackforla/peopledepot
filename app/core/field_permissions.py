@@ -61,8 +61,12 @@ class FieldPermissions2:
 
     @classmethod
     def derive_cru_fields(cls):
-        cls.me_endpoint_read_fields = _get_fields_with_priv(me_endpoint_permissions, "R")
-        cls.me_endpoint_patch_fields = _get_fields_with_priv(me_endpoint_permissions, "R")
+        cls.me_endpoint_read_fields = _get_fields_with_priv(
+            me_endpoint_permissions, "R"
+        )
+        cls.me_endpoint_patch_fields = _get_fields_with_priv(
+            me_endpoint_permissions, "R"
+        )
         cls.self_register_fields = self_register_fields
         for permission_type in [
             project_lead,

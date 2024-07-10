@@ -6,7 +6,7 @@ More detailed description of module
 from rest_framework.exceptions import ValidationError
 
 from constants import global_admin
-from core.field_permissions2 import FieldPermissions2
+from core.field_permissions import FieldPermissions2
 from core.models import User
 from core.models import UserPermissions
 
