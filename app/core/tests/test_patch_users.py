@@ -152,6 +152,7 @@ class TestPatchUser:
         """
 
         FieldPermissions.fields_list["user"][project_lead]["U"] = ["last_name", "gmail"]
+        FieldPermissions2.user_patch_fields[project_lead] = ["last_name", "gmail"]
 
         requester = SeedUser.get_user(wanda_name)  # project lead for website
         update_data = {"last_name": "Smith", "gmail": "smith@example.com"}
@@ -168,6 +169,7 @@ class TestPatchUser:
 
         requester = SeedUser.get_user(wanda_name)  # project lead for website
         FieldPermissions.fields_list["user"][project_lead]["U"] = ["gmail"]
+        FieldPermissions2.user_patch_fields[project_lead] = ["gmail"]
         update_data = {"last_name": "Smith"}
         target_user = SeedUser.get_user(wally_name)
         response = patch_request_to_viewset(requester, target_user, update_data)

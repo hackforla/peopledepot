@@ -10,6 +10,7 @@ from constants import global_admin
 from constants import project_lead
 from core.api.views import UserViewSet
 from core.field_permissions import FieldPermissions
+from core.field_permissions2 import FieldPermissions2
 from core.permission_util import PermissionUtil
 from core.tests.utils.seed_constants import garry_name
 from core.tests.utils.seed_constants import wanda_name
@@ -34,9 +35,11 @@ def post_request_to_viewset(requester, create_data):
 class TestPostUser:
     def setup_method(self):
         FieldPermissions.derive_cru_fields()
+        FieldPermissions2.derive_cru_fields()
 
     def teardown_method(self):
         FieldPermissions.derive_cru_fields()
+        FieldPermissions2.derive_cru_fields()
 
     def test_admin_post_request_succeeds(self):  #
         requester = SeedUser.get_user(garry_name)
@@ -91,23 +94,35 @@ class TestPostUser:
         server can be set to test values.
         """
 
-        FieldPermissions.fields_list["user"][global_admin]["C"] = [
+        # FieldPermissions.fields_list["user"][global_admin]["C"] = [
+        #     "username",
+        #     "last_name",
+        #     "gmail",
+        #     "time_zone",
+        #     "password",
+        # ]
+        FieldPermissions2.user_post_fields[global_admin] = [
             "username",
+            "first_name",
             "last_name",
             "gmail",
             "time_zone",
             "password",
+            "created_at",
         ]
 
         requester = SeedUser.get_user(garry_name)  # project lead for website
-        update_data = {
+
+        create_data = {
             "username": "foo",
             "last_name": "Smith",
             "gmail": "smith@example.com",
             "time_zone": "America/Los_Angeles",
             "password": "password",
+            "first_name": "John",
+            "created_at": "2022-01-01T00:00:00Z",
         }
-        response = post_request_to_viewset(requester, update_data)
+        response = post_request_to_viewset(requester, create_data)
 
         assert response.status_code == status.HTTP_201_CREATED
 
@@ -118,9 +133,7 @@ class TestPostUser:
         """
 
         requester = SeedUser.get_user(garry_name)  # project lead for website
-        print("debug a")
         FieldPermissions.fields_list["user"][project_lead]["U"] = ["gmail"]
-        print("debug b")
         update_data = {"last_name": "Smith"}
         response = post_request_to_viewset(requester, update_data)
         assert response.status_code == status.HTTP_400_BAD_REQUEST

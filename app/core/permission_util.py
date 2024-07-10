@@ -7,6 +7,7 @@ from rest_framework.exceptions import ValidationError
 
 from constants import global_admin
 from core.field_permissions import FieldPermissions
+from core.field_permissions2 import FieldPermissions2
 from core.models import User
 from core.models import UserPermissions
 
@@ -129,6 +130,8 @@ class PermissionUtil:
         if lowest_ranked_name == "":
             raise PermissionError("You do not have permission to patch this user")
         valid_fields = FieldPermissions.fields_list["user"][lowest_ranked_name]["U"]
+        print("debug xxxx", FieldPermissions2.user_patch_fields[lowest_ranked_name])
+        valid_fields = FieldPermissions2.user_patch_fields[lowest_ranked_name]
         if len(valid_fields) == 0:
             raise PermissionError("You do not have permission to patch this user")
 
@@ -155,11 +158,13 @@ class PermissionUtil:
 
         if not PermissionUtil.is_admin(requesting_user):
             raise PermissionError("You do not have permission to create a user")
-        valid_fields = FieldPermissions.fields_list["user"][global_admin]["C"]
+        valid_fields = FieldPermissions2.user_post_fields[global_admin]
+        # valid_fields = FieldPermissions.fields_list["user"][global_admin]["C"]
         disallowed_fields = set(request_fields) - set(valid_fields)
         if disallowed_fields:
             invalid_fields = ", ".join(disallowed_fields)
             valid_fields = ", ".join(valid_fields)
+            print("debug xxxxx", invalid_fields, "x", valid_fields)
             raise ValidationError(
                 f"Invalid fields: {invalid_fields}.   Valid fields are {valid_fields}."
             )
