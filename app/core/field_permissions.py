@@ -27,15 +27,12 @@ from core.user_field_permissions_constants import me_endpoint_permissions
 from core.user_field_permissions_constants import self_register_fields
 from core.user_field_permissions_constants import user_field_permissions
 
-# Gets the fields in field_permission that have the permission specified by cru_permission
-# Args:
-#   field_permissions (dictionary): dictionary of field permissions.  Key: field name. Value: "CRU" or subset.
-#   cru_permission (str): permission to check for in field_permissions (C, R, or U)
-# Returns:
-#   [str]: list of field names that have the specified permission
-
 
 class FieldPermissions:
+    # *************************************************************
+    # See pydoc at top of file for description of these variables *
+    # *************************************************************
+
     user_read_fields = {
         project_lead: [],
         project_member: [],
@@ -58,10 +55,12 @@ class FieldPermissions:
     me_endpoint_patch_fields = []
     self_register_fields = []
 
-    # *************************************************************
-    # See pydoc at top of file for description of these variables *
-    # *************************************************************
-
+    # Gets the fields in field_permission that have the permission specified by cru_permission
+    # Args:
+    #   field_permissions (dictionary): dictionary of field permissions.  Key: field name. Value: "CRU" or subset.
+    #   cru_permission (str): permission to check for in field_permissions (C, R, or U)
+    # Returns:
+    #   [str]: list of field names that have the specified permission
     @classmethod
     def _get_fields_with_priv(cls, field_permissions, cru_permission):
         ret_array = []
