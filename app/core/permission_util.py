@@ -156,7 +156,6 @@ class PermissionUtil:
         if not PermissionUtil.is_admin(requesting_user):
             raise PermissionError("You do not have permission to create a user")
         valid_fields = FieldPermissions2.user_post_fields[global_admin]
-        # valid_fields = FieldPermissions.fields_list["user"][global_admin]["C"]
         disallowed_fields = set(request_fields) - set(valid_fields)
         if disallowed_fields:
             invalid_fields = ", ".join(disallowed_fields)
