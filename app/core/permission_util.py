@@ -1,8 +1,3 @@
-"""Summary of module
-
-More detailed description of module
-"""
-
 from rest_framework.exceptions import ValidationError
 
 from constants import global_admin
