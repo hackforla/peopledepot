@@ -10,7 +10,7 @@ from constants import practice_area_admin
 from constants import project_lead
 from constants import project_member
 
-self_register_field_permissions = {
+self_register_fields = [
     "username",
     "first_name",
     "last_name",
@@ -30,7 +30,7 @@ self_register_field_permissions = {
     "target_skills",
     "time_zone",
     "password",
-}
+]
 
 
 # permissions for the "me" endpoint which is used for the user to view and

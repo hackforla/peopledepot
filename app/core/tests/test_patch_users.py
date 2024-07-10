@@ -9,6 +9,7 @@ from rest_framework.test import force_authenticate
 from constants import project_lead
 from core.api.views import UserViewSet
 from core.field_permissions import FieldPermissions
+from core.field_permissions2 import FieldPermissions2
 from core.permission_util import PermissionUtil
 from core.tests.utils.seed_constants import garry_name
 from core.tests.utils.seed_constants import patti_name
@@ -49,12 +50,14 @@ class TestPatchUser:
     # the tests would interfere with each other
     def setup_method(self):
         FieldPermissions.derive_cru_fields()
+        FieldPermissions2.derive_cru_fields()
 
     # Some tests change FieldPermission attribute values.
     # derive_cru resets the values after each test
     # Redundant with setup_method, but good practice
     def teardown_method(self):
         FieldPermissions.derive_cru_fields()
+        FieldPermissions2.derive_cru_fields()
 
     def test_admin_patch_request_succeeds(self):
         requester = SeedUser.get_user(garry_name)

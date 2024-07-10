@@ -32,18 +32,28 @@ def _get_fields_with_priv(field_permissions, cru_permission):
     return ret_array
 
 
-class FieldPermissions:
-    fields_list = {
-        "me": {"R": {}, "U": {}},
-        "self-register": {"C": {}},
-        "eligible_users": {"R": {}},
-        "user": {
-            project_lead: {"C": {}, "R": {}, "U": {}},
-            project_member: {"C": {}, "R": {}, "U": {}},
-            practice_area_admin: {"C": {}, "R": {}, "U": {}},
-            global_admin: {"C": {}, "R": {}, "U": {}},
-        },
+class FieldPermissions2:
+    user_read_fields = {
+        project_lead: [],
+        project_member: [],
+        practice_area_admin: [],
+        global_admin: [],
     }
+    user_patch_fields = {
+        project_lead: [],
+        project_member: [],
+        practice_area_admin: [],
+        global_admin: [],
+    }
+    user_post_fields = {
+        project_lead: [],
+        project_member: [],
+        practice_area_admin: [],
+        global_admin: [],
+    }
+    me_endpoint_read_fields = []
+    me_endpoint_patch_fields = []
+    self_register_fields = []
 
     # *************************************************************
     # See pydoc at top of file for description of these variables *
@@ -51,27 +61,24 @@ class FieldPermissions:
 
     @classmethod
     def derive_cru_fields(cls):
-        """Derives module variables that are used for defining which fields can be created, read, or updated.
-
-        Called when this module is initially imported.  This function is also called by tests to reset these values.
-        """
-        cls.fields_list["me"]["R"] = _get_fields_with_priv(me_endpoint_permissions, "R")
-        cls.fields_list["me", "U"] = _get_fields_with_priv(me_endpoint_permissions, "R")
-
-        cls.fields_list["self-register"]["C"] = self_register_fields
-
-        for letter in ["C", "R", "U"]:
-            for permission_type in [
-                project_lead,
-                project_member,
-                practice_area_admin,
-                global_admin,
-            ]:
-                cls.fields_list["user"][permission_type][letter] = (
-                    _get_fields_with_priv(
-                        user_field_permissions[permission_type], letter
-                    )
-                )
+        cls.me_read_fields = _get_fields_with_priv(me_endpoint_permissions, "R")
+        cls.me_patch_fields = _get_fields_with_priv(me_endpoint_permissions, "R")
+        cls.self_register_fields = self_register_fields
+        for permission_type in [
+            project_lead,
+            project_member,
+            practice_area_admin,
+            global_admin,
+        ]:
+            cls.user_read_fields[permission_type] = _get_fields_with_priv(
+                user_field_permissions[permission_type], "R"
+            )
+            cls.user_patch_fields[permission_type] = _get_fields_with_priv(
+                user_field_permissions[permission_type], "U"
+            )
+            cls.user_post_fields[permission_type] = _get_fields_with_priv(
+                user_field_permissions[permission_type], "C"
+            )
 
 
-FieldPermissions.derive_cru_fields()
+FieldPermissions2.derive_cru_fields()
