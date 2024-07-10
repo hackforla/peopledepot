@@ -132,8 +132,26 @@ class TestPostUser:
         See documentation for test_allowable_patch_fields_configurable for more information.
         """
 
+        FieldPermissions2.user_post_fields[global_admin] = [
+            "username",
+            "first_name",
+            "gmail",
+            "time_zone",
+            "password",
+            "created_at",
+        ]
+
         requester = SeedUser.get_user(garry_name)  # project lead for website
-        FieldPermissions.fields_list["user"][project_lead]["U"] = ["gmail"]
-        update_data = {"last_name": "Smith"}
-        response = post_request_to_viewset(requester, update_data)
+
+        post_data = {
+            "username": "foo",
+            "last_name": "Smith",
+            "gmail": "smith@example.com",
+            "time_zone": "America/Los_Angeles",
+            "password": "password",
+            "first_name": "John",
+            "created_at": "2022-01-01T00:00:00Z",
+        }
+        response = post_request_to_viewset(requester, post_data)
+
         assert response.status_code == status.HTTP_400_BAD_REQUEST

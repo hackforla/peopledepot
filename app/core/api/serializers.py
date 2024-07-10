@@ -2,6 +2,7 @@ from rest_framework import serializers
 from timezone_field.rest_framework import TimeZoneSerializerField
 
 from core.field_permissions import FieldPermissions
+from core.field_permissions2 import FieldPermissions2
 from core.models import Affiliate
 from core.models import Affiliation
 from core.models import Event
@@ -140,15 +141,8 @@ class UserSerializer(serializers.ModelSerializer):
             raise PermissionError("You do not have permission to view this user")
 
         new_representation = {}
-        print("Debug 1", FieldPermissions.fields_list["user"])
-        print("Debug 2", FieldPermissions.fields_list["user"][highest_ranked_name])
-        print("Debug 3", FieldPermissions.fields_list["user"][highest_ranked_name]["R"])
-        for field_name in FieldPermissions.fields_list["user"][highest_ranked_name][
-            "R"
-        ]:
-            print("Debug 4", field_name)
+        for field_name in FieldPermissions2.user_read_fields[highest_ranked_name]:
             new_representation[field_name] = representation[field_name]
-        print("Debug 5")
         return new_representation
 
 

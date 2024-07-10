@@ -129,8 +129,6 @@ class PermissionUtil:
         )
         if lowest_ranked_name == "":
             raise PermissionError("You do not have permission to patch this user")
-        valid_fields = FieldPermissions.fields_list["user"][lowest_ranked_name]["U"]
-        print("debug xxxx", FieldPermissions2.user_patch_fields[lowest_ranked_name])
         valid_fields = FieldPermissions2.user_patch_fields[lowest_ranked_name]
         if len(valid_fields) == 0:
             raise PermissionError("You do not have permission to patch this user")
