@@ -32,7 +32,7 @@ def _get_fields_with_priv(field_permissions, cru_permission):
     return ret_array
 
 
-class FieldPermissions2:
+class FIeldPermissions:
     user_read_fields = {
         project_lead: [],
         project_member: [],
@@ -85,4 +85,4 @@ class FieldPermissions2:
             )
 
 
-FieldPermissions2.derive_cru_fields()
+FIeldPermissions.derive_cru_fields()

@@ -8,7 +8,7 @@ from rest_framework.test import force_authenticate
 
 from constants import global_admin
 from core.api.views import UserViewSet
-from core.field_permissions import FieldPermissions2
+from core.field_permissions import FIeldPermissions
 from core.permission_util import PermissionUtil
 from core.tests.utils.seed_constants import garry_name
 from core.tests.utils.seed_constants import wanda_name
@@ -32,10 +32,10 @@ def post_request_to_viewset(requester, create_data):
 @pytest.mark.django_db
 class TestPostUser:
     def setup_method(self):
-        FieldPermissions2.derive_cru_fields()
+        FIeldPermissions.derive_cru_fields()
 
     def teardown_method(self):
-        FieldPermissions2.derive_cru_fields()
+        FIeldPermissions.derive_cru_fields()
 
     def test_admin_post_request_succeeds(self):  #
         requester = SeedUser.get_user(garry_name)
@@ -90,7 +90,7 @@ class TestPostUser:
         server can be set to test values.
         """
 
-        FieldPermissions2.user_post_fields[global_admin] = [
+        FIeldPermissions.user_post_fields[global_admin] = [
             "username",
             "first_name",
             "last_name",
@@ -121,7 +121,7 @@ class TestPostUser:
         See documentation for test_allowable_patch_fields_configurable for more information.
         """
 
-        FieldPermissions2.user_post_fields[global_admin] = [
+        FIeldPermissions.user_post_fields[global_admin] = [
             "username",
             "first_name",
             "gmail",

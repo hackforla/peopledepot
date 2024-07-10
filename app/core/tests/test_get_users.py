@@ -20,7 +20,7 @@ from rest_framework.test import APIClient
 from constants import global_admin
 from constants import project_lead
 from constants import project_member
-from core.field_permissions import FieldPermissions2
+from core.field_permissions import FIeldPermissions
 from core.permission_util import PermissionUtil
 from core.tests.utils.seed_constants import garry_name
 from core.tests.utils.seed_constants import patrick_name
@@ -102,7 +102,7 @@ class TestGetUser:
         assert fields_match_for_get_user(
             wanda_name,
             response.json(),
-            FieldPermissions2.user_read_fields[project_lead],
+            FIeldPermissions.user_read_fields[project_lead],
         )
 
     def test_get_url_results_for_multi_project_requester_when_project_member(self):
@@ -116,7 +116,7 @@ class TestGetUser:
         assert fields_match_for_get_user(
             SeedUser.get_user(patrick_name).first_name,
             response.json(),
-            FieldPermissions2.user_read_fields[project_member],
+            FIeldPermissions.user_read_fields[project_member],
         )
 
     def test_get_url_results_for_project_admin(self):
@@ -128,7 +128,7 @@ class TestGetUser:
         assert fields_match_for_get_user(
             SeedUser.get_user(winona_name).first_name,
             response.json(),
-            FieldPermissions2.user_read_fields[global_admin],
+            FIeldPermissions.user_read_fields[global_admin],
         )
 
     def test_get_results_for_users_on_same_teamp(self):
@@ -140,12 +140,12 @@ class TestGetUser:
         assert fields_match_for_get_user(
             SeedUser.get_user(winona_name).first_name,
             response.json(),
-            FieldPermissions2.user_read_fields[project_member],
+            FIeldPermissions.user_read_fields[project_member],
         )
         assert fields_match_for_get_user(
             SeedUser.get_user(wanda_name).first_name,
             response.json(),
-            FieldPermissions2.user_read_fields[project_member],
+            FIeldPermissions.user_read_fields[project_member],
         )
         assert len(response.json()) == count_website_members
 
