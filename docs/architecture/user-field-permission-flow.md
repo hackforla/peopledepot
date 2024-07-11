@@ -61,12 +61,11 @@ The following API endpoints retrieve users:
 
 - /user
     - response fields: for all methods are determined by to_representation method in
-        UserSerializer in serializers.py.
+        UserSerializer in serializers.py.  The method calls PermissionUtil.get_lowest_ranked_permission_type
     - read
         - /user fetches rows using the get_queryset method in the UserViewSet from views.py.
         - /user/<uuid> fetches a specific user.  If a requester tries to fetch a user outside
-            their permissions, the to_representation method of UserSerializer will determine there
-            are no eligible response fields and will throw an error.
+            their permissions, the to_representation method of UserSerializer will determine there are no eligible response fields and will throw an error.
         - see first bullet for response fields returned.
     - patch (update): field permission logic for request fields is controlled by
         partial_update method in UserViewset.  See first bullet for response fields returned.

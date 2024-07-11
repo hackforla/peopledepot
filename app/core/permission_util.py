@@ -158,3 +158,25 @@ class PermissionUtil:
             raise ValidationError(
                 f"Invalid fields: {invalid_fields}.   Valid fields are {valid_fields}."
             )
+
+    @staticmethod
+    def get_user_read_fields(requesting_user, target_user):
+        """Get the fields that the requesting user has permission to view for the target user.
+
+        Args:
+            requesting_user (_type_): _description_
+            target_user (_type_): _description_
+
+        Raises:
+            PermissionError if the requesting user does not have permission to view any
+            fields for the target user.
+
+        Returns:
+            [User]: List of fields that the requesting user has permission to view for the target user.
+        """
+        highest_ranked_name = PermissionUtil.get_lowest_ranked_permission_type(
+            requesting_user, target_user
+        )
+        if highest_ranked_name == "":
+            raise PermissionError("You do not have permission to view this user")
+        return FieldPermissions.user_read_fields[highest_ranked_name]

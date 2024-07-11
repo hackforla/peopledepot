@@ -108,13 +108,6 @@ class UserSerializer(serializers.ModelSerializer):
         # if fields is removed, syntax checker will complain
         fields = "__all__"
 
-    @staticmethod
-    def _get_read_fields(__cls__, requesting_user: User, target_user: User):
-        highest_ranked_name = UserSerializer._get_highest_ranked_permission_type(
-            requesting_user, target_user
-        )
-        return FieldPermissions.user_read_fields[highest_ranked_name]
-
     def to_representation(self, response_user):
         """Determine which fields are included in a response based on
         the requesting user's permissions
@@ -133,14 +126,10 @@ class UserSerializer(serializers.ModelSerializer):
         requesting_user: User = request.user
         target_user: User = response_user
 
-        highest_ranked_name = PermissionUtil.get_lowest_ranked_permission_type(
-            requesting_user, target_user
-        )
-        if highest_ranked_name == "":
-            raise PermissionError("You do not have permission to view this user")
-
         new_representation = {}
-        for field_name in FieldPermissions.user_read_fields[highest_ranked_name]:
+        for field_name in PermissionUtil.get_user_read_fields(
+            requesting_user, target_user
+        ):
             new_representation[field_name] = representation[field_name]
         return new_representation
 
