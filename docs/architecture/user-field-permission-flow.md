@@ -59,13 +59,16 @@ The following API endpoints retrieve users:
 
 ### Technical implementation
 
+#### End Point Technical Implementation
+
 - /user
     - response fields: for all methods are determined by to_representation method in
-        UserSerializer in serializers.py.  The method calls PermissionUtil.get_lowest_ranked_permission_type
+        UserSerializer in serializers.py.  The to_representation method calls PermissionUtil.
+        get_user_read_fields in permission_util.py.
     - read
         - /user fetches rows using the get_queryset method in the UserViewSet from views.py.
         - /user/<uuid> fetches a specific user.  If a requester tries to fetch a user outside
-            their permissions, the to_representation method of UserSerializer will determine there are no eligible response fields and will throw an error.
+            their permissions, the PermissionUtil.get_user_read_fields will to_representation method of UserSerializer will determine there are no eligible response fields and will throw an error.
         - see first bullet for response fields returned.
     - patch (update): field permission logic for request fields is controlled by
         partial_update method in UserViewset.  See first bullet for response fields returned.
@@ -85,21 +88,10 @@ The following API endpoints retrieve users:
     - post (create): field permission logic for allowable request fields is
         controlled by the create method in SelfRegisterViewSet.
 
-### Field Level Permissions
+#### Supporting Files
 
-If a user has create, read, or update privileges for a user row, the specific fields
-that can be updated are configured through the
+##### See [permission_util.html](./core.permission_util.html)
 
-### users end point
-
-This section covers security when creating, reading, or updating a user row using the api/v1/susers endpoint.  If reading or updating yourself you will have either more or the same privileges using the api/v1/me endpoint.  If you are creating an account for yourself when none existed, see the api/v1/self-register endpoint.
-
-#### Read and Update
-
-For the api/v1/users end point, the fields a requester can read or update of a target user
-(if any) are based on the following factors
-
-- if the requester is a global admin, then the requester can read and update any user row.\
-    The specific fields tht are readable or updateable are configured in the file
+##### See [permission_fields.py](./core.field_permissions.html)
 
 [base-field-permissions-reference]: ../../app/core/base_user_cru_constants.py
