@@ -16,6 +16,7 @@ from core.models import Skill
 from core.models import StackElementType
 from core.models import Technology
 from core.models import User
+from core.models import UserPermissions
 
 
 class PracticeAreaSerializer(serializers.ModelSerializer):
@@ -34,6 +35,22 @@ class PracticeAreaSerializer(serializers.ModelSerializer):
             "uuid",
             "created_at",
             "updated_at",
+        )
+
+
+class UserPermissionsSerializer(serializers.ModelSerializer):
+    """Used to retrieve user permissions"""
+
+    class Meta:
+        model = UserPermissions
+        fields = (
+            "uuid",
+            "created_at",
+            "updated_at",
+            "user",
+            "permission_type",
+            "project",
+            "practice_area",
         )
 
 
