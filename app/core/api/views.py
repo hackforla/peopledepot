@@ -1,4 +1,3 @@
-from django.contrib.auth import get_user_model
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import OpenApiExample
 from drf_spectacular.utils import OpenApiParameter
@@ -10,6 +9,8 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
+
+from core.permission_util import PermissionUtil
 
 from ..models import Affiliate
 from ..models import Affiliation
@@ -34,6 +35,7 @@ from .serializers import FaqViewedSerializer
 from .serializers import LocationSerializer
 from .serializers import PermissionTypeSerializer
 from .serializers import PracticeAreaSerializer
+from .serializers import ProfileSerializer
 from .serializers import ProgramAreaSerializer
 from .serializers import ProjectSerializer
 from .serializers import SdgSerializer
@@ -44,9 +46,19 @@ from .serializers import UserPermissionsSerializer
 from .serializers import UserSerializer
 
 
-class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
-    serializer_class = UserSerializer
+@extend_schema_view(
+    list=extend_schema(
+        summary="Your Profile",
+        description="Return your profile information",
+        parameters=[],
+    ),
+    retrieve=extend_schema(description="Fetch your user profile"),
+    partial_update=extend_schema(description="Update your profile"),
+)
+class UserProfileViewSet(RetrieveModelMixin, GenericAPIView):
+    serializer_class = ProfileSerializer
     permission_classes = [IsAuthenticated]
+    http_method_names = ["get", "partial_update"]
 
     def get_object(self):
         return self.request.user
@@ -96,9 +108,8 @@ class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
     ),
     create=extend_schema(description="Create a new user"),
     retrieve=extend_schema(description="Return the given user"),
-    destroy=extend_schema(description="Delete the given user"),
     update=extend_schema(description="Update the given user"),
-    partial_update=extend_schema(description="Partially update the given user"),
+    partial_update=extend_schema(description="Update the given user"),
 )
 class UserViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
@@ -109,7 +120,8 @@ class UserViewSet(viewsets.ModelViewSet):
         """
         Optionally filter users by an 'email' and/or 'username' query paramerter in the URL
         """
-        queryset = get_user_model().objects.all()
+        queryset = PermissionUtil.get_user_queryset(self.request)
+
         email = self.request.query_params.get("email")
         if email is not None:
             queryset = queryset.filter(email=email)
@@ -117,6 +129,28 @@ class UserViewSet(viewsets.ModelViewSet):
         if username is not None:
             queryset = queryset.filter(username=username)
         return queryset
+
+    def create(self, request, *args, **kwargs):
+        # Get the parameters for the update
+        new_user_data = request.data
+        if "time_zone" not in new_user_data:
+            new_user_data["time_zone"] = "America/Los_Angeles"
+
+        # Log or print the instance and update_data for debugging
+        PermissionUtil.validate_fields_postable(request.user, new_user_data)
+        response = super().create(request, *args, **kwargs)
+        return response
+
+    def partial_update(self, request, *args, **kwargs):
+        instance = self.get_object()
+
+        # Get the parameters for the update
+        update_data = request.data
+
+        # Log or print the instance and update_data for debugging
+        PermissionUtil.validate_fields_patchable(request.user, instance, update_data)
+        response = super().partial_update(request, *args, **kwargs)
+        return response
 
 
 @extend_schema_view(
@@ -202,7 +236,7 @@ class AffiliateViewSet(viewsets.ModelViewSet):
     retrieve=extend_schema(description="Return the given FAQ"),
     destroy=extend_schema(description="Delete the given FAQ"),
     update=extend_schema(description="Update the given FAQ"),
-    partial_update=extend_schema(description="Partially update the given FAQ"),
+    partial_update=extend_schema(description="Partially patch the given FAQ"),
 )
 class FaqViewSet(viewsets.ModelViewSet):
     queryset = Faq.objects.all()

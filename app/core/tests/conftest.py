@@ -1,4 +1,5 @@
 import pytest
+from django.core.management import call_command
 from rest_framework.test import APIClient
 
 from ..models import Affiliate
@@ -27,6 +28,13 @@ def created_user_admin():
         password="adminuser",
         is_superuser=True,
     )
+
+
+@pytest.fixture(scope="session")
+def django_db_setup(django_db_setup, django_db_blocker):
+    with django_db_blocker.unblock():
+        call_command("load_command")
+    return None
 
 
 @pytest.fixture
@@ -184,13 +192,8 @@ def technology():
 
 @pytest.fixture
 def permission_type1():
-    return PermissionType.objects.create(name="Test Permission Type", description="")
-
-
-@pytest.fixture
-def permission_type2():
     return PermissionType.objects.create(
-        name="Test Permission Type", description="A permission type description"
+        name="Test Permission Type", description="", rank=1000
     )
 
 
