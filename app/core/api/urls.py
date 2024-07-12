@@ -16,7 +16,7 @@ from .views import SkillViewSet
 from .views import StackElementTypeViewSet
 from .views import TechnologyViewSet
 from .views import UserPermissionsViewSet
-from .views import UserProfileViewSet
+from .views import UserProfileAPIView
 from .views import UserViewSet
 
 router = routers.SimpleRouter()
@@ -45,7 +45,7 @@ router.register(
     basename="affiliation",
 )
 urlpatterns = [
-    path("me/", UserProfileViewSet.as_view(), name="my_profile"),
+    path("me/", UserProfileAPIView.as_view(), name="my_profile"),
 ]
 
 urlpatterns += router.urls

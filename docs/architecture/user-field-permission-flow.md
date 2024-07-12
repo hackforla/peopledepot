@@ -78,14 +78,14 @@ The following API endpoints retrieve users:
 - /me
     - read: fields fetched are determined by to_representation method in UserProfileSerializer
     - patch (update): field permission logic for request fields is controlled by
-        partial_update method in UserProfileViewSet.
+        partial_update method in UserProfileAPIView.
     - post (create): not applicable.  Prevented by setting http_method_names in
-        UserProfileViewSet to \["patch", "get"\]
+        UserProfileAPIView to \["patch", "get"\]
 - /self-register (not implemented as of July 9, 2024):
     - read: N/A.  Prevented by setting http_method_names in
-        UserProfileViewSet to \["patch", "get"\]
+        UserProfileAPIView to \["patch", "get"\]
     - patch (update): N/A.  Prevented by setting http_method_names in
-        UserProfileViewSet to \["patch", "get"\]
+        UserProfileAPIView to \["patch", "get"\]
     - post (create): field permission logic for allowable request fields is
         controlled by the create method in SelfRegisterViewSet.
 

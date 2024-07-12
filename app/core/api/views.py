@@ -55,7 +55,7 @@ from .serializers import UserSerializer
     retrieve=extend_schema(description="Fetch your user profile"),
     partial_update=extend_schema(description="Update your profile"),
 )
-class UserProfileViewSet(RetrieveModelMixin, GenericAPIView):
+class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
     serializer_class = ProfileSerializer
     permission_classes = [IsAuthenticated]
     http_method_names = ["get", "partial_update"]
