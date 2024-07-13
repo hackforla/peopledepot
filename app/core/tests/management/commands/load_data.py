@@ -48,74 +48,39 @@ class LoadData:
 
         related_data = [
             {
-                "first_name": SeedUser.get_user(wanda_project_lead).first_name,
+                "first_name": wanda_project_lead,
                 "project_name": website_project_name,
                 "permission_type_name": project_lead,
             },
             {
-                "first_name": SeedUser.get_user(wally_name).first_name,
+                "first_name": wally_name,
                 "project_name": website_project_name,
                 "permission_type_name": project_member,
             },
             {
-                "first_name": SeedUser.get_user(winona_name).first_name,
+                "first_name": winona_name,
                 "project_name": website_project_name,
                 "permission_type_name": project_member,
             },
             {
-                "first_name": SeedUser.get_user(zani_name).first_name,
+                "first_name": patti_name,
                 "project_name": people_depot_project,
                 "permission_type_name": project_member,
             },
             {
-                "first_name": SeedUser.get_user(patti_name).first_name,
-                "project_name": people_depot_project,
-                "permission_type_name": project_member,
-            },
-            {
-                "first_name": SeedUser.get_user(patrick_project_lead).first_name,
+                "first_name": patrick_project_lead,
                 "project_name": people_depot_project,
                 "permission_type_name": project_lead,
             },
             {
-                "first_name": SeedUser.get_user(zani_name).first_name,
-                "project_name": website_project_name,
-                "permission_type_name": project_lead,
-            },
-            {
-                "first_name": SeedUser.get_user(wanda_project_lead).first_name,
-                "project_name": website_project_name,
-                "permission_type_name": project_lead,
-            },
-            {
-                "first_name": SeedUser.get_user(wally_name).first_name,
-                "project_name": website_project_name,
-                "permission_type_name": project_member,
-            },
-            {
-                "first_name": SeedUser.get_user(winona_name).first_name,
-                "project_name": website_project_name,
-                "permission_type_name": project_member,
-            },
-            {
-                "first_name": SeedUser.get_user(zani_name).first_name,
-                "project_name": people_depot_project,
-                "permission_type_name": project_member,
-            },
-            {
-                "first_name": SeedUser.get_user(patti_name).first_name,
-                "project_name": people_depot_project,
-                "permission_type_name": project_member,
-            },
-            {
-                "first_name": SeedUser.get_user(patrick_project_lead).first_name,
+                "first_name": zani_name,
                 "project_name": people_depot_project,
                 "permission_type_name": project_lead,
             },
             {
-                "first_name": SeedUser.get_user(zani_name).first_name,
+                "first_name": zani_name,
                 "project_name": website_project_name,
-                "permission_type_name": project_lead,
+                "permission_type_name": project_member,
             },
         ]
 

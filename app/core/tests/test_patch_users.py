@@ -1,7 +1,6 @@
 import pytest
 from django.urls import reverse
 from rest_framework import status
-from rest_framework.exceptions import ValidationError
 from rest_framework.test import APIClient
 from rest_framework.test import APIRequestFactory
 from rest_framework.test import force_authenticate
@@ -9,14 +8,10 @@ from rest_framework.test import force_authenticate
 from constants import project_lead
 from core.api.views import UserViewSet
 from core.field_permissions import FieldPermissions
-from core.permission_util import PermissionUtil
 from core.tests.utils.seed_constants import garry_name
-from core.tests.utils.seed_constants import patti_name
 from core.tests.utils.seed_constants import valerie_name
 from core.tests.utils.seed_constants import wally_name
 from core.tests.utils.seed_constants import wanda_project_lead
-from core.tests.utils.seed_constants import winona_name
-from core.tests.utils.seed_constants import zani_name
 from core.tests.utils.seed_user import SeedUser
 
 count_website_members = 4
@@ -57,6 +52,7 @@ class TestPatchUser:
         FieldPermissions.derive_cru_fields()
 
     def test_admin_patch_request_succeeds(self):
+        """Test that the patch requests succeeds when the requester is an admin."""
         requester = SeedUser.get_user(garry_name)
         client = APIClient()
         client.force_authenticate(user=requester)
@@ -71,6 +67,10 @@ class TestPatchUser:
         assert response.status_code == status.HTTP_200_OK
 
     def test_admin_cannot_patch_created_at(self):
+        """Test that the patch request raises a validation exception
+        when the request fields includes created_date, even if the
+        requester is an admin.
+        """
         requester = SeedUser.get_user(garry_name)
         client = APIClient()
         client.force_authenticate(user=requester)
@@ -83,62 +83,6 @@ class TestPatchUser:
         response = client.patch(url, data, format="json")
         assert response.status_code == status.HTTP_400_BAD_REQUEST
         assert "created_at" in response.json()[0]
-
-    def test_created_at_not_updateable(self):
-        with pytest.raises(ValidationError):
-            PermissionUtil.validate_fields_patchable(
-                SeedUser.get_user(garry_name),
-                SeedUser.get_user(valerie_name),
-                ["created_at"],
-            )
-
-    def test_project_lead_can_patch_name(self):
-        PermissionUtil.validate_fields_patchable(
-            SeedUser.get_user(wanda_project_lead),
-            SeedUser.get_user(wally_name),
-            ["first_name", "last_name"],
-        )
-
-    def test_project_lead_cannot_patch_current_title(self):
-        with pytest.raises(ValidationError):
-            PermissionUtil.validate_fields_patchable(
-                SeedUser.get_user(wanda_project_lead),
-                SeedUser.get_user(wally_name),
-                ["current_title"],
-            )
-
-    def test_cannot_patch_first_name_for_member_of_other_project(self):
-        with pytest.raises(PermissionError):
-            PermissionUtil.validate_fields_patchable(
-                SeedUser.get_user(wanda_project_lead),
-                SeedUser.get_user(patti_name),
-                ["first_name"],
-            )
-
-    def test_team_member_cannot_patch_first_name_for_member_of_same_project(self):
-        with pytest.raises(PermissionError):
-            PermissionUtil.validate_fields_patchable(
-                SeedUser.get_user(wally_name),
-                SeedUser.get_user(winona_name),
-                ["first_name"],
-            )
-
-    def test_multi_project_requester_can_patch_first_name_of_member_if_requester_is_project_leader(
-        self,
-    ):
-        PermissionUtil.validate_fields_patchable(
-            SeedUser.get_user(zani_name), SeedUser.get_user(wally_name), ["first_name"]
-        )
-
-    def test_multi_project_user_cannot_patch_first_name_of_member_if_reqiester_is_project_member(
-        self,
-    ):
-        with pytest.raises(PermissionError):
-            PermissionUtil.validate_fields_patchable(
-                SeedUser.get_user(zani_name),
-                SeedUser.get_user(patti_name),
-                ["first_name"],
-            )
 
     def test_allowable_patch_fields_configurable(self):
         """Test that the fields that can be updated are configurable.

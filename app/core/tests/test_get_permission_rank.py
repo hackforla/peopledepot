@@ -9,11 +9,13 @@ from core.models import UserPermissions
 from core.permission_util import PermissionUtil
 from core.tests.utils.seed_constants import garry_name
 from core.tests.utils.seed_constants import patrick_project_lead
+from core.tests.utils.seed_constants import patti_name
 from core.tests.utils.seed_constants import valerie_name
 from core.tests.utils.seed_constants import wally_name
 from core.tests.utils.seed_constants import wanda_project_lead
 from core.tests.utils.seed_constants import website_project_name
 from core.tests.utils.seed_constants import winona_name
+from core.tests.utils.seed_constants import zani_name
 from core.tests.utils.seed_user import SeedUser
 
 
@@ -49,26 +51,30 @@ class TestGetLowestRankedPermissionType:
         )
         # Test
         rank = _get_lowest_ranked_permission_type(garry_name, valerie_name)
-        assert rank == global_admin  # noqa W503
+        assert rank == global_admin
 
     def test_team_member_lowest_rank_for_two_team_members(self):
         """Test that lowest rank for Wally relative tp Wanda, a project lead,
         or Winona, a team member, is project_member
         """
         rank = _get_lowest_ranked_permission_type(wally_name, winona_name)
-        assert rank == project_member  # noqa W503
+        assert rank == project_member
 
         rank = _get_lowest_ranked_permission_type(wally_name, wanda_project_lead)
-        assert rank == project_member  # noqa W503
+        assert rank == project_member
 
     def test_lowest_rank_blank_of_two_non_team_member(self):
-        """Test that lowest rank is blank for two non-team members."""
+        """Test that lowest rank is blank for Wally relative to Patrick,
+        who are team members on different projects, is blank."""
         rank = _get_lowest_ranked_permission_type(wally_name, patrick_project_lead)
-        assert rank == ""  # noqa W503
+        assert rank == ""
 
     def test_team_member_lowest_rank_for_multiple_user_permissions(self):
-        rank = _get_lowest_ranked_permission_type(wally_name, winona_name)
-        assert rank == project_member  # noqa W503
+        """Test that lowest rank for Zani, a team member on Winona's project, is team member
+        and lowest rank for Zani, a project lead on Patti's project, is project lead
+        """
+        rank = _get_lowest_ranked_permission_type(zani_name, winona_name)
+        assert rank == project_member
 
-        rank = _get_lowest_ranked_permission_type(wally_name, wanda_project_lead)
-        assert rank == project_member  # noqa W503
+        rank = _get_lowest_ranked_permission_type(zani_name, patti_name)
+        assert rank == project_lead
