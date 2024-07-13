@@ -1,18 +1,3 @@
-# Change fields that can be viewed in code to what Bonnie specified
-# Add patch api test
-# Write API to get token
-# Create a demo script for adding users with password of Hello2024.
-# Create a shell script for doing a get
-# Create a shell script for doing a patch
-# Change fields that can be viewed in my wiki to what Bonnie specified
-# Add more tests for update
-# Add print statements to explain what is being tested
-# Add tests for the patch API
-# Add tests for and implement put (disallow), post, and delete API
-# patch my Wiki for put, patch, post, delete
-# Add proposals:
-#   - use flag instead of role for admin and verified
-# . -
 import pytest
 from django.urls import reverse
 from rest_framework.test import APIClient
