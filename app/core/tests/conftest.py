@@ -2,6 +2,8 @@ import pytest
 from django.core.management import call_command
 from rest_framework.test import APIClient
 
+from peopledepot import settings
+
 from ..models import Affiliate
 from ..models import Affiliation
 from ..models import Event
@@ -32,8 +34,11 @@ def created_user_admin():
 
 @pytest.fixture(scope="session")
 def django_db_setup(django_db_setup, django_db_blocker):
+    if "tests" not in settings.INSTALLED_APPS:
+        settings.INSTALLED_APPS.append("tests")
+
     with django_db_blocker.unblock():
-        call_command("load_command")
+        call_command("load_data")
     return None
 
 

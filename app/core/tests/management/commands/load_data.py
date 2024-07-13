@@ -1,6 +1,7 @@
 import copy
 
 from django.contrib.auth import get_user_model
+from django.core.management.base import BaseCommand
 
 from constants import project_lead
 from constants import project_member
@@ -130,3 +131,9 @@ class LoadData:
             cls.load_data()
         else:
             print("Data already loaded")
+
+
+class Command(BaseCommand):
+    def handle(self, *args, **kwargs):
+        LoadData.initialize_data()
+        self.stdout.write(self.style.SUCCESS("Data initialized successfully"))
