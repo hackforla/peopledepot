@@ -13,7 +13,7 @@ from core.tests.utils.seed_constants import people_depot_project
 from core.tests.utils.seed_constants import valerie_name
 from core.tests.utils.seed_constants import wally_name
 from core.tests.utils.seed_constants import wanda_project_lead
-from core.tests.utils.seed_constants import website_project
+from core.tests.utils.seed_constants import website_project_name
 from core.tests.utils.seed_constants import winona_name
 from core.tests.utils.seed_constants import zani_name
 from core.tests.utils.seed_user import SeedUser
@@ -26,7 +26,7 @@ class LoadData:
 
     @classmethod
     def load_data(cls):
-        projects = [website_project, people_depot_project]
+        projects = [website_project_name, people_depot_project]
         for project_name in projects:
             project = Project.objects.create(name=project_name)
             project.save()
@@ -49,17 +49,17 @@ class LoadData:
         related_data = [
             {
                 "first_name": SeedUser.get_user(wanda_project_lead).first_name,
-                "project_name": website_project,
+                "project_name": website_project_name,
                 "permission_type_name": project_lead,
             },
             {
                 "first_name": SeedUser.get_user(wally_name).first_name,
-                "project_name": website_project,
+                "project_name": website_project_name,
                 "permission_type_name": project_member,
             },
             {
                 "first_name": SeedUser.get_user(winona_name).first_name,
-                "project_name": website_project,
+                "project_name": website_project_name,
                 "permission_type_name": project_member,
             },
             {
@@ -79,22 +79,22 @@ class LoadData:
             },
             {
                 "first_name": SeedUser.get_user(zani_name).first_name,
-                "project_name": website_project,
+                "project_name": website_project_name,
                 "permission_type_name": project_lead,
             },
             {
                 "first_name": SeedUser.get_user(wanda_project_lead).first_name,
-                "project_name": website_project,
+                "project_name": website_project_name,
                 "permission_type_name": project_lead,
             },
             {
                 "first_name": SeedUser.get_user(wally_name).first_name,
-                "project_name": website_project,
+                "project_name": website_project_name,
                 "permission_type_name": project_member,
             },
             {
                 "first_name": SeedUser.get_user(winona_name).first_name,
-                "project_name": website_project,
+                "project_name": website_project_name,
                 "permission_type_name": project_member,
             },
             {
@@ -114,7 +114,7 @@ class LoadData:
             },
             {
                 "first_name": SeedUser.get_user(zani_name).first_name,
-                "project_name": website_project,
+                "project_name": website_project_name,
                 "permission_type_name": project_lead,
             },
         ]
