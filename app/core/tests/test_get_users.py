@@ -23,10 +23,10 @@ from constants import project_member
 from core.field_permissions import FieldPermissions
 from core.permission_util import PermissionUtil
 from core.tests.utils.seed_constants import garry_name
-from core.tests.utils.seed_constants import patrick_name
+from core.tests.utils.seed_constants import patrick_project_lead
 from core.tests.utils.seed_constants import valerie_name
 from core.tests.utils.seed_constants import wally_name
-from core.tests.utils.seed_constants import wanda_name
+from core.tests.utils.seed_constants import wanda_project_lead
 from core.tests.utils.seed_constants import winona_name
 from core.tests.utils.seed_constants import zani_name
 from core.tests.utils.seed_user import SeedUser
@@ -51,7 +51,7 @@ class TestGetUser:
         assert PermissionUtil.is_admin(SeedUser.get_user(garry_name))
 
     def test_non_global_admin_user_is_not_admin(self):
-        assert not PermissionUtil.is_admin(SeedUser.get_user(wanda_name))
+        assert not PermissionUtil.is_admin(SeedUser.get_user(wanda_project_lead))
 
     def test_admin_highest_for_admin(self):
         assert (
@@ -70,7 +70,7 @@ class TestGetUser:
         )
         assert (
             PermissionUtil.get_lowest_ranked_permission_type(
-                SeedUser.get_user(wally_name), SeedUser.get_user(wanda_name)
+                SeedUser.get_user(wally_name), SeedUser.get_user(wanda_project_lead)
             )
             == project_member  # noqa W503
         )
@@ -86,7 +86,7 @@ class TestGetUser:
     def test_team_member_cannot_read_ields_of_other_team(self):
         assert (
             not PermissionUtil.get_lowest_ranked_permission_type(
-                SeedUser.get_user(wally_name), SeedUser.get_user(wanda_name)
+                SeedUser.get_user(wally_name), SeedUser.get_user(wanda_project_lead)
             )
             == ""  # noqa W503
         )
@@ -100,7 +100,7 @@ class TestGetUser:
         # assert fields for zani, who is a project lead on same team as wanda,
         # match project_lead fields
         assert fields_match_for_get_user(
-            wanda_name,
+            wanda_project_lead,
             response.json(),
             FieldPermissions.user_read_fields[project_lead],
         )
@@ -114,14 +114,14 @@ class TestGetUser:
         # assert fields for zani, who is a project member on same team as wanda,
         # match project_member fields
         assert fields_match_for_get_user(
-            SeedUser.get_user(patrick_name).first_name,
+            SeedUser.get_user(patrick_project_lead).first_name,
             response.json(),
             FieldPermissions.user_read_fields[project_member],
         )
 
     def test_get_url_results_for_project_admin(self):
         client = APIClient()
-        client.force_authenticate(user=SeedUser.get_user(wanda_name))
+        client.force_authenticate(user=SeedUser.get_user(wanda_project_lead))
         response = client.get(_user_get_url)
         assert response.status_code == 200
         assert len(response.json()) == count_website_members
@@ -143,7 +143,7 @@ class TestGetUser:
             FieldPermissions.user_read_fields[project_member],
         )
         assert fields_match_for_get_user(
-            SeedUser.get_user(wanda_name).first_name,
+            SeedUser.get_user(wanda_project_lead).first_name,
             response.json(),
             FieldPermissions.user_read_fields[project_member],
         )

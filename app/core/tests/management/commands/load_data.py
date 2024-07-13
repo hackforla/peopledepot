@@ -7,12 +7,12 @@ from constants import project_lead
 from constants import project_member
 from core.models import Project
 from core.tests.utils.seed_constants import garry_name
-from core.tests.utils.seed_constants import patrick_name
+from core.tests.utils.seed_constants import patrick_project_lead
 from core.tests.utils.seed_constants import patti_name
 from core.tests.utils.seed_constants import people_depot_project
 from core.tests.utils.seed_constants import valerie_name
 from core.tests.utils.seed_constants import wally_name
-from core.tests.utils.seed_constants import wanda_name
+from core.tests.utils.seed_constants import wanda_project_lead
 from core.tests.utils.seed_constants import website_project
 from core.tests.utils.seed_constants import winona_name
 from core.tests.utils.seed_constants import zani_name
@@ -48,7 +48,7 @@ class LoadData:
 
         related_data = [
             {
-                "first_name": SeedUser.get_user(wanda_name).first_name,
+                "first_name": SeedUser.get_user(wanda_project_lead).first_name,
                 "project_name": website_project,
                 "permission_type_name": project_lead,
             },
@@ -73,7 +73,7 @@ class LoadData:
                 "permission_type_name": project_member,
             },
             {
-                "first_name": SeedUser.get_user(patrick_name).first_name,
+                "first_name": SeedUser.get_user(patrick_project_lead).first_name,
                 "project_name": people_depot_project,
                 "permission_type_name": project_lead,
             },
@@ -83,7 +83,7 @@ class LoadData:
                 "permission_type_name": project_lead,
             },
             {
-                "first_name": SeedUser.get_user(wanda_name).first_name,
+                "first_name": SeedUser.get_user(wanda_project_lead).first_name,
                 "project_name": website_project,
                 "permission_type_name": project_lead,
             },
@@ -108,7 +108,7 @@ class LoadData:
                 "permission_type_name": project_member,
             },
             {
-                "first_name": SeedUser.get_user(patrick_name).first_name,
+                "first_name": SeedUser.get_user(patrick_project_lead).first_name,
                 "project_name": people_depot_project,
                 "permission_type_name": project_lead,
             },

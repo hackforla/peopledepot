@@ -14,7 +14,7 @@ from core.tests.utils.seed_constants import garry_name
 from core.tests.utils.seed_constants import patti_name
 from core.tests.utils.seed_constants import valerie_name
 from core.tests.utils.seed_constants import wally_name
-from core.tests.utils.seed_constants import wanda_name
+from core.tests.utils.seed_constants import wanda_project_lead
 from core.tests.utils.seed_constants import winona_name
 from core.tests.utils.seed_constants import zani_name
 from core.tests.utils.seed_user import SeedUser
@@ -94,7 +94,7 @@ class TestPatchUser:
 
     def test_project_lead_can_patch_name(self):
         PermissionUtil.validate_fields_patchable(
-            SeedUser.get_user(wanda_name),
+            SeedUser.get_user(wanda_project_lead),
             SeedUser.get_user(wally_name),
             ["first_name", "last_name"],
         )
@@ -102,7 +102,7 @@ class TestPatchUser:
     def test_project_lead_cannot_patch_current_title(self):
         with pytest.raises(ValidationError):
             PermissionUtil.validate_fields_patchable(
-                SeedUser.get_user(wanda_name),
+                SeedUser.get_user(wanda_project_lead),
                 SeedUser.get_user(wally_name),
                 ["current_title"],
             )
@@ -110,7 +110,7 @@ class TestPatchUser:
     def test_cannot_patch_first_name_for_member_of_other_project(self):
         with pytest.raises(PermissionError):
             PermissionUtil.validate_fields_patchable(
-                SeedUser.get_user(wanda_name),
+                SeedUser.get_user(wanda_project_lead),
                 SeedUser.get_user(patti_name),
                 ["first_name"],
             )
@@ -150,7 +150,7 @@ class TestPatchUser:
 
         FieldPermissions.user_patch_fields[project_lead] = ["last_name", "gmail"]
 
-        requester = SeedUser.get_user(wanda_name)  # project lead for website
+        requester = SeedUser.get_user(wanda_project_lead)  # project lead for website
         update_data = {"last_name": "Smith", "gmail": "smith@example.com"}
         target_user = SeedUser.get_user(wally_name)
         response = patch_request_to_viewset(requester, target_user, update_data)
@@ -163,7 +163,7 @@ class TestPatchUser:
         See documentation for test_allowable_patch_fields_configurable for more information.
         """
 
-        requester = SeedUser.get_user(wanda_name)  # project lead for website
+        requester = SeedUser.get_user(wanda_project_lead)  # project lead for website
         FieldPermissions.user_patch_fields[project_lead] = ["gmail"]
         update_data = {"last_name": "Smith"}
         target_user = SeedUser.get_user(wally_name)
