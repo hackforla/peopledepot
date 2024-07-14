@@ -36,34 +36,47 @@ def get_dirs():
     return dir_names
 
 
+def is_file_included(filename):
+    for exclude_file in excluded_files:
+        if exclude_file in filename:
+            return False
+    return True
+
+
 def get_files_in_directory(directory):
     files_in_dir = []
     for filename in os.listdir(directory):
         if not filename.endswith(".py"):
             continue
-        include = True
-        for exclude_file in excluded_files:
-            if exclude_file in filename:
-                include = False
-                break
-        if include:
+
+        if is_file_included(filename):
             files_in_dir.append(
                 Path.join(directory, filename)
             )  # Path.join(directory, filename)
     return files_in_dir
 
 
-def generate_pydoc():
+def generate_pydoc():  # noqa: C901
+    # Get directories to scan
     dirs = get_dirs()
+
+    # Get all files within each directory
     files = []
     for dirname in dirs:
-        files = files + get_files_in_directory(dirname)
+        files.extend(get_files_in_directory(dirname))
+
+    # Print files being processed
     print("Generating pydoc for files:", files)
+
+    # Generate documentation for each file with a docstring
     for file_spec in files:
         if not has_docstring(file_spec):
             print(f"Skipping {file_spec} as it does not have a docstring.")
             continue
+
+        # Convert file path to module name
         module_name = file_spec[:-3].replace(os.sep, ".")
+
         try:
             print(f"Generating documentation for {module_name}...")
             pydoc.writedoc(module_name)
