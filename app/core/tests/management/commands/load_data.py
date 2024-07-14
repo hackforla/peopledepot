@@ -1,8 +1,5 @@
 import copy
 
-from django.contrib.auth import get_user_model
-from django.core.management.base import BaseCommand
-
 from constants import project_lead
 from constants import project_member
 from core.models import Project
@@ -18,87 +15,83 @@ from core.tests.utils.seed_constants import winona_name
 from core.tests.utils.seed_constants import zani_name
 from core.tests.utils.seed_user import SeedUser
 
-UserModel = get_user_model()
 
+def load_data():
+    """Populalates projects, users, and userpermissions with seed data
+    used by the tests in the core app.
 
-class LoadData:
-    data_loaded = False
+    Called from django_db_setup which is automatcallly called by pytest-django
+    before any test is executed.
 
-    @classmethod
-    def load_data(cls):
-        projects = [website_project_name, people_depot_project]
-        for project_name in projects:
-            project = Project.objects.create(name=project_name)
-            project.save()
-        SeedUser.create_user(first_name="Wanda", description="Website project lead")
-        SeedUser.create_user(first_name="Wally", description="Website member")
-        SeedUser.create_user(first_name="Winona", description="Website member")
-        SeedUser.create_user(
-            first_name="Zani",
-            description="Website member and People Depot project lead",
-        )
-        SeedUser.create_user(first_name="Patti", description="People Depot member")
-        SeedUser.create_user(
-            first_name="Patrick", description="People Depot project lead"
-        )
-        SeedUser.create_user(first_name="Garry", description="Global admin")
-        SeedUser.get_user(garry_name).is_superuser = True
-        SeedUser.get_user(garry_name).save()
-        SeedUser.create_user(first_name=valerie_name, description="Verified user")
+    Creates website_project and people_depot projects.  Populates users
+    as follows:
+    - Wanda is the project lead for the website project
+    - Wally and Winona are members of the website project
+    - Patti is a member of the People Depot project
+    - Patrick is the project lead for the People Depot project
 
-        related_data = [
-            {
-                "first_name": wanda_project_lead,
-                "project_name": website_project_name,
-                "permission_type_name": project_lead,
-            },
-            {
-                "first_name": wally_name,
-                "project_name": website_project_name,
-                "permission_type_name": project_member,
-            },
-            {
-                "first_name": winona_name,
-                "project_name": website_project_name,
-                "permission_type_name": project_member,
-            },
-            {
-                "first_name": patti_name,
-                "project_name": people_depot_project,
-                "permission_type_name": project_member,
-            },
-            {
-                "first_name": patrick_project_lead,
-                "project_name": people_depot_project,
-                "permission_type_name": project_lead,
-            },
-            {
-                "first_name": zani_name,
-                "project_name": people_depot_project,
-                "permission_type_name": project_lead,
-            },
-            {
-                "first_name": zani_name,
-                "project_name": website_project_name,
-                "permission_type_name": project_member,
-            },
-        ]
+    - Garry is a global admin
+    - Zani is a member of the website project and the project lead for the People Depot project
+    - Valerie is a verified user with no UserPermissions assignments.
+    """
+    projects = [website_project_name, people_depot_project]
+    for project_name in projects:
+        project = Project.objects.create(name=project_name)
+        project.save()
+    SeedUser.create_user(first_name="Wanda", description="Website project lead")
+    SeedUser.create_user(first_name="Wally", description="Website member")
+    SeedUser.create_user(first_name="Winona", description="Website member")
+    SeedUser.create_user(
+        first_name="Zani",
+        description="Website member and People Depot project lead",
+    )
+    SeedUser.create_user(first_name="Patti", description="People Depot member")
+    SeedUser.create_user(first_name="Patrick", description="People Depot project lead")
+    SeedUser.create_user(first_name="Garry", description="Global admin")
+    SeedUser.get_user(garry_name).is_superuser = True
+    SeedUser.get_user(garry_name).save()
+    SeedUser.create_user(first_name=valerie_name, description="Verified user")
 
-        for data in related_data:
-            user = SeedUser.get_user(data["first_name"])
-            params = copy.deepcopy(data)
-            del params["first_name"]
-            SeedUser.create_related_data(user=user, **params)
+    related_data = [
+        {
+            "first_name": wanda_project_lead,
+            "project_name": website_project_name,
+            "permission_type_name": project_lead,
+        },
+        {
+            "first_name": wally_name,
+            "project_name": website_project_name,
+            "permission_type_name": project_member,
+        },
+        {
+            "first_name": winona_name,
+            "project_name": website_project_name,
+            "permission_type_name": project_member,
+        },
+        {
+            "first_name": patti_name,
+            "project_name": people_depot_project,
+            "permission_type_name": project_member,
+        },
+        {
+            "first_name": patrick_project_lead,
+            "project_name": people_depot_project,
+            "permission_type_name": project_lead,
+        },
+        {
+            "first_name": zani_name,
+            "project_name": people_depot_project,
+            "permission_type_name": project_lead,
+        },
+        {
+            "first_name": zani_name,
+            "project_name": website_project_name,
+            "permission_type_name": project_member,
+        },
+    ]
 
-    @classmethod
-    def initialize_data(cls):
-        if not cls.data_loaded:
-            cls.load_data()
-        else:
-            print("Data already loaded")
-
-
-class Command(BaseCommand):
-    def handle(self, *args, **kwargs):
-        LoadData.initialize_data()
-        self.stdout.write(self.style.SUCCESS("Data initialized successfully"))
+    for data in related_data:
+        user = SeedUser.get_user(data["first_name"])
+        params = copy.deepcopy(data)
+        del params["first_name"]
+        SeedUser.create_related_data(user=user, **params)

@@ -38,7 +38,8 @@ def django_db_setup(django_db_setup, django_db_blocker):
         settings.INSTALLED_APPS.append("tests")
 
     with django_db_blocker.unblock():
-        call_command("load_data")
+        # See handle method in class Command in tests/management/commands/load_data.py
+        call_command("load_data_command")
     return None
 
 

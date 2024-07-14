@@ -7,7 +7,16 @@ from core.tests.utils.utils_test import show_test_info
 
 
 class SeedUser:
-    users = {}
+    """Summary
+    Attributes:
+        seed_users_list (dict): Populated by the create_user method.
+        Used to store the users created by the SeedUser.create_user.
+        This is called indirectly by django_db_setup in conftest.py.
+        django_db_setup calls load_data which executes the create_user
+        and create_related_data methods in this class.
+    """
+
+    seed_users_list = {}
 
     def __init__(self, first_name, description):
         self.first_name = first_name
@@ -15,14 +24,20 @@ class SeedUser:
         self.user_name = f"{first_name}@example.com"
         self.email = self.user_name
         self.user = SeedUser.create_user(first_name=first_name, description=description)
-        self.users[first_name] = self.user
+        self.seed_users_list[first_name] = self.user
 
     @classmethod
     def get_user(cls, first_name):
-        return cls.users.get(first_name)
+        """Looks up user info from seed_users_list dictionary.
+        For more info, see notes on seed_users_list in the class docstring.
+        """
+        return cls.seed_users_list.get(first_name)
 
     @classmethod
     def create_user(cls, *, first_name, description=None):
+        """Creates a user with the given first_name and description and
+        stores the user in the seed_users_list dictionary.
+        """
         last_name = f"{description}"
         email = f"{first_name}{last_name}@example.com"
         username = first_name
@@ -35,7 +50,7 @@ class SeedUser:
             is_active=True,
         )
         user.set_password(password)
-        cls.users[first_name] = user
+        cls.seed_users_list[first_name] = user
         user.save()
         return user
 
