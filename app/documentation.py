@@ -31,7 +31,6 @@ def get_dirs():
         if not is_dir_excluded(dirpath):
             continue
         relative_dir = os.path.relpath(dirpath, root_dir)
-        print("Including", relative_dir)
         dir_names.append(relative_dir)
     return dir_names
 
@@ -66,7 +65,6 @@ def generate_pydoc():  # noqa: C901
         files.extend(get_files_in_directory(dirname))
 
     # Print files being processed
-    print("Generating pydoc for files:", files)
 
     # Generate documentation for each file with a docstring
     for file_spec in files:
