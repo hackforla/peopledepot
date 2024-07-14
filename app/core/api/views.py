@@ -61,13 +61,22 @@ class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
     http_method_names = ["get", "partial_update"]
 
     def get_object(self):
+        """Returns the user profile fetched by get
+
+        Returns:
+            User: The user profile
+        """
+
         return self.request.user
 
     def get(self, request, *args, **kwargs):
         """
         # User Profile
 
-        Get profile of current logged in user.
+        Get profile for current logged in user.
+
+        Returns:
+          User: The user profile
         """
         return self.retrieve(request, *args, **kwargs)
 
