@@ -1,4 +1,3 @@
-import ast
 import os
 import pydoc
 from pathlib import Path
@@ -13,8 +12,10 @@ excluded_files = {"settings.py", "wsgi.py", "asgi.py"}
 
 def has_docstring(file_path):
     with Path.open(file_path, encoding="utf-8") as file:
-        node = ast.parse(file.read(), filename=file_path)
-        return ast.get_docstring(node) is not None
+        for line in file:
+            if '"""' in line or "'''" in line:
+                return True
+    return False
 
 
 def is_dir_excluded(dirname):
@@ -25,7 +26,7 @@ def is_dir_excluded(dirname):
 
 
 def get_dirs():
-    root_dir = Path.getcwd()
+    root_dir = Path.cwd()
     dir_names = []
     for dirpath, __dirnames__, __filenames__ in os.walk(root_dir):
         if not is_dir_excluded(dirpath):
@@ -50,7 +51,7 @@ def get_files_in_directory(directory):
 
         if is_file_included(filename):
             files_in_dir.append(
-                Path.join(directory, filename)
+                Path(directory, filename)
             )  # Path.join(directory, filename)
     return files_in_dir
 
@@ -83,6 +84,5 @@ def generate_pydoc():  # noqa: C901
 
 
 if __name__ == "__main__":
-    root_directory = Path.getcwd()  # Set to your root directory
     generate_pydoc()
     print("Pydoc generation complete.")
