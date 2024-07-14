@@ -7,7 +7,7 @@ import django
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "peopledepot.settings")
 django.setup()
 excluded_dirs = {"venv", "__pycache__", "migrations"}
-excluded_files = {"settings.py", "wsgi.py", "asgi.py"}
+excluded_files = {"settings.py", "wsgi.py", "asgi.py", "manage.py"}
 
 
 def has_docstring(file_path):
