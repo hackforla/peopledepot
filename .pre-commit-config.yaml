@@ -110,7 +110,6 @@ repos:
     rev: v0.10.0.1
     hooks:
       - id: shellcheck
-        exclude: ^scripts/makepath.sh
 
   # - repo: https://github.com/econchick/interrogate
   #   rev: 1.4.0
