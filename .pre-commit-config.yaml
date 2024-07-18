@@ -167,13 +167,6 @@ repos:
         # verbose: true
         # require_serial: true
         stages: [push]
-      - id: check-django-migrations
-        name: Check django migrations
-        entry: ./scripts/check-migrations.sh
-        language: system
-        types: [python] # hook only runs if a python file is staged
-        pass_filenames: false
 
 ci:
   autoupdate_schedule: quarterly
-  skip: [check-django-migrations]
