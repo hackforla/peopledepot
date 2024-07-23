@@ -17,3 +17,7 @@ Thank you for volunteering your time! The following is a set of guidelines for c
 - [Working with Git](git.md)
 
 - [Documentation](documentation.md)
+
+- [How-to Guides](how-to/index.md)
+
+- [Tools](tools/index.md)

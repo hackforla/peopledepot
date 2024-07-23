@@ -4,4 +4,6 @@ nav:
   - issues.md
   - git.md
   - documentation.md
+  - howto
   - ...
+  - tools
