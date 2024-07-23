@@ -1,20 +1,20 @@
-## 2. Setting Up Development Environment
+# Setting Up Development Environment
 
-### 2.1 Pre-requisites
+## Pre-requisites
 
-#### 2.1.1 GitHub account
+### GitHub account
 
 See [here](https://docs.github.com/en/get-started/signing-up-for-github/signing-up-for-a-new-github-account#signing-up-for-a-new-account) for creating a GitHub account. If you are not familiar with Git, [this tutorial](https://docs.github.com/en/get-started/quickstart/hello-world) is recommended.
 
-#### 2.1.2 Two-factor authentication
+### Two-factor authentication
 
 Set up two-factor authentication on your account by following this [guide](https://docs.github.com/en/github/authenticating-to-github/configuring-two-factor-authentication).
 
-#### 2.1.3 Text editor
+### Text editor
 
 [VS Code](https://code.visualstudio.com/download) is recommended, but feel free to use a text editor of your choice.
 
-#### 2.1.4 Install Git
+### Install Git
 
 Before cloning your forked repository to your local machine, you must have Git installed. You can find instructions for installing Git for your operating system [**here**](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
 
@@ -38,7 +38,7 @@ Before cloning your forked repository to your local machine, you must have Git i
     - a “more up to date” option (not required but optional if you want it): This option prompts you to go to install an 8GB package manager called Homebrew.
     - Other option: If your computer is low on space, you can use this [tutorial](https://www.datacamp.com/community/tutorials/homebrew-install-use) to install XCode Command Tools and a lighter version of Homebrew and then install Git using this command: `$ brew install git` which in total only uses 300MB.
 
-#### 2.1.5 Install Docker
+### Install Docker
 
 Install or make sure [docker][docker-install] and [docker-compose][docker-compose-install] are installed on your computer
 
@@ -55,7 +55,7 @@ More on using Docker and the concepts of containerization:
 
 - [Get started with Docker](https://docs.docker.com/get-started/)
 
-### 2.2 Fork the repository
+## Fork the repository
 
 You can fork the hackforla/peopledepot repository by clicking <a href="https://github.com/hackforla/peopledepot/fork"> <button> <img src="https://user-images.githubusercontent.com/17777237/54873012-40fa5b00-4dd6-11e9-98e0-cc436426c720.png" width="8px"> Fork</button></a>
 . A fork is a copy of the repository that will be placed on your GitHub account.
@@ -65,7 +65,7 @@ You can fork the hackforla/peopledepot repository by clicking <a href="https://g
 
 !!! info "What you have created is a forked copy in a remote version on GitHub. It is not on your local machine yet"
 
-#### 2.2.1 Clone a copy on your computer
+### Clone a copy on your computer
 
 The following steps will clone (create) a local copy of the forked repository on your computer.
 
@@ -101,7 +101,7 @@ You should now have a new folder in your `hackforla` folder called `peopledepot`
 cd peopledepot
 ```
 
-#### 2.2.2 Verify and set up remote references
+### Verify and set up remote references
 
 Verify that your local cloned repository is pointing to the correct `origin` URL (that is, the forked repo on your own GitHub account):
 
@@ -127,7 +127,7 @@ upstream        https://github.com/hackforla/peopledepot.git (fetch)
 upstream        https://github.com/hackforla/peopledepot.git (push)
 ```
 
-### 2.3 Build and run using Docker locally
+## Build and run using Docker locally
 
 1. Make sure the Docker service is running
 
