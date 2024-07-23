@@ -1,4 +1,4 @@
-## 1. Joining Repository Team
+# Joining Repository Team
 
 This step is optional if this is your first time fixing an issue and you want to try fixing an issue without this step.
 
