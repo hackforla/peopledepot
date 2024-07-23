@@ -1,11 +1,9 @@
 nav:
   - index.md
-  - Get Started:
-    - CONTRIBUTING.md
   - architecture
   - ref
   - howto
   - how-to
   - tools
-  - ...
+  - contributing
   - license.md
