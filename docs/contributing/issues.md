@@ -94,14 +94,6 @@ This command will unstage a file that you don't want included in the commit. The
 git reset HEAD “filename.ext”
 ```
 
-## Install pre-commit
-
-This will check your changes for common problems.
-
-See the [Pre-commit page](tools/pre-commit.md) for installation instructions.
-
-For consistency, an automated bot will perform the same checks on the repository side when you open a pull request.
-
 ## Commit staged changes
 
 This command saves your work, and prepares it to push to your repository. Use the `-m` flag to quickly add a message to your commit. Your message should be a short description of the changes you made. It will be extremely helpful if other people can understand your message, so try to resist the temptation to be overly cryptic.
