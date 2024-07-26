@@ -1,4 +1,6 @@
-# Sync Main Changes
+# Working with Git
+
+## Sync Main Changes
 
 Your fork of this repository on GitHub, and your local clone of that fork, will get out of sync with the (upstream) repository as others update the repository. (That's what has happened when you see something like "This branch is 1 commit behind peopledepot:main" on your forked repository.)
 

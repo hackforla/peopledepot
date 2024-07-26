@@ -1,4 +1,4 @@
-# Fixing Issues
+# Working with Issues
 
 ## Find an issue
 
