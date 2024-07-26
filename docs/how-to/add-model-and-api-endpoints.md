@@ -13,7 +13,7 @@ This guide aims to enable developers with little or no django experience to add 
     - API design
     - command line
 
-This guide assumes the developer has followed the [contributing doc](CONTRIBUTING.md) and have forked and created a local branch to work on this. The development server would be already running in the background and will automatically apply the changes when we save the files.
+This guide assumes the developer has followed the [working with issues guide](issues.md) and have forked and created a local branch to work on this. The development server would be already running in the background and will automatically apply the changes when we save the files.
 
 We will choose the [recurring_event issue](https://github.com/hackforla/peopledepot/issues/14) as an example. Our goal is to create a database table and an API that a client can use to work with the data. The work is split into 3 testable components: the model, the admin site, and the API
 
@@ -205,7 +205,7 @@ In `app/core/admin.py`
 
 Check that everything's working and there are no issues, which should be the case unless there's custom input fields creating problems.
 
-1. See the [contributing doc section on "Build and run using Docker locally"](CONTRIBUTING.md#23-build-and-run-using-docker-locally) for how to view the admin interface.
+1. See the [development setup guide section on "Build and run using Docker locally"](dev_environment.md#build-and-run-using-docker-locally) for how to view the admin interface.
 
 1. Example of a custom field (as opposed to the built-in ones)
 
@@ -508,4 +508,4 @@ In `app/core/api/urls.py`
         ```
 
 ??? note "Push the code and start a PR"
-    Refer to the [contributing doc section on "Push to upstream origin"](CONTRIBUTING.md#410-push-to-upstream-origin-aka-your-fork) onward.
+    Refer to the [Issues page section on "Push to upstream origin"](issues.md#push-to-upstream-origin-aka-your-fork) onward.
