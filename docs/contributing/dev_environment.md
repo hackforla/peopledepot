@@ -1,4 +1,4 @@
-# Setting Up Development Environment
+# Development Environment
 
 ## Pre-requisites
 

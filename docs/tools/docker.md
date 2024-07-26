@@ -1,6 +1,6 @@
 # Docker
 
-## Managing Docker
+## Working with Docker
 
 ### Stopping Docker
 
