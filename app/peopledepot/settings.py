@@ -23,7 +23,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+# SECRET_KEY is used internally by Django to encrypt session data
+# SECRET_API_KEY is used to authenticate a "secret" API endpoint
 SECRET_KEY = os.environ.get("SECRET_KEY")
+SECRET_API_KEY = os.environ.get("SECRET_API_KEY")
 
 DJANGO_SUPERUSER_USERNAME = os.environ.get("DJANGO_SUPERUSER_USERNAME")
 DJANGO_SUPERUSER_EMAIL = os.environ.get("DJANGO_SUPERUSER_EMAIL")
