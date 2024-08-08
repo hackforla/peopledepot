@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Python: module core.field_permissions</title>
+</head><body>
+
+<table class="heading">
+<tr class="heading-text decor">
+<td class="title">&nbsp;<br><strong class="title"><a href="core.html" class="white">core</a>.field_permissions</strong></td>
+<td class="extra"><a href=".">index</a><br><a href="file:/Users/ethanadmin/projects/peopledepot/app/core/field_permissions.py">/Users/ethanadmin/projects/peopledepot/app/core/field_permissions.py</a></td></tr></table>
+    <p><span class="code">Variables&nbsp;that&nbsp;define&nbsp;the&nbsp;fields&nbsp;that&nbsp;can&nbsp;be&nbsp;read&nbsp;or&nbsp;updated&nbsp;by&nbsp;a&nbsp;user&nbsp;based&nbsp;on&nbsp;user&nbsp;permissionss<br>
+&nbsp;<br>
+Variables:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;me_endpoint_read_fields:&nbsp;list&nbsp;of&nbsp;fields&nbsp;that&nbsp;can&nbsp;be&nbsp;read&nbsp;by&nbsp;the&nbsp;requesting&nbsp;user&nbsp;for&nbsp;the&nbsp;me&nbsp;endpoint<br>
+&nbsp;&nbsp;&nbsp;&nbsp;me_endpoint_patch_fields:&nbsp;list&nbsp;of&nbsp;fields&nbsp;that&nbsp;can&nbsp;be&nbsp;updated&nbsp;by&nbsp;the&nbsp;requesting&nbsp;user&nbsp;for&nbsp;the&nbsp;me&nbsp;endpoint<br>
+&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;Note:&nbsp;me_end_point&nbsp;gets&nbsp;or&nbsp;updates&nbsp;information&nbsp;about&nbsp;the&nbsp;requesting&nbsp;user<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;user_read_fields:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;user_read_fields[global_admin]:&nbsp;list&nbsp;of&nbsp;fields&nbsp;a&nbsp;global&nbsp;admin&nbsp;can&nbsp;read&nbsp;for&nbsp;a&nbsp;user<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;user_read_fields[project_lead]:&nbsp;list&nbsp;of&nbsp;fields&nbsp;a&nbsp;project&nbsp;lead&nbsp;can&nbsp;read&nbsp;for&nbsp;a&nbsp;user<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;user_read_fields[project_member]:&nbsp;list&nbsp;of&nbsp;fields&nbsp;a&nbsp;project&nbsp;member&nbsp;can&nbsp;read&nbsp;for&nbsp;a&nbsp;user<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;user_read_fields[practice_area_admin]:&nbsp;list&nbsp;of&nbsp;fields&nbsp;a&nbsp;practice&nbsp;area&nbsp;admin&nbsp;can&nbsp;read&nbsp;for&nbsp;a&nbsp;user<br>
+&nbsp;&nbsp;&nbsp;&nbsp;user_patch_fields:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;user_patch_fields[global_admin]:&nbsp;list&nbsp;of&nbsp;fields&nbsp;a&nbsp;global&nbsp;admin&nbsp;can&nbsp;update&nbsp;for&nbsp;a&nbsp;user<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;user_patch_fields[project_lead]:&nbsp;list&nbsp;of&nbsp;fields&nbsp;a&nbsp;project&nbsp;lead&nbsp;can&nbsp;update&nbsp;for&nbsp;a&nbsp;user<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;user_patch_fields[project_member]:&nbsp;list&nbsp;of&nbsp;fields&nbsp;a&nbsp;project&nbsp;member&nbsp;can&nbsp;update&nbsp;for&nbsp;a&nbsp;user<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;user_patch_fields[practice_area_admin]:&nbsp;list&nbsp;of&nbsp;fields&nbsp;a&nbsp;practice&nbsp;area&nbsp;admin&nbsp;can&nbsp;update&nbsp;for&nbsp;a&nbsp;user<br>
+&nbsp;&nbsp;&nbsp;&nbsp;user_post_fields:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;user_post_fields[global_admin]:&nbsp;list&nbsp;of&nbsp;fields&nbsp;a&nbsp;global&nbsp;admin&nbsp;can&nbsp;specify&nbsp;when&nbsp;creating&nbsp;a&nbsp;user</span></p>
+<p>
+<table class="section">
+<tr class="decor index-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Classes</strong></td></tr>
+
+<tr><td class="decor index-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl>
+<dt class="heading-text"><a href="builtins.html#object">builtins.object</a>
+</dt><dd>
+<dl>
+<dt class="heading-text"><a href="core.field_permissions.html#FieldPermissions">FieldPermissions</a>
+</dt></dl>
+</dd>
+</dl>
+ <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="FieldPermissions">class <strong>FieldPermissions</strong></a>(<a href="builtins.html#object">builtins.object</a>)</td></tr>
+
+<tr><td class="decor title-decor"><span class="code">&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn">Class methods defined here:<br>
+<dl><dt><a name="FieldPermissions-derive_cru_fields"><strong>derive_cru_fields</strong></a>()</dt></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object</span></dd>
+</dl>
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>me_endpoint_patch_fields</strong> = ['uuid', 'created_at', 'updated_at', 'is_superuser', 'is_active', 'is_staff', 'username', 'first_name', 'last_name', 'gmail', 'preferred_email', 'linkedin_account', 'github_handle', 'phone', 'texting_ok', 'current_job_title', 'target_job_title', 'current_skills', 'target_skills', 'time_zone']</dl>
+
+<dl><dt><strong>me_endpoint_read_fields</strong> = ['uuid', 'created_at', 'updated_at', 'is_superuser', 'is_active', 'is_staff', 'username', 'first_name', 'last_name', 'gmail', 'preferred_email', 'linkedin_account', 'github_handle', 'phone', 'texting_ok', 'current_job_title', 'target_job_title', 'current_skills', 'target_skills', 'time_zone']</dl>
+
+<dl><dt><strong>self_register_fields</strong> = ['username', 'first_name', 'last_name', 'gmail', 'preferred_email', 'linkedin_account', 'github_handle', 'phone', 'texting_ok', 'current_job_title', 'target_job_title', 'current_skills', 'target_skills', 'time_zone', 'password']</dl>
+
+<dl><dt><strong>user_patch_fields</strong> = {'Global Admin': ['is_superuser', 'is_active', 'is_staff', 'username', 'first_name', 'last_name', 'gmail', 'preferred_email', 'linkedin_account', 'github_handle', 'phone', 'texting_ok', 'current_job_title', 'target_job_title', 'current_skills', 'target_skills', 'password'], 'Practice Area Admin': ['first_name', 'last_name', 'gmail', 'preferred_email', 'linkedin_account', 'github_handle', 'phone', 'texting_ok'], 'Project Lead': ['first_name', 'last_name', 'gmail', 'preferred_email', 'linkedin_account', 'github_handle', 'phone', 'texting_ok'], 'Project Member': []}</dl>
+
+<dl><dt><strong>user_post_fields</strong> = {'Global Admin': ['is_superuser', 'is_active', 'is_staff', 'username', 'first_name', 'last_name', 'gmail', 'preferred_email', 'linkedin_account', 'github_handle', 'texting_ok', 'current_job_title', 'target_job_title', 'current_skills', 'target_skills', 'time_zone', 'password'], 'Practice Area Admin': [], 'Project Lead': [], 'Project Member': []}</dl>
+
+<dl><dt><strong>user_read_fields</strong> = {'Global Admin': ['uuid', 'created_at', 'updated_at', 'is_superuser', 'is_active', 'is_staff', 'username', 'first_name', 'last_name', 'gmail', 'preferred_email', 'linkedin_account', 'github_handle', 'phone', 'texting_ok', 'current_job_title', 'target_job_title', 'current_skills', 'target_skills', 'time_zone'], 'Practice Area Admin': ['uuid', 'created_at', 'updated_at', 'is_superuser', 'is_active', 'is_staff', 'username', 'first_name', 'last_name', 'gmail', 'preferred_email', 'linkedin_account', 'github_handle', 'phone', 'texting_ok', 'current_job_title', 'target_job_title', 'current_skills', 'target_skills', 'time_zone'], 'Project Lead': ['uuid', 'created_at', 'updated_at', 'is_superuser', 'is_active', 'is_staff', 'username', 'first_name', 'last_name', 'gmail', 'preferred_email', 'linkedin_account', 'github_handle', 'phone', 'texting_ok', 'current_job_title', 'target_job_title', 'current_skills', 'target_skills', 'time_zone'], 'Project Member': ['uuid', 'created_at', 'updated_at', 'is_superuser', 'is_active', 'is_staff', 'username', 'first_name', 'last_name', 'gmail', 'preferred_email', 'linkedin_account', 'github_handle', 'current_job_title', 'current_skills', 'time_zone']}</dl>
+
+</td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor data-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Data</strong></td></tr>
+
+<tr><td class="decor data-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><strong>global_admin</strong> = 'Global Admin'<br>
+<strong>me_endpoint_permissions</strong> = {'created_at': 'R', 'current_job_title': 'RU', 'current_skills': 'RU', 'first_name': 'RU', 'github_handle': 'RU', 'gmail': 'RU', 'is_active': 'R', 'is_staff': 'R', 'is_superuser': 'R', 'last_name': 'RU', ...}<br>
+<strong>practice_area_admin</strong> = 'Practice Area Admin'<br>
+<strong>project_lead</strong> = 'Project Lead'<br>
+<strong>project_member</strong> = 'Project Member'<br>
+<strong>self_register_fields</strong> = ['username', 'first_name', 'last_name', 'gmail', 'preferred_email', 'linkedin_account', 'github_handle', 'phone', 'texting_ok', 'current_job_title', 'target_job_title', 'current_skills', 'target_skills', 'time_zone', 'password']<br>
+<strong>user_field_permissions</strong> = {'Global Admin': {'created_at': 'R', 'current_job_title': 'CRU', 'current_skills': 'CRU', 'first_name': 'CRU', 'github_handle': 'CRU', 'gmail': 'CRU', 'is_active': 'CRU', 'is_staff': 'CRU', 'is_superuser': 'CRU', 'last_name': 'CRU', ...}, 'Practice Area Admin': {'created_at': 'R', 'current_job_title': 'R', 'current_skills': 'R', 'first_name': 'RU', 'github_handle': 'RU', 'gmail': 'RU', 'is_active': 'R', 'is_staff': 'R', 'is_superuser': 'R', 'last_name': 'RU', ...}, 'Project Lead': {'created_at': 'R', 'current_job_title': 'R', 'current_skills': 'R', 'first_name': 'RU', 'github_handle': 'RU', 'gmail': 'RU', 'is_active': 'R', 'is_staff': 'R', 'is_superuser': 'R', 'last_name': 'RU', ...}, 'Project Member': {'created_at': 'R', 'current_job_title': 'R', 'current_skills': 'R', 'first_name': 'R', 'github_handle': 'R', 'gmail': 'R', 'is_active': 'R', 'is_staff': 'R', 'is_superuser': 'R', 'last_name': 'R', ...}}</td></tr></table>
+</body></html>

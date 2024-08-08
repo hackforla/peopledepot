@@ -1,5 +1,8 @@
 import pytest
+from django.core.management import call_command
 from rest_framework.test import APIClient
+
+from peopledepot import settings
 
 from ..models import Affiliate
 from ..models import Affiliation
@@ -15,6 +18,51 @@ from ..models import Sdg
 from ..models import Skill
 from ..models import StackElementType
 from ..models import Technology
+from ..models import User
+from ..models import UserPermissions
+
+
+@pytest.fixture
+def created_user_admin():
+    return User.objects.create_user(
+        username="AdminUser",
+        email="adminuser@example.com",
+        password="adminuser",
+        is_superuser=True,
+    )
+
+
+@pytest.fixture(scope="session")
+def django_db_setup(django_db_setup, django_db_blocker):
+    if "tests" not in settings.INSTALLED_APPS:
+        settings.INSTALLED_APPS.append("tests")
+
+    with django_db_blocker.unblock():
+        # See handle method in class Command in tests/management/commands/load_data.py
+        call_command("load_data_command")
+    return None
+
+
+@pytest.fixture
+def created_user_permissions():
+    user1 = User.objects.create(username="TestUser1", email="TestUser1@example.com")
+    user2 = User.objects.create(username="TestUser2", email="TestUser2@example.com")
+    project = Project.objects.create(name="Test Project")
+    permission_type = PermissionType.objects.first()
+    practice_area = PracticeArea.objects.first()
+    user1_permission = UserPermissions.objects.create(
+        user=user1,
+        permission_type=permission_type,
+        project=project,
+        practice_area=practice_area,
+    )
+    user2_permissions = UserPermissions.objects.create(
+        user=user2,
+        permission_type=permission_type,
+        project=project,
+        practice_area=practice_area,
+    )
+    return [user1_permission, user2_permissions]
 
 
 @pytest.fixture
@@ -150,13 +198,8 @@ def technology():
 
 @pytest.fixture
 def permission_type1():
-    return PermissionType.objects.create(name="Test Permission Type", description="")
-
-
-@pytest.fixture
-def permission_type2():
     return PermissionType.objects.create(
-        name="Test Permission Type", description="A permission type description"
+        name="Test Permission Type", description="", rank=1000
     )
 
 

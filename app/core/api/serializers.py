@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from timezone_field.rest_framework import TimeZoneSerializerField
 
+from core.field_permissions import FieldPermissions
 from core.models import Affiliate
 from core.models import Affiliation
 from core.models import Event
@@ -16,10 +17,12 @@ from core.models import Skill
 from core.models import StackElementType
 from core.models import Technology
 from core.models import User
+from core.models import UserPermissions
+from core.permission_util import PermissionUtil
 
 
 class PracticeAreaSerializer(serializers.ModelSerializer):
-    """Used to retrieve practice area info"""
+    """Used to determine practice area fields included in a response"""
 
     class Meta:
         model = PracticeArea
@@ -37,45 +40,102 @@ class PracticeAreaSerializer(serializers.ModelSerializer):
         )
 
 
-class UserSerializer(serializers.ModelSerializer):
-    """Used to retrieve user info"""
+class UserPermissionsSerializer(serializers.ModelSerializer):
+    """Used to determine user permission fields included in a response"""
+
+    class Meta:
+        model = UserPermissions
+        fields = (
+            "uuid",
+            "created_at",
+            "updated_at",
+            "user",
+            "permission_type",
+            "project",
+            "practice_area",
+        )
+
+
+class ProfileSerializer(serializers.ModelSerializer):
+    """Used to determine user fields included in a response for the me endpoint"""
 
     time_zone = TimeZoneSerializerField(use_pytz=False)
 
     class Meta:
         model = User
-        fields = (
-            "uuid",
-            "username",
-            "created_at",
-            "updated_at",
-            "email",
-            "first_name",
-            "last_name",
-            "gmail",
-            "preferred_email",
-            "current_job_title",
-            "target_job_title",
-            "current_skills",
-            "target_skills",
-            "linkedin_account",
-            "github_handle",
-            "slack_id",
-            "phone",
-            "texting_ok",
-            "time_zone",
-        )
-        read_only_fields = (
-            "uuid",
-            "created_at",
-            "updated_at",
-            "username",
-            "email",
-        )
+
+        # to_representation overrides the need for fields
+        # if fields is removed, syntax checker will complain
+        fields = "__all__"
+
+    def to_representation(self, instance):
+        """Determine which fields are included in a response based on
+        the requesting user's permissions
+
+        Args:
+            response_user (user): user being returned in the response
+
+        Raises:
+            PermissionError: Raised if the requesting user does not have permission to view the target user
+
+        Returns:
+            Representation of the user with only the fields that the requesting user has permission to view
+        """
+        representation = super().to_representation(instance)
+        request = self.context.get("request")
+        requesting_user: User = request.user
+        target_user: User = instance
+        if requesting_user != target_user:
+            raise PermissionError("You can only use profile endpoint for your own user")
+        if request.method != "GET":
+            return representation
+
+        new_representation = {}
+        for field_name in FieldPermissions.me_endpoint_read_fields:
+            new_representation[field_name] = representation[field_name]
+        return new_representation
+
+
+class UserSerializer(serializers.ModelSerializer):
+    """Used to determine user fields included in a response for the user endpoint"""
+
+    time_zone = TimeZoneSerializerField(use_pytz=False)
+
+    class Meta:
+        model = User
+
+        # to_representation overrides the need for fields
+        # if fields is removed, syntax checker will complain
+        fields = "__all__"
+
+    def to_representation(self, response_user):
+        """Determine which fields are included in a response based on
+        the requesting user's permissions
+
+        Args:
+            response_user (user): user being returned in the response
+
+        Raises:
+            PermissionError: Raised if the requesting user does not have permission to view the target user
+
+        Returns:
+            Representation of the user with only the fields that the requesting user has permission to view
+        """
+        request = self.context.get("request")
+        representation = super().to_representation(response_user)
+        requesting_user: User = request.user
+        target_user: User = response_user
+
+        new_representation = {}
+        for field_name in PermissionUtil.get_user_read_fields(
+            requesting_user, target_user
+        ):
+            new_representation[field_name] = representation[field_name]
+        return new_representation
 
 
 class ProjectSerializer(serializers.ModelSerializer):
-    """Used to retrieve project info"""
+    """Used to determine user project fields included in a response"""
 
     class Meta:
         model = Project
@@ -103,7 +163,7 @@ class ProjectSerializer(serializers.ModelSerializer):
 
 
 class EventSerializer(serializers.ModelSerializer):
-    """Used to retrieve event info"""
+    """Used to determine event fields included in a response"""
 
     class Meta:
         model = Event
@@ -124,7 +184,7 @@ class EventSerializer(serializers.ModelSerializer):
 
 
 class AffiliateSerializer(serializers.ModelSerializer):
-    """Used to retrieve Sponsor Partner info"""
+    """Used to determine affiliate / sponsor partner fields included in a response"""
 
     class Meta:
         model = Affiliate
@@ -145,7 +205,7 @@ class AffiliateSerializer(serializers.ModelSerializer):
 
 
 class FaqSerializer(serializers.ModelSerializer):
-    """Used to retrieve faq info"""
+    """Used to determine faq fields included in a response"""
 
     class Meta:
         model = Faq
@@ -159,8 +219,9 @@ class FaqSerializer(serializers.ModelSerializer):
 
 
 class FaqViewedSerializer(serializers.ModelSerializer):
-    """
-    Retrieve each date/time the specified FAQ is viewed
+    """Used to determine faq viewed fields included in a response
+
+    faq viewed is a table that holds the faq history
     """
 
     class Meta:
@@ -176,7 +237,7 @@ class FaqViewedSerializer(serializers.ModelSerializer):
 
 
 class LocationSerializer(serializers.ModelSerializer):
-    """Used to retrieve Location info"""
+    """Used to determine location fields included in a response"""
 
     class Meta:
         model = Location
@@ -201,7 +262,7 @@ LocationSerializer._declared_fields["zip"] = serializers.CharField(source="zipco
 
 
 class ProgramAreaSerializer(serializers.ModelSerializer):
-    """Used to retrieve program_area info"""
+    """Used to determine program area fields included in a response"""
 
     class Meta:
         model = ProgramArea
@@ -210,9 +271,7 @@ class ProgramAreaSerializer(serializers.ModelSerializer):
 
 
 class SkillSerializer(serializers.ModelSerializer):
-    """
-    Used to retrieve Skill info
-    """
+    """Used to determine skill fields included in a response"""
 
     class Meta:
         model = Skill
@@ -228,7 +287,7 @@ class SkillSerializer(serializers.ModelSerializer):
 
 
 class TechnologySerializer(serializers.ModelSerializer):
-    """Used to retrieve technology info"""
+    """Used to determine location fields included in a response"""
 
     class Meta:
         model = Technology
@@ -249,12 +308,12 @@ class TechnologySerializer(serializers.ModelSerializer):
 
 class PermissionTypeSerializer(serializers.ModelSerializer):
     """
-    Used to retrieve each permission_type info
+    Used to determine each permission_type info
     """
 
     class Meta:
         model = PermissionType
-        fields = ("uuid", "name", "description")
+        fields = ("uuid", "name", "description", "rank")
         read_only_fields = (
             "uuid",
             "created_at",
@@ -263,7 +322,7 @@ class PermissionTypeSerializer(serializers.ModelSerializer):
 
 
 class StackElementTypeSerializer(serializers.ModelSerializer):
-    """Used to retrieve stack element types"""
+    """Used to determine stack element types"""
 
     class Meta:
         model = StackElementType
@@ -281,7 +340,7 @@ class StackElementTypeSerializer(serializers.ModelSerializer):
 
 class SdgSerializer(serializers.ModelSerializer):
     """
-    Used to retrieve Sdg
+    Used to determine Sdg
     """
 
     class Meta:
@@ -301,7 +360,7 @@ class SdgSerializer(serializers.ModelSerializer):
 
 class AffiliationSerializer(serializers.ModelSerializer):
     """
-    Used to retrieve Affiliation
+    Used to determine Affiliation
     """
 
     class Meta:

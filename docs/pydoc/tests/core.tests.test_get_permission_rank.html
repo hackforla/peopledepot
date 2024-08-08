@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Python: module core.tests.test_get_permission_rank</title>
+</head><body>
+
+<table class="heading">
+<tr class="heading-text decor">
+<td class="title">&nbsp;<br><strong class="title"><a href="core.html" class="white">core</a>.<a href="core.tests.html" class="white">tests</a>.test_get_permission_rank</strong></td>
+<td class="extra"><a href=".">index</a><br><a href="file:/Users/ethanadmin/projects/peopledepot/app/core/tests/test_get_permission_rank.py">/Users/ethanadmin/projects/peopledepot/app/core/tests/test_get_permission_rank.py</a></td></tr></table>
+    <p></p>
+<p>
+<table class="section">
+<tr class="decor pkg-content-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Modules</strong></td></tr>
+
+<tr><td class="decor pkg-content-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><table><tr><td class="multicolumn"><a href="pytest.html">pytest</a><br>
+</td><td class="multicolumn"></td><td class="multicolumn"></td><td class="multicolumn"></td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor index-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Classes</strong></td></tr>
+
+<tr><td class="decor index-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl>
+<dt class="heading-text"><a href="builtins.html#object">builtins.object</a>
+</dt><dd>
+<dl>
+<dt class="heading-text"><a href="core.tests.test_get_permission_rank.html#TestGetLowestRankedPermissionType">TestGetLowestRankedPermissionType</a>
+</dt></dl>
+</dd>
+</dl>
+ <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="TestGetLowestRankedPermissionType">class <strong>TestGetLowestRankedPermissionType</strong></a>(<a href="builtins.html#object">builtins.object</a>)</td></tr>
+
+<tr><td class="decor title-decor"><span class="code">&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn">Methods defined here:<br>
+<dl><dt><a name="TestGetLowestRankedPermissionType-test_admin_lowest_for_admin"><strong>test_admin_lowest_for_admin</strong></a>(self)</dt><dd><span class="code">Test&nbsp;that&nbsp;lowest&nbsp;rank&nbsp;for&nbsp;Garry,&nbsp;a&nbsp;global&nbsp;admin&nbsp;user,&nbsp;is&nbsp;global_admin,<br>
+even&nbsp;if&nbsp;a&nbsp;user&nbsp;permission&nbsp;is&nbsp;assigned.</span></dd></dl>
+
+<dl><dt><a name="TestGetLowestRankedPermissionType-test_lowest_rank_blank_of_two_non_team_member"><strong>test_lowest_rank_blank_of_two_non_team_member</strong></a>(self)</dt><dd><span class="code">Test&nbsp;that&nbsp;lowest&nbsp;rank&nbsp;is&nbsp;blank&nbsp;for&nbsp;Wally&nbsp;relative&nbsp;to&nbsp;Patrick,<br>
+who&nbsp;are&nbsp;team&nbsp;members&nbsp;on&nbsp;different&nbsp;projects,&nbsp;is&nbsp;blank.</span></dd></dl>
+
+<dl><dt><a name="TestGetLowestRankedPermissionType-test_team_member_lowest_rank_for_multiple_user_permissions"><strong>test_team_member_lowest_rank_for_multiple_user_permissions</strong></a>(self)</dt><dd><span class="code">Test&nbsp;that&nbsp;lowest&nbsp;rank&nbsp;for&nbsp;Zani,&nbsp;a&nbsp;team&nbsp;member&nbsp;on&nbsp;Winona's&nbsp;project,&nbsp;is&nbsp;team&nbsp;member<br>
+and&nbsp;lowest&nbsp;rank&nbsp;for&nbsp;Zani,&nbsp;a&nbsp;project&nbsp;lead&nbsp;on&nbsp;Patti's&nbsp;project,&nbsp;is&nbsp;project&nbsp;lead</span></dd></dl>
+
+<dl><dt><a name="TestGetLowestRankedPermissionType-test_team_member_lowest_rank_for_two_team_members"><strong>test_team_member_lowest_rank_for_two_team_members</strong></a>(self)</dt><dd><span class="code">Test&nbsp;that&nbsp;lowest&nbsp;rank&nbsp;for&nbsp;Wally&nbsp;relative&nbsp;tp&nbsp;Wanda,&nbsp;a&nbsp;project&nbsp;lead,<br>
+or&nbsp;Winona,&nbsp;a&nbsp;team&nbsp;member,&nbsp;is&nbsp;project_member</span></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object</span></dd>
+</dl>
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>pytestmark</strong> = [Mark(name='django_db', args=(), kwargs={})]</dl>
+
+</td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor functions-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Functions</strong></td></tr>
+
+<tr><td class="decor functions-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt><a name="-fields_match_for_get_user"><strong>fields_match_for_get_user</strong></a>(username, response_data, fields)</dt></dl>
+</td></tr></table><p>
+<table class="section">
+<tr class="decor data-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Data</strong></td></tr>
+
+<tr><td class="decor data-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><strong>garry_name</strong> = 'Garry'<br>
+<strong>global_admin</strong> = 'Global Admin'<br>
+<strong>patrick_project_lead</strong> = 'Patrick'<br>
+<strong>patti_name</strong> = 'Patti'<br>
+<strong>project_lead</strong> = 'Project Lead'<br>
+<strong>project_member</strong> = 'Project Member'<br>
+<strong>valerie_name</strong> = 'Valerie'<br>
+<strong>wally_name</strong> = 'Wally'<br>
+<strong>wanda_project_lead</strong> = 'Wanda'<br>
+<strong>website_project_name</strong> = 'Website'<br>
+<strong>winona_name</strong> = 'Winona'<br>
+<strong>zani_name</strong> = 'Zani'</td></tr></table>
+</body></html>

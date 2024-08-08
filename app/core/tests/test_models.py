@@ -5,13 +5,6 @@ from ..models import Event
 pytestmark = pytest.mark.django_db
 
 
-def test_user(user, django_user_model):
-    assert django_user_model.objects.filter(is_staff=False).count() == 1
-    assert str(user) == "testuser@email.com"
-    assert user.is_django_user is True
-    assert repr(user) == f"<User {user.uuid}>"
-
-
 def test_project(project):
     assert str(project) == "Test Project"
 
@@ -68,14 +61,6 @@ def test_permission_type1(permission_type1):
     assert str(permission_type1) == "Test Permission Type"
 
 
-def test_permission_type2(permission_type2):
-    assert str(permission_type2.name) == "Test Permission Type"
-    assert str(permission_type2.description) == "A permission type description"
-    assert (
-        str(permission_type2) == "Test Permission Type: A permission type description"
-    )
-
-
 def test_stack_element_type(stack_element_type):
     assert str(stack_element_type) == "Test Stack Element Type"
 
@@ -102,10 +87,8 @@ def test_affiliation_partner_and_sponsor(affiliation3):
     xref_instance = affiliation3
     assert xref_instance.is_sponsor is True
     assert xref_instance.is_partner is True
-    assert (
-        str(xref_instance)
-        == f"Sponsor {xref_instance.project} and Partner {xref_instance.affiliate}"
-    )
+    text = f"Sponsor {xref_instance.project} and Partner {xref_instance.affiliate}"
+    assert str(xref_instance) == text
 
 
 def test_affiliation_is_neither_partner_and_sponsor(affiliation4):

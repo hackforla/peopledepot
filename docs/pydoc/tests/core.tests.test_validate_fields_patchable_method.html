@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Python: module core.tests.test_validate_fields_patchable_method</title>
+</head><body>
+
+<table class="heading">
+<tr class="heading-text decor">
+<td class="title">&nbsp;<br><strong class="title"><a href="core.html" class="white">core</a>.<a href="core.tests.html" class="white">tests</a>.test_validate_fields_patchable_method</strong></td>
+<td class="extra"><a href=".">index</a><br><a href="file:/Users/ethanadmin/projects/peopledepot/app/core/tests/test_validate_fields_patchable_method.py">/Users/ethanadmin/projects/peopledepot/app/core/tests/test_validate_fields_patchable_method.py</a></td></tr></table>
+    <p></p>
+<p>
+<table class="section">
+<tr class="decor pkg-content-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Modules</strong></td></tr>
+
+<tr><td class="decor pkg-content-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><table><tr><td class="multicolumn"><a href="pytest.html">pytest</a><br>
+</td><td class="multicolumn"></td><td class="multicolumn"></td><td class="multicolumn"></td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor index-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Classes</strong></td></tr>
+
+<tr><td class="decor index-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl>
+<dt class="heading-text"><a href="builtins.html#object">builtins.object</a>
+</dt><dd>
+<dl>
+<dt class="heading-text"><a href="core.tests.test_validate_fields_patchable_method.html#TestValidateFieldsPatchable">TestValidateFieldsPatchable</a>
+</dt></dl>
+</dd>
+</dl>
+ <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="TestValidateFieldsPatchable">class <strong>TestValidateFieldsPatchable</strong></a>(<a href="builtins.html#object">builtins.object</a>)</td></tr>
+
+<tr><td class="decor title-decor"><span class="code">&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn">Methods defined here:<br>
+<dl><dt><a name="TestValidateFieldsPatchable-setup_method"><strong>setup_method</strong></a>(self)</dt><dd><span class="code">#&nbsp;Some&nbsp;tests&nbsp;change&nbsp;FieldPermission&nbsp;attribute&nbsp;values.<br>
+#&nbsp;derive_cru&nbsp;resets&nbsp;the&nbsp;values&nbsp;before&nbsp;each&nbsp;test&nbsp;-&nbsp;otherwise<br>
+#&nbsp;the&nbsp;tests&nbsp;would&nbsp;interfere&nbsp;with&nbsp;each&nbsp;other</span></dd></dl>
+
+<dl><dt><a name="TestValidateFieldsPatchable-teardown_method"><strong>teardown_method</strong></a>(self)</dt><dd><span class="code">#&nbsp;Some&nbsp;tests&nbsp;change&nbsp;FieldPermission&nbsp;attribute&nbsp;values.<br>
+#&nbsp;derive_cru&nbsp;resets&nbsp;the&nbsp;values&nbsp;after&nbsp;each&nbsp;test<br>
+#&nbsp;Redundant&nbsp;with&nbsp;setup_method,&nbsp;but&nbsp;good&nbsp;practice</span></dd></dl>
+
+<dl><dt><a name="TestValidateFieldsPatchable-test_cannot_patch_first_name_for_member_of_other_project"><strong>test_cannot_patch_first_name_for_member_of_other_project</strong></a>(self)</dt><dd><span class="code">Test&nbsp;validate_fields_patchable&nbsp;raises&nbsp;ValidationError<br>
+if&nbsp;requesting&nbsp;fields&nbsp;include&nbsp;first_name&nbsp;**WHEN**&nbsp;requester<br>
+is&nbsp;a&nbsp;member&nbsp;of&nbsp;a&nbsp;different&nbsp;project.</span></dd></dl>
+
+<dl><dt><a name="TestValidateFieldsPatchable-test_created_at_not_updateable"><strong>test_created_at_not_updateable</strong></a>(self)</dt><dd><span class="code">Test&nbsp;validate_fields_patchable&nbsp;raises&nbsp;ValidationError<br>
+if&nbsp;requesting&nbsp;fields&nbsp;include&nbsp;created_at.</span></dd></dl>
+
+<dl><dt><a name="TestValidateFieldsPatchable-test_multi_project_requester_can_patch_first_name_of_member_if_requester_is_project_leader"><strong>test_multi_project_requester_can_patch_first_name_of_member_if_requester_is_project_leader</strong></a>(self)</dt><dd><span class="code">Test&nbsp;validate_fields_patchable&nbsp;succeeds&nbsp;for&nbsp;first&nbsp;name<br>
+**WHEN**&nbsp;requester&nbsp;assigned&nbsp;to&nbsp;multiple&nbsp;projects<br>
+is&nbsp;a&nbsp;project&nbsp;lead&nbsp;for&nbsp;the&nbsp;user&nbsp;being&nbsp;patched.</span></dd></dl>
+
+<dl><dt><a name="TestValidateFieldsPatchable-test_multi_project_user_cannot_patch_first_name_of_member_if_requester_is_project_member"><strong>test_multi_project_user_cannot_patch_first_name_of_member_if_requester_is_project_member</strong></a>(self)</dt><dd><span class="code">Test&nbsp;validate_fields_patchable&nbsp;raises&nbsp;ValidationError<br>
+**WHEN**&nbsp;requester&nbsp;assigned&nbsp;to&nbsp;multiple&nbsp;projects<br>
+is&nbsp;only&nbsp;a&nbsp;project&nbsp;team&nbsp;member&nbsp;for&nbsp;the&nbsp;user&nbsp;being&nbsp;patched.</span></dd></dl>
+
+<dl><dt><a name="TestValidateFieldsPatchable-test_project_lead_can_patch_name"><strong>test_project_lead_can_patch_name</strong></a>(self)</dt><dd><span class="code">Test&nbsp;validate_fields_patchable&nbsp;succeeds<br>
+if&nbsp;requesting&nbsp;fields&nbsp;include&nbsp;first_name&nbsp;and&nbsp;last_name&nbsp;**WHEN**<br>
+the&nbsp;requester&nbsp;is&nbsp;a&nbsp;project&nbsp;lead.</span></dd></dl>
+
+<dl><dt><a name="TestValidateFieldsPatchable-test_project_lead_cannot_patch_current_title"><strong>test_project_lead_cannot_patch_current_title</strong></a>(self)</dt><dd><span class="code">Test&nbsp;validate_fields_patchable&nbsp;raises&nbsp;ValidationError<br>
+if&nbsp;requesting&nbsp;fields&nbsp;include&nbsp;current_title&nbsp;**WHEN**&nbsp;requester<br>
+is&nbsp;a&nbsp;project&nbsp;lead.</span></dd></dl>
+
+<dl><dt><a name="TestValidateFieldsPatchable-test_team_member_cannot_patch_first_name_for_member_of_same_project"><strong>test_team_member_cannot_patch_first_name_for_member_of_same_project</strong></a>(self)</dt><dd><span class="code">Test&nbsp;validate_fields_patchable&nbsp;raises&nbsp;ValidationError<br>
+**WHEN**&nbsp;requester&nbsp;is&nbsp;only&nbsp;a&nbsp;project&nbsp;team&nbsp;member.</span></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object</span></dd>
+</dl>
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>pytestmark</strong> = [Mark(name='django_db', args=(), kwargs={})]</dl>
+
+</td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor functions-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Functions</strong></td></tr>
+
+<tr><td class="decor functions-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt><a name="-fields_match"><strong>fields_match</strong></a>(first_name, user_data, fields)</dt></dl>
+</td></tr></table><p>
+<table class="section">
+<tr class="decor data-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Data</strong></td></tr>
+
+<tr><td class="decor data-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><strong>count_members_either</strong> = 6<br>
+<strong>count_people_depot_members</strong> = 3<br>
+<strong>count_website_members</strong> = 4<br>
+<strong>garry_name</strong> = 'Garry'<br>
+<strong>patti_name</strong> = 'Patti'<br>
+<strong>valerie_name</strong> = 'Valerie'<br>
+<strong>wally_name</strong> = 'Wally'<br>
+<strong>wanda_project_lead</strong> = 'Wanda'<br>
+<strong>winona_name</strong> = 'Winona'<br>
+<strong>zani_name</strong> = 'Zani'</td></tr></table>
+</body></html>

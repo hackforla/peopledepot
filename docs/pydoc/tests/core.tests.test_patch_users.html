@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Python: module core.tests.test_patch_users</title>
+</head><body>
+
+<table class="heading">
+<tr class="heading-text decor">
+<td class="title">&nbsp;<br><strong class="title"><a href="core.html" class="white">core</a>.<a href="core.tests.html" class="white">tests</a>.test_patch_users</strong></td>
+<td class="extra"><a href=".">index</a><br><a href="file:/Users/ethanadmin/projects/peopledepot/app/core/tests/test_patch_users.py">/Users/ethanadmin/projects/peopledepot/app/core/tests/test_patch_users.py</a></td></tr></table>
+    <p></p>
+<p>
+<table class="section">
+<tr class="decor pkg-content-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Modules</strong></td></tr>
+
+<tr><td class="decor pkg-content-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><table><tr><td class="multicolumn"><a href="pytest.html">pytest</a><br>
+</td><td class="multicolumn"><a href="rest_framework.status.html">rest_framework.status</a><br>
+</td><td class="multicolumn"></td><td class="multicolumn"></td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor index-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Classes</strong></td></tr>
+
+<tr><td class="decor index-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl>
+<dt class="heading-text"><a href="builtins.html#object">builtins.object</a>
+</dt><dd>
+<dl>
+<dt class="heading-text"><a href="core.tests.test_patch_users.html#TestPatchUser">TestPatchUser</a>
+</dt></dl>
+</dd>
+</dl>
+ <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="TestPatchUser">class <strong>TestPatchUser</strong></a>(<a href="builtins.html#object">builtins.object</a>)</td></tr>
+
+<tr><td class="decor title-decor"><span class="code">&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn">Methods defined here:<br>
+<dl><dt><a name="TestPatchUser-setup_method"><strong>setup_method</strong></a>(self)</dt><dd><span class="code">#&nbsp;Some&nbsp;tests&nbsp;change&nbsp;FieldPermission&nbsp;attribute&nbsp;values.<br>
+#&nbsp;derive_cru&nbsp;resets&nbsp;the&nbsp;values&nbsp;before&nbsp;each&nbsp;test&nbsp;-&nbsp;otherwise<br>
+#&nbsp;the&nbsp;tests&nbsp;would&nbsp;interfere&nbsp;with&nbsp;each&nbsp;other</span></dd></dl>
+
+<dl><dt><a name="TestPatchUser-teardown_method"><strong>teardown_method</strong></a>(self)</dt><dd><span class="code">#&nbsp;Some&nbsp;tests&nbsp;change&nbsp;FieldPermission&nbsp;attribute&nbsp;values.<br>
+#&nbsp;derive_cru&nbsp;resets&nbsp;the&nbsp;values&nbsp;after&nbsp;each&nbsp;test<br>
+#&nbsp;Redundant&nbsp;with&nbsp;setup_method,&nbsp;but&nbsp;good&nbsp;practice</span></dd></dl>
+
+<dl><dt><a name="TestPatchUser-test_admin_cannot_patch_created_at"><strong>test_admin_cannot_patch_created_at</strong></a>(self)</dt><dd><span class="code">Test&nbsp;that&nbsp;the&nbsp;patch&nbsp;request&nbsp;raises&nbsp;a&nbsp;validation&nbsp;exception<br>
+when&nbsp;the&nbsp;request&nbsp;fields&nbsp;includes&nbsp;created_date,&nbsp;even&nbsp;if&nbsp;the<br>
+requester&nbsp;is&nbsp;an&nbsp;admin.</span></dd></dl>
+
+<dl><dt><a name="TestPatchUser-test_admin_patch_request_succeeds"><strong>test_admin_patch_request_succeeds</strong></a>(self)</dt><dd><span class="code">Test&nbsp;that&nbsp;the&nbsp;patch&nbsp;requests&nbsp;succeeds&nbsp;when&nbsp;the&nbsp;requester&nbsp;is&nbsp;an&nbsp;admin.</span></dd></dl>
+
+<dl><dt><a name="TestPatchUser-test_allowable_patch_fields_configurable"><strong>test_allowable_patch_fields_configurable</strong></a>(self)</dt><dd><span class="code">Test&nbsp;that&nbsp;the&nbsp;fields&nbsp;that&nbsp;can&nbsp;be&nbsp;updated&nbsp;are&nbsp;configurable.<br>
+&nbsp;<br>
+This&nbsp;test&nbsp;mocks&nbsp;a&nbsp;PATCH&nbsp;request&nbsp;to&nbsp;skip&nbsp;submitting&nbsp;the&nbsp;request&nbsp;to&nbsp;the&nbsp;server&nbsp;and&nbsp;instead<br>
+calls&nbsp;the&nbsp;view&nbsp;directly&nbsp;with&nbsp;the&nbsp;request.&nbsp;&nbsp;This&nbsp;is&nbsp;done&nbsp;so&nbsp;that&nbsp;variables&nbsp;used&nbsp;by&nbsp;the<br>
+server&nbsp;can&nbsp;be&nbsp;set&nbsp;to&nbsp;test&nbsp;values.</span></dd></dl>
+
+<dl><dt><a name="TestPatchUser-test_not_allowable_patch_fields_configurable"><strong>test_not_allowable_patch_fields_configurable</strong></a>(self)</dt><dd><span class="code">Test&nbsp;that&nbsp;the&nbsp;fields&nbsp;that&nbsp;are&nbsp;not&nbsp;configured&nbsp;to&nbsp;be&nbsp;updated&nbsp;cannot&nbsp;be&nbsp;updated.<br>
+&nbsp;<br>
+See&nbsp;documentation&nbsp;for&nbsp;test_allowable_patch_fields_configurable&nbsp;for&nbsp;more&nbsp;information.</span></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object</span></dd>
+</dl>
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>pytestmark</strong> = [Mark(name='django_db', args=(), kwargs={})]</dl>
+
+</td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor functions-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Functions</strong></td></tr>
+
+<tr><td class="decor functions-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt><a name="-fields_match"><strong>fields_match</strong></a>(first_name, user_data, fields)</dt></dl>
+ <dl><dt><a name="-patch_request_to_viewset"><strong>patch_request_to_viewset</strong></a>(requester, target_user, update_data)</dt></dl>
+</td></tr></table><p>
+<table class="section">
+<tr class="decor data-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Data</strong></td></tr>
+
+<tr><td class="decor data-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><strong>count_members_either</strong> = 6<br>
+<strong>count_people_depot_members</strong> = 3<br>
+<strong>count_website_members</strong> = 4<br>
+<strong>garry_name</strong> = 'Garry'<br>
+<strong>project_lead</strong> = 'Project Lead'<br>
+<strong>valerie_name</strong> = 'Valerie'<br>
+<strong>wally_name</strong> = 'Wally'<br>
+<strong>wanda_project_lead</strong> = 'Wanda'</td></tr></table>
+</body></html>
