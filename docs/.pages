@@ -3,6 +3,8 @@ nav:
   - Get Started:
     - CONTRIBUTING.md
   - architecture
+  - ref
+  - howto
   - how-to
   - tools
   - ...
