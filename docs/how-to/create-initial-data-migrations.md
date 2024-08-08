@@ -89,18 +89,20 @@ It is required that there be data in the first column of the sheet.
     from core.models import ModelNameInPascalCase
 
 
-    def run(__code__, __reverse_code__):
+    def forward(__code__, __reverse_code__):
         # paste everything in seed script's run function here
         # remove pass below
         pass
 
 
+    def reverse(__code__, __reverse_code__):
+        ModelNameInPascalCase.objects.all().delete()
+
+
     class Migration(migrations.Migration):
-        initial = True
         dependencies = [("data", "<name of last script, or contents of max_migration.txt>")]
 
-
-    operations = [migrations.RunPython(run, migrations.RunPython.noop)]
+        operations = [migrations.RunPython(forward, reverse)]
     ```
 
     For example:
@@ -111,7 +113,7 @@ It is required that there be data in the first column of the sheet.
     from core.models import BookType
 
 
-    def run(__code__, __reverse_code__):
+    def forward(__code__, __reverse_code__):
         items = [
             (1, "Hard Cover"),
             (2, "Soft Cover"),
@@ -120,12 +122,14 @@ It is required that there be data in the first column of the sheet.
             BookType.objects.create(uuid=uuid, name=name)
 
 
+    def reverse(__code__, __reverse_code__):
+        BookType.objects.all().delete()
+
+
     class Migration(migrations.Migration):
-        initial = True
         dependencies = [("data", "0011_author_seed")]
 
-
-    operations = [migrations.RunPython(run, migrations.RunPython.noop)]
+        operations = [migrations.RunPython(forward, reverse)]
     ```
 
 [pd-data-spreadsheet]: https://docs.google.com/spreadsheets/d/1x_zZ8JLS2hO-zG0jUocOJmX16jh-DF5dccrd_OEGNZ0/
