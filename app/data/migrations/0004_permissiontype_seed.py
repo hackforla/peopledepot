@@ -50,5 +50,4 @@ class Migration(migrations.Migration):
     initial = True
     dependencies = [("data", "0003_sdg_seed")]
 
-
     operations = [migrations.RunPython(run, migrations.RunPython.noop)]
