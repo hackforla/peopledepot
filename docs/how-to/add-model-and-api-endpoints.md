@@ -303,6 +303,12 @@ Viewset defines the set of API endpoints for the model.
 
 In `app/core/api/views.py`
 
+1. Import the model
+
+    ```python title="app/core/api/views.py" linenums="1"
+    from ..models import RecurringEvent
+    ```
+
 1. Import the serializer
 
     ```python title="app/core/api/views.py" linenums="1"
