@@ -23,6 +23,7 @@ PERMISSION_TYPE = reverse("permission-type-list")
 STACK_ELEMENT_TYPE_URL = reverse("stack-element-type-list")
 SDG_URL = reverse("sdg-list")
 AFFILIATION_URL = reverse("affiliation-list")
+CHECK_TYPE_URL = reverse("check-type-list")
 
 CREATE_USER_PAYLOAD = {
     "username": "TestUserAPI",
@@ -346,3 +347,13 @@ def test_create_affiliation(auth_client, project, affiliate):
     assert res.data["is_partner"] == payload["is_partner"]
     assert res.data["affiliate"] == payload["affiliate"]
     assert res.data["project"] == payload["project"]
+
+
+def test_create_check_type(auth_client):
+    payload = {
+        "name": "This is a test check_type",
+        "description": "This is a test description",
+    }
+    res = auth_client.post(CHECK_TYPE_URL, payload)
+    assert res.status_code == status.HTTP_201_CREATED
+    assert res.data["name"] == payload["name"]
