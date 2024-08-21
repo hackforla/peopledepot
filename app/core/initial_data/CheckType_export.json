@@ -1,0 +1,22 @@
+[
+    {
+        "uuid":1,
+        "name":"GitHub Invite Accepted",
+        "description":""},
+    {
+        "uuid":2,
+        "name":"Slack Invite Accepted",
+        "description":""},
+    {
+        "uuid":3,
+        "name":"Google Calendar Invite Accepted",
+        "description":""},
+    {
+        "uuid":4,
+        "name":"GitHub Membership Public",
+        "description":""},
+    {
+        "uuid":5,
+        "name":"Accepted Code of Conduct",
+        "description":""}
+]
