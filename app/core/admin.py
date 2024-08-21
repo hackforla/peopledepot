@@ -7,6 +7,7 @@ from django.utils.translation import gettext_lazy as _
 
 from .models import Affiliate
 from .models import Affiliation
+from .models import CheckType
 from .models import Event
 from .models import Faq
 from .models import FaqViewed
@@ -233,3 +234,8 @@ class AffiliationAdmin(admin.ModelAdmin):
         "is_partner",
     )
     list_filter = ("is_sponsor", "is_partner", "affiliate", "project")
+
+
+@admin.register(CheckType)
+class CheckTypeAdmin(admin.ModelAdmin):
+    list_display = ("name", "description")
