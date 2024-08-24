@@ -441,10 +441,10 @@ In `app/core/api/urls.py`
 
     1. Params
         1. First param is the URL prefix use in the API routes. It is, by convention, plural
-            - This would show up in the URL like this: `http://localhost/api/v1/recuring-events/` and `http://localhost/api/v1/recuring-events/<uuid>`
+            - This would show up in the URL like this: `http://localhost:8000/api/v1/recuring-events/` and `http://localhost:8000/api/v1/recuring-events/<uuid>`
         1. Second param is the viewset class which defines the API actions
         1. `basename` is the name used for generating the endpoint names, such as <basename>-list, <basename>-detail, etc. It's in the singular form. This is automatically generated if the viewset definition contains a `queryset` attribute, but it's required if the viewset overrides that with the `get_queryset` function
-            - `reverse("recurring-event-list")` would return `http://localhost/api/v1/recuring-events/`
+            - `reverse("recurring-event-list")` would return `http://localhost:8000/api/v1/recuring-events/`
 
 ??? note "Test"
     For the CRUD operations, since we're using `ModelViewSet` where all the actions are provided by `rest_framework` and well-tested, it's not necessary to have test cases for them. But here's an example of one.
