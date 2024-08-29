@@ -12,6 +12,7 @@ from ..models import PermissionType
 from ..models import PracticeArea
 from ..models import ProgramArea
 from ..models import Project
+from ..models import ProjectProgramAreaXref
 from ..models import Sdg
 from ..models import Skill
 from ..models import StackElementType
@@ -204,4 +205,11 @@ def check_type():
     return CheckType.objects.create(
         name="This is a test check_type.",
         description="This is a test check_type description.",
+    )
+
+
+@pytest.fixture
+def project_program_area_xref(project, program_area):
+    return ProjectProgramAreaXref.objects.create(
+        project_id=project, program_area_id=program_area
     )

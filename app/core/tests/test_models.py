@@ -1,6 +1,7 @@
 import pytest
 
 from ..models import Event
+from ..models import ProjectProgramAreaXref
 
 pytestmark = pytest.mark.django_db
 
@@ -118,3 +119,21 @@ def test_affiliation_is_neither_partner_and_sponsor(affiliation4):
 def test_check_type(check_type):
     assert str(check_type) == "This is a test check_type."
     assert check_type.description == "This is a test check_type description."
+
+
+def test_project_program_area_xref(project_program_area_xref, project, program_area):
+    from datetime import datetime
+
+    payload = {
+        "project_id": project,
+        "program_area_id": program_area,
+        "created_date": datetime(2023, 1, 1, 2, 34),
+    }
+    project_program_area_xref = ProjectProgramAreaXref(**payload)
+    assert project_program_area_xref.project_id == payload["project_id"]
+    assert project_program_area_xref.program_area_id == payload["program_area_id"]
+    assert project_program_area_xref.created_date == payload["created_date"]
+    assert (
+        str(project_program_area_xref)
+        == f"Project Id: {project_program_area_xref.project_id}, Program area Id: {project_program_area_xref.program_area_id}"
+    )

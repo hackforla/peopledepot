@@ -383,3 +383,12 @@ class CheckType(AbstractBaseModel):
 
     def __str__(self):
         return f"{self.name}"
+
+
+class ProjectProgramAreaXref(AbstractBaseModel):
+    project_id = models.ForeignKey(Project, on_delete=models.CASCADE)
+    program_area_id = models.ForeignKey(ProgramArea, on_delete=models.CASCADE)
+    created_date = models.DateTimeField("Created at", null=True, blank=True)
+
+    def __str__(self):
+        return f"Project Id: {self.project_id}, Program area Id: {self.program_area_id}"
