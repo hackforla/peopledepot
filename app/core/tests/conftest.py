@@ -16,11 +16,11 @@ from ..models import Skill
 from ..models import StackElementType
 from ..models import Technology
 from ..models import User
-from ..models import UserPermissions
+from ..models import UserPermission
 
 
 @pytest.fixture
-def created_user_admin():
+def user_admin():
     return User.objects.create_user(
         username="AdminUser",
         email="adminuser@example.com",
@@ -30,19 +30,19 @@ def created_user_admin():
 
 
 @pytest.fixture
-def created_user_permissions():
+def user_permissions():
     user1 = User.objects.create(username="TestUser1", email="TestUser1@example.com")
     user2 = User.objects.create(username="TestUser2", email="TestUser2@example.com")
     project = Project.objects.create(name="Test Project")
     permission_type = PermissionType.objects.first()
     practice_area = PracticeArea.objects.first()
-    user1_permission = UserPermissions.objects.create(
+    user1_permission = UserPermission.objects.create(
         user=user1,
         permission_type=permission_type,
         project=project,
         practice_area=practice_area,
     )
-    user2_permissions = UserPermissions.objects.create(
+    user2_permissions = UserPermission.objects.create(
         user=user2,
         permission_type=permission_type,
         project=project,

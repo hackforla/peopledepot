@@ -1,1 +1,1 @@
-0024_userpermission_and_alter_permissiontype
+0024_permissiontype_rank_alter_permissiontype_name_and_more

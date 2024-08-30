@@ -24,7 +24,7 @@ usage() {
 
 exit_abnormal() {
   usage
-  return 1
+  exit 1
 }
 
 migrate() {
@@ -90,7 +90,7 @@ while getopts "lhdvobcms" option; do
       SHOW_LOGS=1;;
     ?) # Invalid option
       echo "Invalid option: -${OPTARG}."
-      return 1;;
+      exit_abnormal;;
   esac
 done
 

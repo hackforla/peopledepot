@@ -312,7 +312,7 @@ class PermissionType(AbstractBaseModel):
             return f"{self.name}"
 
 
-class UserPermissions(AbstractBaseModel):
+class UserPermission(AbstractBaseModel):
     """
     User Permissions
     """

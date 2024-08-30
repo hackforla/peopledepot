@@ -25,7 +25,7 @@ from ..models import Sdg
 from ..models import Skill
 from ..models import StackElementType
 from ..models import Technology
-from ..models import UserPermissions
+from ..models import UserPermission
 from .serializers import AffiliateSerializer
 from .serializers import AffiliationSerializer
 from .serializers import EventSerializer
@@ -40,7 +40,7 @@ from .serializers import SdgSerializer
 from .serializers import SkillSerializer
 from .serializers import StackElementTypeSerializer
 from .serializers import TechnologySerializer
-from .serializers import UserPermissionsSerializer
+from .serializers import UserPermissionSerializer
 from .serializers import UserSerializer
 
 
@@ -341,7 +341,7 @@ class AffiliationViewSet(viewsets.ModelViewSet):
     destroy=extend_schema(description="Delete a user permission"),
     partial_update=extend_schema(description="Patch a user permission"),
 )
-class UserPermissionsViewSet(viewsets.ReadOnlyModelViewSet):
+class UserPermissionViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = []
-    queryset = UserPermissions.objects.all()
-    serializer_class = UserPermissionsSerializer
+    queryset = UserPermission.objects.all()
+    serializer_class = UserPermissionSerializer

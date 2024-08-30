@@ -4,24 +4,44 @@
 #    - DJANGO_SUPERUSER
 #    - DJANGO_SUPERUSER_PASSWORD
 #    - DJANGO_SUPERUSER_EMAIL
-if [[ $PWD != *"app"* ]]; then
-    cd app || {
-        echo "ERROR: cd app failed"
+if [[ $PWD != *"app" ]]; then
+    cd app || cd ../app ||
+ {
+        echo "ERROR: cd app failed.  Please run from the app directory."
         return 1
     }
 fi
 
-SCRIPT_DIR="$(dirname "$0")"
-"$SCRIPT_DIR"/loadenv.sh || {
+# pre-commit would cause this to fail.  We don't need the check for this script.
+# shellcheck disable=SC1091
+source ../scripts/loadenv.sh ||  {
     echo "ERROR: loadenv.sh failed"
     return 1
 }
+
+activate_venv() {
+    # pre-commit would cause this to fail.  We don't need the check for this script.
+    # shellcheck disable=SC1091
+    source venv/bin/activate || {
+        echo "ERROR: Failed to activate virtual environment"
+        return 1
+    }
+}
+
+if [ -z "$VIRTUAL_ENV" ]; then
+    # Activate virtual environment or handle error
+    activate_venv || exit 1
+fi
+
 echo Admin user = "$DJANGO_SUPERUSER" email = "$DJANGO_SUPERUSER_EMAIL"
-if [[ $1 != "" ]]; then
+if [[ "$1" == "" ]]; then
+    echo Setting port to param "$1"
     port=$1
 elif [[ "$DJANGO_PORT" != "" ]]; then
-    port=$DJANGO_PORT
+    echo Setting port to DJANGO_PORT "$DJANGO_PORT"
+    port="$DJANGO_PORT"
 else
+    echo Setting port to 8000
     port=8000
 fi
 echo Port is "$port"
@@ -64,7 +84,7 @@ else
 fi
 
 echo
-echo --- All prep steps successful!  Executing python manage.py runserver
+echo --- All prep steps successful!  Executing python manage.py runserver on "$port"
 echo
 
-python manage.py runserver 0.0.0.0:"$port"
+python manage.py runserver "$port"
