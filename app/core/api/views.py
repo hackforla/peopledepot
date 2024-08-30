@@ -13,6 +13,7 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 from ..models import Affiliate
 from ..models import Affiliation
+from ..models import CheckType
 from ..models import Event
 from ..models import Faq
 from ..models import FaqViewed
@@ -28,6 +29,7 @@ from ..models import Technology
 from ..models import UserPermission
 from .serializers import AffiliateSerializer
 from .serializers import AffiliationSerializer
+from .serializers import CheckTypeSerializer
 from .serializers import EventSerializer
 from .serializers import FaqSerializer
 from .serializers import FaqViewedSerializer
@@ -332,6 +334,20 @@ class AffiliationViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = Affiliation.objects.all()
     serializer_class = AffiliationSerializer
+
+
+@extend_schema_view(
+    list=extend_schema(description="Return a list of all the check_type"),
+    create=extend_schema(description="Create a new check_type"),
+    retrieve=extend_schema(description="Return the details of an check_type"),
+    destroy=extend_schema(description="Delete an check_type"),
+    update=extend_schema(description="Update an check_type"),
+    partial_update=extend_schema(description="Patch an check_type"),
+)
+class CheckTypeViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = CheckType.objects.all()
+    serializer_class = CheckTypeSerializer
 
 
 @extend_schema_view(

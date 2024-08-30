@@ -3,6 +3,7 @@ from rest_framework.test import APIClient
 
 from ..models import Affiliate
 from ..models import Affiliation
+from ..models import CheckType
 from ..models import Event
 from ..models import Faq
 from ..models import FaqViewed
@@ -229,4 +230,12 @@ def affiliation3(project, affiliate):
 def affiliation4(project, affiliate):
     return Affiliation.objects.create(
         is_sponsor=False, is_partner=False, project=project, affiliate=affiliate
+    )
+
+
+@pytest.fixture
+def check_type():
+    return CheckType.objects.create(
+        name="This is a test check_type.",
+        description="This is a test check_type description.",
     )

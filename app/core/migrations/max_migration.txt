@@ -1,1 +1,1 @@
-0024_permissiontype_rank_alter_permissiontype_name_and_more
+0025_permissiontype_rank_alter_permissiontype_name_and_more

@@ -3,6 +3,7 @@ from rest_framework import routers
 
 from .views import AffiliateViewSet
 from .views import AffiliationViewSet
+from .views import CheckTypeViewSet
 from .views import EventViewSet
 from .views import FaqViewedViewSet
 from .views import FaqViewSet
@@ -42,6 +43,7 @@ router.register(
     AffiliationViewSet,
     basename="affiliation",
 )
+router.register(r"check-types", CheckTypeViewSet, basename="check-type")
 urlpatterns = [
     path("me/", UserProfileAPIView.as_view(), name="my_profile"),
 ]

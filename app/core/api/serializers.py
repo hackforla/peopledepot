@@ -3,6 +3,7 @@ from timezone_field.rest_framework import TimeZoneSerializerField
 
 from core.models import Affiliate
 from core.models import Affiliation
+from core.models import CheckType
 from core.models import Event
 from core.models import Faq
 from core.models import FaqViewed
@@ -332,4 +333,15 @@ class AffiliationSerializer(serializers.ModelSerializer):
             "is_sponsor",
             "is_partner",
         )
+        read_only_fields = ("uuid", "created_at", "updated_at")
+
+
+class CheckTypeSerializer(serializers.ModelSerializer):
+    """
+    Used to retrieve check_type info
+    """
+
+    class Meta:
+        model = CheckType
+        fields = ("uuid", "name", "description")
         read_only_fields = ("uuid", "created_at", "updated_at")
