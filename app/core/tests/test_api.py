@@ -8,7 +8,7 @@ from core.models import ProgramArea
 
 pytestmark = pytest.mark.django_db
 
-USER_PERMISSIONS_URL = reverse("user-permissions-list")
+USER_PERMISSIONS_URL = reverse("user-permission-list")
 ME_URL = reverse("my_profile")
 USERS_URL = reverse("user-list")
 EVENTS_URL = reverse("event-list")
