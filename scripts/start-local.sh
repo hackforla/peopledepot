@@ -30,7 +30,7 @@ activate_venv() {
 
 if [ -z "$VIRTUAL_ENV" ]; then
     # Activate virtual environment or handle error
-    activate_venv || exit 1
+    activate_venv || return 1
 fi
 
 echo Admin user = "$DJANGO_SUPERUSER" email = "$DJANGO_SUPERUSER_EMAIL"

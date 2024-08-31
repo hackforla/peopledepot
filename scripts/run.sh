@@ -24,7 +24,7 @@ usage() {
 
 exit_abnormal() {
   usage
-  exit 1
+  return 1
 }
 
 migrate() {
@@ -71,7 +71,7 @@ while getopts "lhdvobcms" option; do
   case $option in
     h)
       usage
-      exit;;
+      return 1;;
     c) # delete containers and networks
       DELETE_CONTAINERS=1;;
     v) # remove volumes
