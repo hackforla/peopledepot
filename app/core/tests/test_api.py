@@ -306,7 +306,7 @@ def test_create_technology(auth_client):
 
 
 def test_create_permission_type(auth_client):
-    payload = {"name": "adminGlobal", "description": "Can CRUD anything"}
+    payload = {"name": "newRecord", "description": "Can CRUD anything"}
     res = auth_client.post(PERMISSION_TYPE, payload)
     assert res.status_code == status.HTTP_201_CREATED
     assert res.data["name"] == payload["name"]
