@@ -29,7 +29,7 @@ activate_venv() {
 }
 
 if [ -z "$VIRTUAL_ENV" ]; then
-    # Activate virtual environment or handle error
+    # Execute above function - if not successful, return 1
     activate_venv || return 1
 fi
 

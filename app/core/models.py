@@ -333,7 +333,13 @@ class UserPermission(AbstractBaseModel):
         ]
 
     def __str__(self):
-        return f"{self.user} has permission {self.permission_type}"
+        username = self.user.username
+        permission_type_name = self.permission_type.name
+        project_name = self.project.name
+        str_val = f"User: {username} / Permission Type: {permission_type_name}/ Project: {project_name}"
+        if self.practice_area:
+            str_val += f" / Practice Area: {self.practice_area.name}"
+        return str_val
 
 
 class StackElementType(AbstractBaseModel):
