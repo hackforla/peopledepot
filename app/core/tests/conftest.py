@@ -24,7 +24,7 @@ from ..models import UserPermission
 
 
 @pytest.fixture
-def user_admin():
+def user_superuser_admin():
     return User.objects.create_user(
         username="AdminUser",
         email="adminuser@example.com",

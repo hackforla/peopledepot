@@ -324,8 +324,8 @@ def test_create_stack_element_type(auth_client):
     assert res.data["name"] == payload["name"]
 
 
-def test_get_user_permissions(user_admin, user_permissions, auth_client):
-    auth_client.force_authenticate(user=user_admin)
+def test_get_user_permissions(user_superuser_admin, user_permissions, auth_client):
+    auth_client.force_authenticate(user=user_superuser_admin)
     permission_count = UserPermission.objects.count()
     res = auth_client.get(USER_PERMISSIONS_URL)
     assert len(res.data) == permission_count
