@@ -10,7 +10,7 @@ Thank you for volunteering your time! The following is a set of guidelines for c
 
     - [Pre-requisites](dev_environment.md#pre-requisites)
     - [Fork the repository](dev_environment.md#fork-the-repository)
-    - [Build and run locally](dev_environment.md#build-and-run)
+    - [Build and run locally](dev_environment.md#build-and-run-using-docker-locally)
 
 - [Working with Issues](issues.md)
 
