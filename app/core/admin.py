@@ -16,6 +16,7 @@ from .models import PermissionType
 from .models import PracticeArea
 from .models import ProgramArea
 from .models import Project
+from .models import ProjectProgramAreaXref
 from .models import Sdg
 from .models import Skill
 from .models import StackElementType
@@ -120,6 +121,15 @@ class ProjectAdmin(admin.ModelAdmin):
         "created_at",
         "updated_at",
         "completed_at",
+    )
+
+
+@admin.register(ProjectProgramAreaXref)
+class ProjectProgramAreaXrefAdmin(admin.ModelAdmin):
+    list_display = (
+        "project_id",
+        "program_area_id",
+        "created_date",
     )
 
 

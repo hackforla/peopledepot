@@ -22,6 +22,7 @@ from ..models import PermissionType
 from ..models import PracticeArea
 from ..models import ProgramArea
 from ..models import Project
+from ..models import ProjectProgramAreaXref
 from ..models import Sdg
 from ..models import Skill
 from ..models import StackElementType
@@ -36,6 +37,7 @@ from .serializers import LocationSerializer
 from .serializers import PermissionTypeSerializer
 from .serializers import PracticeAreaSerializer
 from .serializers import ProgramAreaSerializer
+from .serializers import ProjectProgramAreaXrefSerializer
 from .serializers import ProjectSerializer
 from .serializers import SdgSerializer
 from .serializers import SkillSerializer
@@ -346,3 +348,19 @@ class CheckTypeViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = CheckType.objects.all()
     serializer_class = CheckTypeSerializer
+
+
+@extend_schema_view(
+    list=extend_schema(description="Return a list of all project program area xref"),
+    create=extend_schema(description="Create a new project program area xref"),
+    retrieve=extend_schema(
+        description="Return the details of a project program area xref"
+    ),
+    destroy=extend_schema(description="Delete a project program area xref"),
+    update=extend_schema(description="Update a project program area xref"),
+    partial_update=extend_schema(description="Patch a project program area xref"),
+)
+class ProjectProgramAreaXrefViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = ProjectProgramAreaXref.objects.all()
+    serializer_class = ProjectProgramAreaXrefSerializer

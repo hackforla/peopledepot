@@ -12,6 +12,7 @@ from core.models import PermissionType
 from core.models import PracticeArea
 from core.models import ProgramArea
 from core.models import Project
+from core.models import ProjectProgramAreaXref
 from core.models import Sdg
 from core.models import Skill
 from core.models import StackElementType
@@ -328,3 +329,14 @@ class CheckTypeSerializer(serializers.ModelSerializer):
         model = CheckType
         fields = ("uuid", "name", "description")
         read_only_fields = ("uuid", "created_at", "updated_at")
+
+
+class ProjectProgramAreaXrefSerializer(serializers.ModelSerializer):
+    """
+    Used to retrieve ProjectProgramAreaXref
+    """
+
+    class Meta:
+        model = ProjectProgramAreaXref
+        fields = ("uuid", "project_id", "program_area_id", "created_date")
+        read_only_fields = ("uuid", "created_date")

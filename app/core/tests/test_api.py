@@ -24,6 +24,8 @@ STACK_ELEMENT_TYPE_URL = reverse("stack-element-type-list")
 SDG_URL = reverse("sdg-list")
 AFFILIATION_URL = reverse("affiliation-list")
 CHECK_TYPE_URL = reverse("check-type-list")
+PROJECT_PROGRAM_AREA_XREF_URL = reverse("project-program-area-xref-list")
+
 
 CREATE_USER_PAYLOAD = {
     "username": "TestUserAPI",
@@ -357,3 +359,17 @@ def test_create_check_type(auth_client):
     res = auth_client.post(CHECK_TYPE_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
     assert res.data["name"] == payload["name"]
+
+
+def test_create_project_program_area_xref(auth_client, project, program_area):
+    """Test that we can create a project program area xref"""
+
+    payload = {
+        "project_id": project.uuid,
+        "program_area_id": program_area.uuid,
+        "created_date": "2024-08-30 02:34:00",
+    }
+    res = auth_client.post(PROJECT_PROGRAM_AREA_XREF_URL, payload)
+    assert res.status_code == status.HTTP_201_CREATED
+    assert res.data["project_id"] == payload["project_id"]
+    assert res.data["program_area_id"] == payload["program_area_id"]
