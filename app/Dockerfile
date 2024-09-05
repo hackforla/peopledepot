@@ -20,11 +20,11 @@ RUN \
   apt-get update \
   && apt-get install --no-install-recommends -yqq \
   netcat=1.10-46 \
-  gcc=4:10.2.1-1 \
-  graphviz=2.42.2-5
+  gcc=4:10.2.1-1
 
-# install dependencies
+# Copy requirements file
 COPY ./requirements.txt .
+
 # hadolint ignore=DL3042
 RUN \
   --mount=type=cache,target=/root/.cache \
