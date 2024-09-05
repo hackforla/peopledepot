@@ -148,26 +148,25 @@ class ProjectProgramAreaXrefTestCase(TestCase):
     def test_project_to_program_areas_relationship(self):
         # Get all ProgramAreas associated with the project
         program_areas = ProgramArea.objects.filter(
-            # check the project_id field in the ProjectProgramAreaXref model to find program areas associated with the given project
             projectprogramareaxref__project_id=self.project
         )
-        self.assertEqual(program_areas.count(), 2)
+        assert program_areas.count() == 2
         # check if program_area1 is included in the retrieved program_areas
-        self.assertIn(self.program_area1, program_areas)
-        self.assertIn(self.program_area2, program_areas)
+        assert self.program_area1 in program_areas
+        assert self.program_area2 in program_areas
 
     def test_program_area_to_projects_relationship(self):
         # Get all Projects associated with the first ProgramArea
         projects_for_area1 = Project.objects.filter(
             projectprogramareaxref__program_area_id=self.program_area1
         )
-        self.assertEqual(projects_for_area1.count(), 1)
+        assert projects_for_area1.count() == 1
         # asserts that self.project is included in the retrieved projects_for_area1
-        self.assertIn(self.project, projects_for_area1)
+        assert self.project in projects_for_area1
 
         # Get all Projects associated with the second ProgramArea
         projects_for_area2 = Project.objects.filter(
             projectprogramareaxref__program_area_id=self.program_area2
         )
-        self.assertEqual(projects_for_area2.count(), 1)
-        self.assertIn(self.project, projects_for_area2)
+        assert projects_for_area2.count() == 1
+        assert self.project in projects_for_area2
