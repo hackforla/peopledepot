@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECRET_KEY is used internally by Django to encrypt session data
 # SECRET_API_KEY is used to authenticate a "secret" API endpoint
 SECRET_KEY = os.environ.get("SECRET_KEY")
-SECRET_API_KEY = os.environ.get("SECRET_API_KEY")
+API_KEY_CUSTOM_HEADER = "HTTP_X_API_KEY"
 
 DJANGO_SUPERUSER_USERNAME = os.environ.get("DJANGO_SUPERUSER_USERNAME")
 DJANGO_SUPERUSER_EMAIL = os.environ.get("DJANGO_SUPERUSER_EMAIL")

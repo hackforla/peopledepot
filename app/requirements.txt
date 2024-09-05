@@ -30,6 +30,7 @@ djangorestframework==3.14.0
     # via
     #   drf-jwt
     #   drf-spectacular
+djangorestframework-api-key>=3.0
 drf-jwt==1.19.2
 drf-spectacular==0.27.1
 exceptiongroup==1.2.0

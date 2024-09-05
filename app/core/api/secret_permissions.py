@@ -9,20 +9,7 @@ from rest_framework.permissions import BasePermission
 from core.constants import message_invalid_signature
 
 
-class _ApiFields:
-    def __init__(self, api_key: str, timestamp: str, signature: str):
-        self.api_key = api_key
-        self.timestamp = timestamp
-        self.signature = signature
-
-
-def _get_request_api_fields(request) -> _ApiFields:
-    api_key = request.headers.get("X-API-Key", "")
-    timestamp = request.headers.get("X-API-Timestamp", "")
-    signature = request.headers.get("X-API-Signature", "")
-    return _ApiFields(api_key=api_key, timestamp=timestamp, signature=signature)
-
-
+# Called by _has_expected_request_signature
 def _is_expected_signature(api_key: str, timestamp: str, signature: str) -> bool:
     current_timestamp = int(time.time())
     request_timestamp = int(timestamp)
@@ -39,11 +26,12 @@ def _is_expected_signature(api_key: str, timestamp: str, signature: str) -> bool
     return hmac.compare_digest(signature, expected_signature)
 
 
+# Called by HasValidSignature
 def _has_expected_request_signature(request) -> bool:
-    api_fields = _get_request_api_fields(request)
-    return _is_expected_signature(
-        api_fields.api_key, api_fields.timestamp, api_fields.signature
-    )
+    api_key = request.headers.get("X-API-Key", "")
+    timestamp = request.headers.get("X-API-Timestamp", "")
+    signature = request.headers.get("X-API-Signature", "")
+    return _is_expected_signature(api_key, timestamp, signature)
 
 
 class HasValidSignature(BasePermission):
@@ -56,4 +44,3 @@ class HasValidSignature(BasePermission):
         if not _has_expected_request_signature(request):
             raise PermissionDenied(message_invalid_signature)
         return True
-        return _has_expected_request_signature(request)
