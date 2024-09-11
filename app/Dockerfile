@@ -15,6 +15,7 @@ RUN rm -f /etc/apt/apt.conf.d/docker-clean; echo 'Binary::apt::APT::Keep-Downloa
 
 # install system dependencies
 
+# hadolint ignore=DL3008
 RUN \
   --mount=type=cache,target=/var/cache/apt,sharing=locked \
   --mount=type=cache,target=/var/lib/apt,sharing=locked \
@@ -22,7 +23,7 @@ RUN \
   && apt-get install --no-install-recommends -yqq \
   netcat=1.10-46 \
   gcc=4:10.2.1-1 \
-  graphviz \ # hadolint ignore=DL3008
+  graphviz
 
 # install dependencies
 COPY ./requirements.txt .
