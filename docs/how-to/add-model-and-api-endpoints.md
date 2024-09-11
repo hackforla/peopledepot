@@ -2,43 +2,81 @@
 
 This guide aims to enable developers with little or no django experience to add django models and API endpoints to the project. Most code examples are followed by detailed explanations.
 
-The developer will have exposure to the following in this document:
+??? note "The developer will have exposure to the following in this document"
+    - python
+    - django
+    - django rest framework
+    - relational database through the Django ORM (object-relational mapper)
+    - data types
+    - object-oriented concepts (object, inheritance, composition)
+    - unit testing
+    - API design
+    - command line
 
-- python
-- django
-- django rest framework
-- relational database through the Django ORM (object-relational mapper)
-- data types
-- object-oriented concepts (object, inheritance, composition)
-- unit testing
-- API design
-- command line
-
-This guide assumes the developer has followed the [contributing doc](https://github.com/hackforla/peopledepot/blob/main/docs/CONTRIBUTING.md) and have forked and created a local branch to work on this. The development server would be already running in the background and will automatically apply the changes when we save the files.
+This guide assumes the developer has followed the [contributing doc](CONTRIBUTING.md) and have forked and created a local branch to work on this. The development server would be already running in the background and will automatically apply the changes when we save the files.
 
 We will choose the [recurring_event issue](https://github.com/hackforla/peopledepot/issues/14) as an example. Our goal is to create a database table and an API that a client can use to work with the data. The work is split into 3 testable components: the model, the admin site, and the API
 
 Let's start!
 
-## The model
+## Data model
 
-### Add the model in django
+??? note "TDD test"
+    1. Write the test
 
-Add the following to app/core/models.py
+        We would like the model to store these data, and to return the name property in the str function.
 
-```python
-class RecurringEvent(AbstractBaseModel):
+        In `app/core/tests/test_models.py`
+
+        ```python title="app/core/tests/test_models.py" linenums="1"
+        def test_recurring_event_model(project):
+            from datetime import datetime
+
+            payload = {
+                "name": "test event",
+                "start_time": datetime(2023, 1, 1, 2, 34),
+                "duration_in_min": 60,
+                "video_conference_url": "https://zoom.com/mtg/1234",
+                "additional_info": "long description",
+                "project": project,
+            }
+            recurring_event = RecurringEvent(**payload)
+            # recurring_event.save()
+            assert recurring_event.name == payload["name"]
+            assert recurring_event.start_time == payload["start_time"]
+            assert recurring_event.duration_in_min == payload["duration_in_min"]
+            assert recurring_event.video_conference_url == payload["video_conference_url"]
+            assert recurring_event.additional_info == payload["additional_info"]
+            assert recurring_event.project == payload["project"]
+            assert str(recurring_event) == payload["name"]
+        ```
+
+    1. See it fail
+
+        ```bash
+        ./scripts/test.sh
+        ```
+
+    1. Run it again after implementing the model to make sure the code satisfies the test
+
+### Add the model
+
+Add the following to `app/core/models.py`
+
+```python title="app/core/models.py" linenums="1"
+class RecurringEvent(AbstractBaseModel):  # (1)!
     """
     Recurring Events
     """
 
     name = models.CharField(max_length=255)
-    start_time = models.TimeField("Start", null=True, blank=True)
-    duration_in_min = models.IntegerField(null=True, blank=True)
+    start_time = models.TimeField("Start", null=True, blank=True)  # (2)!
+    duration_in_min = models.IntegerField(null=True, blank=True)  # (3)!
     video_conference_url = models.URLField(blank=True)
-    additional_info = models.TextField(blank=True)
+    additional_info = models.TextField(blank=True)  # (4)!
 
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    # (5)!
     # location_id = models.ForeignKey("Location", on_delete=models.DO_NOTHING)
     # event_type_id = models.ForeignKey("EventType", on_delete=models.DO_NOTHING)
     # brigade_id = models.ForeignKey("Brigade", on_delete=models.DO_NOTHING)
@@ -48,11 +86,9 @@ class RecurringEvent(AbstractBaseModel):
     # could_roles = models.ManyToManyField("Role")
     # frequency_id = models.ForeignKey("Frequency", on_delete=models.DO_NOTHING)
 
-    def __str__(self):
+    def __str__(self):  # (6)!
         return f"{self.name}"
 ```
-
-[link to code](https://github.com/hackforla/peopledepot/blob/aad76446fc9ce3942d4f6290322ca1f73279703e/app/core/models.py#L154-L176)
 
 1. We inherit all models from AbstractBaseModel, which provides a `uuid` primary key, `created_at`, and `updated_at` timestamps. In the Github issue, these fields might be called `id`, `created`, and `updated`. There's no need to add those.
 1. Most fields should not be required. Text fields should be `blank=True`, data fields should be `null=True`.
@@ -63,172 +99,168 @@ class RecurringEvent(AbstractBaseModel):
 1. Try to add the relationships to non-existent models, but comment them out. Another developer will complete them when they go to implement those models.
 1. Always override the `__str__` function to output something more meaningful than the default. It lets us do a quick test of the model by calling `str([model])`. It's also useful for the admin site model list view.
 
-### Run migrations to generate database migration files
+### Run migrations
+
+This generates the database migration files
 
 ```bash
 ./scripts/migrate.sh
 ```
 
-### Write a simple test
+??? note "Test"
+    Since we overrode the `__str__` function, we need to write a test for it.
 
-Since we overrode the `__str__` function, we need to write a test for it.
+    1. Add a fixture for the model
 
-1. Add a fixture for the model
+        Fixtures are reusable code that can be used in multiple tests by declaring them as parameters of the test case. In this example, we show both defining a fixture (recurring_event) and using another fixture (project).
 
-    Fixtures are reusable code that can be used in multiple tests by declaring them as parameters of the test case. In this example, we show both defining a fixture (recurring_event) and using another fixture (project).
+        Note: The conftest file is meant to hold shared test fixtures, among other things. The fixtures have directory scope.
 
-    Note: The conftest file is meant to hold shared test fixtures, among other things. The fixtures have directory scope.
+        Add the following to `app/core/tests/conftest.py`
 
-    Add the following to app/core/tests/conftest.py
+        ```python title="app/core/tests/conftest.py" linenums="1"
+        @pytest.fixture
+        # (1)!
+        def recurring_event(project):  # (2)!
+            # (3)!
+            return RecurringEvent.objects.create(name="Test Recurring Event", project=project)
+        ```
 
-    ```python
-    @pytest.fixture
-    def recurring_event(project):
-        return RecurringEvent.objects.create(name="Test Recurring Event", project=project)
-    ```
+        1. We name the fixture after the model name (`recurring_event`).
+        1. This model makes use of the `project` model as a foreign key relation, so we pass in the `project` fixture, which creates a `project` model.
+        1. We create an object of the new model, passing in at least the required fields. In this case, we passed in enough arguments to use the `__str__` method in a test.
 
-    [link to code](https://github.com/hackforla/peopledepot/blob/aad76446fc9ce3942d4f6290322ca1f73279703e/app/core/tests/conftest.py#L43-L45)
+    1. Add a test case
 
-    1. We name the fixture after the model name (`recurring_event`).
-    1. This model makes use of the `project` model as a foreign key relation, so we pass in the `project` fixture, which creates a `project` model.
-    1. We create an object of the new model, passing in at least the required fields. In this case, we passed in enough arguments to use the `__str__` method in a test.
+        When creating Django models, there's no need to test the CRUD functionality since Django itself is well-tested and we can expect it to generate the correct CRUD functionality. Feel free to write some tests for practice. What really needs testing are any custom code that's not part of Django. Sometimes we need to override the default Django behavior and that should be tested.
 
-1. Add a test case
+        Here's a basic test to see that the model stores its name.
 
-    When creating Django models, there's no need to test the CRUD functionality since Django itself is well-tested and we can expect it to generate the correct CRUD functionality. Feel free to write some tests for practice. What really needs testing are any custom code that's not part of Django. Sometimes we need to override the default Django behavior and that should be tested.
+        Add the following to `app/core/tests/test_models.py`
 
-    Here's a basic test to see that the model stores its name.
+        ```python title="app/core/tests/test_models.py" linenums="1"
+        def test_recurring_event(recurring_event):  # (1)!
+            # (2)!
+            assert str(recurring_event) == "Test Recurring Event"  # (3)!
+        ```
 
-    Add the following to app/core/tests/test_models.py
+        1. Pass in our fixture so that the model object is created for us.
+        1. The `__str__` method should be tested since it's an override of the default Django method.
+        1. Write assertion(s) to check that what's passed into the model is what it contains. The simplest thing to check is the `__str__` method.
 
-    ```python
-    def test_recurring_event(recurring_event):
-        assert str(recurring_event) == "Test Recurring Event"
-    ```
+    1. Run the test script to show it passing
 
-    [link to code](https://github.com/hackforla/peopledepot/blob/aad76446fc9ce3942d4f6290322ca1f73279703e/app/core/tests/test_models.py#L17-L18)
+        ```bash
+        ./scripts/test.sh
+        ```
 
-    1. Pass in our fixture so that the model object is created for us.
-    1. The `__str__` method should be tested since it's an override of the default Django method.
-    1. Write assertion(s) to check that what's passed into the model is what it contains. The simplest thing to check is the `__str__` method.
+??? note "Check and commit"
+    This is a good place to pause, check, and commit progress.
 
-1. Run the test script to show it passing
+    1. Run pre-commit checks
 
-    ```bash
-    ./scripts/test.sh
-    ```
+        ```bash
+        ./scripts/precommit-check.sh
+        ```
 
-### Check point 1
+    1. Add and commit changes
 
-This is a good place to pause, check, and commit progress.
+        ```bash
+        git add -A
+        git commit -m "feat: add model: recurring_event"
+        ```
 
-1. Run pre-commit checks
-
-    ```bash
-    ./scripts/precommit-check.sh
-    ```
-
-1. Add and commit changes
-
-    ```bash
-    git add -A
-    git commit -m "feat: add model: recurring_event"
-    ```
-
-## The admin site
+## Admin site
 
 Django comes with an admin site interface that allows admin users to view and change the data in the models. It's essentially a database viewer.
 
-### Register the model with the admin site
+### Register the model
+
+In `app/core/admin.py`
 
 1. Import the new model
 
-    ```python
+    ```python title="app/core/admin.py" linenums="1"
     from .models import RecurringEvent
     ```
 
-    [link to code](https://github.com/hackforla/peopledepot/blob/09e2856b6dd8038aedbbc9b42c3a44009be1fd2f/app/core/admin.py#L10)
+1. Register the model with the admin site
 
-1. Register the model
-
-    ```python
-    @admin.register(RecurringEvent)
-    class RecurringEventAdmin(admin.ModelAdmin):
-        list_display = (
+    ```python title="app/core/admin.py" linenums="1"
+    @admin.register(RecurringEvent)  # (2)!
+    class RecurringEventAdmin(admin.ModelAdmin):  # (1)!
+        list_display = (  # (3)!
             "name",
             "start_time",
             "duration_in_min",
-        )
+        )  # (4)!
     ```
-
-    [link to code](https://github.com/hackforla/peopledepot/blob/09e2856b6dd8038aedbbc9b42c3a44009be1fd2f/app/core/admin.py#L115-L121)
 
     1. We declare a [ModelAdmin](https://docs.djangoproject.com/en/4.0/ref/contrib/admin/#django.contrib.admin.ModelAdmin) class so we can customize the fields that we expose to the admin interface.
     1. We use the [register decorator](https://docs.djangoproject.com/en/4.0/ref/contrib/admin/#django.contrib.admin.register) to register the class with the admin site.
     1. [list_display](https://docs.djangoproject.com/en/4.0/ref/contrib/admin/#django.contrib.admin.ModelAdmin.list_display) controls what's shown in the list view
     1. [list_filter](https://docs.djangoproject.com/en/4.0/ref/contrib/admin/#django.contrib.admin.ModelAdmin.list_filter) adds filter controls to declared fields (useful, but not shown in this example).
 
-### View the admin site to see that everything's working and there are no issues, which should be the case unless there's custom input fields creating problems
+### View the admin site
 
-1. See the [contributing doc section on "Build and run using Docker locally"](https://github.com/hackforla/peopledepot/blob/main/docs/CONTRIBUTING.md) for how to view the admin interface.
+Check that everything's working and there are no issues, which should be the case unless there's custom input fields creating problems.
+
+1. See the [contributing doc section on "Build and run using Docker locally"](CONTRIBUTING.md#23-build-and-run-using-docker-locally) for how to view the admin interface.
 
 1. Example of a custom field (as opposed to the built-in ones)
 
     ```python
+    # (1)!
     time_zone = TimeZoneField(blank=True, use_pytz=False, default="America/Los_Angeles")
     ```
 
-    [link to code](https://github.com/hackforla/peopledepot/blob/09e2856b6dd8038aedbbc9b42c3a44009be1fd2f/app/core/models.py#L96)
-
     1. Having a misconfigured or buggy custom field could cause the admin site to crash and the developer will need to look at the debug message and resolve it.
 
-### Tests
+??? note "Test"
+    1. Feel free to write tests for the admin. There's no example for it yet.
+    1. The reason there's no tests is that the admin site is independent of the API functionality, and we're mainly interested in the API part.
+    1. When the time comes that we depend on the admin interface, we will need to have tests for the needed functionalities.
 
-1. Feel free to write tests for the admin. There's no example for it yet.
-1. The reason there's no tests is that the admin site is independent of the API functionality, and we're mainly interested in the API part.
-1. When the time comes that we depend on the admin interface, we will need to have tests for the needed functionalities.
+??? note "Check and commit"
+    This is a good place to pause, check, and commit progress.
 
-### Check point 2
+    1. Run pre-commit checks
 
-This is a good place to pause, check, and commit progress.
+        ```bash
+        ./scripts/precommit-check.sh
+        ```
 
-1. Run pre-commit checks
+    1. Add and commit changes
 
-    ```bash
-    ./scripts/precommit-check.sh
-    ```
+        ```bash
+        git add -A
+        git commit -m "feat: register admin: recurring_event"
+        ```
 
-1. Add and commit changes
+## API
 
-    ```bash
-    git add -A
-    git commit -m "feat: register admin: recurring_event"
-    ```
-
-## The API
-
-There's several components to adding API endpoints: Model(already done), Serializer, View, and Router.
+There's several components to adding API endpoints: Model(already done), Serializer, View, and Route.
 
 ### Add serializer
 
 This is code that serializes objects into strings for the API endpoints, and deserializes strings into object when we receive data from the client.
 
+In `app/core/api/serializers.py`
+
 1. Import the new model
 
-    ```python
+    ```python title="app/core/api/serializers.py" linenums="1"
     from core.models import RecurringEvent
     ```
 
-    [link to code](https://github.com/hackforla/peopledepot/blob/09e2856b6dd8038aedbbc9b42c3a44009be1fd2f/app/core/api/serializers.py#L6)
-
 1. Add a serializer class
 
-    ```python
-    class RecurringEventSerializer(serializers.ModelSerializer):
+    ```python title="app/core/api/serializers.py" linenums="1"
+    class RecurringEventSerializer(serializers.ModelSerializer):  # (1)!
         """Used to retrieve recurring_event info"""
 
         class Meta:
-            model = RecurringEvent
+            model = RecurringEvent  # (2)!
             fields = (
                 "uuid",
                 "name",
@@ -239,13 +271,11 @@ This is code that serializes objects into strings for the API endpoints, and des
                 "project",
             )
             read_only_fields = (
-                "uuid",
+                "uuid",  # (3)!
                 "created_at",
                 "updated_at",
             )
     ```
-
-    [link to code](https://github.com/hackforla/peopledepot/blob/09e2856b6dd8038aedbbc9b42c3a44009be1fd2f/app/core/api/serializers.py#L82-L100)
 
     1. We inherit from [ModelSerializer](https://www.django-rest-framework.org/api-guide/serializers/#modelserializer). It knows how to serialize/deserialize the Django built-in data fields so we don't have to write the code to do it.
     1. We do need to pass in the `model`, the `fields` we want to expose through the API, and any `read_only_fields`.
@@ -254,10 +284,8 @@ This is code that serializes objects into strings for the API endpoints, and des
 1. Custom data fields may need extra code in the serializer
 
     ```python
-    time_zone = TimeZoneSerializerField(use_pytz=False)
+    time_zone = TimeZoneSerializerField(use_pytz=False)  # (1)!
     ```
-
-    [link to code](https://github.com/hackforla/peopledepot/blob/09e2856b6dd8038aedbbc9b42c3a44009be1fd2f/app/core/api/serializers.py#L14)
 
     1. This non-built-in model field provides a serializer so we just point to it.
 
@@ -273,18 +301,24 @@ This is code that serializes objects into strings for the API endpoints, and des
 
 Viewset defines the set of API endpoints for the model.
 
+In `app/core/api/views.py`
+
+1. Import the model
+
+    ```python title="app/core/api/views.py" linenums="1"
+    from ..models import RecurringEvent
+    ```
+
 1. Import the serializer
 
-    ```python
+    ```python title="app/core/api/views.py" linenums="1"
     from .serializers import RecurringEventSerializer
     ```
 
-    [link to code](https://github.com/hackforla/peopledepot/blob/09e2856b6dd8038aedbbc9b42c3a44009be1fd2f/app/core/api/views.py#L14)
-
 1. Add the [viewset](https://www.django-rest-framework.org/api-guide/viewsets/) and CRUD API endpoint descriptions
 
-    ```python
-    @extend_schema_view(
+    ```python title="app/core/api/views.py" linenums="1"
+    @extend_schema_view(  # (2)!
         list=extend_schema(description="Return a list of all the recurring events"),
         create=extend_schema(description="Create a new recurring event"),
         retrieve=extend_schema(description="Return the details of a recurring event"),
@@ -292,13 +326,11 @@ Viewset defines the set of API endpoints for the model.
         update=extend_schema(description="Update a recurring event"),
         partial_update=extend_schema(description="Patch a recurring event"),
     )
-    class RecurringEventViewSet(viewsets.ModelViewSet):
-        permission_classes = [IsAuthenticated]
-        queryset = RecurringEvent.objects.all()
+    class RecurringEventViewSet(viewsets.ModelViewSet):  # (1)!
+        permission_classes = [IsAuthenticated]  # (4)!
+        queryset = RecurringEvent.objects.all()  # (3)!
         serializer_class = RecurringEventSerializer
     ```
-
-    [link to code](https://github.com/hackforla/peopledepot/blob/09e2856b6dd8038aedbbc9b42c3a44009be1fd2f/app/core/api/views.py#L112-L123)
 
     1. We inherit from [ModelViewSet](https://www.django-rest-framework.org/api-guide/viewsets/#modelviewset), which provides a default view implementation of all 6 CRUD actions: `create`, `retrieve`, `partial_update`, `update`, `destroy`, `list`.
     1. We use the `extend_schema_view` decorator to attach the API doc strings to the viewset. They are usually defined as docstrings of the corresponding function definitions inside the viewset. Since we use `ModelViewSet`, there's nowhere to put the docstrings but above the viewset.
@@ -307,181 +339,173 @@ Viewset defines the set of API endpoints for the model.
         1. For now use `permission_classes = [IsAuthenticated]`
         1. It doesn't control permissions the way we want, but we will fix it later.
 
-### Extended example
+??? note "Extended example: Query Params"
+    This example shows how to add a filter params. It's done for the [user model](https://github.com/hackforla/peopledepot/issues/15) as a [requirement](https://github.com/hackforla/peopledepot/issues/10) from VRMS.
 
-This example shows how to add a filter params. It's done for the [user model](https://github.com/hackforla/peopledepot/issues/15) as a [requirement](https://github.com/hackforla/peopledepot/issues/10) from VRMS.
+    1. Here's a more complex API doc example (this example is using the User model's ViewSet)
 
-1. Here's a more complex API doc example (this example is using the User model's ViewSet)
+        ```python title="app/core/api/views.py" linenums="1"
+        @extend_schema_view(
+            list=extend_schema(  # (2)!
+                summary="Users List",
+                description="Return a list of all the existing users",
+                parameters=[
+                    OpenApiParameter(
+                        name="email",
+                        type=str,
+                        description="Filter by email address",
+                        examples=[
+                            OpenApiExample(
+                                "Example 1",
+                                summary="Demo email",
+                                description="get the demo user",
+                                value="demo-email@email.com,",
+                            ),
+                        ],
+                    ),
+                    OpenApiParameter(
+                        name="username",
+                        type=OpenApiTypes.STR,
+                        location=OpenApiParameter.QUERY,
+                        description="Filter by username",
+                        examples=[
+                            OpenApiExample(
+                                "Example 1",
+                                summary="Demo username",
+                                description="get the demo user",
+                                value="demo-user",
+                            ),
+                        ],
+                    ),
+                ],
+            ),
+            create=extend_schema(description="Create a new user"),  # (1)!
+            retrieve=extend_schema(description="Return the given user"),
+            destroy=extend_schema(description="Delete the given user"),
+            update=extend_schema(description="Update the given user"),
+            partial_update=extend_schema(description="Partially update the given user"),
+        )
+        class UserViewSet(viewsets.ModelViewSet):
+            pass
+        ```
 
-    ```python
-    @extend_schema_view(
-        list=extend_schema(
-            summary="Users List",
-            description="Return a list of all the existing users",
-            parameters=[
-                OpenApiParameter(
-                    name="email",
-                    type=str,
-                    description="Filter by email address",
-                    examples=[
-                        OpenApiExample(
-                            "Example 1",
-                            summary="Demo email",
-                            description="get the demo user",
-                            value="demo-email@email.com,",
-                        ),
-                    ],
-                ),
-                OpenApiParameter(
-                    name="username",
-                    type=OpenApiTypes.STR,
-                    location=OpenApiParameter.QUERY,
-                    description="Filter by username",
-                    examples=[
-                        OpenApiExample(
-                            "Example 1",
-                            summary="Demo username",
-                            description="get the demo user",
-                            value="demo-user",
-                        ),
-                    ],
-                ),
-            ],
-        ),
-        create=extend_schema(description="Create a new user"),
-        retrieve=extend_schema(description="Return the given user"),
-        destroy=extend_schema(description="Delete the given user"),
-        update=extend_schema(description="Update the given user"),
-        partial_update=extend_schema(description="Partially update the given user"),
-    )
-    class UserViewSet(viewsets.ModelViewSet):
-        pass
-    ```
+        1. Define strings for all 6 actions: `create`, `retrieve`, `partial_update`, `update`, `destroy`, `list`.
+        1. This one is fancy and provides examples of data to pass into the query params. It's probably more than we need right now.
+            1. The examples array can hold multiple examples.
+                1. Example ID string has to be unique but is not displayed.
+                1. `summary` string appears as an option in the dropdown.
+                1. `description` is displayed in the example.
 
-    [link to code](https://github.com/hackforla/peopledepot/blob/09e2856b6dd8038aedbbc9b42c3a44009be1fd2f/app/core/api/views.py#L39-L79)
+    1. Add any query params according to the requirements (this example is using the User model's ViewSet)
 
-    1. Define strings for all 6 actions: `create`, `retrieve`, `partial_update`, `update`, `destroy`, `list`.
-    1. This one is fancy and provides examples of data to pass into the query params. It's probably more than we need right now.
-        1. The examples array can hold multiple examples.
-            1. Example ID string has to be unique but is not displayed.
-            1. `summary` string appears as an option in the dropdown.
-            1. `description` is displayed in the example.
+        ```python title="app/core/api/views.py" linenums="1"
+        class UserViewSet(viewsets.ModelViewSet):
+            ...
 
-1. Add any query params according to the requirements (this example is using the User model's ViewSet)
+            def get_queryset(self):  # (1)!
+                """
+                Optionally filter users by an 'email' and/or 'username' query paramerter in the URL
+                """
+                queryset = get_user_model().objects.all()  # (2)!
+                email = self.request.query_params.get("email")
+                if email is not None:
+                    queryset = queryset.filter(email=email)
+                username = self.request.query_params.get("username")
+                if username is not None:
+                    queryset = queryset.filter(username=username)
+                return queryset
+        ```
 
-    ```python
-    class UserViewSet(viewsets.ModelViewSet):
-        ...
+        1. Notice the `queryset` property is now the `get_queryset(()` function which returns the queryset.
 
-        def get_queryset(self):
-            """
-            Optionally filter users by an 'email' and/or 'username' query paramerter in the URL
-            """
-            queryset = get_user_model().objects.all()
-            email = self.request.query_params.get("email")
-            if email is not None:
-                queryset = queryset.filter(email=email)
-            username = self.request.query_params.get("username")
-            if username is not None:
-                queryset = queryset.filter(username=username)
-            return queryset
-    ```
+            The `get_queryset()` function overrides the default and lets us filter the objects returned to the client if they pass in a query param.
 
-    [link to code](https://github.com/hackforla/peopledepot/blob/09e2856b6dd8038aedbbc9b42c3a44009be1fd2f/app/core/api/views.py#L84-L95)
+        1. Start with all the model objects and filter them based on any available query params.
 
-    1. Notice the `queryset` property is now the `get_queryset(()` function which returns the queryset.
-    1. The `get_queryset()` function overrides the default and lets us filter the objects returned to the client if they pass in a query param.
-    1. Start with all the model objects and filter them based on any available query params.
+### Register API endpoints
 
-### Register API endpoints to the router
+In `app/core/api/urls.py`
 
 1. Import the viewset.
 
-    ```python
+    ```python title="app/core/api/urls.py" linenums="1"
     from .views import RecurringEventViewSet
     ```
 
-    [link to code](https://github.com/hackforla/peopledepot/blob/09e2856b6dd8038aedbbc9b42c3a44009be1fd2f/app/core/api/urls.py#L6)
-
 1. [Register](https://www.django-rest-framework.org/api-guide/routers/#usage) the viewset to the [router](https://www.django-rest-framework.org/api-guide/routers/)
 
-    ```python
+    ```python title="app/core/api/urls.py" linenums="1"
     router.register(r"recurring-events", RecurringEventViewSet, basename="recurring-event")
+    # (1)!
     ```
 
-    [link to code](https://github.com/hackforla/peopledepot/blob/09e2856b6dd8038aedbbc9b42c3a44009be1fd2f/app/core/api/urls.py#L14)
+    1. Params
+        1. First param is the URL prefix use in the API routes. It is, by convention, plural
+            - This would show up in the URL like this: `http://localhost/api/v1/recuring-events/` and `http://localhost/api/v1/recuring-events/<uuid>`
+        1. Second param is the viewset class which defines the API actions
+        1. `basename` is the name used for generating the endpoint names, such as <basename>-list, <basename>-detail, etc. It's in the singular form. This is automatically generated if the viewset definition contains a `queryset` attribute, but it's required if the viewset overrides that with the `get_queryset` function
+            - `reverse("recurring-event-list")` would return `http://localhost/api/v1/recuring-events/`
 
-    1. First param is the URL prefix use in the API routes. It is, by convention, plural
-        - This would show up in the URL like this: `http://localhost/api/v1/recuring-events/` and `http://localhost/api/v1/recuring-events/<uuid>`
-    1. Second param is the viewset class which defines the API actions
-    1. `basename` is the name used for generating the endpoint names, such as <basename>-list, <basename>-detail, etc. It's in the singular form. This is automatically generated if the viewset definition contains a `queryset` attribute, but it's required if the viewset overrides that with the `get_queryset` function
-        - `reverse("recurring-event-list")` would return `http://localhost/api/v1/recuring-events/`
+??? note "Test"
+    For the CRUD operations, since we're using `ModelViewSet` where all the actions are provided by `rest_framework` and well-tested, it's not necessary to have test cases for them. But here's an example of one.
 
-### Add API tests
+    In `app/core/tests/test_api.py`
 
-For the CRUD operations, since we're using `ModelViewSet` where all the actions are provided by `rest_framework` and well-tested, it's not necessary to have test cases for them. But here's an example of one.
+    1. Import API URL
 
-1. Import API URL
+        ```python title="app/core/tests/test_api.py" linenums="1"
+        RECURRING_EVENTS_URL = reverse("recurring-event-list")
+        ```
 
-    ```python
-    RECURRING_EVENTS_URL = reverse("recurring-event-list")
-    ```
+    1. Add test case
 
-    [link to code](https://github.com/hackforla/peopledepot/blob/09e2856b6dd8038aedbbc9b42c3a44009be1fd2f/app/core/tests/test_api.py#L11)
+        ```python title="app/core/tests/test_api.py" linenums="1"
+        def test_create_recurring_event(auth_client, project):
+            """Test that we can create a recurring event"""
 
-1. Add test case
+            payload = {
+                "name": "Test Weekly team meeting",
+                "start_time": "18:00:00",
+                "duration_in_min": 60,
+                "video_conference_url": "https://zoom.com/link",
+                "additional_info": "Test description",
+                "project": project.uuid,
+            }
+            res = auth_client.post(RECURRING_EVENTS_URL, payload)
+            assert res.status_code == status.HTTP_201_CREATED
+            assert res.data["name"] == payload["name"]
+        ```
 
-    ```python
-    def test_create_recurring_event(auth_client, project):
-        """Test that we can create a recurring event"""
+        1. Given
+            1. Pass in the necessary fixtures
+            1. Construct the payload
+        1. When
+            1. Create the object
+        1. Then
+            1. Check that it's created via [status code](https://www.django-rest-framework.org/api-guide/status-codes/#client-error-4xx)
+            1. Maybe also check the data. A real test should check all the data, but we're kind of relying on django to have already tested this.
 
-        payload = {
-            "name": "Test Weekly team meeting",
-            "start_time": "18:00:00",
-            "duration_in_min": 60,
-            "video_conference_url": "https://zoom.com/link",
-            "additional_info": "Test description",
-            "project": project.uuid,
-        }
-        res = auth_client.post(RECURRING_EVENTS_URL, payload)
-        assert res.status_code == status.HTTP_201_CREATED
-        assert res.data["name"] == payload["name"]
-    ```
+    1. Run the test script to show it passing
 
-    [link to code](https://github.com/hackforla/peopledepot/blob/097f8f254534c1e53bc23f14ef71afbed0b70fa0/app/core/tests/test_api.py#L150-L163)
+        ```bash
+        ./scripts/test.sh
+        ```
 
-    1. Given
-        1. Pass in the necessary fixtures
-        1. Construct the payload
-    1. When
-        1. Create the object
-    1. Then
-        1. Check that it's created via [status code](https://www.django-rest-framework.org/api-guide/status-codes/#client-error-4xx)
-        1. Maybe also check the data. A real test should check all the data, but we're kind of relying on django to have already tested this.
+??? note "Check and commit"
+    This is a good place to pause, check, and commit progress.
 
-1. Run the test script to show it passing
+    1. Run pre-commit checks
 
-    ```bash
-    ./scripts/test.sh
-    ```
+        ```bash
+        ./scripts/precommit-check.sh
+        ```
 
-### Check point 3
+    1. Add and commit changes
 
-This is a good place to pause, check, and commit progress.
+        ```bash
+        git add -A
+        git commit -m "feat: add endpoints: recurring_event"
+        ```
 
-1. Run pre-commit checks
-
-    ```bash
-    ./scripts/precommit-check.sh
-    ```
-
-1. Add and commit changes
-
-    ```bash
-    git add -A
-    git commit -m "feat: add endpoints: recurring_event"
-    ```
-
-### Push the code and start a PR
-
-Refer to the [contributing doc section on "Push to upstream origin"](https://github.com/hackforla/peopledepot/blob/main/docs/CONTRIBUTING.md#410-push-to-upstream-origin-aka-your-fork) onward.
+??? note "Push the code and start a PR"
+    Refer to the [contributing doc section on "Push to upstream origin"](CONTRIBUTING.md#410-push-to-upstream-origin-aka-your-fork) onward.

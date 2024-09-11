@@ -371,3 +371,15 @@ class Affiliation(AbstractBaseModel):
             return f"Partner {self.affiliate}"
         else:
             return "Neither a partner or a sponsor"
+
+
+class CheckType(AbstractBaseModel):
+    """
+    Types of checks we perform
+    """
+
+    name = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+
+    def __str__(self):
+        return f"{self.name}"
