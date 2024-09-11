@@ -14,6 +14,7 @@ RUN mkdir -p $PIP_CACHE_DIR
 RUN rm -f /etc/apt/apt.conf.d/docker-clean; echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' > /etc/apt/apt.conf.d/keep-cache
 
 # install system dependencies
+
 RUN \
   --mount=type=cache,target=/var/cache/apt,sharing=locked \
   --mount=type=cache,target=/var/lib/apt,sharing=locked \
@@ -21,7 +22,7 @@ RUN \
   && apt-get install --no-install-recommends -yqq \
   netcat=1.10-46 \
   gcc=4:10.2.1-1 \
-  graphviz=2.42.2-5
+  graphviz # hadolint ignore=DL3008 - graphviz gives an error if you specify a version
 
 # install dependencies
 COPY ./requirements.txt .
