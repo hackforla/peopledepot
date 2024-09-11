@@ -22,7 +22,7 @@ RUN \
   && apt-get install --no-install-recommends -yqq \
   netcat=1.10-46 \
   gcc=4:10.2.1-1 \
-  graphviz # hadolint ignore=DL3008 - graphviz gives an error if you specify a version
+  graphviz # hadolint ignore=DL3008
 
 # install dependencies
 COPY ./requirements.txt .
