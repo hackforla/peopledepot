@@ -14,6 +14,7 @@ RUN mkdir -p $PIP_CACHE_DIR
 RUN rm -f /etc/apt/apt.conf.d/docker-clean; echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' > /etc/apt/apt.conf.d/keep-cache
 
 # install system dependencies
+# hadolint DL3008 - graphviz fails if you include a version
 RUN \
   --mount=type=cache,target=/var/cache/apt,sharing=locked \
   --mount=type=cache,target=/var/lib/apt,sharing=locked \
