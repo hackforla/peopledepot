@@ -26,4 +26,4 @@ class SecretUserViewSetTests(APITestCase):
             HTTP_X_API_KEY=api_key,  # Uppercase X-API-KEY
             Content_Type="application/json",
         )
-        assert response.status_code == status.HTTP_401_AUTHORIZED
+        assert response.status_code == status.HTTP_401UNAUTHORIZED
