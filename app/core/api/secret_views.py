@@ -14,7 +14,6 @@ from core.models import User
 @extend_schema_view(
     list=extend_schema(
         description="""
-<div style="color: #FF0000;" id="Something">
 Lists all users and the associated groups for the user!!!
 
 Requires setting X-Api-Key.  For curl, it would look like this:
@@ -37,7 +36,6 @@ HEADERS = {
 }
 response = requests.get(f"{BASE_URL}/api/v1/secret-api/getusers/", headers=HEADERS)
 ```
-</div>
         """
     )
 )
