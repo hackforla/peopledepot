@@ -14,8 +14,8 @@ from core.models import ProgramArea
 from core.models import Project
 from core.models import Sdg
 from core.models import Skill
+from core.models import StackElement
 from core.models import StackElementType
-from core.models import Technology
 from core.models import User
 from core.models import UserPermission
 
@@ -245,11 +245,11 @@ class SkillSerializer(serializers.ModelSerializer):
         )
 
 
-class TechnologySerializer(serializers.ModelSerializer):
-    """Used to retrieve technology info"""
+class StackElementSerializer(serializers.ModelSerializer):
+    """Used to retrieve stack element info"""
 
     class Meta:
-        model = Technology
+        model = StackElement
         fields = (
             "uuid",
             "name",
@@ -257,6 +257,7 @@ class TechnologySerializer(serializers.ModelSerializer):
             "url",
             "logo",
             "active",
+            "element_type",
         )
         read_only_fields = (
             "uuid",

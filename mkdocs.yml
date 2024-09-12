@@ -7,6 +7,7 @@ theme:
   name: material
   features:
     - content.action.edit
+    - content.action.view
     - content.code.annotate
     - content.code.copy
     - content.code.select
@@ -27,6 +28,8 @@ markdown_extensions:
   - md_in_html
   - pymdownx.betterem
   - pymdownx.blocks.details
+  - pymdownx.critic:
+      mode: view
   - pymdownx.details
   - pymdownx.highlight:
       anchor_linenums: true
