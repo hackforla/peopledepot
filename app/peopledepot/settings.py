@@ -180,7 +180,7 @@ AUTHENTICATION_BACKENDS = [
 
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": (
-        # "core.api.permissions.DenyAny",
+        "core.api.permissions.DenyAny",
         "rest_framework_api_key.permissions.HasAPIKey",
     ),
     "DEFAULT_AUTHENTICATION_CLASSES": (
