@@ -23,10 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY is used internally by Django to encrypt session data
-# SECRET_API_KEY is used to authenticate a "secret" API endpoint
 SECRET_KEY = os.environ.get("SECRET_KEY")
-API_KEY_CUSTOM_HEADER = "HTTP_X_API_KEY"
 
 DJANGO_SUPERUSER_USERNAME = os.environ.get("DJANGO_SUPERUSER_USERNAME")
 DJANGO_SUPERUSER_EMAIL = os.environ.get("DJANGO_SUPERUSER_EMAIL")
@@ -73,6 +70,7 @@ INSTALLED_APPS = [
     # 3rd party
     "django_extensions",
     "rest_framework",
+    "rest_framework_api_key",
     "drf_spectacular",
     "phonenumber_field",
     "timezone_field",
@@ -178,7 +176,10 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 REST_FRAMEWORK = {
-    "DEFAULT_PERMISSION_CLASSES": ("core.api.permissions.DenyAny",),
+    "DEFAULT_PERMISSION_CLASSES": (
+        # "core.api.permissions.DenyAny",
+        "rest_framework_api_key.permissions.HasAPIKey",
+    ),
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_jwt.authentication.JSONWebTokenAuthentication",
     ),
