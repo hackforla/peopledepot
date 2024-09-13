@@ -14,8 +14,6 @@ RUN mkdir -p $PIP_CACHE_DIR
 RUN rm -f /etc/apt/apt.conf.d/docker-clean; echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' > /etc/apt/apt.conf.d/keep-cache
 
 # install system dependencies
-# suppresss hadolint error because adding a version to graphviz fails
-# hadolint ignore=DL3008
 RUN \
   --mount=type=cache,target=/var/cache/apt,sharing=locked \
   --mount=type=cache,target=/var/lib/apt,sharing=locked \
@@ -23,7 +21,7 @@ RUN \
   && apt-get install --no-install-recommends -yqq \
   netcat=1.10-46 \
   gcc=4:10.2.1-1 \
-  graphviz
+  graphviz=2.42.2-5
 
 # install dependencies
 COPY ./requirements.txt .
