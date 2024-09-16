@@ -14,6 +14,7 @@ from .views import ProgramAreaViewSet
 from .views import ProjectViewSet
 from .views import SdgViewSet
 from .views import SkillViewSet
+from .views import SocMajorViewSet
 from .views import StackElementTypeViewSet
 from .views import TechnologyViewSet
 from .views import UserProfileAPIView
@@ -36,6 +37,7 @@ router.register(
     r"stack-element-types", StackElementTypeViewSet, basename="stack-element-type"
 )
 router.register(r"sdgs", SdgViewSet, basename="sdg")
+router.register(r"soc-majors", SocMajorViewSet, basename="soc-major")
 router.register(
     r"affiliations",
     AffiliationViewSet,

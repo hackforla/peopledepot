@@ -14,6 +14,7 @@ from ..models import ProgramArea
 from ..models import Project
 from ..models import Sdg
 from ..models import Skill
+from ..models import SocMajor
 from ..models import StackElementType
 from ..models import Technology
 
@@ -205,3 +206,8 @@ def check_type():
         name="This is a test check_type.",
         description="This is a test check_type description.",
     )
+
+
+@pytest.fixture
+def soc_major():
+    return SocMajor.objects.create(occ_code="22-2222", title="Test Soc Major")

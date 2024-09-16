@@ -383,3 +383,11 @@ class CheckType(AbstractBaseModel):
 
     def __str__(self):
         return f"{self.name}"
+
+
+class SocMajor(AbstractBaseModel):
+    occ_code = models.CharField(max_length=255)
+    title = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.title
