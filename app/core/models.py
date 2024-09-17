@@ -144,6 +144,9 @@ https://api.github.com/repos/[org]/[repo]',
     image_logo = models.URLField(blank=True)
     image_hero = models.URLField(blank=True)
     image_icon = models.URLField(blank=True)
+    sdgs = models.ManyToManyField(
+        "Sdg", related_name="projects", blank=True, through="ProjectSdgXref"
+    )
 
     def __str__(self):
         return f"{self.name}"
@@ -426,3 +429,13 @@ class SocMajor(AbstractBaseModel):
 
     def __str__(self):
         return self.title
+
+
+class ProjectSdgXref(AbstractBaseModel):
+    """
+    Joins an SDG to a project
+    """
+
+    sdg_id = models.ForeignKey(Sdg, on_delete=models.CASCADE)
+    project_id = models.ForeignKey(Project, on_delete=models.CASCADE)
+    ended_on = models.DateField("Ended on", null=True, blank=True)
