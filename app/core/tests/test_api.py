@@ -10,6 +10,7 @@ from core.models import UserPermission
 pytestmark = pytest.mark.django_db
 
 USER_PERMISSIONS_URL = reverse("user-permission-list")
+PROJECTS_URL = reverse("project-list")
 ME_URL = reverse("my_profile")
 USERS_URL = reverse("user-list")
 EVENTS_URL = reverse("event-list")
@@ -23,7 +24,7 @@ SKILL_URL = reverse("skill-list")
 STACK_ELEMENT_URL = reverse("stack-element-list")
 PERMISSION_TYPE = reverse("permission-type-list")
 STACK_ELEMENT_TYPE_URL = reverse("stack-element-type-list")
-SDG_URL = reverse("sdg-list")
+SDGS_URL = reverse("sdg-list")
 AFFILIATION_URL = reverse("affiliation-list")
 CHECK_TYPE_URL = reverse("check-type-list")
 SOC_MAJOR_URL = reverse("soc-major-list")
@@ -340,7 +341,7 @@ def test_create_sdg(auth_client):
         "description": "Test SDG description",
         "image": "https://unsplash.com",
     }
-    res = auth_client.post(SDG_URL, payload)
+    res = auth_client.post(SDGS_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
     assert res.data["name"] == payload["name"]
 
@@ -381,3 +382,26 @@ def test_create_soc_major(auth_client):
     res = auth_client.post(SOC_MAJOR_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
     assert res.data["title"] == payload["title"]
+
+
+def test_project_sdg_xref(auth_client, project, sdg, sdg1):
+    def get_object(objects, target_uuid):
+        for obj in objects:
+            if str(obj["uuid"]) == str(target_uuid):
+                return obj
+        return None
+
+    project.sdgs.add(sdg)
+    project.sdgs.add(sdg1)
+    proj_res = auth_client.get(PROJECTS_URL)
+    test_proj = get_object(proj_res.data, project.uuid)
+    assert test_proj is not None
+    assert len(test_proj["sdgs"]) == 2
+    assert sdg.name in test_proj["sdgs"]
+    assert sdg1.name in test_proj["sdgs"]
+
+    sdg_res = auth_client.get(SDGS_URL)
+    test_sdg = get_object(sdg_res.data, sdg.uuid)
+    assert test_sdg is not None
+    assert len(test_sdg["projects"]) == 1
+    assert project.name in test_sdg["projects"]
