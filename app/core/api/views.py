@@ -24,8 +24,8 @@ from ..models import ProgramArea
 from ..models import Project
 from ..models import Sdg
 from ..models import Skill
+from ..models import StackElement
 from ..models import StackElementType
-from ..models import Technology
 from ..models import UserPermission
 from .serializers import AffiliateSerializer
 from .serializers import AffiliationSerializer
@@ -40,8 +40,8 @@ from .serializers import ProgramAreaSerializer
 from .serializers import ProjectSerializer
 from .serializers import SdgSerializer
 from .serializers import SkillSerializer
+from .serializers import StackElementSerializer
 from .serializers import StackElementTypeSerializer
-from .serializers import TechnologySerializer
 from .serializers import UserPermissionSerializer
 from .serializers import UserSerializer
 
@@ -267,17 +267,17 @@ class SkillViewSet(viewsets.ModelViewSet):
 
 
 @extend_schema_view(
-    list=extend_schema(description="Return a list of all the technologies"),
-    create=extend_schema(description="Create a new technology"),
-    retrieve=extend_schema(description="Return the details of a technology"),
-    destroy=extend_schema(description="Delete a technology"),
-    update=extend_schema(description="Update a technology"),
-    partial_update=extend_schema(description="Patch a technology"),
+    list=extend_schema(description="Return a list of all the stack elements"),
+    create=extend_schema(description="Create a new stack element"),
+    retrieve=extend_schema(description="Return the details of a stack element"),
+    destroy=extend_schema(description="Delete a stack element"),
+    update=extend_schema(description="Update a stack element"),
+    partial_update=extend_schema(description="Patch a stack element"),
 )
-class TechnologyViewSet(viewsets.ModelViewSet):
+class StackElementViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
-    queryset = Technology.objects.all()
-    serializer_class = TechnologySerializer
+    queryset = StackElement.objects.all()
+    serializer_class = StackElementSerializer
 
 
 @extend_schema_view(
