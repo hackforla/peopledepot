@@ -53,6 +53,11 @@ class UserPermissionSerializer(serializers.ModelSerializer):
             "project",
             "practice_area",
         )
+        read_only_fields = (
+            "uuid",
+            "created_at",
+            "updated_at",
+        )
 
 
 class UserSerializer(serializers.ModelSerializer):
