@@ -14,6 +14,7 @@ from core.models import ProgramArea
 from core.models import Project
 from core.models import Sdg
 from core.models import Skill
+from core.models import SocMajor
 from core.models import StackElement
 from core.models import StackElementType
 from core.models import User
@@ -350,4 +351,13 @@ class CheckTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = CheckType
         fields = ("uuid", "name", "description")
+        read_only_fields = ("uuid", "created_at", "updated_at")
+
+
+class SocMajorSerializer(serializers.ModelSerializer):
+    """Used to retrieve soc_major info"""
+
+    class Meta:
+        model = SocMajor
+        fields = ("uuid", "occ_code", "title")
         read_only_fields = ("uuid", "created_at", "updated_at")

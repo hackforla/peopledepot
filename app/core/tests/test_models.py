@@ -141,3 +141,7 @@ def test_affiliation_is_neither_partner_and_sponsor(affiliation4):
 def test_check_type(check_type):
     assert str(check_type) == "This is a test check_type."
     assert check_type.description == "This is a test check_type description."
+
+
+def test_soc_major(soc_major):
+    assert str(soc_major) == "Test Soc Major"
