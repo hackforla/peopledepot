@@ -10,8 +10,6 @@ ENV PYTHONUNBUFFERED 1
 ENV PYTHONPYCACHEPREFIX=/root/.cache/pycache/
 
 # install system dependencies
-
-# hadolint ignore=DL3008
 RUN \
   --mount=type=cache,target=/var/cache/apk \
   --mount=type=cache,target=/etc/apk/cache \
