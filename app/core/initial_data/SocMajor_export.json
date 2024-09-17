@@ -1,0 +1,53 @@
+[
+    {
+        "uuid": 1,
+        "occ_code": "11-2000",
+        "title": "Management Occupations"
+    },
+    {
+        "uuid": 2,
+        "occ_code": "13-0000",
+        "title": "Business and Financial Operations Occupations"
+    },
+    {
+        "uuid": 3,
+        "occ_code": "15-0000",
+        "title": "Computer and Mathematical Occupations"
+    },
+    {
+        "uuid": 4,
+        "occ_code": "17-0000",
+        "title": "Architecture and Engineering Occupations"
+    },
+    {
+        "uuid": 5,
+        "occ_code": "19-0000",
+        "title": "Life, Physical, and Social Science Occupations"
+    },
+    {
+        "uuid": 6,
+        "occ_code": "21-0000",
+        "title": "Community and Social Service Occupations"
+    },
+    {
+        "uuid": 7,
+        "occ_code": "23-0000",
+        "title": "Legal Occupations"
+    },
+    {
+        "uuid": 8,
+        "occ_code": "25-0000",
+        "title": "Educational Instruction and Library Occupations"
+    },
+    {
+        "uuid": 9,
+        "occ_code": "27-0000",
+        "title": "Arts, Design, Entertainment, Sports, and Media Occupations"
+    },
+    {
+        "uuid": 10,
+        "occ_code": "29-0000",
+        "title": "Healthcare Practitioners and Technical Occupations"
+    }
+
+]
