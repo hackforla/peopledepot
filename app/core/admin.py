@@ -18,6 +18,7 @@ from .models import ProgramArea
 from .models import Project
 from .models import Sdg
 from .models import Skill
+from .models import SocMajor
 from .models import StackElement
 from .models import StackElementType
 from .models import User
@@ -239,3 +240,8 @@ class AffiliationAdmin(admin.ModelAdmin):
 @admin.register(CheckType)
 class CheckTypeAdmin(admin.ModelAdmin):
     list_display = ("name", "description")
+
+
+@admin.register(SocMajor)
+class SocMajorAdmin(admin.ModelAdmin):
+    list_display = ("occ_code", "title")
