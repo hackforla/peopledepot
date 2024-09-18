@@ -51,6 +51,23 @@ Let's start!
             assert str(recurring_event) == payload["name"]
         ```
 
+        For testing many-to-many relationships, we can add
+
+        ```python title="app/core/tests/test_models.py" linenums="1"
+        def test_project_recurring_event_relationship(project):
+            recurring_event = RecurringEvent.objects.get(name="{Name of Recurring Event}")
+
+            project.recurring_events.add(recurring_event)
+            assert project.recurring_events.count() == 1
+            assert project.recurring_events.contains(recurring_event)
+            assert recurring_event.projects.contains(project)
+
+            project.sdgs.remove(recurring_event)
+            assert project.recurring_events.count() == 0
+            assert not project.recurring_events.contains(recurring_event)
+            assert not recurring_event.projects.contains(project)
+        ```
+
     1. See it fail
 
         ```bash
@@ -98,6 +115,46 @@ class RecurringEvent(AbstractBaseModel):  # (1)!
     1. `TextField` doesn't have a maximum length, which makes it ideal for large text fields such as `description`.
 1. Try to add the relationships to non-existent models, but comment them out. Another developer will complete them when they go to implement those models.
 1. Always override the `__str__` function to output something more meaningful than the default. It lets us do a quick test of the model by calling `str([model])`. It's also useful for the admin site model list view.
+
+??? note "Updating models.py for many-to-many relationships"
+    For adding many-to-many relationships with additional fields, such as `ended_on`, we can add
+
+    ```python title="app/core/models.py" linenums="1"
+    class Project(AbstractBaseModel):
+        ...
+        recurring_events = models.ManyToManyField(
+            "RecurringEvent",
+            related_name="projects",
+            blank=True,
+            through="ProjectRecurringEventXref",
+        )
+        ...
+
+
+    class ProjectRecurringEventXref(AbstractBaseModel):
+        """
+        Joins a recurring event to a project
+        """
+
+        recurring_event_id = models.ForeignKey(RecurringEvent, on_delete=models.CASCADE)
+        project_id = models.ForeignKey(Project, on_delete=models.CASCADE)
+        ended_on = models.DateField("Ended on", null=True, blank=True)
+    ```
+
+    For adding many-to-many relationships without additional fields, we can just add
+
+    ```python title="app/core/models.py" linenums="1"
+    class Project(AbstractBaseModel):
+        ...
+        recurring_events = models.ManyToManyField(
+            "RecurringEvent",
+            related_name="projects",
+            blank=True,
+        )
+        ...
+    ```
+
+    which leaves out the "through" field and the "join table" will be created implicitly.
 
 ### Run migrations
 
@@ -246,6 +303,67 @@ There's several components to adding API endpoints: Model(already done), Seriali
 This is code that serializes objects into strings for the API endpoints, and deserializes strings into object when we receive data from the client.
 
 In `app/core/api/serializers.py`
+
+??? note "Updating serializers.py for many-to-many relationships"
+    Following the many-to-many relationship between project and recurring event from above,
+
+    Update the existing serializer classes
+
+    ```python title="app/core/api/serializers.py" linenums="1"
+    class ProjectSerializer(serializers.ModelSerializer):
+        """Used to retrieve project info"""
+
+        recurring_events = serializers.StringRelatedField(many=True)
+
+        class Meta:
+            model = Project
+            fields = (
+                "uuid",
+                "name",
+                "description",
+                "created_at",
+                "updated_at",
+                "completed_at",
+                "github_org_id",
+                "github_primary_repo_id",
+                "hide",
+                "google_drive_id",
+                "image_logo",
+                "image_hero",
+                "image_icon",
+                "recurring_events",
+            )
+            read_only_fields = (
+                "uuid",
+                "created_at",
+                "updated_at",
+                "completed_at",
+            )
+
+
+    class RecurringEventSerializer(serializers.ModelSerializer):
+        """Used to retrieve recurring_event info"""
+
+        projects = serializers.StringRelatedField(many=True)
+
+        class Meta:
+            model = RecurringEvent
+            fields = (
+                "uuid",
+                "name",
+                "start_time",
+                "duration_in_min",
+                "video_conference_url",
+                "additional_info",
+                "project",
+                "projects",
+            )
+            read_only_fields = (
+                "uuid",
+                "created_at",
+                "updated_at",
+            )
+    ```
 
 1. Import the new model
 
@@ -484,6 +602,45 @@ In `app/core/api/urls.py`
         1. Then
             1. Check that it's created via [status code](https://www.django-rest-framework.org/api-guide/status-codes/#client-error-4xx)
             1. Maybe also check the data. A real test should check all the data, but we're kind of relying on django to have already tested this.
+
+    1. Run the test script to show it passing
+
+        ```bash
+        ./scripts/test.sh
+        ```
+
+??? note "Test many-to-many relationships"
+    In `app/core/tests/test_api.py`
+
+    1. Import API URL
+
+        ```python title="app/core/tests/test_api.py" linenums="1"
+        PROJECTS_URL = reverse("project-list")
+        ```
+
+    1. Add test case (following the example above)
+
+        ```python title="app/core/tests/test_api.py" linenums="1"
+        def test_project_sdg_xref(auth_client, project, recurring_event):
+            def get_object(objects, target_uuid):
+                for obj in objects:
+                    if str(obj["uuid"]) == str(target_uuid):
+                        return obj
+                return None
+
+            project.recurring_events.add(recurring_event)
+            proj_res = auth_client.get(PROJECTS_URL)
+            test_proj = get_object(proj_res.data, project.uuid)
+            assert test_proj is not None
+            assert len(test_proj["recurring_events"]) == 1
+            assert recurring_event.name in test_proj["recurring_events"]
+
+            recurring_event_res = auth_client.get(RECURRING_EVENT_URL)
+            test_recurring_event = get_object(recurring_event_res.data, recurring_event.uuid)
+            assert test_recurring_event is not None
+            assert len(test_recurring_event["projects"]) == 1
+            assert project.name in test_recurring_event["projects"]
+        ```
 
     1. Run the test script to show it passing
 
