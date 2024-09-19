@@ -281,14 +281,45 @@ class PermissionType(AbstractBaseModel):
     Permission Type
     """
 
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, unique=True)
     description = models.TextField(blank=True)
+    rank = models.IntegerField(unique=True, default=0)
 
     def __str__(self):
         if self.description and isinstance(self.description, str):
             return f"{self.name}: {self.description}"
         else:
             return f"{self.name}"
+
+
+class UserPermission(AbstractBaseModel):
+    """
+    User Permissions
+    """
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="permissions")
+    permission_type = models.ForeignKey(PermissionType, on_delete=models.CASCADE)
+    practice_area = models.ForeignKey(
+        PracticeArea, on_delete=models.CASCADE, blank=True, null=True
+    )
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["user", "permission_type", "project", "practice_area"],
+                name="unique_user_permission",
+            )
+        ]
+
+    def __str__(self):
+        username = self.user.username
+        permission_type_name = self.permission_type.name
+        project_name = self.project.name
+        str_val = f"User: {username} / Permission Type: {permission_type_name}/ Project: {project_name}"
+        if self.practice_area:
+            str_val += f" / Practice Area: {self.practice_area.name}"
+        return str_val
 
 
 class StackElementType(AbstractBaseModel):

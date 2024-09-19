@@ -1,6 +1,9 @@
 import pytest
 from rest_framework.test import APIClient
 
+from constants import admin_project
+from constants import practice_lead_project
+
 from ..models import Affiliate
 from ..models import Affiliation
 from ..models import CheckType
@@ -16,6 +19,75 @@ from ..models import Sdg
 from ..models import Skill
 from ..models import StackElement
 from ..models import StackElementType
+from ..models import User
+from ..models import UserPermission
+
+
+@pytest.fixture
+def user_superuser_admin():
+    return User.objects.create_user(
+        username="AdminUser",
+        email="adminuser@example.com",
+        password="adminuser",
+        is_superuser=True,
+    )
+
+
+@pytest.fixture
+def user_permissions():
+    user1 = User.objects.create(username="TestUser1", email="TestUser1@example.com")
+    user2 = User.objects.create(username="TestUser2", email="TestUser2@example.com")
+    project = Project.objects.create(name="Test Project")
+    permission_type = PermissionType.objects.first()
+    practice_area = PracticeArea.objects.first()
+    user1_permission = UserPermission.objects.create(
+        user=user1,
+        permission_type=permission_type,
+        project=project,
+        practice_area=practice_area,
+    )
+    user2_permissions = UserPermission.objects.create(
+        user=user2,
+        project=project,
+        permission_type=permission_type,
+        practice_area=practice_area,
+    )
+    return [user1_permission, user2_permissions]
+
+
+@pytest.fixture
+def user_permission_admin_project():
+    user = User.objects.create(
+        username="TestUser Admin Project", email="TestUserAdminProject@example.com"
+    )
+    project = Project.objects.create(name="Test Project Admin Project")
+    permission_type = PermissionType.objects.filter(name=admin_project).first()
+    user_permission = UserPermission.objects.create(
+        user=user,
+        permission_type=permission_type,
+        project=project,
+    )
+
+    return user_permission
+
+
+@pytest.fixture
+def user_permission_practice_lead_project():
+    user = User.objects.create(
+        username="TestUser Practie Lead Project",
+        email="TestUserPracticeLeadProject@example.com",
+    )
+    permission_type = PermissionType.objects.filter(name=practice_lead_project).first()
+    project = Project.objects.create(name="Test Project Admin Project")
+    practice_area = PracticeArea.objects.first()
+    user_permission = UserPermission.objects.create(
+        user=user,
+        permission_type=permission_type,
+        project=project,
+        practice_area=practice_area,
+    )
+
+    return user_permission
 
 
 @pytest.fixture

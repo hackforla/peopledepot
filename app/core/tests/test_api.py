@@ -5,9 +5,11 @@ from rest_framework import status
 from core.api.serializers import ProgramAreaSerializer
 from core.api.serializers import UserSerializer
 from core.models import ProgramArea
+from core.models import UserPermission
 
 pytestmark = pytest.mark.django_db
 
+USER_PERMISSIONS_URL = reverse("user-permission-list")
 ME_URL = reverse("my_profile")
 USERS_URL = reverse("user-list")
 EVENTS_URL = reverse("event-list")
@@ -306,7 +308,7 @@ def test_create_stack_element(auth_client, stack_element_type):
 
 
 def test_create_permission_type(auth_client):
-    payload = {"name": "adminGlobal", "description": "Can CRUD anything"}
+    payload = {"name": "newRecord", "description": "Can CRUD anything"}
     res = auth_client.post(PERMISSION_TYPE, payload)
     assert res.status_code == status.HTTP_201_CREATED
     assert res.data["name"] == payload["name"]
@@ -321,6 +323,14 @@ def test_create_stack_element_type(auth_client):
     res = auth_client.post(STACK_ELEMENT_TYPE_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
     assert res.data["name"] == payload["name"]
+
+
+def test_get_user_permissions(user_superuser_admin, user_permissions, auth_client):
+    auth_client.force_authenticate(user=user_superuser_admin)
+    permission_count = UserPermission.objects.count()
+    res = auth_client.get(USER_PERMISSIONS_URL)
+    assert len(res.data) == permission_count
+    assert res.status_code == status.HTTP_200_OK
 
 
 def test_create_sdg(auth_client):

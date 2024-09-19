@@ -16,10 +16,12 @@ from .views import SdgViewSet
 from .views import SkillViewSet
 from .views import StackElementTypeViewSet
 from .views import StackElementViewSet
+from .views import UserPermissionViewSet
 from .views import UserProfileAPIView
 from .views import UserViewSet
 
 router = routers.SimpleRouter()
+router.register(r"user-permissions", UserPermissionViewSet, basename="user-permission")
 router.register(r"users", UserViewSet, basename="user")
 router.register(r"projects", ProjectViewSet, basename="project")
 router.register(r"events", EventViewSet, basename="event")
