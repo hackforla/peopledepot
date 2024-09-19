@@ -352,10 +352,7 @@ class CheckTypeViewSet(viewsets.ModelViewSet):
 
 @extend_schema_view(
     list=extend_schema(description="Return a list of all the user permissions"),
-    create=extend_schema(description="Create a new user permission"),
     retrieve=extend_schema(description="Return the details of a user permission"),
-    destroy=extend_schema(description="Delete a user permission"),
-    partial_update=extend_schema(description="Patch a user permission"),
 )
 class UserPermissionViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = []
