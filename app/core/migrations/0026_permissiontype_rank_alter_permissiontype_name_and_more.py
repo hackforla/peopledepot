@@ -9,7 +9,7 @@ import uuid
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("core", "0024_checktype"),
+        ("core", "0025_stackelement_delete_technology"),
     ]
 
     operations = [

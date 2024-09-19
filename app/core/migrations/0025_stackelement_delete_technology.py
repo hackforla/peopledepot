@@ -7,7 +7,7 @@ import uuid
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("core", "0025_permissiontype_rank_alter_permissiontype_name_and_more")
+        ("core", "0024_checktype")
     ]
 
     operations = [
