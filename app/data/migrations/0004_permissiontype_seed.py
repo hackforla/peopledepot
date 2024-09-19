@@ -50,7 +50,6 @@ def insert_data(__code__, __reverse_code__):
         ),
     ]
     for uuid, name, description, rank in items:
-        print("Creating", name)
         PermissionType.objects.create(
             uuid=uuid, name=name, description=description, rank=rank
         )
