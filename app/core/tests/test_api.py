@@ -10,6 +10,7 @@ from core.models import UserPermission
 pytestmark = pytest.mark.django_db
 
 USER_PERMISSIONS_URL = reverse("user-permission-list")
+PROJECT_URL = reverse("project-list")
 ME_URL = reverse("my_profile")
 USERS_URL = reverse("user-list")
 EVENTS_URL = reverse("event-list")
@@ -381,3 +382,28 @@ def test_create_soc_major(auth_client):
     res = auth_client.post(SOC_MAJOR_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
     assert res.data["title"] == payload["title"]
+
+
+def test_project_sdg_xref(auth_client, project, sdg, sdg1):
+    def get_object(data, target_uuid):
+        for obj in data:
+            if str(obj["uuid"]) == str(target_uuid):
+                return obj
+        return None
+
+    project.sdgs.add(sdg)
+    project.sdgs.add(sdg1)
+    proj_res = auth_client.get(PROJECT_URL)
+    test_proj = get_object(proj_res.data, project.uuid)
+    assert test_proj is not None
+    assert len(test_proj["sdgs"]) == 2
+    assert test_proj["sdgs"][1] != sdg.name
+    assert test_proj["sdgs"][0] == sdg.name
+    assert test_proj["sdgs"][1] == sdg1.name
+
+    sdg.projects.add(project)
+    sdg_res = auth_client.get(SDG_URL)
+    test_sdg = get_object(sdg_res.data, sdg.uuid)
+    assert test_sdg is not None
+    assert len(test_sdg["projects"]) == 1
+    assert test_sdg["projects"][0] == project.name

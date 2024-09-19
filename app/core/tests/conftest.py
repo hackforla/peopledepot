@@ -247,6 +247,11 @@ def sdg():
 
 
 @pytest.fixture
+def sdg1():
+    return Sdg.objects.create(name="Test SDG name1")
+
+
+@pytest.fixture
 def affiliation1(project, affiliate):
     return Affiliation.objects.create(
         is_sponsor=True, is_partner=False, project=project, affiliate=affiliate
