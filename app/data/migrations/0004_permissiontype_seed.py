@@ -60,6 +60,9 @@ def clear_table(__code__, __reverse_code__):
 
 
 class Migration(migrations.Migration):
-    dependencies = [("data", "0003_sdg_seed")]
+    dependencies = [
+        ("data", "0003_sdg_seed"),
+        ("core", "0026_permissiontype_rank_alter_permissiontype_name_and_more"),
+    ]
 
     operations = [migrations.RunPython(insert_data, clear_table)]
