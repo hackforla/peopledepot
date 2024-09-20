@@ -1,3 +1,5 @@
+import re
+
 import pytest
 
 from ..models import Event
@@ -89,6 +91,27 @@ def test_affiliation_sponsor(affiliation1):
     assert xref_instance.is_sponsor is True
     assert xref_instance.is_partner is False
     assert str(xref_instance) == f"Sponsor {xref_instance.project}"
+
+
+def test_user_permission_admin_project(user_permission_admin_project):
+    user_permission = user_permission_admin_project
+    username = user_permission.user.username
+    permission_type_name = user_permission.permission_type.name
+    project_name = user_permission.project.name
+    pattern = f".*{username}.*{permission_type_name}.*{project_name}"
+    assert re.search(pattern, str(user_permission))
+
+
+def test_user_permission_practice_lead_project(user_permission_practice_lead_project):
+    user_permission = user_permission_practice_lead_project
+    username = user_permission.user.username
+    permission_type_name = user_permission.permission_type.name
+    project_name = user_permission.project.name
+    practice_area_name = user_permission.practice_area.name
+    pattern = (
+        f".*{username}.*{permission_type_name}.*{project_name}.*{practice_area_name}"
+    )
+    assert re.search(pattern, str(user_permission))
 
 
 def test_affiliation_partner(affiliation2):

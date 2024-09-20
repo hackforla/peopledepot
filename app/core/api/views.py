@@ -26,6 +26,7 @@ from ..models import Sdg
 from ..models import Skill
 from ..models import StackElement
 from ..models import StackElementType
+from ..models import UserPermission
 from .serializers import AffiliateSerializer
 from .serializers import AffiliationSerializer
 from .serializers import CheckTypeSerializer
@@ -41,6 +42,7 @@ from .serializers import SdgSerializer
 from .serializers import SkillSerializer
 from .serializers import StackElementSerializer
 from .serializers import StackElementTypeSerializer
+from .serializers import UserPermissionSerializer
 from .serializers import UserSerializer
 
 
@@ -346,3 +348,13 @@ class CheckTypeViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = CheckType.objects.all()
     serializer_class = CheckTypeSerializer
+
+
+@extend_schema_view(
+    list=extend_schema(description="Return a list of all the user permissions"),
+    retrieve=extend_schema(description="Return the details of a user permission"),
+)
+class UserPermissionViewSet(viewsets.ReadOnlyModelViewSet):
+    permission_classes = []
+    queryset = UserPermission.objects.all()
+    serializer_class = UserPermissionSerializer

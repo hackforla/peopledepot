@@ -4,11 +4,10 @@ from django.db import migrations, models
 import django.db.models.deletion
 import uuid
 
-
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("core", "0024_checktype"),
+        ("core", "0024_checktype")
     ]
 
     operations = [
