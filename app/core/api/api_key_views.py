@@ -14,11 +14,15 @@ from core.models import User
 @extend_schema_view(
     list=extend_schema(
         description="""
-Lists all users and the associated groups for the user!!!
+Lists all users and the associated groups for the user
 
-Requires setting X-Api-Key.  For curl, it would look like this:
+Requires
+- API keys have been added using the API key screen in the People depot App.
+Check with People Depot admin.
+- Requires X-Api-Key be set when submitting request
+For curl, it would look like this:
 ```http
-curl -L -X GET "localhost:8001/api/v1/secret-api/getusers/"
+curl -L -X GET "localhost:8001/api/v1/apikey/getusers/"
 -H "X-Api-Key: *************"
 -H "Content-Type: application/json"
 ```
@@ -34,12 +38,13 @@ HEADERS = {
     'X-Api-Key': API_KEY,
     'Content-Type': 'application/json'
 }
-response = requests.get(f"{BASE_URL}/api/v1/secret-api/getusers/", headers=HEADERS)
+response = requests.get(f"{BASE_URL}/api/v1/apikey/getusers/", headers=HEADERS)
 ```
         """
     )
 )
-class SecretUserViewSet(viewsets.ReadOnlyModelViewSet):
+class ApiKeyUserViewSet(viewsets.ReadOnlyModelViewSet):
+    # HasAPIKey checks if value of X-API-KEY is in API keys table
     permission_classes = [IsAuthenticatedOrReadOnly, HasAPIKey]
     queryset = PracticeArea.objects.all()
     serializer_class = PracticeAreaSerializer  # HasAPIKey checks against keys stored in

@@ -1,7 +1,7 @@
 from django.urls import path
 from rest_framework import routers
 
-from .secret_views import SecretUserViewSet
+from .api_key_views import ApiKeyUserViewSet
 from .views import AffiliateViewSet
 from .views import AffiliationViewSet
 from .views import CheckTypeViewSet
@@ -38,9 +38,7 @@ router.register(r"permission-types", PermissionTypeViewSet, basename="permission
 router.register(
     r"stack-element-types", StackElementTypeViewSet, basename="stack-element-type"
 )
-router.register(
-    r"secret-api/getusers", SecretUserViewSet, basename="secret-api-getusers"
-)
+router.register(r"apikey/getusers", ApiKeyUserViewSet, basename="apikey-getusers")
 router.register(r"sdgs", SdgViewSet, basename="sdg")
 router.register(r"sdgs", SdgViewSet, basename="sdg")
 router.register(

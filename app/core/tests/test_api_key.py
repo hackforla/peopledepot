@@ -5,14 +5,14 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 from rest_framework_api_key.models import APIKey
 
-secret_url = reverse("secret-api-getusers-list")
+api_key_url = reverse("apikey-getusers-list")
 
 
-class SecretUserViewSetTests(APITestCase):
+class ApiKeyUserViewSetTests(APITestCase):
     def test_succeeds(self):
         _, api_key = APIKey.objects.create_key(name="test")
         response = self.client.get(
-            secret_url,
+            api_key_url,
             HTTP_X_API_KEY=api_key,  # Uppercase X-API-KEY
             Content_Type="application/json",
         )
@@ -22,7 +22,7 @@ class SecretUserViewSetTests(APITestCase):
         expired_date = datetime.datetime.now() - datetime.timedelta(days=2)
         _, api_key = APIKey.objects.create_key(name="test", expiry_date=expired_date)
         response = self.client.get(
-            secret_url,
+            api_key_url,
             HTTP_X_API_KEY=api_key,  # Uppercase X-API-KEY
             Content_Type="application/json",
         )
