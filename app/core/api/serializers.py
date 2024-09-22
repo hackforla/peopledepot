@@ -18,8 +18,7 @@ from core.models import Skill
 from core.models import StackElement
 from core.models import StackElementType
 from core.models import User
-from core.models import UserPermissions
-from core.permission_util import PermissionUtil
+from core.models import UserPermission
 
 
 class PracticeAreaSerializer(serializers.ModelSerializer):

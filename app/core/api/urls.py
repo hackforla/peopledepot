@@ -21,9 +21,7 @@ from .views import UserProfileAPIView
 from .views import UserViewSet
 
 router = routers.SimpleRouter()
-router.register(
-    r"api/v1/user-permissions", UserPermissionsViewSet, basename="user-permissions"
-)
+router.register(r"user-permissions", UserPermissionViewSet, basename="user-permission")
 router.register(r"users", UserViewSet, basename="user")
 router.register(r"projects", ProjectViewSet, basename="project")
 router.register(r"events", EventViewSet, basename="event")
