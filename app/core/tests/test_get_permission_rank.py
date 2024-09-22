@@ -1,18 +1,18 @@
 import pytest
 
+from constants import admin_project
 from constants import global_admin
-from constants import project_lead
-from constants import project_member
+from constants import member_project
 from core.models import PermissionType
 from core.models import Project
-from core.models import UserPermissions
+from core.models import UserPermission
 from core.permission_util import PermissionUtil
 from core.tests.utils.seed_constants import garry_name
-from core.tests.utils.seed_constants import patrick_project_lead
+from core.tests.utils.seed_constants import patrick_admin_project
 from core.tests.utils.seed_constants import patti_name
 from core.tests.utils.seed_constants import valerie_name
 from core.tests.utils.seed_constants import wally_name
-from core.tests.utils.seed_constants import wanda_project_lead
+from core.tests.utils.seed_constants import wanda_admin_project
 from core.tests.utils.seed_constants import website_project_name
 from core.tests.utils.seed_constants import winona_name
 from core.tests.utils.seed_constants import zani_name
@@ -43,11 +43,11 @@ class TestGetLowestRankedPermissionType:
         # Setup
         garry_user = SeedUser.get_user(garry_name)
         website_project = Project.objects.get(name=website_project_name)
-        project_lead_permision_type = PermissionType.objects.get(name=project_lead)
-        UserPermissions.objects.create(
+        admin_project_permision_type = PermissionType.objects.get(name=admin_project)
+        UserPermission.objects.create(
             user=garry_user,
             project=website_project,
-            permission_type=project_lead_permision_type,
+            permission_type=admin_project_permision_type,
         )
         # Test
         rank = _get_lowest_ranked_permission_type(garry_name, valerie_name)
@@ -55,18 +55,18 @@ class TestGetLowestRankedPermissionType:
 
     def test_team_member_lowest_rank_for_two_team_members(self):
         """Test that lowest rank for Wally relative tp Wanda, a project lead,
-        or Winona, a team member, is project_member
+        or Winona, a team member, is member_project
         """
         rank = _get_lowest_ranked_permission_type(wally_name, winona_name)
-        assert rank == project_member
+        assert rank == member_project
 
-        rank = _get_lowest_ranked_permission_type(wally_name, wanda_project_lead)
-        assert rank == project_member
+        rank = _get_lowest_ranked_permission_type(wally_name, wanda_admin_project)
+        assert rank == member_project
 
     def test_lowest_rank_blank_of_two_non_team_member(self):
         """Test that lowest rank is blank for Wally relative to Patrick,
         who are team members on different projects, is blank."""
-        rank = _get_lowest_ranked_permission_type(wally_name, patrick_project_lead)
+        rank = _get_lowest_ranked_permission_type(wally_name, patrick_admin_project)
         assert rank == ""
 
     def test_team_member_lowest_rank_for_multiple_user_permissions(self):
@@ -74,7 +74,7 @@ class TestGetLowestRankedPermissionType:
         and lowest rank for Zani, a project lead on Patti's project, is project lead
         """
         rank = _get_lowest_ranked_permission_type(zani_name, winona_name)
-        assert rank == project_member
+        assert rank == member_project
 
         rank = _get_lowest_ranked_permission_type(zani_name, patti_name)
-        assert rank == project_lead
+        assert rank == admin_project

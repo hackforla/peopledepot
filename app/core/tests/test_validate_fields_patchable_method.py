@@ -7,7 +7,7 @@ from core.tests.utils.seed_constants import garry_name
 from core.tests.utils.seed_constants import patti_name
 from core.tests.utils.seed_constants import valerie_name
 from core.tests.utils.seed_constants import wally_name
-from core.tests.utils.seed_constants import wanda_project_lead
+from core.tests.utils.seed_constants import wanda_admin_project
 from core.tests.utils.seed_constants import winona_name
 from core.tests.utils.seed_constants import zani_name
 from core.tests.utils.seed_user import SeedUser
@@ -49,25 +49,25 @@ class TestValidateFieldsPatchable:
                 ["created_at"],
             )
 
-    def test_project_lead_can_patch_name(self):
+    def test_admin_project_can_patch_name(self):
         """Test validate_fields_patchable succeeds
         if requesting fields include first_name and last_name **WHEN**
         the requester is a project lead.
         """
         PermissionUtil.validate_fields_patchable(
-            SeedUser.get_user(wanda_project_lead),
+            SeedUser.get_user(wanda_admin_project),
             SeedUser.get_user(wally_name),
             ["first_name", "last_name"],
         )
 
-    def test_project_lead_cannot_patch_current_title(self):
+    def test_admin_project_cannot_patch_current_title(self):
         """Test validate_fields_patchable raises ValidationError
         if requesting fields include current_title **WHEN** requester
         is a project lead.
         """
         with pytest.raises(ValidationError):
             PermissionUtil.validate_fields_patchable(
-                SeedUser.get_user(wanda_project_lead),
+                SeedUser.get_user(wanda_admin_project),
                 SeedUser.get_user(wally_name),
                 ["current_title"],
             )
@@ -79,7 +79,7 @@ class TestValidateFieldsPatchable:
         """
         with pytest.raises(PermissionError):
             PermissionUtil.validate_fields_patchable(
-                SeedUser.get_user(wanda_project_lead),
+                SeedUser.get_user(wanda_admin_project),
                 SeedUser.get_user(patti_name),
                 ["first_name"],
             )
@@ -95,7 +95,7 @@ class TestValidateFieldsPatchable:
                 ["first_name"],
             )
 
-    def test_multi_project_requester_can_patch_first_name_of_member_if_requester_is_project_leader(
+    def test_multi_project_requester_can_patch_first_name_of_member_if_requester_is_admin_projecter(
         self,
     ):
         """Test validate_fields_patchable succeeds for first name
@@ -106,7 +106,7 @@ class TestValidateFieldsPatchable:
             SeedUser.get_user(zani_name), SeedUser.get_user(patti_name), ["first_name"]
         )
 
-    def test_multi_project_user_cannot_patch_first_name_of_member_if_requester_is_project_member(
+    def test_multi_project_user_cannot_patch_first_name_of_member_if_requester_is_member_project(
         self,
     ):
         """Test validate_fields_patchable raises ValidationError

@@ -5,13 +5,13 @@ from rest_framework.test import APIClient
 from rest_framework.test import APIRequestFactory
 from rest_framework.test import force_authenticate
 
-from constants import project_lead
+from constants import admin_project
 from core.api.views import UserViewSet
 from core.field_permissions import FieldPermissions
 from core.tests.utils.seed_constants import garry_name
 from core.tests.utils.seed_constants import valerie_name
 from core.tests.utils.seed_constants import wally_name
-from core.tests.utils.seed_constants import wanda_project_lead
+from core.tests.utils.seed_constants import wanda_admin_project
 from core.tests.utils.seed_user import SeedUser
 
 count_website_members = 4
@@ -92,9 +92,9 @@ class TestPatchUser:
         server can be set to test values.
         """
 
-        FieldPermissions.user_patch_fields[project_lead] = ["last_name", "gmail"]
+        FieldPermissions.user_patch_fields[admin_project] = ["last_name", "gmail"]
 
-        requester = SeedUser.get_user(wanda_project_lead)  # project lead for website
+        requester = SeedUser.get_user(wanda_admin_project)  # project lead for website
         update_data = {"last_name": "Smith", "gmail": "smith@example.com"}
         target_user = SeedUser.get_user(wally_name)
         response = patch_request_to_viewset(requester, target_user, update_data)
@@ -107,8 +107,8 @@ class TestPatchUser:
         See documentation for test_allowable_patch_fields_configurable for more information.
         """
 
-        requester = SeedUser.get_user(wanda_project_lead)  # project lead for website
-        FieldPermissions.user_patch_fields[project_lead] = ["gmail"]
+        requester = SeedUser.get_user(wanda_admin_project)  # project lead for website
+        FieldPermissions.user_patch_fields[admin_project] = ["gmail"]
         update_data = {"last_name": "Smith"}
         target_user = SeedUser.get_user(wally_name)
         response = patch_request_to_viewset(requester, target_user, update_data)

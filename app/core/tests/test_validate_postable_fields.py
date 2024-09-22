@@ -8,7 +8,7 @@ from core.api.views import UserViewSet
 from core.field_permissions import FieldPermissions
 from core.permission_util import PermissionUtil
 from core.tests.utils.seed_constants import garry_name
-from core.tests.utils.seed_constants import wanda_project_lead
+from core.tests.utils.seed_constants import wanda_admin_project
 from core.tests.utils.seed_user import SeedUser
 
 count_website_members = 4
@@ -44,11 +44,11 @@ class TestPostUser:
                 ["created_at"],
             )
 
-    def test_validate_fields_postable_raises_exception_for_project_lead(self):
+    def test_validate_fields_postable_raises_exception_for_admin_project(self):
         """Test validate_fields_postable raises PermissionError when requesting
         user is a project lead and fields include password
         """
         with pytest.raises(PermissionError):
             PermissionUtil.validate_fields_postable(
-                SeedUser.get_user(wanda_project_lead), ["username", "password"]
+                SeedUser.get_user(wanda_admin_project), ["username", "password"]
             )

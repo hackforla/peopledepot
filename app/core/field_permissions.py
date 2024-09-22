@@ -7,22 +7,22 @@ Variables:
 
     user_read_fields:
         user_read_fields[global_admin]: list of fields a global admin can read for a user
-        user_read_fields[project_lead]: list of fields a project lead can read for a user
-        user_read_fields[project_member]: list of fields a project member can read for a user
-        user_read_fields[practice_area_admin]: list of fields a practice area admin can read for a user
+        user_read_fields[admin_project]: list of fields a project lead can read for a user
+        user_read_fields[member_project]: list of fields a project member can read for a user
+        user_read_fields[practice_lead_project]: list of fields a practice area admin can read for a user
     user_patch_fields:
         user_patch_fields[global_admin]: list of fields a global admin can update for a user
-        user_patch_fields[project_lead]: list of fields a project lead can update for a user
-        user_patch_fields[project_member]: list of fields a project member can update for a user
-        user_patch_fields[practice_area_admin]: list of fields a practice area admin can update for a user
+        user_patch_fields[admin_project]: list of fields a project lead can update for a user
+        user_patch_fields[member_project]: list of fields a project member can update for a user
+        user_patch_fields[practice_lead_project]: list of fields a practice area admin can update for a user
     user_post_fields:
         user_post_fields[global_admin]: list of fields a global admin can specify when creating a user
 """
 
+from constants import admin_project
 from constants import global_admin
-from constants import practice_area_admin
-from constants import project_lead
-from constants import project_member
+from constants import member_project
+from constants import practice_lead_project
 from core.user_field_permissions_constants import me_endpoint_permissions
 from core.user_field_permissions_constants import self_register_fields
 from core.user_field_permissions_constants import user_field_permissions
@@ -34,21 +34,21 @@ class FieldPermissions:
     # *************************************************************
 
     user_read_fields = {
-        project_lead: [],
-        project_member: [],
-        practice_area_admin: [],
+        admin_project: [],
+        member_project: [],
+        practice_lead_project: [],
         global_admin: [],
     }
     user_patch_fields = {
-        project_lead: [],
-        project_member: [],
-        practice_area_admin: [],
+        admin_project: [],
+        member_project: [],
+        practice_lead_project: [],
         global_admin: [],
     }
     user_post_fields = {
-        project_lead: [],
-        project_member: [],
-        practice_area_admin: [],
+        admin_project: [],
+        member_project: [],
+        practice_lead_project: [],
         global_admin: [],
     }
     me_endpoint_read_fields = []
@@ -79,9 +79,9 @@ class FieldPermissions:
         )
         cls.self_register_fields = self_register_fields
         for permission_type in [
-            project_lead,
-            project_member,
-            practice_area_admin,
+            admin_project,
+            member_project,
+            practice_lead_project,
             global_admin,
         ]:
             cls.user_read_fields[permission_type] = cls._get_fields_with_priv(

@@ -3,7 +3,7 @@ from rest_framework.exceptions import ValidationError
 from constants import global_admin
 from core.field_permissions import FieldPermissions
 from core.models import User
-from core.models import UserPermissions
+from core.models import UserPermission
 
 
 class PermissionUtil:
@@ -30,11 +30,11 @@ class PermissionUtil:
         if PermissionUtil.is_admin(requesting_user):
             return global_admin
 
-        target_user_project_names = UserPermissions.objects.filter(
+        target_user_project_names = UserPermission.objects.filter(
             user=target_user
         ).values_list("project__name", flat=True)
 
-        matched_requester_permissions = UserPermissions.objects.filter(
+        matched_requester_permissions = UserPermission.objects.filter(
             user=requesting_user, project__name__in=target_user_project_names
         ).values("permission_type__name", "permission_type__rank")
 
@@ -64,7 +64,7 @@ class PermissionUtil:
         current_username = request.user.username
 
         current_user = User.objects.get(username=current_username)
-        user_permissions = UserPermissions.objects.filter(user=current_user)
+        user_permissions = UserPermission.objects.filter(user=current_user)
 
         if PermissionUtil.is_admin(current_user):
             queryset = User.objects.all()

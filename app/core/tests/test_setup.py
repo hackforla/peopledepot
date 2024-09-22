@@ -1,7 +1,7 @@
 import pytest
 
 from core.models import User
-from core.models import UserPermissions
+from core.models import UserPermission
 
 
 class TestSetup:
@@ -9,5 +9,5 @@ class TestSetup:
     def test_wanda_setup(self):
         user = User.objects.get(username="Wanda")
         assert user is not None
-        permission_count = UserPermissions.objects.count()
+        permission_count = UserPermission.objects.count()
         assert permission_count > 0

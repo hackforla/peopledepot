@@ -2,8 +2,8 @@ Terminology:
 
 - user row: a user row refers to a row being updated.  Row is redundant but included to
     help distinguish between row and field level security.
-- team mate: a user assigned through UserPermissions to the same project as another user
-- any project member: a user assigned to a project through UserPermissions
+- team mate: a user assigned through UserPermission to the same project as another user
+- any project member: a user assigned to a project through UserPermission
 - API end points / data operations
     - get / read
     - patch / update
@@ -32,14 +32,14 @@ The following API endpoints retrieve users:
                 "user_field_permissions\[global_admin\]").
             - Project leads can read and update fields of a target team member specified in
                 \[base_user_cru_constants.py\] for project lead (search for (search for
-                "user_field_permissions\[project_lead\]") .
+                "user_field_permissions\[admin_project\]") .
         - If a practice area admin is associated with the same practice area as a target
             fellow team member, the practice area admin can read and update fields
-            specified in \[base_user_cru_constants.py\] for practice area admin (search for "user_field_permissions\[practice_area_admin\]").  Otherwise, the practice admin can read
+            specified in \[base_user_cru_constants.py\] for practice area admin (search for "user_field_permissions\[practice_lead_project\]").  Otherwise, the practice admin can read
             fields specified in \[base_user_cru_constants.py\] for project team member (search
-            for "user_field_permissions\[project_member\]")
+            for "user_field_permissions\[member_project\]")
 
-    - General project team members can read fields for a target fellow team member specified in \[base_user_cru_constants.by\] for project team member (search for "user_field_permissions\[project_member\]")
+    - General project team members can read fields for a target fellow team member specified in \[base_user_cru_constants.by\] for project team member (search for "user_field_permissions\[member_project\]")
 
     Note: for non global admins, the /me endpoint, which can be used when reading or
     updating yourself, provides more field permissions.

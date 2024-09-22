@@ -3,11 +3,11 @@ from django.urls import reverse
 from rest_framework.test import APIClient
 
 from constants import global_admin
-from constants import project_member
+from constants import member_project
 from core.field_permissions import FieldPermissions
 from core.tests.utils.seed_constants import valerie_name
 from core.tests.utils.seed_constants import wally_name
-from core.tests.utils.seed_constants import wanda_project_lead
+from core.tests.utils.seed_constants import wanda_admin_project
 from core.tests.utils.seed_constants import winona_name
 from core.tests.utils.seed_user import SeedUser
 
@@ -33,7 +33,7 @@ class TestGetUser:
         **WHEN** the requester is a project admin.
         """
         client = APIClient()
-        client.force_authenticate(user=SeedUser.get_user(wanda_project_lead))
+        client.force_authenticate(user=SeedUser.get_user(wanda_admin_project))
         response = client.get(_user_get_url)
         assert response.status_code == 200
         assert len(response.json()) == count_website_members
@@ -58,12 +58,12 @@ class TestGetUser:
         assert fields_match_for_get_user(
             winona_name,
             response.json(),
-            FieldPermissions.user_read_fields[project_member],
+            FieldPermissions.user_read_fields[member_project],
         )
         assert fields_match_for_get_user(
-            wanda_project_lead,
+            wanda_admin_project,
             response.json(),
-            FieldPermissions.user_read_fields[project_member],
+            FieldPermissions.user_read_fields[member_project],
         )
         assert len(response.json()) == count_website_members
 

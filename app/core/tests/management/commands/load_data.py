@@ -1,15 +1,15 @@
 import copy
 
-from constants import project_lead
-from constants import project_member
+from constants import admin_project
+from constants import member_project
 from core.models import Project
 from core.tests.utils.seed_constants import garry_name
-from core.tests.utils.seed_constants import patrick_project_lead
+from core.tests.utils.seed_constants import patrick_admin_project
 from core.tests.utils.seed_constants import patti_name
 from core.tests.utils.seed_constants import people_depot_project
 from core.tests.utils.seed_constants import valerie_name
 from core.tests.utils.seed_constants import wally_name
-from core.tests.utils.seed_constants import wanda_project_lead
+from core.tests.utils.seed_constants import wanda_admin_project
 from core.tests.utils.seed_constants import website_project_name
 from core.tests.utils.seed_constants import winona_name
 from core.tests.utils.seed_constants import zani_name
@@ -32,7 +32,7 @@ def load_data():
 
     - Garry is a global admin
     - Zani is a member of the website project and the project lead for the People Depot project
-    - Valerie is a verified user with no UserPermissions assignments.
+    - Valerie is a verified user with no UserPermission assignments.
     """
     projects = [website_project_name, people_depot_project]
     for project_name in projects:
@@ -54,39 +54,39 @@ def load_data():
 
     related_data = [
         {
-            "first_name": wanda_project_lead,
+            "first_name": wanda_admin_project,
             "project_name": website_project_name,
-            "permission_type_name": project_lead,
+            "permission_type_name": admin_project,
         },
         {
             "first_name": wally_name,
             "project_name": website_project_name,
-            "permission_type_name": project_member,
+            "permission_type_name": member_project,
         },
         {
             "first_name": winona_name,
             "project_name": website_project_name,
-            "permission_type_name": project_member,
+            "permission_type_name": member_project,
         },
         {
             "first_name": patti_name,
             "project_name": people_depot_project,
-            "permission_type_name": project_member,
+            "permission_type_name": member_project,
         },
         {
-            "first_name": patrick_project_lead,
+            "first_name": patrick_admin_project,
             "project_name": people_depot_project,
-            "permission_type_name": project_lead,
+            "permission_type_name": admin_project,
         },
         {
             "first_name": zani_name,
             "project_name": people_depot_project,
-            "permission_type_name": project_lead,
+            "permission_type_name": admin_project,
         },
         {
             "first_name": zani_name,
             "project_name": website_project_name,
-            "permission_type_name": project_member,
+            "permission_type_name": member_project,
         },
     ]
 

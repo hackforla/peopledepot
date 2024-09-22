@@ -5,10 +5,10 @@ in derived_user_cru_permissions.py.  The application uses the derived values for
 requirements.
 """
 
+from constants import admin_project
 from constants import global_admin
-from constants import practice_area_admin
-from constants import project_lead
-from constants import project_member
+from constants import member_project
+from constants import practice_lead_project
 
 self_register_fields = [
     "username",
@@ -67,12 +67,12 @@ me_endpoint_permissions = {
 # permissions for the user endpoint which is used for creating, viewing, and updating
 #
 user_field_permissions = {
-    project_member: {},
-    practice_area_admin: {},
+    member_project: {},
+    practice_lead_project: {},
     global_admin: {},
 }
 
-user_field_permissions[project_member] = {
+user_field_permissions[member_project] = {
     "uuid": "R",
     "created_at": "R",
     "updated_at": "R",
@@ -100,7 +100,7 @@ user_field_permissions[project_member] = {
     "time_zone": "R",
 }
 
-user_field_permissions[practice_area_admin] = {
+user_field_permissions[practice_lead_project] = {
     "uuid": "R",
     "created_at": "R",
     "updated_at": "R",
@@ -128,8 +128,8 @@ user_field_permissions[practice_area_admin] = {
     "time_zone": "R",
 }
 
-user_field_permissions[project_lead] = user_field_permissions[
-    practice_area_admin
+user_field_permissions[admin_project] = user_field_permissions[
+    practice_lead_project
 ].copy()
 
 user_field_permissions[global_admin] = {
