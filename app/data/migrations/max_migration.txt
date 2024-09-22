@@ -1,1 +1,1 @@
-0004_permission_type_seed
+0006_socmajor_seed

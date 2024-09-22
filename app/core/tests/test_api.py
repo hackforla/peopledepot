@@ -4,11 +4,11 @@ from rest_framework import status
 
 from core.api.serializers import ProgramAreaSerializer
 from core.models import ProgramArea
-from core.models import UserPermissions
+from core.models import UserPermission
 
 pytestmark = pytest.mark.django_db
 
-USER_PERMISSIONS_URL = reverse("user-permissions-list")
+USER_PERMISSIONS_URL = reverse("user-permission-list")
 ME_URL = reverse("my_profile")
 USERS_URL = reverse("user-list")
 EVENTS_URL = reverse("event-list")
@@ -19,11 +19,13 @@ AFFILIATE_URL = reverse("affiliate-list")
 LOCATION_URL = reverse("location-list")
 PROGRAM_AREA_URL = reverse("program-area-list")
 SKILL_URL = reverse("skill-list")
-TECHNOLOGY_URL = reverse("technology-list")
+STACK_ELEMENT_URL = reverse("stack-element-list")
 PERMISSION_TYPE = reverse("permission-type-list")
 STACK_ELEMENT_TYPE_URL = reverse("stack-element-type-list")
 SDG_URL = reverse("sdg-list")
 AFFILIATION_URL = reverse("affiliation-list")
+CHECK_TYPE_URL = reverse("check-type-list")
+SOC_MAJOR_URL = reverse("soc-major-list")
 
 CREATE_USER_PAYLOAD = {
     "username": "TestUserAPI",
@@ -199,21 +201,22 @@ def test_post_skill(auth_client):
     assert res.data["name"] == payload["name"]
 
 
-def test_post_technology(auth_client):
+def test_create_stack_element(auth_client, stack_element_type):
     payload = {
-        "name": "Test Technology",
-        "description": "Technology description",
+        "name": "Test StackElement",
+        "description": "StackElement description",
         "url": "http://www.testurl.org",
         "logo": "http://www.logourl.com",
         "active": True,
+        "element_type": stack_element_type.pk,
     }
-    res = auth_client.post(TECHNOLOGY_URL, payload)
+    res = auth_client.post(STACK_ELEMENT_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
     assert res.data["name"] == payload["name"]
 
 
-def test_post_permission_type(auth_client):
-    payload = {"name": "foobar", "description": "Can CRUD anything", "rank": 1000}
+def test_create_permission_type(auth_client):
+    payload = {"name": "newRecord", "description": "Can CRUD anything"}
     res = auth_client.post(PERMISSION_TYPE, payload)
     assert res.status_code == status.HTTP_201_CREATED
     assert res.data["name"] == payload["name"]
@@ -230,13 +233,11 @@ def test_post_stack_element_type(auth_client):
     assert res.data["name"] == payload["name"]
 
 
-def test_get_user_permissions(
-    created_user_admin, created_user_permissions, auth_client
-):
-    auth_client.force_authenticate(user=created_user_admin)
-    db_count = UserPermissions.objects.count()
+def test_get_user_permissions(user_superuser_admin, auth_client):
+    auth_client.force_authenticate(user=user_superuser_admin)
+    permission_count = UserPermission.objects.count()
     res = auth_client.get(USER_PERMISSIONS_URL)
-    assert len(res.data) == db_count
+    assert len(res.data) == permission_count
     assert res.status_code == status.HTTP_200_OK
 
 
@@ -265,3 +266,25 @@ def test_post_affiliation(auth_client, project, affiliate):
     assert res.data["is_partner"] == payload["is_partner"]
     assert res.data["affiliate"] == payload["affiliate"]
     assert res.data["project"] == payload["project"]
+
+
+def test_create_check_type(auth_client):
+    payload = {
+        "name": "This is a test check_type",
+        "description": "This is a test description",
+    }
+    res = auth_client.post(CHECK_TYPE_URL, payload)
+    assert res.status_code == status.HTTP_201_CREATED
+    assert res.data["name"] == payload["name"]
+
+
+def test_create_soc_major(auth_client):
+    """Test that we can create a soc major"""
+
+    payload = {
+        "occ_code": "33-3333",
+        "title": "Test marketing and sales",
+    }
+    res = auth_client.post(SOC_MAJOR_URL, payload)
+    assert res.status_code == status.HTTP_201_CREATED
+    assert res.data["title"] == payload["title"]

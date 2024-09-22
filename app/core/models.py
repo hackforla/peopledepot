@@ -276,26 +276,6 @@ class Skill(AbstractBaseModel):
         return f"{self.name}"
 
 
-class Technology(AbstractBaseModel):
-    """
-    Dictionary of technologies used in projects
-    """
-
-    name = models.CharField(max_length=255)
-    description = models.TextField(blank=True)
-    url = models.URLField(blank=True)
-    logo = models.URLField(blank=True)
-    active = models.BooleanField(null=True)
-
-    # PK of this model is the ForeignKey for project_partner_xref
-
-    class Meta:
-        verbose_name_plural = "Technologies"
-
-    def __str__(self):
-        return f"{self.name}"
-
-
 class PermissionType(AbstractBaseModel):
     """
     Permission Type
@@ -312,7 +292,7 @@ class PermissionType(AbstractBaseModel):
             return f"{self.name}"
 
 
-class UserPermissions(AbstractBaseModel):
+class UserPermission(AbstractBaseModel):
     """
     User Permissions
     """
@@ -333,18 +313,46 @@ class UserPermissions(AbstractBaseModel):
         ]
 
     def __str__(self):
-        return f"{self.user} has permission {self.permission_type}"
+        username = self.user.username
+        permission_type_name = self.permission_type.name
+        project_name = self.project.name
+        str_val = f"User: {username} / Permission Type: {permission_type_name}/ Project: {project_name}"
+        if self.practice_area:
+            str_val += f" / Practice Area: {self.practice_area.name}"
+        return str_val
 
 
 class StackElementType(AbstractBaseModel):
     """
-    Stack element type used to patch a shared data store across projects
+    Stack element type used to update a shared data store across projects
     """
 
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True)
 
     # PK of this model is the ForeignKey for stack_element
+
+    def __str__(self):
+        return f"{self.name}"
+
+
+class StackElement(AbstractBaseModel):
+    """
+    Dictionary of stack elements used in projects
+    """
+
+    name = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+    url = models.URLField(blank=True)
+    logo = models.URLField(blank=True)
+    active = models.BooleanField(null=True)
+    element_type = models.ForeignKey(StackElementType, on_delete=models.CASCADE)
+
+    # PK of this model is the ForeignKey for project_stack_element_xref
+    # we might be able to use the builtin django many-to-many relation that manages the xref table automatically
+
+    class Meta:
+        verbose_name_plural = "Stack Elements"
 
     def __str__(self):
         return f"{self.name}"
@@ -396,3 +404,23 @@ class Affiliation(AbstractBaseModel):
             return f"Partner {self.affiliate}"
         else:
             return "Neither a partner or a sponsor"
+
+
+class CheckType(AbstractBaseModel):
+    """
+    Types of checks we perform
+    """
+
+    name = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+
+    def __str__(self):
+        return f"{self.name}"
+
+
+class SocMajor(AbstractBaseModel):
+    occ_code = models.CharField(max_length=255)
+    title = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.title
