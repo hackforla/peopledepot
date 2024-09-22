@@ -25,6 +25,7 @@ STACK_ELEMENT_TYPE_URL = reverse("stack-element-type-list")
 SDG_URL = reverse("sdg-list")
 AFFILIATION_URL = reverse("affiliation-list")
 CHECK_TYPE_URL = reverse("check-type-list")
+SOC_MAJOR_URL = reverse("soc-major-list")
 
 CREATE_USER_PAYLOAD = {
     "username": "TestUserAPI",
@@ -275,3 +276,15 @@ def test_create_check_type(auth_client):
     res = auth_client.post(CHECK_TYPE_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
     assert res.data["name"] == payload["name"]
+
+
+def test_create_soc_major(auth_client):
+    """Test that we can create a soc major"""
+
+    payload = {
+        "occ_code": "33-3333",
+        "title": "Test marketing and sales",
+    }
+    res = auth_client.post(SOC_MAJOR_URL, payload)
+    assert res.status_code == status.HTTP_201_CREATED
+    assert res.data["title"] == payload["title"]

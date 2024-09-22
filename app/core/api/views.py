@@ -25,6 +25,7 @@ from ..models import ProgramArea
 from ..models import Project
 from ..models import Sdg
 from ..models import Skill
+from ..models import SocMajor
 from ..models import StackElement
 from ..models import StackElementType
 from ..models import UserPermission
@@ -42,6 +43,7 @@ from .serializers import ProgramAreaSerializer
 from .serializers import ProjectSerializer
 from .serializers import SdgSerializer
 from .serializers import SkillSerializer
+from .serializers import SocMajorSerializer
 from .serializers import StackElementSerializer
 from .serializers import StackElementTypeSerializer
 from .serializers import UserPermissionSerializer
@@ -401,3 +403,17 @@ class UserPermissionViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = []
     queryset = UserPermission.objects.all()
     serializer_class = UserPermissionSerializer
+
+
+@extend_schema_view(
+    list=extend_schema(description="Return a list of all the soc majors"),
+    create=extend_schema(description="Create a new soc major"),
+    retrieve=extend_schema(description="Return the details of a soc major"),
+    destroy=extend_schema(description="Delete a soc major"),
+    update=extend_schema(description="Update a soc major"),
+    partial_update=extend_schema(description="Patch a soc major"),
+)
+class SocMajorViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = SocMajor.objects.all()
+    serializer_class = SocMajorSerializer

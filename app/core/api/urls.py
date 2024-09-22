@@ -14,6 +14,7 @@ from .views import ProgramAreaViewSet
 from .views import ProjectViewSet
 from .views import SdgViewSet
 from .views import SkillViewSet
+from .views import SocMajorViewSet
 from .views import StackElementTypeViewSet
 from .views import StackElementViewSet
 from .views import UserPermissionViewSet
@@ -44,6 +45,7 @@ router.register(
     basename="affiliation",
 )
 router.register(r"check-types", CheckTypeViewSet, basename="check-type")
+router.register(r"soc-majors", SocMajorViewSet, basename="soc-major")
 urlpatterns = [
     path("me/", UserProfileAPIView.as_view(), name="my_profile"),
 ]
