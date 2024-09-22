@@ -36,12 +36,8 @@ def user_superuser_admin():
 
 @pytest.fixture
 def user_permissions():
-    user1 = User.objects.create(
-        username="TestUser1", email="TestUser1@example.com"
-    )
-    user2 = User.objects.create(
-        username="TestUser2", email="TestUser2@example.com"
-    )
+    user1 = User.objects.create(username="TestUser1", email="TestUser1@example.com")
+    user2 = User.objects.create(username="TestUser2", email="TestUser2@example.com")
     project = Project.objects.create(name="Test Project")
     permission_type = PermissionType.objects.first()
     practice_area = PracticeArea.objects.first()
@@ -83,9 +79,7 @@ def user_permission_practice_lead_project():
         username="TestUser Practie Lead Project",
         email="TestUserPracticeLeadProject@example.com",
     )
-    permission_type = PermissionType.objects.filter(
-        name=practice_lead_project
-    ).first()
+    permission_type = PermissionType.objects.filter(name=practice_lead_project).first()
     project = Project.objects.create(name="Test Project Admin Project")
     practice_area = PracticeArea.objects.first()
     user_permission = UserPermission.objects.create(
@@ -153,9 +147,7 @@ def event_pm(project):
             },
             {"practice_area": "Design", "permission_type": "adminProject"},
         ],
-        could_attend=[
-            {"practice_area": "Design", "permission_type": "memberGeneral"}
-        ],
+        could_attend=[{"practice_area": "Design", "permission_type": "memberGeneral"}],
     )
 
 
