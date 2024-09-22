@@ -8,11 +8,10 @@ Thank you for volunteering your time! The following is a set of guidelines for c
 
 This step is optional if this is your first time fixing an issue and you want to try fixing an issue without this step.
 
-In the `hfla-site` Slack channel, send an introductory message with your GitHub handle/username asking to be added to the Hack for LA peopledepot GitHub repository, have access to the Google Docs Drive, and Figma.
+In the `people-depot` Slack channel, send an introductory message with your GitHub handle/username asking to be added to the Hack for LA peopledepot GitHub repository, have access to the Google Docs Drive, and Figma.
 
-**NOTE:** Once you have accepted the GitHub invite (comes via email or in your GitHub notifications), **please do the following**:
-
-Make your own Hack for LA GitHub organization membership public by following this [guide](https://help.github.com/en/articles/publicizing-or-hiding-organization-membership#changing-the-visibility-of-your-organization-membership).
+!!! note "Please do the following once you have accepted the GitHub invite (comes via email or in your GitHub notifications)"
+    Make your own Hack for LA GitHub organization membership public by following this [guide](https://help.github.com/en/articles/publicizing-or-hiding-organization-membership#changing-the-visibility-of-your-organization-membership).
 
 ## 2. Setting Up Development Environment
 
@@ -34,23 +33,25 @@ Set up two-factor authentication on your account by following this [guide](https
 
 Before cloning your forked repository to your local machine, you must have Git installed. You can find instructions for installing Git for your operating system [**here**](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
 
-Installation Guide for Windows Users
+=== "Windows"
+    - we recommend [installing Windows Subsystem for Linux (WSL)](https://code.visualstudio.com/docs/remote/wsl). WSL provides a Linux-compatible environment that can prevent common errors during script execution.
 
-- we recommend [installing Windows Subsystem for Linux (WSL)](https://code.visualstudio.com/docs/remote/wsl). WSL provides a Linux-compatible environment that can prevent common errors during script execution.
-- After setting up WSL, install Git directly from the Linux terminal. This method can help avoid complications that sometimes arise when using Git Bash on Windows.
-- If you prefer Git Bash or encounter errors related to line endings when running scripts, the problem might be due to file conversions in Windows. To address this, configure Git as follows:
+    - After setting up WSL, install Git directly from the Linux terminal. This method can help avoid complications that sometimes arise when using Git Bash on Windows.
 
-```bash
-git config --system set autocrlf=false
-```
+    - If you prefer Git Bash or encounter errors related to line endings when running scripts, the problem might be due to file conversions in Windows. To address this, configure Git as follows:
 
-<strong><em>Feel free to reach out in the [Hack for LA Slack channel](https://hackforla.slack.com/messages/people-depot/) if you encounter any errors while running scripts on Windows. </em></strong>
+        ```bash
+        git config --system set autocrlf=false
+        ```
 
-Please note that if you have a Mac the page offers several options (see other option, if you need to conserve hard drive space) including:
+        !!! tip "Feel free to reach out in the [Hack for LA Slack channel](https://hackforla.slack.com/messages/people-depot/) if you encounter any errors while running scripts on Windows"
 
-- an “easiest” option (this version is fine for use at hackforla): This option would take just over 4GB.
-- a “more up to date” option (not required but optional if you want it): This option prompts you to go to install an 8GB package manager called Homebrew.
-- Other option: If your computer is low on space, you can use this [tutorial](https://www.datacamp.com/community/tutorials/homebrew-install-use) to install XCode Command Tools and a lighter version of Homebrew and then install Git using this command: `$ brew install git` which in total only uses 300MB.
+=== "Mac"
+    Please note that if you have a Mac the page offers several options (see other option, if you need to conserve hard drive space) including:
+
+    - an “easiest” option (this version is fine for our use): This option would take just over 4GB.
+    - a “more up to date” option (not required but optional if you want it): This option prompts you to go to install an 8GB package manager called Homebrew.
+    - Other option: If your computer is low on space, you can use this [tutorial](https://www.datacamp.com/community/tutorials/homebrew-install-use) to install XCode Command Tools and a lighter version of Homebrew and then install Git using this command: `$ brew install git` which in total only uses 300MB.
 
 #### 2.1.5 Install Docker
 
@@ -61,7 +62,9 @@ docker -v
 docker-compose -v
 ```
 
-The recommended installation method for your operating system can be found [here](https://docs.docker.com/install/). <strong><em>Feel free to reach out in the [Hack for LA Slack channel](https://hackforla.slack.com/messages/people-depot/) if you have trouble installing docker on your system</em></strong>
+The recommended installation method for your operating system can be found [here](https://docs.docker.com/install/).
+
+!!! tip "Feel free to reach out in the [Hack for LA Slack channel](https://hackforla.slack.com/messages/people-depot/) if you have trouble installing docker on your system"
 
 More on using Docker and the concepts of containerization:
 
@@ -72,11 +75,10 @@ More on using Docker and the concepts of containerization:
 You can fork the hackforla/peopledepot repository by clicking <a href="https://github.com/hackforla/peopledepot/fork"> <button> <img src="https://user-images.githubusercontent.com/17777237/54873012-40fa5b00-4dd6-11e9-98e0-cc436426c720.png" width="8px"> Fork</button></a>
 . A fork is a copy of the repository that will be placed on your GitHub account.
 
-**Note:** It should create a URL that looks like the following -> `https://github.com/<your_GitHub_user_name>/peopledepot`.
+!!! note "It should create a URL that looks like the following -> `https://github.com/<your_GitHub_user_name>/peopledepot`"
+    !!! example "For example -> `https://github.com/octocat/peopledepot`"
 
-**For example** -> `https://github.com/octocat/peopledepot`.
-
-**Be Aware:** What you have created is a forked copy in a remote version on GitHub. It is not yet on your local machine yet.
+!!! info "What you have created is a forked copy in a remote version on GitHub. It is not on your local machine yet"
 
 #### 2.2.1 Clone a copy on your computer
 
@@ -84,29 +86,29 @@ The following steps will clone (create) a local copy of the forked repository on
 
 1. Create a new folder in your computer that will contain `hackforla` projects.
 
-In your command line interface (Terminal, Git Bash, Powershell), move to where you want your new folder to be placed and create a new folder in your computer that will contain `hackforla` projects. After that, navigate into the folder(directory) you just created.
+    In your command line interface (Terminal, Git Bash, Powershell), move to where you want your new folder to be placed and create a new folder in your computer that will contain `hackforla` projects. After that, navigate into the folder(directory) you just created.
 
-For example:
+    For example:
 
-```bash
-cd /projects
-mkdir hackforla
-cd hackforla
-```
+    ```bash
+    cd /projects
+    mkdir hackforla
+    cd hackforla
+    ```
 
 1. From the hackforla directory created in previous section:
 
-```bash
-git clone https://github.com/<your_GitHub_user_name>/peopledepot.git
-```
+    ```bash
+    git clone https://github.com/<your_GitHub_user_name>/peopledepot.git
+    ```
 
-For example if your GitHub username was `octocat`:
+    For example if your GitHub username was `octocat`:
 
-```bash
-git clone https://github.com/octocat/peopledepot.git
-```
+    ```bash
+    git clone https://github.com/octocat/peopledepot.git
+    ```
 
-\*\*Note: You can also clone using ssh which is more secure but requires more setup. Because of the additional setup, cloning using https as shown above is recommended.
+    !!! note "You can also clone using ssh which is more secure but requires more setup. Because of the additional setup, cloning using https as shown above is recommended"
 
 You should now have a new folder in your `hackforla` folder called `peopledepot`. Verify this by changing into the new directory:
 
@@ -122,9 +124,9 @@ Verify that your local cloned repository is pointing to the correct `origin` URL
 git remote -v
 ```
 
-You should see `fetch` and `push` URLs with links to your forked repository under your account (i.e. `https://github.com/<your_GitHub_user_name>/peopledepot.git`). You are all set to make working changes to the website on your local machine.
+You should see `fetch` and `push` URLs with links to your forked repository under your account (i.e. `https://github.com/<your_GitHub_user_name>/peopledepot.git`). You are all set to make working changes to the project on your local machine.
 
-However, we still need a way to keep our local repo up to date with the deployed website. To do so, you must add an upstream remote to incorporate changes made while you are working on your local repo. Run the following to add an upstream remote URL & update your local repo with recent changes to the `hackforla` version:
+However, we still need a way to keep our local repo up to date with the deployed project. To do so, you must add an upstream remote to incorporate changes made while you are working on your local repo. Run the following to add an upstream remote URL & update your local repo with recent changes to the `hackforla` version:
 
 ```bash
 git remote add upstream https://github.com/hackforla/peopledepot.git
@@ -142,14 +144,23 @@ upstream        https://github.com/hackforla/peopledepot.git (push)
 
 ### 2.3 Build and run using Docker locally
 
-1. Start Docker Desktop
+1. Make sure the Docker service is running
 
-1. Run `docker container ls` to verify Docker Desktop is running. If it is not running you will get the message: `Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?`
+    === "Docker (Engine)"
+        ```bash
+        sudo systemctl status docker
+        ```
+
+        It will show `Active: active (running)` if it's running.
+
+    === "Docker Desktop"
+        1. Start Docker Desktop
+        1. Run `docker container ls` to verify Docker Desktop is running. If it is not running you will get the message: `Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?`
 
 1. Create an .env.docker file from .env.docker-example
 
     ```bash
-    cp .env.docker-example .env.docker
+    cp ./app/.env.docker-example ./app/.env.docker
     ```
 
 1. Build and run the project via the script (this includes running `docker-compose up`)
@@ -193,10 +204,16 @@ docker-compose down -v
 To restore a database to its original state and remove any data manually added, delete the container and image.
 From Docker:
 
-1. Open Containers section
-1. Delete people-db-1 container
-1. Open Images Tab
-1. Remove djangorestapipostrgresql image
+=== "Terminal"
+    ```bash
+    docker-compose down -v
+    ```
+
+=== "Docker Desktop"
+    1. Open Containers section
+    1. Delete people-db-1 container
+    1. Open Images Tab
+    1. Remove djangorestapipostrgresql image
 
 ## 4. Fixing Issues
 
@@ -244,7 +261,7 @@ git checkout -b <new-branch-name>-15
 
 ### 4.3 Make changes
 
-Make changes to fix the issue.
+Make changes to fix the issue.  If creating a new table or API, read [Add Model and API End Points](how-to/add-model-and-api-endpoints.md).
 
 ### 4.4 Pull to get the most recent code
 
@@ -254,7 +271,7 @@ You can probably skip this if you fix the issue on the same day that you pulled 
 git pull
 ```
 
-**Note:** If you are using Visual studios code you can use the Git graphical user interface to stage your changes. For instructions check out the [Git Gui Wiki](<https://github.com/hackforla/website/wiki/How-to-Use-Git-GUI-(Graphical-user-Interface)-in-Visual-Studios-Code>).
+!!! note "If you are using Visual studios code you can use the Git graphical user interface to stage your changes. For instructions check out the [Git GUI page in the website Wiki](<https://github.com/hackforla/website/wiki/How-to-Use-Git-GUI-(Graphical-user-Interface)-in-Visual-Studios-Code>)"
 
 ### 4.5 Add changed files to staging
 
@@ -319,11 +336,6 @@ git pull upstream
 ```
 
 You can also sync your fork directly on GitHub by clicking "Sync Fork" at the right of the screen and then clicking "Update Branch"
-
-<details>
-  <summary><strong>Click here</strong> to see how to sync the fork on GitHub</summary>
-  <img src="https://docs.github.com/assets/cb-49937/images/help/repository/update-branch-button.png" />
-</details>
 
 ### 4.10 Push to upstream origin (aka, your fork)
 

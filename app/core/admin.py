@@ -7,6 +7,7 @@ from django.utils.translation import gettext_lazy as _
 
 from .models import Affiliate
 from .models import Affiliation
+from .models import CheckType
 from .models import Event
 from .models import Faq
 from .models import FaqViewed
@@ -17,8 +18,8 @@ from .models import ProgramArea
 from .models import Project
 from .models import Sdg
 from .models import Skill
+from .models import StackElement
 from .models import StackElementType
-from .models import Technology
 from .models import User
 
 
@@ -193,8 +194,8 @@ class SkillAdmin(admin.ModelAdmin):
     list_filter = ("name",)
 
 
-@admin.register(Technology)
-class TechnologyAdmin(admin.ModelAdmin):
+@admin.register(StackElement)
+class StackElementAdmin(admin.ModelAdmin):
     list_display = (
         "name",
         "description",
@@ -233,3 +234,8 @@ class AffiliationAdmin(admin.ModelAdmin):
         "is_partner",
     )
     list_filter = ("is_sponsor", "is_partner", "affiliate", "project")
+
+
+@admin.register(CheckType)
+class CheckTypeAdmin(admin.ModelAdmin):
+    list_display = ("name", "description")

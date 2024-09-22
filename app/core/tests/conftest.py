@@ -2,10 +2,13 @@ import pytest
 from django.core.management import call_command
 from rest_framework.test import APIClient
 
+from constants import admin_project
+from constants import practice_lead_project
 from peopledepot import settings
 
 from ..models import Affiliate
 from ..models import Affiliation
+from ..models import CheckType
 from ..models import Event
 from ..models import Faq
 from ..models import FaqViewed
@@ -16,14 +19,14 @@ from ..models import ProgramArea
 from ..models import Project
 from ..models import Sdg
 from ..models import Skill
+from ..models import StackElement
 from ..models import StackElementType
-from ..models import Technology
 from ..models import User
-from ..models import UserPermissions
+from ..models import UserPermission
 
 
 @pytest.fixture
-def created_user_admin():
+def user_superuser_admin():
     return User.objects.create_user(
         username="AdminUser",
         email="adminuser@example.com",
@@ -32,37 +35,61 @@ def created_user_admin():
     )
 
 
-@pytest.fixture(scope="session")
-def django_db_setup(django_db_setup, django_db_blocker):
-    if "tests" not in settings.INSTALLED_APPS:
-        settings.INSTALLED_APPS.append("tests")
-
-    with django_db_blocker.unblock():
-        # See handle method in class Command in tests/management/commands/load_data.py
-        call_command("load_data_command")
-    return None
-
-
 @pytest.fixture
-def created_user_permissions():
+def user_permissions():
     user1 = User.objects.create(username="TestUser1", email="TestUser1@example.com")
     user2 = User.objects.create(username="TestUser2", email="TestUser2@example.com")
     project = Project.objects.create(name="Test Project")
     permission_type = PermissionType.objects.first()
     practice_area = PracticeArea.objects.first()
-    user1_permission = UserPermissions.objects.create(
+    user1_permission = UserPermission.objects.create(
         user=user1,
         permission_type=permission_type,
         project=project,
         practice_area=practice_area,
     )
-    user2_permissions = UserPermissions.objects.create(
+    user2_permissions = UserPermission.objects.create(
         user=user2,
+        project=project,
+        permission_type=permission_type,
+        practice_area=practice_area,
+    )
+    return [user1_permission, user2_permissions]
+
+
+@pytest.fixture
+def user_permission_admin_project():
+    user = User.objects.create(
+        username="TestUser Admin Project", email="TestUserAdminProject@example.com"
+    )
+    project = Project.objects.create(name="Test Project Admin Project")
+    permission_type = PermissionType.objects.filter(name=admin_project).first()
+    user_permission = UserPermission.objects.create(
+        user=user,
+        permission_type=permission_type,
+        project=project,
+    )
+
+    return user_permission
+
+
+@pytest.fixture
+def user_permission_practice_lead_project():
+    user = User.objects.create(
+        username="TestUser Practie Lead Project",
+        email="TestUserPracticeLeadProject@example.com",
+    )
+    permission_type = PermissionType.objects.filter(name=practice_lead_project).first()
+    project = Project.objects.create(name="Test Project Admin Project")
+    practice_area = PracticeArea.objects.first()
+    user_permission = UserPermission.objects.create(
+        user=user,
         permission_type=permission_type,
         project=project,
         practice_area=practice_area,
     )
-    return [user1_permission, user2_permissions]
+
+    return user_permission
 
 
 @pytest.fixture
@@ -192,8 +219,10 @@ def skill():
 
 
 @pytest.fixture
-def technology():
-    return Technology.objects.create(name="Test Technology")
+def stack_element(stack_element_type):
+    return StackElement.objects.create(
+        name="Test Stack Element", element_type=stack_element_type
+    )
 
 
 @pytest.fixture
@@ -238,4 +267,12 @@ def affiliation3(project, affiliate):
 def affiliation4(project, affiliate):
     return Affiliation.objects.create(
         is_sponsor=False, is_partner=False, project=project, affiliate=affiliate
+    )
+
+
+@pytest.fixture
+def check_type():
+    return CheckType.objects.create(
+        name="This is a test check_type.",
+        description="This is a test check_type description.",
     )

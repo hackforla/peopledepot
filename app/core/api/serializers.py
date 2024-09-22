@@ -4,6 +4,7 @@ from timezone_field.rest_framework import TimeZoneSerializerField
 from core.field_permissions import FieldPermissions
 from core.models import Affiliate
 from core.models import Affiliation
+from core.models import CheckType
 from core.models import Event
 from core.models import Faq
 from core.models import FaqViewed
@@ -14,8 +15,8 @@ from core.models import ProgramArea
 from core.models import Project
 from core.models import Sdg
 from core.models import Skill
+from core.models import StackElement
 from core.models import StackElementType
-from core.models import Technology
 from core.models import User
 from core.models import UserPermissions
 from core.permission_util import PermissionUtil
@@ -40,11 +41,11 @@ class PracticeAreaSerializer(serializers.ModelSerializer):
         )
 
 
-class UserPermissionsSerializer(serializers.ModelSerializer):
-    """Used to determine user permission fields included in a response"""
+class UserPermissionSerializer(serializers.ModelSerializer):
+    """Used to retrieve user permissions"""
 
     class Meta:
-        model = UserPermissions
+        model = UserPermission
         fields = (
             "uuid",
             "created_at",
@@ -54,84 +55,47 @@ class UserPermissionsSerializer(serializers.ModelSerializer):
             "project",
             "practice_area",
         )
-
-
-class ProfileSerializer(serializers.ModelSerializer):
-    """Used to determine user fields included in a response for the me endpoint"""
-
-    time_zone = TimeZoneSerializerField(use_pytz=False)
-
-    class Meta:
-        model = User
-
-        # to_representation overrides the need for fields
-        # if fields is removed, syntax checker will complain
-        fields = "__all__"
-
-    def to_representation(self, instance):
-        """Determine which fields are included in a response based on
-        the requesting user's permissions
-
-        Args:
-            response_user (user): user being returned in the response
-
-        Raises:
-            PermissionError: Raised if the requesting user does not have permission to view the target user
-
-        Returns:
-            Representation of the user with only the fields that the requesting user has permission to view
-        """
-        representation = super().to_representation(instance)
-        request = self.context.get("request")
-        requesting_user: User = request.user
-        target_user: User = instance
-        if requesting_user != target_user:
-            raise PermissionError("You can only use profile endpoint for your own user")
-        if request.method != "GET":
-            return representation
-
-        new_representation = {}
-        for field_name in FieldPermissions.me_endpoint_read_fields:
-            new_representation[field_name] = representation[field_name]
-        return new_representation
+        read_only_fields = (
+            "uuid",
+            "created_at",
+            "updated_at",
+        )
 
 
 class UserSerializer(serializers.ModelSerializer):
-    """Used to determine user fields included in a response for the user endpoint"""
+    """Used to retrieve user info"""
 
     time_zone = TimeZoneSerializerField(use_pytz=False)
 
     class Meta:
         model = User
-
-        # to_representation overrides the need for fields
-        # if fields is removed, syntax checker will complain
-        fields = "__all__"
-
-    def to_representation(self, response_user):
-        """Determine which fields are included in a response based on
-        the requesting user's permissions
-
-        Args:
-            response_user (user): user being returned in the response
-
-        Raises:
-            PermissionError: Raised if the requesting user does not have permission to view the target user
-
-        Returns:
-            Representation of the user with only the fields that the requesting user has permission to view
-        """
-        request = self.context.get("request")
-        representation = super().to_representation(response_user)
-        requesting_user: User = request.user
-        target_user: User = response_user
-
-        new_representation = {}
-        for field_name in PermissionUtil.get_user_read_fields(
-            requesting_user, target_user
-        ):
-            new_representation[field_name] = representation[field_name]
-        return new_representation
+        fields = (
+            "uuid",
+            "created_at",
+            "updated_at",
+            "email",
+            "first_name",
+            "last_name",
+            "gmail",
+            "preferred_email",
+            "current_job_title",
+            "target_job_title",
+            "current_skills",
+            "target_skills",
+            "linkedin_account",
+            "github_handle",
+            "slack_id",
+            "phone",
+            "texting_ok",
+            "time_zone",
+        )
+        read_only_fields = (
+            "uuid",
+            "created_at",
+            "updated_at",
+            "username",
+            "email",
+        )
 
 
 class ProjectSerializer(serializers.ModelSerializer):
@@ -286,11 +250,11 @@ class SkillSerializer(serializers.ModelSerializer):
         )
 
 
-class TechnologySerializer(serializers.ModelSerializer):
-    """Used to determine location fields included in a response"""
+class StackElementSerializer(serializers.ModelSerializer):
+    """Used to retrieve stack element info"""
 
     class Meta:
-        model = Technology
+        model = StackElement
         fields = (
             "uuid",
             "name",
@@ -298,6 +262,7 @@ class TechnologySerializer(serializers.ModelSerializer):
             "url",
             "logo",
             "active",
+            "element_type",
         )
         read_only_fields = (
             "uuid",
@@ -374,4 +339,15 @@ class AffiliationSerializer(serializers.ModelSerializer):
             "is_sponsor",
             "is_partner",
         )
+        read_only_fields = ("uuid", "created_at", "updated_at")
+
+
+class CheckTypeSerializer(serializers.ModelSerializer):
+    """
+    Used to retrieve check_type info
+    """
+
+    class Meta:
+        model = CheckType
+        fields = ("uuid", "name", "description")
         read_only_fields = ("uuid", "created_at", "updated_at")

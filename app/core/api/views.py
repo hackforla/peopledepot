@@ -14,6 +14,7 @@ from core.permission_util import PermissionUtil
 
 from ..models import Affiliate
 from ..models import Affiliation
+from ..models import CheckType
 from ..models import Event
 from ..models import Faq
 from ..models import FaqViewed
@@ -24,11 +25,12 @@ from ..models import ProgramArea
 from ..models import Project
 from ..models import Sdg
 from ..models import Skill
+from ..models import StackElement
 from ..models import StackElementType
-from ..models import Technology
-from ..models import UserPermissions
+from ..models import UserPermission
 from .serializers import AffiliateSerializer
 from .serializers import AffiliationSerializer
+from .serializers import CheckTypeSerializer
 from .serializers import EventSerializer
 from .serializers import FaqSerializer
 from .serializers import FaqViewedSerializer
@@ -40,9 +42,9 @@ from .serializers import ProgramAreaSerializer
 from .serializers import ProjectSerializer
 from .serializers import SdgSerializer
 from .serializers import SkillSerializer
+from .serializers import StackElementSerializer
 from .serializers import StackElementTypeSerializer
-from .serializers import TechnologySerializer
-from .serializers import UserPermissionsSerializer
+from .serializers import UserPermissionSerializer
 from .serializers import UserSerializer
 
 
@@ -308,17 +310,17 @@ class SkillViewSet(viewsets.ModelViewSet):
 
 
 @extend_schema_view(
-    list=extend_schema(description="Return a list of all the technologies"),
-    create=extend_schema(description="Create a new technology"),
-    retrieve=extend_schema(description="Return the details of a technology"),
-    destroy=extend_schema(description="Delete a technology"),
-    update=extend_schema(description="Update a technology"),
-    partial_update=extend_schema(description="Patch a technology"),
+    list=extend_schema(description="Return a list of all the stack elements"),
+    create=extend_schema(description="Create a new stack element"),
+    retrieve=extend_schema(description="Return the details of a stack element"),
+    destroy=extend_schema(description="Delete a stack element"),
+    update=extend_schema(description="Update a stack element"),
+    partial_update=extend_schema(description="Patch a stack element"),
 )
-class TechnologyViewSet(viewsets.ModelViewSet):
+class StackElementViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
-    queryset = Technology.objects.all()
-    serializer_class = TechnologySerializer
+    queryset = StackElement.objects.all()
+    serializer_class = StackElementSerializer
 
 
 @extend_schema_view(
@@ -378,13 +380,24 @@ class AffiliationViewSet(viewsets.ModelViewSet):
 
 
 @extend_schema_view(
-    list=extend_schema(description="Return a list of all the user permissions"),
-    create=extend_schema(description="Create a new user permission"),
-    retrieve=extend_schema(description="Return the details of a user permission"),
-    destroy=extend_schema(description="Delete a user permission"),
-    partial_update=extend_schema(description="Patch a user permission"),
+    list=extend_schema(description="Return a list of all the check_type"),
+    create=extend_schema(description="Create a new check_type"),
+    retrieve=extend_schema(description="Return the details of an check_type"),
+    destroy=extend_schema(description="Delete an check_type"),
+    update=extend_schema(description="Update an check_type"),
+    partial_update=extend_schema(description="Patch an check_type"),
 )
-class UserPermissionsViewSet(viewsets.ReadOnlyModelViewSet):
+class CheckTypeViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = CheckType.objects.all()
+    serializer_class = CheckTypeSerializer
+
+
+@extend_schema_view(
+    list=extend_schema(description="Return a list of all the user permissions"),
+    retrieve=extend_schema(description="Return the details of a user permission"),
+)
+class UserPermissionViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = []
-    queryset = UserPermissions.objects.all()
-    serializer_class = UserPermissionsSerializer
+    queryset = UserPermission.objects.all()
+    serializer_class = UserPermissionSerializer
