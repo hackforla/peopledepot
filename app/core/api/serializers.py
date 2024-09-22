@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from timezone_field.rest_framework import TimeZoneSerializerField
 
-from core.field_permissions import FieldPermissions
 from core.models import Affiliate
 from core.models import Affiliation
 from core.models import CheckType
@@ -23,7 +22,7 @@ from core.models import UserPermission
 
 
 class PracticeAreaSerializer(serializers.ModelSerializer):
-    """Used to determine practice area fields included in a response"""
+    """Used to retrieve practice area info"""
 
     class Meta:
         model = PracticeArea
@@ -71,6 +70,7 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = (
             "uuid",
+            "username",
             "created_at",
             "updated_at",
             "email",
@@ -99,7 +99,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class ProjectSerializer(serializers.ModelSerializer):
-    """Used to determine user project fields included in a response"""
+    """Used to retrieve project info"""
 
     class Meta:
         model = Project
@@ -127,7 +127,7 @@ class ProjectSerializer(serializers.ModelSerializer):
 
 
 class EventSerializer(serializers.ModelSerializer):
-    """Used to determine event fields included in a response"""
+    """Used to retrieve event info"""
 
     class Meta:
         model = Event
@@ -148,7 +148,7 @@ class EventSerializer(serializers.ModelSerializer):
 
 
 class AffiliateSerializer(serializers.ModelSerializer):
-    """Used to determine affiliate / sponsor partner fields included in a response"""
+    """Used to retrieve Sponsor Partner info"""
 
     class Meta:
         model = Affiliate
@@ -169,7 +169,7 @@ class AffiliateSerializer(serializers.ModelSerializer):
 
 
 class FaqSerializer(serializers.ModelSerializer):
-    """Used to determine faq fields included in a response"""
+    """Used to retrieve faq info"""
 
     class Meta:
         model = Faq
@@ -183,9 +183,8 @@ class FaqSerializer(serializers.ModelSerializer):
 
 
 class FaqViewedSerializer(serializers.ModelSerializer):
-    """Used to determine faq viewed fields included in a response
-
-    faq viewed is a table that holds the faq history
+    """
+    Retrieve each date/time the specified FAQ is viewed
     """
 
     class Meta:
@@ -201,7 +200,7 @@ class FaqViewedSerializer(serializers.ModelSerializer):
 
 
 class LocationSerializer(serializers.ModelSerializer):
-    """Used to determine location fields included in a response"""
+    """Used to retrieve Location info"""
 
     class Meta:
         model = Location
@@ -226,7 +225,7 @@ LocationSerializer._declared_fields["zip"] = serializers.CharField(source="zipco
 
 
 class ProgramAreaSerializer(serializers.ModelSerializer):
-    """Used to determine program area fields included in a response"""
+    """Used to retrieve program_area info"""
 
     class Meta:
         model = ProgramArea
@@ -235,7 +234,9 @@ class ProgramAreaSerializer(serializers.ModelSerializer):
 
 
 class SkillSerializer(serializers.ModelSerializer):
-    """Used to determine skill fields included in a response"""
+    """
+    Used to retrieve Skill info
+    """
 
     class Meta:
         model = Skill
@@ -273,12 +274,12 @@ class StackElementSerializer(serializers.ModelSerializer):
 
 class PermissionTypeSerializer(serializers.ModelSerializer):
     """
-    Used to determine each permission_type info
+    Used to retrieve each permission_type info
     """
 
     class Meta:
         model = PermissionType
-        fields = ("uuid", "name", "description", "rank")
+        fields = ("uuid", "name", "description")
         read_only_fields = (
             "uuid",
             "created_at",
@@ -287,7 +288,7 @@ class PermissionTypeSerializer(serializers.ModelSerializer):
 
 
 class StackElementTypeSerializer(serializers.ModelSerializer):
-    """Used to determine stack element types"""
+    """Used to retrieve stack element types"""
 
     class Meta:
         model = StackElementType
@@ -305,7 +306,7 @@ class StackElementTypeSerializer(serializers.ModelSerializer):
 
 class SdgSerializer(serializers.ModelSerializer):
     """
-    Used to determine Sdg
+    Used to retrieve Sdg
     """
 
     class Meta:
@@ -325,7 +326,7 @@ class SdgSerializer(serializers.ModelSerializer):
 
 class AffiliationSerializer(serializers.ModelSerializer):
     """
-    Used to determine Affiliation
+    Used to retrieve Affiliation
     """
 
     class Meta:

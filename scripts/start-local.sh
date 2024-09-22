@@ -11,20 +11,17 @@ if [[ $PWD != *"app"* ]]; then
     }
 fi
 
-
-loadenv.sh ||  {
+SCRIPT_DIR="$(dirname "$0")"
+"$SCRIPT_DIR"/loadenv.sh || {
     echo "ERROR: loadenv.sh failed"
     return 1
 }
 echo Admin user = "$DJANGO_SUPERUSER" email = "$DJANGO_SUPERUSER_EMAIL"
-if [[ $1x != "x" ]]; then
-    echo Setting port to param "$1"
+if [[ $1 != "" ]]; then
     port=$1
 elif [[ "$DJANGO_PORT" != "" ]]; then
-    echo Setting port to DJANGO_PORT "$DJANGO_PORT"
     port=$DJANGO_PORT
 else
-    echo Setting port to 8000
     port=8000
 fi
 echo Port is "$port"

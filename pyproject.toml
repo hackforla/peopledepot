@@ -1,12 +1,2 @@
 [tool.ruff.lint]
 select = [ "PTH" ]
- [tool.black]
-exclude = '''
-/(
-  migrations|
-  venv|
-  app/core/scripts|
-  app/core/migrations|
-  app/data/migrations
-)/
-'''
