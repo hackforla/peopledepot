@@ -1,10 +1,8 @@
 import pytest
-from django.core.management import call_command
 from rest_framework.test import APIClient
 
 from constants import admin_project
 from constants import practice_lead_project
-from peopledepot import settings
 
 from ..models import Affiliate
 from ..models import Affiliation
@@ -38,8 +36,12 @@ def user_superuser_admin():
 
 @pytest.fixture
 def user_permissions():
-    user1 = User.objects.create(username="TestUser1", email="TestUser1@example.com")
-    user2 = User.objects.create(username="TestUser2", email="TestUser2@example.com")
+    user1 = User.objects.create(
+        username="TestUser1", email="TestUser1@example.com"
+    )
+    user2 = User.objects.create(
+        username="TestUser2", email="TestUser2@example.com"
+    )
     project = Project.objects.create(name="Test Project")
     permission_type = PermissionType.objects.first()
     practice_area = PracticeArea.objects.first()
@@ -61,7 +63,8 @@ def user_permissions():
 @pytest.fixture
 def user_permission_admin_project():
     user = User.objects.create(
-        username="TestUser Admin Project", email="TestUserAdminProject@example.com"
+        username="TestUser Admin Project",
+        email="TestUserAdminProject@example.com",
     )
     project = Project.objects.create(name="Test Project Admin Project")
     permission_type = PermissionType.objects.filter(name=admin_project).first()
@@ -80,7 +83,9 @@ def user_permission_practice_lead_project():
         username="TestUser Practie Lead Project",
         email="TestUserPracticeLeadProject@example.com",
     )
-    permission_type = PermissionType.objects.filter(name=practice_lead_project).first()
+    permission_type = PermissionType.objects.filter(
+        name=practice_lead_project
+    ).first()
     project = Project.objects.create(name="Test Project Admin Project")
     practice_area = PracticeArea.objects.first()
     user_permission = UserPermission.objects.create(
@@ -132,14 +137,25 @@ def event_pm(project):
         name="PM",
         project=project,
         must_attend=[
-            {"practice_area": "Development", "permission_type": "practiceLeadProject"},
-            {"practice_area": "Design", "permission_type": "practiceLeadJrProject"},
+            {
+                "practice_area": "Development",
+                "permission_type": "practiceLeadProject",
+            },
+            {
+                "practice_area": "Design",
+                "permission_type": "practiceLeadJrProject",
+            },
         ],
         should_attend=[
-            {"practice_area": "Development", "permission_type": "memberProject"},
+            {
+                "practice_area": "Development",
+                "permission_type": "memberProject",
+            },
             {"practice_area": "Design", "permission_type": "adminProject"},
         ],
-        could_attend=[{"practice_area": "Design", "permission_type": "memberGeneral"}],
+        could_attend=[
+            {"practice_area": "Design", "permission_type": "memberGeneral"}
+        ],
     )
 
 
@@ -267,7 +283,10 @@ def affiliation3(project, affiliate):
 @pytest.fixture
 def affiliation4(project, affiliate):
     return Affiliation.objects.create(
-        is_sponsor=False, is_partner=False, project=project, affiliate=affiliate
+        is_sponsor=False,
+        is_partner=False,
+        project=project,
+        affiliate=affiliate,
     )
 
 
