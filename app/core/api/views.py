@@ -38,7 +38,6 @@ from .serializers import FaqViewedSerializer
 from .serializers import LocationSerializer
 from .serializers import PermissionTypeSerializer
 from .serializers import PracticeAreaSerializer
-from .serializers import ProfileSerializer
 from .serializers import ProgramAreaSerializer
 from .serializers import ProjectSerializer
 from .serializers import SdgSerializer
@@ -60,7 +59,7 @@ from .serializers import UserSerializer
     partial_update=extend_schema(description="Update your profile"),
 )
 class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
-    serializer_class = ProfileSerializer
+    serializer_class = UserSerializer
     permission_classes = [IsAuthenticated]
     http_method_names = ["get", "partial_update"]
 
