@@ -7,6 +7,7 @@ from core.models import PermissionType
 from core.models import Project
 from core.models import UserPermission
 from core.permission_util import PermissionUtil
+from core.tests.utils.load_data import load_data
 from core.tests.utils.seed_constants import garry_name
 from core.tests.utils.seed_constants import patrick_admin_project
 from core.tests.utils.seed_constants import patti_name
@@ -36,7 +37,10 @@ def _get_lowest_ranked_permission_type(requesting_username, target_username):
 
 @pytest.mark.django_db
 class TestGetLowestRankedPermissionType:
-    def test_admin_lowest_for_admin(self):
+    def setup_method(self):
+        load_data()
+
+    def test_admin_lowest_min(self):
         """Test that lowest rank for Garry, a global admin user, is global_admin,
         even if a user permission is assigned.
         """
