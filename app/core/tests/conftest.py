@@ -1,6 +1,6 @@
 import pytest
 
-# from django.core.management import call_command
+from django.core.management import call_command
 from rest_framework.test import APIClient
 
 from constants import admin_project
@@ -24,12 +24,7 @@ from ..models import StackElement
 from ..models import StackElementType
 from ..models import User
 from ..models import UserPermission
-
-# @pytest.fixture(scope="session")
-# @pytest.mark.django_db
-# def django_db_setup():
-#     call_command("load_data_command")
-
+    
 
 @pytest.fixture
 def user_superuser_admin():

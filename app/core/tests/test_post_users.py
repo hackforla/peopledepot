@@ -13,7 +13,7 @@ from core.tests.utils.seed_user import SeedUser
 count_website_members = 4
 count_people_depot_members = 3
 count_members_either = 6
-
+from core.tests.utils.load_data import load_data
 
 def post_request_to_viewset(requester, create_data):
     new_data = create_data.copy()
@@ -24,11 +24,18 @@ def post_request_to_viewset(requester, create_data):
     response = view(request)
     return response
 
+# @pytest.fixture(scope='class', autouse=True)
+# def special_data_setup(db):  # Use the db fixture to enable database access
+#     # Load your special data here
+#     call_command('load_data_command')  # Replace with your command
+#     yield
+
 
 @pytest.mark.django_db
 class TestPostUser:
     def setup_method(self):
         FieldPermissions.derive_cru_fields()
+        load_data()
 
     def teardown_method(self):
         FieldPermissions.derive_cru_fields()

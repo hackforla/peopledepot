@@ -1,3 +1,4 @@
+from core.tests.utils.load_data import load_data
 import pytest
 from django.urls import reverse
 from rest_framework.test import APIClient
@@ -21,22 +22,34 @@ _user_get_url = reverse("user-list")
 def fields_match_for_get_user(first_name, response_data, fields):
     for user in response_data:
         if user["first_name"] == first_name:
+            s1 = user.keys()
+            s2 = set(fields)
+            print("diff", s1 - s2)            
+            print("diff", s2 - s1)
+            print("fields",set(fields))
             return set(user.keys()) == set(fields)
     return False
 
 
 @pytest.mark.django_db
 class TestGetUser:
-    def test_get_url_results_for_project_admin(self):
+    def setup_method(self):
+        load_data()
+        
+    def test_get_url_results_for_admin_project(self):
         """Test that the get user request returns (a) all users on the website project
         and (b) the fields match fields configured for a project admin
         **WHEN** the requester is a project admin.
         """
+        print("Debug start")
         client = APIClient()
         client.force_authenticate(user=SeedUser.get_user(wanda_admin_project))
+        print("Debug 2")
         response = client.get(_user_get_url)
+        print("Debug 3")
         assert response.status_code == 200
         assert len(response.json()) == count_website_members
+        print("Here", "email" in FieldPermissions.user_read_fields[global_admin])
         assert fields_match_for_get_user(
             winona_name,
             response.json(),

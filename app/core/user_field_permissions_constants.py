@@ -143,6 +143,8 @@ user_field_permissions[global_admin] = {
     "username": "CRU",
     "first_name": "CRU",
     "last_name": "CRU",
+    "email": "CRU",
+    "slack_id": "CRU",
     "gmail": "CRU",
     "preferred_email": "CRU",
     "linkedin_account": "CRU",

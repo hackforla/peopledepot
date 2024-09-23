@@ -1,4 +1,6 @@
 import pytest
+
+from core.tests.utils.load_data import load_data
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient
@@ -44,6 +46,7 @@ class TestPatchUser:
     # the tests would interfere with each other
     def setup_method(self):
         FieldPermissions.derive_cru_fields()
+        load_data()
 
     # Some tests change FieldPermission attribute values.
     # derive_cru resets the values after each test
