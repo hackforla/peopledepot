@@ -20,8 +20,6 @@ from core.tests.utils.seed_user import SeedUser
 
 
 def fields_match_for_get_user(username, response_data, fields):
-    print("fm", set(user.keys) - set(fields))
-    print("fm 2", set(fields) - set(user.keys))
     for user in response_data:
         if user["username"] == username:
             return set(user.keys()) == set(fields)

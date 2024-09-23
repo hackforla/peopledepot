@@ -29,16 +29,13 @@ class PermissionUtil:
 
         if PermissionUtil.is_admin(requesting_user):
             return global_admin
-        print("Debug 4", target_user)
         target_user_project_names = UserPermission.objects.filter(
             user=target_user
         ).values_list("project__name", flat=True)
-        print("Debug 5")
 
         matched_requester_permissions = UserPermission.objects.filter(
             user=requesting_user, project__name__in=target_user_project_names
         ).values("permission_type__name", "permission_type__rank")
-        print("Debug 6", matched_requester_permissions, requesting_user.first_name)
 
         lowest_permission_rank = 1000
         lowest_permission_name = ""
@@ -181,5 +178,4 @@ class PermissionUtil:
         )
         if lowest_ranked_name == "":
             raise PermissionError("You do not have permission to view this user")
-        print("lowest rank", lowest_ranked_name)
         return FieldPermissions.user_read_fields[lowest_ranked_name]

@@ -7,13 +7,14 @@ from rest_framework.test import force_authenticate
 from constants import global_admin
 from core.api.views import UserViewSet
 from core.field_permissions import FieldPermissions
+from core.tests.utils.load_data import load_data
 from core.tests.utils.seed_constants import garry_name
 from core.tests.utils.seed_user import SeedUser
 
 count_website_members = 4
 count_people_depot_members = 3
 count_members_either = 6
-from core.tests.utils.load_data import load_data
+
 
 def post_request_to_viewset(requester, create_data):
     new_data = create_data.copy()
@@ -23,6 +24,7 @@ def post_request_to_viewset(requester, create_data):
     view = UserViewSet.as_view({"post": "create"})
     response = view(request)
     return response
+
 
 # @pytest.fixture(scope='class', autouse=True)
 # def special_data_setup(db):  # Use the db fixture to enable database access

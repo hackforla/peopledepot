@@ -64,19 +64,18 @@ class UserPermissionSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     """Used to retrieve user info"""
+
     time_zone = TimeZoneSerializerField(use_pytz=False)
 
     def to_representation(self, instance):
-        representation = super(UserSerializer, self).to_representation(instance)
-        request_user: User = self.context['request'].user
+        representation = super().to_representation(instance)
+        request_user: User = self.context["request"].user
         # Get dynamic fields from some logic
         user_fields = PermissionUtil.get_user_read_fields(request_user, instance)
-        print("debug to_rep", request_user.first_name, "email" in user_fields,
-              "email" in representation)
-        print("is_superuser" in representation.items())
         # Only retain the fields you want to include in the output
-        return {key: value for key, value in representation.items() if key in user_fields}
-
+        return {
+            key: value for key, value in representation.items() if key in user_fields
+        }
 
     class Meta:
         model = User

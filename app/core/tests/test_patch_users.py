@@ -1,6 +1,4 @@
 import pytest
-
-from core.tests.utils.load_data import load_data
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient
@@ -10,6 +8,7 @@ from rest_framework.test import force_authenticate
 from constants import admin_project
 from core.api.views import UserViewSet
 from core.field_permissions import FieldPermissions
+from core.tests.utils.load_data import load_data
 from core.tests.utils.seed_constants import garry_name
 from core.tests.utils.seed_constants import valerie_name
 from core.tests.utils.seed_constants import wally_name
