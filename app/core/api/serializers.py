@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from timezone_field.rest_framework import TimeZoneSerializerField
 
+from core.field_permissions import FieldPermissions
 from core.models import Affiliate
 from core.models import Affiliation
 from core.models import CheckType
@@ -110,6 +111,14 @@ class UserSerializer(serializers.ModelSerializer):
             "username",
             "email",
         )
+
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    time_zone = TimeZoneSerializerField(use_pytz=False)
+
+    class Meta:
+        model = User
+        fields = FieldPermissions.me_endpoint_read_fields
 
 
 class ProjectSerializer(serializers.ModelSerializer):

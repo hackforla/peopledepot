@@ -46,6 +46,7 @@ from .serializers import SocMajorSerializer
 from .serializers import StackElementSerializer
 from .serializers import StackElementTypeSerializer
 from .serializers import UserPermissionSerializer
+from .serializers import UserProfileSerializer
 from .serializers import UserSerializer
 
 
@@ -59,7 +60,7 @@ from .serializers import UserSerializer
     partial_update=extend_schema(description="Update your profile"),
 )
 class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
-    serializer_class = UserSerializer
+    serializer_class = UserProfileSerializer
     permission_classes = [IsAuthenticated]
     http_method_names = ["get", "partial_update"]
 

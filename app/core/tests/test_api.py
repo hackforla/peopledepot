@@ -56,7 +56,6 @@ def test_list_users_fail(client):
     assert res.status_code == status.HTTP_401_UNAUTHORIZED
 
 
-@pytest.mark.skip
 def test_get_profile(auth_client):
     res = auth_client.get(ME_URL)
     assert res.status_code == status.HTTP_200_OK
