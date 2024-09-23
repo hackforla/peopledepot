@@ -3,6 +3,7 @@ from rest_framework.exceptions import ValidationError
 
 from core.field_permissions import FieldPermissions
 from core.permission_util import PermissionUtil
+from core.tests.utils.load_data import load_data
 from core.tests.utils.seed_constants import garry_name
 from core.tests.utils.seed_constants import patti_name
 from core.tests.utils.seed_constants import valerie_name
@@ -31,6 +32,7 @@ class TestValidateFieldsPatchable:
     # the tests would interfere with each other
     def setup_method(self):
         FieldPermissions.derive_cru_fields()
+        load_data()
 
     # Some tests change FieldPermission attribute values.
     # derive_cru resets the values after each test
@@ -49,7 +51,6 @@ class TestValidateFieldsPatchable:
                 ["created_at"],
             )
 
-    @pytest.mark.skip
     def test_admin_project_can_patch_name(self):
         """Test validate_fields_patchable succeeds
         if requesting fields include first_name and last_name **WHEN**
