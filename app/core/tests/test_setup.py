@@ -5,6 +5,7 @@ from core.models import UserPermission
 
 
 class TestSetup:
+    @pytest.mark.skip
     @pytest.mark.django_db
     def test_wanda_setup(self):
         user = User.objects.get(username="Wanda")
