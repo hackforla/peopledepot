@@ -62,7 +62,6 @@ class TestValidateFieldsPatchable:
             ["first_name", "last_name"],
         )
 
-    @pytest.mark.skip
     def test_admin_project_cannot_patch_current_title(self):
         """Test validate_fields_patchable raises ValidationError
         if requesting fields include current_title **WHEN** requester
