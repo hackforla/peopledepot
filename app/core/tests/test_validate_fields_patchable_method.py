@@ -97,7 +97,6 @@ class TestValidateFieldsPatchable:
                 ["first_name"],
             )
 
-    @pytest.mark.skip
     def test_multi_project_requester_can_patch_first_name_of_member_if_requester_is_admin_projecter(
         self,
     ):
