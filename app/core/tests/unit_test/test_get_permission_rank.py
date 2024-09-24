@@ -6,7 +6,7 @@ from constants import member_project
 from core.models import PermissionType
 from core.models import Project
 from core.models import UserPermission
-from core.permission_util import PermissionUtil
+from core.permission_check import PermissionCheck
 from core.tests.utils.load_data import load_data
 from core.tests.utils.seed_constants import garry_name
 from core.tests.utils.seed_constants import patrick_practice_lead
@@ -30,7 +30,7 @@ def fields_match_for_get_user(username, response_data, fields):
 def _get_lowest_ranked_permission_type(requesting_username, target_username):
     requesting_user = SeedUser.get_user(requesting_username)
     target_user = SeedUser.get_user(target_username)
-    return PermissionUtil.get_lowest_ranked_permission_type(
+    return PermissionCheck.get_lowest_ranked_permission_type(
         requesting_user, target_user
     )
 

@@ -20,7 +20,7 @@ from core.models import StackElement
 from core.models import StackElementType
 from core.models import User
 from core.models import UserPermission
-from core.permission_util import PermissionUtil
+from core.permission_check import PermissionCheck
 
 
 class PracticeAreaSerializer(serializers.ModelSerializer):
@@ -72,7 +72,7 @@ class UserSerializer(serializers.ModelSerializer):
         representation = super().to_representation(instance)
         request_user: User = self.context["request"].user
         # Get dynamic fields from some logic
-        user_fields = PermissionUtil.get_user_read_fields(request_user, instance)
+        user_fields = PermissionCheck.get_user_read_fields(request_user, instance)
         # Only retain the fields you want to include in the output
         return {
             key: value for key, value in representation.items() if key in user_fields

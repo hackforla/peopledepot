@@ -10,7 +10,7 @@ from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
-from core.permission_util import PermissionUtil
+from core.permission_check import PermissionCheck
 
 from ..models import Affiliate
 from ..models import Affiliation
@@ -133,7 +133,7 @@ class UserViewSet(viewsets.ModelViewSet):
         """
         Optionally filter users by an 'email' and/or 'username' query paramerter in the URL
         """
-        queryset = PermissionUtil.get_user_queryset(self.request)
+        queryset = PermissionCheck.get_user_queryset(self.request)
 
         email = self.request.query_params.get("email")
         if email is not None:
@@ -150,7 +150,7 @@ class UserViewSet(viewsets.ModelViewSet):
             new_user_data["time_zone"] = "America/Los_Angeles"
 
         # Log or print the instance and update_data for debugging
-        PermissionUtil.validate_fields_postable(request.user, new_user_data)
+        PermissionCheck.validate_fields_postable(request.user, new_user_data)
         response = super().create(request, *args, **kwargs)
         return response
 
@@ -161,7 +161,7 @@ class UserViewSet(viewsets.ModelViewSet):
         update_data = request.data
 
         # Log or print the instance and update_data for debugging
-        PermissionUtil.validate_fields_patchable(request.user, instance, update_data)
+        PermissionCheck.validate_fields_patchable(request.user, instance, update_data)
         response = super().partial_update(request, *args, **kwargs)
         return response
 

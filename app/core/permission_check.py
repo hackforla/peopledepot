@@ -7,7 +7,7 @@ from core.models import User
 from core.models import UserPermission
 
 
-class PermissionUtil:
+class PermissionCheck:
     @staticmethod
     def get_lowest_ranked_permission_type(requesting_user: User, target_user: User):
         """Get the lowest ranked (most privileged) permission type a requesting user has for
@@ -30,7 +30,7 @@ class PermissionUtil:
             to the serialized user
         """
 
-        if PermissionUtil.is_admin(requesting_user):
+        if PermissionCheck.is_admin(requesting_user):
             return admin_global
         target_user_project_names = UserPermission.objects.filter(
             user=target_user
@@ -68,7 +68,7 @@ class PermissionUtil:
         current_user = User.objects.get(username=current_username)
         user_permissions = UserPermission.objects.filter(user=current_user)
 
-        if PermissionUtil.is_admin(current_user):
+        if PermissionCheck.is_admin(current_user):
             queryset = User.objects.all()
         else:
             # Get the users with user permissions for the same projects
@@ -81,7 +81,6 @@ class PermissionUtil:
     def is_admin(user):
         """Check if user is an admin"""
         permission_type = PermissionType.objects.filter(name=admin_global).first()
-        print("Debug", user.first_name)
         return UserPermission.objects.filter(
             permission_type=permission_type, user=user
         ).exists()
@@ -103,7 +102,7 @@ class PermissionUtil:
         request_fields = request.json().keys()
         requesting_user = request.context.get("request").user
         target_user = User.objects.get(uuid=request.context.get("uuid"))
-        PermissionUtil.validate_fields_patchable(
+        PermissionCheck.validate_fields_patchable(
             requesting_user, target_user, request_fields
         )
 
@@ -124,7 +123,7 @@ class PermissionUtil:
             None
         """
 
-        lowest_ranked_name = PermissionUtil.get_lowest_ranked_permission_type(
+        lowest_ranked_name = PermissionCheck.get_lowest_ranked_permission_type(
             requesting_user, target_user
         )
         if lowest_ranked_name == "":
@@ -154,7 +153,7 @@ class PermissionUtil:
             None
         """
 
-        if not PermissionUtil.is_admin(requesting_user):
+        if not PermissionCheck.is_admin(requesting_user):
             raise PermissionError("You do not have permission to create a user")
         valid_fields = FieldPermissions.user_post_fields[admin_global]
         disallowed_fields = set(request_fields) - set(valid_fields)
@@ -180,7 +179,7 @@ class PermissionUtil:
         Returns:
             [User]: List of fields that the requesting user has permission to view for the target user.
         """
-        lowest_ranked_name = PermissionUtil.get_lowest_ranked_permission_type(
+        lowest_ranked_name = PermissionCheck.get_lowest_ranked_permission_type(
             requesting_user, target_user
         )
         if lowest_ranked_name == "":

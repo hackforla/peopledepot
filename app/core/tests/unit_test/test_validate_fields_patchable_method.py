@@ -2,7 +2,7 @@ import pytest
 from rest_framework.exceptions import ValidationError
 
 from core.field_permissions import FieldPermissions
-from core.permission_util import PermissionUtil
+from core.permission_check import PermissionCheck
 from core.tests.utils.load_data import load_data
 from core.tests.utils.seed_constants import garry_name
 from core.tests.utils.seed_constants import patti_name
@@ -45,7 +45,7 @@ class TestValidateFieldsPatchable:
         if requesting fields include created_at.
         """
         with pytest.raises(ValidationError):
-            PermissionUtil.validate_fields_patchable(
+            PermissionCheck.validate_fields_patchable(
                 SeedUser.get_user(garry_name),
                 SeedUser.get_user(valerie_name),
                 ["created_at"],
@@ -56,7 +56,7 @@ class TestValidateFieldsPatchable:
         if requesting fields include first_name and last_name **WHEN**
         the requester is a project lead.
         """
-        PermissionUtil.validate_fields_patchable(
+        PermissionCheck.validate_fields_patchable(
             SeedUser.get_user(wanda_admin_project),
             SeedUser.get_user(wally_name),
             ["first_name", "last_name"],
@@ -68,7 +68,7 @@ class TestValidateFieldsPatchable:
         is a project lead.
         """
         with pytest.raises(ValidationError):
-            PermissionUtil.validate_fields_patchable(
+            PermissionCheck.validate_fields_patchable(
                 SeedUser.get_user(wanda_admin_project),
                 SeedUser.get_user(wally_name),
                 ["current_title"],
@@ -80,7 +80,7 @@ class TestValidateFieldsPatchable:
         is a member of a different project.
         """
         with pytest.raises(PermissionError):
-            PermissionUtil.validate_fields_patchable(
+            PermissionCheck.validate_fields_patchable(
                 SeedUser.get_user(wanda_admin_project),
                 SeedUser.get_user(patti_name),
                 ["first_name"],
@@ -91,7 +91,7 @@ class TestValidateFieldsPatchable:
         **WHEN** requester is only a project team member.
         """
         with pytest.raises(PermissionError):
-            PermissionUtil.validate_fields_patchable(
+            PermissionCheck.validate_fields_patchable(
                 SeedUser.get_user(wally_name),
                 SeedUser.get_user(winona_name),
                 ["first_name"],
@@ -104,7 +104,7 @@ class TestValidateFieldsPatchable:
         **WHEN** requester assigned to multiple projects
         is a project lead for the user being patched.
         """
-        PermissionUtil.validate_fields_patchable(
+        PermissionCheck.validate_fields_patchable(
             SeedUser.get_user(zani_name), SeedUser.get_user(patti_name), ["first_name"]
         )
 
@@ -116,7 +116,7 @@ class TestValidateFieldsPatchable:
         is only a project team member for the user being patched.
         """
         with pytest.raises(PermissionError):
-            PermissionUtil.validate_fields_patchable(
+            PermissionCheck.validate_fields_patchable(
                 SeedUser.get_user(zani_name),
                 SeedUser.get_user(wally_name),
                 ["first_name"],
