@@ -26,7 +26,7 @@ from constants import practice_lead_project
 from constants import profile
 from core.user_field_permissions_constants import profile_field_permissions
 from core.user_field_permissions_constants import self_register_fields
-from core.user_field_permissions_constants import user_field_permissions
+from core.user_field_permissions_constants import user_assignment_field_cru_permissions
 
 
 class FieldPermissionsList:
@@ -100,13 +100,13 @@ class FieldPermissionsList:
             self_register_fields,  # "C" is only applicable field permission value
         ]:
             cls.user_read_fields[permission_type] = cls._get_fields_with_priv(
-                user_field_permissions[permission_type], "R"
+                user_assignment_field_cru_permissions[permission_type], "R"
             )
             cls.user_patch_fields[permission_type] = cls._get_fields_with_priv(
-                user_field_permissions[permission_type], "U"
+                user_assignment_field_cru_permissions[permission_type], "U"
             )
             cls.user_post_fields[permission_type] = cls._get_fields_with_priv(
-                user_field_permissions[permission_type], "C"
+                user_assignment_field_cru_permissions[permission_type], "C"
             )
 
 

@@ -65,14 +65,14 @@ me_endpoint_permissions = {
 
 
 # permissions for the user endpoint which is used for creating, viewing, and updating
-#
-user_field_permissions = {
+# based on assigned permission type
+user_assignment_field_cru_permissions = {
     member_project: {},
     practice_lead_project: {},
     admin_global: {},
 }
 
-user_field_permissions[member_project] = {
+user_assignment_field_cru_permissions[member_project] = {
     "uuid": "R",
     "created_at": "R",
     "updated_at": "R",
@@ -100,7 +100,7 @@ user_field_permissions[member_project] = {
     "time_zone": "R",
 }
 
-user_field_permissions[practice_lead_project] = {
+user_assignment_field_cru_permissions[practice_lead_project] = {
     "uuid": "R",
     "created_at": "R",
     "updated_at": "R",
@@ -128,11 +128,11 @@ user_field_permissions[practice_lead_project] = {
     "time_zone": "R",
 }
 
-user_field_permissions[admin_project] = user_field_permissions[
-    practice_lead_project
-].copy()
+user_assignment_field_cru_permissions[admin_project] = (
+    user_assignment_field_cru_permissions[practice_lead_project].copy()
+)
 
-user_field_permissions[admin_global] = {
+user_assignment_field_cru_permissions[admin_global] = {
     "uuid": "R",
     "created_at": "R",
     "updated_at": "R",

@@ -29,17 +29,17 @@ The following API endpoints retrieve users:
             **/user end point**
             - Global admins can read, update, and create fields specified in
                 \[base_user_cru_constants.py\] for global admin (search for
-                "user_field_permissions\[admin_global\]").
+                "user_assignment_field_cru_permissions\[admin_global\]").
             - Project leads can read and update fields of a target team member specified in
                 \[base_user_cru_constants.py\] for project lead (search for (search for
-                "user_field_permissions\[admin_project\]") .
+                "user_assignment_field_cru_permissions\[admin_project\]") .
         - If a practice area admin is associated with the same practice area as a target
             fellow team member, the practice area admin can read and update fields
-            specified in \[base_user_cru_constants.py\] for practice area admin (search for "user_field_permissions\[practice_lead_project\]").  Otherwise, the practice admin can read
+            specified in \[base_user_cru_constants.py\] for practice area admin (search for "user_assignment_field_cru_permissions\[practice_lead_project\]").  Otherwise, the practice admin can read
             fields specified in \[base_user_cru_constants.py\] for project team member (search
-            for "user_field_permissions\[member_project\]")
+            for "user_assignment_field_cru_permissions\[member_project\]")
 
-    - General project team members can read fields for a target fellow team member specified in \[base_user_cru_constants.by\] for project team member (search for "user_field_permissions\[member_project\]")
+    - General project team members can read fields for a target fellow team member specified in \[base_user_cru_constants.by\] for project team member (search for "user_assignment_field_cru_permissions\[member_project\]")
 
     Note: for non global admins, the /me endpoint, which can be used when reading or
     updating yourself, provides more field permissions.
@@ -53,7 +53,7 @@ The following API endpoints retrieve users:
     for "self_register_permissions"
 - api/v1/eligible-users/<project id>?scope=\<all/team/notteam> - List users.  API is used by global admin or project lead **(\*)** when assigning a user to a team.  This API uses the same
     read fiel permissions as specified for /user end point for project team members (search for
-    "user_field_permissions\[project member\]").
+    "user_assignment_field_cru_permissions\[project member\]").
     A separate API for assigning the user to a project team is covered by a different document.
 
 **(\*) Requirement for project lead needs to be verified with Bonnie**
