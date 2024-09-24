@@ -6,21 +6,21 @@ Variables:
     * Note: me_end_point gets or updates information about the requesting user
 
     user_read_fields:
-        user_read_fields[global_admin]: list of fields a global admin can read for a user
+        user_read_fields[admin_global]: list of fields a global admin can read for a user
         user_read_fields[admin_project]: list of fields a project lead can read for a user
         user_read_fields[member_project]: list of fields a project member can read for a user
         user_read_fields[practice_lead_project]: list of fields a practice area admin can read for a user
     user_patch_fields:
-        user_patch_fields[global_admin]: list of fields a global admin can update for a user
+        user_patch_fields[admin_global]: list of fields a global admin can update for a user
         user_patch_fields[admin_project]: list of fields a project lead can update for a user
         user_patch_fields[member_project]: list of fields a project member can update for a user
         user_patch_fields[practice_lead_project]: list of fields a practice area admin can update for a user
     user_post_fields:
-        user_post_fields[global_admin]: list of fields a global admin can specify when creating a user
+        user_post_fields[admin_global]: list of fields a global admin can specify when creating a user
 """
 
+from constants import admin_global
 from constants import admin_project
-from constants import global_admin
 from constants import member_project
 from constants import practice_lead_project
 from core.user_field_permissions_constants import me_endpoint_permissions
@@ -37,19 +37,19 @@ class FieldPermissions:
         admin_project: [],
         member_project: [],
         practice_lead_project: [],
-        global_admin: [],
+        admin_global: [],
     }
     user_patch_fields = {
         admin_project: [],
         member_project: [],
         practice_lead_project: [],
-        global_admin: [],
+        admin_global: [],
     }
     user_post_fields = {
         admin_project: [],
         member_project: [],
         practice_lead_project: [],
-        global_admin: [],
+        admin_global: [],
     }
     me_endpoint_read_fields = []
     me_endpoint_patch_fields = []
@@ -71,6 +71,15 @@ class FieldPermissions:
 
     @classmethod
     def derive_cru_fields(cls):
+        """
+        Populates following attributes based on values in UserFieldPermissions
+        - user_post_fields
+        - user_patch_fields
+        - user_post_fields
+        -  me_endpoint_read_fields
+        -  me_endpoint_patch_fields
+        -  self_register_fields
+        """
         cls.me_endpoint_read_fields = cls._get_fields_with_priv(
             me_endpoint_permissions, "R"
         )
@@ -82,7 +91,7 @@ class FieldPermissions:
             admin_project,
             member_project,
             practice_lead_project,
-            global_admin,
+            admin_global,
         ]:
             cls.user_read_fields[permission_type] = cls._get_fields_with_priv(
                 user_field_permissions[permission_type], "R"

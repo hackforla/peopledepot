@@ -4,7 +4,7 @@ from rest_framework import status
 from rest_framework.test import APIRequestFactory
 from rest_framework.test import force_authenticate
 
-from constants import global_admin
+from constants import admin_global
 from core.api.views import UserViewSet
 from core.field_permissions import FieldPermissions
 from core.tests.utils.load_data import load_data
@@ -50,7 +50,7 @@ class TestPostUser:
         server can be set to test values.
         """
 
-        FieldPermissions.user_post_fields[global_admin] = [
+        FieldPermissions.user_post_fields[admin_global] = [
             "username",
             "first_name",
             "last_name",
@@ -84,7 +84,7 @@ class TestPostUser:
         See documentation for test_allowable_patch_fields_configurable for more information.
         """
 
-        FieldPermissions.user_post_fields[global_admin] = [
+        FieldPermissions.user_post_fields[admin_global] = [
             "username",
             "first_name",
             "gmail",

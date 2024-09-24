@@ -1,10 +1,12 @@
 import copy
 
+from constants import admin_global
 from constants import admin_project
 from constants import member_project
+from constants import practice_lead_project
 from core.models import Project
 from core.tests.utils.seed_constants import garry_name
-from core.tests.utils.seed_constants import patrick_admin_project
+from core.tests.utils.seed_constants import patrick_practice_lead
 from core.tests.utils.seed_constants import patti_name
 from core.tests.utils.seed_constants import people_depot_project
 from core.tests.utils.seed_constants import valerie_name
@@ -38,21 +40,26 @@ def load_data():
     for project_name in projects:
         project = Project.objects.create(name=project_name)
         project.save()
-    SeedUser.create_user(first_name="Wanda", description="Website project lead")
-    SeedUser.create_user(first_name="Wally", description="Website member")
-    SeedUser.create_user(first_name="Winona", description="Website member")
     SeedUser.create_user(
-        first_name="Zani",
+        first_name=wanda_admin_project, description="Website project lead"
+    )
+    SeedUser.create_user(first_name=wally_name, description="Website member")
+    SeedUser.create_user(first_name=winona_name, description="Website member")
+    SeedUser.create_user(
+        first_name=zani_name,
         description="Website member and People Depot project lead",
     )
-    SeedUser.create_user(first_name="Patti", description="People Depot member")
-    SeedUser.create_user(first_name="Patrick", description="People Depot project lead")
-    SeedUser.create_user(first_name="Garry", description="Global admin")
+    SeedUser.create_user(first_name=patti_name, description="People Depot member")
+    SeedUser.create_user(
+        first_name=patrick_practice_lead, description="People Depot project lead"
+    )
+    SeedUser.create_user(first_name=garry_name, description="Global admin")
     SeedUser.get_user(garry_name).is_superuser = True
     SeedUser.get_user(garry_name).save()
     SeedUser.create_user(first_name=valerie_name, description="Verified user")
 
     related_data = [
+        {"first_name": garry_name, "permission_type_name": admin_global},
         {
             "first_name": wanda_admin_project,
             "project_name": website_project_name,
@@ -74,9 +81,9 @@ def load_data():
             "permission_type_name": member_project,
         },
         {
-            "first_name": patrick_admin_project,
+            "first_name": patrick_practice_lead,
             "project_name": people_depot_project,
-            "permission_type_name": admin_project,
+            "permission_type_name": practice_lead_project,
         },
         {
             "first_name": zani_name,

@@ -5,8 +5,8 @@ in derived_user_cru_permissions.py.  The application uses the derived values for
 requirements.
 """
 
+from constants import admin_global
 from constants import admin_project
-from constants import global_admin
 from constants import member_project
 from constants import practice_lead_project
 
@@ -69,7 +69,7 @@ me_endpoint_permissions = {
 user_field_permissions = {
     member_project: {},
     practice_lead_project: {},
-    global_admin: {},
+    admin_global: {},
 }
 
 user_field_permissions[member_project] = {
@@ -132,7 +132,7 @@ user_field_permissions[admin_project] = user_field_permissions[
     practice_lead_project
 ].copy()
 
-user_field_permissions[global_admin] = {
+user_field_permissions[admin_global] = {
     "uuid": "R",
     "created_at": "R",
     "updated_at": "R",

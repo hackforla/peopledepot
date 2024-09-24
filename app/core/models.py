@@ -302,7 +302,9 @@ class UserPermission(AbstractBaseModel):
     practice_area = models.ForeignKey(
         PracticeArea, on_delete=models.CASCADE, blank=True, null=True
     )
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    project = models.ForeignKey(
+        Project, blank=True, null=True, on_delete=models.CASCADE
+    )
 
     class Meta:
         constraints = [

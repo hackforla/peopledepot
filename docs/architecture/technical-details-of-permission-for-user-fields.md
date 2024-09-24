@@ -29,7 +29,7 @@ The following API endpoints retrieve users:
             **/user end point**
             - Global admins can read, update, and create fields specified in
                 \[base_user_cru_constants.py\] for global admin (search for
-                "user_field_permissions\[global_admin\]").
+                "user_field_permissions\[admin_global\]").
             - Project leads can read and update fields of a target team member specified in
                 \[base_user_cru_constants.py\] for project lead (search for (search for
                 "user_field_permissions\[admin_project\]") .

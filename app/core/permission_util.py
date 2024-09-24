@@ -1,7 +1,8 @@
 from rest_framework.exceptions import ValidationError
 
-from constants import global_admin
+from constants import admin_global
 from core.field_permissions import FieldPermissions
+from core.models import PermissionType
 from core.models import User
 from core.models import UserPermission
 
@@ -9,18 +10,20 @@ from core.models import UserPermission
 class PermissionUtil:
     @staticmethod
     def get_lowest_ranked_permission_type(requesting_user: User, target_user: User):
-        """Get the highest ranked permission type a requesting user has relative to a target user.
+        """Get the lowest ranked (most privileged) permission type a requesting user has for
+        projects shared with the target user.
 
-        If the requesting user is an admin, returns global_admin.
+        If the requesting user is an admin, returns admin_global.
 
-        Otherwise, it looks for the projects that both the requesting user and the serialized user are granted
+        Otherwise, it looks for the projects that both the requesting user and the target user are granted
         in user permissions. It then returns the permission type name of the lowest ranked matched permission.
 
-        If the requesting user has no permissions over the serialized user, returns an empty string.
+        If the requesting user is not assigned to any of the target user's project, returns an empty string.
 
         Args:
             requesting_user (User): user that initiates the API request
-            target_user (User): a user that is part of the API response currently being serialized
+            target_user (User): a user that is intended to corresponding to the serialized user of the response
+            being processed.
 
         Returns:
             str: permission type name of highest permission type the requesting user has relative
@@ -28,7 +31,7 @@ class PermissionUtil:
         """
 
         if PermissionUtil.is_admin(requesting_user):
-            return global_admin
+            return admin_global
         target_user_project_names = UserPermission.objects.filter(
             user=target_user
         ).values_list("project__name", flat=True)
@@ -77,7 +80,11 @@ class PermissionUtil:
     @staticmethod
     def is_admin(user):
         """Check if user is an admin"""
-        return user.is_superuser
+        permission_type = PermissionType.objects.filter(name=admin_global).first()
+        print("Debug", user.first_name)
+        return UserPermission.objects.filter(
+            permission_type=permission_type, user=user
+        ).exists()
 
     @staticmethod
     def validate_patch_request(request):
@@ -149,7 +156,7 @@ class PermissionUtil:
 
         if not PermissionUtil.is_admin(requesting_user):
             raise PermissionError("You do not have permission to create a user")
-        valid_fields = FieldPermissions.user_post_fields[global_admin]
+        valid_fields = FieldPermissions.user_post_fields[admin_global]
         disallowed_fields = set(request_fields) - set(valid_fields)
         if disallowed_fields:
             invalid_fields = ", ".join(disallowed_fields)

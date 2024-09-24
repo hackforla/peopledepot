@@ -7,6 +7,7 @@ from rest_framework.test import force_authenticate
 from core.api.views import UserViewSet
 from core.field_permissions import FieldPermissions
 from core.permission_util import PermissionUtil
+from core.tests.utils.load_data import load_data
 from core.tests.utils.seed_constants import garry_name
 from core.tests.utils.seed_constants import wanda_admin_project
 from core.tests.utils.seed_user import SeedUser
@@ -30,6 +31,7 @@ def post_request_to_viewset(requester, create_data):
 class TestPostUser:
     def setup_method(self):
         FieldPermissions.derive_cru_fields()
+        load_data()
 
     def teardown_method(self):
         FieldPermissions.derive_cru_fields()
