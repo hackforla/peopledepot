@@ -4,7 +4,7 @@ from rest_framework.test import APIClient
 
 from constants import admin_project
 from constants import member_project
-from core.field_permissions import FieldPermissions
+from core.http_method_field_permissions import HttpMethodFieldPermissions
 from core.tests.utils.load_data import load_data
 from core.tests.utils.seed_constants import valerie_name
 from core.tests.utils.seed_constants import wally_name
@@ -44,7 +44,7 @@ class TestGetUser:
         assert fields_match_for_get_user(
             winona_name,
             response.json(),
-            FieldPermissions.user_read_fields[admin_project],
+            HttpMethodFieldPermissions.user_read_fields[admin_project],
         )
 
     def test_get_results_for_users_on_same_team(self):
@@ -62,12 +62,12 @@ class TestGetUser:
         assert fields_match_for_get_user(
             winona_name,
             response.json(),
-            FieldPermissions.user_read_fields[member_project],
+            HttpMethodFieldPermissions.user_read_fields[member_project],
         )
         assert fields_match_for_get_user(
             wanda_admin_project,
             response.json(),
-            FieldPermissions.user_read_fields[member_project],
+            HttpMethodFieldPermissions.user_read_fields[member_project],
         )
         assert len(response.json()) == count_website_members
 

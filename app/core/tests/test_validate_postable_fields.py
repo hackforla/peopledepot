@@ -5,7 +5,7 @@ from rest_framework.test import APIRequestFactory
 from rest_framework.test import force_authenticate
 
 from core.api.views import UserViewSet
-from core.field_permissions import FieldPermissions
+from core.http_method_field_permissions import HttpMethodFieldPermissions
 from core.permission_check import PermissionCheck
 from core.tests.utils.load_data import load_data
 from core.tests.utils.seed_constants import garry_name
@@ -30,11 +30,11 @@ def post_request_to_viewset(requester, create_data):
 @pytest.mark.django_db
 class TestPostUser:
     def setup_method(self):
-        FieldPermissions.derive_cru_fields()
+        HttpMethodFieldPermissions.derive_cru_fields()
         load_data()
 
     def teardown_method(self):
-        FieldPermissions.derive_cru_fields()
+        HttpMethodFieldPermissions.derive_cru_fields()
 
     def test_validate_fields_postable_raises_exception_for_created_at(self):
         """Test validate_fields_postable raises ValidationError when requesting

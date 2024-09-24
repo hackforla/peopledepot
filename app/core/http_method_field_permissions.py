@@ -28,7 +28,7 @@ from core.user_field_permissions_constants import self_register_fields
 from core.user_field_permissions_constants import user_field_permissions
 
 
-class FieldPermissions:
+class HttpMethodFieldPermissions:
     # *************************************************************
     # See pydoc at top of file for description of these variables *
     # *************************************************************
@@ -57,7 +57,7 @@ class FieldPermissions:
 
     # Gets the fields in field_permission that have the permission specified by cru_permission
     # Args:
-    #   field_permissions (dictionary): dictionary of field permissions.  Key: field name. Value: "CRU" or subset.
+    #   field_permissions (dictionary): dictionary of field permissions { field: CRU or subset}
     #   cru_permission (str): permission to check for in field_permissions (C, R, or U)
     # Returns:
     #   [str]: list of field names that have the specified permission
@@ -104,4 +104,4 @@ class FieldPermissions:
             )
 
 
-FieldPermissions.derive_cru_fields()
+HttpMethodFieldPermissions.derive_cru_fields()

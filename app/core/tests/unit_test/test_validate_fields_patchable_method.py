@@ -1,7 +1,7 @@
 import pytest
 from rest_framework.exceptions import ValidationError
 
-from core.field_permissions import FieldPermissions
+from core.http_method_field_permissions import HttpMethodFieldPermissions
 from core.permission_check import PermissionCheck
 from core.tests.utils.load_data import load_data
 from core.tests.utils.seed_constants import garry_name
@@ -31,14 +31,14 @@ class TestValidateFieldsPatchable:
     # derive_cru resets the values before each test - otherwise
     # the tests would interfere with each other
     def setup_method(self):
-        FieldPermissions.derive_cru_fields()
+        HttpMethodFieldPermissions.derive_cru_fields()
         load_data()
 
     # Some tests change FieldPermission attribute values.
     # derive_cru resets the values after each test
     # Redundant with setup_method, but good practice
     def teardown_method(self):
-        FieldPermissions.derive_cru_fields()
+        HttpMethodFieldPermissions.derive_cru_fields()
 
     def test_created_at_not_updateable(self):
         """Test validate_fields_patchable raises ValidationError

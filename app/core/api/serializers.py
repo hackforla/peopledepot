@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from timezone_field.rest_framework import TimeZoneSerializerField
 
-from core.field_permissions import FieldPermissions
+from core.http_method_field_permissions import HttpMethodFieldPermissions
 from core.models import Affiliate
 from core.models import Affiliation
 from core.models import CheckType
@@ -118,7 +118,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = FieldPermissions.me_endpoint_read_fields
+        fields = HttpMethodFieldPermissions.me_endpoint_read_fields
 
 
 class ProjectSerializer(serializers.ModelSerializer):
