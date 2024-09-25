@@ -236,6 +236,7 @@ def _derive_user_priv_fields():
         user_post_fields[permission_type] = _get_fields_with_priv(
             _cru_permissions[permission_type], "C"
         )
+        print("debug x", permission_type, user_post_fields)
 
 
 _derive_user_priv_fields()
