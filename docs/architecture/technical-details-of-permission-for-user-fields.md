@@ -11,7 +11,7 @@
 
 ### Source of Privileges
 
-Field level security specifics are derived from u[user_field_permissions_constants.py](../../app/core/user_field_permissions_constants.py).  The file includes several lists that
+Field level security specifics are derived from u[user_field_permissions_constants.py](../../app/core/cru_permissions.py).  The file includes several lists that
 you can use to derive different privileges.  Search for these terms
 
 - self_register_end_point

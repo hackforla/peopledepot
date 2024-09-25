@@ -161,7 +161,7 @@ repos:
         stages: [push]
       - id: test
         name: test
-        entry: ./scripts/test.sh
+        entry: ./scripts/test.sh -s --verbose --no-cov
         language: system
         pass_filenames: false
         always_run: true
