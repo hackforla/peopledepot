@@ -154,11 +154,13 @@ class PermissionCheck:
         Returns:
             None
         """
-
+        print("debug", requesting_user.first_name)
         if not PermissionCheck.is_admin(requesting_user):
             raise PermissionError("You do not have permission to create a user")
         valid_fields = user_post_fields[admin_global]
         disallowed_fields = set(request_fields) - set(valid_fields)
+        print("valid fields", valid_fields)
+        print("bad", disallowed_fields)
         if disallowed_fields:
             invalid_fields = ", ".join(disallowed_fields)
             valid_fields = ", ".join(valid_fields)
