@@ -1,8 +1,23 @@
-"""
-The specified values in these dictionaries are based on the requirements of the project.  They
-are in a format to simplify understanding and mapping to the requirements.  The values are used to derive the values
-in derived_user_cru_permissions.py.  The application uses the derived values for implementing the
-requirements.
+"""Variables that define the fields that can be read or updated by a user based on user permissionss
+
+Variables:
+
+
+    user_read_fields:
+        user_read_fields[admin_global]: list of fields a global admin can read for a user
+        user_read_fields[admin_project]: list of fields a project lead can read for a user
+        user_read_fields[member_project]: list of fields a project member can read for a user
+        user_read_fields[practice_lead_project]: list of fields a practice area admin can read for a user
+        user_read_fields[profile_value]: list of fields a user can read when using /me (profile) endpoint
+    user_patch_fields:
+        user_patch_fields[admin_global]: list of fields a global admin can update for a user
+        user_patch_fields[admin_project]: list of fields a project lead can update for a user
+        user_patch_fields[member_project]: list of fields a project member can update for a user
+        user_patch_fields[practice_lead_project]: list of fields a practice area admin can update for a user
+        user_patch_fields[profile_value]: list of fields a user can update when using /me (profile) endpoint
+    user_post_fields:
+        user_post_fields[admin_global]: list of fields a global admin can specify when creating a user
+        user_post_fields[self_value]: list of fields a user can specify when self-registering
 """
 
 from constants import admin_global
