@@ -1,4 +1,4 @@
-Terminology:
+### Terminology:
 
 - user row: a user row refers to a row being updated.  Row is redundant but included to
     help distinguish between row and field level security.
@@ -9,59 +9,67 @@ Terminology:
     - patch / update
     - post / create
 
+### Source of Privileges
+
+Field level security specifics are derived from u[user_field_permissions_constants.py](../../app/core/user_field_permissions_constants.py).  The file includes several lists that
+you can use to derive different privileges.  Search for these terms
+
+- self_register_end_point
+- me_endpoint
+- user_assignment_field_cru_permissions\[member_project\]
+- user_assignment_field_cru_permissions\[practice_lead_project\],
+- user_assignment_field_cru_permissions\[admin_global\]
+    }
+    fields followed by CRU or a subset of CRU for Create/Read/Update.  Example:
+    first_name:\["RU"\] for a list would indicate that first name is readable and updateable
+    for the list.
+
 ### Functionality
 
 The following API endpoints retrieve users:
 
 #### /users:
 
-```
 - Row level security
 
     - Functionality: Global admins, can create, read,
         and update any user row.  Any team member can read any other project member.  Project leads can update any team member.  Practice leads can update any team member in the same practice area (not currently implemented)
 
 - Field level security:
-```
 
-[test](../../app/core/user_field_permissions_constants.py)
-See \[user_field_permissions_constants.py\] for privileges by permission type.
-THe rules are based on requirements document specified elsewhere.  If the rules change, then \[user_field_permissions_constants.py\] must change.
-
-```
     - /user end point:
         - Global admins can read, update, and create fields specified in
-            \[user_field_permissions_constants.py\] for global admin (search for
-            "user_assignment_field_cru_permissions\[admin_global\]").
-        - Project admins can read and update fields specified in
-            \[user_field_permissions_constants.py\] for other project leads.  
-            Search for for "user_assignment_field_cru_permissions\[admin_project\]" in
-            constants file.
-        - Practice area leads can read and update fields specified in
-            \[user_field_permissions_constants.py\] for fellow team members.  If
-            the team member is in the same practice area,  
-            search for for "user_assignment_field_cru_permissions\[practice_lead_project\]" in
-            \[user_field_permissions_constants.py\].  
+            [user_field_permissions_constants.py](../../app/core/user_field_permissions_constants.py).  Search for
+            \`\`user_assignment_field_cru_permissions\[admin_global\]\`).
 
-            If user being queried is not from the same practice area then search for "user_assignment_field_cru_permissions\[member_project\]"
+        - Project admins can read and update fields specified in
+            [user_field_permissions_constants.py](../../app/core/user_field_permissions_constants.py) for other project leads.\
+            Search for for `user_assignment_field_cru_permissions[admin_project]` in
+            constants file.
+
+        - Practice area leads can read and update fields specified in
+            [user_field_permissions_constants.py](../../app/core/user_field_permissions_constants.py) for fellow team members.  If
+            the team member is in the same practice area,\
+            search for for `user_assignment_field_cru_permissions[practice_lead_project]` in
+            [user_field_permissions_constants.py](../../app/core/user_field_permissions_constants.py).
+
+            If user being queried is not from the same practice area then search for `user_assignment_field_cru_permissions[member_project]`
 
             Note: As of 24-Sep-2024, the implemented code treats practice area leads the same as project
             admins.
 
-       - Project team members can read fields specified in
-            \[user_field_permissions_constants.py\] for fellow team members.   Search for "user_assignment_field_cru_permissions\[member_project\]" in \[user_field_permissions_constants.py\].
-
+        - Project team members can read fields specified in
+            [user_field_permissions_constants.py](../../app/core/user_field_permissions_constants.py) for fellow team members.   Search for `user_assignment_field_cru_permissions[member_project]` in[user_field_permissions_constants.py](../../app/core/user_field_permissions_constants.py).
 
     Note: for non global admins, the /me endpoint, which can be used when reading or
     updating yourself, provides more field permissions.
-```
 
 #### /me endpoint
 
 Used for reading and updating information about the user that is logged in.  User permission assignments
 do not apply.
 \- Row Level Security: Logged in user can always read and update their own information
-\- Field Level Security: For read and update permissions, see "me_endpoint_read_fields" and "me_endpoint_patch_fields" in \[user_field_permissions_constants.py\].
+\- Field Level Security: For read and update permissions, see "me_endpoint_read_fields" and "me_endpoint_patch_fields" in[user_field_permissions_constants.py](../../app/core/user_field_permissions_constants.py).
 
 #### /self-register end point
 
@@ -72,7 +80,7 @@ Create a new user row without logging in.  For field permissions, search for "se
 
 API is used by global admin or project lead **(\*)** when assigning a user to a team.  This API uses the same
 read fiel permissions as specified for /user end point for project team members (search for
-"user_assignment_field_cru_permissions\[project member\]").
+`user_assignment_field_cru_permissions[project member]`).
 A separate API for assigning the user to a project team is covered by a different document.
 
 ### Technical implementation
