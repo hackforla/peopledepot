@@ -7,7 +7,7 @@ from rest_framework.test import force_authenticate
 
 from constants import admin_project
 from core.api.views import UserViewSet
-from core.http_method_field_permissions import HttpMethodFieldPermissions
+from core.cru_permissions import user_patch_fields
 from core.tests.utils.load_data import load_data
 from core.tests.utils.seed_constants import garry_name
 from core.tests.utils.seed_constants import valerie_name
@@ -44,14 +44,7 @@ class TestPatchUser:
     # derive_cru resets the values before each test - otherwise
     # the tests would interfere with each other
     def setup_method(self):
-        HttpMethodFieldPermissions.derive_cru_fields()
         load_data()
-
-    # Some tests change FieldPermission attribute values.
-    # derive_cru resets the values after each test
-    # Redundant with setup_method, but good practice
-    def teardown_method(self):
-        HttpMethodFieldPermissions.derive_cru_fields()
 
     def test_admin_patch_request_succeeds(self):
         """Test that the patch requests succeeds when the requester is an admin."""
@@ -94,7 +87,8 @@ class TestPatchUser:
         server can be set to test values.
         """
 
-        HttpMethodFieldPermissions.user_patch_fields[admin_project] = [
+        orig_user_patch_fields = user_patch_fields.copy()
+        user_patch_fields[admin_project] = [
             "last_name",
             "gmail",
         ]
@@ -105,6 +99,8 @@ class TestPatchUser:
         response = patch_request_to_viewset(requester, target_user, update_data)
 
         assert response.status_code == status.HTTP_200_OK
+        user_patch_fields.clear()
+        user_patch_fields.update(orig_user_patch_fields)
 
     def test_not_allowable_patch_fields_configurable(self):
         """Test that the fields that are not configured to be updated cannot be updated.
@@ -113,8 +109,11 @@ class TestPatchUser:
         """
 
         requester = SeedUser.get_user(wanda_admin_project)  # project lead for website
-        HttpMethodFieldPermissions.user_patch_fields[admin_project] = ["gmail"]
+        orig_user_patch_fields = user_patch_fields.copy()
+        user_patch_fields[admin_project] = ["gmail"]
         update_data = {"last_name": "Smith"}
         target_user = SeedUser.get_user(wally_name)
         response = patch_request_to_viewset(requester, target_user, update_data)
         assert response.status_code == status.HTTP_400_BAD_REQUEST
+        user_patch_fields.clear()
+        user_patch_fields.update(orig_user_patch_fields)

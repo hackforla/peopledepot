@@ -1,7 +1,9 @@
 from rest_framework.exceptions import ValidationError
 
 from constants import admin_global
-from core.http_method_field_permissions import HttpMethodFieldPermissions
+from core.cru_permissions import user_patch_fields
+from core.cru_permissions import user_post_fields
+from core.cru_permissions import user_read_fields
 from core.models import PermissionType
 from core.models import User
 from core.models import UserPermission
@@ -128,7 +130,7 @@ class PermissionCheck:
         )
         if lowest_ranked_name == "":
             raise PermissionError("You do not have permission to patch this user")
-        valid_fields = HttpMethodFieldPermissions.user_patch_fields[lowest_ranked_name]
+        valid_fields = user_patch_fields[lowest_ranked_name]
         if len(valid_fields) == 0:
             raise PermissionError("You do not have permission to patch this user")
 
@@ -155,7 +157,7 @@ class PermissionCheck:
 
         if not PermissionCheck.is_admin(requesting_user):
             raise PermissionError("You do not have permission to create a user")
-        valid_fields = HttpMethodFieldPermissions.user_post_fields[admin_global]
+        valid_fields = user_post_fields[admin_global]
         disallowed_fields = set(request_fields) - set(valid_fields)
         if disallowed_fields:
             invalid_fields = ", ".join(disallowed_fields)
@@ -184,4 +186,4 @@ class PermissionCheck:
         )
         if lowest_ranked_name == "":
             raise PermissionError("You do not have permission to view this user")
-        return HttpMethodFieldPermissions.user_read_fields[lowest_ranked_name]
+        return user_read_fields[lowest_ranked_name]
