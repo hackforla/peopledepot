@@ -87,7 +87,7 @@ class TestPatchUser:
         server can be set to test values.
         """
 
-        orig_user_patch_fields_admin_project = user_patch_fields.copy()
+        orig_user_patch_fields_admin_project = user_patch_fields[admin_project].copy()
         user_patch_fields[admin_project] = [
             "last_name",
             "gmail",
