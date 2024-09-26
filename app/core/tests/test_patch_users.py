@@ -7,7 +7,7 @@ from rest_framework.test import force_authenticate
 
 from constants import admin_project
 from core.api.views import UserViewSet
-from core.cru_permissions import user_patch_fields
+from core.cru import Cru
 from core.tests.utils.load_data import load_data
 from core.tests.utils.seed_constants import garry_name
 from core.tests.utils.seed_constants import valerie_name
@@ -87,8 +87,10 @@ class TestPatchUser:
         server can be set to test values.
         """
 
-        orig_user_patch_fields_admin_project = user_patch_fields[admin_project].copy()
-        user_patch_fields[admin_project] = [
+        orig_user_patch_fields_admin_project = Cru.user_patch_fields[
+            admin_project
+        ].copy()
+        Cru.user_patch_fields[admin_project] = [
             "last_name",
             "gmail",
         ]
@@ -98,7 +100,9 @@ class TestPatchUser:
         target_user = SeedUser.get_user(wally_name)
         response = patch_request_to_viewset(requester, target_user, update_data)
 
-        user_patch_fields[admin_project] = orig_user_patch_fields_admin_project.copy()
+        Cru.user_patch_fields[admin_project] = (
+            orig_user_patch_fields_admin_project.copy()
+        )
         assert response.status_code == status.HTTP_200_OK
 
     def test_not_allowable_patch_fields_configurable(self):
@@ -108,10 +112,14 @@ class TestPatchUser:
         """
 
         requester = SeedUser.get_user(wanda_admin_project)  # project lead for website
-        orig_user_patch_fields_admin_project = user_patch_fields[admin_project].copy()
-        user_patch_fields[admin_project] = ["gmail"]
+        orig_user_patch_fields_admin_project = Cru.user_patch_fields[
+            admin_project
+        ].copy()
+        Cru.user_patch_fields[admin_project] = ["gmail"]
         update_data = {"last_name": "Smith"}
         target_user = SeedUser.get_user(wally_name)
         response = patch_request_to_viewset(requester, target_user, update_data)
         assert response.status_code == status.HTTP_400_BAD_REQUEST
-        user_patch_fields[admin_project] = orig_user_patch_fields_admin_project.copy()
+        Cru.user_patch_fields[admin_project] = (
+            orig_user_patch_fields_admin_project.copy()
+        )

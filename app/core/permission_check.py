@@ -1,9 +1,7 @@
 from rest_framework.exceptions import ValidationError
 
 from constants import admin_global
-from core.cru_permissions import user_patch_fields
-from core.cru_permissions import user_post_fields
-from core.cru_permissions import user_read_fields
+from core.cru import Cru
 from core.models import PermissionType
 from core.models import User
 from core.models import UserPermission
@@ -130,7 +128,7 @@ class PermissionCheck:
         )
         if lowest_ranked_name == "":
             raise PermissionError("You do not have permission to patch this user")
-        valid_fields = user_patch_fields[lowest_ranked_name]
+        valid_fields = Cru.user_patch_fields[lowest_ranked_name]
         print("Debug x2", lowest_ranked_name, valid_fields)
         if len(valid_fields) == 0:
             raise PermissionError("You do not have permission to patch this user")
@@ -158,8 +156,8 @@ class PermissionCheck:
         print("debug", requesting_user.first_name)
         if not PermissionCheck.is_admin(requesting_user):
             raise PermissionError("You do not have permission to create a user")
-        print("debug x1", user_post_fields)
-        valid_fields = user_post_fields[admin_global]
+        print("debug x1", Cru.user_post_fields)
+        valid_fields = Cru.user_post_fields[admin_global]
         disallowed_fields = set(request_fields) - set(valid_fields)
         print("valid fields", valid_fields)
         print("bad", disallowed_fields)
@@ -190,4 +188,4 @@ class PermissionCheck:
         )
         if lowest_ranked_name == "":
             raise PermissionError("You do not have permission to view this user")
-        return user_read_fields[lowest_ranked_name]
+        return Cru.user_read_fields[lowest_ranked_name]

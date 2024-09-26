@@ -1,8 +1,8 @@
 from rest_framework import serializers
 from timezone_field.rest_framework import TimeZoneSerializerField
 
-from core.cru_permissions import profile_value
-from core.cru_permissions import user_read_fields
+from core.cru import Cru
+from core.cru import profile_value
 from core.models import Affiliate
 from core.models import Affiliation
 from core.models import CheckType
@@ -119,7 +119,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = user_read_fields[profile_value]
+        fields = Cru.user_read_fields[profile_value]
 
 
 class ProjectSerializer(serializers.ModelSerializer):

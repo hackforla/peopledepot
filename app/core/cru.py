@@ -3,21 +3,21 @@
 Variables:
 
 
-    user_read_fields:
-        user_read_fields[admin_global]: list of fields a global admin can read for a user
-        user_read_fields[admin_project]: list of fields a project lead can read for a user
-        user_read_fields[member_project]: list of fields a project member can read for a user
-        user_read_fields[practice_lead_project]: list of fields a practice area admin can read for a user
-        user_read_fields[profile_value]: list of fields a user can read when using /me (profile) endpoint
-    user_patch_fields:
-        user_patch_fields[admin_global]: list of fields a global admin can update for a user
-        user_patch_fields[admin_project]: list of fields a project lead can update for a user
-        user_patch_fields[member_project]: list of fields a project member can update for a user
-        user_patch_fields[practice_lead_project]: list of fields a practice area admin can update for a user
-        user_patch_fields[profile_value]: list of fields a user can update when using /me (profile) endpoint
-    user_post_fields:
-        user_post_fields[admin_global]: list of fields a global admin can specify when creating a user
-        user_post_fields[self_value]: list of fields a user can specify when self-registering
+    Cru.user_read_fields:
+        Cru.user_read_fields[admin_global]: list of fields a global admin can read for a user
+        Cru.user_read_fields[admin_project]: list of fields a project lead can read for a user
+        Cru.user_read_fields[member_project]: list of fields a project member can read for a user
+        Cru.user_read_fields[practice_lead_project]: list of fields a practice area admin can read for a user
+        Cru.user_read_fields[profile_value]: list of fields a user can read when using /me (profile) endpoint
+    Cru.user_patch_fields:
+        Cru.user_patch_fields[admin_global]: list of fields a global admin can update for a user
+        Cru.user_patch_fields[admin_project]: list of fields a project lead can update for a user
+        Cru.user_patch_fields[member_project]: list of fields a project member can update for a user
+        Cru.user_patch_fields[practice_lead_project]: list of fields a practice area admin can update for a user
+        Cru.user_patch_fields[profile_value]: list of fields a user can update when using /me (profile) endpoint
+    Cru.user_post_fields:
+        Cru.user_post_fields[admin_global]: list of fields a global admin can specify when creating a user
+        Cru.user_post_fields[self_value]: list of fields a user can specify when self-registering
 """
 
 from constants import admin_global
@@ -192,29 +192,41 @@ def _get_fields_with_priv(field_permissions, cru_permission):
     return ret_array
 
 
-# user_read_fields is populated by _derive_user_priv_fields
-user_read_fields = {
-    admin_global: (),
-    admin_project: (),
-    practice_lead_project: (),
-    member_project: (),
-    self_register_value: (),
-    profile_value: (),
-}
+class Cru:
+    user_read_fields = {
+        admin_global: (),
+        admin_project: (),
+        practice_lead_project: (),
+        member_project: (),
+        self_register_value: (),
+        profile_value: (),
+    }
 
-# user_read_fields is populated by _derive_user_priv_fields
-user_post_fields = user_read_fields.copy()
+    user_patch_fields = {
+        admin_global: (),
+        admin_project: (),
+        practice_lead_project: (),
+        member_project: (),
+        self_register_value: (),
+        profile_value: (),
+    }
 
-# user_read_fields is populated by _derive_user_priv_fields
-user_patch_fields = user_read_fields.copy()
+    user_post_fields = {
+        admin_global: (),
+        admin_project: (),
+        practice_lead_project: (),
+        member_project: (),
+        self_register_value: (),
+        profile_value: (),
+    }
 
 
 def _derive_user_priv_fields():
     """
     Populates following attributes based on values in UserFieldPermissions
-    - user_post_fields
-    - user_patch_fields
-    - user_post_fields
+    - Cru.user_post_fields
+    - Cru.user_patch_fields
+    - Cru.user_post_fields
     -  me_endpoint_read_fields
     -  me_endpoint_patch_fields
     -  self_register_fields
@@ -227,16 +239,15 @@ def _derive_user_priv_fields():
         profile_value,  # "R" and "U" are the only applicable field permission values
         self_register_value,  # "C" is only applicable field permission value
     ]:
-        user_read_fields[permission_type] = _get_fields_with_priv(
+        Cru.user_read_fields[permission_type] = _get_fields_with_priv(
             _cru_permissions[permission_type], "R"
         )
-        user_patch_fields[permission_type] = _get_fields_with_priv(
+        Cru.user_patch_fields[permission_type] = _get_fields_with_priv(
             _cru_permissions[permission_type], "U"
         )
-        user_post_fields[permission_type] = _get_fields_with_priv(
+        Cru.user_post_fields[permission_type] = _get_fields_with_priv(
             _cru_permissions[permission_type], "C"
         )
-        print("debug x", permission_type, user_post_fields)
 
 
 _derive_user_priv_fields()
