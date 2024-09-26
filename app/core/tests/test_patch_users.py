@@ -87,7 +87,7 @@ class TestPatchUser:
         server can be set to test values.
         """
 
-        orig_user_patch_fields = user_patch_fields.copy()
+        orig_user_patch_fields_admin_project = user_patch_fields.copy()
         user_patch_fields[admin_project] = [
             "last_name",
             "gmail",
@@ -98,9 +98,8 @@ class TestPatchUser:
         target_user = SeedUser.get_user(wally_name)
         response = patch_request_to_viewset(requester, target_user, update_data)
 
+        user_patch_fields[admin_project] = orig_user_patch_fields_admin_project.copy()
         assert response.status_code == status.HTTP_200_OK
-        user_patch_fields.clear()
-        user_patch_fields.update(orig_user_patch_fields)
 
     def test_not_allowable_patch_fields_configurable(self):
         """Test that the fields that are not configured to be updated cannot be updated.
@@ -109,11 +108,10 @@ class TestPatchUser:
         """
 
         requester = SeedUser.get_user(wanda_admin_project)  # project lead for website
-        orig_user_patch_fields = user_patch_fields.copy()
+        orig_user_patch_fields_admin_project = user_patch_fields[admin_project].copy()
         user_patch_fields[admin_project] = ["gmail"]
         update_data = {"last_name": "Smith"}
         target_user = SeedUser.get_user(wally_name)
         response = patch_request_to_viewset(requester, target_user, update_data)
         assert response.status_code == status.HTTP_400_BAD_REQUEST
-        user_patch_fields.clear()
-        user_patch_fields.update(orig_user_patch_fields)
+        user_patch_fields[admin_project] = orig_user_patch_fields_admin_project.copy()

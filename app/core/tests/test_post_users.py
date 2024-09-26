@@ -45,7 +45,7 @@ class TestPostUser:
         calls the view directly with the request.  This is done so that variables used by the
         server can be set to test values.
         """
-
+        orig_user_post_fields_admin_global = user_post_fields[admin_global].copy()
         user_post_fields[admin_global] = [
             "username",
             "first_name",
@@ -68,6 +68,7 @@ class TestPostUser:
             "created_at": "2022-01-01T00:00:00Z",
         }
         response = post_request_to_viewset(requester, create_data)
+        user_post_fields[admin_global] = orig_user_post_fields_admin_global.copy()
 
         assert response.status_code == status.HTTP_201_CREATED
 
@@ -79,7 +80,7 @@ class TestPostUser:
 
         See documentation for test_allowable_patch_fields_configurable for more information.
         """
-
+        orig_user_post_fields_admin_global = user_post_fields[admin_global].copy()
         user_post_fields[admin_global] = [
             "username",
             "first_name",
@@ -100,5 +101,6 @@ class TestPostUser:
             "created_at": "2022-01-01T00:00:00Z",
         }
         response = post_request_to_viewset(requester, post_data)
+        user_post_fields[admin_global] = orig_user_post_fields_admin_global.copy()
 
         assert response.status_code == status.HTTP_400_BAD_REQUEST
