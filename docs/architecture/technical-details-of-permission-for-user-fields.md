@@ -32,11 +32,11 @@ The following API endpoints retrieve users:
 - Row level security
 
     - Functionality:
-      - Global admins, can create, read, and update any user row.
-      - Any team member can read any other project member.
-      - Project leads can update any team member.
-      - Practice leads can update any team member in the same practice area (not currently implemented)
-      - [ ] Todo: Check if above bullet is implemented or needs a separate bug
+        - Global admins, can create, read, and update any user row.
+        - Any team member can read any other project member.
+        - Project leads can update any team member.
+        - Practice leads can update any team member in the same practice area (not currently implemented)
+        - [ ] Todo: Check if above bullet is implemented or needs a separate bug
 
 - Field level security:
 
@@ -80,6 +80,7 @@ Create a new user row without logging in.  For field permissions, search for "se
 `[user_assignment_field_cru_permissions.py]`
 
 - [ ] Todo: File separate bug for eligble users
+
 #### /eligible-users/<project id>?scope=\<all/team/notteam> - List users.
 
 A separate API for assigning the user to a project team is covered by a different document.
