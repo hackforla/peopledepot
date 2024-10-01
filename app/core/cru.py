@@ -1,25 +1,3 @@
-"""Variables that define the fields that can be read or updated by a user based on user permissionss
-
-Variables:
-
-
-    Cru.user_read_fields:
-        Cru.user_read_fields[admin_global]: list of fields a global admin can read for a user
-        Cru.user_read_fields[admin_project]: list of fields a project lead can read for a user
-        Cru.user_read_fields[member_project]: list of fields a project member can read for a user
-        Cru.user_read_fields[practice_lead_project]: list of fields a practice area admin can read for a user
-        Cru.user_read_fields[profile_value]: list of fields a user can read when using /me (profile) endpoint
-    Cru.user_patch_fields:
-        Cru.user_patch_fields[admin_global]: list of fields a global admin can update for a user
-        Cru.user_patch_fields[admin_project]: list of fields a project lead can update for a user
-        Cru.user_patch_fields[member_project]: list of fields a project member can update for a user
-        Cru.user_patch_fields[practice_lead_project]: list of fields a practice area admin can update for a user
-        Cru.user_patch_fields[profile_value]: list of fields a user can update when using /me (profile) endpoint
-    Cru.user_post_fields:
-        Cru.user_post_fields[admin_global]: list of fields a global admin can specify when creating a user
-        Cru.user_post_fields[self_value]: list of fields a user can specify when self-registering
-"""
-
 from constants import admin_global
 from constants import admin_project
 from constants import member_project
@@ -193,6 +171,28 @@ def _get_fields_with_priv(field_permissions, cru_permission):
 
 
 class Cru:
+    """Variables that define the fields that can be read or updated by a user based on user permissionss
+
+    Variables:
+
+
+        Cru.user_read_fields:
+            Cru.user_read_fields[admin_global]: list of fields a global admin can read for a user
+            Cru.user_read_fields[admin_project]: list of fields a project lead can read for a user
+            Cru.user_read_fields[member_project]: list of fields a project member can read for a user
+            Cru.user_read_fields[practice_lead_project]: list of fields a practice area admin can read for a user
+            Cru.user_read_fields[profile_value]: list of fields a user can read when using /me (profile) endpoint
+        Cru.user_patch_fields:
+            Cru.user_patch_fields[admin_global]: list of fields a global admin can update for a user
+            Cru.user_patch_fields[admin_project]: list of fields a project lead can update for a user
+            Cru.user_patch_fields[member_project]: list of fields a project member can update for a user
+            Cru.user_patch_fields[practice_lead_project]: list of fields a practice area admin can update for a user
+            Cru.user_patch_fields[profile_value]: list of fields a user can update when using /me (profile) endpoint
+        Cru.user_post_fields:
+            Cru.user_post_fields[admin_global]: list of fields a global admin can specify when creating a user
+            Cru.user_post_fields[self_register_value]: list of fields a user can specify when self-registering
+    """
+
     user_read_fields = {
         admin_global: (),
         admin_project: (),
@@ -236,15 +236,16 @@ def _derive_user_priv_fields():
         member_project,
         practice_lead_project,
         admin_global,
-        profile_value,  # "R" and "U" are the only applicable field permission values
-        self_register_value,  # "C" is only applicable field permission value
+        profile_value,
     ]:
         Cru.user_read_fields[permission_type] = _get_fields_with_priv(
             _cru_permissions[permission_type], "R"
         )
+
         Cru.user_patch_fields[permission_type] = _get_fields_with_priv(
             _cru_permissions[permission_type], "U"
         )
+        # only applicable to admin_global and self_register_value
         Cru.user_post_fields[permission_type] = _get_fields_with_priv(
             _cru_permissions[permission_type], "C"
         )
