@@ -14,11 +14,10 @@
 Field level security specifics are derived from u[user_field_permissions_constants.py](../../app/core/cru_permissions.py).  The file includes several lists that
 you can use to derive different privileges.  Search for these terms
 
-- self_register_end_point
-- me_endpoint
-- user_assignment_field_cru_permissions\[member_project\]
-- user_assignment_field_cru_permissions\[practice_lead_project\],
-- user_assignment_field_cru_permissions\[admin_global\]
+- `user_assignment_field_cru_permissions[profile_value]`
+- `user_assignment_field_cru_permissions[member_project]`
+- `user_assignment_field_cru_permissions[practice_lead_project]`
+- `user_assignment_field_cru_permissions[admin_global]`
     }
     fields followed by CRU or a subset of CRU for Create/Read/Update.  Example:
     first_name:\["RU"\] for a list would indicate that first name is readable and updateable
