@@ -74,16 +74,9 @@ do not apply.
 \- Row Level Security: Logged in user can always read and update their own information
 \- Field Level Security: For read and update permissions, see "me_endpoint_read_fields" and "me_endpoint_patch_fields" in[user_field_permissions_constants.py](../../app/core/user_field_permissions_constants.py).
 
-#### /self-register end point
-
-Create a new user row without logging in.  For field permissions, search for "self_register_permissions" in
-`[user_assignment_field_cru_permissions.py]`
-
-- [ ] Todo: File separate bug for eligble users
-
 #### /eligible-users/<project id>?scope=\<all/team/notteam> - List users.
 
-A separate API for assigning the user to a project team is covered by a different document.
+This is covered by issue #394
 
 ### Technical implementation
 
