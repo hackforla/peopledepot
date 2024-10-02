@@ -4,39 +4,14 @@ from constants import member_project
 from constants import practice_lead_project
 
 profile_value = "profile"
-self_register_value = "self"
 
 _cru_permissions = {
     member_project: {},
     practice_lead_project: {},
     admin_project: {},
     admin_global: {},
-    self_register_value: {},
     profile_value: {},
 }
-
-_cru_permissions[self_register_value] = {
-    "username": "C",
-    "first_name": "C",
-    "last_name": "C",
-    "gmail": "C",
-    "preferred_email": "C",
-    "linkedin_account": "C",
-    "github_handle": "C",
-    "phone": "C",
-    "texting_ok": "C",
-    # "intake_current_job_title": "C",
-    # "intake_target_job_title": "C",
-    "current_job_title": "C",
-    "target_job_title": "C",
-    # "intake_current_skills": "C",
-    # "intake_target_skills": "C",
-    "current_skills": "C",
-    "target_skills": "C",
-    "time_zone": "C",
-    "password": "C",
-}
-
 
 # permissions for the "me" endpoint which is used for the user to view and
 # patch their own information
@@ -190,7 +165,6 @@ class Cru:
             Cru.user_patch_fields[profile_value]: list of fields a user can update when using /me (profile) endpoint
         Cru.user_post_fields:
             Cru.user_post_fields[admin_global]: list of fields a global admin can specify when creating a user
-            Cru.user_post_fields[self_register_value]: list of fields a user can specify when self-registering
     """
 
     user_read_fields = {
@@ -198,7 +172,6 @@ class Cru:
         admin_project: (),
         practice_lead_project: (),
         member_project: (),
-        self_register_value: (),
         profile_value: (),
     }
 
@@ -207,7 +180,6 @@ class Cru:
         admin_project: (),
         practice_lead_project: (),
         member_project: (),
-        self_register_value: (),
         profile_value: (),
     }
 
@@ -216,7 +188,6 @@ class Cru:
         admin_project: (),
         practice_lead_project: (),
         member_project: (),
-        self_register_value: (),
         profile_value: (),
     }
 
@@ -229,7 +200,6 @@ def _derive_user_priv_fields():
     - Cru.user_post_fields
     -  me_endpoint_read_fields
     -  me_endpoint_patch_fields
-    -  self_register_fields
     """
     for permission_type in [
         admin_project,
@@ -245,7 +215,7 @@ def _derive_user_priv_fields():
         Cru.user_patch_fields[permission_type] = _get_fields_with_priv(
             _cru_permissions[permission_type], "U"
         )
-        # only applicable to admin_global and self_register_value
+        # only applicable to admin_global
         Cru.user_post_fields[permission_type] = _get_fields_with_priv(
             _cru_permissions[permission_type], "C"
         )

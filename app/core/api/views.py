@@ -150,6 +150,7 @@ class UserViewSet(viewsets.ModelViewSet):
             new_user_data["time_zone"] = "America/Los_Angeles"
 
         # Log or print the instance and update_data for debugging
+
         PermissionCheck.validate_fields_postable(request.user, new_user_data)
         response = super().create(request, *args, **kwargs)
         return response

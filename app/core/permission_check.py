@@ -129,7 +129,6 @@ class PermissionCheck:
         if lowest_ranked_name == "":
             raise PermissionError("You do not have permission to patch this user")
         valid_fields = Cru.user_patch_fields[lowest_ranked_name]
-        print("Debug x2", lowest_ranked_name, valid_fields)
         if len(valid_fields) == 0:
             raise PermissionError("You do not have permission to patch this user")
 
@@ -153,14 +152,11 @@ class PermissionCheck:
         Returns:
             None
         """
-        print("debug", requesting_user.first_name)
         if not PermissionCheck.is_admin(requesting_user):
             raise PermissionError("You do not have permission to create a user")
-        print("debug x1", Cru.user_post_fields)
         valid_fields = Cru.user_post_fields[admin_global]
         disallowed_fields = set(request_fields) - set(valid_fields)
-        print("valid fields", valid_fields)
-        print("bad", disallowed_fields)
+
         if disallowed_fields:
             invalid_fields = ", ".join(disallowed_fields)
             valid_fields = ", ".join(valid_fields)
