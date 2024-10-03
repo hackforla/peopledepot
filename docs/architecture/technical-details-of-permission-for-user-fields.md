@@ -14,10 +14,10 @@
 Field level security specifics are derived from u[cru.py](../../app/core/cru_permissions.py).  The file includes several lists that
 you can use to derive different privileges.  Search for these terms
 
-- `user_assignment_field[profile_value]`
-- `user_assignment_field[member_project]`
-- `user_assignment_field[practice_lead_project]`
-- `user_assignment_field[admin_global]`
+- `user_assignment_field_cru_permissions[profile_value]`
+- `user_assignment_field_cru_permissions[member_project]`
+- `user_assignment_field_cru_permissions[practice_lead_project]`
+- `user_assignment_field_cru_permissions[admin_global]`
     }
     fields followed by CRU or a subset of CRU for Create/Read/Update.  Example:
     first_name:\["RU"\] for a list would indicate that first name is readable and updateable
@@ -30,11 +30,12 @@ The following API endpoints retrieve users:
 #### /users endpoint functionality
 
 - Row level security
-    \- Global admins, can create, read, and update any user row.
-    \- Any team member can read any other project member.
-    \- Project leads can update any team member.
-    \- Practice leads can update any team member in the same practice area (not currently implemented)
-    \- \[ \] Todo: Check if above bullet is implemented or needs a separate bug
+
+    - Functionality:
+        - Global admins, can create, read, and update any user row.
+        - Any team member can read any other project member.
+        - Project leads can update any team member.
+        - Practice leads can update any team member in the same practice area (not currently implemented)
 
 - Field level security:
 
@@ -66,10 +67,11 @@ The following API endpoints retrieve users:
 
 #### /me endpoint functionality
 
-Used for reading and updating information about the user that is logged in.  User permission assignments
-do not apply.
-\- Row Level Security: Logged in user can always read and update their own information
-\- Field Level Security: For read and update permissions, see "me_endpoint_read_fields" and "me_endpoint_patch_fields" in[cru.py](../../app/core/cru.py).
+# Used for reading and updating information about the user that is logged in.  User permission assignments do not apply. - Row Level Security: Logged in user can always read and update their own information \<\<\<\<\<\<\< HEAD - Field Level Security: For read and update permissions, see "me_endpoint_read_fields" and "me_endpoint_patch_fields" in[cru.py](../../app/core/cru.py).
+
+\- Field Level Security: For read and update permissions, see "me_endpoint_read_fields" and "me_endpoint_patch_fields" in[user_field_permissions_constants.py](../../app/core/user_field_permissions_constants.py).
+
+> > > > > > > 8b6189dd6c1a1cec8f0bcf5231a10df34fe092a9
 
 #### /eligible-users/<project id>?scope=\<all/team/notteam> - List users.
 
