@@ -1,8 +1,8 @@
 # Docker
 
-## 3. Managing Docker
+## Managing Docker
 
-### 3.1 Stopping Docker
+### Stopping Docker
 
 To stop the service-container, but not destroy it (often sufficient for day-to-day work):
 
@@ -22,7 +22,7 @@ Add the `-v` flag to destroy the data volumes as well:
 docker-compose down -v
 ```
 
-### 3.2 Recycling / Refreshing Database
+### Recycling / Refreshing Database
 
 To restore a database to its original state and remove any data manually added, delete the container and image.
 From Docker:
