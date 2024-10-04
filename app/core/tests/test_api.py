@@ -22,6 +22,7 @@ PROGRAM_AREA_URL = reverse("program-area-list")
 SKILL_URL = reverse("skill-list")
 STACK_ELEMENT_URL = reverse("stack-element-list")
 PERMISSION_TYPE = reverse("permission-type-list")
+PROJECT_URL = reverse("project-list")
 STACK_ELEMENT_TYPE_URL = reverse("stack-element-type-list")
 SDG_URL = reverse("sdg-list")
 AFFILIATION_URL = reverse("affiliation-list")
@@ -381,3 +382,14 @@ def test_create_soc_major(auth_client):
     res = auth_client.post(SOC_MAJOR_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
     assert res.data["title"] == payload["title"]
+
+
+# def test_project_program_area_xref(auth_client, project, program_area):
+#     project.program_areas.add(program_area)
+#     project.save()
+
+#     proj_res = auth_client.get(PROJECT_URL)
+#     program_area_res = auth_client.get(PROGRAM_AREA_URL)
+
+#     assert filter(lambda proj: str(proj["uuid"]) == str(project.pk), proj_res.data)
+#     assert filter(lambda _sdg: str(_program_area["uuid"]) == str(program_area.pk), program_area_res)

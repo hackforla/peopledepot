@@ -3,6 +3,8 @@ import re
 import pytest
 
 from ..models import Event
+from ..models import ProgramArea
+from ..models import Project
 
 pytestmark = pytest.mark.django_db
 
@@ -145,3 +147,33 @@ def test_check_type(check_type):
 
 def test_soc_major(soc_major):
     assert str(soc_major) == "Test Soc Major"
+
+
+def test_project_program_area_relationship(project):
+    civic_tech_infrastructure_program_area = ProgramArea.objects.get(
+        name="Civic Tech Infrastructure"
+    )
+    workforce_program_area = ProgramArea.objects.get(name="Workforce Development")
+    hack_for_la_project = Project.objects.create(name="Hack for LA Site")
+    hack_for_la_project.program_areas.add(
+        civic_tech_infrastructure_program_area, workforce_program_area
+    )
+    assert hack_for_la_project.program_areas.count() == 2
+    assert hack_for_la_project.program_areas.contains(
+        civic_tech_infrastructure_program_area
+    )
+    assert hack_for_la_project.program_areas.contains(workforce_program_area)
+    assert civic_tech_infrastructure_program_area.projects.contains(hack_for_la_project)
+    assert workforce_program_area.projects.contains(hack_for_la_project)
+
+    hack_for_la_project.program_areas.remove(civic_tech_infrastructure_program_area)
+    assert hack_for_la_project.program_areas.count() == 1
+    assert not hack_for_la_project.program_areas.contains(
+        civic_tech_infrastructure_program_area
+    )
+    assert hack_for_la_project.program_areas.contains(workforce_program_area)
+
+    assert not civic_tech_infrastructure_program_area.projects.contains(
+        hack_for_la_project
+    )
+    assert workforce_program_area.projects.contains(hack_for_la_project)
