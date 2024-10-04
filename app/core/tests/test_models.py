@@ -5,6 +5,8 @@ import pytest
 from ..models import Event
 from ..models import ProjectSdgXref
 from ..models import Sdg
+from ..models import ProgramArea
+from ..models import ProjectProgramAreaXref
 
 pytestmark = pytest.mark.django_db
 
@@ -147,6 +149,24 @@ def test_check_type(check_type):
 
 def test_soc_major(soc_major):
     assert str(soc_major) == "Test Soc Major"
+
+
+def test_project_program_area_relationship(project):
+    workforce_development_program_area = ProgramArea.objects.get(
+        name="Workforce Development"
+    )
+    project.program_areas.add(workforce_development_program_area)
+    assert project.program_areas.count() == 1
+    assert project.program_areas.contains(workforce_development_program_area)
+    assert workforce_development_program_area.projects.contains(project)
+    workforce_development_program_area_xref = ProjectProgramAreaXref.objects.get(
+        project=project, program_area=workforce_development_program_area
+    )
+    assert workforce_development_program_area_xref.created_at is not None
+    project.program_areas.remove(workforce_development_program_area)
+    assert project.program_areas.count() == 0
+    assert not workforce_development_program_area.projects.contains(project)
+    assert not project.program_areas.contains(workforce_development_program_area)
 
 
 def test_project_sdg_relationship(project):
