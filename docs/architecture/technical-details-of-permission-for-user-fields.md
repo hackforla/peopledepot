@@ -52,7 +52,7 @@ The following API endpoints retrieve users:
             the team member is in the same practice area,\
             Search for for `_user_permissions[practice_lead_project]` in [cru.py](../../app/core/cru.py)
 
-            If user being queried is not from the same practice area then search for `user_assignment_field[member_project]`
+            If user being queried is not from the same practice area then search for `_user_permissions[member_project]`
 
             Note: As of 24-Sep-2024, the implemented code treats practice area leads the same as project
             admins.
