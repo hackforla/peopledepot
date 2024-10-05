@@ -30,9 +30,9 @@ repos:
       - id: fix-encoding-pragma
         args: [--remove]
       - id: fix-byte-order-marker
-      # - id: name-tests-test
-      #   exclude: ^utils/
-      #   args: [--pytest-test-first]
+      - id: name-tests-test
+        args: [--pytest-test-first]
+        exclude: ^utils/
 
       # general quality checks
       - id: mixed-line-ending
