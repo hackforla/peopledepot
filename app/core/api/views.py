@@ -121,6 +121,7 @@ class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
     ),
     create=extend_schema(description="Create a new user"),
     retrieve=extend_schema(description="Return the given user"),
+    destroy=extend_schema(description="Delete the given user"),
     update=extend_schema(description="Update the given user"),
     partial_update=extend_schema(description="Update the given user"),
 )
