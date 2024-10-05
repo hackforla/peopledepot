@@ -20,7 +20,7 @@ from core.tests.utils.seed_user import SeedUser
 
 def load_data():
     """Populalates projects, users, and userpermissions with seed data
-    used by the tests in the core app.
+    that is used by the tests in the core app.
 
     Called from django_db_setup which is automatcallly called by pytest-django
     before any test is executed.
