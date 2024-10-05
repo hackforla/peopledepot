@@ -101,6 +101,8 @@ class UserSerializer(serializers.ModelSerializer):
 class ProjectSerializer(serializers.ModelSerializer):
     """Used to retrieve project info"""
 
+    program_areas = serializers.StringRelatedField(many=True)
+
     class Meta:
         model = Project
         fields = (
@@ -117,6 +119,7 @@ class ProjectSerializer(serializers.ModelSerializer):
             "image_logo",
             "image_hero",
             "image_icon",
+            "program_areas",
         )
         read_only_fields = (
             "uuid",
@@ -227,9 +230,11 @@ LocationSerializer._declared_fields["zip"] = serializers.CharField(source="zipco
 class ProgramAreaSerializer(serializers.ModelSerializer):
     """Used to retrieve program_area info"""
 
+    projects = serializers.StringRelatedField(many=True)
+
     class Meta:
         model = ProgramArea
-        fields = ("uuid", "name", "description", "image")
+        fields = ("uuid", "name", "description", "image", "projects")
         read_only_fields = ("uuid", "created_at", "updated_at")
 
 
