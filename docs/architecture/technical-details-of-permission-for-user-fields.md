@@ -19,7 +19,7 @@ you can use to derive different privileges.  Search for these terms
 - `_cru_permissions[practice_lead_project]`
 - `_cru_permissions[admin_global]`
     fields followed by CRU or a subset of CRU for Create/Read/Update.  Example:
-    first_name:\["RU"\] for a list would indicate that first name is readable and updateable
+    `first_name:["RU"]` for a list would indicate that first name is readable and updateable
     for the list.
 
 ### Functionality
