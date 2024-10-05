@@ -66,7 +66,10 @@ The following API endpoints retrieve users:
 
 #### /me endpoint functionality
 
-Used for reading and updating information about the user that is logged in.  User permission assignments do not apply. - Row Level Security: Logged in user can always read and update their own information \<\<\<\<\<\<\< HEAD - Field Level Security: For read and update permissions, see "me_endpoint_read_fields" and "me_endpoint_patch_fields" in[cru.py](../../app/core/cru.py).
+Used for reading and updating information about the user that is logged in.  User permission assignments do not apply.
+
+- Row Level Security: Logged in user can always read and update their own information.
+    Field Level Security: For read and update permissions, see "me_endpoint_read_fields" and "me_endpoint_patch_fields" in[cru.py](../../app/core/cru.py).
 
 \- Field Level Security: For read and update permissions, see "me_endpoint_read_fields" and "me_endpoint_patch_fields" in[user_field_permissions_constants.py](../../app/core/user_field_permissions_constants.py).
 
