@@ -73,8 +73,6 @@ Used for reading and updating information about the user that is logged in.  Use
 
 \- Field Level Security: For read and update permissions, see "me_endpoint_read_fields" and "me_endpoint_patch_fields" in[user_field_permissions_constants.py](../../app/core/user_field_permissions_constants.py).
 
-> > > > > > > 8b6189dd6c1a1cec8f0bcf5231a10df34fe092a9
-
 #### /eligible-users/<project id>?scope=\<all/team/notteam> - List users.
 
 This is covered by issue #394
