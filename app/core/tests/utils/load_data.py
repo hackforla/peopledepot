@@ -41,17 +41,17 @@ def load_data():
         project = Project.objects.create(name=project_name)
         project.save()
     SeedUser.create_user(
-        first_name=wanda_admin_project, description="Website project lead"
+        first_name=wanda_admin_project, description="Website project admin"
     )
     SeedUser.create_user(first_name=wally_name, description="Website member")
     SeedUser.create_user(first_name=winona_name, description="Website member")
     SeedUser.create_user(
         first_name=zani_name,
-        description="Website member and People Depot project lead",
+        description="Website member and People Depot project admin",
     )
     SeedUser.create_user(first_name=patti_name, description="People Depot member")
     SeedUser.create_user(
-        first_name=patrick_practice_lead, description="People Depot project lead"
+        first_name=patrick_practice_lead, description="People Depot project admin"
     )
     SeedUser.create_user(first_name=garry_name, description="Global admin")
     SeedUser.get_user(garry_name).is_superuser = True

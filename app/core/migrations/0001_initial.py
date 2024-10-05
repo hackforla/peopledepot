@@ -5,6 +5,7 @@ import django.contrib.auth.validators
 from django.db import migrations, models
 import uuid
 
+
 class Migration(migrations.Migration):
 
     initial = True

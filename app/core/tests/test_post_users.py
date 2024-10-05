@@ -26,13 +26,6 @@ def post_request_to_viewset(requester, create_data):
     return response
 
 
-# @pytest.fixture(scope='class', autouse=True)
-# def special_data_setup(db):  # Use the db fixture to enable database access
-#     # Load your special data here
-#     call_command('load_data_command')  # Replace with your command
-#     yield
-
-
 @pytest.mark.django_db
 class TestPostUser:
     def setup_method(self):
