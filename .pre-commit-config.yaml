@@ -31,7 +31,6 @@ repos:
         args: [--remove]
       - id: fix-byte-order-marker
       - id: name-tests-test
-        exclude: '^(app/core/tests/utils/.*|app/core/tests/management/commands/.*)$'
         args: [--pytest-test-first]
 
       # general quality checks
@@ -63,6 +62,7 @@ repos:
     hooks:
       - id: black
         exclude: ^app/core/migrations/
+
   - repo: https://github.com/adamchainz/blacken-docs
     rev: 1.18.0
     hooks:
@@ -75,7 +75,7 @@ repos:
     hooks:
       - id: flake8
         exclude: "^app/core/migrations/|^app/data/migrations/|^app/core/scripts"
-        args: [--max-line-length=119, --max-complexity=4, --pytest-fixture-no-parentheses, --exclude=migrations,app/core/scripts,app/core/migrations]
+        args: [--max-line-length=119, --max-complexity=4, --pytest-fixture-no-parentheses]
         additional_dependencies:
           [
             flake8-bugbear,
@@ -134,7 +134,6 @@ repos:
       - id: ruff-format
         exclude: ^app/core/migrations/
 
-
   - repo: https://github.com/executablebooks/mdformat
     rev: 0.7.17
     hooks:
@@ -161,7 +160,7 @@ repos:
         stages: [push]
       - id: test
         name: test
-        entry: ./scripts/test.sh -s --verbose --no-cov
+        entry: ./scripts/test.sh
         language: system
         pass_filenames: false
         always_run: true
