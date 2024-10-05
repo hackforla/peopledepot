@@ -58,7 +58,7 @@ The following API endpoints retrieve users:
             admins.
 
         - Project members can read fields specified in
-            [cru.py](../../app/core/cru.py) for fellow team members.\
+            [cru.py](../../app/core/cru.py) for fellow team members.
             Search for for `_user_permissions[member_project]` in [cru.py](../../app/core/cru.py)
 
     Note: for non global admins, the /me endpoint, which can be used when reading or
