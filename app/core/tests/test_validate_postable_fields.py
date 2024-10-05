@@ -4,8 +4,8 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.test import APIRequestFactory
 from rest_framework.test import force_authenticate
 
+from core.api.permission_check import PermissionCheck
 from core.api.views import UserViewSet
-from core.permission_check import PermissionCheck
 from core.tests.utils.load_data import load_data
 from core.tests.utils.seed_constants import garry_name
 from core.tests.utils.seed_constants import wanda_admin_project

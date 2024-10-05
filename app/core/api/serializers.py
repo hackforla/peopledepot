@@ -1,8 +1,9 @@
 from rest_framework import serializers
 from timezone_field.rest_framework import TimeZoneSerializerField
 
-from core.cru import Cru
-from core.cru import profile_value
+from core.api.cru import Cru
+from core.api.cru import profile_value
+from core.api.permission_check import PermissionCheck
 from core.models import Affiliate
 from core.models import Affiliation
 from core.models import CheckType
@@ -21,7 +22,6 @@ from core.models import StackElement
 from core.models import StackElementType
 from core.models import User
 from core.models import UserPermission
-from core.permission_check import PermissionCheck
 
 
 class PracticeAreaSerializer(serializers.ModelSerializer):

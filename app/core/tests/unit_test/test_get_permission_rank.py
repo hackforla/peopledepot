@@ -3,10 +3,10 @@ import pytest
 from constants import admin_global
 from constants import admin_project
 from constants import member_project
+from core.api.permission_check import PermissionCheck
 from core.models import PermissionType
 from core.models import Project
 from core.models import UserPermission
-from core.permission_check import PermissionCheck
 from core.tests.utils.load_data import load_data
 from core.tests.utils.seed_constants import garry_name
 from core.tests.utils.seed_constants import patrick_practice_lead

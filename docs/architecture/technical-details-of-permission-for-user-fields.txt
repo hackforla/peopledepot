@@ -18,8 +18,9 @@ you can use to derive different privileges.  Search for these terms
 - `_cru_permissions[member_project]`
 - `_cru_permissions[practice_lead_project]`
 - `_cru_permissions[admin_global]`
+    }
     fields followed by CRU or a subset of CRU for Create/Read/Update.  Example:
-    first_name:\["RU"\] for a list would indicate that first name is readable and updateable
+    `first_name:["RU"]` for a list would indicate that first name is readable and updateable
     for the list.
 
 ### Functionality
@@ -41,7 +42,7 @@ The following API endpoints retrieve users:
     - /user end point:
         - Global admins can read, update, and create fields specified in
             [cru.py](../../app/core/cru.py).  Search for
-            \`\`user_assignment_field\[admin_global\]\`).
+            `_user_permissions[admin_global]`).
 
         - Project admins can read and update fields specified in
             [cru.py](../../app/core/cru.py) for other project leads.\
@@ -52,13 +53,13 @@ The following API endpoints retrieve users:
             the team member is in the same practice area,\
             Search for for `_user_permissions[practice_lead_project]` in [cru.py](../../app/core/cru.py)
 
-            If user being queried is not from the same practice area then search for `user_assignment_field[member_project]`
+            If user being queried is not from the same practice area then search for `_user_permissions[member_project]`
 
             Note: As of 24-Sep-2024, the implemented code treats practice area leads the same as project
             admins.
 
         - Project members can read fields specified in
-            [cru.py](../../app/core/cru.py) for fellow team members.\
+            [cru.py](../../app/core/cru.py) for fellow team members.
             Search for for `_user_permissions[member_project]` in [cru.py](../../app/core/cru.py)
 
     Note: for non global admins, the /me endpoint, which can be used when reading or
@@ -66,9 +67,10 @@ The following API endpoints retrieve users:
 
 #### /me endpoint functionality
 
-# Used for reading and updating information about the user that is logged in.  User permission assignments do not apply. - Row Level Security: Logged in user can always read and update their own information \<\<\<\<\<\<\< HEAD - Field Level Security: For read and update permissions, see "me_endpoint_read_fields" and "me_endpoint_patch_fields" in[cru.py](../../app/core/cru.py).
+Used for reading and updating information about the user that is logged in.  User permission assignments do not apply. - Row Level Security: Logged in user can always read and update their own information
+- Field Level Security: For read and update permissions, see "me_endpoint_read_fields" and "me_endpoint_patch_fields" in[cru.py](../../app/core/cru.py).
 
-\- Field Level Security: For read and update permissions, see "me_endpoint_read_fields" and "me_endpoint_patch_fields" in[user_field_permissions_constants.py](../../app/core/user_field_permissions_constants.py).
+- Field Level Security: For read and update permissions, see "me_endpoint_read_fields" and "me_endpoint_patch_fields" in[user_field_permissions_constants.py](../../app/core/user_field_permissions_constants.py).
 
 > > > > > > > 8b6189dd6c1a1cec8f0bcf5231a10df34fe092a9
 
@@ -96,7 +98,7 @@ don't match what is implemented then this file needs to change.
         - /user - see above bullet about response fields.
         - /user/<uuid> fetches a specific user.  See above bullet about response fields.  If the requester does not have permission
             to view the user, PermisssionUtil.get_user_read_fields will find no fields to serialize and throw a ValidationError
-- patch (update): `UserViewSet.partial_update` => `PermissionCheck.validate_patch_request(request)`.  
+- patch (update): `UserViewSet.partial_update` => `PermissionCheck.validate_patch_request(request)`.
 validate_fields_patchable(requesting_user, target_user, request_fields)` will compare request fields
 against Cru.user_post_fields[admin_global] which is derived from _cru_permissions.  If the request fields
     include a field outside the requester's scope, the method returns a PermissionError, otherwise the
@@ -108,14 +110,11 @@ against Cru.user_post_fields[admin_global] which is derived from _cru_permission
 
 ##### /me end point technical implementation
 
-```
 - response fields for get and patch: `UserProfileAPISerializer.to_representation` => `PermissionCheck.get_user_read_fields` determines which fields are serialized.
 - get: see response fields above.  No request fields accepted.  **views.py, serializer.py**
-- patch (update): By default, calls super().update_partial of UserProfileAPIView for
-    the requesting user to update themselves.  **views.py, serializer.py**
+- patch (update): controlled by partial_update method in UserProfileAPIView.  Calls validate_fields_patchable which raises an exception if the user does not have privilege to update the fields specified in the request.  If successful, calls super().partial_update.  **views.py, serializer.py (for response - see get) **
 - post (create): not applicable.  Prevented by setting http_method_names in
-    UserProfileAPIView to \["patch", "get"\]
-```
+    UserProfileAPIView to `["patch", "get"]`
 
 #### Supporting Files
 

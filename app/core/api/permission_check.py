@@ -1,7 +1,7 @@
 from rest_framework.exceptions import ValidationError
 
 from constants import admin_global
-from core.cru import Cru
+from core.api.cru import Cru
 from core.models import PermissionType
 from core.models import User
 from core.models import UserPermission

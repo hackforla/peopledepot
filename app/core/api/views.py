@@ -10,7 +10,7 @@ from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
-from core.permission_check import PermissionCheck
+from core.api.permission_check import PermissionCheck
 
 from ..models import Affiliate
 from ..models import Affiliation
