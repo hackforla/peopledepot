@@ -28,6 +28,7 @@ SDGS_URL = reverse("sdg-list")
 AFFILIATION_URL = reverse("affiliation-list")
 CHECK_TYPE_URL = reverse("check-type-list")
 SOC_MAJOR_URL = reverse("soc-major-list")
+URL_TYPE_URL = reverse("url-type-list")
 
 CREATE_USER_PAYLOAD = {
     "username": "TestUserAPI",
@@ -405,3 +406,16 @@ def test_project_sdg_xref(auth_client, project, sdg, sdg1):
     assert test_sdg is not None
     assert len(test_sdg["projects"]) == 1
     assert project.name in test_sdg["projects"]
+
+
+def test_create_url_type(auth_client):
+    """Test that we can create a url type"""
+
+    payload = {
+        "name": "This is a test url type name",
+        "description": "this is a test url type description",
+    }
+    res = auth_client.post(URL_TYPE_URL, payload)
+    assert res.status_code == status.HTTP_201_CREATED
+    assert res.data["name"] == payload["name"]
+    assert res.data["description"] == payload["description"]
