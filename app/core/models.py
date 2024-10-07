@@ -144,6 +144,12 @@ https://api.github.com/repos/[org]/[repo]',
     image_logo = models.URLField(blank=True)
     image_hero = models.URLField(blank=True)
     image_icon = models.URLField(blank=True)
+    program_areas = models.ManyToManyField(
+        "ProgramArea",
+        related_name="projects",
+        blank=True,
+        # through="ProjectProgramAreaXref"
+    )
 
     def __str__(self):
         return f"{self.name}"
