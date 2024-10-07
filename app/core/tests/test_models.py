@@ -145,3 +145,9 @@ def test_check_type(check_type):
 
 def test_soc_major(soc_major):
     assert str(soc_major) == "Test Soc Major"
+
+
+def test_url_type(url_type):
+    assert str(url_type) == "This is a test url type name"
+    assert url_type.name == "This is a test url type name"
+    assert url_type.description == "This is a test url type description"
