@@ -439,3 +439,15 @@ class ProjectSdgXref(AbstractBaseModel):
     sdg_id = models.ForeignKey(Sdg, on_delete=models.CASCADE)
     project_id = models.ForeignKey(Project, on_delete=models.CASCADE)
     ended_on = models.DateField("Ended on", null=True, blank=True)
+
+
+class UrlType(AbstractBaseModel):
+    """
+    Type of the URL (ReadMe, Wiki, etc.)
+    """
+
+    name = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.name
