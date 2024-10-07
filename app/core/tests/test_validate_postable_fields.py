@@ -27,9 +27,8 @@ def post_request_to_viewset(requester, create_data):
 
 
 @pytest.mark.django_db
+@pytest.mark.load_user_data_required  # see load_user_data_required in conftest.py
 class TestPostUser:
-    def setup_method(self):
-        load_data()
 
     def test_validate_fields_postable_raises_exception_for_created_at(self):
         """Test validate_fields_postable raises ValidationError when requesting

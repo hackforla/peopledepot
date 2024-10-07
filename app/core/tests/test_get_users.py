@@ -27,9 +27,8 @@ def fields_match_for_get_user(first_name, response_data, fields):
 
 
 @pytest.mark.django_db
+@pytest.mark.load_user_data_required # see load_user_data_required in conftest.py
 class TestGetUser:
-    def setup_method(self):
-        load_data()
 
     def test_get_url_results_for_admin_project(self):
         """Test that the get user request returns (a) all users on the website project

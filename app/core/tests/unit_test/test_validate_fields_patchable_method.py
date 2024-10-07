@@ -25,12 +25,8 @@ def fields_match(first_name, user_data, fields):
 
 
 @pytest.mark.django_db
+@pytest.mark.load_user_data_required  # see load_user_data_required in conftest.py
 class TestValidateFieldsPatchable:
-    # Some tests change FieldPermission attribute values.
-    # derive_cru resets the values before each test - otherwise
-    # the tests would interfere with each other
-    def setup_method(self):
-        load_data()
 
     def test_created_at_not_updateable(self):
         """Test validate_fields_patchable raises ValidationError

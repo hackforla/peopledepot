@@ -39,12 +39,8 @@ def patch_request_to_viewset(requester, target_user, update_data):
 
 
 @pytest.mark.django_db
+@pytest.mark.load_user_data_required  # see load_user_data_required in conftest.py
 class TestPatchUser:
-    # Some tests change FieldPermission attribute values.
-    # derive_cru resets the values before each test - otherwise
-    # the tests would interfere with each other
-    def setup_method(self):
-        load_data()
 
     def test_admin_patch_request_succeeds(self):
         """Test that the patch requests succeeds when the requester is an admin."""

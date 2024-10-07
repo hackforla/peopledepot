@@ -36,9 +36,8 @@ def _get_lowest_ranked_permission_type(requesting_username, target_username):
 
 
 @pytest.mark.django_db
+@pytest.mark.load_user_data_required  # see load_user_data_required in conftest.py
 class TestGetLowestRankedPermissionType:
-    def setup_method(self):
-        load_data()
 
     def test_admin_lowest_min(self):
         """Test that lowest rank for Garry, a global admin user, to Valerie, who
