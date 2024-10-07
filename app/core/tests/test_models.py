@@ -167,3 +167,7 @@ def test_project_sdg_relationship(project):
     assert project.sdgs.count() == 0
     assert not project.sdgs.contains(climate_action_sdg)
     assert not climate_action_sdg.projects.contains(project)
+
+
+def test_url_type(url_type):
+    assert str(url_type) == "This is a test url type name"

@@ -20,6 +20,7 @@ from ..models import Skill
 from ..models import SocMajor
 from ..models import StackElement
 from ..models import StackElementType
+from ..models import UrlType
 from ..models import User
 from ..models import UserPermission
 
@@ -290,3 +291,11 @@ def check_type():
 @pytest.fixture
 def soc_major():
     return SocMajor.objects.create(occ_code="22-2222", title="Test Soc Major")
+
+
+@pytest.fixture
+def url_type():
+    return UrlType.objects.create(
+        name="This is a test url type name",
+        description="This is a test url type description",
+    )
