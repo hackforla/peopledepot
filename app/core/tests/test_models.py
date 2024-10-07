@@ -114,8 +114,6 @@ def test_affiliation_partner_and_sponsor(affiliation3):
         str(xref_instance)
         == f"Sponsor {xref_instance.project} and Partner {xref_instance.affiliate}"
     ) # noqa
-
-
 def test_affiliation_is_neither_partner_and_sponsor(affiliation4):
     xref_instance = affiliation4
     assert xref_instance.is_sponsor is False
