@@ -27,6 +27,7 @@ from ..models import Skill
 from ..models import SocMajor
 from ..models import StackElement
 from ..models import StackElementType
+from ..models import UrlType
 from ..models import UserPermission
 from .serializers import AffiliateSerializer
 from .serializers import AffiliationSerializer
@@ -44,6 +45,7 @@ from .serializers import SkillSerializer
 from .serializers import SocMajorSerializer
 from .serializers import StackElementSerializer
 from .serializers import StackElementTypeSerializer
+from .serializers import UrlTypeSerializer
 from .serializers import UserPermissionSerializer
 from .serializers import UserSerializer
 
@@ -374,3 +376,17 @@ class SocMajorViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = SocMajor.objects.all()
     serializer_class = SocMajorSerializer
+
+
+@extend_schema_view(
+    list=extend_schema(description="Return a list of all the url types"),
+    create=extend_schema(description="Create a new url type"),
+    retrieve=extend_schema(description="Return the details of a url type"),
+    destroy=extend_schema(description="Delete a url type"),
+    update=extend_schema(description="Update a url type"),
+    partial_update=extend_schema(description="Patch a url type"),
+)
+class UrlTypeViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = UrlType.objects.all()
+    serializer_class = UrlTypeSerializer
