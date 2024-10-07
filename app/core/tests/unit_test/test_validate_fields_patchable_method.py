@@ -27,7 +27,6 @@ def fields_match(first_name, user_data, fields):
 @pytest.mark.django_db
 @pytest.mark.load_user_data_required  # see load_user_data_required in conftest.py
 class TestValidateFieldsPatchable:
-
     def test_created_at_not_updateable(self):
         """Test validate_fields_patchable raises ValidationError
         if requesting fields include created_at.

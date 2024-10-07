@@ -30,6 +30,7 @@ def pytest_configure(config):
         "markers", "load_user_data_required: run load_data if any tests marked"
     )
 
+
 @pytest.fixture(scope="session", autouse=True)
 def load_data_once_for_specific_tests(request, django_db_setup, django_db_blocker):
     # Check if any tests marked with 'load_data_required' are going to be run
