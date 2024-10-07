@@ -10,6 +10,7 @@ from core.models import UserPermission
 pytestmark = pytest.mark.django_db
 
 USER_PERMISSIONS_URL = reverse("user-permission-list")
+PROJECT_URL = reverse("project-list")
 ME_URL = reverse("my_profile")
 USERS_URL = reverse("user-list")
 EVENTS_URL = reverse("event-list")
@@ -381,3 +382,14 @@ def test_create_soc_major(auth_client):
     res = auth_client.post(SOC_MAJOR_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
     assert res.data["title"] == payload["title"]
+
+
+def test_project_sdg_xref(auth_client, project, sdg):
+    project.sdgs.add(sdg)
+    project.save()
+
+    proj_res = auth_client.get(PROJECT_URL)
+    sdg_res = auth_client.get(SDG_URL)
+
+    assert filter(lambda proj: str(proj["uuid"]) == str(project.pk), proj_res.data)
+    assert filter(lambda _sdg: str(_sdg["uuid"]) == str(sdg.pk), sdg_res)
