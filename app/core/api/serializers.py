@@ -17,6 +17,7 @@ from core.models import Skill
 from core.models import SocMajor
 from core.models import StackElement
 from core.models import StackElementType
+from core.models import UrlType
 from core.models import User
 from core.models import UserPermission
 
@@ -366,4 +367,13 @@ class SocMajorSerializer(serializers.ModelSerializer):
     class Meta:
         model = SocMajor
         fields = ("uuid", "occ_code", "title")
+        read_only_fields = ("uuid", "created_at", "updated_at")
+
+
+class UrlTypeSerializer(serializers.ModelSerializer):
+    """Used to retrieve url_type info"""
+
+    class Meta:
+        model = UrlType
+        fields = ("uuid", "name", "description")
         read_only_fields = ("uuid", "created_at", "updated_at")
