@@ -424,3 +424,15 @@ class SocMajor(AbstractBaseModel):
 
     def __str__(self):
         return self.title
+
+
+class UrlType(AbstractBaseModel):
+    """
+    Type of the URL (ReadMe, Wiki, etc.)
+    """
+
+    name = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.name
