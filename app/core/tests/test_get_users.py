@@ -5,7 +5,6 @@ from rest_framework.test import APIClient
 from constants import admin_project
 from constants import member_project
 from core.api.cru import Cru
-from core.tests.utils.load_data import load_data
 from core.tests.utils.seed_constants import valerie_name
 from core.tests.utils.seed_constants import wally_name
 from core.tests.utils.seed_constants import wanda_admin_project

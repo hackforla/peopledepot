@@ -2,7 +2,6 @@ import pytest
 from rest_framework.exceptions import ValidationError
 
 from core.api.permission_check import PermissionCheck
-from core.tests.utils.load_data import load_data
 from core.tests.utils.seed_constants import garry_name
 from core.tests.utils.seed_constants import patti_name
 from core.tests.utils.seed_constants import valerie_name

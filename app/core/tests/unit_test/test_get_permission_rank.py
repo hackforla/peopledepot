@@ -7,7 +7,6 @@ from core.api.permission_check import PermissionCheck
 from core.models import PermissionType
 from core.models import Project
 from core.models import UserPermission
-from core.tests.utils.load_data import load_data
 from core.tests.utils.seed_constants import garry_name
 from core.tests.utils.seed_constants import patrick_practice_lead
 from core.tests.utils.seed_constants import patti_name

@@ -29,6 +29,7 @@ def pytest_configure(config):
     config.addinivalue_line(
         "markers", "load_user_data_required: run load_data if any tests marked"
     )
+    return None # prevents pre-commit from giving error
 
 @pytest.fixture(scope="session", autouse=True)
 def load_data_once_for_specific_tests(request, django_db_setup, django_db_blocker):

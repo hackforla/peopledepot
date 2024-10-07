@@ -7,7 +7,6 @@ from rest_framework.test import force_authenticate
 from constants import admin_global
 from core.api.cru import Cru
 from core.api.views import UserViewSet
-from core.tests.utils.load_data import load_data
 from core.tests.utils.seed_constants import garry_name
 from core.tests.utils.seed_user import SeedUser
 
