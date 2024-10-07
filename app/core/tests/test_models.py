@@ -114,7 +114,8 @@ def test_affiliation_partner_and_sponsor(affiliation3):
     # another dummy
     # again
     assert (
-        str(xref_instance) == f"Sponsor {xref_instance.project} and Partner {xref_instance.affiliate}"
+        str(xref_instance)
+        == f"Sponsor {xref_instance.project} and Partner {xref_instance.affiliate}"
     )
 
 
