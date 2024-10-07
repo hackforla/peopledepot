@@ -38,7 +38,7 @@ This repository uses the [GNU General Public License (v2.0)][licensing].
 
 <!-- References section -->
 
-[contributing]: ./CONTRIBUTING.md
+[contributing]: http://hackforla.github.io/peopledepot/contributing/
 [django-docs]: https://docs.djangoproject.com/
 [docker-docs]: https://www.postgresql.org/docs/
 [drf-docs]: https://www.django-rest-framework.org/tutorial/quickstart/
