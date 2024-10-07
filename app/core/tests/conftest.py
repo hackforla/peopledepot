@@ -25,7 +25,8 @@ from ..models import UserPermission
 from .utils.load_data import load_data
 
 
-def pytest_configure(config):  # flake8-pytest-style ignore=PT004
+@pytest.fixture(autouse=True)
+def pytest_configure(config):
     config.addinivalue_line(
         "markers", "load_user_data_required: run load_data if any tests marked"
     )
