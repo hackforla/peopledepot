@@ -21,6 +21,7 @@ from .models import Skill
 from .models import SocMajor
 from .models import StackElement
 from .models import StackElementType
+from .models import UrlType
 from .models import User
 
 
@@ -245,3 +246,8 @@ class CheckTypeAdmin(admin.ModelAdmin):
 @admin.register(SocMajor)
 class SocMajorAdmin(admin.ModelAdmin):
     list_display = ("occ_code", "title")
+
+
+@admin.register(UrlType)
+class UrlTypeAdmin(admin.ModelAdmin):
+    list_display = ("name", "description")
