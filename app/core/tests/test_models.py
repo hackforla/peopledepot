@@ -121,6 +121,7 @@ def test_affiliation_is_neither_partner_and_sponsor(affiliation4):
     assert str(xref_instance) == "Neither a partner or a sponsor"
 
 
+# comment
 def test_check_type(check_type):
     assert str(check_type) == "This is a test check_type."
     assert check_type.description == "This is a test check_type description."
