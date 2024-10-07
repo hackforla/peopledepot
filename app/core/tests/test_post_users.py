@@ -28,7 +28,6 @@ def post_request_to_viewset(requester, create_data):
 @pytest.mark.django_db
 @pytest.mark.load_user_data_required  # see load_user_data_required in conftest.py
 class TestPostUser:
-
     def test_allowable_post_fields_configurable(self):
         """Test POST request returns success when the request fields match configured fields.
 
