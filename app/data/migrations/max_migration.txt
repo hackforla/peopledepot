@@ -1,1 +1,1 @@
-0006_socmajor_seed
+0007_urltype_seed

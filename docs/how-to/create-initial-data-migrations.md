@@ -13,7 +13,7 @@ These are the steps:
 
 You must have Docker installed
 
-The initial data exists in a Google spreadsheet, such as [this one for People Depot][pd-data-spreadsheet]. There should be individual sheets named after the model names the data correspond to, such as `ProgramArea - Data`. The sheet name is useful for us to identify the model it corresponds to.
+The initial data exists in a Google spreadsheet, such as \[this one for People Depot\]\[pd-data-spreadsheet\]. There should be individual sheets named after the model names the data correspond to, such as `ProgramArea - Data`. The sheet name is useful for us to identify the model it corresponds to.
 
 The sheet should be formatted like so:
 
@@ -24,7 +24,7 @@ It is required that there be data in the first column of the sheet.
 
 ## Gather data for preparation
 
-1. Export the data from the Google [spreadsheet][pd-data-spreadsheet]
+1. Export the data from the Google \[spreadsheet\]\[pd-data-spreadsheet\]
 
     1. Find the sheet in the document containing the data to export. Let's use the `ProgramArea - Data` data as our example.
     1. Go to File -> Download -> Comma Separated Values (.csv). This will download the sheet as a .csv file.
@@ -80,8 +80,8 @@ It is required that there be data in the first column of the sheet.
 
 - Look for name of the last migration file in `core/data/migrations` directory
 
-- Create a script in the same directory named `<number>_<modelnameinlowercase>_seed.py` with the following contents and
-    replace `<model in lower case>` and `<name of last script>` with appropriate values:
+- Create a script in the same directory named `<number>_<modelname_in_lower_case>_seed.py` with the following contents and
+    replace `<modelname_in_lower_case>`, `ModelNameInPascalCase`, and `<name of last script>` with appropriate values:
 
     ```py
     from django.db import migrations
@@ -132,4 +132,5 @@ It is required that there be data in the first column of the sheet.
         operations = [migrations.RunPython(forward, reverse)]
     ```
 
-[pd-data-spreadsheet]: https://docs.google.com/spreadsheets/d/1x_zZ8JLS2hO-zG0jUocOJmX16jh-DF5dccrd_OEGNZ0/
+In this example `011_author_seed` is the name of the last migration file in `core/data/migrations`. You will also need to update this to the last python file in `core/data/migrations` having the format `xxxx_<modename_in_lower_case>_seed.py`.
+\[pd-data-spreadsheet\]: https://docs.google.com/spreadsheets/d/1x_zZ8JLS2hO-zG0jUocOJmX16jh-DF5dccrd_OEGNZ0/
