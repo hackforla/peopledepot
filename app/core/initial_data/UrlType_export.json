@@ -1,0 +1,57 @@
+[
+    {
+        "id": "1",
+        "name": "Readme",
+        "description": "The GitHub readme.md file for the project"
+    },
+    {
+        "id": "2",
+        "name": "HfLA Website",
+        "description": "The URL of the project's page on the hackforla.org website"
+    },
+    {
+        "id": "3",
+        "name": "GitHub",
+        "description": "Project's primary GitHub repo"
+    },
+    {
+        "id": "4",
+        "name": "Slack",
+        "description": "Project's slack channel"
+    },
+    {
+        "id": "5",
+        "name": "Google Drive",
+        "description": "The url to the project Google Drive"
+    },
+    {
+        "id": "6",
+        "name": "Wiki",
+        "description": "The wiki for the project"
+    },
+    {
+        "id": "7",
+        "name": "Test Site",
+        "description": "Development site used for testing"
+    },
+    {
+        "id": "8",
+        "name": "Demo Site",
+        "description": "Website used for public demonstration - usually with fake data. Primarily used by projects that don't have a live site yet."
+    },
+    {
+        "id": "9",
+        "name": "Site",
+        "description": "Live on the internet such as https://example.com "
+    },
+    {
+        "id": "10",
+        "name": "Overview",
+        "description": "The Project One sheet"
+    },
+    {
+        "id": "11",
+        "name": "Other",
+        "description": ""
+    }
+]
