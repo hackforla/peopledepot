@@ -59,7 +59,8 @@ def user_permissions():
 @pytest.fixture
 def user_permission_admin_project():
     user = User.objects.create(
-        username="TestUser Admin Project", email="TestUserAdminProject@example.com"
+        username="TestUser Admin Project",
+        email="TestUserAdminProject@example.com",
     )
     project = Project.objects.create(name="Test Project Admin Project")
     permission_type = PermissionType.objects.filter(name=admin_project).first()
@@ -130,11 +131,20 @@ def event_pm(project):
         name="PM",
         project=project,
         must_attend=[
-            {"practice_area": "Development", "permission_type": "practiceLeadProject"},
-            {"practice_area": "Design", "permission_type": "practiceLeadJrProject"},
+            {
+                "practice_area": "Development",
+                "permission_type": "practiceLeadProject",
+            },
+            {
+                "practice_area": "Design",
+                "permission_type": "practiceLeadJrProject",
+            },
         ],
         should_attend=[
-            {"practice_area": "Development", "permission_type": "memberProject"},
+            {
+                "practice_area": "Development",
+                "permission_type": "memberProject",
+            },
             {"practice_area": "Design", "permission_type": "adminProject"},
         ],
         could_attend=[{"practice_area": "Design", "permission_type": "memberGeneral"}],
@@ -226,13 +236,8 @@ def stack_element(stack_element_type):
 
 @pytest.fixture
 def permission_type1():
-    return PermissionType.objects.create(name="Test Permission Type", description="")
-
-
-@pytest.fixture
-def permission_type2():
     return PermissionType.objects.create(
-        name="Test Permission Type", description="A permission type description"
+        name="Test Permission Type", description="", rank=1000
     )
 
 
@@ -270,7 +275,10 @@ def affiliation3(project, affiliate):
 @pytest.fixture
 def affiliation4(project, affiliate):
     return Affiliation.objects.create(
-        is_sponsor=False, is_partner=False, project=project, affiliate=affiliate
+        is_sponsor=False,
+        is_partner=False,
+        project=project,
+        affiliate=affiliate,
     )
 
 
