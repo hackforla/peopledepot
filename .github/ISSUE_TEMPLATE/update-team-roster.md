@@ -2,8 +2,9 @@
 name: Update Team Roster
 about: Provides new team members a link to team roster to input their information
 title: ''
-labels: documentation, good first issue, question
+labels: 'documentation, good first issue, question, role: missing, size: 0.25pt, feature: PD team recruit/onboard/offboard, s: PD team, complexity: small'
 assignees: ''
+milestone: '05. Team Workflow'
 
 ---
 
