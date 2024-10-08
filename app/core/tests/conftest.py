@@ -26,14 +26,14 @@ from .utils.load_data import load_data
 
 
 @pytest.fixture(autouse=True)
-def pytest_configure(config):
+def pytest_configure(config):  # noqa: PT004
     config.addinivalue_line(
         "markers", "load_user_data_required: run load_data if any tests marked"
     )
 
 
 @pytest.fixture(scope="session", autouse=True)
-def load_data_once_for_specific_tests(request, django_db_setup, django_db_blocker):
+def _load_data_once_for_specific_tests(request, django_db_setup, django_db_blocker):
     # Check if any tests marked with 'load_data_required' are going to be run
     if request.node.items:
         for item in request.node.items:

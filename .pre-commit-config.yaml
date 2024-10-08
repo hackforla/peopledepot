@@ -32,7 +32,7 @@ repos:
       - id: fix-byte-order-marker
       - id: name-tests-test
         args: [--pytest-test-first]
-        exclude: '^(app/core/tests/utils/.*)$'
+        exclude: ^app/core/tests/utils/
       # general quality checks
       - id: mixed-line-ending
       - id: trailing-whitespace
@@ -73,7 +73,6 @@ repos:
   - repo: https://github.com/pycqa/flake8
     rev: 7.1.0
     hooks:
-
       - id: flake8
         exclude: "^app/core/migrations/|^app/data/migrations/|^app/core/scripts"
         args: [--max-line-length=119, --max-complexity=4, --pytest-fixture-no-parentheses]
