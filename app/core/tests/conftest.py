@@ -25,7 +25,6 @@ from ..models import UserPermission
 from .utils.load_data import load_data
 
 
-@pytest.fixture(autouse=True)
 def pytest_configure(config):  # noqa: PT004
     config.addinivalue_line(
         "markers", "load_user_data_required: run load_data if any tests marked"
@@ -112,8 +111,9 @@ def user_permission_practice_lead_project():
     return user_permission
 
 
-@pytest.fixture
+@pytest.fixture(scope="function")
 def user(django_user_model):
+    print("Creating")
     return django_user_model.objects.create_user(
         username="TestUser",
         email="testuser@email.com",
