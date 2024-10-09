@@ -2,11 +2,12 @@
 set -euo pipefail
 IFS=$'\n\t'
 set -x
+
 # Default options
 COVERAGE="--no-cov"
 CHECK_MIGRATIONS=true
 N_CPU="auto"
-POSITIONAL_ARGS=()
+PYTHON_ARGS=()  # Initialize as an empty array
 
 # Function to display help
 show_help() {
@@ -32,7 +33,7 @@ EOF
 # Parse arguments
 while [[ $# -gt 0 ]]; do
   arg="$1" # Use $1 as the current argument
-  echo Debug $arg
+  echo "Debug: $arg"
   case $arg in
     --help)
       show_help
@@ -53,10 +54,11 @@ while [[ $# -gt 0 ]]; do
     -n)
       shift
       N_CPU="$1"
+      echo "Number of CPUs set to: $N_CPU"
       ;;
     *)
-      POSITIONAL_ARGS+=("$arg")  # Preserve other arguments for pytest
-      echo "Positional argument added: $arg"
+      PYTHON_ARGS+=("$arg")  # Preserve other arguments for pytest
+      echo "PYTHON_ARGS array: ${PYTHON_ARGS[@]}"
       ;;
   esac
   shift # Shift to the next argument
@@ -67,9 +69,7 @@ if [ "$CHECK_MIGRATIONS" = true ]; then
   echo "Checking for missing migrations..."
   docker-compose exec -T web python manage.py makemigrations --check
 fi
-PYTEST_ARGUMENT_STRING=""
-if [ ${#POSITIONAL_ARGS[@]} -gt 0 ]; then
-  PYTEST_ARGUMENT_STRING=$POSITIONAL_ARGS
-fi
 
-docker-compose exec -T web pytest -n $N_CPU $COVERAGE $PYTEST_ARGUMENT_STRING
+# Run pytest with the parsed arguments
+echo "Running: docker-compose exec -T web pytest -n $N_CPU $COVERAGE ${PYTHON_ARGS[@]}"
+docker-compose exec -T web pytest -n "$N_CPU" $COVERAGE "${PYTHON_ARGS[@]}"
