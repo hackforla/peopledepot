@@ -2,7 +2,6 @@
 set -euo pipefail
 IFS=$'\n\t'
 set -x
-TEST=""
 # Default options
 COVERAGE="--no-cov"
 CHECK_MIGRATIONS=true
