@@ -69,7 +69,7 @@ if [ "$CHECK_MIGRATIONS" = true ]; then
 fi
 PYTEST_ARGUMENT_STRING=""
 if [ ${#POSITIONAL_ARGS[@]} -gt 0 ]; then
-  PYTEST_ARGUMENT_STRING=$POSITIONAL_ARGS[@]
+  PYTEST_ARGUMENT_STRING=$POSITIONAL_ARGS
 fi
 
-docker-compose exec -T web pytest -n $N_CPU $COVERAGE
+docker-compose exec -T web pytest -n $N_CPU $COVERAGE $PYTEST_ARGUMENT_STRING
