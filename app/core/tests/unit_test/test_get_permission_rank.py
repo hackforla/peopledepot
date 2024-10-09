@@ -19,13 +19,6 @@ from core.tests.utils.seed_constants import zani_name
 from core.tests.utils.seed_user import SeedUser
 
 
-def fields_match_for_get_user(username, response_data, fields):
-    for user in response_data:
-        if user["username"] == username:
-            return set(user.keys()) == set(fields)
-    return False
-
-
 def _get_lowest_ranked_permission_type(requesting_username, target_username):
     requesting_user = SeedUser.get_user(requesting_username)
     target_user = SeedUser.get_user(target_username)

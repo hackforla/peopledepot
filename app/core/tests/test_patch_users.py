@@ -19,13 +19,6 @@ count_people_depot_members = 3
 count_members_either = 6
 
 
-def fields_match(first_name, user_data, fields):
-    for user in user_data:
-        if user["first_name"] == first_name:
-            return set(user.keys()) == set(fields)
-    return False
-
-
 def patch_request_to_viewset(requester, target_user, update_data):
     factory = APIRequestFactory()
     request = factory.patch(

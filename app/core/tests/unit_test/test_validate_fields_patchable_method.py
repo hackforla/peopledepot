@@ -16,13 +16,6 @@ count_people_depot_members = 3
 count_members_either = 6
 
 
-def fields_match(first_name, user_data, fields):
-    for user in user_data:
-        if user["first_name"] == first_name:
-            return set(user.keys()) == set(fields)
-    return False
-
-
 @pytest.mark.django_db
 @pytest.mark.load_user_data_required  # see load_user_data_required in conftest.py
 class TestValidateFieldsPatchable:
