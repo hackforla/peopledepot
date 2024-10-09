@@ -6,7 +6,7 @@ set -x
 COVERAGE="--no-cov"
 CHECK_MIGRATIONS=true
 N_CPU="auto"
-POSITIONAL_ARGS=("-n","auto")
+POSITIONAL_ARGS=()
 
 # Function to display help
 show_help() {
