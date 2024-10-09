@@ -9,7 +9,7 @@ from core.models import UserPermission
 
 class PermissionCheck:
     @staticmethod
-    def get_lowest_ranked_permission_type(requesting_user: User, target_user: User):
+    def get_most_privileged_ranked_permission_type(requesting_user: User, target_user: User):
         """Get the lowest ranked (most privileged) permission type a requesting user has for
         projects shared with the target user.
 
@@ -40,16 +40,16 @@ class PermissionCheck:
             user=requesting_user, project__name__in=target_user_project_names
         ).values("permission_type__name", "permission_type__rank")
 
-        lowest_permission_rank = 1000
-        lowest_permission_name = ""
+        most_privileged_permission_rank = 1000
+        most_privileged_permission_name = ""
         for matched_permission in matched_requester_permissions:
             matched_permission_rank = matched_permission["permission_type__rank"]
             matched_permission_name = matched_permission["permission_type__name"]
-            if matched_permission_rank < lowest_permission_rank:
-                lowest_permission_rank = matched_permission_rank
-                lowest_permission_name = matched_permission_name
+            if matched_permission_rank < most_privileged_permission_rank:
+                most_privileged_permission_rank = matched_permission_rank
+                most_privileged_permission_name = matched_permission_name
 
-        return lowest_permission_name
+        return most_privileged_permission_name
 
     @staticmethod
     def get_user_queryset(request):
@@ -123,12 +123,12 @@ class PermissionCheck:
             None
         """
 
-        lowest_ranked_name = PermissionCheck.get_lowest_ranked_permission_type(
+        most_privileged_ranked_name = PermissionCheck.get_most_privileged_ranked_permission_type(
             requesting_user, target_user
         )
-        if lowest_ranked_name == "":
+        if most_privileged_ranked_name == "":
             raise PermissionError("You do not have permission to patch this user")
-        valid_fields = Cru.user_patch_fields[lowest_ranked_name]
+        valid_fields = Cru.user_patch_fields[most_privileged_ranked_name]
         if len(valid_fields) == 0:
             raise PermissionError("You do not have permission to patch this user")
 
@@ -179,9 +179,9 @@ class PermissionCheck:
         Returns:
             [User]: List of fields that the requesting user has permission to view for the target user.
         """
-        lowest_ranked_name = PermissionCheck.get_lowest_ranked_permission_type(
+        most_privileged_ranked_name = PermissionCheck.get_most_privileged_ranked_permission_type(
             requesting_user, target_user
         )
-        if lowest_ranked_name == "":
+        if most_privileged_ranked_name == "":
             raise PermissionError("You do not have permission to view this user")
-        return Cru.user_read_fields[lowest_ranked_name]
+        return Cru.user_read_fields[most_privileged_ranked_name]

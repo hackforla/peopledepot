@@ -15,19 +15,20 @@ count_people_depot_members = 3
 count_members_either = 6
 
 
-def post_request_to_viewset(requester, create_data):
-    new_data = create_data.copy()
-    factory = APIRequestFactory()
-    request = factory.post(reverse("user-list"), data=new_data, format="json")
-    force_authenticate(request, user=requester)
-    view = UserViewSet.as_view({"post": "create"})
-    response = view(request)
-    return response
 
 
 @pytest.mark.django_db
 @pytest.mark.load_user_data_required  # see load_user_data_required in conftest.py
 class TestPostUser:
+    def _post_request_to_viewset(requester, create_data):
+        new_data = create_data.copy()
+        factory = APIRequestFactory()
+        request = factory.post(reverse("user-list"), data=new_data, format="json")
+        force_authenticate(request, user=requester)
+        view = UserViewSet.as_view({"post": "create"})
+        response = view(request)
+        return response
+    
     def test_allowable_post_fields_configurable(self):
         """Test POST request returns success when the request fields match configured fields.
 
@@ -57,7 +58,7 @@ class TestPostUser:
             "first_name": "John",
             "created_at": "2022-01-01T00:00:00Z",
         }
-        response = post_request_to_viewset(requester, create_data)
+        response = TestPostUser._post_request_to_viewset(requester, create_data)
         Cru.user_post_fields[admin_global] = orig_user_post_fields_admin_global.copy()
 
         assert response.status_code == status.HTTP_201_CREATED
@@ -90,7 +91,7 @@ class TestPostUser:
             "first_name": "John",
             "created_at": "2022-01-01T00:00:00Z",
         }
-        response = post_request_to_viewset(requester, post_data)
+        response = TestPostUser._post_request_to_viewset(requester, post_data)
         Cru.user_post_fields[admin_global] = orig_user_post_fields_admin_global.copy()
 
         assert response.status_code == status.HTTP_400_BAD_REQUEST

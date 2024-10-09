@@ -15,16 +15,6 @@ count_people_depot_members = 3
 count_members_either = 6
 
 
-def post_request_to_viewset(requester, create_data):
-    new_data = create_data.copy()
-    factory = APIRequestFactory()
-    request = factory.post(reverse("user-list"), data=new_data, format="json")
-    force_authenticate(request, user=requester)
-    view = UserViewSet.as_view({"post": "create"})
-    response = view(request)
-    return response
-
-
 @pytest.mark.django_db
 @pytest.mark.load_user_data_required  # see load_user_data_required in conftest.py
 class TestPostUser:

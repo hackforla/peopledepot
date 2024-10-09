@@ -150,6 +150,7 @@ terminal.  From terminal:
 ```
 cd app
 ../scripts/loadenv.sh
-python documentation.py
+python scripts/
+documentation.py
 mv *.html ../docs/pydoc
 ```

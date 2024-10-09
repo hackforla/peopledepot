@@ -19,20 +19,19 @@ count_people_depot_members = 3
 count_members_either = 6
 
 
-def patch_request_to_viewset(requester, target_user, update_data):
-    factory = APIRequestFactory()
-    request = factory.patch(
-        reverse("user-detail", args=[target_user.uuid]), update_data, format="json"
-    )
-    force_authenticate(request, user=requester)
-    view = UserViewSet.as_view({"patch": "partial_update"})
-    response = view(request, uuid=requester.uuid)
-    return response
-
-
 @pytest.mark.django_db
 @pytest.mark.load_user_data_required  # see load_user_data_required in conftest.py
 class TestPatchUser:
+    def _patch_request_to_viewset(requester, target_user, update_data):
+        factory = APIRequestFactory()
+        request = factory.patch(
+            reverse("user-detail", args=[target_user.uuid]), update_data, format="json"
+        )
+        force_authenticate(request, user=requester)
+        view = UserViewSet.as_view({"patch": "partial_update"})
+        response = view(request, uuid=requester.uuid)
+        return response
+    
     def test_admin_patch_request_succeeds(self):
         """Test that the patch requests succeeds when the requester is an admin."""
         requester = SeedUser.get_user(garry_name)
@@ -85,7 +84,7 @@ class TestPatchUser:
         requester = SeedUser.get_user(wanda_admin_project)  # project lead for website
         update_data = {"last_name": "Smith", "gmail": "smith@example.com"}
         target_user = SeedUser.get_user(wally_name)
-        response = patch_request_to_viewset(requester, target_user, update_data)
+        response = TestPatchUser._patch_request_to_viewset(requester, target_user, update_data)
 
         Cru.user_patch_fields[admin_project] = (
             orig_user_patch_fields_admin_project.copy()
@@ -105,8 +104,9 @@ class TestPatchUser:
         Cru.user_patch_fields[admin_project] = ["gmail"]
         update_data = {"last_name": "Smith"}
         target_user = SeedUser.get_user(wally_name)
-        response = patch_request_to_viewset(requester, target_user, update_data)
-        assert response.status_code == status.HTTP_400_BAD_REQUEST
+        response = TestPatchUser._patch_request_to_viewset(requester, target_user, update_data)
         Cru.user_patch_fields[admin_project] = (
             orig_user_patch_fields_admin_project.copy()
         )
+        assert response.status_code == status.HTTP_400_BAD_REQUEST
+   
