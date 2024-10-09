@@ -7,7 +7,7 @@ TEST=""
 COVERAGE="--no-cov"
 CHECK_MIGRATIONS=true
 N_CPU="auto"
-POSITIONAL_ARGS=("-n","auto") 
+POSITIONAL_ARGS=("-n","auto")
 
 # Function to display help
 show_help() {
@@ -53,7 +53,7 @@ while [[ $# -gt 0 ]]; do
       ;;
     -n)
       shift
-      N_CPU="$1" 
+      N_CPU="$1"
       ;;
     *)
       POSITIONAL_ARGS+=("$arg")  # Preserve other arguments for pytest
