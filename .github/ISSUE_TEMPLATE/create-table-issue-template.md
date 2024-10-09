@@ -2,7 +2,7 @@
 name: Create Table issue template
 about: Create an issue for each table required
 title: 'Create Table: [name of table]'
-labels: 'role: back end, size: 2pt'
+labels: 'role: back end, size: 2pt, feature: table creation, s: hackforla.org, s: VRMS, s: CTJ, s: tables, s: kb, complexity: missing, milestone: missing'
 assignees: ''
 
 ---
