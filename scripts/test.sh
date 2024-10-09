@@ -58,7 +58,7 @@ while [[ $# -gt 0 ]]; do
       ;;
     *)
       PYTEST_ARGS+=("$arg")  # Preserve other arguments for pytest
-      echo "Adding ${PYTEST_ARGS[@]} to pytest"
+      echo "Adding ${PYTEST_ARGS[*]} to pytest"
       ;;
   esac
   shift # Shift to the next argument
@@ -69,7 +69,7 @@ if [ ${#PYTEST_ARGS[@]} -eq 0 ]; then
   PYTEST_ARGS=("")
   echo "No positional arguments were passed, defaulting to an empty string."
 else
-  echo "Final PYTEST_ARGS: ${PYTHON_ARGS[@]}"
+  echo "Final PYTEST_ARGS: ${PYTHON_ARGS[*]}"
 fi
 
 # Check for missing migration files if not skipped
@@ -79,5 +79,5 @@ if [ "$CHECK_MIGRATIONS" = true ]; then
 fi
 
 # Run pytest with the parsed arguments
-echo "Running: docker-compose exec -T web pytest -n $N_CPU $COVERAGE ${PYTEST_ARGS[@]}"
-docker-compose exec -T web pytest -n "$N_CPU" $COVERAGE "${PYTEST_ARGS[@]}"
+echo "Running: docker-compose exec -T web pytest -n $N_CPU $COVERAGE ${PYTEST_ARGS[*]}"
+docker-compose exec -T web pytest -n "$N_CPU" $COVERAGE "${PYTEST_ARGS[*]}"
