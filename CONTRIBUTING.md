@@ -417,7 +417,34 @@ git push
 
 If you go to your online GitHub repository this should remove the message "This branch is x commit behind peopledepot:main".
 
-## 7. Creating Issues
+## 7. pydoc
+pydoc documentation are located between triple quotes.  
+  - See https://realpython.com/documenting-python-code/#docstring-types for format for creating class, method,
+    or module pydoc.  For documenting specific variables, you can do this as part of the class, method,
+    or module documentation.
+  - After creating or updating pydoc documentation, generate as explained in next section
+
+Guidance for deciding whether to add
+pydoc comments:
+  - APIs for performing create, read, update, and delete operation do not need pydocs
+  - Class should have pydoc
+  - Methods should have pydoc if the method is important for a developer using or code reviewing.  If
+questions, check with a senior developer.
+
+### Generating pydoc Documentation
+
+From Docker screen, locate web container.  Select option to open terminal.  To run locally, open local
+terminal.  From terminal:
+
+```
+cd app
+export PYTHONPATH=$PYTHONPATH:$PWD
+../scripts/shell.sh
+python scripts/pydoc-generate.py
+mv *.html ../docs/pydoc
+```
+
+## 8. Creating Issues
 
 To create a new issue, please use the blank issue template (available when you click New Issue). If you want to create an issue for other projects to use, please create the issue in your own repository and send a slack message to one of your hack night hosts with the link.
 

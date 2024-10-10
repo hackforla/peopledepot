@@ -1,4 +1,12 @@
 #!/bin/bash
+# Check if the script was sourced
+if [[ "${BASH_SOURCE[0]}" != "${0}" ]]; then
+    echo "Script was sourced."
+else
+    echo "Script was not sourced. Exiting with status 1."
+    exit 1
+fi
+
 echo SQL USER "$SQL_USER"
 export file=$1
 echo "file = $file / $1 / $2"
