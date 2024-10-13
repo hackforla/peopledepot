@@ -3,7 +3,7 @@ import pytest
 from constants import admin_global
 from constants import admin_project
 from constants import member_project
-from core.api.permission_check import PermissionCheck
+from core.api.validate_util import UserValidation
 from core.models import PermissionType
 from core.models import Project
 from core.models import UserPermission
@@ -22,7 +22,7 @@ from core.tests.utils.seed_user import SeedUser
 def _get_most_privileged_ranked_permission_type(requesting_username, target_username):
     requesting_user = SeedUser.get_user(requesting_username)
     target_user = SeedUser.get_user(target_username)
-    return PermissionCheck.get_most_privileged_ranked_permission_type(
+    return UserValidation.get_most_privileged_ranked_permission_type(
         requesting_user, target_user
     )
 

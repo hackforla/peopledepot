@@ -4,7 +4,7 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.test import APIRequestFactory
 from rest_framework.test import force_authenticate
 
-from core.api.permission_check import PermissionCheck
+from core.api.validate_util import UserValidation
 from core.api.views import UserViewSet
 from core.tests.utils.seed_constants import garry_name
 from core.tests.utils.seed_constants import wanda_admin_project
@@ -23,7 +23,7 @@ class TestPostUser:
         fields include the created_at field.
         """
         with pytest.raises(ValidationError):
-            PermissionCheck.validate_user_fields_postable(
+            UserValidation.validate_user_fields_postable(
                 SeedUser.get_user(garry_name),
                 ["created_at"],
             )
@@ -33,6 +33,6 @@ class TestPostUser:
         user is a project lead and fields include password
         """
         with pytest.raises(PermissionError):
-            PermissionCheck.validate_user_fields_postable(
+            UserValidation.validate_user_fields_postable(
                 SeedUser.get_user(wanda_admin_project), ["username", "password"]
             )

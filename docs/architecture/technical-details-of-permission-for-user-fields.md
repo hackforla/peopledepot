@@ -90,18 +90,18 @@ don't match what is implemented this can be fixed by changing [cru.py](../../app
     - /user - see above bullet about response fields.
     - /user/<uuid> fetches a specific user.  See above bullet about response fields.  If the requester does not have permission
         to view the user, PermisssionUtil.get_user_read_fields will find no fields to serialize and throw a ValidationError
-- patch (update): `UserViewSet.partial_update` => `PermissionCheck.validate_patch_request(request)`.\
+- patch (update): `UserViewSet.partial_update` => `UserValidation.validate_patch_request(request)`.\
     validate_user_fields_patchable(requesting_user, target_user, request_fields)\` will compare request fields
     against `cru.user_post_fields[admin_global]` which is derived from `_cru_permissions`.  If the request fields
     include a field outside the requester's scope, the method returns a PermissionError, otherwise the
     record is udated.  **views.py, permission_check.py**
 - post (create): UserViewSet.create: If the requester is not a global admin, the create method
-    will throw an error. Calls PermissionCheck.validate_user_fields_postable which compares
+    will throw an error. Calls UserValidation.validate_user_fields_postable which compares
     pe **views.py**
 
 ##### /me end point technical implementation
 
-- response fields for get and patch: `UserProfileAPISerializer.to_representation` => `PermissionCheck.get_user_read_fields` determines which fields are serialized.
+- response fields for get and patch: `UserProfileAPISerializer.to_representation` => `UserValidation.get_user_read_fields` determines which fields are serialized.
 - get: see response fields above.  No request fields accepted.  **views.py, serializer.py**
 - patch (update): By default, calls super().update_partial of UserProfileAPIView for
     the requesting user to update themselves.  **views.py, serializer.py**

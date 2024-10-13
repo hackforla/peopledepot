@@ -7,7 +7,7 @@ from core.models import User
 from core.models import UserPermission
 
 
-class PermissionCheck:
+class UserValidation:
     @staticmethod
     def get_most_privileged_ranked_permission_type(requesting_user: User, target_user: User):
         """Get the lowest ranked (most privileged) permission type a requesting user has for
@@ -30,7 +30,7 @@ class PermissionCheck:
             to the serialized user
         """
 
-        if PermissionCheck.is_admin(requesting_user):
+        if UserValidation.is_admin(requesting_user):
             return admin_global
         target_user_project_names = UserPermission.objects.filter(
             user=target_user
@@ -68,7 +68,7 @@ class PermissionCheck:
         current_user = User.objects.get(username=current_username)
         user_permissions = UserPermission.objects.filter(user=current_user)
 
-        if PermissionCheck.is_admin(current_user):
+        if UserValidation.is_admin(current_user):
             queryset = User.objects.all()
         else:
             # Get the users with user permissions for the same projects
@@ -101,7 +101,7 @@ class PermissionCheck:
         Returns:
             None
         """
-        most_privileged_ranked_name = PermissionCheck.get_most_privileged_ranked_permission_type(
+        most_privileged_ranked_name = UserValidation.get_most_privileged_ranked_permission_type(
             requesting_user, target_user
         )
         if most_privileged_ranked_name == "":
@@ -130,7 +130,7 @@ class PermissionCheck:
         Returns:
             None
         """
-        if not PermissionCheck.is_admin(requesting_user):
+        if not UserValidation.is_admin(requesting_user):
             raise PermissionError("You do not have permission to create a user")
         valid_fields = Cru.user_post_fields[admin_global]
         disallowed_fields = set(request_fields) - set(valid_fields)
@@ -157,7 +157,7 @@ class PermissionCheck:
         Returns:
             [User]: List of fields that the requesting user has permission to view for the target user.
         """
-        most_privileged_ranked_name = PermissionCheck.get_most_privileged_ranked_permission_type(
+        most_privileged_ranked_name = UserValidation.get_most_privileged_ranked_permission_type(
             requesting_user, target_user
         )
         if most_privileged_ranked_name == "":

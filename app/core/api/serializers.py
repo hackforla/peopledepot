@@ -3,7 +3,7 @@ from timezone_field.rest_framework import TimeZoneSerializerField
 
 from core.api.cru import Cru
 from core.api.cru import profile_value
-from core.api.permission_check import PermissionCheck
+from core.api.validate_util import UserValidation
 from core.models import Affiliate
 from core.models import Affiliation
 from core.models import CheckType
@@ -73,7 +73,7 @@ class UserSerializer(serializers.ModelSerializer):
         representation = super().to_representation(instance)
         request_user: User = self.context["request"].user
         # Get dynamic fields from some logic
-        user_fields = PermissionCheck.get_user_read_fields(request_user, instance)
+        user_fields = UserValidation.get_user_read_fields(request_user, instance)
         # Only retain the fields you want to include in the output
         return {
             key: value for key, value in representation.items() if key in user_fields
