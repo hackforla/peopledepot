@@ -17,11 +17,12 @@ Usage: ${0##*/} [OPTIONS] [pytest-args]
 
 Options:
   --coverage         Run tests with coverage (default: without coverage, using --no-cov).
-  --skip-migrations  Skip checking for pending migrations before running tests (default: check migrations).
-  -n                 Remove the default --nauto option for running tests (default: -n auto).  There must be
-                       a space after -n and the value.
   --help             Display this help message and exit.
   --help-pytest      Display pytest help.
+  -n                 Specify how many CPUs to use for testing.  Default is auto
+  --no-exec          Show the pytest command but do not execute.  Useful for testing.
+  --skip-migrations  Skip checking for pending migrations before running tests (default: check migrations).
+
 
 Other parameters passed to the script will be forwarded to pytest as specified.
 
