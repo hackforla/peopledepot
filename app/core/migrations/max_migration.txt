@@ -1,1 +1,1 @@
-0027_socmajor
+0028_urltype
