@@ -20,57 +20,57 @@ count_members_either = 6
 @pytest.mark.load_user_data_required  # see load_user_data_required in conftest.py
 class TestValidateFieldsPatchable:
     def test_created_at_not_updateable(self):
-        """Test validate_fields_patchable raises ValidationError
+        """Test validate_user_fields_patchable raises ValidationError
         if requesting fields include created_at.
         """
         with pytest.raises(ValidationError):
-            PermissionCheck.validate_fields_patchable(
+            PermissionCheck.validate_user_fields_patchable(
                 SeedUser.get_user(garry_name),
                 SeedUser.get_user(valerie_name),
                 ["created_at"],
             )
 
     def test_admin_project_can_patch_name(self):
-        """Test validate_fields_patchable succeeds
+        """Test validate_user_fields_patchable succeeds
         if requesting fields include first_name and last_name **WHEN**
         the requester is a project lead.
         """
-        PermissionCheck.validate_fields_patchable(
+        PermissionCheck.validate_user_fields_patchable(
             SeedUser.get_user(wanda_admin_project),
             SeedUser.get_user(wally_name),
             ["first_name", "last_name"],
         )
 
     def test_admin_project_cannot_patch_current_title(self):
-        """Test validate_fields_patchable raises ValidationError
+        """Test validate_user_fields_patchable raises ValidationError
         if requesting fields include current_title **WHEN** requester
         is a project lead.
         """
         with pytest.raises(ValidationError):
-            PermissionCheck.validate_fields_patchable(
+            PermissionCheck.validate_user_fields_patchable(
                 SeedUser.get_user(wanda_admin_project),
                 SeedUser.get_user(wally_name),
                 ["current_title"],
             )
 
     def test_cannot_patch_first_name_for_member_of_other_project(self):
-        """Test validate_fields_patchable raises ValidationError
+        """Test validate_user_fields_patchable raises ValidationError
         if requesting fields include first_name **WHEN** requester
         is a member of a different project.
         """
         with pytest.raises(PermissionError):
-            PermissionCheck.validate_fields_patchable(
+            PermissionCheck.validate_user_fields_patchable(
                 SeedUser.get_user(wanda_admin_project),
                 SeedUser.get_user(patti_name),
                 ["first_name"],
             )
 
     def test_team_member_cannot_patch_first_name_for_member_of_same_project(self):
-        """Test validate_fields_patchable raises ValidationError
+        """Test validate_user_fields_patchable raises ValidationError
         **WHEN** requester is only a project team member.
         """
         with pytest.raises(PermissionError):
-            PermissionCheck.validate_fields_patchable(
+            PermissionCheck.validate_user_fields_patchable(
                 SeedUser.get_user(wally_name),
                 SeedUser.get_user(winona_name),
                 ["first_name"],
@@ -79,23 +79,23 @@ class TestValidateFieldsPatchable:
     def test_multi_project_requester_can_patch_first_name_of_member_if_requester_is_admin_projecter(
         self,
     ):
-        """Test validate_fields_patchable succeeds for first name
+        """Test validate_user_fields_patchable succeeds for first name
         **WHEN** requester assigned to multiple projects
         is a project lead for the user being patched.
         """
-        PermissionCheck.validate_fields_patchable(
+        PermissionCheck.validate_user_fields_patchable(
             SeedUser.get_user(zani_name), SeedUser.get_user(patti_name), ["first_name"]
         )
 
     def test_multi_project_user_cannot_patch_first_name_of_member_if_requester_is_member_project(
         self,
     ):
-        """Test validate_fields_patchable raises ValidationError
+        """Test validate_user_fields_patchable raises ValidationError
         **WHEN** requester assigned to multiple projects
         is only a project team member for the user being patched.
         """
         with pytest.raises(PermissionError):
-            PermissionCheck.validate_fields_patchable(
+            PermissionCheck.validate_user_fields_patchable(
                 SeedUser.get_user(zani_name),
                 SeedUser.get_user(wally_name),
                 ["first_name"],

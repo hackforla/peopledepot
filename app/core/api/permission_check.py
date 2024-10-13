@@ -86,28 +86,7 @@ class PermissionCheck:
         ).exists()
 
     @staticmethod
-    def validate_patch_request(request):
-        """Validate that the requesting user has permission to patch the specified fields
-        of the target user.
-
-        Args:
-            request: the request object
-
-        Raises:
-            PermissionError or ValidationError
-
-        Returns:
-            None
-        """
-        request_fields = request.json().keys()
-        requesting_user = request.context.get("request").user
-        target_user = User.objects.get(uuid=request.context.get("uuid"))
-        PermissionCheck.validate_fields_patchable(
-            requesting_user, target_user, request_fields
-        )
-
-    @staticmethod
-    def validate_fields_patchable(requesting_user, target_user, request_fields):
+    def validate_user_fields_patchable(requesting_user, target_user, request_fields):
         """Validate that the requesting user has permission to patch the specified fields
         of the target user.
 
@@ -122,7 +101,6 @@ class PermissionCheck:
         Returns:
             None
         """
-
         most_privileged_ranked_name = PermissionCheck.get_most_privileged_ranked_permission_type(
             requesting_user, target_user
         )
@@ -137,7 +115,7 @@ class PermissionCheck:
             raise ValidationError(f"Invalid fields: {', '.join(disallowed_fields)}")
 
     @staticmethod
-    def validate_fields_postable(requesting_user, request_fields):
+    def validate_user_fields_postable(requesting_user, request_fields):
         """Validate that the requesting user has permission to post the specified fields
         of the new user
 

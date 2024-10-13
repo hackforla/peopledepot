@@ -18,21 +18,21 @@ count_members_either = 6
 @pytest.mark.django_db
 @pytest.mark.load_user_data_required  # see load_user_data_required in conftest.py
 class TestPostUser:
-    def test_validate_fields_postable_raises_exception_for_created_at(self):
-        """Test validate_fields_postable raises ValidationError when request
+    def test_validate_user_fields_postable_raises_exception_for_created_at(self):
+        """Test validate_user_fields_postable raises ValidationError when request
         fields include the created_at field.
         """
         with pytest.raises(ValidationError):
-            PermissionCheck.validate_fields_postable(
+            PermissionCheck.validate_user_fields_postable(
                 SeedUser.get_user(garry_name),
                 ["created_at"],
             )
 
-    def test_validate_fields_postable_raises_exception_for_admin_project(self):
-        """Test validate_fields_postable raises PermissionError when requesting
+    def test_validate_user_fields_postable_raises_exception_for_admin_project(self):
+        """Test validate_user_fields_postable raises PermissionError when requesting
         user is a project lead and fields include password
         """
         with pytest.raises(PermissionError):
-            PermissionCheck.validate_fields_postable(
+            PermissionCheck.validate_user_fields_postable(
                 SeedUser.get_user(wanda_admin_project), ["username", "password"]
             )
