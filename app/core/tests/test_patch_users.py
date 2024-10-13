@@ -31,7 +31,7 @@ class TestPatchUser:
         view = UserViewSet.as_view({"patch": "partial_update"})
         response = view(request, uuid=requester.uuid)
         return response
-    
+
     def test_admin_patch_request_succeeds(self):
         """Test that the patch requests succeeds when the requester is an admin."""
         requester = SeedUser.get_user(garry_name)
@@ -45,7 +45,9 @@ class TestPatchUser:
             "gmail": "update@example.com",
         }
         response = client.patch(url, data, format="json")
-        assert response.status_code == status.HTTP_200_OK
+        assert (
+            response.status_code == status.HTTP_200_OK
+        ), f"API Error: {response.status_code} - {response.content.decode()}"
 
     def test_admin_cannot_patch_created_at(self):
         """Test that the patch request raises a validation exception
@@ -109,4 +111,3 @@ class TestPatchUser:
             orig_user_patch_fields_admin_project.copy()
         )
         assert response.status_code == status.HTTP_400_BAD_REQUEST
-   

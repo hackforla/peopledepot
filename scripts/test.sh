@@ -5,9 +5,10 @@ set -x
 TEST=""
 # Default options
 COVERAGE="--no-cov"
+EXEC_COMMAND=true
 CHECK_MIGRATIONS=true
 N_CPU="auto"
-POSITIONAL_ARGS=("-n","auto") 
+PYTEST_ARGS=("") 
 
 # Function to display help
 show_help() {
@@ -17,7 +18,8 @@ Usage: ${0##*/} [OPTIONS] [pytest-args]
 Options:
   --coverage         Run tests with coverage (default: without coverage, using --no-cov).
   --skip-migrations  Skip checking for pending migrations before running tests (default: check migrations).
-  -n                 Remove the default --n=auto option for running tests (default: --n=auto).
+  -n                 Remove the default --nauto option for running tests (default: -n auto).  There must be
+                       a space after -n and the value.
   --help             Display this help message and exit.
   --help-pytest      Display pytest help.
 
@@ -33,7 +35,6 @@ EOF
 # Parse arguments
 while [[ $# -gt 0 ]]; do
   arg="$1" # Use $1 as the current argument
-  echo Debug $arg
   case $arg in
     --help)
       show_help
@@ -43,6 +44,9 @@ while [[ $# -gt 0 ]]; do
       pytest --help
       exit 0
       ;;
+    --no-exec)
+      EXEC_COMMAND=false 
+      ;;     
     --coverage)
       COVERAGE=""  # Enable coverage
       echo "Coverage enabled"
@@ -53,11 +57,12 @@ while [[ $# -gt 0 ]]; do
       ;;
     -n)
       shift
-      N_CPU="$1" 
+      N_CPU="$1"
       ;;
     *)
-      POSITIONAL_ARGS+=("$arg")  # Preserve other arguments for pytest
-      echo "Positional argument added: $arg"
+      PYTEST_ARGS+=("$arg")  # Preserve other arguments for pytest
+      echo "Positional argument added: $arg" 
+      echo "Current python args: ${PYTEST_ARGS[@]}"
       ;;
   esac
   shift # Shift to the next argument
@@ -68,9 +73,9 @@ if [ "$CHECK_MIGRATIONS" = true ]; then
   echo "Checking for missing migrations..."
   docker-compose exec -T web python manage.py makemigrations --check
 fi
-PYTEST_ARGUMENT_STRING=""
-if [ ${#POSITIONAL_ARGS[@]} -gt 0 ]; then
-  PYTEST_ARGUMENT_STRING=$POSITIONAL_ARGS[@]
-fi
 
-docker-compose exec -T web pytest -n $N_CPU $COVERAGE
+if [ "$EXEC_COMMAND" = true ]; then
+  docker-compose exec -T web pytest -n $N_CPU $COVERAGE ${PYTEST_ARGS[@]}
+else
+  echo docker-compose exec -T web pytest -n $N_CPU $COVERAGE ${PYTEST_ARGS[@]}
+fi

@@ -10,6 +10,7 @@ from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
+from core.api.permissions import UserPermissionCheck
 from core.api.permission_check import PermissionCheck
 
 from ..models import Affiliate
@@ -126,7 +127,7 @@ class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
     partial_update=extend_schema(description="Update the given user"),
 )
 class UserViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, UserPermissionCheck]
     serializer_class = UserSerializer
     lookup_field = "uuid"
 
@@ -144,28 +145,28 @@ class UserViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(username=username)
         return queryset
 
-    def create(self, request, *args, **kwargs):
-        # Get the parameters for the update
-        new_user_data = request.data
-        if "time_zone" not in new_user_data:
-            new_user_data["time_zone"] = "America/Los_Angeles"
+    # def create(self, request, *args, **kwargs):
+    #     # Get the parameters for the update
+    #     new_user_data = request.data
+    #     if "time_zone" not in new_user_data:
+    #         new_user_data["time_zone"] = "America/Los_Angeles"
 
-        # Log or print the instance and update_data for debugging
+    #     # Log or print the instance and update_data for debugging
 
-        PermissionCheck.validate_fields_postable(request.user, new_user_data)
-        response = super().create(request, *args, **kwargs)
-        return response
+    #     PermissionCheck.validate_user_fields_postable(request.user, new_user_data)
+    #     response = super().create(request, *args, **kwargs)
+    #     return response
 
-    def partial_update(self, request, *args, **kwargs):
-        instance = self.get_object()
+    # def partial_update(self, request, *args, **kwargs):
+    #     instance = self.get_object()
 
-        # Get the parameters for the update
-        update_data = request.data
+    #     # Get the parameters for the update
+    #     update_data = request.data
 
-        # Log or print the instance and update_data for debugging
-        PermissionCheck.validate_fields_patchable(request.user, instance, update_data)
-        response = super().partial_update(request, *args, **kwargs)
-        return response
+    #     # Log or print the instance and update_data for debugging
+    #     PermissionCheck.validate_user_fields_patchable(request.user, instance, update_data)
+    #     response = super().partial_update(request, *args, **kwargs)
+    #     return response
 
 
 @extend_schema_view(
