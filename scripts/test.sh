@@ -74,7 +74,7 @@ if [ "$CHECK_MIGRATIONS" = true ]; then
 fi
 
 if [ "$EXEC_COMMAND" = true ]; then
-  docker-compose exec -T web pytest -n $N_CPU $COVERAGE ${PYTEST_ARGS[@]}
+  docker-compose exec -T web pytest -n $N_CPU $COVERAGE "${PYTEST_ARGS[@]"}
 else
-  echo docker-compose exec -T web pytest -n "$N_CPU" $COVERAGE "${PYTEST_ARGS[@]"}
+  echo docker-compose exec -T web pytest -n "$N_CPU" $COVERAGE ${PYTEST_ARGS[@]}
 fi
