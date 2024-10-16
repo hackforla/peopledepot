@@ -8,7 +8,7 @@ COVERAGE="--no-cov"
 EXEC_COMMAND=true
 CHECK_MIGRATIONS=true
 N_CPU="auto"
-PYTEST_ARGS=("")
+PYTEST_ARGS=("") 
 
 # Function to display help
 show_help() {
@@ -17,12 +17,11 @@ Usage: ${0##*/} [OPTIONS] [pytest-args]
 
 Options:
   --coverage         Run tests with coverage (default: without coverage, using --no-cov).
+  --skip-migrations  Skip checking for pending migrations before running tests (default: check migrations).
+  -n                 Remove the default --nauto option for running tests (default: -n auto).  There must be
+                       a space after -n and the value.
   --help             Display this help message and exit.
   --help-pytest      Display pytest help.
-  -n                 Specify how many CPUs to use for testing.  Default is auto
-  --no-exec          Show the pytest command but do not execute.  Useful for testing.
-  --skip-migrations  Skip checking for pending migrations before running tests (default: check migrations).
-
 
 Other parameters passed to the script will be forwarded to pytest as specified.
 
@@ -46,8 +45,8 @@ while [[ $# -gt 0 ]]; do
       exit 0
       ;;
     --no-exec)
-      EXEC_COMMAND=false
-      ;;
+      EXEC_COMMAND=false 
+      ;;     
     --coverage)
       COVERAGE=""  # Enable coverage
       echo "Coverage enabled"
@@ -62,7 +61,7 @@ while [[ $# -gt 0 ]]; do
       ;;
     *)
       PYTEST_ARGS+=("$arg")  # Preserve other arguments for pytest
-      echo "Positional argument added: $arg"
+      echo "Positional argument added: $arg" 
       echo "Current python args: ${PYTEST_ARGS[@]}"
       ;;
   esac
