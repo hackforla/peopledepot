@@ -2,9 +2,9 @@
 
 ## Find an issue
 
-Find an issue in Prioritized Backlog [here](https://github.com/hackforla/peopledepot/projects/1#column-16900748)
+Find an issue in Prioritized Backlog [here](https://github.com/orgs/hackforla/projects/61/views/2)
 
-If you joined the peopledepot repository as described in a previous section:
+If you joined the PeopleDepot repository as described in a previous section:
 
 1. Assign the issue to yourself and move it to "In progress" column.
 1. Follow the steps in the issue description to complete the issue.
