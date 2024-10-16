@@ -69,7 +69,9 @@ class TestGetLowestRankedPermissionType:
         - Wanda is a project admin on website project
         - Expected result: website project
         """
-        rank = _get_most_privileged_ranked_permission_type(wally_name, wanda_admin_project)
+        rank = _get_most_privileged_ranked_permission_type(
+            wally_name, wanda_admin_project
+        )
         assert rank == member_project
 
     def test_most_privileged_rank_blank_of_two_non_team_member(self):
@@ -79,7 +81,9 @@ class TestGetLowestRankedPermissionType:
         - Patrick is a project member on People Depot project
         - Expected result: blank
         """
-        rank = _get_most_privileged_ranked_permission_type(wally_name, patrick_practice_lead)
+        rank = _get_most_privileged_ranked_permission_type(
+            wally_name, patrick_practice_lead
+        )
         assert rank == ""
 
     def test_two_team_members_most_privileged_for_multiple_user_permissions_1(self):

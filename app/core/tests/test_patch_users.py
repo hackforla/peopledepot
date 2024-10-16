@@ -86,7 +86,9 @@ class TestPatchUser:
         requester = SeedUser.get_user(wanda_admin_project)  # project lead for website
         update_data = {"last_name": "Smith", "gmail": "smith@example.com"}
         target_user = SeedUser.get_user(wally_name)
-        response = TestPatchUser._patch_request_to_viewset(requester, target_user, update_data)
+        response = TestPatchUser._patch_request_to_viewset(
+            requester, target_user, update_data
+        )
 
         Cru.user_patch_fields[admin_project] = (
             orig_user_patch_fields_admin_project.copy()
@@ -106,7 +108,9 @@ class TestPatchUser:
         Cru.user_patch_fields[admin_project] = ["gmail"]
         update_data = {"last_name": "Smith"}
         target_user = SeedUser.get_user(wally_name)
-        response = TestPatchUser._patch_request_to_viewset(requester, target_user, update_data)
+        response = TestPatchUser._patch_request_to_viewset(
+            requester, target_user, update_data
+        )
         Cru.user_patch_fields[admin_project] = (
             orig_user_patch_fields_admin_project.copy()
         )

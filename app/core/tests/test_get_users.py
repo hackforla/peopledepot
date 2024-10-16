@@ -24,20 +24,21 @@ class TestGetUser:
     @staticmethod
     def _fields_match(first_name, response_data, fields):
         target_user = None
-        
+
         # look up target user in response_data by first name
         for user in response_data:
             if user["first_name"] == first_name:
                 target_user = user
                 break
-            
+
         # Throw error if target user not found
         if target_user == None:
-            raise ValueError('Test set up mistake.  No user with first name of ${first_name}')
-        
-        # Otherwise check if user fields in response data are the same as fields 
-        return set(user.keys()) == set(fields)
+            raise ValueError(
+                "Test set up mistake.  No user with first name of ${first_name}"
+            )
 
+        # Otherwise check if user fields in response data are the same as fields
+        return set(user.keys()) == set(fields)
 
     def test_get_url_results_for_admin_project(self):
         """Test that the get user request returns (a) all users on the website project

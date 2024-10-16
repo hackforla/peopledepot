@@ -9,7 +9,9 @@ from core.models import UserPermission
 
 class UserValidation:
     @staticmethod
-    def get_most_privileged_ranked_permission_type(requesting_user: User, target_user: User):
+    def get_most_privileged_ranked_permission_type(
+        requesting_user: User, target_user: User
+    ):
         """Get the lowest ranked (most privileged) permission type a requesting user has for
         projects shared with the target user.
 
@@ -101,8 +103,10 @@ class UserValidation:
         Returns:
             None
         """
-        most_privileged_ranked_name = UserValidation.get_most_privileged_ranked_permission_type(
-            requesting_user, target_user
+        most_privileged_ranked_name = (
+            UserValidation.get_most_privileged_ranked_permission_type(
+                requesting_user, target_user
+            )
         )
         if most_privileged_ranked_name == "":
             raise PermissionError("You do not have permission to patch this user")
@@ -157,8 +161,10 @@ class UserValidation:
         Returns:
             [User]: List of fields that the requesting user has permission to view for the target user.
         """
-        most_privileged_ranked_name = UserValidation.get_most_privileged_ranked_permission_type(
-            requesting_user, target_user
+        most_privileged_ranked_name = (
+            UserValidation.get_most_privileged_ranked_permission_type(
+                requesting_user, target_user
+            )
         )
         if most_privileged_ranked_name == "":
             raise PermissionError("You do not have permission to view this user")
