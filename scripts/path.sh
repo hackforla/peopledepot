@@ -12,5 +12,3 @@ CURRENT_PATH=$PWD
 cd scripts || cd app/scripts || cd ../scripts || echo Unable to set path & return 1
 export PATH=$PATH:$PWD
 cd $CURRENT_PATH
-
-
