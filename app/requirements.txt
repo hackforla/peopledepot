@@ -22,6 +22,7 @@ django==4.2.11
     #   djangorestframework
     #   drf-jwt
     #   drf-spectacular
+django-cors-headers==4.5.0
 django-extensions==3.2.3
 django-linear-migrations==2.12.0
 django-phonenumber-field==7.3.0

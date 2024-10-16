@@ -51,16 +51,22 @@ rsa_keys = {}
 # On django init we download jwks public keys which are used to validate jwt tokens.
 # For now there is no rotation of keys (seems like in Cognito decided not to implement it)
 if COGNITO_AWS_REGION and COGNITO_USER_POOL:
-    COGNITO_POOL_URL = (
-        f"https://cognito-idp.{COGNITO_AWS_REGION}.amazonaws.com/{COGNITO_USER_POOL}"
-    )
-    pool_jwks_url = COGNITO_POOL_URL + "/.well-known/jwks.json"
-    jwks = json.loads(request.urlopen(pool_jwks_url).read())  # nosec B310
-    rsa_keys = {key["kid"]: json.dumps(key) for key in jwks["keys"]}
+    try:
+        COGNITO_POOL_URL = (
+            f"https://cognito-idp.{COGNITO_AWS_REGION}.amazonaws.com/{COGNITO_USER_POOL}"
+        )
+        pool_jwks_url = COGNITO_POOL_URL + "/.well-known/jwks.json"
+        jwks = json.loads(request.urlopen(pool_jwks_url).read())  # nosec B310
+        rsa_keys = {key["kid"]: json.dumps(key) for key in jwks["keys"]}
+    except Exception as e:
+        print(f"Error loading JWKS: {e}", COGNITO_POOL_URL)
+        raise e
+        # return {}
 
 # Application definition
 
 INSTALLED_APPS = [
+    "corsheaders",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -79,7 +85,24 @@ INSTALLED_APPS = [
     "data",
 ]
 
+# Allow specific origins (like your React dev and production URLs)
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",  # React Dev Server
+    "https://your-frontend.com",  # React Production App
+]
+
+# Optional: Allow credentials (for cookies or tokens)
+CORS_ALLOW_CREDENTIALS = True
+
+# Optional: Control which headers are allowed
+CORS_ALLOW_HEADERS = [
+    "Authorization",
+    "Content-Type",
+]
+
+
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
