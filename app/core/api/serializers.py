@@ -1,6 +1,9 @@
 from rest_framework import serializers
 from timezone_field.rest_framework import TimeZoneSerializerField
 
+from core.api.cru import Cru
+from core.api.cru import profile_value
+from core.api.validate_util import UserValidation
 from core.models import Affiliate
 from core.models import Affiliation
 from core.models import CheckType
@@ -66,6 +69,16 @@ class UserSerializer(serializers.ModelSerializer):
 
     time_zone = TimeZoneSerializerField(use_pytz=False)
 
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        request_user: User = self.context["request"].user
+        # Get dynamic fields from some logic
+        user_fields = UserValidation.get_user_read_fields(request_user, instance)
+        # Only retain the fields you want to include in the output
+        return {
+            key: value for key, value in representation.items() if key in user_fields
+        }
+
     class Meta:
         model = User
         fields = (
@@ -73,6 +86,9 @@ class UserSerializer(serializers.ModelSerializer):
             "username",
             "created_at",
             "updated_at",
+            "is_superuser",
+            "is_active",
+            "is_staff",
             "email",
             "first_name",
             "last_name",
@@ -96,6 +112,14 @@ class UserSerializer(serializers.ModelSerializer):
             "username",
             "email",
         )
+
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    time_zone = TimeZoneSerializerField(use_pytz=False)
+
+    class Meta:
+        model = User
+        fields = Cru.user_read_fields[profile_value]
 
 
 class ProjectSerializer(serializers.ModelSerializer):

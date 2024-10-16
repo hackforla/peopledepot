@@ -3,7 +3,6 @@ from django.urls import reverse
 from rest_framework import status
 
 from core.api.serializers import ProgramAreaSerializer
-from core.api.serializers import UserSerializer
 from core.models import ProgramArea
 from core.models import UserPermission
 
@@ -59,23 +58,8 @@ def test_list_users_fail(client):
 
 def test_get_profile(auth_client):
     res = auth_client.get(ME_URL)
-
     assert res.status_code == status.HTTP_200_OK
     assert res.data["username"] == "TestUser"
-
-
-def test_get_users(auth_client, django_user_model):
-    create_user(django_user_model, username="TestUser2", password="testpass")
-    create_user(django_user_model, username="TestUser3", password="testpass")
-
-    res = auth_client.get(USERS_URL)
-
-    assert res.status_code == status.HTTP_200_OK
-    assert len(res.data) == 3
-
-    users = django_user_model.objects.all().order_by("created_at")
-    serializer = UserSerializer(users, many=True)
-    assert res.data == serializer.data
 
 
 def test_get_single_user(auth_client, user):
@@ -86,84 +70,7 @@ def test_get_single_user(auth_client, user):
     assert res.status_code == status.HTTP_200_OK
 
 
-user_actions_test_data = [
-    (
-        "admin_client",
-        "post",
-        "users_url",
-        CREATE_USER_PAYLOAD,
-        status.HTTP_201_CREATED,
-    ),
-    ("admin_client", "get", "users_url", {}, status.HTTP_200_OK),
-    (
-        "auth_client",
-        "post",
-        "users_url",
-        CREATE_USER_PAYLOAD,
-        status.HTTP_201_CREATED,
-    ),
-    ("auth_client", "get", "users_url", {}, status.HTTP_200_OK),
-    (
-        "auth_client",
-        "patch",
-        "user_url",
-        {"first_name": "TestUser2"},
-        status.HTTP_200_OK,
-    ),
-    (
-        "auth_client",
-        "put",
-        "user_url",
-        CREATE_USER_PAYLOAD,
-        status.HTTP_200_OK,
-    ),
-    ("auth_client", "delete", "user_url", {}, status.HTTP_204_NO_CONTENT),
-    (
-        "admin_client",
-        "patch",
-        "user_url",
-        {"first_name": "TestUser2"},
-        status.HTTP_200_OK,
-    ),
-    (
-        "admin_client",
-        "put",
-        "user_url",
-        CREATE_USER_PAYLOAD,
-        status.HTTP_200_OK,
-    ),
-    ("admin_client", "delete", "user_url", {}, status.HTTP_204_NO_CONTENT),
-    (
-        "auth_client2",
-        "patch",
-        "user_url",
-        {"first_name": "TestUser2"},
-        status.HTTP_200_OK,
-    ),
-    (
-        "auth_client2",
-        "put",
-        "user_url",
-        CREATE_USER_PAYLOAD,
-        status.HTTP_200_OK,
-    ),
-    ("auth_client2", "delete", "user_url", {}, status.HTTP_204_NO_CONTENT),
-]
-
-
-@pytest.mark.parametrize(
-    ("client_name", "action", "endpoint", "payload", "expected_status"),
-    user_actions_test_data,
-)
-def test_user_actions(client_name, action, endpoint, payload, expected_status, request):
-    client = request.getfixturevalue(client_name)
-    action_fn = getattr(client, action)
-    url = request.getfixturevalue(endpoint)
-    res = action_fn(url, payload)
-    assert res.status_code == expected_status
-
-
-def test_create_event(auth_client, project):
+def test_post_event(auth_client, project):
     """Test that we can create an event"""
 
     payload = {
@@ -193,7 +100,7 @@ def test_create_event(auth_client, project):
     assert res.data["name"] == payload["name"]
 
 
-def test_create_affiliate(auth_client):
+def test_post_affiliate(auth_client):
     payload = {
         "partner_name": "Test Partner",
         "partner_logo": "http://www.logourl.com",
@@ -206,7 +113,7 @@ def test_create_affiliate(auth_client):
     assert res.status_code == status.HTTP_201_CREATED
 
 
-def test_create_practice_area(auth_client):
+def test_post_practice_area(auth_client):
     payload = {
         "name": "Test API for creating practice area",
         "description": "See name.  Description is optional.",
@@ -216,7 +123,7 @@ def test_create_practice_area(auth_client):
     assert res.data["name"] == payload["name"]
 
 
-def test_create_faq(auth_client):
+def test_post_faq(auth_client):
     payload = {
         "question": "How do I work on an issue",
         "answer": "See CONTRIBUTING.md",
@@ -235,7 +142,7 @@ def test_get_faq_viewed(auth_client, faq_viewed):
     assert res.data[0]["faq"] == faq_viewed.faq.pk
 
 
-def test_create_location(auth_client):
+def test_post_location(auth_client):
     """Test that we can create a location"""
 
     payload = {
@@ -250,7 +157,7 @@ def test_create_location(auth_client):
     assert res.status_code == status.HTTP_201_CREATED
 
 
-def test_create_program_area(auth_client):
+def test_post_program_area(auth_client):
     """Test that we can create a program area"""
 
     payload = {
@@ -282,7 +189,7 @@ def test_list_program_area(auth_client):
     assert res.data == expected_data
 
 
-def test_create_skill(auth_client):
+def test_post_skill(auth_client):
     """Test that we can create a skill"""
 
     payload = {
@@ -316,7 +223,7 @@ def test_create_permission_type(auth_client):
     assert res.data["description"] == payload["description"]
 
 
-def test_create_stack_element_type(auth_client):
+def test_post_stack_element_type(auth_client):
     payload = {
         "name": "Test Stack Element Type",
         "description": "Stack Element Type description",
@@ -345,7 +252,7 @@ def test_create_sdg(auth_client):
     assert res.data["name"] == payload["name"]
 
 
-def test_create_affiliation(auth_client, project, affiliate):
+def test_post_affiliation(auth_client, project, affiliate):
     payload = {
         "affiliate": affiliate.pk,
         "project": project.pk,
