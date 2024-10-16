@@ -60,7 +60,7 @@ while [[ $# -gt 0 ]]; do
       ;;
     *)
       PYTEST_ARGS+=("$arg")  # Preserve other arguments for pytest
-      echo "Positional argument added: $arg" 
+      echo "Positional argument added: $arg"
       echo "Current python args: ${PYTEST_ARGS[*]}"
       ;;
   esac
