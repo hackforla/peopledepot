@@ -7,7 +7,7 @@ COVERAGE="--no-cov"
 EXEC_COMMAND=true
 CHECK_MIGRATIONS=true
 N_CPU="auto"
-PYTEST_ARGS=("") 
+PYTEST_ARGS=("")
 
 # Function to display help
 show_help() {
@@ -44,8 +44,8 @@ while [[ $# -gt 0 ]]; do
       exit 0
       ;;
     --no-exec)
-      EXEC_COMMAND=false 
-      ;;     
+      EXEC_COMMAND=false
+      ;;
     --coverage)
       COVERAGE=""  # Enable coverage
       echo "Coverage enabled"
