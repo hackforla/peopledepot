@@ -6,7 +6,7 @@ Thank you for volunteering your time! The following is a set of guidelines for c
 
 - [Joining the team](team.md)
 
-- [Setting up the Developement Environment](dev_environment.md)
+- [Setting up the Development Environment](dev_environment.md)
 
     - [Pre-requisites](dev_environment.md#pre-requisites)
     - [Fork the repository](dev_environment.md#fork-the-repository)
