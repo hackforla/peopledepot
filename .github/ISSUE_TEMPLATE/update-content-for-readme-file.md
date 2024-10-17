@@ -2,8 +2,9 @@
 name: Update Content for ReadMe file
 about: Instructions for revising the README.md file inside this repository
 title: ''
-labels: documentation, good first issue, help wanted, question
+labels: 'documentation, good first issue, help wanted, question, role: missing, size: missing, feature: docs: PD team documentation, s: PD team, complexity: missing'
 assignees: ''
+milestone: '04. Project Setup'
 
 ---
 

@@ -2,7 +2,7 @@
 name: Feature request
 about: Suggest an idea for this project
 title: 'Feature Suggestion: '
-labels: documentation
+labels: 'enhancement, documentation, role: missing, size: missing, feature: missing, stakeholder: missing, complexity: missing, milestone: missing'
 assignees: ''
 
 ---

@@ -2,8 +2,9 @@
 name: Post an open role
 about: Recruit volunteers for specific open roles template
 title: 'PD: Open Role for: [Replace with NAME OF ROLE]'
-labels: 'complexity: small, feature: recruiting, role: missing, size: 0.25pt'
+labels: 'complexity: small, feature: recruiting, role: missing, size: 0.25pt, s: PD team'
 assignees: ''
+milestone: '05. Team Workflow'
 
 ---
 
