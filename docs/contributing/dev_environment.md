@@ -162,7 +162,7 @@ upstream        https://github.com/hackforla/peopledepot.git (push)
 
 1. Browse to the web admin interface at `http://localhost:8000/admin/` and confirm the admin site is running. Use DJANGO_SUPERUSER_USERNAME and DJANGO_SUPERUSER_PASSWORD from .env.docker for credentials.
 
-See our documentation for [Working with Docker](http://localhost:8005/contributing/tools/docker/#working-with-docker) for more useful Docker commands.
+See our documentation for [Working with Docker](tools/docker.md#working-with-docker) for more useful Docker commands.
 
 ## Install pre-commit
 
