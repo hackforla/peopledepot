@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# Note about -e: Intentionally not "set -e..." so that if there is a syntax error, 
+# Note about -e: Intentionally not "set -e..." so that if there is a syntax error,
 # the shell will not close.  Unless you are joining commands with ||
 #
 # set -o pipefail will catch any failing command unless commands joined by ||
 # -u : errors if variable is not set
-# -o pipefail : script terminates if any command fails  
+# -o pipefail : script terminates if any command fails
 echo starting
 
 # Handle errors gracefully without exiting the shell session.
@@ -35,7 +35,7 @@ main() {
     echo "Could not find path.sh relative to the current directory."
     return 1
   fi
-  
+
   echo Checking path
 
   if [[ "$PATH" = *"$PWD"* ]]; then
