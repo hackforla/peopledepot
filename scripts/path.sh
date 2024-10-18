@@ -27,10 +27,10 @@ main() {
     echo path.sh is in current directory
   elif [ -f "../scripts/path.sh" ]; then
     echo "cd ../scripts"
-    cd ../scripts
+    cd ../scripts || return 1
   elif [ -f "scripts/path.sh" ]; then
     echo "cd scripts"
-    cd scripts
+    cd scripts || return 1
   elif [ ! -f "path.sh" ]; then
     echo "Could not find path.sh relative to the current directory."
     return 1
@@ -46,7 +46,7 @@ main() {
   fi
 
   echo "cd $ORIGINAL_DIR"
-  cd $ORIGINAL_DIR
+  cd $ORIGINAL_DIR || return 1
 
   echo "Script completed successfully."
 }
