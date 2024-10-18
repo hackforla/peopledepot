@@ -46,7 +46,7 @@ main() {
   fi
 
   echo "cd $ORIGINAL_DIR"
-  cd $ORIGINAL_DIR || return 1
+  cd "$ORIGINAL_DIR" || return 1
 
   echo "Script completed successfully."
 }
