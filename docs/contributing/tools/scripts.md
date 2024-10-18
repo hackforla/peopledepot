@@ -31,7 +31,7 @@ These scripts assume you are using bash.
 
 1. **createsuperuser.sh** - create a default superuser
 
-    1. This assumes that `DJANGO_SUPERUSER_USERNAME` and `DJANGO_SUPERUSER_PASSWORD` are set in `.env.dev`
+    1. This assumes that `DJANGO_SUPERUSER_USERNAME` and `DJANGO_SUPERUSER_PASSWORD` are set in `.env.docker`
 
 1. **db.sh** - connect to the database in the `db` container
 
@@ -43,8 +43,6 @@ These scripts assume you are using bash.
     - This script is dependent on the `graphviz` package
 
 1. **lint.sh** - lint and and auto-format code
-
-1. **loadenv.sh** - load environment variables from `.env.dev` into shell environment
 
 1. **logs.sh** - view/tail container logs
 
@@ -60,11 +58,14 @@ These scripts assume you are using bash.
 
     1. Pass in `-h` to show usage
 
-1. **start-local.sh** - start the development server natively
+1. **shell.sh** - open a shell on the terminal
+
+    1. Pass in `-h` to show usage
 
 1. **test.sh** - run tests and generate test coverage report
 
     1. Use the `-k` flag to filter tests. For example `test.sh -k program_area` will select only tests with "program_area" in the name.
-    1. Pass in `--no-cov` to disable the coverage report. The coverage report will show many missing lines of coverage as a result.
+    1. use `--help` to see other script options.
+    1. use `--help-pytest` to see pytest options that can be added.
 
 1. **update-dependencies.sh** - update python dependencies to the latest versions
