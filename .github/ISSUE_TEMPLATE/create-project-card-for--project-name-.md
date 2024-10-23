@@ -2,7 +2,7 @@
 name: Create project card for [project name]
 about: Gather information to add this project to HackforLA's website
 title: ''
-labels: 'documentation, good first issue, question, role: product, size: 1pt, feature: branding, s: PD team, s: hackforla.org, complexity: small'
+labels: 'complexity: small, role: product, size: 1pt, feature: branding, s: PD team, s: hackforla.org, complexity: small'
 assignees: ''
 milestone: '03. Org Requirements'
 
