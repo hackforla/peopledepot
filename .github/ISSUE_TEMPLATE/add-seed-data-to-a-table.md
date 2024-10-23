@@ -3,8 +3,7 @@ name: Add seed data to a table
 about: For adding data that will be the same no matter what organization uses People
   Depot
 title: 'Add seed data for Table: [Replace with TABLE NAME]'
-labels: 'good first issue, role: back end, s: CTJ, s: hackforla.org, s: kb, s: org,
-  s: PD team, s: tables, s: VRMS, size: 1pt'
+labels: 'good first issue, role: back end, s: missing, size: 1pt, complexity: small, milestone: missing'
 assignees: ''
 
 ---
