@@ -1,5 +1,4 @@
 import csv
-import sys
 from functools import lru_cache
 from typing import Any, Dict, List
 from rest_framework.exceptions import ValidationError, PermissionDenied
@@ -12,9 +11,8 @@ class FieldPermissionCheck:
     def is_admin(user) -> bool:
         """Check if a user has admin permissions."""
         permission_type = PermissionType.objects.filter(name=admin_global).first()
-        print("Debug", permission_type, "x", user, flush=True, file=sys.stdout)
         # return True
-        return UserPermission.objects.filter( # huh?
+        return UserPermission.objects.filter( # 
             permission_type=permission_type, user=user
         ).exists()
 

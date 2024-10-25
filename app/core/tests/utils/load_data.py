@@ -54,12 +54,12 @@ def load_data():
         first_name=patrick_practice_lead, description="People Depot project admin"
     )
     SeedUser.create_user(first_name=garry_name, description="Global admin")
-    SeedUser.get_user(garry_name).is_superuser = True
     SeedUser.get_user(garry_name).save()
     SeedUser.create_user(first_name=valerie_name, description="Verified user")
 
     related_data = [
         {"first_name": garry_name, "permission_type_name": admin_global},
+        {"first_name": garry_name, "project_name": website_project_name, "permission_type_name": admin_project },
         {
             "first_name": wanda_admin_project,
             "project_name": website_project_name,
