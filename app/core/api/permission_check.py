@@ -85,7 +85,7 @@ class FieldPermissionCheck:
 
         if not valid_fields:
             raise PermissionDenied(f"You do not have update privileges ")
-        elif valid_fields - disallowed_fields:
+        elif disallowed_fields:
             raise ValidationError(f"Invalid fields: {', '.join(disallowed_fields)}")
 
     @classmethod

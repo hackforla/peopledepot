@@ -7,15 +7,17 @@ from core.tests.utils.seed_constants import garry_name, wanda_admin_project, wal
 from core.tests.utils.seed_user import SeedUser
 
 
-
-# @pytest.fixture
-# def mock_permissions():
-#     """Fixture to provide mock permission types."""
-#     return [
-#         {"name": admin_global, "rank": 1},
-#         {"name": "moderator", "rank": 2},
-#         {"name": "viewer", "rank": 3},
-#     ]
+keys = ["table_name", "field_name", "read", "patch", "post"]
+rows = [
+    ["user", "field1", member_project, practice_lead_project, admin_global],
+    ["user", "field2", admin_project, admin_project, admin_global],
+    ["user", "field3", admin_project, admin_global, admin_global],
+    ["user", "system_field", member_project, "", ""],
+    ["foo", "bar", member_project, member_project, member_project],
+]
+# Create an array of dictionaries with keys specified by keys[] andsss
+# values for each row specified by rows
+mock_data = [dict(zip(keys, row)) for row in rows]
 
 
 @pytest.fixture
@@ -59,10 +61,10 @@ def mock_csv_data2():
 # Mocking means creating a "fake" version of a function that behaves how you want for testing purposes.
 # This allows us to test code without relying on external resources like databases.
 
-# @patch("core.models.PermissionType.objects.values")  
-# def test_get_rank_dict(mock_for_values_call):  
+# @patch("core.models.PermissionType.objects.values")
+# def test_get_rank_dict(mock_for_values_call):
 #     """Test that get_rank_dict returns the correct data."""
-    
+
 #     # PermissionType.objects.values() is called from get_rank_dict
 #     # This is mocked by @patch to avoid calling the db and to isolate the test
 #     # The return value will be the value specified below
@@ -116,18 +118,6 @@ def test_csv_field_permissions(mock_dict_reader, __mock_open__, mock_csv_data):
 def test_role_field_permissions(csv_field_permissions, permission_type, operation, table_name, expected_results):
 
     # SETUP
-
-    keys = ["table_name", "field_name", "read", "patch", "post"]
-    rows = [
-        ["user", "field1", member_project, practice_lead_project, admin_global],
-        ["user", "field2", admin_project, admin_project, admin_global],
-        ["user", "field3", admin_project, admin_global, admin_global],
-        ["user", "system_field", member_project, "", ""],
-        ["foo", "bar", member_project, member_project, member_project],
-    ]
-    # Create an array of dictionaries with keys specified by keys[] and
-    # values for each row specified by rows
-    mock_data = [dict(zip(keys, row)) for row in rows]
     csv_field_permissions.return_value = mock_data
     valid_fields = FieldPermissionCheck.get_valid_fields(operation=operation, permission_type=permission_type, table_name=table_name)
     assert set(valid_fields) == expected_results
@@ -189,45 +179,46 @@ def test_get_most_privileged_perm_type(
     )
 
 
-# @patch.object(FieldPermissionCheck, "get_rank_dict", return_value={ admin_global: 1, admin_project: 2, practice_lead_project: 3})
-# @patch.object(FieldPermissionCheck, "csv_field_permissions", return_value = \
-#     { "table_name", "user", "operation": "update",  "field_name": "field1", "create": admin_project, ""
-# }
 @pytest.mark.django_db
-@pytest.mark.skip
-@patch.object(FieldPermissionCheck, "role_field_permissions", return_value=["email"])
-def test_validate_user_fields_patchable_valid(mock_role_permissions):
+@pytest.mark.load_user_data_required
+@patch.object(FieldPermissionCheck, "csv_field_permissions", return_value=mock_data)
+def test_validate_fields_for_target_user_valid(__csv_field_permissions__):
     """Test that validate_user_fields_patchable does not raise an error for valid fields."""
-    try:
-        FieldPermissionCheck.validate_user_fields_patchable(
-            MagicMock(), MagicMock(), ["email"]
-        )
-    except ValidationError:
-        pytest.fail("ValidationError was raised unexpectedly!")
+    FieldPermissionCheck.validate_fields_for_target_user(
+        operation="patch",
+        table_name="user",
+        requesting_user=SeedUser.get_user(wanda_admin_project),
+        target_user=SeedUser.get_user(wally_name),
+        request_fields=["field1","field2"]
+    )
 
 
 @pytest.mark.django_db
-@pytest.mark.skip
-@patch.object(FieldPermissionCheck, "role_field_permissions", return_value=["email"])
-@patch.object(
-    FieldPermissionCheck, "get_most_privileged_perm_type", return_value=["dummy"]
-)
-def test_validate_user_fields_patchable_invalid(mock_role_permissions):
+@pytest.mark.load_user_data_required
+@patch.object(FieldPermissionCheck, "csv_field_permissions", return_value=mock_data)
+def test_validate_user_fields_patchable_invalid(__csv_field_permissions__):
     """Test that validate_user_fields_patchable raises a ValidationError for invalid fields."""
-    with pytest.raises(ValidationError, match="Invalid fields: name"):
-        FieldPermissionCheck.validate_user_fields_patchable(
-            MagicMock(), MagicMock(), ["name"]
+    with pytest.raises(ValidationError):
+        FieldPermissionCheck.validate_fields_for_target_user(
+            operation="patch",
+            table_name="user",
+            requesting_user=SeedUser.get_user(wanda_admin_project),
+            target_user=SeedUser.get_user(wally_name),
+            request_fields=["field1", "field2", "field3", "dummy"]
         )
 
 
 @pytest.mark.django_db
-@pytest.mark.skip
-@patch.object(FieldPermissionCheck, "role_field_permissions", return_value=[])
-def test_validate_user_fields_patchable_no_privileges(mock_role_permissions):
+@patch.object(FieldPermissionCheck, "csv_field_permissions", return_value=mock_data)
+def test_validate_user_fields_patchable_no_privileges(__csv_field_permissions__):
     """Test that validate_user_fields_patchable raises a PermissionError when no privileges exist."""
-    with pytest.raises(PermissionError, match="You do not have update privileges"):
-        FieldPermissionCheck.validate_user_fields_patchable(
-            MagicMock(), MagicMock(), ["email"]
+    with pytest.raises(PermissionDenied, match="You do not have update privileges"):
+        FieldPermissionCheck.validate_fields_for_target_user(
+            operation="patch",
+            table_name="user",
+            requesting_user=SeedUser.get_user(wally_name),
+            target_user=SeedUser.get_user(wally_name),
+            request_fields=["field1"]
         )
 
 
