@@ -25,26 +25,29 @@ class FieldPermissionCheck:
 
     @staticmethod
     @lru_cache
-    def csv_field_permissions() -> Dict[str, Dict[str, List[Dict[str, Any]]]]:
+    def csv_field_permissions() -> List[Dict[str, str]]:
         """Read the field permissions from a CSV file."""
-        with open(field_permissions_csv_file, mode="r", newline="") as file:
-            reader = csv.DictReader(file)
-            return list(reader)
+
+    @classmethod
+    def field_is_valid(cls, operation: str, permission_type: str, table_name: str, field: Dict):
+        operation_permission_type = field[operation]
+        if operation_permission_type == "":
+            return False
+        table_match = field["table_name"] == table_name
+        rank_dict = cls.get_rank_dict()
+        source_rank = rank_dict[permission_type]            
+        rank_match = source_rank <= rank_dict[operation_permission_type]
+        return table_match and rank_match
 
     @classmethod
     def role_field_permissions(cls, operation: str, permission_type: str, table_name: str) -> List[str]:
         """Return the valid fields for the given permission type."""
-        rank_dict = cls.get_rank_dict()
-        source_rank = rank_dict[permission_type]
+
         valid_fields = []
         for field in cls.csv_field_permissions():
-            operation_match = field[operation] == operation
-            table_match = field[table_name] == table_name
-            rank_match = rank_dict[permission_type] >= source_rank
-
-            if operation_match and table_match and rank_match:
-                field["table_name"] == table_name                
+            if cls.field_is_valid(operation=operation, permission_type=permission_type, table_name=table_name, field=field):
                 valid_fields += [field["field_name"]]
+        return valid_fields
 
     @classmethod
     def get_most_privileged_perm_type(
