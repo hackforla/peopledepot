@@ -97,7 +97,7 @@ def test_csv_field_permissions(mock_dict_reader, __mock_open__, mock_csv_data):
 @pytest.mark.load_user_data_required  # see load_user_data_required in conftest.py
 @pytest.mark.django_db
 @pytest.mark.parametrize(
-    "permission_type, operation, table, expected_results",
+    "permission_type, operation, table_name, expected_results",
     [
         [member_project, "read", "user", {"field1", "system_field"}],
         [practice_lead_project, "read", "user", {"field1", "system_field"}],
@@ -113,7 +113,7 @@ def test_csv_field_permissions(mock_dict_reader, __mock_open__, mock_csv_data):
         [admin_global, "patch", "user", {"field1", "field2", "field3"}],
     ]
 )
-def test_role_field_permissions(csv_field_permissions, permission_type, operation, table, expected_results):
+def test_role_field_permissions(csv_field_permissions, permission_type, operation, table_name, expected_results):
 
     # SETUP
 
@@ -129,7 +129,7 @@ def test_role_field_permissions(csv_field_permissions, permission_type, operatio
     # values for each row specified by rows
     mock_data = [dict(zip(keys, row)) for row in rows]
     csv_field_permissions.return_value = mock_data
-    valid_fields = FieldPermissionCheck.role_field_permissions(operation=operation, permission_type=permission_type, table_name=table)
+    valid_fields = FieldPermissionCheck.get_valid_fields(operation=operation, permission_type=permission_type, table_name=table_name)
     assert set(valid_fields) == expected_results
 
 @pytest.mark.django_db

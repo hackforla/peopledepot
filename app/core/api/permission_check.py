@@ -29,23 +29,22 @@ class FieldPermissionCheck:
         """Read the field permissions from a CSV file."""
 
     @classmethod
-    def field_is_valid(cls, operation: str, permission_type: str, table_name: str, field: Dict):
+    def is_field_valid(cls, operation: str, permission_type: str, table_name: str, field: Dict):
         operation_permission_type = field[operation]
-        if operation_permission_type == "":
+        if operation_permission_type == "" or field["table_name"] != table_name:
             return False
-        table_match = field["table_name"] == table_name
         rank_dict = cls.get_rank_dict()
         source_rank = rank_dict[permission_type]            
         rank_match = source_rank <= rank_dict[operation_permission_type]
-        return table_match and rank_match
+        return rank_match
 
     @classmethod
-    def role_field_permissions(cls, operation: str, permission_type: str, table_name: str) -> List[str]:
+    def get_valid_fields(cls, operation: str, permission_type: str, table_name: str) -> List[str]:
         """Return the valid fields for the given permission type."""
 
         valid_fields = []
         for field in cls.csv_field_permissions():
-            if cls.field_is_valid(operation=operation, permission_type=permission_type, table_name=table_name, field=field):
+            if cls.is_field_valid(operation=operation, permission_type=permission_type, table_name=table_name, field=field):
                 valid_fields += [field["field_name"]]
         return valid_fields
 
@@ -72,14 +71,14 @@ class FieldPermissionCheck:
         return min_permission["permission_type__name"]
 
     @classmethod
-    def validate_user_fields_patchable(
-        cls, requesting_user, target_user, request_fields: List[str]
+    def validate_fields_for_target_user(
+        cls, operation, table_name, requesting_user, target_user, request_fields: List[str]
     ) -> None:
         """Ensure the requesting user can patch the provided fields."""
         most_privileged_perm_type = cls.get_most_privileged_perm_type(requesting_user, target_user)
-        valid_fields = cls.role_field_permissions(
-            operation = "update", 
-            table_name = "user", 
+        valid_fields = cls.get_valid_fields(
+            operation = operation, 
+            table_name = table_name, 
             permission_type = most_privileged_perm_type
         )
         disallowed_fields = set(request_fields) - set(valid_fields)
