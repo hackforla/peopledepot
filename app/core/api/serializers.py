@@ -20,6 +20,7 @@ from core.models import StackElementType
 from core.models import UrlType
 from core.models import User
 from core.models import UserPermission
+from core.models import UserStatusType
 
 
 class PracticeAreaSerializer(serializers.ModelSerializer):
@@ -375,5 +376,14 @@ class UrlTypeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UrlType
+        fields = ("uuid", "name", "description")
+        read_only_fields = ("uuid", "created_at", "updated_at")
+
+
+class UserStatusTypeSerializer(serializers.ModelSerializer):
+    """Used to retrieve user_status_type info"""
+
+    class Meta:
+        model = UserStatusType
         fields = ("uuid", "name", "description")
         read_only_fields = ("uuid", "created_at", "updated_at")

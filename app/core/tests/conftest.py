@@ -23,6 +23,7 @@ from ..models import StackElementType
 from ..models import UrlType
 from ..models import User
 from ..models import UserPermission
+from ..models import UserStatusType
 
 
 @pytest.fixture
@@ -298,4 +299,11 @@ def url_type():
     return UrlType.objects.create(
         name="This is a test url type name",
         description="This is a test url type description",
+    )
+
+
+@pytest.fixture
+def user_status_type():
+    return UserStatusType.objects.create(
+        name="Test User Status Type", description="Test User Status Type description"
     )
