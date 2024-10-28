@@ -1,5 +1,6 @@
 import csv
 import inspect
+import sys
 from functools import lru_cache
 from typing import Any, Dict, List
 from rest_framework.exceptions import ValidationError, PermissionDenied, MethodNotAllowed
@@ -7,13 +8,6 @@ from constants import field_permissions_csv_file, admin_global  # Assuming you h
 from core.models import PermissionType, UserPermission
 
 class FieldPermissionCheck:
-
-    @staticmethod
-    def clear_all_caches(module):
-        """Clear all lru_cache decorated functions in a given module."""
-        for __name__, func in inspect.getmembers(module, inspect.isfunction):
-            if hasattr(func, "cache_clear"):
-                func.cache_clear()
 
     @ staticmethod
     def is_admin(user) -> bool:
@@ -25,14 +19,14 @@ class FieldPermissionCheck:
         ).exists()
 
     @staticmethod
-    @lru_cache
+    # @lru_cache
     def get_rank_dict() -> Dict[str, int]:
         """Return a dictionary mapping permission names to their ranks."""
         permissions = PermissionType.objects.values("name", "rank")
         return {perm["name"]: perm["rank"] for perm in permissions}
 
     @staticmethod
-    @lru_cache
+    # @lru_cache
     def get_csv_field_permissions() -> Dict[str, Dict[str, List[Dict[str, Any]]]]:
         """Read the field permissions from a CSV file."""
         with open(field_permissions_csv_file, mode="r", newline="") as file:
@@ -54,7 +48,6 @@ class FieldPermissionCheck:
                 field=field,
             ):
                 valid_fields += [field["field_name"]]
-        print("debug 2", valid_fields)
         return valid_fields
 
     @classmethod
@@ -94,7 +87,6 @@ class FieldPermissionCheck:
 
     def get_response_fields(cls, request, target_obj) -> None:
         """Ensure the requesting user can patch the provided fields."""
-        print("debug", request)
         return cls.get_fields_for_request(
             operation="read",
             table_name="user",
@@ -113,10 +105,6 @@ class FieldPermissionCheck:
         return rank_match
 
     @classmethod
-    def clear_all_caches(cls) -> None:
-        """Clear the cached field permissions."""
-
-    @classmethod
     def validate_request_on_target_user(cls, request, target_user) -> None:
         """Ensure the requesting user can patch the provided fields."""
         method = request.method.lower()
@@ -128,7 +116,6 @@ class FieldPermissionCheck:
             request=request,
             target_user=target_user
         )
-        print("debug", valid_fields, "xxxx")
         request_data_keys = set(request.data)
         disallowed_fields = request_data_keys - set(valid_fields)
 

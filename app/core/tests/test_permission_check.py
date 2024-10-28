@@ -1,4 +1,6 @@
+import inspect
 import pytest
+import sys
 from unittest.mock import patch, mock_open
 from rest_framework.exceptions import ValidationError, PermissionDenied
 from core.api.permission_check  import FieldPermissionCheck
@@ -173,42 +175,47 @@ def test_patch_valid_fields(__csv_field_permissions__):
 @pytest.mark.django_db
 @pytest.mark.load_user_data_required
 @patch.object(FieldPermissionCheck, "get_csv_field_permissions", return_value=mock_data)
-@pytest.mark.skip
 def test_validate_fields_fail(__csv_field_permissions__):
     """Test that validate_user_fields_patchable raises a ValidationError for invalid fields."""
+    patch_data = {
+        "field1": "foo",
+        "field2": "bar",
+        "field3": "not valid for patch"
+    }
+    mock_simplified_request = MockSimplifiedRequest (
+        method = "PATCH",
+        user = SeedUser.get_user(wanda_admin_project),
+        data = patch_data
+    )
+
     with pytest.raises(ValidationError):
-        FieldPermissionCheck.validate_fields_for_target_user(
-            operation="patch",
-            table_name="user",
-            requesting_user=SeedUser.get_user(wanda_admin_project),
+        FieldPermissionCheck.validate_request_on_target_user(
             target_user=SeedUser.get_user(wally_name),
-            request_fields=["field1", "field2", "field3", "dummy"]
-        )
+            request=mock_simplified_request,
+    )       
 
 
 @pytest.mark.django_db
 @patch.object(FieldPermissionCheck, "get_csv_field_permissions", return_value=mock_data)
-@pytest.mark.skip
 def test_validate_fields_no_privileges(__csv_field_permissions__):
     """Test that validate_user_fields_patchable raises a PermissionError when no privileges exist."""
-    with pytest.raises(PermissionDenied, match="You do not have update privileges"):
-        FieldPermissionCheck.is_field_valid(
-            operation="patch",
-            table_name="user",
-            requesting_user=SeedUser.get_user(wally_name),
+    patch_data = {"field1": "foo"}
+    mock_simplified_request = MockSimplifiedRequest(
+        method="PATCH", user=SeedUser.get_user(wally_name), data=patch_data
+    )
+
+    with pytest.raises(PermissionDenied):
+        FieldPermissionCheck.validate_request_on_target_user(
             target_user=SeedUser.get_user(wally_name),
-            request_fields=["field1"]
+            request=mock_simplified_request,
         )
 
 
-@pytest.mark.skip
-def test_clear_cache():
-    """Test that clear cache works by calling cache_clear on the cached methods."""
-    with patch.object(
-        FieldPermissionCheck.get_csv_field_permissions, "cache_clear"
-    ) as mock_csv_clear, patch.object(
-        FieldPermissionCheck.get_rank_dict, "cache_clear"
-    ) as mock_rank_clear:
-        FieldPermissionCheck.clear_all_caches()
-        mock_csv_clear.assert_called_once()
-        mock_rank_clear.assert_called_once()
+# def test_clear_cache():
+#     """Test that clear cache works by calling cache_clear on the cached methods."""
+#     current_module = sys.modules[__name__]  # Get the current module
+#     before_cached_count = len(inspect.getmembers(current_module, inspect.isfunction))
+#     # assert before_cached_count > 0
+#     FieldPermissionCheck.clear_all_caches()
+#     after_cached_count = inspect.getmembers(current_module, inspect.isfunction)
+#     assert after_cached_count == 0
