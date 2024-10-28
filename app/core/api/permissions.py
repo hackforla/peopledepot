@@ -1,5 +1,5 @@
 from rest_framework.permissions import BasePermission
-from core.api.validate_util import UserValidation
+from core.api.permission_check import FieldPermissionCheck
 
 class DenyAny(BasePermission):
     def has_permission(self, __request__, __view__):
@@ -13,14 +13,12 @@ class UserMethodPermission(BasePermission):
 
     def has_permission(self, request, __view__):
         if request.method == "POST":
-            if "time_zone" not in request.data:
-                request.data["time_zone"] = "America/Los_Angeles"
-            UserValidation.validate_user_fields_postable(request.user, request.data)
+            FieldPermissionCheck.validate_user_related_request(request=request)
         return True  # Default to allow the request
 
     def has_object_permission(self, request, view, obj):
         if request.method == "PATCH":
-            UserValidation.validate_user_fields_patchable(
-                request.user, obj, request.data
+            FieldPermissionCheck.validate_user_related_request(
+                target_user=obj, request=request
             )
         return True

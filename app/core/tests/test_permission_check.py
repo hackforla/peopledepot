@@ -151,7 +151,7 @@ def test_get_most_privileged_perm_type(
 @pytest.mark.django_db
 @pytest.mark.load_user_data_required
 @patch.object(FieldPermissionCheck, "get_csv_field_permissions", return_value=mock_data)
-def test_patch_valid_fields(__csv_field_permissions__):
+def test_patch_with_valid_fields(__csv_field_permissions__):
     """Test that validate_user_fields_patchable does not raise an error for valid fields."""
 
     # Create a PATCH request with a JSON payload
@@ -165,7 +165,7 @@ def test_patch_valid_fields(__csv_field_permissions__):
         data = patch_data
     )
 
-    FieldPermissionCheck.validate_request_on_target_user(
+    FieldPermissionCheck.validate_user_related_request(
         target_user=SeedUser.get_user(wally_name),
         request=mock_simplified_request,
     )
@@ -175,7 +175,7 @@ def test_patch_valid_fields(__csv_field_permissions__):
 @pytest.mark.django_db
 @pytest.mark.load_user_data_required
 @patch.object(FieldPermissionCheck, "get_csv_field_permissions", return_value=mock_data)
-def test_validate_fields_fail(__csv_field_permissions__):
+def test_patch_with_invalid_fields(__csv_field_permissions__):
     """Test that validate_user_fields_patchable raises a ValidationError for invalid fields."""
     patch_data = {
         "field1": "foo",
@@ -189,7 +189,7 @@ def test_validate_fields_fail(__csv_field_permissions__):
     )
 
     with pytest.raises(ValidationError):
-        FieldPermissionCheck.validate_request_on_target_user(
+        FieldPermissionCheck.validate_user_related_request(
             target_user=SeedUser.get_user(wally_name),
             request=mock_simplified_request,
     )       
@@ -197,7 +197,7 @@ def test_validate_fields_fail(__csv_field_permissions__):
 
 @pytest.mark.django_db
 @patch.object(FieldPermissionCheck, "get_csv_field_permissions", return_value=mock_data)
-def test_validate_fields_no_privileges(__csv_field_permissions__):
+def test_patch_fields_no_privileges(__csv_field_permissions__):
     """Test that validate_user_fields_patchable raises a PermissionError when no privileges exist."""
     patch_data = {"field1": "foo"}
     mock_simplified_request = MockSimplifiedRequest(
@@ -205,8 +205,59 @@ def test_validate_fields_no_privileges(__csv_field_permissions__):
     )
 
     with pytest.raises(PermissionDenied):
-        FieldPermissionCheck.validate_request_on_target_user(
+        FieldPermissionCheck.validate_user_related_request(
             target_user=SeedUser.get_user(wally_name),
+            request=mock_simplified_request,
+        )
+
+
+@pytest.mark.django_db
+@pytest.mark.load_user_data_required
+@patch.object(FieldPermissionCheck, "get_csv_field_permissions", return_value=mock_data)
+def test_post_with_valid_fields(__csv_field_permissions__):
+    """Test that validate_user_fields_patchable does not raise an error for valid fields."""
+
+    # Create a POST request with a JSON payload
+    post_data = {"field1": "foo", "field2": "bar"}
+    mock_simplified_request = MockSimplifiedRequest(
+        method="POST", user=SeedUser.get_user(garry_name), data=post_data
+    )
+
+    FieldPermissionCheck.validate_user_related_request(
+        request=mock_simplified_request,
+    )
+    assert True
+
+
+@pytest.mark.django_db
+@pytest.mark.load_user_data_required
+@patch.object(FieldPermissionCheck, "get_csv_field_permissions", return_value=mock_data)
+def test_post_with_invalid_fields(__csv_field_permissions__):
+    """Test that validate_user_fields_patchable raises a ValidationError for invalid fields."""
+    post_data = {"field1": "foo", "field2": "bar", "system_field": "not valid for post"}
+    mock_simplified_request = MockSimplifiedRequest(
+        method="POST", user=SeedUser.get_user(garry_name), data=post_data
+    )
+
+    with pytest.raises(ValidationError):
+        FieldPermissionCheck.validate_user_related_request(
+            target_user=SeedUser.get_user(wally_name),
+            request=mock_simplified_request,
+        )
+
+
+@pytest.mark.django_db
+@patch.object(FieldPermissionCheck, "get_csv_field_permissions", return_value=mock_data)
+def test_patch_fields_no_privileges(__csv_field_permissions__):
+    """Test that validate_user_fields_patchable raises a PermissionError when no privileges exist."""
+    patch_data = {"field1": "foo"}
+    mock_simplified_request = MockSimplifiedRequest(
+        method="PATCH", user=SeedUser.get_user(wally_name), data=patch_data
+    )
+
+    with pytest.raises(PermissionDenied):
+        FieldPermissionCheck.validate_user_related_request(
+            target_user=SeedUser.get_user(wanda_admin_project),
             request=mock_simplified_request,
         )
 

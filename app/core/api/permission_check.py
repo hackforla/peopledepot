@@ -1,7 +1,7 @@
 import csv
-import inspect
-import sys
-from functools import lru_cache
+# import inspect
+# import sys
+# from functools import lru_cache
 from typing import Any, Dict, List
 from rest_framework.exceptions import ValidationError, PermissionDenied, MethodNotAllowed
 from constants import field_permissions_csv_file, admin_global  # Assuming you have this constant
@@ -51,13 +51,25 @@ class FieldPermissionCheck:
         return valid_fields
 
     @classmethod
-    def get_fields_for_request(cls, request, operation, table_name, target_user):
+    def get_fields_for_post_request(cls, request, table_name):
         requesting_user = request.user
+        if not cls.is_admin(requesting_user):
+            raise PermissionDenied("You do not have privilges to create.")
+        fields = cls.get_fields(
+            operation="post",
+            table_name=table_name,
+            permission_type=admin_global,
+        )
+        return fields
+    
+    @ classmethod
+    def get_fields_for_patch_request(cls, request, table_name, target_user):
+        requesting_user = request.user        
         most_privileged_perm_type = cls.get_most_privileged_perm_type(
             requesting_user, target_user
         )
         fields = cls.get_fields(
-                operation=operation,
+                operation="patch",
                 table_name=table_name,
                 permission_type=most_privileged_perm_type
         )
@@ -87,7 +99,7 @@ class FieldPermissionCheck:
 
     def get_response_fields(cls, request, target_obj) -> None:
         """Ensure the requesting user can patch the provided fields."""
-        return cls.get_fields_for_request(
+        return cls.get_fields_for_patch_request(
             operation="read",
             table_name="user",
             request=request,
@@ -105,39 +117,24 @@ class FieldPermissionCheck:
         return rank_match
 
     @classmethod
-    def validate_request_on_target_user(cls, request, target_user) -> None:
+    def validate_user_related_request(cls, request, target_user=None) -> None:
         """Ensure the requesting user can patch the provided fields."""
-        method = request.method.lower()
-        if request.method not in ("PATCH", "POST"):
-            raise MethodNotAllowed("Application error.")
-        valid_fields = cls.get_fields_for_request(
-            operation=method.lower(),
-            table_name="user",
-            request=request,
-            target_user=target_user
-        )
+        valid_fields = []
+        if request.method == "POST":
+            valid_fields = cls.get_fields_for_post_request(request=request, table_name="user")
+        elif request.method == "PATCH":
+            valid_fields = cls.get_fields_for_patch_request(
+                table_name="user",
+                request=request,
+                target_user=target_user
+            )
+        else:
+            raise MethodNotAllowed("Not valid for REST method", request.method)
         request_data_keys = set(request.data)
         disallowed_fields = request_data_keys - set(valid_fields)
 
         if not valid_fields:
-            raise PermissionDenied(f"You do not have update privileges ")
+            raise PermissionDenied(f"You do not have privileges ")
         elif disallowed_fields:
             raise ValidationError(f"Invalid fields: {', '.join(disallowed_fields)}")
 
-    @classmethod
-    def is_post_request_valid(cls, request) -> None:
-        """Ensure the requesting user can patch the provided fields."""
-        requesting_user = request.user
-        if not cls.is_admin(requesting_user):
-            raise PermissionError("You do not have permission to create a user")
-
-        request_data_keys = set(request.data)
-        valid_fields = cls.get_fields(
-            operation="post", table_name="user", permission_type=admin_global
-        )
-        disallowed_fields = request_data_keys - set(valid_fields)
-
-        if not valid_fields:
-            raise PermissionDenied(f"You do not have create privileges ")
-        elif disallowed_fields:
-            raise ValidationError(f"Invalid fields: {', '.join(disallowed_fields)}")
