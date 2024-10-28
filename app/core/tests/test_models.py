@@ -171,3 +171,7 @@ def test_project_sdg_relationship(project):
 
 def test_url_type(url_type):
     assert str(url_type) == "This is a test url type name"
+
+
+def test_user_status_type(user_status_type):
+    assert str(user_status_type) == "Test User Status Type"

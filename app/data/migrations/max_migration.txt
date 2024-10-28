@@ -1,1 +1,1 @@
-0007_urltype_seed
+0008_userstatustype_seed

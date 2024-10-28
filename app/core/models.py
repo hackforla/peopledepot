@@ -74,7 +74,9 @@ class User(PermissionsMixin, AbstractBaseUser, AbstractBaseModel):
     gmail = models.EmailField(blank=True)
     preferred_email = models.EmailField(blank=True)
 
-    # user_status = models.ForeignKey(user_status_type, on_delete=models.PROTECT)
+    user_status = models.ForeignKey(
+        "UserStatusType", null=True, on_delete=models.PROTECT
+    )
     # current_practice_area = models.ManyToManyField("PracticeArea")
     # target_practice_area = models.ManyToManyField("PracticeArea")
 
@@ -451,3 +453,11 @@ class UrlType(AbstractBaseModel):
 
     def __str__(self):
         return self.name
+
+
+class UserStatusType(AbstractBaseModel):
+    name = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+
+    def __str__(self):
+        return f"{self.name}"

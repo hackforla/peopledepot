@@ -12,6 +12,7 @@ pytestmark = pytest.mark.django_db
 USER_PERMISSIONS_URL = reverse("user-permission-list")
 PROJECTS_URL = reverse("project-list")
 ME_URL = reverse("my_profile")
+USER_STATUS_TYPES_URL = reverse("user-status-type-list")
 USERS_URL = reverse("user-list")
 EVENTS_URL = reverse("event-list")
 PRACTICE_AREA_URL = reverse("practice-area-list")
@@ -419,3 +420,13 @@ def test_create_url_type(auth_client):
     assert res.status_code == status.HTTP_201_CREATED
     assert res.data["name"] == payload["name"]
     assert res.data["description"] == payload["description"]
+
+
+def test_create_user_status_type(auth_client):
+    payload = {
+        "name": "Test User Status Type",
+        "description": "Test User Status Type description",
+    }
+    res = auth_client.post(USER_STATUS_TYPES_URL, payload)
+    assert res.status_code == status.HTTP_201_CREATED
+    assert res.data["name"] == payload["name"]
