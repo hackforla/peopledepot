@@ -3,15 +3,12 @@ import csv
 # import sys
 # from functools import lru_cache
 from constants import profile_value
-from typing import Any, Dict, List
 from rest_framework.exceptions import ValidationError, PermissionDenied, MethodNotAllowed
-from constants import field_permissions_csv_file, admin_global  # Assuming you have this constant
-from core.models import PermissionType, UserPermission
 
 class ProfilePermissionCheck:
 
     @classmethod
-    def get_fields_for_patch_request(cls):
+    def get_valid_patch_fields(cls):
         fields = cls.get_fields(
             operation="patch", table_name="user", permission_type=profile_value
         )

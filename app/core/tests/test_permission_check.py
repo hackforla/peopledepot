@@ -4,6 +4,7 @@ import sys
 from unittest.mock import patch, mock_open
 from rest_framework.exceptions import ValidationError, PermissionDenied
 from core.api.permission_check  import PermissionValidation
+from core.api.user_request import UserRequest
 from constants import admin_global, admin_project, member_project, practice_lead_project
 from core.tests.utils.seed_constants import garry_name, wanda_admin_project, wally_name, zani_name, patti_name
 from core.tests.utils.seed_user import SeedUser
@@ -165,7 +166,7 @@ def test_patch_with_valid_fields(__csv_field_permissions__):
         data = patch_data
     )
 
-    PermissionValidation.validate_user_related_request(
+    UserRequest.validate_user_related_request(
         target_user=SeedUser.get_user(wally_name),
         request=mock_simplified_request,
     )
@@ -189,7 +190,7 @@ def test_patch_with_invalid_fields(__csv_field_permissions__):
     )
 
     with pytest.raises(ValidationError):
-        PermissionValidation.validate_user_related_request(
+        UserRequest.validate_user_related_request(
             target_user=SeedUser.get_user(wally_name),
             request=mock_simplified_request,
     )       
@@ -205,7 +206,7 @@ def test_patch_fields_no_privileges(__csv_field_permissions__):
     )
 
     with pytest.raises(PermissionDenied):
-        PermissionValidation.validate_user_related_request(
+        UserRequest.validate_user_related_request(
             target_user=SeedUser.get_user(wally_name),
             request=mock_simplified_request,
         )
@@ -223,7 +224,7 @@ def test_post_with_valid_fields(__csv_field_permissions__):
         method="POST", user=SeedUser.get_user(garry_name), data=post_data
     )
 
-    PermissionValidation.validate_user_related_request(
+    UserRequest.validate_user_related_request(
         request=mock_simplified_request,
     )
     assert True
@@ -240,7 +241,7 @@ def test_post_with_invalid_fields(__csv_field_permissions__):
     )
 
     with pytest.raises(ValidationError):
-        PermissionValidation.validate_user_related_request(
+        UserRequest.validate_user_related_request(
             target_user=SeedUser.get_user(wally_name),
             request=mock_simplified_request,
         )
@@ -256,7 +257,7 @@ def test_patch_fields_no_privileges(__csv_field_permissions__):
     )
 
     with pytest.raises(PermissionDenied):
-        PermissionValidation.validate_user_related_request(
+        UserRequest.validate_user_related_request(
             target_user=SeedUser.get_user(wanda_admin_project),
             request=mock_simplified_request,
         )

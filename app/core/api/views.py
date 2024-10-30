@@ -11,7 +11,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 from core.api.permissions import UserMethodPermission
-from core.api.validate_util import UserValidation
+from core.api.user_request import UserRequest
 
 from ..models import Affiliate
 from ..models import Affiliation
@@ -135,7 +135,7 @@ class UserViewSet(viewsets.ModelViewSet):
         """
         Optionally filter users by an 'email' and/or 'username' query paramerter in the URL
         """
-        queryset = UserValidation.get_user_queryset(self.request)
+        queryset = UserRequest.get_user_queryset(self.request)
 
         email = self.request.query_params.get("email")
         if email is not None:
@@ -144,30 +144,6 @@ class UserViewSet(viewsets.ModelViewSet):
         if username is not None:
             queryset = queryset.filter(username=username)
         return queryset
-
-    # def create(self, request, *args, **kwargs):
-    #     # Get the parameters for the update
-    #     new_user_data = request.data
-    #     if "time_zone" not in new_user_data:
-    #         new_user_data["time_zone"] = "America/Los_Angeles"
-
-    #     # Log or print the instance and update_data for debugging
-
-    #     UserValidation.validate_user_fields_postable(request.user, new_user_data)
-    #     response = super().create(request, *args, **kwargs)
-    #     return response
-
-    # def partial_update(self, request, *args, **kwargs):
-    #     instance = self.get_object()
-
-    #     # Get the parameters for the update
-    #     update_data = request.data
-
-    #     # Log or print the instance and update_data for debugging
-    #     UserValidation.validate_user_fields_patchable(request.user, instance, update_data)
-    #     response = super().partial_update(request, *args, **kwargs)
-    #     return response
-
 
 @extend_schema_view(
     list=extend_schema(description="Return a list of all the projects"),
