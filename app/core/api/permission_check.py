@@ -50,6 +50,7 @@ class PermissionValidation:
                 valid_fields += [field["field_name"]]
         return valid_fields
 
+    # todo: refactor to change request to requesting_user?
     @classmethod
     def get_fields_for_post_request(cls, request, table_name):
         requesting_user = request.user

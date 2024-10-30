@@ -166,7 +166,7 @@ def test_patch_with_valid_fields(__csv_field_permissions__):
         data = patch_data
     )
 
-    UserRequest.validate_user_related_request(
+    UserRequest.validate_fields(
         target_user=SeedUser.get_user(wally_name),
         request=mock_simplified_request,
     )
@@ -190,7 +190,7 @@ def test_patch_with_invalid_fields(__csv_field_permissions__):
     )
 
     with pytest.raises(ValidationError):
-        UserRequest.validate_user_related_request(
+        UserRequest.validate_fields(
             target_user=SeedUser.get_user(wally_name),
             request=mock_simplified_request,
     )       
@@ -206,7 +206,7 @@ def test_patch_fields_no_privileges(__csv_field_permissions__):
     )
 
     with pytest.raises(PermissionDenied):
-        UserRequest.validate_user_related_request(
+        UserRequest.validate_fields(
             target_user=SeedUser.get_user(wally_name),
             request=mock_simplified_request,
         )
@@ -224,7 +224,7 @@ def test_post_with_valid_fields(__csv_field_permissions__):
         method="POST", user=SeedUser.get_user(garry_name), data=post_data
     )
 
-    UserRequest.validate_user_related_request(
+    UserRequest.validate_fields(
         request=mock_simplified_request,
     )
     assert True
@@ -241,7 +241,7 @@ def test_post_with_invalid_fields(__csv_field_permissions__):
     )
 
     with pytest.raises(ValidationError):
-        UserRequest.validate_user_related_request(
+        UserRequest.validate_fields(
             target_user=SeedUser.get_user(wally_name),
             request=mock_simplified_request,
         )
@@ -257,7 +257,7 @@ def test_patch_fields_no_privileges(__csv_field_permissions__):
     )
 
     with pytest.raises(PermissionDenied):
-        UserRequest.validate_user_related_request(
+        UserRequest.validate_fields(
             target_user=SeedUser.get_user(wanda_admin_project),
             request=mock_simplified_request,
         )

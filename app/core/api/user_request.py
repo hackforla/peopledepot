@@ -12,7 +12,7 @@ from core.api.permission_check import PermissionValidation
 
 class UserRequest:
     @staticmethod
-    def get_user_queryset(request):
+    def get_queryset(request):
         """Get the queryset of users that the requesting user has permission to view.
 
         Called from get_queryset in UserViewSet in views.py.
@@ -38,7 +38,7 @@ class UserRequest:
         return queryset
 
     @classmethod
-    def validate_user_related_request(cls, request, target_user=None) -> None:
+    def validate_fields(cls, request, target_user=None) -> None:
         """Ensure the requesting user can patch the provided fields."""
         valid_fields = []
         if request.method == "POST":
