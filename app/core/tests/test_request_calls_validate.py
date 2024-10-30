@@ -4,7 +4,7 @@ from rest_framework import status
 from rest_framework.test import APIClient
 
 
-from core.api.permission_check import FieldPermissionCheck
+from core.api.permission_check import PermissionValidation
 from core.models import User
 from core.tests.utils.seed_constants import garry_name
 from core.tests.utils.seed_constants import valerie_name
@@ -21,7 +21,7 @@ count_members_either = 6
 @pytest.mark.load_user_data_required  # see load_user_data_required in conftest.py
 class TestRequestCallsValidate:
 
-    @patch.object(FieldPermissionCheck, "validate_user_related_request")
+    @patch.object(PermissionValidation, "validate_user_related_request")
     def test_patch_request_calls_validate_request(self, mock_validate_user_related_request):
         """Test that the patch requests succeeds when the requester is an admin."""
         requester = SeedUser.get_user(garry_name)
@@ -43,7 +43,7 @@ class TestRequestCallsValidate:
         assert request_received.method == "PATCH"
         assert target_user_received == target_user
 
-    @patch.object(FieldPermissionCheck, "validate_user_related_request")
+    @patch.object(PermissionValidation, "validate_user_related_request")
     def test_post_request_calls_validate_request(
         self, mock_validate_user_related_request
     ):

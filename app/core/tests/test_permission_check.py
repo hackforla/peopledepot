@@ -3,7 +3,7 @@ import pytest
 import sys
 from unittest.mock import patch, mock_open
 from rest_framework.exceptions import ValidationError, PermissionDenied
-from core.api.permission_check  import FieldPermissionCheck
+from core.api.permission_check  import PermissionValidation
 from constants import admin_global, admin_project, member_project, practice_lead_project
 from core.tests.utils.seed_constants import garry_name, wanda_admin_project, wally_name, zani_name, patti_name
 from core.tests.utils.seed_user import SeedUser
@@ -60,11 +60,11 @@ def test_csv_field_permissions(mock_dict_reader, __mock_open__, mock_csv_data):
     """Test that get_csv_field_permissions returns the correct parsed data."""
     mock_dict_reader.return_value = mock_csv_data
 
-    result = FieldPermissionCheck.get_csv_field_permissions()
+    result = PermissionValidation.get_csv_field_permissions()
     assert result == mock_csv_data
 
 
-@patch.object(FieldPermissionCheck, "get_csv_field_permissions")
+@patch.object(PermissionValidation, "get_csv_field_permissions")
 @pytest.mark.load_user_data_required  # see load_user_data_required in conftest.py
 @pytest.mark.django_db
 @pytest.mark.parametrize(
@@ -88,7 +88,7 @@ def test_role_field_permissions(get_csv_field_permissions, permission_type, oper
 
     # SETUP
     get_csv_field_permissions.return_value = mock_data
-    valid_fields = FieldPermissionCheck.get_fields(operation=operation, permission_type=permission_type, table_name=table_name)
+    valid_fields = PermissionValidation.get_fields(operation=operation, permission_type=permission_type, table_name=table_name)
     assert set(valid_fields) == expected_results
 
 @pytest.mark.django_db
@@ -97,7 +97,7 @@ def test_is_admin():
     """Test that is_admin returns True for an admin user."""
     admin_user = SeedUser.get_user(garry_name)
 
-    assert FieldPermissionCheck.is_admin(admin_user) is True
+    assert PermissionValidation.is_admin(admin_user) is True
 
 
 @pytest.mark.django_db
@@ -105,7 +105,7 @@ def test_is_admin():
 def test_is_not_admin():
     """Test that is_admin returns True for an admin user."""
     admin_user = SeedUser.get_user(wanda_admin_project)
-    assert FieldPermissionCheck.is_admin(admin_user) is False
+    assert PermissionValidation.is_admin(admin_user) is False
 
 
 @pytest.mark.parametrize(
@@ -141,7 +141,7 @@ def test_get_most_privileged_perm_type(
     request_user = SeedUser.get_user(request_user_name)
     target_user = SeedUser.get_user(target_user_name)
     assert (
-        FieldPermissionCheck.get_most_privileged_perm_type(
+        PermissionValidation.get_most_privileged_perm_type(
             request_user, target_user
         )
         == expected_permission_type
@@ -150,7 +150,7 @@ def test_get_most_privileged_perm_type(
 
 @pytest.mark.django_db
 @pytest.mark.load_user_data_required
-@patch.object(FieldPermissionCheck, "get_csv_field_permissions", return_value=mock_data)
+@patch.object(PermissionValidation, "get_csv_field_permissions", return_value=mock_data)
 def test_patch_with_valid_fields(__csv_field_permissions__):
     """Test that validate_user_fields_patchable does not raise an error for valid fields."""
 
@@ -165,7 +165,7 @@ def test_patch_with_valid_fields(__csv_field_permissions__):
         data = patch_data
     )
 
-    FieldPermissionCheck.validate_user_related_request(
+    PermissionValidation.validate_user_related_request(
         target_user=SeedUser.get_user(wally_name),
         request=mock_simplified_request,
     )
@@ -174,7 +174,7 @@ def test_patch_with_valid_fields(__csv_field_permissions__):
 
 @pytest.mark.django_db
 @pytest.mark.load_user_data_required
-@patch.object(FieldPermissionCheck, "get_csv_field_permissions", return_value=mock_data)
+@patch.object(PermissionValidation, "get_csv_field_permissions", return_value=mock_data)
 def test_patch_with_invalid_fields(__csv_field_permissions__):
     """Test that validate_user_fields_patchable raises a ValidationError for invalid fields."""
     patch_data = {
@@ -189,14 +189,14 @@ def test_patch_with_invalid_fields(__csv_field_permissions__):
     )
 
     with pytest.raises(ValidationError):
-        FieldPermissionCheck.validate_user_related_request(
+        PermissionValidation.validate_user_related_request(
             target_user=SeedUser.get_user(wally_name),
             request=mock_simplified_request,
     )       
 
 
 @pytest.mark.django_db
-@patch.object(FieldPermissionCheck, "get_csv_field_permissions", return_value=mock_data)
+@patch.object(PermissionValidation, "get_csv_field_permissions", return_value=mock_data)
 def test_patch_fields_no_privileges(__csv_field_permissions__):
     """Test that validate_user_fields_patchable raises a PermissionError when no privileges exist."""
     patch_data = {"field1": "foo"}
@@ -205,7 +205,7 @@ def test_patch_fields_no_privileges(__csv_field_permissions__):
     )
 
     with pytest.raises(PermissionDenied):
-        FieldPermissionCheck.validate_user_related_request(
+        PermissionValidation.validate_user_related_request(
             target_user=SeedUser.get_user(wally_name),
             request=mock_simplified_request,
         )
@@ -213,7 +213,7 @@ def test_patch_fields_no_privileges(__csv_field_permissions__):
 
 @pytest.mark.django_db
 @pytest.mark.load_user_data_required
-@patch.object(FieldPermissionCheck, "get_csv_field_permissions", return_value=mock_data)
+@patch.object(PermissionValidation, "get_csv_field_permissions", return_value=mock_data)
 def test_post_with_valid_fields(__csv_field_permissions__):
     """Test that validate_user_fields_patchable does not raise an error for valid fields."""
 
@@ -223,7 +223,7 @@ def test_post_with_valid_fields(__csv_field_permissions__):
         method="POST", user=SeedUser.get_user(garry_name), data=post_data
     )
 
-    FieldPermissionCheck.validate_user_related_request(
+    PermissionValidation.validate_user_related_request(
         request=mock_simplified_request,
     )
     assert True
@@ -231,7 +231,7 @@ def test_post_with_valid_fields(__csv_field_permissions__):
 
 @pytest.mark.django_db
 @pytest.mark.load_user_data_required
-@patch.object(FieldPermissionCheck, "get_csv_field_permissions", return_value=mock_data)
+@patch.object(PermissionValidation, "get_csv_field_permissions", return_value=mock_data)
 def test_post_with_invalid_fields(__csv_field_permissions__):
     """Test that validate_user_fields_patchable raises a ValidationError for invalid fields."""
     post_data = {"field1": "foo", "field2": "bar", "system_field": "not valid for post"}
@@ -240,14 +240,14 @@ def test_post_with_invalid_fields(__csv_field_permissions__):
     )
 
     with pytest.raises(ValidationError):
-        FieldPermissionCheck.validate_user_related_request(
+        PermissionValidation.validate_user_related_request(
             target_user=SeedUser.get_user(wally_name),
             request=mock_simplified_request,
         )
 
 
 @pytest.mark.django_db
-@patch.object(FieldPermissionCheck, "get_csv_field_permissions", return_value=mock_data)
+@patch.object(PermissionValidation, "get_csv_field_permissions", return_value=mock_data)
 def test_patch_fields_no_privileges(__csv_field_permissions__):
     """Test that validate_user_fields_patchable raises a PermissionError when no privileges exist."""
     patch_data = {"field1": "foo"}
@@ -256,7 +256,7 @@ def test_patch_fields_no_privileges(__csv_field_permissions__):
     )
 
     with pytest.raises(PermissionDenied):
-        FieldPermissionCheck.validate_user_related_request(
+        PermissionValidation.validate_user_related_request(
             target_user=SeedUser.get_user(wanda_admin_project),
             request=mock_simplified_request,
         )
