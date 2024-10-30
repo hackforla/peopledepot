@@ -3,7 +3,7 @@ import pytest
 import sys
 from unittest.mock import patch, mock_open
 from rest_framework.exceptions import ValidationError, PermissionDenied
-from core.api.permission_check  import PermissionValidation
+from core.api.permission_validation  import PermissionValidation
 from core.api.user_request import UserRequest
 from constants import admin_global, admin_project, member_project, practice_lead_project
 from core.tests.utils.seed_constants import garry_name, wanda_admin_project, wally_name, zani_name, patti_name

@@ -1,5 +1,5 @@
 from rest_framework.permissions import BasePermission
-from core.api.permission_check import PermissionValidation
+from app.core.api.permission_validation import PermissionValidation
 
 
 class DenyAny(BasePermission):

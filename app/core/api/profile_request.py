@@ -1,7 +1,8 @@
 from constants import profile_value
 from rest_framework.exceptions import ValidationError, PermissionDenied, MethodNotAllowed
+from app.core.api.permission_validation import PermissionValidation
 
-class ProfilePermissionCheck:
+class ProfileRequest:
 
     @classmethod
     def get_valid_patch_fields(cls):
@@ -12,7 +13,7 @@ class ProfilePermissionCheck:
 
     @classmethod
     def get_read_fields(cls):
-        fields = cls.get_fields(
+        fields = PermissionValidation.get_fields(
             operation="read", table_name="user", permission_type=profile_value
         )
         return fields

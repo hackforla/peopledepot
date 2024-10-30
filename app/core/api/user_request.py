@@ -6,7 +6,7 @@ from rest_framework.exceptions import (
 
 from core.models import User
 from core.models import UserPermission
-from core.api.permission_check import PermissionValidation
+from core.api.permission_validation import PermissionValidation
 
 
 
@@ -37,8 +37,8 @@ class UserRequest:
             queryset = User.objects.filter(permissions__project__in=projects).distinct()
         return queryset
 
-    @classmethod
-    def validate_fields(cls, request, target_user=None) -> None:
+    @staticmethod
+    def validate_fields(request, target_user=None) -> None:
         """Ensure the requesting user can patch the provided fields."""
         valid_fields = []
         if request.method == "POST":

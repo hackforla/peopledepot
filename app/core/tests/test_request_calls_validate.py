@@ -4,7 +4,7 @@ from rest_framework import status
 from rest_framework.test import APIClient
 
 
-from core.api.permission_check import PermissionValidation
+from app.core.api.permission_validation import PermissionValidation
 from core.models import User
 from core.tests.utils.seed_constants import garry_name
 from core.tests.utils.seed_constants import valerie_name
