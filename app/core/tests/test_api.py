@@ -10,7 +10,6 @@ pytestmark = pytest.mark.django_db
 
 USER_PERMISSIONS_URL = reverse("user-permission-list")
 ME_URL = reverse("my_profile")
-USERS_URL = reverse("user-list")
 EVENTS_URL = reverse("event-list")
 PRACTICE_AREA_URL = reverse("practice-area-list")
 FAQS_URL = reverse("faq-list")
@@ -26,48 +25,6 @@ SDG_URL = reverse("sdg-list")
 AFFILIATION_URL = reverse("affiliation-list")
 CHECK_TYPE_URL = reverse("check-type-list")
 SOC_MAJOR_URL = reverse("soc-major-list")
-
-CREATE_USER_PAYLOAD = {
-    "username": "TestUserAPI",
-    "password": "testpass",
-    # time_zone is required because django_timezone_field doesn't yet support
-    # the blank string
-    "time_zone": "America/Los_Angeles",
-}
-
-
-@pytest.fixture
-def users_url():
-    return reverse("user-list")
-
-
-@pytest.fixture
-def user_url(user):
-    return reverse("user-detail", args=[user.uuid])
-
-
-def create_user(django_user_model, **params):
-    return django_user_model.objects.create_user(**params)
-
-
-def test_list_users_fail(client):
-    res = client.get(USERS_URL)
-
-    assert res.status_code == status.HTTP_401_UNAUTHORIZED
-
-
-def test_get_profile(auth_client):
-    res = auth_client.get(ME_URL)
-    assert res.status_code == status.HTTP_200_OK
-    assert res.data["username"] == "TestUser"
-
-
-def test_get_single_user(auth_client, user):
-    res = auth_client.get(f"{USERS_URL}?email={user.email}")
-    assert res.status_code == status.HTTP_200_OK
-
-    res = auth_client.get(f"{USERS_URL}?username={user.username}")
-    assert res.status_code == status.HTTP_200_OK
 
 
 def test_post_event(auth_client, project):
@@ -233,7 +190,7 @@ def test_post_stack_element_type(auth_client):
     assert res.data["name"] == payload["name"]
 
 
-def test_get_user_permissions(user_superuser_admin, user_permissions, auth_client):
+def test_get_user_permissions(user_superuser_admin, auth_client):
     auth_client.force_authenticate(user=user_superuser_admin)
     permission_count = UserPermission.objects.count()
     res = auth_client.get(USER_PERMISSIONS_URL)

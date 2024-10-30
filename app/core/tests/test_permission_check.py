@@ -10,7 +10,7 @@ from core.tests.utils.seed_constants import garry_name, wanda_admin_project, wal
 from core.tests.utils.seed_user import SeedUser
 
 
-keys = ["table_name", "field_name", "read", "patch", "post"]
+keys = ["table_name", "field_name", "get", "patch", "post"]
 rows = [
     ["user", "field1", member_project, practice_lead_project, admin_global],
     ["user", "field2", admin_project, admin_project, admin_global],
@@ -71,10 +71,10 @@ def test_csv_field_permissions(mock_dict_reader, __mock_open__, mock_csv_data):
 @pytest.mark.parametrize(
     "permission_type, operation, table_name, expected_results",
     [
-        [member_project, "read", "user", {"field1", "system_field"}],
-        [practice_lead_project, "read", "user", {"field1", "system_field"}],
-        [admin_project, "read", "user", {"field1", "field2", "field3", "system_field"}],
-        [admin_global, "read", "user", {"field1", "field2", "field3", "system_field"}],
+        [member_project, "get", "user", {"field1", "system_field"}],
+        [practice_lead_project, "get", "user", {"field1", "system_field"}],
+        [admin_project, "get", "user", {"field1", "field2", "field3", "system_field"}],
+        [admin_global, "get", "user", {"field1", "field2", "field3", "system_field"}],
         [member_project, "patch", "user", set()],
         [practice_lead_project, "patch", "user", {"field1"}],
         [admin_project, "patch", "user", {"field1", "field2"}],
@@ -110,7 +110,7 @@ def test_is_not_admin():
 
 
 @pytest.mark.parametrize(
-    "request_user_name, target_user_name, expected_permission_type",
+    "request_user_name, response_related_user_name, expected_permission_type",
     [
         # Wanda is an admin project for website, Wally is on the same project => admin_project
         (wanda_admin_project, wally_name, admin_project),
@@ -136,14 +136,14 @@ def test_is_not_admin():
 @pytest.mark.django_db
 @pytest.mark.load_user_data_required  # see load_user_data_required in conftest.py
 def test_get_most_privileged_perm_type(
-    request_user_name, target_user_name, expected_permission_type
+    request_user_name, response_related_user_name, expected_permission_type
 ):
     """Test that the correct permission type is returned."""
     request_user = SeedUser.get_user(request_user_name)
-    target_user = SeedUser.get_user(target_user_name)
+    response_related_user = SeedUser.get_user(response_related_user_name)
     assert (
         PermissionValidation.get_most_privileged_perm_type(
-            request_user, target_user
+            request_user, response_related_user
         )
         == expected_permission_type
     )
@@ -167,7 +167,7 @@ def test_patch_with_valid_fields(__csv_field_permissions__):
     )
 
     UserRequest.validate_fields(
-        target_user=SeedUser.get_user(wally_name),
+        response_related_user=SeedUser.get_user(wally_name),
         request=mock_simplified_request,
     )
     assert True
@@ -191,7 +191,7 @@ def test_patch_with_invalid_fields(__csv_field_permissions__):
 
     with pytest.raises(ValidationError):
         UserRequest.validate_fields(
-            target_user=SeedUser.get_user(wally_name),
+            response_related_user=SeedUser.get_user(wally_name),
             request=mock_simplified_request,
     )       
 
@@ -207,7 +207,7 @@ def test_patch_fields_no_privileges(__csv_field_permissions__):
 
     with pytest.raises(PermissionDenied):
         UserRequest.validate_fields(
-            target_user=SeedUser.get_user(wally_name),
+            response_related_user=SeedUser.get_user(wally_name),
             request=mock_simplified_request,
         )
 
@@ -242,7 +242,7 @@ def test_post_with_invalid_fields(__csv_field_permissions__):
 
     with pytest.raises(ValidationError):
         UserRequest.validate_fields(
-            target_user=SeedUser.get_user(wally_name),
+            response_related_user=SeedUser.get_user(wally_name),
             request=mock_simplified_request,
         )
 
@@ -258,7 +258,7 @@ def test_patch_fields_no_privileges(__csv_field_permissions__):
 
     with pytest.raises(PermissionDenied):
         UserRequest.validate_fields(
-            target_user=SeedUser.get_user(wanda_admin_project),
+            response_related_user=SeedUser.get_user(wanda_admin_project),
             request=mock_simplified_request,
         )
 

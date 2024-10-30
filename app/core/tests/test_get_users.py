@@ -23,16 +23,16 @@ _user_get_url = reverse("user-list")
 class TestGetUser:
     @staticmethod
     def _fields_match(first_name, response_data, fields):
-        target_user = None
+        response_related_user = None
         
         # look up target user in response_data by first name
         for user in response_data:
             if user["first_name"] == first_name:
-                target_user = user
+                response_related_user = user
                 break
             
         # Throw error if target user not found
-        if target_user == None:
+        if response_related_user == None:
             raise ValueError('Test set up mistake.  No user with first name of ${first_name}')
         
         # Otherwise check if user fields in response data are the same as fields 
@@ -42,7 +42,7 @@ class TestGetUser:
     def test_get_url_results_for_admin_project(self):
         """Test that the get user request returns (a) all users on the website project
         and (b) the fields match fields configured for a project admin
-        **WHEN** the requester is a project admin.
+        **WHEN** the requesting_user is a project admin.
         """
         client = APIClient()
         client.force_authenticate(user=SeedUser.get_user(wanda_admin_project))
@@ -80,7 +80,7 @@ class TestGetUser:
         assert len(response.json()) == count_website_members
 
     def test_no_user_permission(self):
-        """Test that get user request returns no data when requester has no permissions."""
+        """Test that get user request returns no data when requesting_user has no permissions."""
         client = APIClient()
         client.force_authenticate(user=SeedUser.get_user(valerie_name))
         response = client.get(_user_get_url)

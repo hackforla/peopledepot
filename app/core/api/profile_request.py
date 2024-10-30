@@ -1,6 +1,6 @@
 from constants import profile_value
 from rest_framework.exceptions import ValidationError, PermissionDenied, MethodNotAllowed
-from app.core.api.permission_validation import PermissionValidation
+from core.api.permission_validation import PermissionValidation
 
 class ProfileRequest:
 
@@ -14,7 +14,7 @@ class ProfileRequest:
     @classmethod
     def get_read_fields(cls):
         fields = PermissionValidation.get_fields(
-            operation="read", table_name="user", permission_type=profile_value
+            operation="get", table_name="user", permission_type=profile_value
         )
         return fields
 

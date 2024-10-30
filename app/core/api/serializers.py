@@ -1,8 +1,8 @@
 from rest_framework import serializers
 from timezone_field.rest_framework import TimeZoneSerializerField
-from app.core.api.permission_validation import PermissionValidation
+from core.api.permission_validation import PermissionValidation
 from constants import profile_value
-from app.core.api.permission_validation import PermissionValidation
+from core.api.permission_validation import PermissionValidation
 from core.models import Affiliate
 from core.models import Affiliation
 from core.models import CheckType
@@ -70,10 +70,10 @@ class UserSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
-        request = self.request(self.context("request"))
-        target_user: User = instance
+        request = self.context.get("request")
+        response_related_user: User = instance
         # Get dynamic fields from some logic
-        user_fields = PermissionValidation.get_response_fields(request=request,table_name="user",target_user=target_user)
+        user_fields = PermissionValidation.get_response_fields(request=request,table_name="user",response_related_user=response_related_user)
         # Only retain the fields you want to include in the output
         return {
             key: value for key, value in representation.items() if key in user_fields
@@ -119,7 +119,18 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = PermissionValidation.get_fields(permission_type=profile_value, table_name="user")
+    
+        def to_representation(self, instance):
+            representation = super().to_representation(instance)
+            request = self.request(self.context("request"))
+            response_related_user: User = instance
+            # Get dynamic fields from some logic
+            user_fields = PermissionValidation.get_response_fields(request=request,table_name="user",response_related_user=response_related_user)
+            # Only retain the fields you want to include in the output
+            return {
+                key: value for key, value in representation.items() if key in user_fields
+            }
+            fields = PermissionValidation.get_fields(permission_type=profile_value, operation="get", table_name="user")
 
 
 class ProjectSerializer(serializers.ModelSerializer):

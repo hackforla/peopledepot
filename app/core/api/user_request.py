@@ -32,13 +32,13 @@ class UserRequest:
             queryset = User.objects.all()
         else:
             # Get the users with user permissions for the same projects
-            # that the requester has permission to view
+            # that the requesting_user has permission to view
             projects = [p.project for p in user_permissions if p.project is not None]
             queryset = User.objects.filter(permissions__project__in=projects).distinct()
         return queryset
 
     @staticmethod
-    def validate_fields(request, target_user=None) -> None:
+    def validate_fields(request, response_related_user=None) -> None:
         """Ensure the requesting user can patch the provided fields."""
         valid_fields = []
         if request.method == "POST":
@@ -50,7 +50,7 @@ class UserRequest:
                 table_name="user",
                 request=request,
                 operation="patch",
-                target_user=target_user,
+                response_related_user=response_related_user,
             )
         else:
             raise MethodNotAllowed("Not valid for REST method", request.method)

@@ -1,7 +1,7 @@
 is_admin
 clear
-validate_user_fields_patchable(requesting_user, target_user, request_fields)
-    => get_most_privileged_ranked_permissio(requesting_user: User, target_user: User)
+validate_user_fields_patchable(requesting_user, response_related_user, request_fields)
+    => get_most_privileged_ranked_permissio(requesting_user: User, response_related_user: User)
     =
 
 field_permissions
@@ -17,6 +17,6 @@ get_field_permission_dict_from_rows
     #     result = defaultdict(lambda: defaultdict(list))
     #     for row in rows:
     #         result[row["operation"]][row["table"]].append(
-    #             {key: row[key] for key in ["field_name", "read", "update", "create"]}
+    #             {key: row[key] for key in ["field_name", "get", "update", "create"]}
     #         )
     #     return dict(result)

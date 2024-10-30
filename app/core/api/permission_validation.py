@@ -64,10 +64,10 @@ class PermissionValidation:
         return fields
 
     @ classmethod
-    def get_fields_for_request(cls, request, table_name, operation, target_user):
+    def get_fields_for_request(cls, request, table_name, operation, response_related_user):
         requesting_user = request.user        
         most_privileged_perm_type = cls.get_most_privileged_perm_type(
-            requesting_user, target_user
+            requesting_user, response_related_user
         )
         fields = cls.get_fields(
                 operation=operation,
@@ -78,13 +78,13 @@ class PermissionValidation:
 
     @classmethod
     def get_most_privileged_perm_type(
-        cls, requesting_user, target_user
+        cls, requesting_user, response_related_user
     ) -> str:
         """Return the most privileged permission type between users."""
         if cls.is_admin(requesting_user):
             return admin_global
 
-        target_projects = UserPermission.objects.filter(user=target_user).values_list(
+        target_projects = UserPermission.objects.filter(user=response_related_user).values_list(
             "project__name", flat=True
         )
 
@@ -98,17 +98,19 @@ class PermissionValidation:
         min_permission = min(permissions, key=lambda p: p["permission_type__rank"])
         return min_permission["permission_type__name"]
 
-    def get_response_fields(cls, request, table_name, target_user) -> None:
+    @classmethod
+    def get_response_fields(cls, request, table_name, response_related_user) -> None:
         """Ensure the requesting user can patch the provided fields."""
         return cls.get_fields_for_request(
-            operation="read",
+            operation="get",
             table_name=table_name,
             request=request,
-            target_user=target_user
+            response_related_user=response_related_user
         )
 
     @classmethod
     def is_field_valid(cls, operation: str, permission_type: str, table_name: str, field: Dict):
+        print("debug dict", operation, field)
         operation_permission_type = field[operation]
         if operation_permission_type == "" or field["table_name"] != table_name:
             return False

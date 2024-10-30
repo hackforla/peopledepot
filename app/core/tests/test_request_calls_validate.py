@@ -4,7 +4,7 @@ from rest_framework import status
 from rest_framework.test import APIClient
 
 
-from app.core.api.permission_validation import PermissionValidation
+from core.api.permission_validation import PermissionValidation
 from core.models import User
 from core.tests.utils.seed_constants import garry_name
 from core.tests.utils.seed_constants import valerie_name
@@ -23,13 +23,13 @@ class TestRequestCallsValidate:
 
     @patch.object(PermissionValidation, "validate_user_related_request")
     def test_patch_request_calls_validate_request(self, mock_validate_user_related_request):
-        """Test that the patch requests succeeds when the requester is an admin."""
-        requester = SeedUser.get_user(garry_name)
+        """Test that the patch requests succeeds when the requesting_user is an admin."""
+        requesting_user = SeedUser.get_user(garry_name)
         client = APIClient()
-        client.force_authenticate(user=requester)
+        client.force_authenticate(user=requesting_user)
 
-        target_user = SeedUser.get_user(valerie_name)
-        url = reverse("user-detail", args=[target_user.uuid])
+        response_related_user = SeedUser.get_user(valerie_name)
+        url = reverse("user-detail", args=[response_related_user.uuid])
         data = {
             "last_name": "Updated",
             "gmail": "update@example.com",
@@ -37,20 +37,20 @@ class TestRequestCallsValidate:
         client.patch(url, data, format="json")
         __args__, kwargs = mock_validate_user_related_request.call_args
         request_received = kwargs.get("request")
-        target_user_received = kwargs.get("target_user")
+        response_related_user_received = kwargs.get("response_related_user")
         assert request_received.data == data
-        assert request_received.user == requester
+        assert request_received.user == requesting_user
         assert request_received.method == "PATCH"
-        assert target_user_received == target_user
+        assert response_related_user_received == response_related_user
 
     @patch.object(PermissionValidation, "validate_user_related_request")
     def test_post_request_calls_validate_request(
         self, mock_validate_user_related_request
     ):
-        """Test that the patch requests succeeds when the requester is an admin."""
-        requester = SeedUser.get_user(garry_name)
+        """Test that the patch requests succeeds when the requesting_user is an admin."""
+        requesting_user = SeedUser.get_user(garry_name)
         client = APIClient()
-        client.force_authenticate(user=requester)
+        client.force_authenticate(user=requesting_user)
 
         url = reverse("user-list")
         data = {
@@ -61,10 +61,10 @@ class TestRequestCallsValidate:
         client.post(url, data, format="json")
         __args__, kwargs = mock_validate_user_related_request.call_args
         request_received = kwargs.get("request")
-        target_user_received = kwargs.get("target_user")
+        response_related_user_received = kwargs.get("response_related_user")
         assert request_received.data == data
-        assert request_received.user == requester
+        assert request_received.user == requesting_user
         assert request_received.method == "POST"
-        assert target_user_received == None
+        assert response_related_user_received == None
 
     

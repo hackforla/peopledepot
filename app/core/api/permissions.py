@@ -1,5 +1,6 @@
 from rest_framework.permissions import BasePermission
-from app.core.api.permission_validation import PermissionValidation
+from core.api.permission_validation import PermissionValidation
+from core.api.user_request import UserRequest
 
 
 class DenyAny(BasePermission):
@@ -14,27 +15,13 @@ class UserMethodPermission(BasePermission):
 
     def has_permission(self, request, __view__):
         if request.method == "POST":
-            PermissionValidation.validate_user_related_request(request=request)
+            UserRequest.validate_fields(request=request)
         return True  # Default to allow the request
 
-    def has_object_permission(self, request, view, obj):
+    def has_object_permission(self, request, __view__, obj):
         if request.method == "PATCH":
-            PermissionValidation.validate_user_related_request(
-                target_user=obj, request=request
+            UserRequest.validate_fields(
+                response_related_user=obj, request=request
             )
         return True
 
-
-class UserMethodPermission(BasePermission):
-
-    def has_permission(self, request, __view__):
-        if request.method == "POST":
-            raise 
-        return True  # Default to allow the request
-
-    def has_object_permission(self, request, view, obj):
-        if request.method == "PATCH":
-            PermissionValidation.validate_user_related_request(
-                target_user=obj, request=request
-            )
-        return True
