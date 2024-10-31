@@ -4,7 +4,7 @@ from rest_framework.test import APIClient
 
 from constants import admin_project
 from constants import member_project
-from core.api.cru import Cru
+from core.api.permission_validation import PermissionValidation
 from core.tests.utils.seed_constants import valerie_name
 from core.tests.utils.seed_constants import wally_name
 from core.tests.utils.seed_constants import wanda_admin_project
@@ -22,7 +22,7 @@ _user_get_url = reverse("user-list")
 @pytest.mark.load_user_data_required  # see load_user_data_required in conftest.py
 class TestGetUser:
     @staticmethod
-    def _fields_match(first_name, response_data, fields):
+    def _get_response_fields(first_name, response_data):
         response_related_user = None
 
         # look up target user in response_data by first name
@@ -33,12 +33,13 @@ class TestGetUser:
 
         # Throw error if target user not found
         if response_related_user == None:
-            raise ValueError('Test set up mistake.  No user with first name of ${first_name}')
+            raise ValueError(
+                "Test set up mistake.  No user with first name of ${first_name}"
+            )
 
         # Otherwise check if user fields in response data are the same as fields
-        return set(user.keys()) == set(fields)
+        return set(user)
 
-    @pytest.mark.skip
     def test_get_url_results_for_admin_project(self):
         """Test that the get user request returns (a) all users on the website project
         and (b) the fields match fields configured for a project admin
@@ -49,13 +50,10 @@ class TestGetUser:
         response = client.get(_user_get_url)
         assert response.status_code == 200
         assert len(response.json()) == count_website_members
-        assert TestGetUser._fields_match(
-            winona_name,
-            response.json(),
-            Cru.user_read_fields[admin_project],
-        )
+        response_fields = self._get_response_fields(winona_name, response.data)
+        valid_fields = PermissionValidation.get_fields(operation="get", permission_type=admin_project, table_name="user")
+        assert response_fields == set(valid_fields)
 
-    @pytest.mark.skip
     def test_get_results_for_users_on_same_team(self):
         """Test that get user request (a) returns users on the website project
         and (b) the fields returned match the configured fields for
@@ -68,16 +66,9 @@ class TestGetUser:
 
         assert response.status_code == 200
         assert len(response.json()) == count_website_members
-        assert TestGetUser._fields_match(
-            winona_name,
-            response.json(),
-            Cru.user_read_fields[member_project],
-        )
-        assert TestGetUser._fields_match(
-            wanda_admin_project,
-            response.json(),
-            Cru.user_read_fields[member_project],
-        )
+        response_fields = self._get_response_fields(winona_name, response.data)
+        valid_fields = PermissionValidation.get_fields(operation="get", permission_type=member_project, table_name="user")
+        assert response_fields == set(valid_fields)
         assert len(response.json()) == count_website_members
 
     def test_no_user_permission(self):

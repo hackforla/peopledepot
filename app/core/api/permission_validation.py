@@ -3,7 +3,7 @@ import csv
 # import sys
 # from functools import lru_cache
 from typing import Any, Dict, List
-from rest_framework.exceptions import ValidationError, PermissionDenied, MethodNotAllowed
+from rest_framework.exceptions import PermissionDenied
 from constants import field_permissions_csv_file, admin_global  # Assuming you have this constant
 from core.models import PermissionType, UserPermission
 
