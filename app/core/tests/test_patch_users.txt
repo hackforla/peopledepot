@@ -13,7 +13,14 @@ from core.tests.utils.seed_user import SeedUser
 @pytest.mark.load_user_data_required  # see load_user_data_required in conftest.py
 class TestPatchUser:
     @staticmethod
-g
+    def _patch_request_to_viewset(requesting_user, patch_data):
+        new_data = patch_data.copy()
+        factory = APIRequestFactory()
+        request = factory.patch(reverse("user-detail"), data=new_data, format="json")
+        force_authenticate(request, user=requesting_user)
+        view = UserViewSet.as_view({"patch": "partial_update"})
+        response = view(request)
+        return response
     
     @classmethod
     def test_valid_patch(cls):

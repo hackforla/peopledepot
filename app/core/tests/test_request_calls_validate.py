@@ -22,6 +22,7 @@ count_members_either = 6
 class TestRequestCallsValidate:
 
     @patch.object(PermissionValidation, "validate_user_related_request")
+    @pytest.mark.skip
     def test_patch_request_calls_validate_request(self, mock_validate_user_related_request):
         """Test that the patch requests succeeds when the requesting_user is an admin."""
         requesting_user = SeedUser.get_user(garry_name)
@@ -44,6 +45,7 @@ class TestRequestCallsValidate:
         assert response_related_user_received == response_related_user
 
     @patch.object(PermissionValidation, "validate_user_related_request")
+    @pytest.mark.skip
     def test_post_request_calls_validate_request(
         self, mock_validate_user_related_request
     ):

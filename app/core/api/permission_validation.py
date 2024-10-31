@@ -40,6 +40,8 @@ class PermissionValidation:
         """Return the valid fields for the given permission type."""
 
         valid_fields = []
+        if permission_type == "":
+            return valid_fields
         for field in cls.get_csv_field_permissions():
             if cls.is_field_valid(
                 operation=operation,
@@ -110,7 +112,6 @@ class PermissionValidation:
 
     @classmethod
     def is_field_valid(cls, operation: str, permission_type: str, table_name: str, field: Dict):
-        print("debug dict", operation, field)
         operation_permission_type = field[operation]
         if operation_permission_type == "" or field["table_name"] != table_name:
             return False
