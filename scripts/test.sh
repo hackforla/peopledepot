@@ -2,7 +2,6 @@
 set -euo pipefail
 IFS=$'\n\t'
 set -x
-TEST=""
 # Default options
 COVERAGE="--no-cov"
 EXEC_COMMAND=true
@@ -62,7 +61,7 @@ while [[ $# -gt 0 ]]; do
     *)
       PYTEST_ARGS+=("$arg")  # Preserve other arguments for pytest
       echo "Positional argument added: $arg"
-      echo "Current python args: ${PYTEST_ARGS[@]}"
+      echo "Current python args: ${PYTEST_ARGS[*]}"
       ;;
   esac
   shift # Shift to the next argument
@@ -75,7 +74,7 @@ if [ "$CHECK_MIGRATIONS" = true ]; then
 fi
 
 if [ "$EXEC_COMMAND" = true ]; then
-  docker-compose exec -T web pytest -n $N_CPU $COVERAGE ${PYTEST_ARGS[@]}
+  docker-compose exec -T web pytest -n "$N_CPU" $COVERAGE "${PYTEST_ARGS[@]}"
 else
-  echo docker-compose exec -T web pytest -n $N_CPU $COVERAGE ${PYTEST_ARGS[@]}
+  echo docker-compose exec -T web pytest -n "$N_CPU" $COVERAGE "${PYTEST_ARGS[@]}"
 fi
