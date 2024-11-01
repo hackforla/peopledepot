@@ -31,7 +31,6 @@ class TestGetUser:
                 response_related_user = user
                 break
 
-
         # Throw error if target user not found
         if response_related_user == None:
             raise ValueError(
@@ -52,7 +51,9 @@ class TestGetUser:
         assert response.status_code == 200
         assert len(response.json()) == count_website_members
         response_fields = self._get_response_fields(winona_name, response.data)
-        valid_fields = PermissionValidation.get_fields(operation="get", permission_type=admin_project, table_name="user")
+        valid_fields = PermissionValidation.get_fields(
+            operation="get", permission_type=admin_project, table_name="user"
+        )
         assert response_fields == set(valid_fields)
 
     def test_get_results_for_users_on_same_team(self):
@@ -68,7 +69,9 @@ class TestGetUser:
         assert response.status_code == 200
         assert len(response.json()) == count_website_members
         response_fields = self._get_response_fields(winona_name, response.data)
-        valid_fields = PermissionValidation.get_fields(operation="get", permission_type=member_project, table_name="user")
+        valid_fields = PermissionValidation.get_fields(
+            operation="get", permission_type=member_project, table_name="user"
+        )
         assert response_fields == set(valid_fields)
         assert len(response.json()) == count_website_members
 
