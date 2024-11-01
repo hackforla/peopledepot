@@ -91,7 +91,7 @@ def test_is_not_admin():
     assert PermissionValidation.is_admin(admin_user) is False
 
 
-@pytest.mark.parametrize(
+@pytest.mark.parametrize(  # noqa: PT006 PT007
     "request_user_name, response_related_user_name, expected_permission_type",
     (
         # Wanda is an admin project for website, Wally is on the same project => admin_project
