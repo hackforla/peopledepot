@@ -66,7 +66,7 @@ def mock_csv_data():
 # This allows us to test code without relying on external resources like databases.
 @patch("builtins.open", new_callable=mock_open)
 @patch("csv.DictReader")
-def test_csv_field_permissions(mock_dict_reader, _, mock_csv_data): # noqa: PT019
+def test_csv_field_permissions(mock_dict_reader, _, mock_csv_data):  # noqa: PT019
     """Test that get_csv_field_permissions returns the correct parsed data."""
     mock_dict_reader.return_value = mock_csv_data
 

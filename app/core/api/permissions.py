@@ -19,5 +19,7 @@ class UserMethodPermission(BasePermission):
 
     def has_object_permission(self, request, __view__, obj):
         if request.method == "PATCH":
-            UserRequest.validate_patch_fields(response_related_user=obj, request=request)
+            UserRequest.validate_patch_fields(
+                response_related_user=obj, request=request
+            )
         return True
