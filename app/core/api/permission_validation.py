@@ -2,6 +2,7 @@ import csv
 from typing import Any
 
 from rest_framework.exceptions import PermissionDenied
+from pathlib import Path
 
 from constants import admin_global  # Assuming you have this constant
 from constants import field_permissions_csv_file
@@ -28,7 +29,8 @@ class PermissionValidation:
     @staticmethod
     def get_csv_field_permissions() -> dict[str, dict[str, list[dict[str, Any]]]]:
         """Read the field permissions from a CSV file."""
-        with open(field_permissions_csv_file, newline="") as file:
+        file_path = Path(field_permissions_csv_file)
+        with file_path.open() as file:
             reader = csv.DictReader(file)
             return list(reader)
 
