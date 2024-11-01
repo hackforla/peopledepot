@@ -9,7 +9,6 @@ from core.models import UserPermission
 from core.api.permission_validation import PermissionValidation
 
 
-
 class UserRequest:
     @staticmethod
     def get_queryset(request):
@@ -46,10 +45,9 @@ class UserRequest:
                 request=request, table_name="user"
             )
         elif request.method == "PATCH":
-            valid_fields = PermissionValidation.get_fields_for_request(
+            valid_fields = PermissionValidation.get_fields_for_patch_request(
                 table_name="user",
                 request=request,
-                operation="patch",
                 response_related_user=response_related_user,
             )
         else:

@@ -1,8 +1,7 @@
 from rest_framework import serializers
 from timezone_field.rest_framework import TimeZoneSerializerField
 from core.api.permission_validation import PermissionValidation
-from constants import profile_value
-from core.api.permission_validation import PermissionValidation
+from core.api.profile_request import ProfileRequest
 from core.models import Affiliate
 from core.models import Affiliation
 from core.models import CheckType
@@ -119,18 +118,44 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-    
-        def to_representation(self, instance):
-            representation = super().to_representation(instance)
-            request = self.request(self.context("request"))
-            response_related_user: User = instance
-            # Get dynamic fields from some logic
-            user_fields = PermissionValidation.get_response_fields(request=request,table_name="user",response_related_user=response_related_user)
-            # Only retain the fields you want to include in the output
-            return {
-                key: value for key, value in representation.items() if key in user_fields
-            }
-            fields = PermissionValidation.get_fields(permission_type=profile_value, operation="get", table_name="user")
+        fields = (
+            "uuid",
+            "username",
+            "created_at",
+            "updated_at",
+            "is_superuser",
+            "is_active",
+            "is_staff",
+            "email",
+            "first_name",
+            "last_name",
+            "gmail",
+            "preferred_email",
+            "current_job_title",
+            "target_job_title",
+            "current_skills",
+            "target_skills",
+            "linkedin_account",
+            "github_handle",
+            "slack_id",
+            "phone",
+            "texting_ok",
+            "time_zone",
+        )
+        read_only_fields = (
+            "uuid",
+            "created_at",
+            "updated_at",
+            "username",
+            "email",
+        )
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        user_fields = ProfileRequest.get_read_fields()
+        # Only retain the fields you want to include in the output
+        return {
+            key: value for key, value in representation.items() if key in user_fields
+        }
 
 
 class ProjectSerializer(serializers.ModelSerializer):

@@ -66,15 +66,28 @@ class PermissionValidation:
         return fields
 
     @ classmethod
-    def get_fields_for_request(cls, request, table_name, operation, response_related_user):
+    def get_fields_for_patch_request(cls, request, table_name, response_related_user):
         requesting_user = request.user        
         most_privileged_perm_type = cls.get_most_privileged_perm_type(
             requesting_user, response_related_user
         )
         fields = cls.get_fields(
-                operation=operation,
+                operation="patch",
                 table_name=table_name,
                 permission_type=most_privileged_perm_type
+        )
+        return fields
+
+    @classmethod
+    def get_fields_for_response(cls, request, table_name, response_related_user):
+        requesting_user = request.user
+        most_privileged_perm_type = cls.get_most_privileged_perm_type(
+            requesting_user, response_related_user
+        )
+        fields = cls.get_fields(
+            operation="get",
+            table_name=table_name,
+            permission_type=most_privileged_perm_type,
         )
         return fields
 
@@ -103,20 +116,23 @@ class PermissionValidation:
     @classmethod
     def get_response_fields(cls, request, table_name, response_related_user) -> None:
         """Ensure the requesting user can patch the provided fields."""
-        return cls.get_fields_for_request(
+        requesting_user = request.user
+        most_privileged_perm_type = cls.get_most_privileged_perm_type(
+            requesting_user, response_related_user
+        )
+        fields = cls.get_fields(
             operation="get",
             table_name=table_name,
-            request=request,
-            response_related_user=response_related_user
+            permission_type=most_privileged_perm_type,
         )
+        return fields
 
     @classmethod
     def is_field_valid(cls, operation: str, permission_type: str, table_name: str, field: Dict):
         operation_permission_type = field[operation]
-        if operation_permission_type == "" or field["table_name"] != table_name:
+        if operation_permission_type == "" or field["table_name"] != table_name: 
             return False
         rank_dict = cls.get_rank_dict()
         source_rank = rank_dict[permission_type]            
         rank_match = source_rank <= rank_dict[operation_permission_type]
         return rank_match
-

@@ -6,11 +6,11 @@ from drf_spectacular.utils import extend_schema_view
 from rest_framework import mixins
 from rest_framework import viewsets
 from rest_framework.generics import GenericAPIView
-from rest_framework.mixins import RetrieveModelMixin
+from rest_framework.mixins import RetrieveModelMixin, UpdateModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
-from core.api.permissions import UserMethodPermission
+from core.api.permissions import UserMethodPermission, UserProfilePermission
 from core.api.user_request import UserRequest
 
 from ..models import Affiliate
@@ -50,6 +50,7 @@ from .serializers import StackElementTypeSerializer
 from .serializers import UserPermissionSerializer
 from .serializers import UserProfileSerializer
 from .serializers import UserSerializer
+from rest_framework.response import Response
 
 
 @extend_schema_view(
@@ -61,10 +62,10 @@ from .serializers import UserSerializer
     retrieve=extend_schema(description="Fetch your user profile"),
     partial_update=extend_schema(description="Update your profile"),
 )
-class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
+class UserProfileAPIView(RetrieveModelMixin, UpdateModelMixin, GenericAPIView):
     serializer_class = UserProfileSerializer
-    permission_classes = [IsAuthenticated]
-    http_method_names = ["get", "partial_update"]
+    permission_classes = [IsAuthenticated,UserProfilePermission]
+    http_method_names = ["get", "patch"]
 
     def get_object(self):
         """Returns the user profile fetched by get
@@ -72,8 +73,9 @@ class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
         Returns:
             User: The user profile
         """
-
-        return self.request.user
+        obj = self.request.user
+        self.check_object_permissions(self.request, obj)
+        return obj
 
     def get(self, request, *args, **kwargs):
         """
@@ -85,6 +87,22 @@ class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
           User: The user profile
         """
         return self.retrieve(request, *args, **kwargs)
+
+    def patch(self, request, *args, **kwargs):
+        """
+        # Update User Profile
+
+        Partially update profile for the current logged-in user.
+
+        Returns:
+          User: The updated user profile
+        """
+        user = self.get_object()
+        serializer = self.get_serializer(user, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=400)
 
 
 @extend_schema_view(

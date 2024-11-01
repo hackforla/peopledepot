@@ -1,20 +1,38 @@
-from constants import profile_value
+import csv
+from constants import profile_permissions_csv_file
 from rest_framework.exceptions import ValidationError, PermissionDenied, MethodNotAllowed
 from core.api.permission_validation import PermissionValidation
+from typing import Any, Dict, List
 
 class ProfileRequest:
+    def get_csv_field_permissions() -> Dict[str, Dict[str, List[Dict[str, Any]]]]:
+        """Read the field permissions from a CSV file."""
+        with open(profile_permissions_csv_file, mode="r", newline="") as file:
+            reader = csv.DictReader(file)
+            return list(reader)
+
+    @classmethod
+    def get_fields(
+        cls, table_name: str, operation: str) -> List[str]:
+        """Return the valid fields for the given permission type."""
+
+        valid_fields = []
+        for field in cls.get_csv_field_permissions():
+            if field["table_name"]==table_name and field[operation].upper()=="TRUE":
+                valid_fields += [field["field_name"]]
+        return valid_fields
 
     @classmethod
     def get_valid_patch_fields(cls):
         fields = cls.get_fields(
-            operation="patch", table_name="user", permission_type=profile_value
+            operation="patch", table_name="user"
         )
         return fields
 
     @classmethod
     def get_read_fields(cls):
-        fields = PermissionValidation.get_fields(
-            operation="get", table_name="user", permission_type=profile_value
+        fields = cls.get_fields(
+            operation="get", table_name="user"
         )
         return fields
 
@@ -22,15 +40,10 @@ class ProfileRequest:
     def validate_patch_request(cls, request) -> None:
         """Ensure the requesting user can patch the provided fields."""
         valid_fields = []
-        if request.method == "POST":
-            raise MethodNotAllowed("POST is not allowed for the me/profile API")
-        elif request.method == "PATCH":
-            valid_fields = cls.get_fields_for_profile_patch_request(
+        valid_fields = cls.get_fields(
                 table_name="user",
-                request=request,
+                operation="patch"
             )
-        else:
-            raise MethodNotAllowed("Not valid for REST method", request.method)
         request_data_keys = set(request.data)
         disallowed_fields = request_data_keys - set(valid_fields)
 

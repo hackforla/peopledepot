@@ -35,8 +35,8 @@ class TestPatchUser:
         data = data
         return client.patch(url, data, format="json")
 
-    @patch.object(UserRequest, "validate_fields")
-    def test_patch_request_calls_validate_request(self, mock_validate_user_related_request):
+    @patch.object(UserRequest, UserRequest.validate_fields.__name__)
+    def test_patch_request_calls_validate_request(self, mock_validate_fields):
         """Test that the patch requests succeeds when the requester is an admin."""
         requester = SeedUser.get_user(garry_name)
         client = APIClient()
@@ -49,7 +49,7 @@ class TestPatchUser:
             "gmail": "update@example.com",
         }
         client.patch(url, data, format="json")
-        __args__, kwargs = mock_validate_user_related_request.call_args
+        __args__, kwargs = mock_validate_fields.call_args
         request_received = kwargs.get("request")
         response_related_user_received = kwargs.get("response_related_user")
         assert request_received.data == data
