@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from timezone_field.rest_framework import TimeZoneSerializerField
 from core.api.permission_validation import PermissionValidation
-from core.api.profile_request import ProfileRequest
 from core.models import Affiliate
 from core.models import Affiliation
 from core.models import CheckType
@@ -149,13 +148,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
             "username",
             "email",
         )
-    def to_representation(self, instance):
-        representation = super().to_representation(instance)
-        user_fields = ProfileRequest.get_read_fields()
-        # Only retain the fields you want to include in the output
-        return {
-            key: value for key, value in representation.items() if key in user_fields
-        }
+
 
 
 class ProjectSerializer(serializers.ModelSerializer):

@@ -6,7 +6,7 @@ user,first_name,memberProject,adminBrigade,adminGlobal
 user,last_name,memberProject,adminBrigade,adminGlobal
 user,gmail,practiceLeadProject,adminBrigade,adminGlobal
 user,preferred_email,practiceLeadProject,adminBrigade,adminGlobal
-user,created_at,adminProject,,,profile,profile,
+user,created_at,adminProject,,,
 user,user_status_id,adminBrigade,adminBrigade,adminGlobal
 user,current_job_title,adminBrigade,adminBrigade,adminGlobal
 user,target_job_title,adminBrigade,adminBrigade,adminGlobal

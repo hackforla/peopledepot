@@ -10,7 +10,7 @@ from rest_framework.mixins import RetrieveModelMixin, UpdateModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
-from core.api.permissions import UserMethodPermission, UserProfilePermission
+from core.api.permissions import UserMethodPermission
 from core.api.user_request import UserRequest
 
 from ..models import Affiliate
@@ -64,7 +64,7 @@ from rest_framework.response import Response
 )
 class UserProfileAPIView(RetrieveModelMixin, UpdateModelMixin, GenericAPIView):
     serializer_class = UserProfileSerializer
-    permission_classes = [IsAuthenticated,UserProfilePermission]
+    permission_classes = [IsAuthenticated]
     http_method_names = ["get", "patch"]
 
     def get_object(self):
