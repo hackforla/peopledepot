@@ -32,8 +32,6 @@ mock_data = [dict(zip(keys, row)) for row in rows]
 
 
 class MockSimplifiedRequest:
-
-class MockSimplifiedRequest:
     def __init__(self, user, data, method):
         self.user = user
         self.data = data
@@ -95,11 +93,7 @@ def test_csv_field_permissions(mock_dict_reader, _, mock_csv_data):
         [admin_project, "post", "user", set()],
         [admin_global, "patch", "user", {"field1", "field2", "field3"}],
     ],
-    ],
 )
-def test_role_field_permissions(
-    get_csv_field_permissions, permission_type, operation, table_name, expected_results
-):
 def test_role_field_permissions(
     get_csv_field_permissions, permission_type, operation, table_name, expected_results
 ):
@@ -173,15 +167,11 @@ def test_get_most_privileged_perm_type(
 
 @pytest.mark.django_db
 @pytest.mark.load_user_data_required
-@pytest.mark.usefixtures("get_csv_field_permissions")
 @patch.object(PermissionValidation, "get_csv_field_permissions", return_value=mock_data)
-def test_patch_with_valid_fields():
+def test_patch_with_valid_fields(_):
     """Test that validate_user_fields_patchable does not raise an error for valid fields."""
 
     # Create a PATCH request with a JSON payload
-    patch_data = {"field1": "foo", "field2": "bar"}
-    mock_simplified_request = MockSimplifiedRequest(
-        method="PATCH", user=SeedUser.get_user(wanda_admin_project), data=patch_data
     patch_data = {"field1": "foo", "field2": "bar"}
     mock_simplified_request = MockSimplifiedRequest(
         method="PATCH", user=SeedUser.get_user(wanda_admin_project), data=patch_data
@@ -196,13 +186,9 @@ def test_patch_with_valid_fields():
 
 @pytest.mark.django_db
 @pytest.mark.load_user_data_required
-@pytest.mark.usefixtures("get_csv_field_permissions")
 @patch.object(PermissionValidation, "get_csv_field_permissions", return_value=mock_data)
-def test_patch_with_invalid_fields():
+def test_patch_with_invalid_fields(_):
     """Test that validate_user_fields_patchable raises a ValidationError for invalid fields."""
-    patch_data = {"field1": "foo", "field2": "bar", "field3": "not valid for patch"}
-    mock_simplified_request = MockSimplifiedRequest(
-        method="PATCH", user=SeedUser.get_user(wanda_admin_project), data=patch_data
     patch_data = {"field1": "foo", "field2": "bar", "field3": "not valid for patch"}
     mock_simplified_request = MockSimplifiedRequest(
         method="PATCH", user=SeedUser.get_user(wanda_admin_project), data=patch_data
@@ -213,13 +199,11 @@ def test_patch_with_invalid_fields():
             response_related_user=SeedUser.get_user(wally_name),
             request=mock_simplified_request,
         )
-        )
 
 
 @pytest.mark.django_db
-@pytest.mark.usefixtures("get_csv_field_permissions")
 @patch.object(PermissionValidation, "get_csv_field_permissions", return_value=mock_data)
-def test_patch_fields_no_privileges():
+def test_patch_fields_no_privileges(_):
     """Test that validate_user_fields_patchable raises a PermissionError when no privileges exist."""
     patch_data = {"field1": "foo"}
     mock_simplified_request = MockSimplifiedRequest(
@@ -235,9 +219,8 @@ def test_patch_fields_no_privileges():
 
 @pytest.mark.django_db
 @pytest.mark.load_user_data_required
-@pytest.mark.usefixtures("get_csv_field_permissions")
 @patch.object(PermissionValidation, "get_csv_field_permissions", return_value=mock_data)
-def test_post_with_valid_fields():
+def test_post_with_valid_fields(_):
     """Test that validate_user_fields_patchable does not raise an error for valid fields."""
 
     # Create a POST request with a JSON payload
@@ -254,9 +237,8 @@ def test_post_with_valid_fields():
 
 @pytest.mark.django_db
 @pytest.mark.load_user_data_required
-@pytest.mark.usefixtures("get_csv_field_permissions")
 @patch.object(PermissionValidation, "get_csv_field_permissions", return_value=mock_data)
-def test_post_with_invalid_fields():
+def test_post_with_invalid_fields(_):
     """Test that validate_user_fields_patchable raises a ValidationError for invalid fields."""
     post_data = {"field1": "foo", "field2": "bar", "system_field": "not valid for post"}
     mock_simplified_request = MockSimplifiedRequest(

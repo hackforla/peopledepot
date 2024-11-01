@@ -1,5 +1,4 @@
 import csv
-from pathlib import Path
 from typing import Any
 
 from rest_framework.exceptions import PermissionDenied
@@ -12,37 +11,30 @@ from core.models import UserPermission
 
 class PermissionValidation:
     @staticmethod
-    @staticmethod
     def is_admin(user) -> bool:
         """Check if a user has admin permissions."""
         permission_type = PermissionType.objects.filter(name=admin_global).first()
         # return True
-        return UserPermission.objects.filter(  #
-        return UserPermission.objects.filter(  #
+        return UserPermission.objects.filter(
             permission_type=permission_type, user=user
         ).exists()
 
     @staticmethod
-    # @lru_cache
-    def get_rank_dict() -> dict[str, int]:
     def get_rank_dict() -> dict[str, int]:
         """Return a dictionary mapping permission names to their ranks."""
         permissions = PermissionType.objects.values("name", "rank")
         return {perm["name"]: perm["rank"] for perm in permissions}
 
     @staticmethod
-    # @lru_cache
-    def get_csv_field_permissions() -> dict[str, dict[str, list[dict[str, Any]]]]:
     def get_csv_field_permissions() -> dict[str, dict[str, list[dict[str, Any]]]]:
         """Read the field permissions from a CSV file."""
-        with Path.open(field_permissions_csv_file, newline="") as file:
+        with open(field_permissions_csv_file, newline="") as file:
             reader = csv.DictReader(file)
             return list(reader)
 
     @classmethod
     def get_fields(
         cls, operation: str, permission_type: str, table_name: str
-    ) -> list[str]:
     ) -> list[str]:
         """Return the valid fields for the given permission type."""
 
@@ -81,9 +73,6 @@ class PermissionValidation:
             requesting_user, response_related_user
         )
         fields = cls.get_fields(
-            operation="patch",
-            table_name=table_name,
-            permission_type=most_privileged_perm_type,
             operation="patch",
             table_name=table_name,
             permission_type=most_privileged_perm_type,
@@ -146,11 +135,7 @@ class PermissionValidation:
     def is_field_valid(
         cls, operation: str, permission_type: str, table_name: str, field: dict
     ):
-    def is_field_valid(
-        cls, operation: str, permission_type: str, table_name: str, field: dict
-    ):
         operation_permission_type = field[operation]
-        if operation_permission_type == "" or field["table_name"] != table_name:
         if operation_permission_type == "" or field["table_name"] != table_name:
             return False
         rank_dict = cls.get_rank_dict()
