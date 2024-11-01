@@ -111,7 +111,7 @@ def user_permission_practice_lead_project():
     return user_permission
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture
 def user(django_user_model):
     print("Creating")
     return django_user_model.objects.create_user(
