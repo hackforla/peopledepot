@@ -108,7 +108,6 @@ def test_role_field_permissions(
     assert set(valid_fields) == expected_results
 
 
-
 @pytest.mark.django_db
 @pytest.mark.load_user_data_required  # see load_user_data_required in conftest.py
 def test_is_admin():
