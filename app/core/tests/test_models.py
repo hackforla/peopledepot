@@ -4,7 +4,7 @@ import pytest
 
 from ..models import Event
 from ..models import ProgramArea
-from ..models import Project
+from ..models import ProjectProgramAreaXref
 
 pytestmark = pytest.mark.django_db
 
@@ -150,30 +150,18 @@ def test_soc_major(soc_major):
 
 
 def test_project_program_area_relationship(project):
-    civic_tech_infrastructure_program_area = ProgramArea.objects.get(
-        name="Civic Tech Infrastructure"
+    workforce_development_program_area = ProgramArea.objects.get(
+        name="Workforce Development"
     )
-    workforce_program_area = ProgramArea.objects.get(name="Workforce Development")
-    hack_for_la_project = Project.objects.create(name="Hack for LA Site")
-    hack_for_la_project.program_areas.add(
-        civic_tech_infrastructure_program_area, workforce_program_area
+    project.program_areas.add(workforce_development_program_area)
+    assert project.program_areas.count() == 1
+    assert project.program_areas.contains(workforce_development_program_area)
+    assert workforce_development_program_area.projects.contains(project)
+    workforce_development_program_area_xref = ProjectProgramAreaXref.objects.get(
+        project_id=project, program_area_id=workforce_development_program_area
     )
-    assert hack_for_la_project.program_areas.count() == 2
-    assert hack_for_la_project.program_areas.contains(
-        civic_tech_infrastructure_program_area
-    )
-    assert hack_for_la_project.program_areas.contains(workforce_program_area)
-    assert civic_tech_infrastructure_program_area.projects.contains(hack_for_la_project)
-    assert workforce_program_area.projects.contains(hack_for_la_project)
-
-    hack_for_la_project.program_areas.remove(civic_tech_infrastructure_program_area)
-    assert hack_for_la_project.program_areas.count() == 1
-    assert not hack_for_la_project.program_areas.contains(
-        civic_tech_infrastructure_program_area
-    )
-    assert hack_for_la_project.program_areas.contains(workforce_program_area)
-
-    assert not civic_tech_infrastructure_program_area.projects.contains(
-        hack_for_la_project
-    )
-    assert workforce_program_area.projects.contains(hack_for_la_project)
+    assert workforce_development_program_area_xref.created_at is not None
+    project.program_areas.remove(workforce_development_program_area)
+    assert project.program_areas.count() == 0
+    assert not workforce_development_program_area.projects.contains(project)
+    assert not project.program_areas.contains(workforce_development_program_area)

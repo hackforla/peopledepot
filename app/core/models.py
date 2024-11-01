@@ -148,7 +148,7 @@ https://api.github.com/repos/[org]/[repo]',
         "ProgramArea",
         related_name="projects",
         blank=True,
-        # through="ProjectProgramAreaXref"
+        through="ProjectProgramAreaXref",
     )
 
     def __str__(self):
@@ -430,3 +430,8 @@ class SocMajor(AbstractBaseModel):
 
     def __str__(self):
         return self.title
+
+
+class ProjectProgramAreaXref(AbstractBaseModel):
+    project_id = models.ForeignKey(Project, on_delete=models.CASCADE)
+    program_area_id = models.ForeignKey(ProgramArea, on_delete=models.CASCADE)
