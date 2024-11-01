@@ -35,7 +35,7 @@ class TestPatchUser:
         data = data
         return client.patch(url, data, format="json")
 
-    @patch.object(UserRequest, UserRequest.validate_fields.__name__)
+    @patch.object(UserRequest, UserRequest.validate_patch_fields.__name__)
     def test_patch_request_calls_validate_request(self, mock_validate_fields):
         """Test that the patch requests succeeds when the requester is an admin."""
         requester = SeedUser.get_user(garry_name)

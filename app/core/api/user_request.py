@@ -34,22 +34,25 @@ class UserRequest:
             queryset = User.objects.filter(permissions__project__in=projects).distinct()
         return queryset
 
+    @classmethod
+    def validate_post_fields(cls, request):
+        valid_fields = PermissionValidation.get_fields_for_post_request(
+            request=request, table_name="user"
+        )
+        cls.validate_request_fields(request, valid_fields)
+
+    @classmethod
+    def validate_patch_fields(cls, request, response_related_user):
+        valid_fields = PermissionValidation.get_fields_for_patch_request(
+            table_name="user",
+            request=request,
+            response_related_user=response_related_user,
+        )
+        cls.validate_request_fields(request, valid_fields)
+
     @staticmethod
-    def validate_fields(request, response_related_user=None) -> None:
+    def validate_request_fields(request, valid_fields) -> None:
         """Ensure the requesting user can patch the provided fields."""
-        valid_fields = []
-        if request.method == "POST":
-            valid_fields = PermissionValidation.get_fields_for_post_request(
-                request=request, table_name="user"
-            )
-        elif request.method == "PATCH":
-            valid_fields = PermissionValidation.get_fields_for_patch_request(
-                table_name="user",
-                request=request,
-                response_related_user=response_related_user,
-            )
-        else:
-            raise MethodNotAllowed("Not valid for REST method", request.method)
         request_data_keys = set(request.data)
         disallowed_fields = request_data_keys - set(valid_fields)
 
