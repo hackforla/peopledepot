@@ -6,9 +6,11 @@ from drf_spectacular.utils import extend_schema_view
 from rest_framework import mixins
 from rest_framework import viewsets
 from rest_framework.generics import GenericAPIView
-from rest_framework.mixins import RetrieveModelMixin, UpdateModelMixin
+from rest_framework.mixins import RetrieveModelMixin
+from rest_framework.mixins import UpdateModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.response import Response
 
 from core.api.permissions import UserMethodPermission
 from core.api.user_request import UserRequest
@@ -50,7 +52,6 @@ from .serializers import StackElementTypeSerializer
 from .serializers import UserPermissionSerializer
 from .serializers import UserProfileSerializer
 from .serializers import UserSerializer
-from rest_framework.response import Response
 
 
 @extend_schema_view(
@@ -163,6 +164,7 @@ class UserViewSet(viewsets.ModelViewSet):
         if username is not None:
             queryset = queryset.filter(username=username)
         return queryset
+
 
 @extend_schema_view(
     list=extend_schema(description="Return a list of all the projects"),

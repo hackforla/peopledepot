@@ -59,7 +59,11 @@ def load_data():
 
     related_data = [
         {"first_name": garry_name, "permission_type_name": admin_global},
-        {"first_name": garry_name, "project_name": website_project_name, "permission_type_name": admin_project },
+        {
+            "first_name": garry_name,
+            "project_name": website_project_name,
+            "permission_type_name": admin_project,
+        },
         {
             "first_name": wanda_admin_project,
             "project_name": website_project_name,

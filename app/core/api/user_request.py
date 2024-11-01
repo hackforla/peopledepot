@@ -1,12 +1,10 @@
-from rest_framework.exceptions import (
-    ValidationError,
-    PermissionDenied,
-    MethodNotAllowed,
-)
+from rest_framework.exceptions import MethodNotAllowed
+from rest_framework.exceptions import PermissionDenied
+from rest_framework.exceptions import ValidationError
 
+from core.api.permission_validation import PermissionValidation
 from core.models import User
 from core.models import UserPermission
-from core.api.permission_validation import PermissionValidation
 
 
 class UserRequest:
@@ -59,4 +57,3 @@ class UserRequest:
             raise PermissionDenied("You do not have privileges ")
         elif disallowed_fields:
             raise ValidationError(f"Invalid fields: {', '.join(disallowed_fields)}")
-

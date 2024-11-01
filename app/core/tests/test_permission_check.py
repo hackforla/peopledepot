@@ -1,14 +1,24 @@
 import inspect
-import pytest
 import sys
-from unittest.mock import patch, mock_open
-from rest_framework.exceptions import ValidationError, PermissionDenied
-from core.api.permission_validation  import PermissionValidation
-from core.api.user_request import UserRequest
-from constants import admin_global, admin_project, member_project, practice_lead_project
-from core.tests.utils.seed_constants import garry_name, wanda_admin_project, wally_name, zani_name, patti_name
-from core.tests.utils.seed_user import SeedUser
+from unittest.mock import mock_open
+from unittest.mock import patch
 
+import pytest
+from rest_framework.exceptions import PermissionDenied
+from rest_framework.exceptions import ValidationError
+
+from constants import admin_global
+from constants import admin_project
+from constants import member_project
+from constants import practice_lead_project
+from core.api.permission_validation import PermissionValidation
+from core.api.user_request import UserRequest
+from core.tests.utils.seed_constants import garry_name
+from core.tests.utils.seed_constants import patti_name
+from core.tests.utils.seed_constants import wally_name
+from core.tests.utils.seed_constants import wanda_admin_project
+from core.tests.utils.seed_constants import zani_name
+from core.tests.utils.seed_user import SeedUser
 
 keys = ["table_name", "field_name", "get", "patch", "post"]
 rows = [
@@ -22,7 +32,8 @@ rows = [
 # values for each row specified by rows
 mock_data = [dict(zip(keys, row)) for row in rows]
 
-class MockSimplifiedRequest():
+
+class MockSimplifiedRequest:
     def __init__(self, user, data, method):
         self.user = user
         self.data = data
@@ -83,14 +94,18 @@ def test_csv_field_permissions(mock_dict_reader, __mock_open__, mock_csv_data):
         [practice_lead_project, "post", "user", set()],
         [admin_project, "post", "user", set()],
         [admin_global, "patch", "user", {"field1", "field2", "field3"}],
-    ]
+    ],
 )
-def test_role_field_permissions(get_csv_field_permissions, permission_type, operation, table_name, expected_results):
-
+def test_role_field_permissions(
+    get_csv_field_permissions, permission_type, operation, table_name, expected_results
+):
     # SETUP
     get_csv_field_permissions.return_value = mock_data
-    valid_fields = PermissionValidation.get_fields(operation=operation, permission_type=permission_type, table_name=table_name)
+    valid_fields = PermissionValidation.get_fields(
+        operation=operation, permission_type=permission_type, table_name=table_name
+    )
     assert set(valid_fields) == expected_results
+
 
 @pytest.mark.django_db
 @pytest.mark.load_user_data_required  # see load_user_data_required in conftest.py
@@ -130,7 +145,6 @@ def test_is_not_admin():
         (zani_name, wally_name, member_project),
         # Zani is a project admin for website, Wally is assigned same team => admin_project
         (zani_name, patti_name, admin_project),
-  
     ],
 )
 @pytest.mark.django_db
@@ -156,14 +170,9 @@ def test_patch_with_valid_fields(_):
     """Test that validate_user_fields_patchable does not raise an error for valid fields."""
 
     # Create a PATCH request with a JSON payload
-    patch_data = {
-        "field1": "foo",
-        "field2": "bar"
-    }
-    mock_simplified_request = MockSimplifiedRequest (
-        method = "PATCH",
-        user = SeedUser.get_user(wanda_admin_project),
-        data = patch_data
+    patch_data = {"field1": "foo", "field2": "bar"}
+    mock_simplified_request = MockSimplifiedRequest(
+        method="PATCH", user=SeedUser.get_user(wanda_admin_project), data=patch_data
     )
 
     UserRequest.validate_fields(
@@ -178,22 +187,16 @@ def test_patch_with_valid_fields(_):
 @patch.object(PermissionValidation, "get_csv_field_permissions", return_value=mock_data)
 def test_patch_with_invalid_fields(_):
     """Test that validate_user_fields_patchable raises a ValidationError for invalid fields."""
-    patch_data = {
-        "field1": "foo",
-        "field2": "bar",
-        "field3": "not valid for patch"
-    }
-    mock_simplified_request = MockSimplifiedRequest (
-        method = "PATCH",
-        user = SeedUser.get_user(wanda_admin_project),
-        data = patch_data
+    patch_data = {"field1": "foo", "field2": "bar", "field3": "not valid for patch"}
+    mock_simplified_request = MockSimplifiedRequest(
+        method="PATCH", user=SeedUser.get_user(wanda_admin_project), data=patch_data
     )
 
     with pytest.raises(ValidationError):
         UserRequest.validate_fields(
             response_related_user=SeedUser.get_user(wally_name),
             request=mock_simplified_request,
-    )       
+        )
 
 
 @pytest.mark.django_db

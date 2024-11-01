@@ -5,7 +5,8 @@ from rest_framework.test import APIRequestFactory
 from rest_framework.test import force_authenticate
 
 from core.api.views import UserViewSet
-from core.tests.utils.seed_constants import garry_name, wanda_admin_project
+from core.tests.utils.seed_constants import garry_name
+from core.tests.utils.seed_constants import wanda_admin_project
 from core.tests.utils.seed_user import SeedUser
 
 count_website_members = 4
@@ -25,7 +26,7 @@ class TestPostUser:
         view = UserViewSet.as_view({"post": "create"})
         response = view(request)
         return response
-    
+
     @classmethod
     def test_valid_post(self):
         """Test POST request returns success when the request fields match configured fields.
@@ -81,7 +82,9 @@ class TestPostUser:
         See documentation for test_allowable_patch_fields_configurable for more information.
         """
 
-        requesting_user = SeedUser.get_user(wanda_admin_project)  # project lead for website
+        requesting_user = SeedUser.get_user(
+            wanda_admin_project
+        )  # project lead for website
         post_data = {
             "username": "foo",
             "first_name": "Mary",
