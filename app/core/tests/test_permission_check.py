@@ -10,20 +10,7 @@ from constants import admin_project
 from constants import member_project
 from constants import practice_lead_project
 from core.api.permission_validation import PermissionValidation
-from rest_framework.exceptions import PermissionDenied
-from rest_framework.exceptions import ValidationError
-
-from constants import admin_global
-from constants import admin_project
-from constants import member_project
-from constants import practice_lead_project
-from core.api.permission_validation import PermissionValidation
 from core.api.user_request import UserRequest
-from core.tests.utils.seed_constants import garry_name
-from core.tests.utils.seed_constants import patti_name
-from core.tests.utils.seed_constants import wally_name
-from core.tests.utils.seed_constants import wanda_admin_project
-from core.tests.utils.seed_constants import zani_name
 from core.tests.utils.seed_constants import garry_name
 from core.tests.utils.seed_constants import patti_name
 from core.tests.utils.seed_constants import wally_name

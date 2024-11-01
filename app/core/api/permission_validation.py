@@ -10,12 +10,6 @@ from core.models import PermissionType
 from core.models import UserPermission
 
 
-from constants import admin_global  # Assuming you have this constant
-from constants import field_permissions_csv_file
-from core.models import PermissionType
-from core.models import UserPermission
-
-
 class PermissionValidation:
     @staticmethod
     @staticmethod

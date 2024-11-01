@@ -1,12 +1,9 @@
 from unittest.mock import patch
 
-from unittest.mock import patch
-
 import pytest
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient
-
 
 from core.api.user_request import UserRequest
 from core.tests.utils.seed_constants import garry_name

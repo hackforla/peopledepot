@@ -3,7 +3,6 @@ from rest_framework.permissions import BasePermission
 from core.api.user_request import UserRequest
 
 
-
 class DenyAny(BasePermission):
     def has_permission(self, __request__, __view__):
         return False
