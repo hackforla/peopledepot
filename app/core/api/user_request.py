@@ -1,4 +1,3 @@
-from rest_framework.exceptions import MethodNotAllowed
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.exceptions import ValidationError
 
