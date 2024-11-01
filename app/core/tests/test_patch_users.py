@@ -6,7 +6,6 @@ from rest_framework import status
 from rest_framework.test import APIClient
 
 from core.api.user_request import UserRequest
-from core.api.views import UserViewSet
 from core.tests.utils.seed_constants import garry_name
 from core.tests.utils.seed_constants import valerie_name
 from core.tests.utils.seed_constants import wanda_admin_project
@@ -71,6 +70,7 @@ class TestPatchUser:
         )
         assert response.status_code == status.HTTP_200_OK
 
+    @classmethod
     def test_patch_with_not_allowed_fields(cls):
         """Test patch request returns 400 response when request fields do not match configured fields.
 
@@ -91,6 +91,7 @@ class TestPatchUser:
         )
         assert response.status_code == status.HTTP_400_BAD_REQUEST
 
+    @classmethod
     def test_patch_with_unprivileged_requesting_user(cls):
         """Test patch request returns 400 response when request fields do not match configured fields.
 

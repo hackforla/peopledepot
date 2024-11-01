@@ -32,7 +32,7 @@ class TestGetUser:
                 break
 
         # Throw error if target user not found
-        if response_related_user == None:
+        if response_related_user is None:
             raise ValueError(
                 "Test set up mistake.  No user with first name of ${first_name}"
             )

@@ -28,7 +28,7 @@ class TestPostUser:
         return response
 
     @classmethod
-    def test_valid_post(self):
+    def test_valid_post(cls):
         """Test POST request returns success when the request fields match configured fields.
 
         This test mocks a PATCH request to skip submitting the request to the server and instead
@@ -44,9 +44,8 @@ class TestPostUser:
             "gmail": "smith@example.com",
             "time_zone": "America/Los_Angeles",
             "password": "password",
-            "first_name": "John",
         }
-        response = TestPostUser._post_request_to_viewset(requesting_user, create_data)
+        response = cls._post_request_to_viewset(requesting_user, create_data)
 
         assert response.status_code == status.HTTP_201_CREATED
 
@@ -67,7 +66,6 @@ class TestPostUser:
             "gmail": "smith@example.com",
             "time_zone": "America/Los_Angeles",
             "password": "password",
-            "first_name": "John",
             "created_at": "2022-01-01T00:00:00Z",
         }
         response = TestPostUser._post_request_to_viewset(requesting_user, post_data)
@@ -92,7 +90,6 @@ class TestPostUser:
             "gmail": "smith@example.com",
             "time_zone": "America/Los_Angeles",
             "password": "password",
-            "first_name": "John",
             "created_at": "2022-01-01T00:00:00Z",
         }
         response = TestPostUser._post_request_to_viewset(requesting_user, post_data)

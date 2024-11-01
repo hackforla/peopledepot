@@ -1,11 +1,6 @@
 import csv
-
-# import inspect
-# import sys
-# from functools import lru_cache
+from pathlib import Path
 from typing import Any
-from typing import Dict
-from typing import List
 
 from rest_framework.exceptions import PermissionDenied
 
@@ -36,7 +31,7 @@ class PermissionValidation:
     # @lru_cache
     def get_csv_field_permissions() -> dict[str, dict[str, list[dict[str, Any]]]]:
         """Read the field permissions from a CSV file."""
-        with open(field_permissions_csv_file, newline="") as file:
+        with Path.open(field_permissions_csv_file, newline="") as file:
             reader = csv.DictReader(file)
             return list(reader)
 

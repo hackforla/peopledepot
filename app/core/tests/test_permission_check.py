@@ -1,5 +1,3 @@
-import inspect
-import sys
 from unittest.mock import mock_open
 from unittest.mock import patch
 
@@ -68,7 +66,7 @@ def mock_csv_data():
 # This allows us to test code without relying on external resources like databases.
 @patch("builtins.open", new_callable=mock_open)
 @patch("csv.DictReader")
-def test_csv_field_permissions(mock_dict_reader, __mock_open__, mock_csv_data):
+def test_csv_field_permissions(mock_dict_reader, _, mock_csv_data):
     """Test that get_csv_field_permissions returns the correct parsed data."""
     mock_dict_reader.return_value = mock_csv_data
 
@@ -165,8 +163,9 @@ def test_get_most_privileged_perm_type(
 
 @pytest.mark.django_db
 @pytest.mark.load_user_data_required
+@pytest.mark.usefixtures("get_csv_field_permissions")
 @patch.object(PermissionValidation, "get_csv_field_permissions", return_value=mock_data)
-def test_patch_with_valid_fields(_):
+def test_patch_with_valid_fields():
     """Test that validate_user_fields_patchable does not raise an error for valid fields."""
 
     # Create a PATCH request with a JSON payload
@@ -184,8 +183,9 @@ def test_patch_with_valid_fields(_):
 
 @pytest.mark.django_db
 @pytest.mark.load_user_data_required
+@pytest.mark.usefixtures("get_csv_field_permissions")
 @patch.object(PermissionValidation, "get_csv_field_permissions", return_value=mock_data)
-def test_patch_with_invalid_fields(_):
+def test_patch_with_invalid_fields():
     """Test that validate_user_fields_patchable raises a ValidationError for invalid fields."""
     patch_data = {"field1": "foo", "field2": "bar", "field3": "not valid for patch"}
     mock_simplified_request = MockSimplifiedRequest(
@@ -200,8 +200,9 @@ def test_patch_with_invalid_fields(_):
 
 
 @pytest.mark.django_db
+@pytest.mark.usefixtures("get_csv_field_permissions")
 @patch.object(PermissionValidation, "get_csv_field_permissions", return_value=mock_data)
-def test_patch_fields_no_privileges(_):
+def test_patch_fields_no_privileges():
     """Test that validate_user_fields_patchable raises a PermissionError when no privileges exist."""
     patch_data = {"field1": "foo"}
     mock_simplified_request = MockSimplifiedRequest(
@@ -217,8 +218,9 @@ def test_patch_fields_no_privileges(_):
 
 @pytest.mark.django_db
 @pytest.mark.load_user_data_required
+@pytest.mark.usefixtures("get_csv_field_permissions")
 @patch.object(PermissionValidation, "get_csv_field_permissions", return_value=mock_data)
-def test_post_with_valid_fields(_):
+def test_post_with_valid_fields():
     """Test that validate_user_fields_patchable does not raise an error for valid fields."""
 
     # Create a POST request with a JSON payload
@@ -235,8 +237,9 @@ def test_post_with_valid_fields(_):
 
 @pytest.mark.django_db
 @pytest.mark.load_user_data_required
+@pytest.mark.usefixtures("get_csv_field_permissions")
 @patch.object(PermissionValidation, "get_csv_field_permissions", return_value=mock_data)
-def test_post_with_invalid_fields(_):
+def test_post_with_invalid_fields():
     """Test that validate_user_fields_patchable raises a ValidationError for invalid fields."""
     post_data = {"field1": "foo", "field2": "bar", "system_field": "not valid for post"}
     mock_simplified_request = MockSimplifiedRequest(
@@ -248,29 +251,3 @@ def test_post_with_invalid_fields(_):
             response_related_user=SeedUser.get_user(wally_name),
             request=mock_simplified_request,
         )
-
-
-@pytest.mark.django_db
-@patch.object(PermissionValidation, "get_csv_field_permissions", return_value=mock_data)
-def test_patch_fields_no_privileges(_):
-    """Test that validate_user_fields_patchable raises a PermissionError when no privileges exist."""
-    patch_data = {"field1": "foo"}
-    mock_simplified_request = MockSimplifiedRequest(
-        method="PATCH", user=SeedUser.get_user(wally_name), data=patch_data
-    )
-
-    with pytest.raises(PermissionDenied):
-        UserRequest.validate_fields(
-            response_related_user=SeedUser.get_user(wanda_admin_project),
-            request=mock_simplified_request,
-        )
-
-
-# def test_clear_cache():
-#     """Test that clear cache works by calling cache_clear on the cached methods."""
-#     current_module = sys.modules[__name__]  # Get the current module
-#     before_cached_count = len(inspect.getmembers(current_module, inspect.isfunction))
-#     # assert before_cached_count > 0
-#     FieldPermissionCheck.clear_all_caches()
-#     after_cached_count = inspect.getmembers(current_module, inspect.isfunction)
-#     assert after_cached_count == 0
