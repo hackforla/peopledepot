@@ -1,8 +1,8 @@
 import csv
+from pathlib import Path
 from typing import Any
 
 from rest_framework.exceptions import PermissionDenied
-from pathlib import Path
 
 from constants import admin_global  # Assuming you have this constant
 from constants import field_permissions_csv_file
