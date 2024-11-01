@@ -418,18 +418,21 @@ git push
 If you go to your online GitHub repository this should remove the message "This branch is x commit behind peopledepot:main".
 
 ## 7. pydoc
-pydoc documentation are located between triple quotes.  
-  - See https://realpython.com/documenting-python-code/#docstring-types for format for creating class, method,
+
+pydoc documentation are located between triple quotes.
+
+- See https://realpython.com/documenting-python-code/#docstring-types for format for creating class, method,
     or module pydoc.  For documenting specific variables, you can do this as part of the class, method,
     or module documentation.
-  - After creating or updating pydoc documentation, generate as explained in next section
+- After creating or updating pydoc documentation, generate as explained in next section
 
 Guidance for deciding whether to add
 pydoc comments:
-  - APIs for performing create, read, update, and delete operation do not need pydocs
-  - Class should have pydoc
-  - Methods should have pydoc if the method is important for a developer using or code reviewing.  If
-questions, check with a senior developer.
+
+- APIs for performing create, read, update, and delete operation do not need pydocs
+- Class should have pydoc
+- Methods should have pydoc if the method is important for a developer using or code reviewing.  If
+    questions, check with a senior developer.
 
 ### Generating pydoc Documentation
 

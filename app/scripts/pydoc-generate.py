@@ -76,7 +76,7 @@ def generate_pydoc():  # noqa: C901
         # Convert file path to module name
         file_spec_str = str(file_spec)
         module_name = file_spec_str[:-3]
-        module_name= module_name.replace(os.sep, ".")
+        module_name = module_name.replace(os.sep, ".")
 
         try:
             print(f"Generating documentation for {module_name}...")

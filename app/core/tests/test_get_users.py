@@ -31,6 +31,7 @@ class TestGetUser:
                 response_related_user = user
                 break
 
+
         # Throw error if target user not found
         if response_related_user == None:
             raise ValueError(

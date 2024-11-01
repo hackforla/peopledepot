@@ -13,8 +13,6 @@ count_people_depot_members = 3
 count_members_either = 6
 
 
-
-
 @pytest.mark.django_db
 @pytest.mark.load_user_data_required  # see load_user_data_required in conftest.py
 class TestPostUser:

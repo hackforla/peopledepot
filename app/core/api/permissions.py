@@ -11,7 +11,6 @@ class DenyAny(BasePermission):
 
 
 class UserMethodPermission(BasePermission):
-
     def has_permission(self, request, __view__):
         if request.method == "POST":
             UserRequest.validate_fields(request=request)
