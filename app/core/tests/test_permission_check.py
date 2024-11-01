@@ -93,7 +93,7 @@ def test_is_not_admin():
 
 @pytest.mark.parametrize(
     "request_user_name, response_related_user_name, expected_permission_type",
-    [
+    (
         # Wanda is an admin project for website, Wally is on the same project => admin_project
         (wanda_admin_project, wally_name, admin_project),
         # Wally is a project member for website, Wanda is on the same project => member_project
@@ -112,7 +112,7 @@ def test_is_not_admin():
         (zani_name, wally_name, member_project),
         # Zani is a project admin for website, Wally is assigned same team => admin_project
         (zani_name, patti_name, admin_project),
-    ],
+    ),
 )
 @pytest.mark.django_db
 @pytest.mark.load_user_data_required  # see load_user_data_required in conftest.py
