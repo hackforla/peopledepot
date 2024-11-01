@@ -10,7 +10,20 @@ from constants import admin_project
 from constants import member_project
 from constants import practice_lead_project
 from core.api.permission_validation import PermissionValidation
+from rest_framework.exceptions import PermissionDenied
+from rest_framework.exceptions import ValidationError
+
+from constants import admin_global
+from constants import admin_project
+from constants import member_project
+from constants import practice_lead_project
+from core.api.permission_validation import PermissionValidation
 from core.api.user_request import UserRequest
+from core.tests.utils.seed_constants import garry_name
+from core.tests.utils.seed_constants import patti_name
+from core.tests.utils.seed_constants import wally_name
+from core.tests.utils.seed_constants import wanda_admin_project
+from core.tests.utils.seed_constants import zani_name
 from core.tests.utils.seed_constants import garry_name
 from core.tests.utils.seed_constants import patti_name
 from core.tests.utils.seed_constants import wally_name
@@ -30,6 +43,8 @@ rows = [
 # values for each row specified by rows
 mock_data = [dict(zip(keys, row)) for row in rows]
 
+
+class MockSimplifiedRequest:
 
 class MockSimplifiedRequest:
     def __init__(self, user, data, method):
@@ -93,7 +108,11 @@ def test_csv_field_permissions(mock_dict_reader, _, mock_csv_data):
         [admin_project, "post", "user", set()],
         [admin_global, "patch", "user", {"field1", "field2", "field3"}],
     ],
+    ],
 )
+def test_role_field_permissions(
+    get_csv_field_permissions, permission_type, operation, table_name, expected_results
+):
 def test_role_field_permissions(
     get_csv_field_permissions, permission_type, operation, table_name, expected_results
 ):
@@ -102,7 +121,11 @@ def test_role_field_permissions(
     valid_fields = PermissionValidation.get_fields(
         operation=operation, permission_type=permission_type, table_name=table_name
     )
+    valid_fields = PermissionValidation.get_fields(
+        operation=operation, permission_type=permission_type, table_name=table_name
+    )
     assert set(valid_fields) == expected_results
+
 
 
 @pytest.mark.django_db
@@ -172,6 +195,9 @@ def test_patch_with_valid_fields():
     patch_data = {"field1": "foo", "field2": "bar"}
     mock_simplified_request = MockSimplifiedRequest(
         method="PATCH", user=SeedUser.get_user(wanda_admin_project), data=patch_data
+    patch_data = {"field1": "foo", "field2": "bar"}
+    mock_simplified_request = MockSimplifiedRequest(
+        method="PATCH", user=SeedUser.get_user(wanda_admin_project), data=patch_data
     )
 
     UserRequest.validate_fields(
@@ -190,12 +216,16 @@ def test_patch_with_invalid_fields():
     patch_data = {"field1": "foo", "field2": "bar", "field3": "not valid for patch"}
     mock_simplified_request = MockSimplifiedRequest(
         method="PATCH", user=SeedUser.get_user(wanda_admin_project), data=patch_data
+    patch_data = {"field1": "foo", "field2": "bar", "field3": "not valid for patch"}
+    mock_simplified_request = MockSimplifiedRequest(
+        method="PATCH", user=SeedUser.get_user(wanda_admin_project), data=patch_data
     )
 
     with pytest.raises(ValidationError):
         UserRequest.validate_fields(
             response_related_user=SeedUser.get_user(wally_name),
             request=mock_simplified_request,
+        )
         )
 
 

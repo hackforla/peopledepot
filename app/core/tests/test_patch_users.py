@@ -1,9 +1,12 @@
 from unittest.mock import patch
 
+from unittest.mock import patch
+
 import pytest
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient
+
 
 from core.api.user_request import UserRequest
 from core.tests.utils.seed_constants import garry_name
@@ -68,6 +71,11 @@ class TestPatchUser:
             response_related_name=wanda_admin_project,
             data=patch_data,
         )
+        response = cls._call_api(
+            requesting_user_name=garry_name,
+            response_related_name=wanda_admin_project,
+            data=patch_data,
+        )
         assert response.status_code == status.HTTP_200_OK
 
     @classmethod
@@ -89,6 +97,11 @@ class TestPatchUser:
             response_related_name=wanda_admin_project,
             data=patch_data,
         )
+        response = cls._call_api(
+            requesting_user_name=garry_name,
+            response_related_name=wanda_admin_project,
+            data=patch_data,
+        )
         assert response.status_code == status.HTTP_400_BAD_REQUEST
 
     @classmethod
@@ -104,6 +117,11 @@ class TestPatchUser:
         patch_data = {
             "gmail": "smith@example.com",
         }
+        response = cls._call_api(
+            requesting_user_name=wanda_admin_project,
+            response_related_name=valerie_name,
+            data=patch_data,
+        )
         response = cls._call_api(
             requesting_user_name=wanda_admin_project,
             response_related_name=valerie_name,

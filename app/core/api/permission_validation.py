@@ -10,12 +10,20 @@ from core.models import PermissionType
 from core.models import UserPermission
 
 
+from constants import admin_global  # Assuming you have this constant
+from constants import field_permissions_csv_file
+from core.models import PermissionType
+from core.models import UserPermission
+
+
 class PermissionValidation:
+    @staticmethod
     @staticmethod
     def is_admin(user) -> bool:
         """Check if a user has admin permissions."""
         permission_type = PermissionType.objects.filter(name=admin_global).first()
         # return True
+        return UserPermission.objects.filter(  #
         return UserPermission.objects.filter(  #
             permission_type=permission_type, user=user
         ).exists()
@@ -23,12 +31,14 @@ class PermissionValidation:
     @staticmethod
     # @lru_cache
     def get_rank_dict() -> dict[str, int]:
+    def get_rank_dict() -> dict[str, int]:
         """Return a dictionary mapping permission names to their ranks."""
         permissions = PermissionType.objects.values("name", "rank")
         return {perm["name"]: perm["rank"] for perm in permissions}
 
     @staticmethod
     # @lru_cache
+    def get_csv_field_permissions() -> dict[str, dict[str, list[dict[str, Any]]]]:
     def get_csv_field_permissions() -> dict[str, dict[str, list[dict[str, Any]]]]:
         """Read the field permissions from a CSV file."""
         with Path.open(field_permissions_csv_file, newline="") as file:
@@ -38,6 +48,7 @@ class PermissionValidation:
     @classmethod
     def get_fields(
         cls, operation: str, permission_type: str, table_name: str
+    ) -> list[str]:
     ) -> list[str]:
         """Return the valid fields for the given permission type."""
 
@@ -68,12 +79,17 @@ class PermissionValidation:
         return fields
 
     @classmethod
+    @classmethod
     def get_fields_for_patch_request(cls, request, table_name, response_related_user):
+        requesting_user = request.user
         requesting_user = request.user
         most_privileged_perm_type = cls.get_most_privileged_perm_type(
             requesting_user, response_related_user
         )
         fields = cls.get_fields(
+            operation="patch",
+            table_name=table_name,
+            permission_type=most_privileged_perm_type,
             operation="patch",
             table_name=table_name,
             permission_type=most_privileged_perm_type,
@@ -101,6 +117,9 @@ class PermissionValidation:
         if cls.is_admin(requesting_user):
             return admin_global
 
+        target_projects = UserPermission.objects.filter(
+            user=response_related_user
+        ).values_list("project__name", flat=True)
         target_projects = UserPermission.objects.filter(
             user=response_related_user
         ).values_list("project__name", flat=True)
@@ -133,10 +152,15 @@ class PermissionValidation:
     def is_field_valid(
         cls, operation: str, permission_type: str, table_name: str, field: dict
     ):
+    def is_field_valid(
+        cls, operation: str, permission_type: str, table_name: str, field: dict
+    ):
         operation_permission_type = field[operation]
+        if operation_permission_type == "" or field["table_name"] != table_name:
         if operation_permission_type == "" or field["table_name"] != table_name:
             return False
         rank_dict = cls.get_rank_dict()
+        source_rank = rank_dict[permission_type]
         source_rank = rank_dict[permission_type]
         rank_match = source_rank <= rank_dict[operation_permission_type]
         return rank_match
