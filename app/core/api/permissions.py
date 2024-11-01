@@ -1,5 +1,4 @@
 from rest_framework.permissions import BasePermission
-from core.api.permission_validation import PermissionValidation
 from core.api.user_request import UserRequest
 
 class DenyAny(BasePermission):

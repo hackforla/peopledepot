@@ -56,7 +56,7 @@ class UserRequest:
         disallowed_fields = request_data_keys - set(valid_fields)
 
         if not valid_fields:
-            raise PermissionDenied(f"You do not have privileges ")
+            raise PermissionDenied("You do not have privileges ")
         elif disallowed_fields:
             raise ValidationError(f"Invalid fields: {', '.join(disallowed_fields)}")
 
