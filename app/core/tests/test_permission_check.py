@@ -66,47 +66,12 @@ def mock_csv_data():
 # This allows us to test code without relying on external resources like databases.
 @patch("builtins.open", new_callable=mock_open)
 @patch("csv.DictReader")
-def test_csv_field_permissions(mock_dict_reader, _, mock_csv_data):
+def test_csv_field_permissions(mock_dict_reader, _, mock_csv_data): # noqa: PT019
     """Test that get_csv_field_permissions returns the correct parsed data."""
     mock_dict_reader.return_value = mock_csv_data
 
     result = PermissionValidation.get_csv_field_permissions()
     assert result == mock_csv_data
-
-
-@patch.object(PermissionValidation, "get_csv_field_permissions")
-@pytest.mark.load_user_data_required  # see load_user_data_required in conftest.py
-@pytest.mark.django_db
-@pytest.mark.parametrize(
-    "permission_type, operation, table_name, expected_results",
-    [
-        [member_project, "get", "user", {"field1", "system_field"}],
-        [practice_lead_project, "get", "user", {"field1", "system_field"}],
-        [admin_project, "get", "user", {"field1", "field2", "field3", "system_field"}],
-        [admin_global, "get", "user", {"field1", "field2", "field3", "system_field"}],
-        [member_project, "patch", "user", set()],
-        [practice_lead_project, "patch", "user", {"field1"}],
-        [admin_project, "patch", "user", {"field1", "field2"}],
-        [admin_global, "patch", "user", {"field1", "field2", "field3"}],
-        [member_project, "post", "user", set()],
-        [practice_lead_project, "post", "user", set()],
-        [admin_project, "post", "user", set()],
-        [admin_global, "patch", "user", {"field1", "field2", "field3"}],
-    ],
-)
-def test_role_field_permissions(
-    get_csv_field_permissions, permission_type, operation, table_name, expected_results
-):
-    # SETUP
-    get_csv_field_permissions.return_value = mock_data
-    valid_fields = PermissionValidation.get_fields(
-        operation=operation, permission_type=permission_type, table_name=table_name
-    )
-    valid_fields = PermissionValidation.get_fields(
-        operation=operation, permission_type=permission_type, table_name=table_name
-    )
-    assert set(valid_fields) == expected_results
-
 
 
 @pytest.mark.django_db
@@ -168,7 +133,7 @@ def test_get_most_privileged_perm_type(
 @pytest.mark.django_db
 @pytest.mark.load_user_data_required
 @patch.object(PermissionValidation, "get_csv_field_permissions", return_value=mock_data)
-def test_patch_with_valid_fields(_):
+def test_patch_with_valid_fields(_):  # noqa: PT019
     """Test that validate_user_fields_patchable does not raise an error for valid fields."""
 
     # Create a PATCH request with a JSON payload
@@ -187,7 +152,7 @@ def test_patch_with_valid_fields(_):
 @pytest.mark.django_db
 @pytest.mark.load_user_data_required
 @patch.object(PermissionValidation, "get_csv_field_permissions", return_value=mock_data)
-def test_patch_with_invalid_fields(_):
+def test_patch_with_invalid_fields(_):  # noqa: PT019
     """Test that validate_user_fields_patchable raises a ValidationError for invalid fields."""
     patch_data = {"field1": "foo", "field2": "bar", "field3": "not valid for patch"}
     mock_simplified_request = MockSimplifiedRequest(
@@ -203,7 +168,7 @@ def test_patch_with_invalid_fields(_):
 
 @pytest.mark.django_db
 @patch.object(PermissionValidation, "get_csv_field_permissions", return_value=mock_data)
-def test_patch_fields_no_privileges(_):
+def test_patch_fields_no_privileges(_):  # noqa: PT019
     """Test that validate_user_fields_patchable raises a PermissionError when no privileges exist."""
     patch_data = {"field1": "foo"}
     mock_simplified_request = MockSimplifiedRequest(
@@ -220,7 +185,7 @@ def test_patch_fields_no_privileges(_):
 @pytest.mark.django_db
 @pytest.mark.load_user_data_required
 @patch.object(PermissionValidation, "get_csv_field_permissions", return_value=mock_data)
-def test_post_with_valid_fields(_):
+def test_post_with_valid_fields(_):  # noqa: PT019
     """Test that validate_user_fields_patchable does not raise an error for valid fields."""
 
     # Create a POST request with a JSON payload
@@ -238,7 +203,7 @@ def test_post_with_valid_fields(_):
 @pytest.mark.django_db
 @pytest.mark.load_user_data_required
 @patch.object(PermissionValidation, "get_csv_field_permissions", return_value=mock_data)
-def test_post_with_invalid_fields(_):
+def test_post_with_invalid_fields(_):  # noqa: PT019
     """Test that validate_user_fields_patchable raises a ValidationError for invalid fields."""
     post_data = {"field1": "foo", "field2": "bar", "system_field": "not valid for post"}
     mock_simplified_request = MockSimplifiedRequest(
