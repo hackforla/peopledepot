@@ -2,7 +2,8 @@
 name: Blank Issue
 about: Consistent formatting makes Issues concise and easy to navigate.
 title: ''
-labels: 'role: missing, size: missing, feature: missing, stakeholder: missing, complexity: missing, milestone: missing'
+labels: 'complexity: missing, feature: missing, milestone: missing, role: missing,
+  size: missing, stakeholder: missing'
 assignees: ''
 
 ---
