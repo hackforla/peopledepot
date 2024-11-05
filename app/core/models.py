@@ -426,3 +426,13 @@ class SocMajor(AbstractBaseModel):
 
     def __str__(self):
         return self.title
+
+class Accomplishment(AbstractBaseModel):
+    project_id = models.ForeignKey(Project, on_delete=models.DO_NOTHING)
+    title = models.CharField(max_length=255)
+    description = models.CharField(max_length=255)
+    url = models.URLField()
+    accomplished_on = models.DateTimeField()
+    # created_date = models.DateTimeField() already in abstrat base model
+    # last_updated = models
+
