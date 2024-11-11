@@ -10,8 +10,8 @@ drf-spectacular
 flake8
 isort
 markdown
-pytest-xdist
 psycopg2-binary
 pytest-cov
 pytest-django
+pytest-xdist
 tzdata
