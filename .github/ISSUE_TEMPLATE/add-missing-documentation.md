@@ -1,9 +1,9 @@
 ---
 name: Add missing documentation
 about: Is our repo missing documentation? Record it here so that it can be added
-title: 'Add missing documentation about [REPLACE WITH TOPIC OF MISSING DOCUMENTATION]'
-labels: 'complexity: missing, feature: docs: PD team documentation, milestone: missing, role: missing,
-  size: missing, s: PD team'
+title: Add missing documentation about [REPLACE WITH TOPIC OF MISSING DOCUMENTATION]
+labels: 'complexity: missing, feature: docs: PD team documentation, milestone: missing,
+  role: missing, size: missing'
 assignees: ''
 
 ---
