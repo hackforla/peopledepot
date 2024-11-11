@@ -37,7 +37,7 @@ Any existing columns that need to be changed are added to the table below (ex: n
 
 
 #### Additional Changes
-- List any changes that are not field changes here (ex: relationship changes, table name changes, additional information added to the the ERD/Spreadsheet). Remove this section if unused
+- List any changes that are not field changes here (ex: relationship changes, table name changes, additional information added to the ERD). Remove this section if unused
 
 ### Resources
 - [Entity Relationship Diagram (ERD)](https://lucid.app/lucidchart/ac2f3e81-00d2-4257-b1fc-266d7f0a4cbe/view)
