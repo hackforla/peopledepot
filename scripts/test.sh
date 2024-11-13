@@ -1,7 +1,6 @@
 #!/bin/bash
 set -euo pipefail
 IFS=$'\n\t'
-set -x
 # Default options
 COVERAGE="--no-cov"
 EXEC_COMMAND=true
@@ -73,11 +72,15 @@ done
 # Check for missing migration files if not skipped
 if [ "$CHECK_MIGRATIONS" = true ]; then
   echo "Checking for missing migrations..."
+  set -x
   docker-compose exec -T web python manage.py makemigrations --check
+  set +x
 fi
 
 if [ "$EXEC_COMMAND" = true ]; then
+  set -x
   docker-compose exec -T web pytest -n "$N_CPU" $COVERAGE "${PYTEST_ARGS[@]}"
+  set +x
 else
   echo docker-compose exec -T web pytest -n "$N_CPU" $COVERAGE "${PYTEST_ARGS[@]}"
 fi
