@@ -22,6 +22,7 @@ from ..models import PermissionType
 from ..models import PracticeArea
 from ..models import ProgramArea
 from ..models import Project
+from ..models import ProjectStatus
 from ..models import Sdg
 from ..models import Skill
 from ..models import SocMajor
@@ -41,6 +42,7 @@ from .serializers import PermissionTypeSerializer
 from .serializers import PracticeAreaSerializer
 from .serializers import ProgramAreaSerializer
 from .serializers import ProjectSerializer
+from .serializers import ProjectStatusSerializer
 from .serializers import SdgSerializer
 from .serializers import SkillSerializer
 from .serializers import SocMajorSerializer
@@ -354,6 +356,20 @@ class CheckTypeViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = CheckType.objects.all()
     serializer_class = CheckTypeSerializer
+
+
+@extend_schema_view(
+    list=extend_schema(description="Return a list of all the project statuses"),
+    create=extend_schema(description="Create a new project status"),
+    retrieve=extend_schema(description="Return the details of an project status"),
+    destroy=extend_schema(description="Delete a project status"),
+    update=extend_schema(description="Update a project status"),
+    partial_update=extend_schema(description="Patch a project status"),
+)
+class ProjectStatusViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = ProjectStatus.objects.all()
+    serializer_class = ProjectStatusSerializer
 
 
 @extend_schema_view(
