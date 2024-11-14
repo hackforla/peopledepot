@@ -3,10 +3,10 @@ import re
 import pytest
 
 from ..models import Event
-from ..models import ProjectSdgXref
-from ..models import Sdg
 from ..models import ProgramArea
 from ..models import ProjectProgramAreaXref
+from ..models import ProjectSdgXref
+from ..models import Sdg
 
 pytestmark = pytest.mark.django_db
 
