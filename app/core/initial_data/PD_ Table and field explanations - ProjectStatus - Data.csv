@@ -1,0 +1,6 @@
+name,description
+Active,Has a project team and current meetings
+On Hold,No project team or meetings scheduled
+Completed,Project is completed
+Closed,"Closed, possibly not completed (usually does not show up on the website).  Unlikely to be reopened."
+Deleted,"Holds for 90 days before final removal (used for test project entries, or mistakes that do not need to be remembered)"
