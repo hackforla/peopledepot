@@ -15,6 +15,7 @@ from ..models import PermissionType
 from ..models import PracticeArea
 from ..models import ProgramArea
 from ..models import Project
+from ..models import ProjectStatus
 from ..models import Sdg
 from ..models import Skill
 from ..models import SocMajor
@@ -286,6 +287,24 @@ def check_type():
     return CheckType.objects.create(
         name="This is a test check_type.",
         description="This is a test check_type description.",
+    )
+
+
+@pytest.fixture
+def project_1():
+    return Project.objects.create(name="Project 1")
+
+
+@pytest.fixture
+def project_2():
+    return Project.objects.create(name="Project 2")
+
+
+@pytest.fixture
+def project_status():
+    return ProjectStatus.objects.create(
+        name="This is a test project_status",
+        description="This is a test project_status",
     )
 
 
