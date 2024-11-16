@@ -46,6 +46,7 @@ class TestPostUser:
             "password": "password",
         }
         response = cls._post_request_to_viewset(requesting_user, create_data)
+        print(r"Debug", response.data)
 
         assert response.status_code == status.HTTP_201_CREATED
 

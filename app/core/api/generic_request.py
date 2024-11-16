@@ -8,10 +8,6 @@ from core.models import UserPermission
 
 class GenericRequest:
     @staticmethod
-    def get_instance(obj):
-        return obj
-       
-    @staticmethod
     def get_allowed_users(request):
         current_username = request.user.username
 
@@ -27,9 +23,8 @@ class GenericRequest:
             allowed_users = User.objects.filter(permissions__project__in=projects).distinct() 
         return allowed_users   
 
- 
     @classmethod
-    def get_queryset(cls, view_instance):
+    def get_queryset(cls, view):
         """Get the queryset of users that the requesting user has permission to view.
 
         Called from get_queryset in UserViewSet in views.py.
@@ -40,27 +35,36 @@ class GenericRequest:
         Returns:
             queryset: the queryset of users that the requesting user has permission to view
         """
-        allowed_users = cls.get_allowed_users(view_instance.request)
-        current_model = view_instance.serializer_class.Meta.model
+        allowed_users = cls.get_allowed_users(view.request)
+        current_model = view.serializer_class.Meta.model
         if current_model == User:
             queryset = allowed_users
         else:
             queryset = current_model.objects.filter(user__in = allowed_users)
-        
-       
+
         return queryset
 
     @classmethod
-    def validate_user_post_fields(cls, request):
+    def validate_post_fields(cls, view, request):
+        # todo
+        serializer_class = view.serializer_class
+        table_name = serializer_class.Meta.model.__name__
         valid_fields = PermissionValidation.get_fields_for_post_request(
-            request=request, table_name="user"
+            request=request, table_name=table_name
         )
         cls.validate_request_fields(request, valid_fields)
 
     @classmethod
-    def validate_user_patch_fields(cls, request, response_related_user):
+    def validate_patch_fields(cls, view, request, obj):
+        serializer_class = view.get_serializer_class()
+        model_class = serializer_class.Meta.model
+        table_name = model_class.__name__
+        if model_class == User:
+            response_related_user = obj
+        else:
+            response_related_user = obj.user
         valid_fields = PermissionValidation.get_fields_for_patch_request(
-            table_name="user",
+            table_name=table_name,
             request=request,
             response_related_user=response_related_user,
         )
@@ -71,6 +75,8 @@ class GenericRequest:
         """Ensure the requesting user can patch the provided fields."""
         request_data_keys = set(request.data)
         disallowed_fields = request_data_keys - set(valid_fields)
+        print("debug", disallowed_fields)
+        print("debug valid", valid_fields)
 
         if not valid_fields:
             raise PermissionDenied("You do not have privileges ")

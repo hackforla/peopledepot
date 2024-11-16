@@ -21,7 +21,7 @@ class TestPatchUser:
     #     factory = APIRequestFactory()
     #     request = factory.patch(reverse("user-detail"), data=new_data, format="json")
     #     force_authenticate(request, user=requesting_user)
-    #     view = UserViewSet.as_view({"patch": "partial_update"})
+    #     view = serViewSet.as_view({"patch": "partial_update"})
     #     response = view(request)
     #     return response
     @staticmethod

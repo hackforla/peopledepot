@@ -34,7 +34,8 @@ class UserRequest:
         return queryset
 
     @classmethod
-    def validate_user_post_fields(cls, request):
+    def validate_post_fields(cls, view, request):
+        
         valid_fields = PermissionValidation.get_fields_for_post_request(
             request=request, table_name="user"
         )

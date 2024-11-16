@@ -10,20 +10,21 @@ from constants import admin_project
 from constants import member_project
 from constants import practice_lead_project
 from core.api.permission_validation import PermissionValidation
-from core.api.user_request import UserRequest
+from core.api.generic_request import GenericRequest
 from core.tests.utils.seed_constants import garry_name
 from core.tests.utils.seed_constants import patti_name
 from core.tests.utils.seed_constants import wally_name
 from core.tests.utils.seed_constants import wanda_admin_project
 from core.tests.utils.seed_constants import zani_name
 from core.tests.utils.seed_user import SeedUser
+from core.api.views import UserViewSet
 
 keys = ["table_name", "field_name", "get", "patch", "post"]
 rows = [
-    ["user", "field1", member_project, practice_lead_project, admin_global],
-    ["user", "field2", admin_project, admin_project, admin_global],
-    ["user", "field3", admin_project, admin_global, admin_global],
-    ["user", "system_field", member_project, "", ""],
+    ["User", "field1", member_project, practice_lead_project, admin_global],
+    ["User", "field2", admin_project, admin_project, admin_global],
+    ["User", "field3", admin_project, admin_global, admin_global],
+    ["User", "system_field", member_project, "", ""],
     ["foo", "bar", member_project, member_project, member_project],
 ]
 # Create an array of dictionaries with keys specified by keys[] andsss
@@ -142,7 +143,7 @@ def test_patch_with_valid_fields(_):  # noqa: PT019
         method="PATCH", user=SeedUser.get_user(wanda_admin_project), data=patch_data
     )
 
-    UserRequest.validate_user_patch_fields(
+    GenericRequest.validate_patch_fields(
         response_related_user=SeedUser.get_user(wally_name),
         request=mock_simplified_request,
     )
@@ -160,7 +161,7 @@ def test_patch_with_invalid_fields(_):  # noqa: PT019
     )
 
     with pytest.raises(ValidationError):
-        UserRequest.validate_user_patch_fields(
+        GenericRequest.validate_patch_fields(
             response_related_user=SeedUser.get_user(wally_name),
             request=mock_simplified_request,
         )
@@ -176,7 +177,7 @@ def test_patch_fields_no_privileges(_):  # noqa: PT019
     )
 
     with pytest.raises(PermissionDenied):
-        UserRequest.validate_user_patch_fields(
+        GenericRequest.validate_patch_fields(
             response_related_user=SeedUser.get_user(wally_name),
             request=mock_simplified_request,
         )
@@ -194,8 +195,9 @@ def test_post_with_valid_fields(_):  # noqa: PT019
         method="POST", user=SeedUser.get_user(garry_name), data=post_data
     )
 
-    UserRequest.validate_user_post_fields(
+    GenericRequest.validate_post_fields(
         request=mock_simplified_request,
+        view=UserViewSet
     )
     assert True
 
@@ -211,6 +213,7 @@ def test_post_with_invalid_fields(_):  # noqa: PT019
     )
 
     with pytest.raises(ValidationError):
-        UserRequest.validate_user_post_fields(
+        GenericRequest.validate_post_fields(
             request=mock_simplified_request,
+            view=UserViewSet
         )

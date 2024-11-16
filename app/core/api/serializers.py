@@ -74,7 +74,7 @@ class UserSerializer(serializers.ModelSerializer):
         # Get dynamic fields from some logic
         user_fields = PermissionValidation.get_response_fields(
             request=request,
-            table_name="user",
+            table_name="User",
             response_related_user=response_related_user,
         )
         # Only retain the fields you want to include in the output

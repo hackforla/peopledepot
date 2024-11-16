@@ -64,6 +64,7 @@ class PermissionValidation:
             table_name=table_name,
             permission_type=admin_global,
         )
+        print("debug get fields for post", fields)
         return fields
 
     @classmethod
