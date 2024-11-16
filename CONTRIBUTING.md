@@ -422,14 +422,17 @@ There are four types of security:
 ### Record security
 - Determines whether a record can be viewed, updated, or created.  This works for an individual record and when doing a general query.
 - implementation options:
-  -  implement with permissions.  Create a <Table>Permission method in Permissions and then associate the permission in <Table>ViewSet.  The permission will assess whether the record should be returned.  This is the preferred method and works
+  -  implement with permissions.  Create a <Table>Permission method in Permissions and then associate the permission in <Table>ViewSet.  The permission will assess whether the record should be returned. 
   for all four operations.
+
+### Record query security
   - get_query_set for viewing (does not apply to create or update):
     - filter query_set records in get_queryset of <Table>ViewSet.  It is more difficult to implement complex security here, but if the
   security is relatively simple, you may be able to add a filter.  
     - loop through all records in query_set and call a function to determine if it can be viewed.  If it can't be viewed, remove it.
 - Determines whether a record can be updated or created.  Note if you are implementing field based request security, the field
 level security should prevent a user from updating an unauthorized recrd.
+
 
 ### Update and create Field security
 - Determines which fields, if any, can be included in a request to update or create.

@@ -14,6 +14,7 @@ from rest_framework.response import Response
 
 from core.api.permissions import UserMethodPermission
 from core.api.user_request import UserRequest
+from core.api.generic_request import GenericRequest
 
 from ..models import Affiliate
 from ..models import Affiliation
@@ -154,7 +155,7 @@ class UserViewSet(viewsets.ModelViewSet):
         """
         Optionally filter users by an 'email' and/or 'username' query paramerter in the URL
         """
-        queryset = UserRequest.get_queryset(self.request)
+        queryset = GenericRequest.get_queryset(view_instance=self)
 
         email = self.request.query_params.get("email")
         if email is not None:
