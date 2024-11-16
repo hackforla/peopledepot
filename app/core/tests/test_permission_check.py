@@ -142,7 +142,7 @@ def test_patch_with_valid_fields(_):  # noqa: PT019
         method="PATCH", user=SeedUser.get_user(wanda_admin_project), data=patch_data
     )
 
-    UserRequest.validate_patch_fields(
+    UserRequest.validate_user_patch_fields(
         response_related_user=SeedUser.get_user(wally_name),
         request=mock_simplified_request,
     )
@@ -160,7 +160,7 @@ def test_patch_with_invalid_fields(_):  # noqa: PT019
     )
 
     with pytest.raises(ValidationError):
-        UserRequest.validate_patch_fields(
+        UserRequest.validate_user_patch_fields(
             response_related_user=SeedUser.get_user(wally_name),
             request=mock_simplified_request,
         )
@@ -176,7 +176,7 @@ def test_patch_fields_no_privileges(_):  # noqa: PT019
     )
 
     with pytest.raises(PermissionDenied):
-        UserRequest.validate_patch_fields(
+        UserRequest.validate_user_patch_fields(
             response_related_user=SeedUser.get_user(wally_name),
             request=mock_simplified_request,
         )
@@ -194,7 +194,7 @@ def test_post_with_valid_fields(_):  # noqa: PT019
         method="POST", user=SeedUser.get_user(garry_name), data=post_data
     )
 
-    UserRequest.validate_post_fields(
+    UserRequest.validate_user_post_fields(
         request=mock_simplified_request,
     )
     assert True
@@ -211,6 +211,6 @@ def test_post_with_invalid_fields(_):  # noqa: PT019
     )
 
     with pytest.raises(ValidationError):
-        UserRequest.validate_post_fields(
+        UserRequest.validate_user_post_fields(
             request=mock_simplified_request,
         )

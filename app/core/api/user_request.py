@@ -34,14 +34,14 @@ class UserRequest:
         return queryset
 
     @classmethod
-    def validate_post_fields(cls, request):
+    def validate_user_post_fields(cls, request):
         valid_fields = PermissionValidation.get_fields_for_post_request(
             request=request, table_name="user"
         )
         cls.validate_request_fields(request, valid_fields)
 
     @classmethod
-    def validate_patch_fields(cls, request, response_related_user):
+    def validate_user_patch_fields(cls, request, response_related_user):
         valid_fields = PermissionValidation.get_fields_for_patch_request(
             table_name="user",
             request=request,

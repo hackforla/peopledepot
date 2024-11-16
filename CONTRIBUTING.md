@@ -417,7 +417,34 @@ git push
 
 If you go to your online GitHub repository this should remove the message "This branch is x commit behind peopledepot:main".
 
-## 7. Creating Issues
+## 7. How to Add User Security
+There are four types of security:
+### Record security
+- Determines whether a record can be viewed, updated, or created.  This works for an individual record and when doing a general query.
+- implementation options:
+  -  implement with permissions.  Create a <Table>Permission method in Permissions and then associate the permission in <Table>ViewSet.  The permission will assess whether the record should be returned.  This is the preferred method and works
+  for all four operations.
+  - get_query_set for viewing (does not apply to create or update):
+    - filter query_set records in get_queryset of <Table>ViewSet.  It is more difficult to implement complex security here, but if the
+  security is relatively simple, you may be able to add a filter.  
+    - loop through all records in query_set and call a function to determine if it can be viewed.  If it can't be viewed, remove it.
+- Determines whether a record can be updated or created.  Note if you are implementing field based request security, the field
+level security should prevent a user from updating an unauthorized recrd.
+
+### Update and create Field security
+- Determines which fields, if any, can be included in a request to update or create.
+
+### Response field security
+- Restricts the fields returned in the response.  Applicable to view, update, and create.
+   - implementation: determine fields to be included in resonse using <Table>Serializer in Serializer.py
+
+
+User table implements all three.  Tables that do not have a relationship to a user may
+
+Where to add security for user related tables:
+- read security: two ways to do this: 
+- 
+## 8. Creating Issues
 
 To create a new issue, please use the blank issue template (available when you click New Issue). If you want to create an issue for other projects to use, please create the issue in your own repository and send a slack message to one of your hack night hosts with the link.
 
