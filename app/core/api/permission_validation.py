@@ -53,7 +53,6 @@ class PermissionValidation:
                 valid_fields += [field["field_name"]]
         return valid_fields
 
-    # todo: refactor to change request to requesting_user?
     @classmethod
     def get_fields_for_post_request(cls, request, table_name):
         requesting_user = request.user
@@ -67,7 +66,6 @@ class PermissionValidation:
         print("debug get fields for post", fields)
         return fields
 
-    @classmethod
     @classmethod
     def get_fields_for_patch_request(cls, request, table_name, response_related_user):
         requesting_user = request.user

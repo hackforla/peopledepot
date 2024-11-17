@@ -51,6 +51,7 @@ class TestPatchUser:
         print("Debug data", data,"x", )
         client.patch(url, data, format="json")
         __args__, kwargs = mock_validate_fields.call_args
+        print("debug kwargs", kwargs)
         request_received = kwargs.get("request")
         response_related_user_received = kwargs.get("obj")
         assert request_received.data == data

@@ -1,5 +1,6 @@
 #!/bin/bash
 set -euo pipefail
+trap 'echo "Error occurred in script at line $LINENO. Exiting..."; read -p "Press Enter to close... " -n1' ERR
 IFS=$'\n\t'
 set -x
 # Default options

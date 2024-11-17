@@ -56,7 +56,7 @@ class GenericRequest:
 
     @classmethod
     def validate_patch_fields(cls, view, request, obj):
-        serializer_class = view.get_serializer_class()
+        serializer_class = view.serializer_class
         model_class = serializer_class.Meta.model
         table_name = model_class.__name__
         if model_class == User:

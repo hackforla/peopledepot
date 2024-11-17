@@ -162,8 +162,9 @@ def test_patch_with_invalid_fields(_):  # noqa: PT019
     )
 
     with pytest.raises(ValidationError):
-        GenericRequest.validate_patch_fields(
-            response_related_user=SeedUser.get_user(wally_name),
+        GenericRequest.validate_patch_fields( 
+            obj=SeedUser.get_user(wanda_admin_project),         
+            view=UserViewSet,
             request=mock_simplified_request,
         )
 
@@ -179,7 +180,8 @@ def test_patch_fields_no_privileges(_):  # noqa: PT019
 
     with pytest.raises(PermissionDenied):
         GenericRequest.validate_patch_fields(
-            response_related_user=SeedUser.get_user(wally_name),
+            obj=SeedUser.get_user(wally_name),
+            view=UserViewSet,
             request=mock_simplified_request,
         )
 
