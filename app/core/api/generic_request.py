@@ -20,8 +20,10 @@ class GenericRequest:
             # Get the users with user permissions for the same projects
             # that the requesting_user has permission to view
             projects = [p.project for p in user_permissions if p.project is not None]
-            allowed_users = User.objects.filter(permissions__project__in=projects).distinct() 
-        return allowed_users   
+            allowed_users = User.objects.filter(
+                permissions__project__in=projects
+            ).distinct()
+        return allowed_users
 
     @classmethod
     def get_queryset(cls, view):
@@ -40,7 +42,7 @@ class GenericRequest:
         if current_model == User:
             queryset = allowed_users
         else:
-            queryset = current_model.objects.filter(user__in = allowed_users)
+            queryset = current_model.objects.filter(user__in=allowed_users)
 
         return queryset
 

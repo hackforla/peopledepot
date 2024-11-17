@@ -48,7 +48,11 @@ class TestPatchUser:
             "last_name": "Updated",
             "gmail": "update@example.com",
         }
-        print("Debug data", data,"x", )
+        print(
+            "Debug data",
+            data,
+            "x",
+        )
         client.patch(url, data, format="json")
         __args__, kwargs = mock_validate_fields.call_args
         print("debug kwargs", kwargs)

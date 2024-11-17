@@ -10,6 +10,7 @@ class DenyAny(BasePermission):
     def has_object_permission(self, __request__, __view__, __obj__):
         return False
 
+
 class GenericPermission(BasePermission):
     def has_permission(self, request, view):
         if request.method == "POST":
@@ -18,7 +19,5 @@ class GenericPermission(BasePermission):
 
     def has_object_permission(self, request, view, obj):
         if request.method == "PATCH":
-            GenericRequest.validate_patch_fields(
-                view=view, obj=obj, request=request
-            )
+            GenericRequest.validate_patch_fields(view=view, obj=obj, request=request)
         return True
