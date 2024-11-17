@@ -74,7 +74,9 @@ class User(PermissionsMixin, AbstractBaseUser, AbstractBaseModel):
     gmail = models.EmailField(blank=True)
     preferred_email = models.EmailField(blank=True)
 
-    # user_status = models.ForeignKey(user_status_type, on_delete=models.PROTECT)
+    user_status = models.ForeignKey(
+        "UserStatusType", null=True, on_delete=models.PROTECT
+    )
     # current_practice_area = models.ManyToManyField("PracticeArea")
     # target_practice_area = models.ManyToManyField("PracticeArea")
 
@@ -144,6 +146,9 @@ https://api.github.com/repos/[org]/[repo]',
     image_logo = models.URLField(blank=True)
     image_hero = models.URLField(blank=True)
     image_icon = models.URLField(blank=True)
+    sdgs = models.ManyToManyField(
+        "Sdg", related_name="projects", blank=True, through="ProjectSdgXref"
+    )
 
     def __str__(self):
         return f"{self.name}"
@@ -426,3 +431,33 @@ class SocMajor(AbstractBaseModel):
 
     def __str__(self):
         return self.title
+
+
+class ProjectSdgXref(AbstractBaseModel):
+    """
+    Joins an SDG to a project
+    """
+
+    sdg_id = models.ForeignKey(Sdg, on_delete=models.CASCADE)
+    project_id = models.ForeignKey(Project, on_delete=models.CASCADE)
+    ended_on = models.DateField("Ended on", null=True, blank=True)
+
+
+class UrlType(AbstractBaseModel):
+    """
+    Type of the URL (ReadMe, Wiki, etc.)
+    """
+
+    name = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.name
+
+
+class UserStatusType(AbstractBaseModel):
+    name = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+
+    def __str__(self):
+        return f"{self.name}"

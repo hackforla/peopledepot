@@ -1,1 +1,1 @@
-0006_socmajor_seed
+0008_userstatustype_seed

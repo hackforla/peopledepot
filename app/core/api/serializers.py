@@ -18,8 +18,10 @@ from core.models import Skill
 from core.models import SocMajor
 from core.models import StackElement
 from core.models import StackElementType
+from core.models import UrlType
 from core.models import User
 from core.models import UserPermission
+from core.models import UserStatusType
 
 
 class PracticeAreaSerializer(serializers.ModelSerializer):
@@ -158,6 +160,8 @@ class UserProfileSerializer(serializers.ModelSerializer):
 class ProjectSerializer(serializers.ModelSerializer):
     """Used to retrieve project info"""
 
+    sdgs = serializers.StringRelatedField(many=True)
+
     class Meta:
         model = Project
         fields = (
@@ -174,6 +178,7 @@ class ProjectSerializer(serializers.ModelSerializer):
             "image_logo",
             "image_hero",
             "image_icon",
+            "sdgs",
         )
         read_only_fields = (
             "uuid",
@@ -366,6 +371,8 @@ class SdgSerializer(serializers.ModelSerializer):
     Used to retrieve Sdg
     """
 
+    projects = serializers.StringRelatedField(many=True)
+
     class Meta:
         model = Sdg
         fields = (
@@ -373,6 +380,7 @@ class SdgSerializer(serializers.ModelSerializer):
             "name",
             "description",
             "image",
+            "projects",
         )
         read_only_fields = (
             "uuid",
@@ -417,4 +425,22 @@ class SocMajorSerializer(serializers.ModelSerializer):
     class Meta:
         model = SocMajor
         fields = ("uuid", "occ_code", "title")
+        read_only_fields = ("uuid", "created_at", "updated_at")
+
+
+class UrlTypeSerializer(serializers.ModelSerializer):
+    """Used to retrieve url_type info"""
+
+    class Meta:
+        model = UrlType
+        fields = ("uuid", "name", "description")
+        read_only_fields = ("uuid", "created_at", "updated_at")
+
+
+class UserStatusTypeSerializer(serializers.ModelSerializer):
+    """Used to retrieve user_status_type info"""
+
+    class Meta:
+        model = UserStatusType
+        fields = ("uuid", "name", "description")
         read_only_fields = ("uuid", "created_at", "updated_at")

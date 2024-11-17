@@ -2,7 +2,6 @@
 set -euo pipefail
 trap 'echo "Error occurred in script at line $LINENO. Exiting..."; read -p "Press Enter to close... " -n1' ERR
 IFS=$'\n\t'
-set -x
 # Default options
 COVERAGE="--no-cov"
 EXEC_COMMAND=true
@@ -19,7 +18,7 @@ Options:
   --coverage         Run tests with coverage (default: without coverage, using --no-cov).
   --skip-migrations  Skip checking for pending migrations before running tests (default: check migrations).
   -n                 Remove the default --nauto option for running tests (default: -n auto).  There must be
-                       a space after -n and the value.
+                       a space after -n and the value.  (If you use 1 the script changes the value to 0.)
   --help             Display this help message and exit.
   --help-pytest      Display pytest help.
 
@@ -58,6 +57,9 @@ while [[ $# -gt 0 ]]; do
     -n)
       shift
       N_CPU="$1"
+      if [ "$N_CPU" == "1" ]; then
+        N_CPU=0
+      fi
       ;;
     *)
       PYTEST_ARGS+=("$arg")  # Preserve other arguments for pytest
@@ -71,11 +73,15 @@ done
 # Check for missing migration files if not skipped
 if [ "$CHECK_MIGRATIONS" = true ]; then
   echo "Checking for missing migrations..."
+  set -x
   docker-compose exec -T web python manage.py makemigrations --check
+  set +x
 fi
 
 if [ "$EXEC_COMMAND" = true ]; then
+  set -x
   docker-compose exec -T web pytest -n "$N_CPU" $COVERAGE "${PYTEST_ARGS[@]}"
+  set +x
 else
   echo docker-compose exec -T web pytest -n "$N_CPU" $COVERAGE "${PYTEST_ARGS[@]}"
 fi

@@ -5,8 +5,8 @@ FROM python:3.10-alpine
 WORKDIR /usr/src/app
 
 # set environment variables
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 ENV PYTHONPYCACHEPREFIX=/root/.cache/pycache/
 
 # install system dependencies
