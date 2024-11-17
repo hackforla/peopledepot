@@ -144,7 +144,8 @@ def test_patch_with_valid_fields(_):  # noqa: PT019
     )
 
     GenericRequest.validate_patch_fields(
-        response_related_user=SeedUser.get_user(wally_name),
+        view=UserViewSet,
+        obj=SeedUser.get_user(wally_name),
         request=mock_simplified_request,
     )
     assert True

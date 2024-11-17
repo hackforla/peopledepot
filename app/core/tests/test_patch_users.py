@@ -5,7 +5,7 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient
 
-from core.api.user_request import UserRequest
+from core.api.generic_request import GenericRequest
 from core.tests.utils.seed_constants import garry_name
 from core.tests.utils.seed_constants import valerie_name
 from core.tests.utils.seed_constants import wanda_admin_project
@@ -35,7 +35,7 @@ class TestPatchUser:
         data = data
         return client.patch(url, data, format="json")
 
-    @patch.object(UserRequest, UserRequest.validate_user_patch_fields.__name__)
+    @patch.object(GenericRequest, GenericRequest.validate_patch_fields.__name__)
     def test_patch_request_calls_validate_request(self, mock_validate_fields):
         """Test that the patch requests succeeds when the requester is an admin."""
         requester = SeedUser.get_user(garry_name)
@@ -48,10 +48,11 @@ class TestPatchUser:
             "last_name": "Updated",
             "gmail": "update@example.com",
         }
+        print("Debug data", data,"x", )
         client.patch(url, data, format="json")
         __args__, kwargs = mock_validate_fields.call_args
         request_received = kwargs.get("request")
-        response_related_user_received = kwargs.get("response_related_user")
+        response_related_user_received = kwargs.get("obj")
         assert request_received.data == data
         assert request_received.user == requester
         assert response_related_user_received == response_related_user
