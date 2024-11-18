@@ -23,6 +23,7 @@ from ..models import StackElementType
 from ..models import UrlType
 from ..models import User
 from ..models import UserPermission
+from ..models import UserStatusType
 from .utils.load_data import load_data
 
 
