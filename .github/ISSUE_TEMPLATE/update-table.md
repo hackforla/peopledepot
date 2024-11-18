@@ -27,6 +27,7 @@ Current name in code | Updated Name
 - [ ] Write a test for the new relationships this model will have with other models (e.g., creating a user and assigning them a set of permissions on a project) if any.
 - [ ] Update API end point
 - [ ] Update API unit tests
+- [ ] generate and post a schema image to a comment below and add a link to it into the Update Schema dependency issue.
 - [ ] Document the endpoint in ReDocs
 
 ### After PR has been approved
