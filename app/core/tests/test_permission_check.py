@@ -9,15 +9,15 @@ from constants import admin_global
 from constants import admin_project
 from constants import member_project
 from constants import practice_lead_project
-from core.api.permission_validation import PermissionValidation
 from core.api.generic_request import GenericRequest
+from core.api.permission_validation import PermissionValidation
+from core.api.views import UserViewSet
 from core.tests.utils.seed_constants import garry_name
 from core.tests.utils.seed_constants import patti_name
 from core.tests.utils.seed_constants import wally_name
 from core.tests.utils.seed_constants import wanda_admin_project
 from core.tests.utils.seed_constants import zani_name
 from core.tests.utils.seed_user import SeedUser
-from core.api.views import UserViewSet
 
 keys = ["table_name", "field_name", "get", "patch", "post"]
 rows = [
@@ -162,8 +162,8 @@ def test_patch_with_invalid_fields(_):  # noqa: PT019
     )
 
     with pytest.raises(ValidationError):
-        GenericRequest.validate_patch_fields( 
-            obj=SeedUser.get_user(wanda_admin_project),         
+        GenericRequest.validate_patch_fields(
+            obj=SeedUser.get_user(wanda_admin_project),
             view=UserViewSet,
             request=mock_simplified_request,
         )
@@ -199,8 +199,7 @@ def test_post_with_valid_fields(_):  # noqa: PT019
     )
 
     GenericRequest.validate_post_fields(
-        request=mock_simplified_request,
-        view=UserViewSet
+        request=mock_simplified_request, view=UserViewSet
     )
     assert True
 
@@ -217,6 +216,5 @@ def test_post_with_invalid_fields(_):  # noqa: PT019
 
     with pytest.raises(ValidationError):
         GenericRequest.validate_post_fields(
-            request=mock_simplified_request,
-            view=UserViewSet
+            request=mock_simplified_request, view=UserViewSet
         )
