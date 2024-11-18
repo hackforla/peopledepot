@@ -1,4 +1,4 @@
-table_name,field_name,get,patch,post,get_profile,patch_profile,post_profile
+table_name,field_name,get,patch,post
 User,username,memberProject,,adminGlobal
 User,is_active,,,
 User,is_staff,,,
