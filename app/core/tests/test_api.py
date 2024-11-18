@@ -32,7 +32,7 @@ URL_TYPE_URL = reverse("url-type-list")
 USER_STATUS_TYPES_URL = reverse("user-status-type-list")
 
 
-def test_post_event(auth_client, project):
+def test_create_event(auth_client, project):
     """Test that we can create an event"""
 
     payload = {
@@ -62,7 +62,7 @@ def test_post_event(auth_client, project):
     assert res.data["name"] == payload["name"]
 
 
-def test_post_affiliate(auth_client):
+def test_create_affiliate(auth_client):
     payload = {
         "partner_name": "Test Partner",
         "partner_logo": "http://www.logourl.com",
@@ -75,7 +75,7 @@ def test_post_affiliate(auth_client):
     assert res.status_code == status.HTTP_201_CREATED
 
 
-def test_post_practice_area(auth_client):
+def test_create_practice_area(auth_client):
     payload = {
         "name": "Test API for creating practice area",
         "description": "See name.  Description is optional.",
@@ -85,7 +85,7 @@ def test_post_practice_area(auth_client):
     assert res.data["name"] == payload["name"]
 
 
-def test_post_faq(auth_client):
+def test_create_faq(auth_client):
     payload = {
         "question": "How do I work on an issue",
         "answer": "See CONTRIBUTING.md",
@@ -104,7 +104,7 @@ def test_get_faq_viewed(auth_client, faq_viewed):
     assert res.data[0]["faq"] == faq_viewed.faq.pk
 
 
-def test_post_location(auth_client):
+def test_create_location(auth_client):
     """Test that we can create a location"""
 
     payload = {
@@ -119,7 +119,7 @@ def test_post_location(auth_client):
     assert res.status_code == status.HTTP_201_CREATED
 
 
-def test_post_program_area(auth_client):
+def test_create_program_area(auth_client):
     """Test that we can create a program area"""
 
     payload = {
@@ -151,7 +151,7 @@ def test_list_program_area(auth_client):
     assert res.data == expected_data
 
 
-def test_post_skill(auth_client):
+def test_create_skill(auth_client):
     """Test that we can create a skill"""
 
     payload = {
@@ -185,7 +185,7 @@ def test_create_permission_type(auth_client):
     assert res.data["description"] == payload["description"]
 
 
-def test_post_stack_element_type(auth_client):
+def test_create_stack_element_type(auth_client):
     payload = {
         "name": "Test Stack Element Type",
         "description": "Stack Element Type description",
@@ -214,7 +214,7 @@ def test_create_sdg(auth_client):
     assert res.data["name"] == payload["name"]
 
 
-def test_post_affiliation(auth_client, project, affiliate):
+def test_create_affiliation(auth_client, project, affiliate):
     payload = {
         "affiliate": affiliate.pk,
         "project": project.pk,
