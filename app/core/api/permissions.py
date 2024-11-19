@@ -1,6 +1,6 @@
 from rest_framework.permissions import BasePermission
 
-from core.api.generic_request import GenericRequest
+from core.api.user_related_request import UserRelatedRequest
 
 
 class DenyAny(BasePermission):
@@ -14,10 +14,10 @@ class DenyAny(BasePermission):
 class GenericPermission(BasePermission):
     def has_permission(self, request, view):
         if request.method == "POST":
-            GenericRequest.validate_post_fields(request=request, view=view)
+            UserRelatedRequest.validate_post_fields(request=request, view=view)
         return True  # Default to allow the request
 
     def has_object_permission(self, request, view, obj):
         if request.method == "PATCH":
-            GenericRequest.validate_patch_fields(view=view, obj=obj, request=request)
+            UserRelatedRequest.validate_patch_fields(view=view, obj=obj, request=request)
         return True

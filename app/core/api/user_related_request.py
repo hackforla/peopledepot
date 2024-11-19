@@ -6,7 +6,7 @@ from core.models import User
 from core.models import UserPermission
 
 
-class GenericRequest:
+class UserRelatedRequest:
     @staticmethod
     def get_allowed_users(request):
         current_username = request.user.username
@@ -46,6 +46,25 @@ class GenericRequest:
 
         return queryset
 
+    @staticmethod
+    def get_serializer_representation(self, instance, original_representation):
+        request = self.context.get("request")
+        model_class = self.Meta.model
+        if model_class == User:
+            response_related_user: User = instance
+        else:
+            response_related_user = instance.user
+        # Get dynamic fields from some logic
+        user_fields = PermissionValidation.get_response_fields(
+            request=request,
+            table_name=model_class.__name__,
+            response_related_user=response_related_user,
+        )
+        # Only retain the fields you want to include in the output
+        return {
+            key: value for key, value in original_representation.items() if key in user_fields
+        }
+    
     @classmethod
     def validate_post_fields(cls, view, request):
         # todo
@@ -77,8 +96,6 @@ class GenericRequest:
         """Ensure the requesting user can patch the provided fields."""
         request_data_keys = set(request.data)
         disallowed_fields = request_data_keys - set(valid_fields)
-        print("debug", disallowed_fields)
-        print("debug valid", valid_fields)
 
         if not valid_fields:
             raise PermissionDenied("You do not have privileges ")

@@ -9,7 +9,7 @@ from constants import admin_global
 from constants import admin_project
 from constants import member_project
 from constants import practice_lead_project
-from core.api.generic_request import GenericRequest
+from core.api.user_related_request import UserRelatedRequest
 from core.api.permission_validation import PermissionValidation
 from core.api.views import UserViewSet
 from core.tests.utils.seed_constants import garry_name
@@ -143,7 +143,7 @@ def test_patch_with_valid_fields(_):  # noqa: PT019
         method="PATCH", user=SeedUser.get_user(wanda_admin_project), data=patch_data
     )
 
-    GenericRequest.validate_patch_fields(
+    UserRelatedRequest.validate_patch_fields(
         view=UserViewSet,
         obj=SeedUser.get_user(wally_name),
         request=mock_simplified_request,
@@ -162,7 +162,7 @@ def test_patch_with_invalid_fields(_):  # noqa: PT019
     )
 
     with pytest.raises(ValidationError):
-        GenericRequest.validate_patch_fields(
+        UserRelatedRequest.validate_patch_fields(
             obj=SeedUser.get_user(wanda_admin_project),
             view=UserViewSet,
             request=mock_simplified_request,
@@ -179,7 +179,7 @@ def test_patch_fields_no_privileges(_):  # noqa: PT019
     )
 
     with pytest.raises(PermissionDenied):
-        GenericRequest.validate_patch_fields(
+        UserRelatedRequest.validate_patch_fields(
             obj=SeedUser.get_user(wally_name),
             view=UserViewSet,
             request=mock_simplified_request,
@@ -198,7 +198,7 @@ def test_post_with_valid_fields(_):  # noqa: PT019
         method="POST", user=SeedUser.get_user(garry_name), data=post_data
     )
 
-    GenericRequest.validate_post_fields(
+    UserRelatedRequest.validate_post_fields(
         request=mock_simplified_request, view=UserViewSet
     )
     assert True
@@ -215,6 +215,6 @@ def test_post_with_invalid_fields(_):  # noqa: PT019
     )
 
     with pytest.raises(ValidationError):
-        GenericRequest.validate_post_fields(
+        UserRelatedRequest.validate_post_fields(
             request=mock_simplified_request, view=UserViewSet
         )

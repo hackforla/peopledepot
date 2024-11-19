@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from timezone_field.rest_framework import TimeZoneSerializerField
 
+from core.api.user_related_request import UserRelatedRequest
 from core.api.permission_validation import PermissionValidation
 from core.models import Affiliate
 from core.models import Affiliation
@@ -71,18 +72,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
-        request = self.context.get("request")
-        response_related_user: User = instance
-        # Get dynamic fields from some logic
-        user_fields = PermissionValidation.get_response_fields(
-            request=request,
-            table_name="User",
-            response_related_user=response_related_user,
-        )
-        # Only retain the fields you want to include in the output
-        return {
-            key: value for key, value in representation.items() if key in user_fields
-        }
+        return UserRelatedRequest.get_serializer_representation(self, instance, representation)
 
     class Meta:
         model = User

@@ -23,7 +23,6 @@ _user_get_url = reverse("user-list")
 class TestGetUser:
     @staticmethod
     def _get_response_fields(first_name, response_data):
-        print("Debug r", response_data)
         response_related_user = None
 
         # look up target user in response_data by first name
@@ -49,7 +48,6 @@ class TestGetUser:
         client = APIClient()
         client.force_authenticate(user=SeedUser.get_user(wanda_admin_project))
         response = client.get(_user_get_url)
-        print("Debug r2", response.data)
         assert response.status_code == 200
         assert len(response.json()) == count_website_members
         response_fields = self._get_response_fields(winona_name, response.data)
