@@ -7,17 +7,20 @@ This document currently covers only one-to-many user-related data policy.  Other
 
 # One-to-many user related data policy
 
-# user field
+## user field
 A table that uses a user related data policy must have "user" as a field that references the one user for a particluar row.
 
 ## Fetching Rows
 
 - determines which rows are returned for a get request
-- modify views.py
-  - find <table>ViewSet
-  - add the following code:
+- implementation:
+    modify views.py
+    - find <table>ViewSet
+    - add the following code:
+```
       def get_queryset(self):
         queryset = GenericRequest.get_queryset(view=self)
+```
 
 ## Record security
 
