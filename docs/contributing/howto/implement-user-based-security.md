@@ -4,7 +4,6 @@
 **authorization data access policy:** policy that requires authorization for create, update, delete and optionally read access.\
 **other data access policy:** any custom policy not covered by the previous two polices.  For example, data access policy for create, update, and delete could be based on Djano roles.  In that scenario, a specific table might only be updateable by a user with a specific Django role.
 
-This document currently covers only one-to-many user-related data policy.  Other policies will be added later.
 
 # One-to-many user related data policy
 
