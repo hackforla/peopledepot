@@ -62,9 +62,11 @@ class UserRelatedRequest:
         )
         # Only retain the fields you want to include in the output
         return {
-            key: value for key, value in original_representation.items() if key in user_fields
+            key: value
+            for key, value in original_representation.items()
+            if key in user_fields
         }
-    
+
     @classmethod
     def validate_post_fields(cls, view, request):
         # todo

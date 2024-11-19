@@ -19,5 +19,7 @@ class GenericPermission(BasePermission):
 
     def has_object_permission(self, request, view, obj):
         if request.method == "PATCH":
-            UserRelatedRequest.validate_patch_fields(view=view, obj=obj, request=request)
+            UserRelatedRequest.validate_patch_fields(
+                view=view, obj=obj, request=request
+            )
         return True

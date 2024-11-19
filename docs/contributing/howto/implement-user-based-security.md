@@ -1,6 +1,7 @@
 # Terminology
+
 **one-to-many user-related data access policy:** policy for tables where each row in the table is related to one and only one user, directly or indirectly.
-**authorization data access policy:** policy that requires authorization for create, update, delete and optionally read access.  
+**authorization data access policy:** policy that requires authorization for create, update, delete and optionally read access.\
 **other data access policy:** any custom policy not covered by the previous two polices.  For example, data access policy for create, update, and delete could be based on Djano roles.  In that scenario, a specific table might only be updateable by a user with a specific Django role.
 
 This document currently covers only one-to-many user-related data policy.  Other policies will be added later.
@@ -8,6 +9,7 @@ This document currently covers only one-to-many user-related data policy.  Other
 # One-to-many user related data policy
 
 ## user field
+
 A table that uses a user related data policy must have "user" as a field that references the one user for a particluar row.
 
 ## Fetching Rows
@@ -17,6 +19,7 @@ A table that uses a user related data policy must have "user" as a field that re
     modify views.py
     - find <table>ViewSet
     - add the following code:
+
 ```
       def get_queryset(self):
         queryset = GenericRequest.get_queryset(view=self)
@@ -25,27 +28,30 @@ A table that uses a user related data policy must have "user" as a field that re
 ## Record security
 
 - determines whether a specific record can be viewed, updated, or created.  If the table requires field level security then implementing record level security is not required.
--  implementation: 
-   - modify views.py
-     - find <table>ViewSet
-     - find line `permission = [....]`
-     - add UserBasedRecordPermission to the list
+- implementation:
+    - modify views.py
+        - find <table>ViewSet
+        - find line `permission = [....]`
+        - add UserBasedRecordPermission to the list
 
 ## Field security
-- determines which fields, if any, can be included in a request to update or create. 
+
+- determines which fields, if any, can be included in a request to update or create.
 - implementation:
-  - modify field_permissions.csv to include field level configuration, if not already there
-  - modify views.py
-     - find <table>ViewSet
-     - find line `permission = [....]`
-     - add UserBasedFieldPermission to the list
+    - modify field_permissions.csv to include field level configuration, if not already there
+    - modify views.py
+        - find <table>ViewSet
+        - find line `permission = [....]`
+        - add UserBasedFieldPermission to the list
 
 ## Response data
-- determines the fields returned in a response for each row.  
-- implementation: 
-  - modify serializer.py
-    - find <table>Serializer
-    - add following code at end of serializer:
+
+- determines the fields returned in a response for each row.
+- implementation:
+    - modify serializer.py
+        - find <table>Serializer
+        - add following code at end of serializer:
+
 ```
 def to_representation(self, instance):
     representation = super().to_representation(instance)
@@ -53,13 +59,14 @@ def to_representation(self, instance):
 ```
 
 # Authorization data access policy
+
 For many tables, create, update, and delete for all rows in the table are allowed if the request is from an authenticated user.  Ability to read all rows may or may not require authentication.  To implement one of these
 options modify view.py:
+
 - find <table>ViewSet
 - find line `permission = [....]`
 - if read access requires authentication, make sure the permission includes isAuthenticated
 - if read access does not require authentication, add isAuthenticatedOrReadOnly and if applicable, remove isAuthenticated.
-
 
 # Appendix A - Notes on API endpoints
 
@@ -115,4 +122,3 @@ Used for reading and updating information about the user that is logged in.  Use
 #### /eligible-users/<project id>?scope=\<all/team/notteam> - List users.
 
 This is covered by issue #394.
-

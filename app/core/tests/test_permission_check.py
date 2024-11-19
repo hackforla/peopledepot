@@ -9,8 +9,8 @@ from constants import admin_global
 from constants import admin_project
 from constants import member_project
 from constants import practice_lead_project
-from core.api.user_related_request import UserRelatedRequest
 from core.api.permission_validation import PermissionValidation
+from core.api.user_related_request import UserRelatedRequest
 from core.api.views import UserViewSet
 from core.tests.utils.seed_constants import garry_name
 from core.tests.utils.seed_constants import patti_name

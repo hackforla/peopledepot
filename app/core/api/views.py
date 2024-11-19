@@ -12,8 +12,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 
-from core.api.user_related_request import UserRelatedRequest
 from core.api.permissions import GenericPermission
+from core.api.user_related_request import UserRelatedRequest
 
 from ..models import Affiliate
 from ..models import Affiliation
