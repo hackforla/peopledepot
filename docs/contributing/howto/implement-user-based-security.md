@@ -7,6 +7,9 @@ This document currently covers only one-to-many user-related data policy.  Other
 
 # One-to-many user related data policy
 
+# user field
+A table that uses a user related data policy must have "user" as a field that references the one user for a particluar row.
+
 ## Fetching Rows
 
 - determines which rows are returned for a get request
