@@ -1,72 +1,78 @@
-# Terminology
+## Terminology
 
 - **one-to-many user-related data access policy:** policy for tables where each row in the table is related to one and only one user, directly or indirectly.
 - **authorization data access policy:** policy that requires authorization for create, update, delete and optionally read access.
 - **other data access policy:** any custom policy not covered by the previous two polices.  For example, data access policy for create, update, and delete could be based on Djano roles.  In that scenario, a specific table might only be updateable by a user with a specific Django role.
 
-# One-to-many user related data policy
+## One-to-many user related data policy
 
-## user field
+This is designed to work for these tables: `user`, `win`, `user_availability`, `user_employment_change`, `user_check`, `check_in`, `user_permission`.
+
+### user field
 
 A table that requires a user related data policy must have "user" as a field that references the one user for a particluar row.
 
-## Fetching Rows
+### Fetching Rows
 
 - determines which rows are returned for a get request
+
 - implementation:
-    modify views.py
-    - find <table>ViewSet
-    - add the following code:
 
-```
-      def get_queryset(self):
-        queryset = GenericRequest.get_queryset(view=self)
-```
+    - modify views.py
+        - find `<table>ViewSet`
 
-## Record security
+        - add the following code:
+
+            ```
+            def get_queryset(self):
+                queryset = GenericRequest.get_queryset(view=self)
+            ```
+
+### Record security
 
 - determines whether a specific record can be viewed, updated, or created.  If the table requires field level security then implementing record level security is not required.
 - implementation:
     - modify views.py
-        - find <table>ViewSet
+        - find `<table>ViewSet`
         - find line `permission = [....]`
         - add UserBasedRecordPermission to the list
 
-## Field security
+### Field security
 
 - determines which fields, if any, can be included in a request to update or create.
 - implementation:
     - modify field_permissions.csv to include field level configuration, if not already there
     - modify views.py
-        - find <table>ViewSet
+        - find `<table>ViewSet`
         - find line `permission = [....]`
         - add UserBasedFieldPermission to the list
 
-## Response data
+### Response data
 
 - determines the fields returned in a response for each row.
 - implementation:
     - modify serializer.py
-        - find <table>Serializer
+        - find `<table>Serializer`
+
         - add following code at end of serializer:
 
-```
-def to_representation(self, instance):
-    representation = super().to_representation(instance)
-    return GenericRequest.get_serializer_representation(self, instance, representation)
-```
+            ```
+            def to_representation(self, instance):
+                representation = super().to_representation(instance)
+                return GenericRequest.get_serializer_representation(self, instance, representation)
+            ```
 
-# Authorization data access policy
+## Authorization data access policy
 
 For many tables, create, update, and delete for all rows in the table are allowed if the request is from an authenticated user.  Ability to read all rows may or may not require authentication.  To implement one of these
 options modify view.py:
 
-- find <table>ViewSet
+- find `<table>ViewSet`
 - find line `permission = [....]`
 - if read access requires authentication, make sure the permission includes isAuthenticated
 - if read access does not require authentication, add isAuthenticatedOrReadOnly and if applicable, remove isAuthenticated.
 
-# Appendix A - Notes on API endpoints
+## Appendix A - Notes on API endpoints
 
 ### Functionality
 
