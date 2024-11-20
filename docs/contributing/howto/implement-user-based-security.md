@@ -1,15 +1,15 @@
 # Terminology
 
-**one-to-many user-related data access policy:** policy for tables where each row in the table is related to one and only one user, directly or indirectly.
-**authorization data access policy:** policy that requires authorization for create, update, delete and optionally read access.\
-**other data access policy:** any custom policy not covered by the previous two polices.  For example, data access policy for create, update, and delete could be based on Djano roles.  In that scenario, a specific table might only be updateable by a user with a specific Django role.
+- **one-to-many user-related data access policy:** policy for tables where each row in the table is related to one and only one user, directly or indirectly.
+- **authorization data access policy:** policy that requires authorization for create, update, delete and optionally read access.
+- **other data access policy:** any custom policy not covered by the previous two polices.  For example, data access policy for create, update, and delete could be based on Djano roles.  In that scenario, a specific table might only be updateable by a user with a specific Django role.
 
 
 # One-to-many user related data policy
 
 ## user field
 
-A table that uses a user related data policy must have "user" as a field that references the one user for a particluar row.
+A table that requires a user related data policy must have "user" as a field that references the one user for a particluar row.
 
 ## Fetching Rows
 
