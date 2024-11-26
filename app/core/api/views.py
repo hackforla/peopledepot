@@ -10,7 +10,8 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from rest_framework.response import Response
+from rest_framework.exceptions import AuthenticationFailed
+from core.utils.jwt import cognito_jwt_decode_handlerfrom rest_framework.response import Response
 
 from ..models import Affiliate
 from ..models import Affiliation
@@ -60,6 +61,16 @@ from .serializers import StackElementTypeSerializer
 from .serializers import UrlTypeSerializer
 from .serializers import UserPermissionSerializer
 from .serializers import UserSerializer
+from rest_framework.permissions import BasePermission
+
+class IsAuthenticated2(BasePermission):
+    """
+    Allows access only to authenticated users.
+    """
+
+    def has_permission(self, request, view):
+        print("debug", request.user, request.user.is_authenticated)
+        return bool(request.user and request.user.is_authenticated)
 from .serializers import UserStatusTypeSerializer
 
 
@@ -163,10 +174,25 @@ class UserViewSet(viewsets.ModelViewSet):
     partial_update=extend_schema(description="Patch a project"),
 )
 class ProjectViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticatedOrReadOnly]
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
-
+    # def get_queryset(self, request, *args, **kwargs):
+    #     token = request.headers.get('Authorization')
+    #     print("Received Token:", token)
+    #     super.get()
+    def perform_authentication(self, request):
+        print("Here 1")
+        auth = request.headers.get('Authorization')
+        if not auth:
+            raise AuthenticationFailed('Authorization header missing')
+        try:
+            prefix, token = auth.split(' ')
+            print("debug auth", auth)
+            # Here, call your cognito_jwt_decode_handler with the token
+            cognito_jwt_decode_handler(token)
+        except ValueError:
+            raise AuthenticationFailed('Invalid token format')
 
 @extend_schema_view(
     list=extend_schema(description="Return a list of all the events"),
