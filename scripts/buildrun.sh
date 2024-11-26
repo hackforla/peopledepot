@@ -15,4 +15,4 @@ SCRIPT_DIR="$(dirname "$0")"
 # m     Run migrations
 # s     Create superuser
 # l     Tail logs after run
-"$SCRIPT_DIR"/run.sh -c -o -d -b -m "$@"
+"$SCRIPT_DIR"/run.sh -c -o -b -m "$@"
