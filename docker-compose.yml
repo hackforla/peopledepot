@@ -30,6 +30,9 @@ services:
       - 8005:8000
     volumes:
       - .:/app
+    deploy:
+      replicas: ${ENABLE_MKDOCS:-1}
+    stop_grace_period: 1s
 
 volumes:
   postgres_data:

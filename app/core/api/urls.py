@@ -20,6 +20,7 @@ from .views import StackElementViewSet
 from .views import UserPermissionViewSet
 from .views import UserProfileAPIView
 from .views import UserViewSet
+from .special_api import LoginAPIView
 
 router = routers.SimpleRouter()
 router.register(r"user-permissions", UserPermissionViewSet, basename="user-permission")
@@ -48,6 +49,7 @@ router.register(r"check-types", CheckTypeViewSet, basename="check-type")
 router.register(r"soc-majors", SocMajorViewSet, basename="soc-major")
 urlpatterns = [
     path("me/", UserProfileAPIView.as_view(), name="my_profile"),
+    path("login/", LoginAPIView.as_view(), name="login")
 ]
 
 urlpatterns += router.urls

@@ -10,6 +10,7 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from core.api.permissions import IsAuthenticated2
 from ..models import Affiliate
 from ..models import Affiliation
 from ..models import CheckType
@@ -58,9 +59,10 @@ class IsAuthenticated2(BasePermission):
 
 class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
     serializer_class = UserSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated2]
 
     def get_object(self):
+        print("Get object")
         return self.request.user
 
     def get(self, request, *args, **kwargs):
@@ -69,6 +71,7 @@ class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
 
         Get profile of current logged in user.
         """
+        print("Get")
         return self.retrieve(request, *args, **kwargs)
 
 

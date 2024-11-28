@@ -39,6 +39,7 @@ ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 # Cognito stuff
 COGNITO_AWS_REGION = os.environ.get("COGNITO_AWS_REGION", default=None)
 COGNITO_USER_POOL = os.environ.get("COGNITO_USER_POOL", default=None)
+COGNITO_CLIENT_ID = os.environ.get("COGNITO_CLIENT_ID", default=None)
 # Provide this value if `id_token` is used for authentication (it contains 'aud' claim).
 # `access_token` doesn't have it, in this case keep the COGNITO_AUDIENCE empty
 COGNITO_AUDIENCE = None
@@ -76,6 +77,7 @@ INSTALLED_APPS = [
     # 3rd party
     "django_extensions",
     "rest_framework",
+    "rest_framework.authtoken",
     "drf_spectacular",
     "phonenumber_field",
     "timezone_field",
@@ -205,15 +207,20 @@ REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
-JWT_AUTH = {
-    "JWT_PAYLOAD_GET_USERNAME_HANDLER": "core.utils.jwt.get_username_from_payload_handler",
-    "JWT_DECODE_HANDLER": "core.utils.jwt.cognito_jwt_decode_handler",
-    "JWT_PUBLIC_KEY": rsa_keys,
-    "JWT_ALGORITHM": "RS256",
-    "JWT_AUDIENCE": COGNITO_AUDIENCE,
-    "JWT_ISSUER": COGNITO_POOL_URL,
-    "JWT_AUTH_HEADER_PREFIX": "Bearer",
-}
+
+print("Cognito", COGNITO_CLIENT_ID)
+
+if (COGNITO_CLIENT_ID):
+    print("Setting JWT")
+    JWT_AUTH = {
+            "JWT_PAYLOAD_GET_USERNAME_HANDLER": "core.utils.jwt.get_username_from_payload_handler",
+            "JWT_DECODE_HANDLER": "core.utils.jwt.cognito_jwt_decode_handler",
+            "JWT_PUBLIC_KEY": rsa_keys,
+            "JWT_ALGORITHM": "RS256",
+            "JWT_AUDIENCE": COGNITO_AUDIENCE,
+            "JWT_ISSUER": COGNITO_POOL_URL,
+            "JWT_AUTH_HEADER_PREFIX": "Bearer",
+    }
 
 GRAPH_MODELS = {"all_applications": True, "group_models": True}
 
