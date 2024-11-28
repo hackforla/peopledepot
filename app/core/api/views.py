@@ -76,9 +76,10 @@ from .serializers import UserStatusTypeSerializer
 
 class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
     serializer_class = UserSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated2]
 
     def get_object(self):
+        print("Get object")
         return self.request.user
 
     def get(self, request, *args, **kwargs):
@@ -87,6 +88,7 @@ class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
 
         Get profile of current logged in user.
         """
+        print("Get")
         return self.retrieve(request, *args, **kwargs)
 
     def patch(self, request, *args, **kwargs):

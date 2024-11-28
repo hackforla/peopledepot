@@ -50,6 +50,7 @@ CSRF_COOKIE_SECURE = os.getenv("CSRF_COOKIE_SECURE", "False") == "True"
 # Cognito stuff
 COGNITO_AWS_REGION = os.environ.get("COGNITO_AWS_REGION", default=None)
 COGNITO_USER_POOL = os.environ.get("COGNITO_USER_POOL", default=None)
+COGNITO_CLIENT_ID = os.environ.get("COGNITO_CLIENT_ID", default=None)
 # Provide this value if `id_token` is used for authentication (it contains 'aud' claim).
 # `access_token` doesn't have it, in this case keep the COGNITO_AUDIENCE empty
 COGNITO_AUDIENCE = None
@@ -88,6 +89,7 @@ INSTALLED_APPS = [
     # 3rd party
     "django_extensions",
     "rest_framework",
+    "rest_framework.authtoken",
     "rest_framework.authtoken",
     "drf_spectacular",
     "phonenumber_field",

@@ -27,6 +27,7 @@ from .views import UserPermissionViewSet
 from .views import UserProfileAPIView
 from .views import UserStatusTypeViewSet
 from .views import UserViewSet
+from .special_api import LoginAPIView
 
 router = routers.SimpleRouter()
 router.register(r"user-permissions", UserPermissionViewSet, basename="user-permission")
@@ -64,6 +65,7 @@ router.register(
 )
 urlpatterns = [
     path("me/", UserProfileAPIView.as_view(), name="my_profile"),
+    path("login/", LoginAPIView.as_view(), name="login")
 ]
 
 urlpatterns += router.urls
