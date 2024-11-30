@@ -1,6 +1,7 @@
 from django.urls import path
 from rest_framework import routers
 
+from .custom_api import LoginAPIView
 from .special_api import LoginAPIView
 from .views import AffiliateViewSet
 from .views import AffiliationViewSet
@@ -28,7 +29,6 @@ from .views import UserPermissionViewSet
 from .views import UserProfileAPIView
 from .views import UserStatusTypeViewSet
 from .views import UserViewSet
-from .custom_api import LoginAPIView
 
 router = routers.SimpleRouter()
 router.register(r"user-permissions", UserPermissionViewSet, basename="user-permission")
