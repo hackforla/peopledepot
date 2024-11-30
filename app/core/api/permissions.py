@@ -1,5 +1,6 @@
-from rest_framework.permissions import BasePermission
 import json
+
+from rest_framework.permissions import BasePermission
 
 
 class DenyAny(BasePermission):

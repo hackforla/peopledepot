@@ -53,9 +53,7 @@ rsa_keys = {}
 # For now there is no rotation of keys (seems like in Cognito decided not to implement it)
 if COGNITO_AWS_REGION and COGNITO_USER_POOL:
     try:
-        COGNITO_POOL_URL = (
-            f"https://cognito-idp.{COGNITO_AWS_REGION}.amazonaws.com/{COGNITO_USER_POOL}"
-        )
+        COGNITO_POOL_URL = f"https://cognito-idp.{COGNITO_AWS_REGION}.amazonaws.com/{COGNITO_USER_POOL}"
         pool_jwks_url = COGNITO_POOL_URL + "/.well-known/jwks.json"
         jwks = json.loads(request.urlopen(pool_jwks_url).read())  # nosec B310
         rsa_keys = {key["kid"]: json.dumps(key) for key in jwks["keys"]}
@@ -210,16 +208,16 @@ REST_FRAMEWORK = {
 
 print("Cognito", COGNITO_CLIENT_ID)
 
-if (COGNITO_CLIENT_ID):
+if COGNITO_CLIENT_ID:
     print("Setting JWT")
     JWT_AUTH = {
-            "JWT_PAYLOAD_GET_USERNAME_HANDLER": "core.utils.jwt.get_username_from_payload_handler",
-            "JWT_DECODE_HANDLER": "core.utils.jwt.cognito_jwt_decode_handler",
-            "JWT_PUBLIC_KEY": rsa_keys,
-            "JWT_ALGORITHM": "RS256",
-            "JWT_AUDIENCE": COGNITO_AUDIENCE,
-            "JWT_ISSUER": COGNITO_POOL_URL,
-            "JWT_AUTH_HEADER_PREFIX": "Bearer",
+        "JWT_PAYLOAD_GET_USERNAME_HANDLER": "core.utils.jwt.get_username_from_payload_handler",
+        "JWT_DECODE_HANDLER": "core.utils.jwt.cognito_jwt_decode_handler",
+        "JWT_PUBLIC_KEY": rsa_keys,
+        "JWT_ALGORITHM": "RS256",
+        "JWT_AUDIENCE": COGNITO_AUDIENCE,
+        "JWT_ISSUER": COGNITO_POOL_URL,
+        "JWT_AUTH_HEADER_PREFIX": "Bearer",
     }
 
 GRAPH_MODELS = {"all_applications": True, "group_models": True}
