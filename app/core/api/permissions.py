@@ -1,6 +1,4 @@
 from rest_framework.permissions import BasePermission
-import json
-
 
 class DenyAny(BasePermission):
     def has_permission(self, request, view):

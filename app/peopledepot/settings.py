@@ -63,6 +63,8 @@ rsa_keys = {}
 # On django init we download jwks public keys which are used to validate jwt tokens.
 # For now there is no rotation of keys (seems like in Cognito decided not to implement it)
 if COGNITO_AWS_REGION and COGNITO_USER_POOL:
+    if not COGNITO_CLIENT_ID:
+        raise Exception("COGNITO_CLIENT_ID not defined.  Either define COGNITO_CLIENT_ID or unset COGNIto_AWS_REGION and COGNITO_USER_POOL")
     try:
         COGNITO_POOL_URL = (
             f"https://cognito-idp.{COGNITO_AWS_REGION}.amazonaws.com/{COGNITO_USER_POOL}"
@@ -217,15 +219,19 @@ REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
-JWT_AUTH = {
-    "JWT_PAYLOAD_GET_USERNAME_HANDLER": "core.utils.jwt_handler.get_username_from_payload_handler",
-    "JWT_DECODE_HANDLER": "core.utils.jwt_handler.cognito_jwt_decode_handler",
-    "JWT_PUBLIC_KEY": rsa_keys,
-    "JWT_ALGORITHM": "RS256",
-    "JWT_AUDIENCE": COGNITO_AUDIENCE,
-    "JWT_ISSUER": COGNITO_POOL_URL,
-    "JWT_AUTH_HEADER_PREFIX": "Bearer",
-}
+
+
+if (COGNITO_CLIENT_ID):
+    print("Setting JWT")
+    JWT_AUTH = {
+            "JWT_PAYLOAD_GET_USERNAME_HANDLER": "core.utils.jwt.get_username_from_payload_handler",
+            "JWT_DECODE_HANDLER": "core.utils.jwt.cognito_jwt_decode_handler",
+            "JWT_PUBLIC_KEY": rsa_keys,
+            "JWT_ALGORITHM": "RS256",
+            "JWT_AUDIENCE": COGNITO_AUDIENCE,
+            "JWT_ISSUER": COGNITO_POOL_URL,
+            "JWT_AUTH_HEADER_PREFIX": "Bearer",
+    }
 
 GRAPH_MODELS = {"all_applications": True, "group_models": True}
 

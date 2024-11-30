@@ -27,7 +27,7 @@ from .views import UserPermissionViewSet
 from .views import UserProfileAPIView
 from .views import UserStatusTypeViewSet
 from .views import UserViewSet
-from .special_api import LoginAPIView
+from .custom_api import LoginAPIView
 
 router = routers.SimpleRouter()
 router.register(r"user-permissions", UserPermissionViewSet, basename="user-permission")
