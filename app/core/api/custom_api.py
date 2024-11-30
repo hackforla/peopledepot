@@ -1,13 +1,13 @@
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
-from rest_framework_jwt.settings import api_settings
-
 from django.contrib.auth import authenticate
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework_jwt.settings import api_settings
 
 
 class LoginAPIView(APIView):
     permission_classes = []
+
     def post(self, request):
         username = request.data.get("username")
         password = request.data.get("password")
@@ -22,13 +22,11 @@ class LoginAPIView(APIView):
             payload = jwt_payload_handler(user)
             token = jwt_encode_handler(payload)
 
-
-
             return Response(
                 {
                     "token": token,
                 }
-            )        
+            )
         else:
             return Response(
                 {"error": "Invalid username or password"},
