@@ -15,7 +15,7 @@ class LoginAPIView(APIView):
         # Authenticate the user
         print("Authenticating")
         user = authenticate(username=username, password=password)
-        print("user", user)
+        print("debug user", user)
         if user:
             # Generate JWT token
             jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
@@ -23,6 +23,7 @@ class LoginAPIView(APIView):
 
             payload = jwt_payload_handler(user)
             token = jwt_encode_handler(payload)
+
 
 
             return Response(
