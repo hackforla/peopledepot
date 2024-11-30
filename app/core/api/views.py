@@ -51,7 +51,6 @@ from .serializers import UrlTypeSerializer
 from .serializers import UserPermissionSerializer
 from .serializers import UserSerializer
 from .serializers import UserStatusTypeSerializer
-from rest_framework.permissions import BasePermission
 
 
 class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):

@@ -52,6 +52,8 @@ rsa_keys = {}
 # On django init we download jwks public keys which are used to validate jwt tokens.
 # For now there is no rotation of keys (seems like in Cognito decided not to implement it)
 if COGNITO_AWS_REGION and COGNITO_USER_POOL:
+    if not COGNITO_CLIENT_ID:
+        raise Exception("COGNITO_CLIENT_ID not defined.  Either define COGNITO_CLIENT_ID or unset COGNIto_AWS_REGION and COGNITO_USER_POOL")
     try:
         COGNITO_POOL_URL = (
             f"https://cognito-idp.{COGNITO_AWS_REGION}.amazonaws.com/{COGNITO_USER_POOL}"
@@ -208,7 +210,6 @@ REST_FRAMEWORK = {
 }
 
 
-print("Cognito", COGNITO_CLIENT_ID)
 
 if (COGNITO_CLIENT_ID):
     print("Setting JWT")
