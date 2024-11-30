@@ -28,7 +28,9 @@ from ..models import Skill
 from ..models import SocMajor
 from ..models import StackElement
 from ..models import StackElementType
+from ..models import UrlType
 from ..models import UserPermission
+from ..models import UserStatusType
 from .serializers import AffiliateSerializer
 from .serializers import AffiliationSerializer
 from .serializers import CheckTypeSerializer
@@ -45,8 +47,10 @@ from .serializers import SkillSerializer
 from .serializers import SocMajorSerializer
 from .serializers import StackElementSerializer
 from .serializers import StackElementTypeSerializer
+from .serializers import UrlTypeSerializer
 from .serializers import UserPermissionSerializer
 from .serializers import UserSerializer
+from .serializers import UserStatusTypeSerializer
 from rest_framework.permissions import BasePermission
 
 
@@ -393,3 +397,31 @@ class SocMajorViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = SocMajor.objects.all()
     serializer_class = SocMajorSerializer
+
+
+@extend_schema_view(
+    list=extend_schema(description="Return a list of all the url types"),
+    create=extend_schema(description="Create a new url type"),
+    retrieve=extend_schema(description="Return the details of a url type"),
+    destroy=extend_schema(description="Delete a url type"),
+    update=extend_schema(description="Update a url type"),
+    partial_update=extend_schema(description="Patch a url type"),
+)
+class UrlTypeViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = UrlType.objects.all()
+    serializer_class = UrlTypeSerializer
+
+
+@extend_schema_view(
+    list=extend_schema(description="Return a list of all the user status types"),
+    create=extend_schema(description="Create a new user status type"),
+    retrieve=extend_schema(description="Return the details of a user status type"),
+    destroy=extend_schema(description="Delete a user status type"),
+    update=extend_schema(description="Update a user status type"),
+    partial_update=extend_schema(description="Patch a user status type"),
+)
+class UserStatusTypeViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = UserStatusType.objects.all()
+    serializer_class = UserStatusTypeSerializer

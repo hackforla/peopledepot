@@ -17,8 +17,10 @@ from .views import SkillViewSet
 from .views import SocMajorViewSet
 from .views import StackElementTypeViewSet
 from .views import StackElementViewSet
+from .views import UrlTypeViewSet
 from .views import UserPermissionViewSet
 from .views import UserProfileAPIView
+from .views import UserStatusTypeViewSet
 from .views import UserViewSet
 from .special_api import LoginAPIView
 
@@ -47,6 +49,10 @@ router.register(
 )
 router.register(r"check-types", CheckTypeViewSet, basename="check-type")
 router.register(r"soc-majors", SocMajorViewSet, basename="soc-major")
+router.register(r"url-types", UrlTypeViewSet, basename="url-type")
+router.register(
+    r"user-status-types", UserStatusTypeViewSet, basename="user-status-type"
+)
 urlpatterns = [
     path("me/", UserProfileAPIView.as_view(), name="my_profile"),
     path("login/", LoginAPIView.as_view(), name="login")

@@ -10,7 +10,9 @@ from core.models import UserPermission
 pytestmark = pytest.mark.django_db
 
 USER_PERMISSIONS_URL = reverse("user-permission-list")
+PROJECTS_URL = reverse("project-list")
 ME_URL = reverse("my_profile")
+USER_STATUS_TYPES_URL = reverse("user-status-type-list")
 USERS_URL = reverse("user-list")
 EVENTS_URL = reverse("event-list")
 PRACTICE_AREA_URL = reverse("practice-area-list")
@@ -23,10 +25,11 @@ SKILL_URL = reverse("skill-list")
 STACK_ELEMENT_URL = reverse("stack-element-list")
 PERMISSION_TYPE = reverse("permission-type-list")
 STACK_ELEMENT_TYPE_URL = reverse("stack-element-type-list")
-SDG_URL = reverse("sdg-list")
+SDGS_URL = reverse("sdg-list")
 AFFILIATION_URL = reverse("affiliation-list")
 CHECK_TYPE_URL = reverse("check-type-list")
 SOC_MAJOR_URL = reverse("soc-major-list")
+URL_TYPE_URL = reverse("url-type-list")
 
 CREATE_USER_PAYLOAD = {
     "username": "TestUserAPI",
@@ -340,7 +343,7 @@ def test_create_sdg(auth_client):
         "description": "Test SDG description",
         "image": "https://unsplash.com",
     }
-    res = auth_client.post(SDG_URL, payload)
+    res = auth_client.post(SDGS_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
     assert res.data["name"] == payload["name"]
 
@@ -381,3 +384,49 @@ def test_create_soc_major(auth_client):
     res = auth_client.post(SOC_MAJOR_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
     assert res.data["title"] == payload["title"]
+
+
+def test_project_sdg_xref(auth_client, project, sdg, sdg1):
+    def get_object(objects, target_uuid):
+        for obj in objects:
+            if str(obj["uuid"]) == str(target_uuid):
+                return obj
+        return None
+
+    project.sdgs.add(sdg)
+    project.sdgs.add(sdg1)
+    proj_res = auth_client.get(PROJECTS_URL)
+    test_proj = get_object(proj_res.data, project.uuid)
+    assert test_proj is not None
+    assert len(test_proj["sdgs"]) == 2
+    assert sdg.name in test_proj["sdgs"]
+    assert sdg1.name in test_proj["sdgs"]
+
+    sdg_res = auth_client.get(SDGS_URL)
+    test_sdg = get_object(sdg_res.data, sdg.uuid)
+    assert test_sdg is not None
+    assert len(test_sdg["projects"]) == 1
+    assert project.name in test_sdg["projects"]
+
+
+def test_create_url_type(auth_client):
+    """Test that we can create a url type"""
+
+    payload = {
+        "name": "This is a test url type name",
+        "description": "this is a test url type description",
+    }
+    res = auth_client.post(URL_TYPE_URL, payload)
+    assert res.status_code == status.HTTP_201_CREATED
+    assert res.data["name"] == payload["name"]
+    assert res.data["description"] == payload["description"]
+
+
+def test_create_user_status_type(auth_client):
+    payload = {
+        "name": "Test User Status Type",
+        "description": "Test User Status Type description",
+    }
+    res = auth_client.post(USER_STATUS_TYPES_URL, payload)
+    assert res.status_code == status.HTTP_201_CREATED
+    assert res.data["name"] == payload["name"]

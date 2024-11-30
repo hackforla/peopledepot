@@ -20,8 +20,10 @@ from ..models import Skill
 from ..models import SocMajor
 from ..models import StackElement
 from ..models import StackElementType
+from ..models import UrlType
 from ..models import User
 from ..models import UserPermission
+from ..models import UserStatusType
 
 
 @pytest.fixture
@@ -247,6 +249,11 @@ def sdg():
 
 
 @pytest.fixture
+def sdg1():
+    return Sdg.objects.create(name="Test SDG name1")
+
+
+@pytest.fixture
 def affiliation1(project, affiliate):
     return Affiliation.objects.create(
         is_sponsor=True, is_partner=False, project=project, affiliate=affiliate
@@ -285,3 +292,18 @@ def check_type():
 @pytest.fixture
 def soc_major():
     return SocMajor.objects.create(occ_code="22-2222", title="Test Soc Major")
+
+
+@pytest.fixture
+def url_type():
+    return UrlType.objects.create(
+        name="This is a test url type name",
+        description="This is a test url type description",
+    )
+
+
+@pytest.fixture
+def user_status_type():
+    return UserStatusType.objects.create(
+        name="Test User Status Type", description="Test User Status Type description"
+    )

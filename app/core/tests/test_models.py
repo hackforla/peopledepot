@@ -3,6 +3,8 @@ import re
 import pytest
 
 from ..models import Event
+from ..models import ProjectSdgXref
+from ..models import Sdg
 
 pytestmark = pytest.mark.django_db
 
@@ -145,3 +147,31 @@ def test_check_type(check_type):
 
 def test_soc_major(soc_major):
     assert str(soc_major) == "Test Soc Major"
+
+
+def test_project_sdg_relationship(project):
+    climate_action_sdg = Sdg.objects.get(name="Climate Action")
+
+    project.sdgs.add(climate_action_sdg)
+    assert project.sdgs.count() == 1
+    assert project.sdgs.contains(climate_action_sdg)
+    assert climate_action_sdg.projects.contains(project)
+
+    climate_action_sdg_xref = ProjectSdgXref.objects.get(
+        project_id=project,
+        sdg_id=climate_action_sdg,
+    )
+    assert climate_action_sdg_xref.ended_on is None
+
+    project.sdgs.remove(climate_action_sdg)
+    assert project.sdgs.count() == 0
+    assert not project.sdgs.contains(climate_action_sdg)
+    assert not climate_action_sdg.projects.contains(project)
+
+
+def test_url_type(url_type):
+    assert str(url_type) == "This is a test url type name"
+
+
+def test_user_status_type(user_status_type):
+    assert str(user_status_type) == "Test User Status Type"
