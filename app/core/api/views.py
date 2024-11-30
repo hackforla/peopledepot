@@ -1,6 +1,4 @@
 from django.contrib.auth import get_user_model
-from rest_framework.response import Response
-
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import OpenApiExample
 from drf_spectacular.utils import OpenApiParameter
@@ -10,8 +8,11 @@ from rest_framework import mixins
 from rest_framework import viewsets
 from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import RetrieveModelMixin
+from rest_framework.permissions import BasePermission
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.response import Response
+
 from ..models import Affiliate
 from ..models import Affiliation
 from ..models import CheckType
@@ -68,7 +69,6 @@ class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
         """
         return self.retrieve(request, *args, **kwargs)
 
-
     def patch(self, request, *args, **kwargs):
         """
         Update the profile of the current logged-in user.
@@ -79,7 +79,7 @@ class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
         if serializer.is_valid():
             # Save the updated user data
             serializer.save()
-            return Response({ "data": serializer.data})  # Return the updated user data
+            return Response({"data": serializer.data})  # Return the updated user data
 
         return Response(
             serializer.errors, status=400
