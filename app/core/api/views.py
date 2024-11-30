@@ -55,23 +55,6 @@ class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_object(self):
-        print("Get object")
-        return self.request.user
-
-    def get(self, request, *args, **kwargs):
-        """
-        # User Profile
-
-        Get profile of current logged in user.
-        """
-        print("Get")
-        return self.retrieve(request, *args, **kwargs)
-
-class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
-    serializer_class = UserSerializer
-    permission_classes = [IsAuthenticated]
-
-    def get_object(self):
         return self.request.user
 
     def get(self, request, *args, **kwargs):
@@ -83,7 +66,7 @@ class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
         return self.retrieve(request, *args, **kwargs)
 
 
-    def post(self, request, *args, **kwargs):
+    def patch(self, request, *args, **kwargs):
         """
         Update the profile of the current logged-in user.
         """
