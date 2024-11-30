@@ -1,4 +1,6 @@
 from django.contrib.auth import get_user_model
+from rest_framework.response import Response
+
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import OpenApiExample
 from drf_spectacular.utils import OpenApiParameter
@@ -10,7 +12,6 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from core.api.permissions import IsAuthenticated2
 from ..models import Affiliate
 from ..models import Affiliation
 from ..models import CheckType
@@ -48,18 +49,10 @@ from .serializers import UserPermissionSerializer
 from .serializers import UserSerializer
 from rest_framework.permissions import BasePermission
 
-class IsAuthenticated2(BasePermission):
-    """
-    Allows access only to authenticated users.
-    """
-
-    def has_permission(self, request, view):
-        return bool(request.user and request.user.is_authenticated)
-
 
 class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
     serializer_class = UserSerializer
-    permission_classes = [IsAuthenticated2]
+    permission_classes = [IsAuthenticated]
 
     def get_object(self):
         print("Get object")
@@ -73,6 +66,38 @@ class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
         """
         print("Get")
         return self.retrieve(request, *args, **kwargs)
+
+class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
+    serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        return self.request.user
+
+    def get(self, request, *args, **kwargs):
+        """
+        # User Profile
+
+        Get profile of current logged in user.
+        """
+        return self.retrieve(request, *args, **kwargs)
+
+
+    def post(self, request, *args, **kwargs):
+        """
+        Update the profile of the current logged-in user.
+        """
+        user = self.get_object()  # Get the logged-in user
+        serializer = self.serializer_class(user, data=request.data, partial=True)
+
+        if serializer.is_valid():
+            # Save the updated user data
+            serializer.save()
+            return Response({ "data": serializer.data})  # Return the updated user data
+
+        return Response(
+            serializer.errors, status=400
+        )  # Return validation errors if invalid data
 
 
 @extend_schema_view(

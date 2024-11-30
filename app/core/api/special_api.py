@@ -1,7 +1,8 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.authtoken.models import Token
 from rest_framework import status
+from rest_framework_jwt.settings import api_settings
+
 from django.contrib.auth import authenticate
 
 
@@ -22,6 +23,7 @@ class LoginAPIView(APIView):
 
             payload = jwt_payload_handler(user)
             token = jwt_encode_handler(payload)
+
 
             return Response(
                 {
