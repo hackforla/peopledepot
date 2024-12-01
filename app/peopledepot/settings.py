@@ -81,7 +81,6 @@ if COGNITO_AWS_REGION and COGNITO_USER_POOL:
 
 INSTALLED_APPS = [
     "corsheaders",
-    "corsheaders",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
