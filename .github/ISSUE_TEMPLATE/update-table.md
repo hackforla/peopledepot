@@ -25,7 +25,7 @@ Current name in code | Updated Name | Updated Type (may already be this type)
 
 - [ ] Add the following items in the code
 Name | Type
--- | -- 
+-- | --
 [Replace with ADD TABLE]
 - [ ] Write a test for the new relationships this model will have with other models (e.g., creating a user and assigning them a set of permissions on a project) if any.
 - [ ] Update API end point
@@ -41,7 +41,7 @@ Name | Type
    - 1.01.01 [/app/core/models.py](https://github.com/hackforla/peopledepot/blob/main/app/core/models.py)
    - 1.01.02 [/app/core/admin.py](https://github.com/hackforla/peopledepot/blob/main/app/core/admin.py)
    - 1.01.03 [/app/core/api/serializers.py](https://github.com/hackforla/peopledepot/blob/main/app/core/api/serializers.py)
-   - 1.01.04 
+   - 1.01.04
 - 1.02 [People Depot Resources wiki page](https://github.com/hackforla/peopledepot/wiki/Resources-and-Links) for links
   - ERD
   - Table and Field Definitions
