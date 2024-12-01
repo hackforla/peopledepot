@@ -154,7 +154,7 @@ class UserViewSet(viewsets.ModelViewSet):
     partial_update=extend_schema(description="Patch a project"),
 )
 class ProjectViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAuthenticated]
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
 

@@ -19,7 +19,7 @@ def cognito_jwt_decode_handler(token):
     To verify the signature of an Amazon Cognito JWT, first search for the public key with a key ID that
     matches the key ID in the header of the token. (c)
     https://aws.amazon.com/premiumsupport/knowledge-center/decode-verify-cognito-json-token/
-    Almost the same as default 'rest_framework_jwt.utils.jwt_decode_handler', but 'secret_key' feature is skipped
+    Almost the same as default 'rest_framework_jwt.utils.jwt', but 'secret_key' feature is skipped
     """
     try:
         options = {"verify_exp": api_settings.JWT_VERIFY_EXPIRATION}
