@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from timezone_field.rest_framework import TimeZoneSerializerField
 
-from core.api.permission_validation import PermissionValidation
 from core.api.user_related_request import UserRelatedRequest
 from core.models import Affiliate
 from core.models import Affiliation
