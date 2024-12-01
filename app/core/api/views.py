@@ -10,6 +10,7 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.response import Response
 
 from ..models import Affiliate
 from ..models import Affiliation
@@ -66,6 +67,22 @@ class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
         Get profile of current logged in user.
         """
         return self.retrieve(request, *args, **kwargs)
+
+    def patch(self, request, *args, **kwargs):
+        """
+        Update the profile of the current logged-in user.
+        """
+        user = self.get_object()  # Get the logged-in user
+        serializer = self.serializer_class(user, data=request.data, partial=True)
+
+        if serializer.is_valid():
+            # Save the updated user data
+            serializer.save()
+            return Response({"data": serializer.data})  # Return the updated user data
+
+        return Response(
+            serializer.errors, status=400
+        )  # Return validation errors if invalid data
 
 
 @extend_schema_view(
