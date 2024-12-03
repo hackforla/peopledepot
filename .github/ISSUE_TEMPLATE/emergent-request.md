@@ -1,12 +1,9 @@
 ---
 name: Emergent Request
-about: When you discover something in your issue that is out of scope and it needs
-  a new issue or discussion
+about: When you discover something in your issue that is out of scope and it needs a new issue or discussion
 title: 'ER: [replace with info ]'
-labels: 'complexity: missing, feature: missing, milestone: missing, role: missing,
-  size: 0.25pt, stakeholder: missing'
+labels: 'complexity: missing, feature: missing, milestone: missing, role: missing, size: 0.25pt, stakeholder: missing'
 assignees: ''
-
 ---
 
 ### Emergent Requirement - Problem
@@ -36,4 +33,4 @@ assignees: ''
 - [ ] Discuss with team
 - [ ] Let a Team Lead know
 
-### Potential solutions \[draft\]
+### Potential solutions [draft]
