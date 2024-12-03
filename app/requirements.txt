@@ -4,11 +4,8 @@ attrs==24.2.0
     # via
     #   jsonschema
     #   referencing
-black==24.10.0
 cffi==1.17.1
     # via cryptography
-click==8.1.7
-    # via black
 coverage==7.6.8
     # via pytest-cov
 cryptography==44.0.0
@@ -36,40 +33,24 @@ exceptiongroup==1.2.2
     # via pytest
 execnet==2.1.1
     # via pytest-xdist
-flake8==7.1.1
 inflection==0.5.1
     # via drf-spectacular
 iniconfig==2.0.0
     # via pytest
-isort==5.13.2
 jsonschema==4.23.0
     # via drf-spectacular
 jsonschema-specifications==2024.10.1
     # via jsonschema
 markdown==3.7
-mccabe==0.7.0
-    # via flake8
-mypy-extensions==1.0.0
-    # via black
 packaging==24.2
-    # via
-    #   black
-    #   pytest
-pathspec==0.12.1
-    # via black
+    # via pytest
 phonenumbers==8.13.51
     # via django-phonenumber-field
-platformdirs==4.3.6
-    # via black
 pluggy==1.5.0
     # via pytest
 psycopg2-binary==2.9.10
-pycodestyle==2.12.1
-    # via flake8
 pycparser==2.22
     # via cffi
-pyflakes==3.2.0
-    # via flake8
 pyjwt==2.10.1
     # via drf-jwt
 pytest==8.3.4
@@ -94,13 +75,10 @@ sqlparse==0.5.2
     # via django
 tomli==2.2.1
     # via
-    #   black
     #   coverage
     #   pytest
 typing-extensions==4.12.2
-    # via
-    #   asgiref
-    #   black
+    # via asgiref
 tzdata==2024.2
 uritemplate==4.1.1
     # via drf-spectacular
