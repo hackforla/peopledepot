@@ -12,13 +12,13 @@ We're using `uv` to compile and install python dependencies, which replaces the 
 
 ## Usage
 
-### Upgrade depencencies
+### Upgrade dependencies
 
-We shouldn't run this on every build, but we should do this manually every month/quarter or so.
+We shouldn't run this on every build, but we should do this manually every month/quarter or so. Be sure to re-run all tests to make sure they still pass.
 
 ```bash
-# docker-compose exec web
-uv pip compile requirements.in -o requirements.txt --no-header --upgrade
+# docker-compose exec web \
+    uv pip compile requirements.in -o requirements.txt --no-header --upgrade
 ```
 
 Or run the script
