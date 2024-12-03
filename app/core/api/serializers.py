@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from timezone_field.rest_framework import TimeZoneSerializerField
 
+from core.api.user_related_request import UserRelatedRequest
 from core.models import Affiliate
 from core.models import Affiliation
 from core.models import CheckType
@@ -68,6 +69,12 @@ class UserSerializer(serializers.ModelSerializer):
 
     time_zone = TimeZoneSerializerField(use_pytz=False)
 
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        return UserRelatedRequest.get_serializer_representation(
+            self, instance, representation
+        )
+
     class Meta:
         model = User
         fields = (
@@ -75,6 +82,47 @@ class UserSerializer(serializers.ModelSerializer):
             "username",
             "created_at",
             "updated_at",
+            "is_superuser",
+            "is_active",
+            "is_staff",
+            "email",
+            "first_name",
+            "last_name",
+            "gmail",
+            "preferred_email",
+            "current_job_title",
+            "target_job_title",
+            "current_skills",
+            "target_skills",
+            "linkedin_account",
+            "github_handle",
+            "slack_id",
+            "phone",
+            "texting_ok",
+            "time_zone",
+        )
+        read_only_fields = (
+            "uuid",
+            "created_at",
+            "updated_at",
+            "username",
+            "email",
+        )
+
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    time_zone = TimeZoneSerializerField(use_pytz=False)
+
+    class Meta:
+        model = User
+        fields = (
+            "uuid",
+            "username",
+            "created_at",
+            "updated_at",
+            "is_superuser",
+            "is_active",
+            "is_staff",
             "email",
             "first_name",
             "last_name",
