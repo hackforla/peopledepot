@@ -60,7 +60,6 @@ if COGNITO_AWS_REGION and COGNITO_USER_POOL:
         print(f"Error loading JWKS: {e}", COGNITO_POOL_URL)
         raise e
         # return {}
-    print("Setting JWT")
     JWT_AUTH = {
         "JWT_PAYLOAD_GET_USERNAME_HANDLER": "core.utils.jwt.get_username_from_payload_handler",
         "JWT_DECODE_HANDLER": "core.utils.jwt.cognito_jwt_decode_handler",
@@ -95,10 +94,7 @@ INSTALLED_APPS = [
 ]
 
 # Allow specific origins (like your React dev and production URLs)
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",  # React Dev Server
-    "https://your-frontend.com",  # React Production App
-]
+CORS_ALLOWED_ORIGINS = os.getenv("CORS_ALLOWED_ORIGINS").split(" ")
 
 # Optional: Allow credentials (for cookies or tokens)
 CORS_ALLOW_CREDENTIALS = True
@@ -214,6 +210,15 @@ REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
+JWT_AUTH = {
+    "JWT_PAYLOAD_GET_USERNAME_HANDLER": "core.utils.jwt_handler.get_username_from_payload_handler",
+    "JWT_DECODE_HANDLER": "core.utils.jwt_handler.cognito_jwt_decode_handler",
+    "JWT_PUBLIC_KEY": rsa_keys,
+    "JWT_ALGORITHM": "RS256",
+    "JWT_AUDIENCE": COGNITO_AUDIENCE,
+    "JWT_ISSUER": COGNITO_POOL_URL,
+    "JWT_AUTH_HEADER_PREFIX": "Bearer",
+}
 
 GRAPH_MODELS = {"all_applications": True, "group_models": True}
 
