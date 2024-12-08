@@ -1,4 +1,3 @@
-from django.contrib.auth import get_user_model
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import OpenApiExample
 from drf_spectacular.utils import OpenApiParameter
@@ -8,9 +7,13 @@ from rest_framework import mixins
 from rest_framework import viewsets
 from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import RetrieveModelMixin
+from rest_framework.mixins import UpdateModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
+
+from core.api.permissions import GenericPermission
+from core.api.user_related_request import UserRelatedRequest
 
 from ..models import Affiliate
 from ..models import Affiliation
@@ -49,40 +52,61 @@ from .serializers import StackElementSerializer
 from .serializers import StackElementTypeSerializer
 from .serializers import UrlTypeSerializer
 from .serializers import UserPermissionSerializer
+from .serializers import UserProfileSerializer
 from .serializers import UserSerializer
 from .serializers import UserStatusTypeSerializer
 
 
-class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
-    serializer_class = UserSerializer
+@extend_schema_view(
+    list=extend_schema(
+        summary="Your Profile",
+        description="Return your profile information",
+        parameters=[],
+    ),
+    retrieve=extend_schema(description="Fetch your user profile"),
+    partial_update=extend_schema(description="Update your profile"),
+)
+class UserProfileAPIView(RetrieveModelMixin, UpdateModelMixin, GenericAPIView):
+    serializer_class = UserProfileSerializer
     permission_classes = [IsAuthenticated]
+    http_method_names = ["get", "patch"]
 
     def get_object(self):
-        return self.request.user
+        """Returns the user profile fetched by get
+
+        Returns:
+            User: The user profile
+        """
+        obj = self.request.user
+        self.check_object_permissions(self.request, obj)
+        return obj
 
     def get(self, request, *args, **kwargs):
         """
         # User Profile
 
-        Get profile of current logged in user.
+        Get profile for current logged in user.
+
+        Returns:
+          User: The user profile
         """
         return self.retrieve(request, *args, **kwargs)
 
     def patch(self, request, *args, **kwargs):
         """
-        Update the profile of the current logged-in user.
+        # Update User Profile
+
+        Partially update profile for the current logged-in user.
+
+        Returns:
+          User: The updated user profile
         """
-        user = self.get_object()  # Get the logged-in user
-        serializer = self.serializer_class(user, data=request.data, partial=True)
-
+        user = self.get_object()
+        serializer = self.get_serializer(user, data=request.data, partial=True)
         if serializer.is_valid():
-            # Save the updated user data
             serializer.save()
-            return Response({"data": serializer.data})  # Return the updated user data
-
-        return Response(
-            serializer.errors, status=400
-        )  # Return validation errors if invalid data
+            return Response(serializer.data)
+        return Response(serializer.errors, status=400)
 
 
 @extend_schema_view(
@@ -123,10 +147,10 @@ class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
     retrieve=extend_schema(description="Return the given user"),
     destroy=extend_schema(description="Delete the given user"),
     update=extend_schema(description="Update the given user"),
-    partial_update=extend_schema(description="Partially update the given user"),
+    partial_update=extend_schema(description="Update the given user"),
 )
 class UserViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, GenericPermission]
     serializer_class = UserSerializer
     lookup_field = "uuid"
 
@@ -134,7 +158,8 @@ class UserViewSet(viewsets.ModelViewSet):
         """
         Optionally filter users by an 'email' and/or 'username' query paramerter in the URL
         """
-        queryset = get_user_model().objects.all()
+        queryset = UserRelatedRequest.get_queryset(view=self)
+
         email = self.request.query_params.get("email")
         if email is not None:
             queryset = queryset.filter(email=email)
@@ -227,7 +252,7 @@ class AffiliateViewSet(viewsets.ModelViewSet):
     retrieve=extend_schema(description="Return the given FAQ"),
     destroy=extend_schema(description="Delete the given FAQ"),
     update=extend_schema(description="Update the given FAQ"),
-    partial_update=extend_schema(description="Partially update the given FAQ"),
+    partial_update=extend_schema(description="Partially patch the given FAQ"),
 )
 class FaqViewSet(viewsets.ModelViewSet):
     queryset = Faq.objects.all()

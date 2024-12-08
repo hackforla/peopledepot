@@ -78,6 +78,7 @@ if COGNITO_AWS_REGION and COGNITO_USER_POOL:
 # Application definition
 
 INSTALLED_APPS = [
+    "core.tests",
     "corsheaders",
     "django.contrib.admin",
     "django.contrib.auth",

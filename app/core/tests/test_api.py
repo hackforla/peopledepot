@@ -3,7 +3,6 @@ from django.urls import reverse
 from rest_framework import status
 
 from core.api.serializers import ProgramAreaSerializer
-from core.api.serializers import UserSerializer
 from core.models import ProgramArea
 from core.models import UserPermission
 
@@ -25,145 +24,12 @@ SKILL_URL = reverse("skill-list")
 STACK_ELEMENT_URL = reverse("stack-element-list")
 PERMISSION_TYPE = reverse("permission-type-list")
 STACK_ELEMENT_TYPE_URL = reverse("stack-element-type-list")
-SDGS_URL = reverse("sdg-list")
+SDG_URL = reverse("sdg-list")
 AFFILIATION_URL = reverse("affiliation-list")
 CHECK_TYPE_URL = reverse("check-type-list")
 SOC_MAJOR_URL = reverse("soc-major-list")
 URL_TYPE_URL = reverse("url-type-list")
-
-CREATE_USER_PAYLOAD = {
-    "username": "TestUserAPI",
-    "password": "testpass",
-    # time_zone is required because django_timezone_field doesn't yet support
-    # the blank string
-    "time_zone": "America/Los_Angeles",
-}
-
-
-@pytest.fixture
-def users_url():
-    return reverse("user-list")
-
-
-@pytest.fixture
-def user_url(user):
-    return reverse("user-detail", args=[user.uuid])
-
-
-def create_user(django_user_model, **params):
-    return django_user_model.objects.create_user(**params)
-
-
-def test_list_users_fail(client):
-    res = client.get(USERS_URL)
-
-    assert res.status_code == status.HTTP_401_UNAUTHORIZED
-
-
-def test_get_profile(auth_client):
-    res = auth_client.get(ME_URL)
-
-    assert res.status_code == status.HTTP_200_OK
-    assert res.data["username"] == "TestUser"
-
-
-def test_get_users(auth_client, django_user_model):
-    create_user(django_user_model, username="TestUser2", password="testpass")
-    create_user(django_user_model, username="TestUser3", password="testpass")
-
-    res = auth_client.get(USERS_URL)
-
-    assert res.status_code == status.HTTP_200_OK
-    assert len(res.data) == 3
-
-    users = django_user_model.objects.all().order_by("created_at")
-    serializer = UserSerializer(users, many=True)
-    assert res.data == serializer.data
-
-
-def test_get_single_user(auth_client, user):
-    res = auth_client.get(f"{USERS_URL}?email={user.email}")
-    assert res.status_code == status.HTTP_200_OK
-
-    res = auth_client.get(f"{USERS_URL}?username={user.username}")
-    assert res.status_code == status.HTTP_200_OK
-
-
-user_actions_test_data = [
-    (
-        "admin_client",
-        "post",
-        "users_url",
-        CREATE_USER_PAYLOAD,
-        status.HTTP_201_CREATED,
-    ),
-    ("admin_client", "get", "users_url", {}, status.HTTP_200_OK),
-    (
-        "auth_client",
-        "post",
-        "users_url",
-        CREATE_USER_PAYLOAD,
-        status.HTTP_201_CREATED,
-    ),
-    ("auth_client", "get", "users_url", {}, status.HTTP_200_OK),
-    (
-        "auth_client",
-        "patch",
-        "user_url",
-        {"first_name": "TestUser2"},
-        status.HTTP_200_OK,
-    ),
-    (
-        "auth_client",
-        "put",
-        "user_url",
-        CREATE_USER_PAYLOAD,
-        status.HTTP_200_OK,
-    ),
-    ("auth_client", "delete", "user_url", {}, status.HTTP_204_NO_CONTENT),
-    (
-        "admin_client",
-        "patch",
-        "user_url",
-        {"first_name": "TestUser2"},
-        status.HTTP_200_OK,
-    ),
-    (
-        "admin_client",
-        "put",
-        "user_url",
-        CREATE_USER_PAYLOAD,
-        status.HTTP_200_OK,
-    ),
-    ("admin_client", "delete", "user_url", {}, status.HTTP_204_NO_CONTENT),
-    (
-        "auth_client2",
-        "patch",
-        "user_url",
-        {"first_name": "TestUser2"},
-        status.HTTP_200_OK,
-    ),
-    (
-        "auth_client2",
-        "put",
-        "user_url",
-        CREATE_USER_PAYLOAD,
-        status.HTTP_200_OK,
-    ),
-    ("auth_client2", "delete", "user_url", {}, status.HTTP_204_NO_CONTENT),
-]
-
-
-@pytest.mark.parametrize(
-    ("client_name", "action", "endpoint", "payload", "expected_status"),
-    user_actions_test_data,
-)
-def test_user_actions(client_name, action, endpoint, payload, expected_status, request):
-    client = request.getfixturevalue(client_name)
-    action_fn = getattr(client, action)
-    url = request.getfixturevalue(endpoint)
-    res = action_fn(url, payload)
-    assert res.status_code == expected_status
+USER_STATUS_TYPES_URL = reverse("user-status-type-list")
 
 
 def test_create_event(auth_client, project):
@@ -329,7 +195,7 @@ def test_create_stack_element_type(auth_client):
     assert res.data["name"] == payload["name"]
 
 
-def test_get_user_permissions(user_superuser_admin, user_permissions, auth_client):
+def test_get_user_permissions(user_superuser_admin, auth_client):
     auth_client.force_authenticate(user=user_superuser_admin)
     permission_count = UserPermission.objects.count()
     res = auth_client.get(USER_PERMISSIONS_URL)
@@ -343,7 +209,7 @@ def test_create_sdg(auth_client):
         "description": "Test SDG description",
         "image": "https://unsplash.com",
     }
-    res = auth_client.post(SDGS_URL, payload)
+    res = auth_client.post(SDG_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
     assert res.data["name"] == payload["name"]
 
@@ -402,7 +268,7 @@ def test_project_sdg_xref(auth_client, project, sdg, sdg1):
     assert sdg.name in test_proj["sdgs"]
     assert sdg1.name in test_proj["sdgs"]
 
-    sdg_res = auth_client.get(SDGS_URL)
+    sdg_res = auth_client.get(SDG_URL)
     test_sdg = get_object(sdg_res.data, sdg.uuid)
     assert test_sdg is not None
     assert len(test_sdg["projects"]) == 1
