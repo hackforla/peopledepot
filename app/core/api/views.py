@@ -13,6 +13,7 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 from ..models import Affiliate
 from ..models import Affiliation
+from ..models import CheckType
 from ..models import Event
 from ..models import Faq
 from ..models import FaqViewed
@@ -23,10 +24,15 @@ from ..models import ProgramArea
 from ..models import Project
 from ..models import Sdg
 from ..models import Skill
+from ..models import SocMajor
+from ..models import StackElement
 from ..models import StackElementType
-from ..models import Technology
+from ..models import UrlType
+from ..models import UserPermission
+from ..models import UserStatusType
 from .serializers import AffiliateSerializer
 from .serializers import AffiliationSerializer
+from .serializers import CheckTypeSerializer
 from .serializers import EventSerializer
 from .serializers import FaqSerializer
 from .serializers import FaqViewedSerializer
@@ -37,9 +43,13 @@ from .serializers import ProgramAreaSerializer
 from .serializers import ProjectSerializer
 from .serializers import SdgSerializer
 from .serializers import SkillSerializer
+from .serializers import SocMajorSerializer
+from .serializers import StackElementSerializer
 from .serializers import StackElementTypeSerializer
-from .serializers import TechnologySerializer
+from .serializers import UrlTypeSerializer
+from .serializers import UserPermissionSerializer
 from .serializers import UserSerializer
+from .serializers import UserStatusTypeSerializer
 
 
 class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
@@ -263,17 +273,17 @@ class SkillViewSet(viewsets.ModelViewSet):
 
 
 @extend_schema_view(
-    list=extend_schema(description="Return a list of all the technologies"),
-    create=extend_schema(description="Create a new technology"),
-    retrieve=extend_schema(description="Return the details of a technology"),
-    destroy=extend_schema(description="Delete a technology"),
-    update=extend_schema(description="Update a technology"),
-    partial_update=extend_schema(description="Patch a technology"),
+    list=extend_schema(description="Return a list of all the stack elements"),
+    create=extend_schema(description="Create a new stack element"),
+    retrieve=extend_schema(description="Return the details of a stack element"),
+    destroy=extend_schema(description="Delete a stack element"),
+    update=extend_schema(description="Update a stack element"),
+    partial_update=extend_schema(description="Patch a stack element"),
 )
-class TechnologyViewSet(viewsets.ModelViewSet):
+class StackElementViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
-    queryset = Technology.objects.all()
-    serializer_class = TechnologySerializer
+    queryset = StackElement.objects.all()
+    serializer_class = StackElementSerializer
 
 
 @extend_schema_view(
@@ -330,3 +340,69 @@ class AffiliationViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = Affiliation.objects.all()
     serializer_class = AffiliationSerializer
+
+
+@extend_schema_view(
+    list=extend_schema(description="Return a list of all the check_type"),
+    create=extend_schema(description="Create a new check_type"),
+    retrieve=extend_schema(description="Return the details of an check_type"),
+    destroy=extend_schema(description="Delete an check_type"),
+    update=extend_schema(description="Update an check_type"),
+    partial_update=extend_schema(description="Patch an check_type"),
+)
+class CheckTypeViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = CheckType.objects.all()
+    serializer_class = CheckTypeSerializer
+
+
+@extend_schema_view(
+    list=extend_schema(description="Return a list of all the user permissions"),
+    retrieve=extend_schema(description="Return the details of a user permission"),
+)
+class UserPermissionViewSet(viewsets.ReadOnlyModelViewSet):
+    permission_classes = []
+    queryset = UserPermission.objects.all()
+    serializer_class = UserPermissionSerializer
+
+
+@extend_schema_view(
+    list=extend_schema(description="Return a list of all the soc majors"),
+    create=extend_schema(description="Create a new soc major"),
+    retrieve=extend_schema(description="Return the details of a soc major"),
+    destroy=extend_schema(description="Delete a soc major"),
+    update=extend_schema(description="Update a soc major"),
+    partial_update=extend_schema(description="Patch a soc major"),
+)
+class SocMajorViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = SocMajor.objects.all()
+    serializer_class = SocMajorSerializer
+
+
+@extend_schema_view(
+    list=extend_schema(description="Return a list of all the url types"),
+    create=extend_schema(description="Create a new url type"),
+    retrieve=extend_schema(description="Return the details of a url type"),
+    destroy=extend_schema(description="Delete a url type"),
+    update=extend_schema(description="Update a url type"),
+    partial_update=extend_schema(description="Patch a url type"),
+)
+class UrlTypeViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = UrlType.objects.all()
+    serializer_class = UrlTypeSerializer
+
+
+@extend_schema_view(
+    list=extend_schema(description="Return a list of all the user status types"),
+    create=extend_schema(description="Create a new user status type"),
+    retrieve=extend_schema(description="Return the details of a user status type"),
+    destroy=extend_schema(description="Delete a user status type"),
+    update=extend_schema(description="Update a user status type"),
+    partial_update=extend_schema(description="Patch a user status type"),
+)
+class UserStatusTypeViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = UserStatusType.objects.all()
+    serializer_class = UserStatusTypeSerializer

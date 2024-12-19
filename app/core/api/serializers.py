@@ -4,6 +4,7 @@ from timezone_field.rest_framework import TimeZoneSerializerField
 from core.models import Affiliate
 from core.models import UserPermissions
 from core.models import Affiliation
+from core.models import CheckType
 from core.models import Event
 from core.models import Faq
 from core.models import FaqViewed
@@ -14,9 +15,13 @@ from core.models import ProgramArea
 from core.models import Project
 from core.models import Sdg
 from core.models import Skill
+from core.models import SocMajor
+from core.models import StackElement
 from core.models import StackElementType
-from core.models import Technology
+from core.models import UrlType
 from core.models import User
+from core.models import UserPermission
+from core.models import UserStatusType
 
 
 class PracticeAreaSerializer(serializers.ModelSerializer):
@@ -30,6 +35,27 @@ class PracticeAreaSerializer(serializers.ModelSerializer):
             "updated_at",
             "name",
             "description",
+        )
+        read_only_fields = (
+            "uuid",
+            "created_at",
+            "updated_at",
+        )
+
+
+class UserPermissionSerializer(serializers.ModelSerializer):
+    """Used to retrieve user permissions"""
+
+    class Meta:
+        model = UserPermission
+        fields = (
+            "uuid",
+            "created_at",
+            "updated_at",
+            "user",
+            "permission_type",
+            "project",
+            "practice_area",
         )
         read_only_fields = (
             "uuid",
@@ -78,6 +104,8 @@ class UserSerializer(serializers.ModelSerializer):
 class ProjectSerializer(serializers.ModelSerializer):
     """Used to retrieve project info"""
 
+    sdgs = serializers.StringRelatedField(many=True)
+
     class Meta:
         model = Project
         fields = (
@@ -94,6 +122,7 @@ class ProjectSerializer(serializers.ModelSerializer):
             "image_logo",
             "image_hero",
             "image_icon",
+            "sdgs",
         )
         read_only_fields = (
             "uuid",
@@ -228,11 +257,11 @@ class SkillSerializer(serializers.ModelSerializer):
         )
 
 
-class TechnologySerializer(serializers.ModelSerializer):
-    """Used to retrieve technology info"""
+class StackElementSerializer(serializers.ModelSerializer):
+    """Used to retrieve stack element info"""
 
     class Meta:
-        model = Technology
+        model = StackElement
         fields = (
             "uuid",
             "name",
@@ -240,6 +269,7 @@ class TechnologySerializer(serializers.ModelSerializer):
             "url",
             "logo",
             "active",
+            "element_type",
         )
         read_only_fields = (
             "uuid",
@@ -285,6 +315,8 @@ class SdgSerializer(serializers.ModelSerializer):
     Used to retrieve Sdg
     """
 
+    projects = serializers.StringRelatedField(many=True)
+
     class Meta:
         model = Sdg
         fields = (
@@ -292,6 +324,7 @@ class SdgSerializer(serializers.ModelSerializer):
             "name",
             "description",
             "image",
+            "projects",
         )
         read_only_fields = (
             "uuid",
@@ -319,9 +352,39 @@ class AffiliationSerializer(serializers.ModelSerializer):
         read_only_fields = ("uuid", "created_at", "updated_at")
 
 
-class UserPermissionsSerializer(serializers.ModelSerializer):
+class CheckTypeSerializer(serializers.ModelSerializer):
+    """
+    Used to retrieve check_type info
+    """
 
     class Meta:
-        model = UserPermissions
-        fields = ("uuid", "created_at", "updated_at")
-        read_only_fields = ("uuid", "updated_at", "created_at")
+        model = CheckType
+        fields = ("uuid", "name", "description")
+        read_only_fields = ("uuid", "created_at", "updated_at")
+
+
+class SocMajorSerializer(serializers.ModelSerializer):
+    """Used to retrieve soc_major info"""
+
+    class Meta:
+        model = SocMajor
+        fields = ("uuid", "occ_code", "title")
+        read_only_fields = ("uuid", "created_at", "updated_at")
+
+
+class UrlTypeSerializer(serializers.ModelSerializer):
+    """Used to retrieve url_type info"""
+
+    class Meta:
+        model = UrlType
+        fields = ("uuid", "name", "description")
+        read_only_fields = ("uuid", "created_at", "updated_at")
+
+
+class UserStatusTypeSerializer(serializers.ModelSerializer):
+    """Used to retrieve user_status_type info"""
+
+    class Meta:
+        model = UserStatusType
+        fields = ("uuid", "name", "description")
+        read_only_fields = ("uuid", "created_at", "updated_at")

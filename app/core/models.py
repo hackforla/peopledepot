@@ -74,7 +74,9 @@ class User(PermissionsMixin, AbstractBaseUser, AbstractBaseModel):
     gmail = models.EmailField(blank=True)
     preferred_email = models.EmailField(blank=True)
 
-    # user_status = models.ForeignKey(user_status_type, on_delete=models.PROTECT)
+    user_status = models.ForeignKey(
+        "UserStatusType", null=True, on_delete=models.PROTECT
+    )
     # current_practice_area = models.ManyToManyField("PracticeArea")
     # target_practice_area = models.ManyToManyField("PracticeArea")
 
@@ -144,6 +146,9 @@ https://api.github.com/repos/[org]/[repo]',
     image_logo = models.URLField(blank=True)
     image_hero = models.URLField(blank=True)
     image_icon = models.URLField(blank=True)
+    sdgs = models.ManyToManyField(
+        "Sdg", related_name="projects", blank=True, through="ProjectSdgXref"
+    )
 
     def __str__(self):
         return f"{self.name}"
@@ -276,39 +281,52 @@ class Skill(AbstractBaseModel):
         return f"{self.name}"
 
 
-class Technology(AbstractBaseModel):
-    """
-    Dictionary of technologies used in projects
-    """
-
-    name = models.CharField(max_length=255)
-    description = models.TextField(blank=True)
-    url = models.URLField(blank=True)
-    logo = models.URLField(blank=True)
-    active = models.BooleanField(null=True)
-
-    # PK of this model is the ForeignKey for project_partner_xref
-
-    class Meta:
-        verbose_name_plural = "Technologies"
-
-    def __str__(self):
-        return f"{self.name}"
-
-
 class PermissionType(AbstractBaseModel):
     """
     Permission Type
     """
 
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, unique=True)
     description = models.TextField(blank=True)
+    rank = models.IntegerField(unique=True, default=0)
 
     def __str__(self):
         if self.description and isinstance(self.description, str):
             return f"{self.name}: {self.description}"
         else:
             return f"{self.name}"
+
+
+class UserPermission(AbstractBaseModel):
+    """
+    User Permissions
+    """
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="permissions")
+    permission_type = models.ForeignKey(PermissionType, on_delete=models.CASCADE)
+    practice_area = models.ForeignKey(
+        PracticeArea, on_delete=models.CASCADE, blank=True, null=True
+    )
+    project = models.ForeignKey(
+        Project, blank=True, null=True, on_delete=models.CASCADE
+    )
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["user", "permission_type", "project", "practice_area"],
+                name="unique_user_permission",
+            )
+        ]
+
+    def __str__(self):
+        username = self.user.username
+        permission_type_name = self.permission_type.name
+        project_name = self.project.name
+        str_val = f"User: {username} / Permission Type: {permission_type_name}/ Project: {project_name}"
+        if self.practice_area:
+            str_val += f" / Practice Area: {self.practice_area.name}"
+        return str_val
 
 
 class StackElementType(AbstractBaseModel):
@@ -320,6 +338,28 @@ class StackElementType(AbstractBaseModel):
     description = models.TextField(blank=True)
 
     # PK of this model is the ForeignKey for stack_element
+
+    def __str__(self):
+        return f"{self.name}"
+
+
+class StackElement(AbstractBaseModel):
+    """
+    Dictionary of stack elements used in projects
+    """
+
+    name = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+    url = models.URLField(blank=True)
+    logo = models.URLField(blank=True)
+    active = models.BooleanField(null=True)
+    element_type = models.ForeignKey(StackElementType, on_delete=models.CASCADE)
+
+    # PK of this model is the ForeignKey for project_stack_element_xref
+    # we might be able to use the builtin django many-to-many relation that manages the xref table automatically
+
+    class Meta:
+        verbose_name_plural = "Stack Elements"
 
     def __str__(self):
         return f"{self.name}"
@@ -371,3 +411,53 @@ class Affiliation(AbstractBaseModel):
             return f"Partner {self.affiliate}"
         else:
             return "Neither a partner or a sponsor"
+
+
+class CheckType(AbstractBaseModel):
+    """
+    Types of checks we perform
+    """
+
+    name = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+
+    def __str__(self):
+        return f"{self.name}"
+
+
+class SocMajor(AbstractBaseModel):
+    occ_code = models.CharField(max_length=255)
+    title = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.title
+
+
+class ProjectSdgXref(AbstractBaseModel):
+    """
+    Joins an SDG to a project
+    """
+
+    sdg_id = models.ForeignKey(Sdg, on_delete=models.CASCADE)
+    project_id = models.ForeignKey(Project, on_delete=models.CASCADE)
+    ended_on = models.DateField("Ended on", null=True, blank=True)
+
+
+class UrlType(AbstractBaseModel):
+    """
+    Type of the URL (ReadMe, Wiki, etc.)
+    """
+
+    name = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.name
+
+
+class UserStatusType(AbstractBaseModel):
+    name = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+
+    def __str__(self):
+        return f"{self.name}"

@@ -1,8 +1,12 @@
 import pytest
 from rest_framework.test import APIClient
 
+from constants import admin_project
+from constants import practice_lead_project
+
 from ..models import Affiliate
 from ..models import Affiliation
+from ..models import CheckType
 from ..models import Event
 from ..models import Faq
 from ..models import FaqViewed
@@ -13,8 +17,80 @@ from ..models import ProgramArea
 from ..models import Project
 from ..models import Sdg
 from ..models import Skill
+from ..models import SocMajor
+from ..models import StackElement
 from ..models import StackElementType
-from ..models import Technology
+from ..models import UrlType
+from ..models import User
+from ..models import UserPermission
+from ..models import UserStatusType
+
+
+@pytest.fixture
+def user_superuser_admin():
+    return User.objects.create_user(
+        username="AdminUser",
+        email="adminuser@example.com",
+        password="adminuser",
+        is_superuser=True,
+    )
+
+
+@pytest.fixture
+def user_permissions():
+    user1 = User.objects.create(username="TestUser1", email="TestUser1@example.com")
+    user2 = User.objects.create(username="TestUser2", email="TestUser2@example.com")
+    project = Project.objects.create(name="Test Project")
+    permission_type = PermissionType.objects.first()
+    practice_area = PracticeArea.objects.first()
+    user1_permission = UserPermission.objects.create(
+        user=user1,
+        permission_type=permission_type,
+        project=project,
+        practice_area=practice_area,
+    )
+    user2_permissions = UserPermission.objects.create(
+        user=user2,
+        project=project,
+        permission_type=permission_type,
+        practice_area=practice_area,
+    )
+    return [user1_permission, user2_permissions]
+
+
+@pytest.fixture
+def user_permission_admin_project():
+    user = User.objects.create(
+        username="TestUser Admin Project", email="TestUserAdminProject@example.com"
+    )
+    project = Project.objects.create(name="Test Project Admin Project")
+    permission_type = PermissionType.objects.filter(name=admin_project).first()
+    user_permission = UserPermission.objects.create(
+        user=user,
+        permission_type=permission_type,
+        project=project,
+    )
+
+    return user_permission
+
+
+@pytest.fixture
+def user_permission_practice_lead_project():
+    user = User.objects.create(
+        username="TestUser Practie Lead Project",
+        email="TestUserPracticeLeadProject@example.com",
+    )
+    permission_type = PermissionType.objects.filter(name=practice_lead_project).first()
+    project = Project.objects.create(name="Test Project Admin Project")
+    practice_area = PracticeArea.objects.first()
+    user_permission = UserPermission.objects.create(
+        user=user,
+        permission_type=permission_type,
+        project=project,
+        practice_area=practice_area,
+    )
+
+    return user_permission
 
 
 @pytest.fixture
@@ -144,8 +220,10 @@ def skill():
 
 
 @pytest.fixture
-def technology():
-    return Technology.objects.create(name="Test Technology")
+def stack_element(stack_element_type):
+    return StackElement.objects.create(
+        name="Test Stack Element", element_type=stack_element_type
+    )
 
 
 @pytest.fixture
@@ -168,6 +246,11 @@ def stack_element_type():
 @pytest.fixture
 def sdg():
     return Sdg.objects.create(name="Test SDG name")
+
+
+@pytest.fixture
+def sdg1():
+    return Sdg.objects.create(name="Test SDG name1")
 
 
 @pytest.fixture
@@ -195,4 +278,32 @@ def affiliation3(project, affiliate):
 def affiliation4(project, affiliate):
     return Affiliation.objects.create(
         is_sponsor=False, is_partner=False, project=project, affiliate=affiliate
+    )
+
+
+@pytest.fixture
+def check_type():
+    return CheckType.objects.create(
+        name="This is a test check_type.",
+        description="This is a test check_type description.",
+    )
+
+
+@pytest.fixture
+def soc_major():
+    return SocMajor.objects.create(occ_code="22-2222", title="Test Soc Major")
+
+
+@pytest.fixture
+def url_type():
+    return UrlType.objects.create(
+        name="This is a test url type name",
+        description="This is a test url type description",
+    )
+
+
+@pytest.fixture
+def user_status_type():
+    return UserStatusType.objects.create(
+        name="Test User Status Type", description="Test User Status Type description"
     )
