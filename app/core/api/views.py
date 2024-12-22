@@ -49,6 +49,7 @@ from .serializers import StackElementTypeSerializer
 from .serializers import UrlTypeSerializer
 from .serializers import UserPermissionSerializer
 from .serializers import UserSerializer
+from .serializers import BasicUserSerializer
 from .serializers import UserStatusTypeSerializer
 
 
@@ -111,6 +112,61 @@ class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
 class UserViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     serializer_class = UserSerializer
+    lookup_field = "uuid"
+
+    def get_queryset(self):
+        """
+        Optionally filter users by an 'email' and/or 'username' query paramerter in the URL
+        """
+        queryset = get_user_model().objects.all()
+        email = self.request.query_params.get("email")
+        if email is not None:
+            queryset = queryset.filter(email=email)
+        username = self.request.query_params.get("username")
+        if username is not None:
+            queryset = queryset.filter(username=username)
+        return queryset
+
+
+@extend_schema_view(
+    list=extend_schema(
+        summary="Users List",
+        description="Return a list of all the existing users",
+        parameters=[
+            OpenApiParameter(
+                name="email",
+                type=str,
+                description="Filter by email address",
+                examples=[
+                    OpenApiExample(
+                        "Example 1",
+                        summary="Demo email",
+                        description="get the demo user",
+                        value="demo-email@email.com,",
+                    ),
+                ],
+            ),
+            OpenApiParameter(
+                name="username",
+                type=OpenApiTypes.STR,
+                location=OpenApiParameter.QUERY,
+                description="Filter by username",
+                examples=[
+                    OpenApiExample(
+                        "Example 1",
+                        summary="Demo username",
+                        description="get the demo user",
+                        value="demo-user",
+                    ),
+                ],
+            ),
+        ],
+    ),
+    retrieve=extend_schema(description="Return the given user"),
+)
+class BasicUserViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    serializer_class = BasicUserSerializer
     lookup_field = "uuid"
 
     def get_queryset(self):
