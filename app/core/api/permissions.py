@@ -11,7 +11,7 @@ class DenyAny(BasePermission):
 # kb_admin  view_basic_user_info
 # kb_user
 
-class BasicUserPermission(BasePermission):
+class UserAppPermission(BasePermission):
     def has_permission(self, request, __view__):
         return request.user.has_perm("view_api_user_basic")
     

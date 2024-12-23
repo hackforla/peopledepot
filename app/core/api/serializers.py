@@ -63,7 +63,7 @@ class UserPermissionSerializer(serializers.ModelSerializer):
         )
 
 
-class BasicUserSerializer(serializers.ModelSerializer):
+class UserAppSerializer(serializers.ModelSerializer):
     """Used to retrieve user info"""
 
     time_zone = TimeZoneSerializerField(use_pytz=False)
@@ -86,7 +86,7 @@ class BasicUserSerializer(serializers.ModelSerializer):
             # "target_skills",
             "linkedin_account",
             "github_handle",
-            # "slack_id",
+            "slack_id",
             # "phone",
             # "texting_ok",
             # "time_zone",
