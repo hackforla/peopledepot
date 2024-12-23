@@ -50,7 +50,7 @@ RUN \
   pip install -r requirements.txt
 ```
 
-For pip, the files are by default stored in `/root/.cache/pip`.  [Pip caching docs](https://pip.pypa.io/en/stable/topics/caching/)
+For pip, the files are by default stored in `/root/.cache/pip`. [Pip caching docs](https://pip.pypa.io/en/stable/topics/caching/)
 
 For apk, the cache directory is `/var/cache/apk/`. [APK wiki on local cache](https://wiki.alpinelinux.org/wiki/Local_APK_cache)
 

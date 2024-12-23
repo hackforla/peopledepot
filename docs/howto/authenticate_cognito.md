@@ -10,11 +10,11 @@ Prerequisites:
 
 Steps:
 
-1. Login (or register first then login) to a cognito account [here](https://hackforla-vrms-dev.auth.us-west-2.amazoncognito.com/login?client_id=3e3bi1ct2ks9rcktrde8v60v3u&response_type=token&scope=openid&redirect_uri=http://localhost:8000/admin).  Do not worry if you see error messages - you will be using the url.
+1. Login (or register first then login) to a cognito account [here](https://hackforla-vrms-dev.auth.us-west-2.amazoncognito.com/login?client_id=3e3bi1ct2ks9rcktrde8v60v3u&response_type=token&scope=openid&redirect_uri=http://localhost:8000/admin). Do not worry if you see error messages - you will be using the url.
 
     [<img src="https://user-images.githubusercontent.com/1160105/184449364-e3bba6e9-ced5-498f-a0e6-0c93c8a036fb.png" width="500" />](https://user-images.githubusercontent.com/1160105/184449364-e3bba6e9-ced5-498f-a0e6-0c93c8a036fb.png)
 
-1. Copy the URL when it redirects. **Note:** Instead of the screen below, the screen may display an error message.  You can ignore any error messages.
+1. Copy the URL when it redirects. **Note:** Instead of the screen below, the screen may display an error message. You can ignore any error messages.
 
     [<img src="https://user-images.githubusercontent.com/1160105/184449368-f16b19de-9372-436c-b65d-c5afadbcbc1a.png" width="500" />](https://user-images.githubusercontent.com/1160105/184449368-f16b19de-9372-436c-b65d-c5afadbcbc1a.png).
 
@@ -25,7 +25,7 @@ Steps:
 
     [<img src="https://user-images.githubusercontent.com/1160105/184449537-2a9570a5-6361-48ae-b348-506244d592ac.png" width="500" />](https://user-images.githubusercontent.com/1160105/184449537-2a9570a5-6361-48ae-b348-506244d592ac.png)
 
-1. Open [ModHeader](https://modheader.com/modheader/download).  If the icon is hidden, click on the Puzzle icon in the upper right of the browser to see it.
+1. Open [ModHeader](https://modheader.com/modheader/download). If the icon is hidden, click on the Puzzle icon in the upper right of the browser to see it.
 
 1. Type the word Bearer and paste the token into [ModHeader](https://docs.modheader.com/using-modheader/introduction) Authorization: Bearer \<access_token>
 
