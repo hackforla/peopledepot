@@ -15,10 +15,6 @@ class UserAppPermission(BasePermission):
     def has_permission(self, request, __view__):
         return request.user.has_perm("view_api_user_basic")
     
-class AppUserPermission(BasePermission):
-    def has_permission(self, request, __view__):
-        return request.user.has_perm("view_api_user_app")
-    
     def has_object_permission(self, request, view, obj):
         if not request.user.has_perm("view_api_user_app"):
             return False
