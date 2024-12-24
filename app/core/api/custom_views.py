@@ -3,12 +3,13 @@ from django.contrib.auth.models import Group
 from .helpers import filter_user_queryset
 from rest_framework.exceptions import PermissionDenied
 from .serializers import UserAppSerializer
-from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth import get_user_model
 
+from rest_framework.generics import GenericAPIView
+from rest_framework.mixins import RetrieveModelMixin
 
-class UserAppKbViewSet(viewsets.ModelViewSet):
+class UserAppKbViewSet(RetrieveModelMixin, GenericAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = UserAppSerializer
     lookup_field = "uuid"

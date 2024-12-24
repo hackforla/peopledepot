@@ -55,7 +55,7 @@ router.register(
 )
 urlpatterns = [
     path("me/", UserProfileAPIView.as_view(), name="my_profile"),
-    path("app/kb", UserAppKbViewSet.as_view(), name="my_profile"),
+    path("app/kb", UserAppKbViewSet.as_view(), name="user_app_kb"),
 ]
 
 urlpatterns += router.urls

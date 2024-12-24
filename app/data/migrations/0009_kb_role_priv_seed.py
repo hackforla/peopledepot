@@ -1,5 +1,5 @@
 from django.db import migrations
-from django.contrib.auth.models import Group, Permission
+from django.contrib.auth.models import Group
 
 def create_group_permission(group_name, permission_name):
     from django.contrib.contenttypes.models import ContentType
