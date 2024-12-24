@@ -22,7 +22,7 @@ class UserAppKbViewSet(RetrieveModelMixin, GenericAPIView):
         user = self.request.user
         permission_name = f"get_api_user_app_{self.calling_app}"
         if not user.has_perm(permission_name):
-            raise PermissionDenied(f"You don't have privilege to view users for calling app {calling_app}.")
+            raise PermissionDenied(f"You don't have privilege to view users for calling app {self.calling_app}.")
         groups = Group.objects.filter(name__startswith=f"{self.calling_app}_")
 
         # Filter users who are in any of these groups

@@ -2,7 +2,8 @@ from django.contrib.auth import get_user_model
 from django.urls import reverse
 from rest_framework.test import APITestCase
 from rest_framework import status
-from django.contrib.auth.models import Permission
+from django.contrib.auth.models import Permission, Group
+from rest_framework_jwt.settings import api_settings
 
 User = get_user_model()
 
@@ -17,13 +18,18 @@ class BasicUserViewSetTestCase(APITestCase):
         )
         self.user.set_password("password123")
         self.user.save()
+        group = Group.objects.get(name="kb_user")
+        self.user.groups.add(group)
 
-        # Assign permission to the user
-        permission = Permission.objects.get(codename="view_api_user_kb")
-        self.user.user_permissions.add(permission)
 
-        # Authenticate the user
-        self.client.login(username="testuser", password="password123")
+        # Generate a JWT token for the user
+        jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
+        jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
+        payload = jwt_payload_handler(self.user)
+        self.token = jwt_encode_handler(payload)
+
+        # Set the Authorization header for the client
+        self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {self.token}")
 
         # Create additional users
         self.other_user = User.objects.create_user(
@@ -33,7 +39,8 @@ class BasicUserViewSetTestCase(APITestCase):
             last_name="User",
         )
 
-        self.url = reverse("user-list")  # Replace with the actual name of your viewset's list route
+        self.url = reverse("user_app_kb")  # Replace with the actual name of your viewset's list route
+        print("debug url", self.url)
 
     def test_access_without_permission(self):
         # Remove permission
@@ -69,6 +76,7 @@ class BasicUserViewSetTestCase(APITestCase):
 
     def test_correct_fields_in_response(self):
         response = self.client.get(self.url, {"email": "testuser@example.com"})
+        print("response", response.data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIn("uuid", response.data[0])
         self.assertIn("username", response.data[0])
