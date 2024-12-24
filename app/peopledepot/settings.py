@@ -39,24 +39,31 @@ ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 # Cognito stuff
 COGNITO_AWS_REGION = os.environ.get("COGNITO_AWS_REGION", default=None)
 COGNITO_USER_POOL = os.environ.get("COGNITO_USER_POOL", default=None)
+COGNITO_DOMAIN = os.environ.get("COGNITO_DOMAIN", default=None)
 # Provide this value if `id_token` is used for authentication (it contains 'aud' claim).
 # `access_token` doesn't have it, in this case keep the COGNITO_AUDIENCE empty
-COGNITO_AUDIENCE = None
+COGNITO_AUDIENCE = os.environ.get("COGNITO_CLIENT_ID", default=None)
 COGNITO_POOL_URL = (
     None  # will be set few lines of code later, if configuration provided
 )
-
+COGNITO_CLIENT_ID = os.environ.get("COGNITO_CLIENT_ID")
+COGNITO_CLIENT_SECRET = os.environ.get("COGNITO_CLIENT_SECRET`") or ""
 rsa_keys = {}
 # To avoid circular imports, we keep this logic here.
 # On django init we download jwks public keys which are used to validate jwt tokens.
 # For now there is no rotation of keys (seems like in Cognito decided not to implement it)
 if COGNITO_AWS_REGION and COGNITO_USER_POOL:
-    COGNITO_POOL_URL = (
-        f"https://cognito-idp.{COGNITO_AWS_REGION}.amazonaws.com/{COGNITO_USER_POOL}"
-    )
-    pool_jwks_url = COGNITO_POOL_URL + "/.well-known/jwks.json"
-    jwks = json.loads(request.urlopen(pool_jwks_url).read())  # nosec B310
-    rsa_keys = {key["kid"]: json.dumps(key) for key in jwks["keys"]}
+    try:
+        COGNITO_POOL_URL = (
+            f"https://cognito-idp.{COGNITO_AWS_REGION}.amazonaws.com/{COGNITO_USER_POOL}"
+        )
+        pool_jwks_url = COGNITO_POOL_URL + "/.well-known/jwks.json"
+        jwks = json.loads(request.urlopen(pool_jwks_url).read())  # nosec B310
+        rsa_keys = {key["kid"]: json.dumps(key) for key in jwks["keys"]}
+    except Exception as e:
+        print(f"Error loading JWKS: {e}", COGNITO_POOL_URL)
+        raise e
+        # return {}
 
 # Application definition
 
@@ -182,15 +189,18 @@ REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
-JWT_AUTH = {
-    "JWT_PAYLOAD_GET_USERNAME_HANDLER": "core.utils.jwt.get_username_from_payload_handler",
-    "JWT_DECODE_HANDLER": "core.utils.jwt.cognito_jwt_decode_handler",
-    "JWT_PUBLIC_KEY": rsa_keys,
-    "JWT_ALGORITHM": "RS256",
-    "JWT_AUDIENCE": COGNITO_AUDIENCE,
-    "JWT_ISSUER": COGNITO_POOL_URL,
-    "JWT_AUTH_HEADER_PREFIX": "Bearer",
-}
+
+if (COGNITO_CLIENT_ID):
+    print("Setting JWT")
+    JWT_AUTH = {
+            "JWT_PAYLOAD_GET_USERNAME_HANDLER": "core.utils.jwt.get_username_from_payload_handler",
+            "JWT_DECODE_HANDLER": "core.utils.jwt.cognito_jwt_decode_handler",
+            "JWT_PUBLIC_KEY": rsa_keys,
+            "JWT_ALGORITHM": "RS256",
+            "JWT_AUDIENCE": COGNITO_AUDIENCE,
+            "JWT_ISSUER": COGNITO_POOL_URL,
+            "JWT_AUTH_HEADER_PREFIX": "Bearer",
+    }
 
 GRAPH_MODELS = {"all_applications": True, "group_models": True}
 

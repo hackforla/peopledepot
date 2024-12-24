@@ -7,8 +7,8 @@ def create_group_permission(group_name, permission_name):
 
     # Create a placeholder content type
     placeholder_content_type, _ = ContentType.objects.get_or_create(
-        app_label='global',
-        model='globalpermission'
+        app_label='core',
+        model='user'
     )
 
     group, __created__ = Group.objects.get_or_create(name=group_name)

@@ -66,7 +66,7 @@ class UserPermissionSerializer(serializers.ModelSerializer):
 class UserAppSerializer(serializers.ModelSerializer):
     """Used to retrieve user info"""
 
-    time_zone = TimeZoneSerializerField(use_pytz=False)
+    # time_zone = TimeZoneSerializerField(use_pytz=False)
 
     class Meta:
         model = User
