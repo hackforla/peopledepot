@@ -53,14 +53,6 @@ def user_superuser_admin():
         is_superuser=True,
     )
 
-@pytest.fixture(scope="session", autouse=True)
-def user_superuser_admin():
-    return User.objects.create_user(
-        username="AdminUser",
-        email="adminuser@example.com",
-        password="adminuser",
-        is_superuser=True,
-    )
 
 @pytest.fixture
 def user_permissions():
