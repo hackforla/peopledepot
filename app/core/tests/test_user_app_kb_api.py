@@ -8,7 +8,7 @@ import pytest
 
 User = get_user_model()
 
-@pytest.mark.django_db("user_app_kb_data_setup")
+@pytest.mark.user_app_kb_data_setup
 class BasicUserViewSetTestCase(APITestCase):
     # populated by load_user_app_kb_data.py
     user = None
