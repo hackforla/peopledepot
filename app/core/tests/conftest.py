@@ -24,6 +24,28 @@ from ..models import UrlType
 from ..models import User
 from ..models import UserPermission
 from ..models import UserStatusType
+from .utils.load_user_app_kb_data import load_user_app_kb_data
+
+
+def pytest_configure(config):  # noqa: PT004
+    config.addinivalue_line(
+        "markers", "load_user_data_required: run load_data if any tests marked"
+    )
+    config.addinivalue_line(
+        "markers", "user_app_kb_data_setup: load data for user_app_kb tests"
+    )
+
+@pytest.fixture(scope="session", autouse=True)
+def load_data_once_for_user_app_kb(request, django_db_blocker):
+    # Check if any tests marked with 'load_data_required' are going to be run
+    if request.node.items:
+        for item in request.node.items:
+            print("debug",item.name, "11111",list(item.keywords.keys()),"2222", item.keywords.keys().django_db)
+            if "user_app_kb_data_setup" in item.keywords:
+                with django_db_blocker.unblock():
+                    print("Running load_data before any test classes in marked files")
+                    load_user_app_kb_data()
+                break  # Run only once before all the test files
 
 
 @pytest.fixture
@@ -34,7 +56,6 @@ def user_superuser_admin():
         password="adminuser",
         is_superuser=True,
     )
-
 
 @pytest.fixture
 def user_permissions():
@@ -96,6 +117,7 @@ def user_permission_practice_lead_project():
 
 @pytest.fixture
 def user(django_user_model):
+    print("Creating")
     return django_user_model.objects.create_user(
         username="TestUser",
         email="testuser@email.com",
@@ -238,13 +260,8 @@ def stack_element(stack_element_type):
 
 @pytest.fixture
 def permission_type1():
-    return PermissionType.objects.create(name="Test Permission Type", description="")
-
-
-@pytest.fixture
-def permission_type2():
     return PermissionType.objects.create(
-        name="Test Permission Type", description="A permission type description"
+        name="Test Permission Type", description="", rank=1000
     )
 
 
@@ -320,3 +337,5 @@ def user_status_type():
     return UserStatusType.objects.create(
         name="Test User Status Type", description="Test User Status Type description"
     )
+riable.
+To ensure clarity, it's better to modify static variables via the class itself.

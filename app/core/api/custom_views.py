@@ -1,4 +1,3 @@
-from django.http import Http404
 from django.contrib.auth.models import Group
 from .helpers import filter_user_queryset
 from rest_framework.exceptions import PermissionDenied
