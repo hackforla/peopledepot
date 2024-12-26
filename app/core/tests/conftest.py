@@ -36,11 +36,11 @@ def pytest_configure(config):  # noqa: PT004
     )
 
 @pytest.fixture(scope="session", autouse=True)
-def load_data_once_for_user_app_kb(request, django_db_blocker):
+def load_data_once_for_user_app_kb(request, django_db_setup, django_db_blocker):
     # Check if any tests marked with 'load_data_required' are going to be run
     if request.node.items:
         for item in request.node.items:
-            print("debug",item.name, "11111",list(item.keywords.keys()),"2222", item.keywords.keys().django_db)
+            print("debug",item.name, "11111",list(item.keywords.keys()),"2222", item.keywords.keys())
             if "user_app_kb_data_setup" in item.keywords:
                 with django_db_blocker.unblock():
                     print("Running load_data before any test classes in marked files")
@@ -337,5 +337,3 @@ def user_status_type():
     return UserStatusType.objects.create(
         name="Test User Status Type", description="Test User Status Type description"
     )
-riable.
-To ensure clarity, it's better to modify static variables via the class itself.
