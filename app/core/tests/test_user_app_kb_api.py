@@ -31,28 +31,28 @@ class UserAppKbApiTestCase(APITestCase):
 
     def test_access_with_permission(self):
         response = self.kb_client.get(url)
-        assert response.status_code, status.HTTP_200_OK)
+        assert response.status_code == status.HTTP_200_OK
 
     def test_filter_by_email(self):
         response = self.kb_client.get(url, {"email": "testuser@example.com"})
-        assert response.status_code, status.HTTP_200_OK)
-        assert len(response.data), 1)
-        assert response.data[0]["email"], "testuser@example.com")
+        assert response.status_code == status.HTTP_200_OK
+        assert len(response.data) == 1
+        assert response.data[0]["email"] == "testuser@example.com"
 
     def test_filter_by_username(self):
         response = self.kb_client.get(url, {"username": "kbuser1"})
         assert response.status_code == status.HTTP_200_OK
         assert len(response.data) == 1
-        assert response.data[0]["username"], "kbuser1")
+        assert response.data[0]["username"] == "kbuser1"
 
     def test_filter_with_email_for_user_without_kbuser(self):
         response = self.kb_client.get(url, {"email": "otheruser@example.com"})
-        assert response.status_code, status.HTTP_200_OK)
+        assert response.status_code == status.HTTP_200_OK
         assert len(response.data) == 0
 
     def test_no_filters(self):
         response = self.kb_client.get(url)
-        assert response.status_code, status.HTTP_200_OK)
+        assert response.status_code == status.HTTP_200_OK
         assert len(response.data) == 2  # Ensure it returns all users
 
     def test_correct_fields_in_response(self):
