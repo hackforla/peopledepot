@@ -41,6 +41,7 @@ def load_test_data(request, django_db_setup, django_db_blocker):
                 with django_db_blocker.unblock():
                     load_user_app_kb_data()
                 break  # Run only once before all the test files
+    return None
 
 
 @pytest.fixture

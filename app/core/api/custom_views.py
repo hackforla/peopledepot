@@ -2,7 +2,6 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
 from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import RetrieveModelMixin
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from .helpers import filter_user_queryset
