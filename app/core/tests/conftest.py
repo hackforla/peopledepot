@@ -28,8 +28,9 @@ from .utils.load_user_app_kb_data import load_user_app_kb_data
 
 
 def pytest_configure(config):  # noqa: PT004
+    # look for pytest.mark.user_kb_data_setup to see where used
     config.addinivalue_line(
-        "markers", "user_app_kb_data_setup: run load_data if any tests marked"
+        "markers", "user_app_kb_data_setup"
     )
 
  

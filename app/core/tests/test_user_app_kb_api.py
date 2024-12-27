@@ -10,7 +10,7 @@ User = get_user_model()
 url = reverse("user_app_kb")
 
 @pytest.mark.django_db
-@pytest.mark.user_app_kb_data_setup
+@pytest.mark.user_app_kb_data_setup # noqa: PYTEST_MARK_UNKNOWN
 class UserAppKbApiTestCase(APITestCase):
     # populated by load_user_app_kb_data.py
     user = None
