@@ -1,8 +1,6 @@
-import json
 from django.contrib.auth.models import Group
 from .helpers import filter_user_queryset
 from .serializers import UserAppSerializer
-from rest_framework.permissions import IsAuthenticated
 from .permissions import UserAppKbPermission
 from django.contrib.auth import get_user_model
 from rest_framework.response import Response

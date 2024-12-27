@@ -37,7 +37,6 @@ def pytest_configure(config):  # noqa: PT004
 @pytest.fixture(scope="session", autouse=True)
 def load_test_data(request, django_db_setup, django_db_blocker):
     # Check if any tests marked with 'load_data_required' are going to be run
-    __dummy__ = django_db_setup
     if request.node.items:
         for item in request.node.items:
             if "user_app_kb_data_setup" in item.keywords:
