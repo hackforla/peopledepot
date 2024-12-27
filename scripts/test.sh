@@ -54,7 +54,6 @@ while [[ $# -gt 0 ]]; do
       echo "Skipping migration checks"
       ;;
     -n)
-      echo "debug -n"
       shift
       N_CPU="$1"
       if [ "$N_CPU" == "1" ]; then
