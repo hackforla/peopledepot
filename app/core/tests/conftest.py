@@ -263,7 +263,7 @@ def permission_type1():
 @pytest.fixture
 def permission_type2():
     return PermissionType.objects.create(
-        name="Test Permission Type2", description="", rank=1000
+        name="Test Permission Type2", description="A permission type description", rank=1000
     )
 
 @pytest.fixture
