@@ -191,7 +191,6 @@ REST_FRAMEWORK = {
 
 
 if (COGNITO_CLIENT_ID):
-    print("Setting JWT")
     JWT_AUTH = {
             "JWT_PAYLOAD_GET_USERNAME_HANDLER": "core.utils.jwt.get_username_from_payload_handler",
             "JWT_DECODE_HANDLER": "core.utils.jwt.cognito_jwt_decode_handler",

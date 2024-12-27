@@ -1,6 +1,6 @@
 from django.urls import path
 from rest_framework import routers
-from .custom_views import UserAppKbViewSet
+from .custom_views import UserAppKbApiView
 
 from .views import AffiliateViewSet
 from .views import AffiliationViewSet
@@ -55,7 +55,7 @@ router.register(
 )
 urlpatterns = [
     path("me/", UserProfileAPIView.as_view(), name="my_profile"),
-    path("app/kb", UserAppKbViewSet.as_view(), name="user_app_kb"),
+    path("app/kb", UserAppKbApiView.as_view(), name="user_app_kb"),
 ]
 
 urlpatterns += router.urls

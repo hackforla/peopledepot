@@ -1,5 +1,5 @@
 from rest_framework.permissions import BasePermission
-
+from rest_framework.exceptions import PermissionDenied
 
 class DenyAny(BasePermission):
     def has_permission(self, request, view):
@@ -8,15 +8,12 @@ class DenyAny(BasePermission):
     def has_object_permission(self, request, view, obj):
         return False
 
-# kb_admin  view_basic_user_info
-# kb_user
-
-class UserAppPermission(BasePermission):
-    def has_permission(self, request, __view__):
-        return request.user.has_perm("view_api_user_basic")
-    
+class UserAppKbPermission(BasePermission):
+    def has_permission(self, request, view):
+        user = request.user
+        exists = user.groups.filter(name__startswith="kb_").exists()
+        return exists
+        
     def has_object_permission(self, request, view, obj):
-        if not request.user.has_perm("view_api_user_app"):
-            return False
-        # TODO: find if any privileges with ""
-        return super().has_object_permission(request, view, obj)
+        exists = obj.groups.filter(name__startswith="kb_").exists()
+        return exists

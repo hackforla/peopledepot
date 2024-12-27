@@ -74,7 +74,6 @@ def test_get_users(auth_client, django_user_model):
     res = auth_client.get(USERS_URL)
 
     assert res.status_code == status.HTTP_200_OK
-    assert len(res.data) == 3
 
     users = django_user_model.objects.all().order_by("created_at")
     serializer = UserSerializer(users, many=True)

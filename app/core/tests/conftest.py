@@ -29,24 +29,20 @@ from .utils.load_user_app_kb_data import load_user_app_kb_data
 
 def pytest_configure(config):  # noqa: PT004
     config.addinivalue_line(
-        "markers", "load_user_data_required: run load_data if any tests marked"
-    )
-    config.addinivalue_line(
-        "markers", "user_app_kb_data_setup: load data for user_app_kb tests"
+        "markers", "user_app_kb_data_setup: run load_data if any tests marked"
     )
 
+ 
 @pytest.fixture(scope="session", autouse=True)
-def load_data_once_for_user_app_kb(request, django_db_setup, django_db_blocker):
+def load_test_data(request, django_db_setup, django_db_blocker):
     # Check if any tests marked with 'load_data_required' are going to be run
+    __dummy__ = django_db_setup
     if request.node.items:
         for item in request.node.items:
-            print("debug",item.name, "11111",list(item.keywords.keys()),"2222", item.keywords.keys())
             if "user_app_kb_data_setup" in item.keywords:
                 with django_db_blocker.unblock():
-                    print("Running load_data before any test classes in marked files")
                     load_user_app_kb_data()
                 break  # Run only once before all the test files
-
 
 @pytest.fixture
 def user_superuser_admin():
@@ -56,6 +52,7 @@ def user_superuser_admin():
         password="adminuser",
         is_superuser=True,
     )
+
 
 @pytest.fixture
 def user_permissions():
@@ -117,7 +114,6 @@ def user_permission_practice_lead_project():
 
 @pytest.fixture
 def user(django_user_model):
-    print("Creating")
     return django_user_model.objects.create_user(
         username="TestUser",
         email="testuser@email.com",
@@ -264,6 +260,11 @@ def permission_type1():
         name="Test Permission Type", description="", rank=1000
     )
 
+@pytest.fixture
+def permission_type2():
+    return PermissionType.objects.create(
+        name="Test Permission Type2", description="", rank=1000
+    )
 
 @pytest.fixture
 def stack_element_type():
