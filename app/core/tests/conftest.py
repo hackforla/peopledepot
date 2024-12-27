@@ -29,11 +29,9 @@ from .utils.load_user_app_kb_data import load_user_app_kb_data
 
 def pytest_configure(config):  # noqa: PT004
     # look for pytest.mark.user_kb_data_setup to see where used
-    config.addinivalue_line(
-        "markers", "user_app_kb_data_setup"
-    )
+    config.addinivalue_line("markers", "user_app_kb_data_setup")
 
- 
+
 @pytest.fixture(scope="session", autouse=True)
 def load_test_data(request, django_db_setup, django_db_blocker):
     # Check if any tests marked with 'load_data_required' are going to be run
@@ -43,6 +41,7 @@ def load_test_data(request, django_db_setup, django_db_blocker):
                 with django_db_blocker.unblock():
                     load_user_app_kb_data()
                 break  # Run only once before all the test files
+
 
 @pytest.fixture
 def user_superuser_admin():
@@ -260,11 +259,15 @@ def permission_type1():
         name="Test Permission Type", description="", rank=1000
     )
 
+
 @pytest.fixture
 def permission_type2():
     return PermissionType.objects.create(
-        name="Test Permission Type2", description="A permission type description", rank=1000
+        name="Test Permission Type2",
+        description="A permission type description",
+        rank=1000,
     )
+
 
 @pytest.fixture
 def stack_element_type():
