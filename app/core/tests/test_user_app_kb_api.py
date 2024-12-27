@@ -27,7 +27,7 @@ class UserAppKbApiTestCase(APITestCase):
         # Remove permission
         self.user.groups.clear()
         response = self.kb_client.get(url)
-        assert response.status_code == status.HTTP_403_FORBIDDEN)
+        assert response.status_code == status.HTTP_403_FORBIDDEN
 
     def test_access_with_permission(self):
         response = self.kb_client.get(url)
