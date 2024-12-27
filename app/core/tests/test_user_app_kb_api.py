@@ -31,40 +31,38 @@ class UserAppKbApiTestCase(APITestCase):
 
     def test_access_with_permission(self):
         response = self.kb_client.get(url)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        assert response.status_code, status.HTTP_200_OK)
 
     def test_filter_by_email(self):
         response = self.kb_client.get(url, {"email": "testuser@example.com"})
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 1)
-        self.assertEqual(response.data[0]["email"], "testuser@example.com")
+        assert response.status_code, status.HTTP_200_OK)
+        assert len(response.data), 1)
+        assert response.data[0]["email"], "testuser@example.com")
 
     def test_filter_by_username(self):
         response = self.kb_client.get(url, {"username": "kbuser1"})
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 1)
-        self.assertEqual(response.data[0]["username"], "kbuser1")
+        assert response.status_code == status.HTTP_200_OK
+        assert len(response.data) == 1
+        assert response.data[0]["username"], "kbuser1")
 
     def test_filter_with_email_for_user_without_kbuser(self):
         response = self.kb_client.get(url, {"email": "otheruser@example.com"})
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 0)
+        assert response.status_code, status.HTTP_200_OK)
+        assert len(response.data) == 0
 
     def test_no_filters(self):
         response = self.kb_client.get(url)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 2)  # Ensure it returns all users
+        assert response.status_code, status.HTTP_200_OK)
+        assert len(response.data) == 2  # Ensure it returns all users
 
     def test_correct_fields_in_response(self):
         response = self.kb_client.get(url, {"email": "testuser@example.com"})
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertIn("uuid", response.data[0])
-        self.assertIn("username", response.data[0])
-        self.assertNotIn(
-            "phone", response.data[0]
-        )  # Ensure excluded fields are not present
+        assert response.status_code == status.HTTP_200_OK
+        assert "uuid" in response.data[0]
+        assert "username" in response.data[0]
+        assert "phone" not in response.data[0]
 
     def test_access_without_authentication(self):
         self.kb_client.logout()
         response = self.kb_client.get(url)
-        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        assert response.status_code == status.HTTP_401_UNAUTHORIZED
