@@ -1,7 +1,7 @@
 from django.urls import path
 from rest_framework import routers
-from .custom_views import UserAppKbApiView
 
+from .custom_views import UserAppKbApiView
 from .views import AffiliateViewSet
 from .views import AffiliationViewSet
 from .views import CheckTypeViewSet

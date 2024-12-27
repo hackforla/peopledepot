@@ -52,8 +52,6 @@ from .serializers import UserSerializer
 from .serializers import UserStatusTypeSerializer
 
 
-
-
 class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
     serializer_class = UserSerializer
     permission_classes = [IsAuthenticated]
