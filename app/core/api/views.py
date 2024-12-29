@@ -128,6 +128,42 @@ class UserViewSet(viewsets.ModelViewSet):
 
 
 @extend_schema_view(
+    list=extend_schema(
+        summary="Users List",
+        description="Return a list of all the existing users",
+        parameters=[
+            OpenApiParameter(
+                name="email",
+                type=str,
+                description="Filter by email address",
+                examples=[
+                    OpenApiExample(
+                        "Example 1",
+                        summary="Demo email",
+                        description="get the demo user",
+                        value="demo-email@email.com,",
+                    ),
+                ],
+            ),
+            OpenApiParameter(
+                name="username",
+                type=OpenApiTypes.STR,
+                location=OpenApiParameter.QUERY,
+                description="Filter by username",
+                examples=[
+                    OpenApiExample(
+                        "Example 1",
+                        summary="Demo username",
+                        description="get the demo user",
+                        value="demo-user",
+                    ),
+                ],
+            ),
+        ],
+    ),
+    retrieve=extend_schema(description="Return the given user"),
+)
+@extend_schema_view(
     list=extend_schema(description="Return a list of all the projects"),
     create=extend_schema(description="Create a new project"),
     retrieve=extend_schema(description="Return the details of a project"),

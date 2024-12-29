@@ -9,8 +9,7 @@ from ..models import Sdg
 pytestmark = pytest.mark.django_db
 
 
-def test_user(user, django_user_model):
-    assert django_user_model.objects.filter(is_staff=False).count() == 1
+def test_user(user):
     assert str(user) == "testuser@email.com"
     assert user.is_django_user is True
     assert repr(user) == f"<User {user.uuid}>"
@@ -73,10 +72,10 @@ def test_permission_type1(permission_type1):
 
 
 def test_permission_type2(permission_type2):
-    assert str(permission_type2.name) == "Test Permission Type"
+    assert str(permission_type2.name) == "Test Permission Type2"
     assert str(permission_type2.description) == "A permission type description"
     assert (
-        str(permission_type2) == "Test Permission Type: A permission type description"
+        str(permission_type2) == "Test Permission Type2: A permission type description"
     )
 
 

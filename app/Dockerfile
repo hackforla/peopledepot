@@ -14,7 +14,7 @@ RUN \
   --mount=type=cache,target=/var/cache/apk \
   --mount=type=cache,target=/etc/apk/cache \
   apk add \
-  'graphviz=~9.0'
+  'graphviz=~12.2'
 
 # install font for graphviz
 COPY Roboto-Regular.ttf /root/.fonts/

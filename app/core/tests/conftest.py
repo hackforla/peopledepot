@@ -24,6 +24,24 @@ from ..models import UrlType
 from ..models import User
 from ..models import UserPermission
 from ..models import UserStatusType
+from .utils.load_user_app_kb_data import load_user_app_kb_data
+
+
+def pytest_configure(config):  # noqa: PT004
+    # look for pytest.mark.user_kb_data_setup to see where used
+    config.addinivalue_line("markers", "user_app_kb_data_setup")
+
+
+@pytest.fixture(scope="session", autouse=True)
+def load_test_data(request, django_db_setup, django_db_blocker):
+    # Check if any tests marked with 'load_data_required' are going to be run
+    if request.node.items:
+        for item in request.node.items:
+            if "user_app_kb_data_setup" in item.keywords:
+                with django_db_blocker.unblock():
+                    load_user_app_kb_data()
+                break  # Run only once before all the test files
+    return None
 
 
 @pytest.fixture
@@ -61,7 +79,8 @@ def user_permissions():
 @pytest.fixture
 def user_permission_admin_project():
     user = User.objects.create(
-        username="TestUser Admin Project", email="TestUserAdminProject@example.com"
+        username="TestUser Admin Project",
+        email="TestUserAdminProject@example.com",
     )
     project = Project.objects.create(name="Test Project Admin Project")
     permission_type = PermissionType.objects.filter(name=admin_project).first()
@@ -132,11 +151,20 @@ def event_pm(project):
         name="PM",
         project=project,
         must_attend=[
-            {"practice_area": "Development", "permission_type": "practiceLeadProject"},
-            {"practice_area": "Design", "permission_type": "practiceLeadJrProject"},
+            {
+                "practice_area": "Development",
+                "permission_type": "practiceLeadProject",
+            },
+            {
+                "practice_area": "Design",
+                "permission_type": "practiceLeadJrProject",
+            },
         ],
         should_attend=[
-            {"practice_area": "Development", "permission_type": "memberProject"},
+            {
+                "practice_area": "Development",
+                "permission_type": "memberProject",
+            },
             {"practice_area": "Design", "permission_type": "adminProject"},
         ],
         could_attend=[{"practice_area": "Design", "permission_type": "memberGeneral"}],
@@ -228,13 +256,17 @@ def stack_element(stack_element_type):
 
 @pytest.fixture
 def permission_type1():
-    return PermissionType.objects.create(name="Test Permission Type", description="")
+    return PermissionType.objects.create(
+        name="Test Permission Type", description="", rank=1000
+    )
 
 
 @pytest.fixture
 def permission_type2():
     return PermissionType.objects.create(
-        name="Test Permission Type", description="A permission type description"
+        name="Test Permission Type2",
+        description="A permission type description",
+        rank=1000,
     )
 
 
@@ -277,7 +309,10 @@ def affiliation3(project, affiliate):
 @pytest.fixture
 def affiliation4(project, affiliate):
     return Affiliation.objects.create(
-        is_sponsor=False, is_partner=False, project=project, affiliate=affiliate
+        is_sponsor=False,
+        is_partner=False,
+        project=project,
+        affiliate=affiliate,
     )
 
 
