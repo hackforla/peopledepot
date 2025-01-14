@@ -33,6 +33,7 @@ Here's a list of commonly used MkDocs syntax for quick reference.
 ### [Code Blocks](https://squidfunk.github.io/mkdocs-material/reference/code-blocks/)
 
 === "Example"
+
     ```python title="Code Block"
     @admin.register(RecurringEvent)
     class RecurringEventAdmin(admin.ModelAdmin):
@@ -64,6 +65,7 @@ Here's a list of commonly used MkDocs syntax for quick reference.
     ```
 
 === "Code"
+
     ````
     ```python title="Code Block"
     @admin.register(RecurringEvent)
@@ -99,6 +101,7 @@ Here's a list of commonly used MkDocs syntax for quick reference.
 ### [Code Annotations](https://squidfunk.github.io/mkdocs-material/reference/annotations/)
 
 === "Example"
+
     ```bash
     Click the plus sign --> # (1)!
     ```
@@ -106,6 +109,7 @@ Here's a list of commonly used MkDocs syntax for quick reference.
     1. This is an explanation text
 
 === "Code"
+
     ````
     ``` bash
     Click the plus sign --> # (1)!
@@ -117,18 +121,23 @@ Here's a list of commonly used MkDocs syntax for quick reference.
 ### [Text blocks](https://facelessuser.github.io/pymdown-extensions/extensions/blocks/plugins/details/)
 
 === "Example"
+
     !!! example "Simple Block"
 
     !!! example
+
         Content Block Text
 
     ??? example "Expandable Block"
+
         Content
 
     ???+ example "Opened Expandable Block"
+
         Content
 
 === "Code"
+
     ```
     !!! example "Simple Block"
 
@@ -145,13 +154,17 @@ Here's a list of commonly used MkDocs syntax for quick reference.
 ### [Tabbed content](https://facelessuser.github.io/pymdown-extensions/extensions/tabbed/)
 
 === "Example"
+
     === "Linux"
+
         linux-specific content
 
     === "Mac"
+
         mac-specific content
 
 === "Code"
+
     ```
     === "Linux"
 
@@ -165,9 +178,11 @@ Here's a list of commonly used MkDocs syntax for quick reference.
 ### [Buttons](https://squidfunk.github.io/mkdocs-material/reference/buttons/)
 
 === "Example"
+
     1. ++ctrl+c++ to quit the local server and stop the container
 
 === "Code"
+
     ```
     1. ++ctrl+c++ to quit the local server and stop the container
     ```
