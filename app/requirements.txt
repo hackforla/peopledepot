@@ -6,12 +6,13 @@ attrs==24.2.0
     #   referencing
 cffi==1.17.1
     # via cryptography
-coverage==7.6.8
+coverage[toml]==7.6.8
     # via pytest-cov
 cryptography==44.0.0
     # via pyjwt
-django==4.2.16
+django==4.2.17
     # via
+    #   -r requirements.in
     #   django-extensions
     #   django-linear-migrations
     #   django-phonenumber-field
@@ -20,17 +21,22 @@ django==4.2.16
     #   drf-jwt
     #   drf-spectacular
 django-extensions==3.2.3
+    # via -r requirements.in
 django-linear-migrations==2.16.0
-django-phonenumber-field==8.0.0
+    # via -r requirements.in
+django-phonenumber-field[phonenumbers]==8.0.0
+    # via -r requirements.in
 django-timezone-field==7.0
+    # via -r requirements.in
 djangorestframework==3.15.2
     # via
+    #   -r requirements.in
     #   drf-jwt
     #   drf-spectacular
 drf-jwt==1.19.2
+    # via -r requirements.in
 drf-spectacular==0.28.0
-exceptiongroup==1.2.2
-    # via pytest
+    # via -r requirements.in
 execnet==2.1.1
     # via pytest-xdist
 inflection==0.5.1
@@ -42,6 +48,7 @@ jsonschema==4.23.0
 jsonschema-specifications==2024.10.1
     # via jsonschema
 markdown==3.7
+    # via -r requirements.in
 packaging==24.2
     # via pytest
 phonenumbers==8.13.51
@@ -49,18 +56,24 @@ phonenumbers==8.13.51
 pluggy==1.5.0
     # via pytest
 psycopg2-binary==2.9.10
+    # via -r requirements.in
 pycparser==2.22
     # via cffi
-pyjwt==2.10.1
-    # via drf-jwt
+pyjwt[crypto]==2.10.1
+    # via
+    #   drf-jwt
+    #   pyjwt
 pytest==8.3.4
     # via
     #   pytest-cov
     #   pytest-django
     #   pytest-xdist
 pytest-cov==6.0.0
+    # via -r requirements.in
 pytest-django==4.9.0
+    # via -r requirements.in
 pytest-xdist==3.6.1
+    # via -r requirements.in
 pyyaml==6.0.2
     # via drf-spectacular
 referencing==0.35.1
@@ -73,12 +86,7 @@ rpds-py==0.22.1
     #   referencing
 sqlparse==0.5.2
     # via django
-tomli==2.2.1
-    # via
-    #   coverage
-    #   pytest
-typing-extensions==4.12.2
-    # via asgiref
 tzdata==2024.2
+    # via -r requirements.in
 uritemplate==4.1.1
     # via drf-spectacular
