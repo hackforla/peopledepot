@@ -3,6 +3,7 @@
 This guide aims to enable developers with little or no django experience to add django models and API endpoints to the project. Most code examples are followed by detailed explanations.
 
 ??? note "The developer will have exposure to the following in this document"
+
     - python
     - django
     - django rest framework
@@ -22,6 +23,7 @@ Let's start!
 ## Data model
 
 ??? note "TDD test"
+
     1. Write the test
 
         We would like the model to store these data, and to return the name property in the str function.
@@ -117,6 +119,7 @@ class RecurringEvent(AbstractBaseModel):  # (1)!
 1. Always override the `__str__` function to output something more meaningful than the default. It lets us do a quick test of the model by calling `str([model])`. It's also useful for the admin site model list view.
 
 ??? note "Updating models.py for many-to-many relationships"
+
     For adding many-to-many relationships with additional fields, such as `ended_on`, we can add
 
     ```python title="app/core/models.py" linenums="1"
@@ -165,6 +168,7 @@ This generates the database migration files
 ```
 
 ??? note "Test"
+
     Since we overrode the `__str__` function, we need to write a test for it.
 
     1. Add a fixture for the model
@@ -212,6 +216,7 @@ This generates the database migration files
         ```
 
 ??? note "Check and commit"
+
     This is a good place to pause, check, and commit progress.
 
     1. Run pre-commit checks
@@ -274,11 +279,13 @@ Check that everything's working and there are no issues, which should be the cas
     1. Having a misconfigured or buggy custom field could cause the admin site to crash and the developer will need to look at the debug message and resolve it.
 
 ??? note "Test"
+
     1. Feel free to write tests for the admin. There's no example for it yet.
     1. The reason there's no tests is that the admin site is independent of the API functionality, and we're mainly interested in the API part.
     1. When the time comes that we depend on the admin interface, we will need to have tests for the needed functionalities.
 
 ??? note "Check and commit"
+
     This is a good place to pause, check, and commit progress.
 
     1. Run pre-commit checks
@@ -305,6 +312,7 @@ This is code that serializes objects into strings for the API endpoints, and des
 In `app/core/api/serializers.py`
 
 ??? note "Updating serializers.py for many-to-many relationships"
+
     Following the many-to-many relationship between project and recurring event from above,
 
     Update the existing serializer classes
@@ -458,6 +466,7 @@ In `app/core/api/views.py`
         1. It doesn't control permissions the way we want, but we will fix it later.
 
 ??? note "Extended example: Query Params"
+
     This example shows how to add a filter params. It's done for the [user model](https://github.com/hackforla/peopledepot/issues/15) as a [requirement](https://github.com/hackforla/peopledepot/issues/10) from VRMS.
 
     1. Here's a more complex API doc example (this example is using the User model's ViewSet)
@@ -565,6 +574,7 @@ In `app/core/api/urls.py`
             - `reverse("recurring-event-list")` would return `http://localhost:8000/api/v1/recuring-events/`
 
 ??? note "Test"
+
     For the CRUD operations, since we're using `ModelViewSet` where all the actions are provided by `rest_framework` and well-tested, it's not necessary to have test cases for them. But here's an example of one.
 
     In `app/core/tests/test_api.py`
@@ -610,6 +620,7 @@ In `app/core/api/urls.py`
         ```
 
 ??? note "Test many-to-many relationships"
+
     In `app/core/tests/test_api.py`
 
     1. Import API URL
@@ -649,6 +660,7 @@ In `app/core/api/urls.py`
         ```
 
 ??? note "Check and commit"
+
     This is a good place to pause, check, and commit progress.
 
     1. Run pre-commit checks
@@ -665,4 +677,5 @@ In `app/core/api/urls.py`
         ```
 
 ??? note "Push the code and start a PR"
+
     Refer to the [Issues page section on "Push to upstream origin"](issues.md#push-to-upstream-origin-aka-your-fork) onward.
