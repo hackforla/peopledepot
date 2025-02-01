@@ -149,6 +149,12 @@ https://api.github.com/repos/[org]/[repo]',
     sdgs = models.ManyToManyField(
         "Sdg", related_name="projects", blank=True, through="ProjectSdgXref"
     )
+    program_areas = models.ManyToManyField(
+        "ProgramArea",
+        related_name="projects",
+        blank=True,
+        through="ProjectProgramAreaXref",
+    )
 
     def __str__(self):
         return f"{self.name}"
@@ -431,6 +437,11 @@ class SocMajor(AbstractBaseModel):
 
     def __str__(self):
         return self.title
+
+
+class ProjectProgramAreaXref(AbstractBaseModel):
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    program_area = models.ForeignKey(ProgramArea, on_delete=models.CASCADE)
 
 
 class ProjectSdgXref(AbstractBaseModel):
