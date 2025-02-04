@@ -28,11 +28,13 @@ To restore a database to its original state and remove any data manually added, 
 From Docker:
 
 === "Terminal"
+
     ```bash
     docker-compose down -v
     ```
 
 === "Docker Desktop"
+
     1. Open Containers section
     1. Delete people-db-1 container
     1. Open Images Tab
@@ -57,6 +59,7 @@ For apk, the cache directory is `/var/cache/apk/`. [APK wiki on local cache](htt
 For apt, the cache directory is `/var/cache/apt/`.
 
 ??? info "References"
+
     - [buildkit mount the cache](https://vsupalov.com/buildkit-cache-mount-dockerfile/)
     - [proper usage of mount cache](https://dev.doroshev.com/blog/docker-mount-type-cache/)
     - [mount cache reference](https://docs.docker.com/engine/reference/builder/#run---mounttypecache)
