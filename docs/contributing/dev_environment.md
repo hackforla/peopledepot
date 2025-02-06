@@ -19,6 +19,7 @@ Set up two-factor authentication on your account by following this [guide](https
 Before cloning your forked repository to your local machine, you must have Git installed. You can find instructions for installing Git for your operating system [**here**](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
 
 === "Windows"
+
     - we recommend [installing Windows Subsystem for Linux (WSL)](https://code.visualstudio.com/docs/remote/wsl). WSL provides a Linux-compatible environment that can prevent common errors during script execution.
 
     - After setting up WSL, install Git directly from the Linux terminal. This method can help avoid complications that sometimes arise when using Git Bash on Windows.
@@ -32,6 +33,7 @@ Before cloning your forked repository to your local machine, you must have Git i
         !!! tip "Feel free to reach out in the [Hack for LA Slack channel](https://hackforla.slack.com/messages/people-depot/) if you encounter any errors while running scripts on Windows"
 
 === "Mac"
+
     Please note that if you have a Mac the page offers several options (see other option, if you need to conserve hard drive space) including:
 
     - an “easiest” option (this version is fine for our use): This option would take just over 4GB.
@@ -132,6 +134,7 @@ upstream        https://github.com/hackforla/peopledepot.git (push)
 1. Make sure the Docker service is running
 
     === "Docker (Engine)"
+
         ```bash
         sudo systemctl status docker
         ```
@@ -139,6 +142,7 @@ upstream        https://github.com/hackforla/peopledepot.git (push)
         It will show `Active: active (running)` if it's running.
 
     === "Docker Desktop"
+
         1. Start Docker Desktop
         1. Run `docker container ls` to verify Docker Desktop is running. If it is not running you will get the message: `Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?`
 
