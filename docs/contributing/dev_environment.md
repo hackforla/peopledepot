@@ -63,6 +63,7 @@ You can fork the hackforla/peopledepot repository by clicking <a href="https://g
 . A fork is a copy of the repository that will be placed on your GitHub account.
 
 !!! note "It should create a URL that looks like the following -> `https://github.com/<your_GitHub_user_name>/peopledepot`"
+
     !!! example "For example -> `https://github.com/octocat/peopledepot`"
 
 !!! info "What you have created is a forked copy in a remote version on GitHub. It is not on your local machine yet"

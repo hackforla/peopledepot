@@ -125,6 +125,7 @@ Here's a list of commonly used MkDocs syntax for quick reference.
     !!! example "Simple Block"
 
     !!! example
+
         Content Block Text
 
     ??? example "Expandable Block"
