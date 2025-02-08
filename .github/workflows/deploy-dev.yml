@@ -32,5 +32,5 @@ jobs:
           IMAGE_TAG: dev
         run: |
           cd app
-          docker build -f Docerfile-aws -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker build -f Dockerfile-aws -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
