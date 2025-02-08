@@ -1,0 +1,63 @@
+# pull official base image
+FROM python:3.10-alpine
+
+# set work directory
+WORKDIR /usr/src/app
+
+# set environment variables
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
+# install system dependencies
+RUN \
+  apk add \
+  'graphviz=~12'
+
+# install font for graphviz
+COPY Roboto-Regular.ttf /root/.fonts/
+RUN fc-cache -f
+
+# install dependencies
+COPY ./requirements.txt .
+# hadolint ignore=DL3042
+RUN \
+  pip install uv==0.1.15 \
+  && uv pip install --system -r requirements.txt
+
+
+# copy project
+COPY . .
+
+# run entrypoint.sh
+# Use the official Python runtime image
+FROM python:3.13  
+ 
+# Create the app directory
+RUN mkdir /app
+ 
+# Set the working directory inside the container
+WORKDIR /app
+ 
+# Set environment variables 
+# Prevents Python from writing pyc files to disk
+ENV PYTHONDONTWRITEBYTECODE=1
+#Prevents Python from buffering stdout and stderr
+ENV PYTHONUNBUFFERED=1 
+ 
+# Upgrade pip
+RUN pip install --upgrade pip 
+ 
+# Copy the Django project  and install dependencies
+COPY requirements.txt  /app/
+ 
+# run this command to install all dependencies 
+RUN pip install --no-cache-dir -r requirements.txt
+ 
+# Copy the Django project to the container
+COPY . /app/
+ 
+# Expose the Django port
+EXPOSE 8000
+ 
+# Run Django’s development server
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
