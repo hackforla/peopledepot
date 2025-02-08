@@ -25,7 +25,7 @@ jobs:
 
 
       - name: Build, tag, and push the image to Amazon ECR
-        id: build-image
+        id: build-push-image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: people-depot-backend
@@ -34,3 +34,12 @@ jobs:
           cd app
           docker build -f Dockerfile-aws -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+
+
+      - name: Build, tag, and push the image to Amazon ECR
+        id: redeploy-service
+        env:
+          CLUSTER_NAME: incubator-prod
+          SERVICE_NAME: people-depot-backend-dev
+        run: |
+          aws ecs update-service --force-new-deployment --service $SERVICE_NAME --cluster $CLUSTER_NAME
