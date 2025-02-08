@@ -32,13 +32,13 @@ COPY . .
 COPY ./entrypoint-aws.sh .
 RUN sed -i 's/\r$//g' /usr/src/app/entrypoint-aws.sh \
   && chmod +x /usr/src/app/entrypoint-aws.sh
- 
+
 # Expose the Django port
 EXPOSE 8000
 
 
 # run entrypoint.sh
 ENTRYPOINT ["/usr/src/app/entrypoint-aws.sh"]
- 
+
 # Run Django’s development server
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
