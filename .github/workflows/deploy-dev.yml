@@ -15,7 +15,7 @@ jobs:
       - name: configure aws credentials
         uses: aws-actions/configure-aws-credentials@v3
         with:
-          role-to-assume: arn:aws:iam::035866691871:role/gha-incubator
+          role-to-assume: arn:aws:iam::035866691871:role/incubator-cicd-people-depot
           role-session-name: incubator-cicd-people-depot
           aws-region: us-west-2
 
