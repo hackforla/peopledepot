@@ -138,11 +138,6 @@ repos:
     rev: 0.7.22
     hooks:
       - id: mdformat
-        exclude: |
-          (?x)^(
-            docs/index.md$|
-            docs/license.md$
-          )
         additional_dependencies:
           - mdformat-mkdocs[recommended]>=4.4.1
 
