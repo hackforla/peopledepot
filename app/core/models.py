@@ -149,7 +149,7 @@ class Project(AbstractBaseModel):
 "Authorization: token [gh_PAT]" \
 https://api.github.com/repos/[org]/[repo]',
     )
-    current_status_id = models.ForeignKey(
+    current_status = models.ForeignKey(
         ProjectStatus, null=True, on_delete=models.PROTECT
     )
     hide = models.BooleanField(default=True)

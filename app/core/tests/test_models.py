@@ -206,8 +206,8 @@ def test_project_has_a_project_status_relationship(
     active_project_status.project_set.add(project_2)
     assert active_project_status.project_set.count() == 2
 
-    assert project_1.current_status_id == active_project_status
-    assert project_2.current_status_id == active_project_status
+    assert project_1.current_status == active_project_status
+    assert project_2.current_status == active_project_status
 
     active_project_status.project_set.remove(project_1)
     closed_project_status.project_set.add(project_1)
@@ -215,7 +215,7 @@ def test_project_has_a_project_status_relationship(
     assert active_project_status.project_set.count() == 1
     assert closed_project_status.project_set.count() == 1
 
-    assert project_1.current_status_id == closed_project_status
+    assert project_1.current_status == closed_project_status
 
 
 def test_url_type(url_type):
