@@ -6,6 +6,7 @@ from ..models import Event
 from ..models import ProgramArea
 from ..models import ProjectProgramAreaXref
 from ..models import ProjectSdgXref
+from ..models import ProjectStatus
 from ..models import Sdg
 
 pytestmark = pytest.mark.django_db
@@ -187,6 +188,34 @@ def test_project_sdg_relationship(project):
     assert project.sdgs.count() == 0
     assert not project.sdgs.contains(climate_action_sdg)
     assert not climate_action_sdg.projects.contains(project)
+
+
+def test_project_status(project_status):
+    assert str(project_status) == "This is a test project_status"
+    assert project_status.description == "This is a test project_status"
+
+
+def test_project_has_a_project_status_relationship(
+    project_1,
+    project_2,
+):
+    active_project_status = ProjectStatus.objects.get(name="Active")
+    closed_project_status = ProjectStatus.objects.get(name="Closed")
+
+    active_project_status.project_set.add(project_1)
+    active_project_status.project_set.add(project_2)
+    assert active_project_status.project_set.count() == 2
+
+    assert project_1.current_status == active_project_status
+    assert project_2.current_status == active_project_status
+
+    active_project_status.project_set.remove(project_1)
+    closed_project_status.project_set.add(project_1)
+
+    assert active_project_status.project_set.count() == 1
+    assert closed_project_status.project_set.count() == 1
+
+    assert project_1.current_status == closed_project_status
 
 
 def test_url_type(url_type):

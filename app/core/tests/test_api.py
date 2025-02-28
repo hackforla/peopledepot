@@ -29,6 +29,7 @@ STACK_ELEMENT_TYPE_URL = reverse("stack-element-type-list")
 SDGS_URL = reverse("sdg-list")
 AFFILIATION_URL = reverse("affiliation-list")
 CHECK_TYPE_URL = reverse("check-type-list")
+PROJECT_STATUSES_URL = reverse("project-status-list")
 SOC_MAJOR_URL = reverse("soc-major-list")
 URL_TYPE_URL = reverse("url-type-list")
 
@@ -371,6 +372,16 @@ def test_create_check_type(auth_client):
         "description": "This is a test description",
     }
     res = auth_client.post(CHECK_TYPE_URL, payload)
+    assert res.status_code == status.HTTP_201_CREATED
+    assert res.data["name"] == payload["name"]
+
+
+def test_create_project_status(auth_client):
+    payload = {
+        "name": "This is a api-test project status name",
+        "description": "This is a api-test project status description",
+    }
+    res = auth_client.post(PROJECT_STATUSES_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
     assert res.data["name"] == payload["name"]
 

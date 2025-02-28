@@ -16,6 +16,7 @@ from .models import PermissionType
 from .models import PracticeArea
 from .models import ProgramArea
 from .models import Project
+from .models import ProjectStatus
 from .models import Sdg
 from .models import Skill
 from .models import SocMajor
@@ -241,6 +242,11 @@ class AffiliationAdmin(admin.ModelAdmin):
 
 @admin.register(CheckType)
 class CheckTypeAdmin(admin.ModelAdmin):
+    list_display = ("name", "description")
+
+
+@admin.register(ProjectStatus)
+class ProjectStatusAdmin(admin.ModelAdmin):
     list_display = ("name", "description")
 
 
