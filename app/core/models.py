@@ -337,7 +337,7 @@ class UserPermission(AbstractBaseModel):
 
 class StackElementType(AbstractBaseModel):
     """
-    Stack element type used to update a shared data store across projects
+    Stack element type used to patch a shared data store across projects
     """
 
     name = models.CharField(max_length=255)
