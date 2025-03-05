@@ -11,6 +11,7 @@ from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
+from django.contrib.auth.models import Group
 from ..models import Affiliate
 from ..models import Affiliation
 from ..models import CheckType
@@ -36,6 +37,7 @@ from .serializers import CheckTypeSerializer
 from .serializers import EventSerializer
 from .serializers import FaqSerializer
 from .serializers import FaqViewedSerializer
+from .serializers import GroupSerializer
 from .serializers import LocationSerializer
 from .serializers import PermissionTypeSerializer
 from .serializers import PracticeAreaSerializer
@@ -253,6 +255,17 @@ class FaqViewSet(viewsets.ModelViewSet):
     serializer_class = FaqSerializer
     # use permission_classes until get_permissions fn provides sufficient limits to access >>
     permission_classes = [IsAuthenticated]
+
+@extend_schema_view(
+    list=extend_schema(description="Return a list of all FAQs"),
+    retrieve=extend_schema(description="Return the given FAQ"),
+)
+class GroupViewSet(viewsets.ModelViewSet):
+    queryset = Group.objects.all()
+    serializer_class = GroupSerializer
+    # use permission_classes until get_permissions fn provides sufficient limits to access >>
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
 
 
 @extend_schema_view(

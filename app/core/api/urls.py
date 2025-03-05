@@ -8,6 +8,8 @@ from .views import CheckTypeViewSet
 from .views import EventViewSet
 from .views import FaqViewedViewSet
 from .views import FaqViewSet
+from .views import GroupViewSet
+
 from .views import LocationViewSet
 from .views import PermissionTypeViewSet
 from .views import PracticeAreaViewSet
@@ -33,6 +35,7 @@ router.register(r"practice-areas", PracticeAreaViewSet, basename="practice-area"
 router.register(r"affiliates", AffiliateViewSet, basename="affiliate")
 router.register(r"faqs", FaqViewSet, basename="faq")
 router.register(r"faqs-viewed", FaqViewedViewSet, basename="faq-viewed")
+router.register(r"groups", GroupViewSet, basename="group")
 router.register(r"locations", LocationViewSet, basename="location")
 router.register(r"program-areas", ProgramAreaViewSet, basename="program-area")
 router.register(r"skills", SkillViewSet, basename="skill")
@@ -55,7 +58,7 @@ router.register(
 )
 urlpatterns = [
     path("me/", UserProfileAPIView.as_view(), name="my_profile"),
-    path("app/kb", UserAppKbApiView.as_view(), name="user_app_kb"),
+    path("users/app/kb", UserAppKbApiView.as_view(), name="user_app_kb"),
 ]
 
 urlpatterns += router.urls

@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
-
+import pprint
 import json
 import os
 from pathlib import Path
@@ -188,6 +188,7 @@ REST_FRAMEWORK = {
 }
 
 
+print("Debug cognito client id",COGNITO_CLIENT_ID)
 if COGNITO_CLIENT_ID:
     JWT_AUTH = {
         "JWT_PAYLOAD_GET_USERNAME_HANDLER": "core.utils.jwt.get_username_from_payload_handler",
@@ -198,6 +199,8 @@ if COGNITO_CLIENT_ID:
         "JWT_ISSUER": COGNITO_POOL_URL,
         "JWT_AUTH_HEADER_PREFIX": "Bearer",
     }
+print("JWT_AUTH")
+pprint.pprint(JWT_AUTH)
 
 GRAPH_MODELS = {"all_applications": True, "group_models": True}
 

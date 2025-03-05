@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from timezone_field.rest_framework import TimeZoneSerializerField
 
+from django.contrib.auth.models import Group
 from core.models import Affiliate
 from core.models import Affiliation
 from core.models import CheckType
@@ -239,6 +240,18 @@ class FaqViewedSerializer(serializers.ModelSerializer):
             "uuid",
             "faq",
         )
+
+
+class GroupSerializer(serializers.ModelSerializer):
+    """Used to retrieve faq info"""
+
+    class Meta:
+        model = Group
+        fields = (
+            "id",
+            "name",
+        )
+        read_only_fields = fields
 
 
 class LocationSerializer(serializers.ModelSerializer):

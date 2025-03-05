@@ -10,6 +10,7 @@ from core.models import UserPermission
 pytestmark = pytest.mark.django_db
 
 USER_PERMISSIONS_URL = reverse("user-permission-list")
+GROUP_URL = reverse("group-list")
 PROJECTS_URL = reverse("project-list")
 ME_URL = reverse("my_profile")
 USER_STATUS_TYPES_URL = reverse("user-status-type-list")

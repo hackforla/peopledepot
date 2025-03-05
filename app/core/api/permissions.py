@@ -12,6 +12,7 @@ class DenyAny(BasePermission):
 class UserAppKbPermission(BasePermission):
     def has_permission(self, request, view):
         user = request.user
+        print("debug user", user.__dict__)
         exists = user.groups.filter(name__startswith="kb_").exists()
         return exists
 
