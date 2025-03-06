@@ -19,12 +19,6 @@ We need to update the [Replace with TABLE NAME] table model to [Replace with REA
 
 - Update existing Django model
 
-- [ ] For any new FK below: if the FK table has not yet been created (i.e, if the FK Table Issue is still open), you will need to:
-
-    - [ ] Comment out the code after you create it
-    - [ ] Add an action item on the open FK Table Issue to uncomment the code line you commented out, when that issue's table is created
-    - [ ] Provide your file and line number as a permalink under resources in that issue
-
 - [ ] In the files indicated by Resource 1.01, Change the following items in the code
 
 | Current Name in code | Updated Name | Updated Type (may already be this type) | FK Table | FK Table Issue(s) |
@@ -36,6 +30,11 @@ We need to update the [Replace with TABLE NAME] table model to [Replace with REA
 | Name | Type | FK Table | FK Table Issue(s) |
 | ---- | ---- | -------- | ----------------- |
 | --   | --   | --       | --                |
+
+- [ ] For any new FK above: if the FK table hasn't been created yet (i.e, if the FK Table Issue is still open), you will need to:
+   - [ ] Comment out the relevant line(s) of code after you create them
+   - [ ] Add an action item on the open FK Table Issue to uncomment the code line(s) you commented out, when that issue's table is created
+   - [ ] Provide your file and line number(s) as a permalink under resources in that issue
 
 - [ ] Write a test for the new relationships this model will have with other models (e.g., creating a user and assigning them a set of permissions on a project) if any.
 
