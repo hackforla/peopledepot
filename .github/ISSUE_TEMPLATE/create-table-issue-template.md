@@ -44,11 +44,10 @@ A table and a model are the same thing
 
 ### Data Fields
 
-- [ ] For each FK below: if the FK table has not yet been created (i.e, if the issue for it under **Associated Tables** below is still open), you will need to
-
-    - [ ] Comment out the code after you create it
-    - [ ] Add an action item on the open issue to uncomment the code line you commented out when that issue's table is created.
-    - [ ] Provide your file and line number as a permalink under resources in that issue
+- [ ] For each FK below: if the FK table hasn't been created yet (i.e, if the issue for it under **Associated Tables** below is still open), you will need to:
+    - [ ] Comment out the relevant line(s) of code after you create them
+    - [ ] Add an action item on the open FK Table Issue to uncomment the code line(s) you commented out, when that issue's table is created
+    - [ ] Provide your file and line number(s) as a permalink under resources in that issue
 
 - [ ] Copied from spreadsheet and confirmed according to ERD
 
@@ -59,13 +58,13 @@ A table and a model are the same thing
 | --   | --   | --       | --                |
 
 - [ ] In ERD only (having items here indicates a mismatch, which requires a review)
-    - None \[or REPLACE WITH
+    - None \[or REPLACE WITH FIELD NAME - TYPE]
 
 ### Associated Tables
 
 1. Copied from spreadsheet and checked off according to ERD. (unchecked items indicate a mismatch between ERD and spreadsheet, which requires a review)
 
-    - [ ] \[ENTER ASSOCIATED TABLE(S) with relation in brackets - e.g., `(one-to-many)`\]
+    - [ ] \[ENTER NAME OF ASSOCIATED TABLE, relation in brackets (e.g., `(one-to-many)`), and #issue number\]
 
 1. In ERD only (having items here indicates a mismatch, which requires a review)
 
