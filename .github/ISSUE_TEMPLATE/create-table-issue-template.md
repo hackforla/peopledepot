@@ -28,9 +28,9 @@ A table and a model are the same thing
 ### Resources/Instructions
 
 - See [People Depot Resources wiki page](https://github.com/hackforla/peopledepot/wiki/Resources-and-Links) for links
-  - ERD
-  - Table and Field Definitions
-  - API Endpoint
+    - ERD
+    - Table and Field Definitions
+    - API Endpoint
 - See [this Wiki page](https://github.com/hackforla/peopledepot/wiki/Create-Table-issues-data-gathering-workflow) for instructions on the data-gathering workflow for Create Table issues
 - [ADD ANY OTHER RESOURCES/INSTRUCTIONS]
 
@@ -46,22 +46,24 @@ A table and a model are the same thing
 
 - [ ] Copied from spreadsheet and confirmed according to ERD
 
-Name | Type | FK Table | FK table Issue(s)
--- | -- | -- | --
--- | -- | -- | --
--- | -- | -- | --
--- | -- | -- | --
+| Name | Type | FK Table | FK table Issue(s) |
+| ---- | ---- | -------- | ----------------- |
+| --   | --   | --       | --                |
+| --   | --   | --       | --                |
+| --   | --   | --       | --                |
 
 - [ ] In ERD only (having items here indicates a mismatch, which requires a review)
-   - None
+    - None
 
 ### Associated Tables
 
 1. Copied from spreadsheet and checked off according to ERD. (unchecked items indicate a mismatch between ERD and spreadsheet, which requires a review)
-   - [ ] [ENTER ASSOCIATED TABLE with relation in brackets - e.g., (one-to-many)]
- 
+
+    - [ ] [ENTER ASSOCIATED TABLE with relation in brackets - e.g., (one-to-many)]
+
 1. In ERD only (having items here indicates a mismatch, which requires a review)
-   - None
+
+    - None
 
 #### Swagger Endpoint Link
 
