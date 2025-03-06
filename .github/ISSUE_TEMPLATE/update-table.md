@@ -21,15 +21,15 @@ We need to update the [Replace with TABLE NAME] table model to [Replace with REA
 
 - [ ] In the files indicated by Resource 1.01, Change the following items in the code
 
-Current Name in code | Updated Name | Updated Type (may already be this type) | FK Table | FK Table Issue(s)
--- | -- | -- | -- | --
--- | -- | -- | -- | --
+| Current Name in code | Updated Name | Updated Type (may already be this type) | FK Table | FK Table Issue(s) |
+| -------------------- | ------------ | --------------------------------------- | -------- | ----------------- |
+| --                   | --           | --                                      | --       | --                |
 
 - [ ] Add the following items in the code
 
-Name | Type | FK Table | FK Table Issue(s)
--- | -- | -- | --
--- | -- | -- | --
+| Name | Type | FK Table | FK Table Issue(s) |
+| ---- | ---- | -------- | ----------------- |
+| --   | --   | --       | --                |
 
 - [ ] Write a test for the new relationships this model will have with other models (e.g., creating a user and assigning them a set of permissions on a project) if any.
 
