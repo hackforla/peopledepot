@@ -20,9 +20,10 @@ We need to update the [Replace with TABLE NAME] table model to [Replace with REA
 - Update existing Django model
 
 - [ ] For any new FK below: if the FK table has not yet been created (i.e, if the FK Table Issue is still open), you will need to:
-   - [ ] Comment out the code after you create it 
-   - [ ] Add an action item on the open FK Table Issue to uncomment the code line you commented out, when that issue's table is created
-   - [ ] Provide your file and line number as a permalink under resources in that issue
+
+    - [ ] Comment out the code after you create it
+    - [ ] Add an action item on the open FK Table Issue to uncomment the code line you commented out, when that issue's table is created
+    - [ ] Provide your file and line number as a permalink under resources in that issue
 
 - [ ] In the files indicated by Resource 1.01, Change the following items in the code
 
