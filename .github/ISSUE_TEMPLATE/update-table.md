@@ -32,6 +32,7 @@ We need to update the [Replace with TABLE NAME] table model to [Replace with REA
 | --   | --   | --       | --                |
 
 - [ ] For any new FK above: if the FK table hasn't been created yet (i.e, if the FK Table Issue is still open), you will need to:
+
     - [ ] Comment out the relevant line(s) of code after you create them
     - [ ] Add an action item on the open FK Table Issue to uncomment the code line(s) you commented out, when that issue's table is created
     - [ ] Provide your file and line number(s) as a permalink under resources in that issue
