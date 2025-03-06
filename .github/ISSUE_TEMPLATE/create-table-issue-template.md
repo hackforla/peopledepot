@@ -8,7 +8,7 @@ assignees: ''
 
 ### Overview
 
-We need to create the [name of table] table so that we can update a shared data store across hackforla.org, vrms, civictechjobs, and tables (onboarding) project.
+We need to create the [ENTER NAME OF TABLE] table so that we can update a shared data store across hackforla.org, vrms, civictechjobs, and tables (onboarding) project.
 
 #### Details
 
@@ -16,29 +16,53 @@ A table and a model are the same thing
 
 ### Action Items
 
-- [ ] identify if table has a description (see spreadsheet under Resources)
-    - [ ] if not, reach out to PD leads
-- [ ] identify and document (below) what other tables are associated (see ERD under Resources)
-- [ ] create a single model in Django (defining schema)
+- [ ] Identify if table has a description (see spreadsheet under Resources)
+    - [ ] If not, reach out to PD leads
+- [ ] Identify and document (below) what other tables are associated (see ERD under Resources)
+- [ ] Create a single model in Django (defining schema)
 - [ ] Write a test for the relationships this model will have with other models (e.g., creating a user and assigning them a set of permissions on a project).
 - [ ] Write an API end point
-- [ ] write API unit tests
+- [ ] Write API unit tests
 - [ ] Document the endpoint in Swagger
 
 ### Resources/Instructions
 
 - See [People Depot Resources wiki page](https://github.com/hackforla/peopledepot/wiki/Resources-and-Links) for links
+  - ERD
+  - Table and Field Definitions
+  - API Endpoint
+- See [this Wiki page](https://github.com/hackforla/peopledepot/wiki/Create-Table-issues-data-gathering-workflow) for instructions on the data-gathering workflow for Create Table issues
+- [ADD ANY OTHER RESOURCES/INSTRUCTIONS]
 
 ### Items to document (referenced above)
 
+- [ADD ITEMS TO DOCUMENT]
+
 #### Description
 
--
+- [ENTER DESCRIPTION]
 
-#### Associated Tables
+### Data Fields
 
--
+- [ ] Copied from spreadsheet and confirmed according to ERD
+
+Name | Type | FK Table | FK table Issue(s)
+-- | -- | -- | --
+-- | -- | -- | --
+-- | -- | -- | --
+-- | -- | -- | --
+
+- [ ] In ERD only (having items here indicates a mismatch, which requires a review)
+   - None
+
+### Associated Tables
+
+1. Copied from spreadsheet and checked off according to ERD. (unchecked items indicate a mismatch between ERD and spreadsheet, which requires a review)
+   - [ ] [ENTER ASSOCIATED TABLE with relation in brackets - e.g., (one-to-many)]
+ 
+1. In ERD only (having items here indicates a mismatch, which requires a review)
+   - None
 
 #### Swagger Endpoint Link
 
--
+- [ADD SWAGGER ENDPOINT LINK]
