@@ -8,7 +8,7 @@ assignees: ''
 
 ### Overview
 
-We need to create the [ENTER NAME OF TABLE] table so that we can update a shared data store across hackforla.org, vrms, civictechjobs, and tables (onboarding) project.
+We need to create the [ADD NAME OF TABLE] table so that we can update a shared data store across hackforla.org, vrms, civictechjobs, and tables (onboarding) project.
 
 #### Details
 
@@ -40,9 +40,14 @@ A table and a model are the same thing
 
 #### Description
 
-- [ENTER DESCRIPTION]
+- [ADD DESCRIPTION]
 
 ### Data Fields
+
+- [ ] For each FK below: if the FK table has not yet been created (i.e, if the issue for it under **Associated Tables** below is still open), you will need to
+   - [ ] Comment out the code after you create it 
+   - [ ] Add an action item on the open issue to uncomment the code line you commented out when that issue's table is created. 
+   - [ ] Provide your file and line number as a permalink under resources in that issue
 
 - [ ] Copied from spreadsheet and confirmed according to ERD
 
@@ -53,16 +58,15 @@ A table and a model are the same thing
 | --   | --   | --       | --                |
 
 - [ ] In ERD only (having items here indicates a mismatch, which requires a review)
-    - None
+    - None [or REPLACE WITH 
 
 ### Associated Tables
 
 1. Copied from spreadsheet and checked off according to ERD. (unchecked items indicate a mismatch between ERD and spreadsheet, which requires a review)
 
-    - [ ] \[ENTER ASSOCIATED TABLE(S) with relation in brackets - e.g., `(one-to-many)`\]
+    - [ ] [ENTER ASSOCIATED TABLE(S) with relation in brackets - e.g., `(one-to-many)`\]
 
 1. In ERD only (having items here indicates a mismatch, which requires a review)
-
     - None
 
 #### Swagger Endpoint Link
