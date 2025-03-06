@@ -59,7 +59,7 @@ A table and a model are the same thing
 
 1. Copied from spreadsheet and checked off according to ERD. (unchecked items indicate a mismatch between ERD and spreadsheet, which requires a review)
 
-    - [ ] [ENTER ASSOCIATED TABLE(S) with relation in brackets - e.g., `(one-to-many)`]
+    - [ ] \[ENTER ASSOCIATED TABLE(S) with relation in brackets - e.g., `(one-to-many)`\]
 
 1. In ERD only (having items here indicates a mismatch, which requires a review)
 
