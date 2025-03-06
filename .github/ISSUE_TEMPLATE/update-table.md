@@ -8,8 +8,7 @@ assignees: ''
 
 ### Overview
 
-We need to update the [Replace with TABLE NAME] table model to [Replace with REASON]
-[possibly "to include new fields and have the correct names for fields."]
+We need to update the [Replace with TABLE NAME] table model to [Replace with REASON, possibly "to include new fields and have the correct names for fields."]
 
 #### Details
 
@@ -18,19 +17,19 @@ We need to update the [Replace with TABLE NAME] table model to [Replace with REA
 
 ### Action Items
 
-Update existing Django model
+- Update existing Django model
 
 - [ ] In the files indicated by Resource 1.01, Change the following items in the code
 
-    | Current name in code             | Updated Name | Updated Type (may already be this type) |
-    | -------------------------------- | ------------ | --------------------------------------- |
-    | [Replace with UPDATE TABLE DATA] |              |                                         |
+Current Name in code | Updated Name | Updated Type (may already be this type) | FK Table | FK Table Issue(s)
+-- | -- | -- | -- | --
+-- | -- | -- | -- | --
 
 - [ ] Add the following items in the code
 
-    | Name                     | Type |
-    | ------------------------ | ---- |
-    | [Replace with ADD TABLE] |      |
+Name | Type | FK Table | FK Table Issue(s)
+-- | -- | -- | --
+-- | -- | -- | --
 
 - [ ] Write a test for the new relationships this model will have with other models (e.g., creating a user and assigning them a set of permissions on a project) if any.
 
