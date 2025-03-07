@@ -19,6 +19,7 @@ from core.models import StackElement
 from core.models import StackElementType
 from core.models import User
 from core.models import UserPermission
+from core.models import Accomplishment
 
 
 class PracticeAreaSerializer(serializers.ModelSerializer):
@@ -361,3 +362,23 @@ class SocMajorSerializer(serializers.ModelSerializer):
         model = SocMajor
         fields = ("uuid", "occ_code", "title")
         read_only_fields = ("uuid", "created_at", "updated_at")
+
+class AccomplishmentSerializer(serializers.ModelSerializer):
+    """Used to retrieve recurring_event info"""
+
+    class Meta:
+        model = Accomplishment
+        fields = (
+            "project_id",
+            "title",
+            "description",
+            "url",
+            "accomplished_on",
+        )
+        read_only_fields = (
+            "project_id",
+            "title",
+            "description",
+            "url",
+            "accomplished_on",
+        )

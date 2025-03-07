@@ -28,6 +28,7 @@ from ..models import SocMajor
 from ..models import StackElement
 from ..models import StackElementType
 from ..models import UserPermission
+from ..models import Accomplishment
 from .serializers import AffiliateSerializer
 from .serializers import AffiliationSerializer
 from .serializers import CheckTypeSerializer
@@ -46,6 +47,7 @@ from .serializers import StackElementSerializer
 from .serializers import StackElementTypeSerializer
 from .serializers import UserPermissionSerializer
 from .serializers import UserSerializer
+from .serializers import Accomplishment
 
 
 class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
@@ -374,3 +376,16 @@ class SocMajorViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = SocMajor.objects.all()
     serializer_class = SocMajorSerializer
+
+@extend_schema_view(
+    list=extend_schema(description="Return a list of all the recurring events"),
+    create=extend_schema(description="Create a new recurring event"),
+    retrieve=extend_schema(description="Return the details of a recurring event"),
+    destroy=extend_schema(description="Delete a recurring event"),
+    update=extend_schema(description="Update a recurring event"),
+    partial_update=extend_schema(description="Patch a recurring event"),
+)
+class AccomplishmentViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = Accomplishment.objects.all()
+    serializer_class = AccomplishmentSerializer

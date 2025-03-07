@@ -4,8 +4,10 @@ from rest_framework import status
 
 from core.api.serializers import ProgramAreaSerializer
 from core.api.serializers import UserSerializer
+from core.api.serializers import AccomplishmentSerializer
 from core.models import ProgramArea
 from core.models import UserPermission
+from core.models import Accomplishment
 
 pytestmark = pytest.mark.django_db
 
@@ -27,6 +29,7 @@ SDG_URL = reverse("sdg-list")
 AFFILIATION_URL = reverse("affiliation-list")
 CHECK_TYPE_URL = reverse("check-type-list")
 SOC_MAJOR_URL = reverse("soc-major-list")
+Accomplishment_URL = reverse("accomplishment-list")
 
 CREATE_USER_PAYLOAD = {
     "username": "TestUserAPI",
@@ -381,3 +384,17 @@ def test_create_soc_major(auth_client):
     res = auth_client.post(SOC_MAJOR_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
     assert res.data["title"] == payload["title"]
+
+def test_accomplishment(auth_client, project):
+    """Test that we can create a accomplishment"""
+
+    payload = {
+        "project_id": "Test project_id",
+        "title": "Test title",
+        "description": "Test description",
+        "url": "http://redwind01.com",
+        "accomplished_on": "18:00:00",
+    }
+    res = auth_client.post(Accomplishment_URL, payload)
+    assert res.status_code == status.HTTP_201_CREATED
+    assert res.data["name"] == payload["name"]
