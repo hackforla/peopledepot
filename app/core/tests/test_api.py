@@ -165,6 +165,12 @@ def test_user_actions(client_name, action, endpoint, payload, expected_status, r
     action_fn = getattr(client, action)
     url = request.getfixturevalue(endpoint)
     res = action_fn(url, payload)
+    print(f"Status Code: {res.status_code}")
+    print(f"Response Content: {res.content.decode()}")  # If response is not JSON
+    try:
+        print(f"Response JSON: {res.json()}")  # If response is JSON
+    except Exception:
+        pass
     assert res.status_code == expected_status
 
 
