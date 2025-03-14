@@ -35,7 +35,7 @@ from ..models import UserStatusType
 def user_superuser_admin():
     return User.objects.create_user(
         username="AdminUser",
-        email_intake="adminuser@example.com",
+        # email_intake="adminuser@example.com",
         password="adminuser",
         is_superuser=True,
     )
@@ -117,6 +117,15 @@ def user2(django_user_model):
     return django_user_model.objects.create_user(
         username="TestUser2",
         email_intake="testuser2@email.com",
+        password="testpass",
+    )
+
+
+@pytest.fixture
+def user3(django_user_model):
+    return django_user_model.objects.create_user(
+        username="TestUser3",
+        email_intake="testuser3@email.com",
         password="testpass",
     )
 

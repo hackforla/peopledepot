@@ -1,8 +1,9 @@
 import uuid
 
+from django.apps import apps
 from django.contrib.auth.base_user import AbstractBaseUser
+from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
-from django.contrib.auth.models import UserManager
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
@@ -91,16 +92,14 @@ class User(PermissionsMixin, AbstractBaseUser, AbstractBaseModel):
     user_status = models.ForeignKey(
         "UserStatusType", null=True, on_delete=models.PROTECT
     )
-    # current_practice_area = models.ManyToManyField("PracticeArea")
-    # target_practice_area = models.ManyToManyField("PracticeArea")
     practice_area_primary = models.ManyToManyField(
-        "PracticeArea", related_name="primary_users"
+        "PracticeArea", related_name="primary_users", blank=True
     )
     practice_area_secondary = models.ManyToManyField(
-        "PracticeArea", related_name="secondary_users"
+        "PracticeArea", related_name="secondary_users", blank=True
     )
     practice_area_target_intake = models.ManyToManyField(
-        "PracticeArea", related_name="target_intake_users"
+        "PracticeArea", related_name="target_intake_users", blank=True
     )
 
     job_title_current_intake = models.CharField(max_length=255, blank=True)
