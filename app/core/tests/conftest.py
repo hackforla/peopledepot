@@ -34,7 +34,7 @@ from ..models import UserStatusType
 def user_superuser_admin():
     return User.objects.create_user(
         username="AdminUser",
-        email_intake="adminuser@example.com",
+        # email_intake="adminuser@example.com",
         password="adminuser",
         is_superuser=True,
     )
@@ -42,8 +42,12 @@ def user_superuser_admin():
 
 @pytest.fixture
 def user_permissions():
-    user1 = User.objects.create(username="TestUser1", email_intake="TestUser1@example.com")
-    user2 = User.objects.create(username="TestUser2", email_intake="TestUser2@example.com")
+    user1 = User.objects.create(
+        username="TestUser1", email_intake="TestUser1@example.com"
+    )
+    user2 = User.objects.create(
+        username="TestUser2", email_intake="TestUser2@example.com"
+    )
     project = Project.objects.create(name="Test Project")
     permission_type = PermissionType.objects.first()
     practice_area = PracticeArea.objects.first()
@@ -65,7 +69,8 @@ def user_permissions():
 @pytest.fixture
 def user_permission_admin_project():
     user = User.objects.create(
-        username="TestUser Admin Project", email_intake="TestUserAdminProject@example.com"
+        username="TestUser Admin Project",
+        email_intake="TestUserAdminProject@example.com",
     )
     project = Project.objects.create(name="Test Project Admin Project")
     permission_type = PermissionType.objects.filter(name=admin_project).first()
@@ -111,6 +116,15 @@ def user2(django_user_model):
     return django_user_model.objects.create_user(
         username="TestUser2",
         email_intake="testuser2@email.com",
+        password="testpass",
+    )
+
+
+@pytest.fixture
+def user3(django_user_model):
+    return django_user_model.objects.create_user(
+        username="TestUser3",
+        email_intake="testuser3@email.com",
         password="testpass",
     )
 

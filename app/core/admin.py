@@ -77,7 +77,6 @@ class UserAdmin(DefaultUserAdmin):
                     "practice_area_primary",
                     "practice_area_secondary",
                     "practice_area_target_intake",
-                    "referred_by",
                     "email_cognito",
                 )
             },
