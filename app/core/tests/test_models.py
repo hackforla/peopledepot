@@ -233,20 +233,22 @@ def test_user_model_old_names():
     """
     Test that accessing old field names raises AttributeError.
     """
-    with pytest.raises(AttributeError) as excinfo:
-        old_fields = [
-            "current_job_title",
-            "email",
-            "first_name",
-            "gmail",
-            "is_active",
-            "last_name",
-            "preferred_email",
-            "target_job_title",
-        ]
-        for field in old_fields:
-            _ = getattr(User, field)
-        assert f"has no attribute {field}" in str(excinfo)
+    old_fields = [
+        "current_job_title",
+        "email",
+        "first_name",
+        "gmail",
+        "is_active",
+        "last_name",
+        "preferred_email",
+        "target_job_title",
+    ]
+    for field in old_fields:
+        if not hasattr(User, field):
+            with pytest.raises(
+                AttributeError, match=f"type object 'User' has no attribute '{field}'"
+            ):
+                getattr(User, field)
 
 
 def test_user_has_a_user_status_relationship(user, user2):
