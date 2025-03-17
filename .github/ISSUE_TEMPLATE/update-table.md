@@ -31,12 +31,12 @@ We need to update the [Replace with TABLE NAME] table model to [Replace with REA
 | ---- | ---- | -------- | ----------------- |
 | --   | --   | --       | --                |
 
-- [ ] For any new FK above: if the FK table hasn't been created yet (i.e, if the FK Table Issue is still open), you will need to:
-
-    - [ ] Comment out the relevant line(s) of code after you create them
-    - [ ] Add an action item on the open FK Table Issue to uncomment the code line(s) you commented out, when that issue's table is created
-    - [ ] Provide your file and line number(s) as a permalink under resources in that issue
-
+- Check to see if open issues in `FK status` below
+   - [ ] If all Issues listed are closed (or there are no FKs), then skip the next 3 steps
+      - [ ] comment out the code after you create it (see FK Status below for open/closed state)
+      - [ ] add an action item on the open issue to uncomment the code line you commented out when that issue's table is created. 
+      - [ ] Provide your file and line number as a permalink under resources in that issue
+        
 - [ ] Write a test for the new relationships this model will have with other models (e.g., creating a user and assigning them a set of permissions on a project) if any.
 
 - [ ] Update API end point
@@ -46,6 +46,10 @@ We need to update the [Replace with TABLE NAME] table model to [Replace with REA
 - [ ] [generate a schema table definition](https://github.com/hackforla/peopledepot/issues/378#issuecomment-2493062821) and post it in a comment below and add a link to it in the Update Schema dependency issue.
 
 - [ ] Document the endpoint in ReDocs
+
+### FK status
+
+- [#ISSUE NUMBER OF ANY FK TABLE(S)]
 
 ### After PR has been approved
 
