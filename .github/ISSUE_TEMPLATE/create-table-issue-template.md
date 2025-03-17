@@ -53,13 +53,15 @@ A table and a model are the same thing
 | --   | --   | --       | --                |
 
 - [ ] In ERD only (having items here indicates a mismatch, which requires a review)
+
     - None [or REPLACE WITH FIELD NAME - TYPE]
 
 - Check to see if open issues in `FK status` below
-   - [ ] If all Issues listed are closed (or there are no FKs), then skip the next 3 steps
-      - [ ] comment out the code after you create it (see FK Status below for open/closed state)
-      - [ ] add an action item on the open issue to uncomment the code line you commented out when that issue's table is created. 
-      - [ ] Provide your file and line number as a permalink under resources in that issue
+
+    - [ ] If all Issues listed are closed (or there are no FKs), then skip the next 3 steps
+        - [ ] comment out the code after you create it (see FK Status below for open/closed state)
+        - [ ] add an action item on the open issue to uncomment the code line you commented out when that issue's table is created.
+        - [ ] Provide your file and line number as a permalink under resources in that issue
 
 ### FK status
 
