@@ -32,11 +32,12 @@ We need to update the [Replace with TABLE NAME] table model to [Replace with REA
 | --   | --   | --       | --                |
 
 - Check to see if open issues in `FK status` below
-   - [ ] If all Issues listed are closed (or there are no FKs), then skip the next 3 steps
-      - [ ] comment out the code after you create it (see FK Status below for open/closed state)
-      - [ ] add an action item on the open issue to uncomment the code line you commented out when that issue's table is created. 
-      - [ ] Provide your file and line number as a permalink under resources in that issue
-        
+
+    - [ ] If all Issues listed are closed (or there are no FKs), then skip the next 3 steps
+        - [ ] comment out the code after you create it (see FK Status below for open/closed state)
+        - [ ] add an action item on the open issue to uncomment the code line you commented out when that issue's table is created.
+        - [ ] Provide your file and line number as a permalink under resources in that issue
+
 - [ ] Write a test for the new relationships this model will have with other models (e.g., creating a user and assigning them a set of permissions on a project) if any.
 
 - [ ] Update API end point
