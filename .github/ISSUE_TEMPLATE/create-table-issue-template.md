@@ -44,12 +44,6 @@ A table and a model are the same thing
 
 ### Data Fields
 
-- [ ] For each FK below: if the FK table hasn't been created yet (i.e, if the issue for it under **Associated Tables** below is still open), you will need to:
-
-    - [ ] Comment out the relevant line(s) of code after you create them
-    - [ ] Add an action item on the open FK Table Issue to uncomment the code line(s) you commented out, when that issue's table is created
-    - [ ] Provide your file and line number(s) as a permalink under resources in that issue
-
 - [ ] Copied from spreadsheet and confirmed according to ERD
 
 | Name | Type | FK Table | FK Table Issue(s) |
@@ -60,6 +54,16 @@ A table and a model are the same thing
 
 - [ ] In ERD only (having items here indicates a mismatch, which requires a review)
     - None [or REPLACE WITH FIELD NAME - TYPE]
+
+- Check to see if open issues in `FK status` below
+   - [ ] If all Issues listed are closed (or there are no FKs), then skip the next 3 steps
+      - [ ] comment out the code after you create it (see FK Status below for open/closed state)
+      - [ ] add an action item on the open issue to uncomment the code line you commented out when that issue's table is created. 
+      - [ ] Provide your file and line number as a permalink under resources in that issue
+
+### FK status
+
+- [#ISSUE NUMBER OF ANY FK TABLE(S)]
 
 ### Associated Tables
 
