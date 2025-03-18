@@ -1,17 +1,20 @@
 asgiref==3.8.1
-    # via django
-attrs==24.2.0
+    # via
+    #   django
+    #   django-cors-headers
+attrs==25.3.0
     # via
     #   jsonschema
     #   referencing
 cffi==1.17.1
     # via cryptography
-coverage==7.6.8
+coverage==7.7.0
     # via pytest-cov
-cryptography==44.0.0
+cryptography==44.0.2
     # via pyjwt
-django==4.2.16
+django==4.2.20
     # via
+    #   django-cors-headers
     #   django-extensions
     #   django-linear-migrations
     #   django-phonenumber-field
@@ -19,11 +22,11 @@ django==4.2.16
     #   djangorestframework
     #   drf-jwt
     #   drf-spectacular
-django-cors-headers==4.5.0
+django-cors-headers==4.7.0
 django-extensions==3.2.3
-django-linear-migrations==2.16.0
+django-linear-migrations==2.17.0
 django-phonenumber-field==8.0.0
-django-timezone-field==7.0
+django-timezone-field==7.1
 djangorestframework==3.15.2
     # via
     #   drf-jwt
@@ -45,7 +48,7 @@ jsonschema-specifications==2024.10.1
 markdown==3.7
 packaging==24.2
     # via pytest
-phonenumbers==8.13.51
+phonenumbers==9.0.1
     # via django-phonenumber-field
 pluggy==1.5.0
     # via pytest
@@ -54,32 +57,34 @@ pycparser==2.22
     # via cffi
 pyjwt==2.10.1
     # via drf-jwt
-pytest==8.3.4
+pytest==8.3.5
     # via
     #   pytest-cov
     #   pytest-django
     #   pytest-xdist
 pytest-cov==6.0.0
-pytest-django==4.9.0
+pytest-django==4.10.0
 pytest-xdist==3.6.1
 pyyaml==6.0.2
     # via drf-spectacular
-referencing==0.35.1
+referencing==0.36.2
     # via
     #   jsonschema
     #   jsonschema-specifications
-rpds-py==0.22.1
+rpds-py==0.23.1
     # via
     #   jsonschema
     #   referencing
-sqlparse==0.5.2
+sqlparse==0.5.3
     # via django
 tomli==2.2.1
     # via
     #   coverage
     #   pytest
 typing-extensions==4.12.2
-    # via asgiref
-tzdata==2024.2
+    # via
+    #   asgiref
+    #   referencing
+tzdata==2025.1
 uritemplate==4.1.1
     # via drf-spectacular
