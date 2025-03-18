@@ -12,6 +12,7 @@ from core.models import PermissionType
 from core.models import PracticeArea
 from core.models import ProgramArea
 from core.models import Project
+from core.models import ProjectStatus
 from core.models import Sdg
 from core.models import Skill
 from core.models import SocMajor
@@ -104,6 +105,7 @@ class ProjectSerializer(serializers.ModelSerializer):
     """Used to retrieve project info"""
 
     sdgs = serializers.StringRelatedField(many=True)
+    program_areas = serializers.StringRelatedField(many=True)
 
     class Meta:
         model = Project
@@ -122,6 +124,7 @@ class ProjectSerializer(serializers.ModelSerializer):
             "image_hero",
             "image_icon",
             "sdgs",
+            "program_areas",
         )
         read_only_fields = (
             "uuid",
@@ -232,9 +235,11 @@ LocationSerializer._declared_fields["zip"] = serializers.CharField(source="zipco
 class ProgramAreaSerializer(serializers.ModelSerializer):
     """Used to retrieve program_area info"""
 
+    projects = serializers.StringRelatedField(many=True)
+
     class Meta:
         model = ProgramArea
-        fields = ("uuid", "name", "description", "image")
+        fields = ("uuid", "name", "description", "image", "projects")
         read_only_fields = ("uuid", "created_at", "updated_at")
 
 
@@ -358,6 +363,17 @@ class CheckTypeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CheckType
+        fields = ("uuid", "name", "description")
+        read_only_fields = ("uuid", "created_at", "updated_at")
+
+
+class ProjectStatusSerializer(serializers.ModelSerializer):
+    """
+    Used to retrieve project_status info
+    """
+
+    class Meta:
+        model = ProjectStatus
         fields = ("uuid", "name", "description")
         read_only_fields = ("uuid", "created_at", "updated_at")
 

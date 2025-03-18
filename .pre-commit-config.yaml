@@ -140,13 +140,11 @@ repos:
       - id: mdformat
         exclude: |
           (?x)^(
-            .github/ISSUE_TEMPLATE/|
             docs/index.md$|
             docs/license.md$
           )
         additional_dependencies:
-          - mdformat-admon
-          - mdformat-mkdocs[recommended]>=2.0.0
+          - mdformat-mkdocs[recommended]>=4.1.2
 
   - repo: local
     hooks:

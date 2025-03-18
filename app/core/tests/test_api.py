@@ -20,14 +20,16 @@ FAQS_URL = reverse("faq-list")
 FAQS_VIEWED_URL = reverse("faq-viewed-list")
 AFFILIATE_URL = reverse("affiliate-list")
 LOCATION_URL = reverse("location-list")
-PROGRAM_AREA_URL = reverse("program-area-list")
+PROGRAM_AREAS_URL = reverse("program-area-list")
 SKILL_URL = reverse("skill-list")
 STACK_ELEMENT_URL = reverse("stack-element-list")
 PERMISSION_TYPE = reverse("permission-type-list")
+PROJECTS_URL = reverse("project-list")
 STACK_ELEMENT_TYPE_URL = reverse("stack-element-type-list")
 SDGS_URL = reverse("sdg-list")
 AFFILIATION_URL = reverse("affiliation-list")
 CHECK_TYPE_URL = reverse("check-type-list")
+PROJECT_STATUSES_URL = reverse("project-status-list")
 SOC_MAJOR_URL = reverse("soc-major-list")
 URL_TYPE_URL = reverse("url-type-list")
 
@@ -261,7 +263,7 @@ def test_create_program_area(auth_client):
         "description": "About program area",
         "image": "http://www.imageurl.com",
     }
-    res = auth_client.post(PROGRAM_AREA_URL, payload)
+    res = auth_client.post(PROGRAM_AREAS_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
     assert res.data["name"] == payload["name"]
 
@@ -274,9 +276,9 @@ def test_list_program_area(auth_client):
         "description": "About program area",
         "image": "http://www.imageurl.com",
     }
-    res = auth_client.post(PROGRAM_AREA_URL, payload)
+    res = auth_client.post(PROGRAM_AREAS_URL, payload)
 
-    res = auth_client.get(PROGRAM_AREA_URL)
+    res = auth_client.get(PROGRAM_AREAS_URL)
 
     program_areas = ProgramArea.objects.all()
     expected_data = ProgramAreaSerializer(program_areas, many=True).data
@@ -374,6 +376,16 @@ def test_create_check_type(auth_client):
     assert res.data["name"] == payload["name"]
 
 
+def test_create_project_status(auth_client):
+    payload = {
+        "name": "This is a api-test project status name",
+        "description": "This is a api-test project status description",
+    }
+    res = auth_client.post(PROJECT_STATUSES_URL, payload)
+    assert res.status_code == status.HTTP_201_CREATED
+    assert res.data["name"] == payload["name"]
+
+
 def test_create_soc_major(auth_client):
     """Test that we can create a soc major"""
 
@@ -430,3 +442,24 @@ def test_create_user_status_type(auth_client):
     res = auth_client.post(USER_STATUS_TYPES_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
     assert res.data["name"] == payload["name"]
+
+
+def test_project_program_area_xref(auth_client, project, program_area):
+    def get_object(objects, target_uuid):
+        for obj in objects:
+            if str(obj["uuid"]) == str(target_uuid):
+                return obj
+        return None
+
+    project.program_areas.add(program_area)
+    proj_res = auth_client.get(PROJECTS_URL)
+    test_proj = get_object(proj_res.data, project.uuid)
+    assert test_proj is not None
+    assert len(test_proj["program_areas"]) == 1
+    assert program_area.name in test_proj["program_areas"]
+
+    program_area_res = auth_client.get(PROGRAM_AREAS_URL)
+    test_program_ar = get_object(program_area_res.data, program_area.uuid)
+    assert test_program_ar is not None
+    assert len(test_program_ar["projects"]) == 1
+    assert project.name in test_program_ar["projects"]

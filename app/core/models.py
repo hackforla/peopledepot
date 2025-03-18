@@ -116,6 +116,21 @@ class User(PermissionsMixin, AbstractBaseUser, AbstractBaseModel):
         return f"{self.email}"
 
 
+class ProjectStatus(AbstractBaseModel):
+    """
+    Dictionary of status options for project
+    """
+
+    name = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+
+    class Meta:
+        verbose_name_plural = "project statuses"
+
+    def __str__(self):
+        return f"{self.name}"
+
+
 class Project(AbstractBaseModel):
     """
     List of projects
@@ -137,7 +152,9 @@ class Project(AbstractBaseModel):
 "Authorization: token [gh_PAT]" \
 https://api.github.com/repos/[org]/[repo]',
     )
-    # current_status_id = models.ForeignKey("status", on_delete=models.PROTECT)
+    current_status = models.ForeignKey(
+        ProjectStatus, null=True, on_delete=models.PROTECT
+    )
     hide = models.BooleanField(default=True)
     # location_id = models.ForeignKey("location", on_delete=models.PROTECT)
     google_drive_id = models.CharField(max_length=255, blank=True)
@@ -148,6 +165,12 @@ https://api.github.com/repos/[org]/[repo]',
     image_icon = models.URLField(blank=True)
     sdgs = models.ManyToManyField(
         "Sdg", related_name="projects", blank=True, through="ProjectSdgXref"
+    )
+    program_areas = models.ManyToManyField(
+        "ProgramArea",
+        related_name="projects",
+        blank=True,
+        through="ProjectProgramAreaXref",
     )
 
     def __str__(self):
@@ -431,6 +454,11 @@ class SocMajor(AbstractBaseModel):
 
     def __str__(self):
         return self.title
+
+
+class ProjectProgramAreaXref(AbstractBaseModel):
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    program_area = models.ForeignKey(ProgramArea, on_delete=models.CASCADE)
 
 
 class ProjectSdgXref(AbstractBaseModel):

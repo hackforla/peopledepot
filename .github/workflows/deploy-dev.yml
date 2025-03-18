@@ -1,0 +1,45 @@
+name: deploy-dev
+on:
+  push:
+    branches:
+      - main
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: write
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: configure aws credentials
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          role-to-assume: arn:aws:iam::035866691871:role/incubator-cicd-people-depot
+          role-session-name: incubator-cicd-people-depot
+          aws-region: us-west-2
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+
+      - name: Build, tag, and push the image to Amazon ECR
+        id: build-push-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: people-depot-backend
+          IMAGE_TAG: dev
+        run: |
+          cd app
+          docker build -f Dockerfile-aws -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+
+
+      - name: Build, tag, and push the image to Amazon ECR
+        id: redeploy-service
+        env:
+          CLUSTER_NAME: incubator-prod
+          SERVICE_NAME: people-depot-backend-dev
+        run: |
+          aws ecs update-service --force-new-deployment --service $SERVICE_NAME --cluster $CLUSTER_NAME
