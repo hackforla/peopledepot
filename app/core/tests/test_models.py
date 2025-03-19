@@ -148,6 +148,11 @@ def test_check_type(check_type):
     assert check_type.description == "This is a test check_type description."
 
 
+def test_event_type(event_type):
+    assert str(event_type) == "This is a test event_type."
+    assert event_type.description == "This is a test event_type description."
+
+
 def test_soc_major(soc_major):
     assert str(soc_major) == "Test Soc Major"
 
