@@ -15,6 +15,7 @@ ME_URL = reverse("my_profile")
 USER_STATUS_TYPES_URL = reverse("user-status-type-list")
 USERS_URL = reverse("user-list")
 EVENTS_URL = reverse("event-list")
+EVENT_TYPES_URL = reverse("event-type-list")
 PRACTICE_AREA_URL = reverse("practice-area-list")
 FAQS_URL = reverse("faq-list")
 FAQS_VIEWED_URL = reverse("faq-viewed-list")
@@ -194,6 +195,13 @@ def test_create_event(auth_client, project):
         ],
     }
     res = auth_client.post(EVENTS_URL, payload)
+    assert res.status_code == status.HTTP_201_CREATED
+    assert res.data["name"] == payload["name"]
+
+
+def test_create_event_type(auth_client):
+    payload = {"name": "Test Event Type", "description": "Test Event Type Description"}
+    res = auth_client.post(EVENT_TYPES_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
     assert res.data["name"] == payload["name"]
 
