@@ -1,8 +1,9 @@
 import uuid
 
+from django.apps import apps
 from django.contrib.auth.base_user import AbstractBaseUser
+from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
-from django.contrib.auth.models import UserManager
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
@@ -25,6 +26,49 @@ class AbstractBaseModel(models.Model):
 
     def __repr__(self):
         return f"<{self.__class__.__name__} {self.uuid}>"
+
+
+class UserManager(BaseUserManager):
+    """
+    This is based on the UserManager from django 4.2
+    """
+
+    use_in_migrations = True
+
+    def _create_user(self, username, password, **extra_fields):
+        """
+        Create and save a user with the given username, email, and password.
+        """
+
+        # Lookup the real model class from the global app registry so this
+        # manager method can be used in migrations. This is fine because
+        # managers are by definition working on the real model.
+        if not username:
+            raise ValueError("The given username must be set")
+        global_user_model = apps.get_model(
+            self.model._meta.app_label, self.model._meta.object_name
+        )
+        username = global_user_model.normalize_username(username)
+        user = self.model(username=username, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_user(self, username, password=None, **extra_fields):
+        extra_fields.setdefault("is_staff", False)
+        extra_fields.setdefault("is_superuser", False)
+        return self._create_user(username, password, **extra_fields)
+
+    def create_superuser(self, username, password, **extra_fields):
+        extra_fields.setdefault("is_staff", True)
+        extra_fields.setdefault("is_superuser", True)
+
+        if extra_fields.get("is_staff") is not True:
+            raise ValueError("Superuser must have is_staff=True.")
+        if extra_fields.get("is_superuser") is not True:
+            raise ValueError("Superuser must have is_superuser=True.")
+
+        return self._create_user(username, password, **extra_fields)
 
 
 class User(PermissionsMixin, AbstractBaseUser, AbstractBaseModel):
@@ -53,7 +97,6 @@ class User(PermissionsMixin, AbstractBaseUser, AbstractBaseModel):
     username = models.CharField(
         "Username", max_length=255, unique=True, validators=[username_validator]
     )
-    is_active = models.BooleanField("Active", default=True)
 
     # Cognito-user related fields #
     # some additional fields which will be filled-out only for users
@@ -62,26 +105,37 @@ class User(PermissionsMixin, AbstractBaseUser, AbstractBaseModel):
 
     # Django-user related fields #
     # password is inherited from AbstractBaseUser
-    email = models.EmailField("Email address", blank=True)  # allow non-unique emails
+    email_intake = models.EmailField(
+        "Email address", blank=True
+    )  # allow non-unique emails
     is_staff = models.BooleanField(
         "staff status",
         default=False,
         help_text="Designates whether the user can log into this admin site.",
     )
 
-    first_name = models.CharField(max_length=255, blank=True)
-    last_name = models.CharField(max_length=255, blank=True)
-    gmail = models.EmailField(blank=True)
-    preferred_email = models.EmailField(blank=True)
+    name_first = models.CharField(max_length=255, blank=True)
+    name_last = models.CharField(max_length=255, blank=True)
+    email_gmail = models.EmailField(blank=True)
+    email_preferred = models.EmailField(blank=True)
+    email_cognito = models.EmailField(blank=True)
 
     user_status = models.ForeignKey(
         "UserStatusType", null=True, on_delete=models.PROTECT
     )
     # current_practice_area = models.ManyToManyField("PracticeArea")
-    # target_practice_area = models.ManyToManyField("PracticeArea")
+    practice_area_primary = models.ManyToManyField(
+        "PracticeArea", related_name="primary_users", blank=True
+    )
+    practice_area_secondary = models.ManyToManyField(
+        "PracticeArea", related_name="secondary_users", blank=True
+    )
+    practice_area_target_intake = models.ManyToManyField(
+        "PracticeArea", related_name="target_intake_users", blank=True
+    )
 
-    current_job_title = models.CharField(max_length=255, blank=True)
-    target_job_title = models.CharField(max_length=255, blank=True)
+    job_title_current_intake = models.CharField(max_length=255, blank=True)
+    job_title_target_intake = models.CharField(max_length=255, blank=True)
     current_skills = models.CharField(max_length=255, blank=True)
     target_skills = models.CharField(max_length=255, blank=True)
 
@@ -105,15 +159,15 @@ class User(PermissionsMixin, AbstractBaseUser, AbstractBaseModel):
     objects = UserManager()
 
     USERNAME_FIELD = "username"
-    EMAIL_FIELD = "preferred_email"
-    REQUIRED_FIELDS = ["email"]  # used only on createsuperuser
+    EMAIL_FIELD = "email_preferred"
+    REQUIRED_FIELDS = ["email_intake"]  # used only on createsuperuser
 
     @property
     def is_django_user(self):
         return self.has_usable_password()
 
     def __str__(self):
-        return f"{self.email}"
+        return f"{self.email_intake}"
 
 
 class ProjectStatus(AbstractBaseModel):
