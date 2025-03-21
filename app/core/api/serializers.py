@@ -5,6 +5,7 @@ from core.models import Affiliate
 from core.models import Affiliation
 from core.models import CheckType
 from core.models import Event
+from core.models import EventType
 from core.models import Faq
 from core.models import FaqViewed
 from core.models import Location
@@ -147,6 +148,23 @@ class EventSerializer(serializers.ModelSerializer):
             "video_conference_url",
             "additional_info",
             "project",
+        )
+        read_only_fields = (
+            "uuid",
+            "created_at",
+            "updated_at",
+        )
+
+
+class EventTypeSerializer(serializers.ModelSerializer):
+    """Used to retrieve event_type info"""
+
+    class Meta:
+        model = EventType
+        fields = (
+            "uuid",
+            "name",
+            "description",
         )
         read_only_fields = (
             "uuid",

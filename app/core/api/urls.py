@@ -4,6 +4,7 @@ from rest_framework import routers
 from .views import AffiliateViewSet
 from .views import AffiliationViewSet
 from .views import CheckTypeViewSet
+from .views import EventTypeViewSet
 from .views import EventViewSet
 from .views import FaqViewedViewSet
 from .views import FaqViewSet
@@ -29,6 +30,7 @@ router.register(r"user-permissions", UserPermissionViewSet, basename="user-permi
 router.register(r"users", UserViewSet, basename="user")
 router.register(r"projects", ProjectViewSet, basename="project")
 router.register(r"events", EventViewSet, basename="event")
+router.register(r"event-types", EventTypeViewSet, basename="event-type")
 router.register(r"practice-areas", PracticeAreaViewSet, basename="practice-area")
 router.register(r"affiliates", AffiliateViewSet, basename="affiliate")
 router.register(r"faqs", FaqViewSet, basename="faq")
