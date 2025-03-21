@@ -72,6 +72,7 @@ if COGNITO_AWS_REGION and COGNITO_USER_POOL:
 # Application definition
 
 INSTALLED_APPS = [
+    "corsheaders",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -81,6 +82,7 @@ INSTALLED_APPS = [
     # 3rd party
     "django_extensions",
     "rest_framework",
+    "rest_framework.authtoken",
     "drf_spectacular",
     "phonenumber_field",
     "timezone_field",
@@ -90,7 +92,21 @@ INSTALLED_APPS = [
     "data",
 ]
 
+# Allow specific origins (like your React dev and production URLs)
+CORS_ALLOWED_ORIGINS = os.getenv("CORS_ALLOWED_ORIGINS").split(" ")
+
+# Optional: Allow credentials (for cookies or tokens)
+CORS_ALLOW_CREDENTIALS = True
+
+# Optional: Control which headers are allowed
+CORS_ALLOW_HEADERS = [
+    "Authorization",
+    "Content-Type",
+]
+
+
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -194,8 +210,8 @@ REST_FRAMEWORK = {
 }
 
 JWT_AUTH = {
-    "JWT_PAYLOAD_GET_USERNAME_HANDLER": "core.utils.jwt.get_username_from_payload_handler",
-    "JWT_DECODE_HANDLER": "core.utils.jwt.cognito_jwt_decode_handler",
+    "JWT_PAYLOAD_GET_USERNAME_HANDLER": "core.utils.jwt_handler.get_username_from_payload_handler",
+    "JWT_DECODE_HANDLER": "core.utils.jwt_handler.cognito_jwt_decode_handler",
     "JWT_PUBLIC_KEY": rsa_keys,
     "JWT_ALGORITHM": "RS256",
     "JWT_AUDIENCE": COGNITO_AUDIENCE,
