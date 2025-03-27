@@ -17,6 +17,7 @@ from ..models import PracticeArea
 from ..models import ProgramArea
 from ..models import Project
 from ..models import ProjectStatus
+from ..models import ReferrerType
 from ..models import Sdg
 from ..models import Skill
 from ..models import SocMajor
@@ -334,4 +335,11 @@ def url_type():
 def user_status_type():
     return UserStatusType.objects.create(
         name="Test User Status Type", description="Test User Status Type description"
+    )
+
+
+@pytest.fixture
+def referrer_type():
+    return ReferrerType.objects.create(
+        name="Test Referrer Type", description="Test Referrer Type description"
     )
