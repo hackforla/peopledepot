@@ -3,6 +3,8 @@ import re
 import pytest
 
 from ..models import Event
+from ..models import PermissionHistory
+from ..models import PermissionType
 from ..models import PracticeArea
 from ..models import ProgramArea
 from ..models import ProjectProgramAreaXref
@@ -180,6 +182,28 @@ def test_soc_major_soc_minor_relationship(soc_major, soc_minor):
     assert soc_minor.soc_major is None
     soc_minor.soc_major = soc_major
     assert soc_minor.soc_major == soc_major
+
+
+def test_permission_history(user, project, permission_type1, practice_area):
+    permission_type = PermissionType.objects.filter(name="practiceLeadProject").first()
+    permission_history = PermissionHistory.objects.create(
+        user=user,
+        project=project,
+        permission_type=permission_type,
+        practice_area=practice_area,
+        created_by=user,
+        updated_by=user,
+    )
+
+    username = user.username
+    project_name = project.name
+    permission_type_name = permission_type.name
+    str_val = (
+        f"User: {username} / Permission Type: {permission_type_name}/"
+        + f" Project: {project_name}"
+    )
+
+    assert str_val == str(permission_history)
 
 
 def test_project_program_area_relationship(project):
