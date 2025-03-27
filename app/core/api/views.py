@@ -24,6 +24,7 @@ from ..models import PracticeArea
 from ..models import ProgramArea
 from ..models import Project
 from ..models import ProjectStatus
+from ..models import ReferrerType
 from ..models import Sdg
 from ..models import Skill
 from ..models import SocMajor
@@ -45,6 +46,7 @@ from .serializers import PracticeAreaSerializer
 from .serializers import ProgramAreaSerializer
 from .serializers import ProjectSerializer
 from .serializers import ProjectStatusSerializer
+from .serializers import ReferrerTypeSerializer
 from .serializers import SdgSerializer
 from .serializers import SkillSerializer
 from .serializers import SocMajorSerializer
@@ -438,3 +440,17 @@ class UserStatusTypeViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = UserStatusType.objects.all()
     serializer_class = UserStatusTypeSerializer
+
+
+@extend_schema_view(
+    list=extend_schema(description="Return a list of all the referrer types"),
+    create=extend_schema(description="Create a new referrer type"),
+    retrieve=extend_schema(description="Return the details of a referrer type"),
+    destroy=extend_schema(description="Delete a referrer type"),
+    update=extend_schema(description="Update a referrer type"),
+    partial_update=extend_schema(description="Patch a referrer type"),
+)
+class ReferrerTypeViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = ReferrerType.objects.all()
+    serializer_class = ReferrerTypeSerializer

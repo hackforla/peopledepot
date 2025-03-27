@@ -22,6 +22,7 @@ FAQS_VIEWED_URL = reverse("faq-viewed-list")
 AFFILIATE_URL = reverse("affiliate-list")
 LOCATION_URL = reverse("location-list")
 PROGRAM_AREAS_URL = reverse("program-area-list")
+REFERRER_TYPES_URL = reverse("referrer-type-list")
 SKILL_URL = reverse("skill-list")
 STACK_ELEMENT_URL = reverse("stack-element-list")
 PERMISSION_TYPE = reverse("permission-type-list")
@@ -471,3 +472,13 @@ def test_project_program_area_xref(auth_client, project, program_area):
     assert test_program_ar is not None
     assert len(test_program_ar["projects"]) == 1
     assert project.name in test_program_ar["projects"]
+
+
+def test_create_referrer_type(auth_client):
+    payload = {
+        "name": "Test Referrer Type",
+        "description": "Test Referrer Type description",
+    }
+    res = auth_client.post(REFERRER_TYPES_URL, payload)
+    assert res.status_code == status.HTTP_201_CREATED
+    assert res.data["name"] == payload["name"]
