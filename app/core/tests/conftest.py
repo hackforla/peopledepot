@@ -8,6 +8,7 @@ from ..models import Affiliate
 from ..models import Affiliation
 from ..models import CheckType
 from ..models import Event
+from ..models import EventType
 from ..models import Faq
 from ..models import FaqViewed
 from ..models import Location
@@ -287,6 +288,14 @@ def check_type():
     return CheckType.objects.create(
         name="This is a test check_type.",
         description="This is a test check_type description.",
+    )
+
+
+@pytest.fixture
+def event_type():
+    return EventType.objects.create(
+        name="This is a test event_type.",
+        description="This is a test event_type description.",
     )
 
 

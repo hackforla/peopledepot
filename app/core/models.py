@@ -448,6 +448,18 @@ class CheckType(AbstractBaseModel):
         return f"{self.name}"
 
 
+class EventType(AbstractBaseModel):
+    """
+    Dictionary of event types
+    """
+
+    name = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+
+    def __str__(self):
+        return f"{self.name}"
+
+
 class SocMajor(AbstractBaseModel):
     occ_code = models.CharField(max_length=255)
     title = models.CharField(max_length=255)

@@ -9,6 +9,7 @@ from .models import Affiliate
 from .models import Affiliation
 from .models import CheckType
 from .models import Event
+from .models import EventType
 from .models import Faq
 from .models import FaqViewed
 from .models import Location
@@ -242,6 +243,11 @@ class AffiliationAdmin(admin.ModelAdmin):
 
 @admin.register(CheckType)
 class CheckTypeAdmin(admin.ModelAdmin):
+    list_display = ("name", "description")
+
+
+@admin.register(EventType)
+class EventTypeAdmin(admin.ModelAdmin):
     list_display = ("name", "description")
 
 
