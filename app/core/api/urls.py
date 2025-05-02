@@ -14,6 +14,7 @@ from .views import PracticeAreaViewSet
 from .views import ProgramAreaViewSet
 from .views import ProjectStatusViewSet
 from .views import ProjectViewSet
+from .views import ReferrerTypeViewSet
 from .views import SdgViewSet
 from .views import SkillViewSet
 from .views import SocMajorViewSet
@@ -29,6 +30,7 @@ router = routers.SimpleRouter()
 router.register(r"user-permissions", UserPermissionViewSet, basename="user-permission")
 router.register(r"users", UserViewSet, basename="user")
 router.register(r"projects", ProjectViewSet, basename="project")
+router.register(r"referrer-types", ReferrerTypeViewSet, basename="referrer-type")
 router.register(r"events", EventViewSet, basename="event")
 router.register(r"event-types", EventTypeViewSet, basename="event-type")
 router.register(r"practice-areas", PracticeAreaViewSet, basename="practice-area")

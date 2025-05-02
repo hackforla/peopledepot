@@ -14,6 +14,7 @@ from core.models import PracticeArea
 from core.models import ProgramArea
 from core.models import Project
 from core.models import ProjectStatus
+from core.models import ReferrerType
 from core.models import Sdg
 from core.models import Skill
 from core.models import SocMajor
@@ -419,5 +420,14 @@ class UserStatusTypeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserStatusType
+        fields = ("uuid", "name", "description")
+        read_only_fields = ("uuid", "created_at", "updated_at")
+
+
+class ReferrerTypeSerializer(serializers.ModelSerializer):
+    """Used to retrieve referrer_type info"""
+
+    class Meta:
+        model = ReferrerType
         fields = ("uuid", "name", "description")
         read_only_fields = ("uuid", "created_at", "updated_at")

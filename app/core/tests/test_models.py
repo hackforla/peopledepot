@@ -229,3 +229,7 @@ def test_url_type(url_type):
 
 def test_user_status_type(user_status_type):
     assert str(user_status_type) == "Test User Status Type"
+
+
+def test_referrer_type(referrer_type):
+    assert str(referrer_type) == "Test Referrer Type"
