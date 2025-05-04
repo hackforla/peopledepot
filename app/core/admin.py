@@ -12,6 +12,7 @@ from .models import Event
 from .models import EventType
 from .models import Faq
 from .models import FaqViewed
+from .models import LeadershipType
 from .models import Location
 from .models import PermissionType
 from .models import PracticeArea
@@ -170,6 +171,11 @@ class Faq(admin.ModelAdmin):
 @admin.register(FaqViewed)
 class FaqViewed(admin.ModelAdmin):
     list_display = ("faq",)
+
+
+@admin.register(LeadershipType)
+class LeadershipType(admin.ModelAdmin):
+    list_display = ("name", "description")
 
 
 @admin.register(Location)
