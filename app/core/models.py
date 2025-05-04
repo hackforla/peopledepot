@@ -27,6 +27,18 @@ class AbstractBaseModel(models.Model):
         return f"<{self.__class__.__name__} {self.uuid}>"
 
 
+class LeadershipType(AbstractBaseModel):
+    """
+    Dictionary of leadership types to be associated with a project
+    """
+
+    name = models.CharField(max_length=255, unique=True)
+    description = models.TextField(blank=True)
+
+    def __str__(self):
+        return f"{self.name}"
+
+
 class User(PermissionsMixin, AbstractBaseUser, AbstractBaseModel):
     """
     Table contains cognito-users & django-users.
@@ -159,7 +171,9 @@ https://api.github.com/repos/[org]/[repo]',
     # location_id = models.ForeignKey("location", on_delete=models.PROTECT)
     google_drive_id = models.CharField(max_length=255, blank=True)
     # leads = models.ManyToManyField("lead")
-    # leadership_type_id = models.ForeignKey("leadership_type", on_delete=models.PROTECT)
+    leadership_type = models.ForeignKey(
+        LeadershipType, null=True, on_delete=models.SET_NULL
+    )
     image_logo = models.URLField(blank=True)
     image_hero = models.URLField(blank=True)
     image_icon = models.URLField(blank=True)
