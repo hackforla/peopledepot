@@ -154,6 +154,17 @@ def test_event_type(event_type):
     assert event_type.description == "This is a test event_type description."
 
 
+def test_leadership_type(leadership_type):
+    assert str(leadership_type) == "This is a test leadership_type"
+    assert leadership_type.description == "This is a test leadership_type description"
+
+
+def test_leadership_type_project_relationship(project, leadership_type):
+    assert project.leadership_type is None
+    project.leadership_type = leadership_type
+    assert project.leadership_type == leadership_type
+
+
 def test_soc_major(soc_major):
     assert str(soc_major) == "Test Soc Major"
 
