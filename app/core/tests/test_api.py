@@ -20,6 +20,7 @@ PRACTICE_AREA_URL = reverse("practice-area-list")
 FAQS_URL = reverse("faq-list")
 FAQS_VIEWED_URL = reverse("faq-viewed-list")
 AFFILIATE_URL = reverse("affiliate-list")
+LEADERSHIP_TYPES_URL = reverse("leadership-type-list")
 LOCATION_URL = reverse("location-list")
 PROGRAM_AREAS_URL = reverse("program-area-list")
 REFERRERS_URL = reverse("referrer-list")
@@ -248,6 +249,19 @@ def test_get_faq_viewed(auth_client, faq_viewed):
     res = auth_client.get(FAQS_VIEWED_URL)
 
     assert res.data[0]["faq"] == faq_viewed.faq.pk
+
+
+def test_create_leadership_type(auth_client):
+    """Test that we can create a leadership_type"""
+
+    payload = {
+        "name": "Create leadership_type test",
+        "description": "Create leadership_type test description",
+    }
+    res = auth_client.post(LEADERSHIP_TYPES_URL, payload)
+    assert res.status_code == status.HTTP_201_CREATED
+    assert res.data["name"] == payload["name"]
+    assert res.data["description"] == payload["description"]
 
 
 def test_create_location(auth_client):
