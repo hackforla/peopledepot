@@ -8,6 +8,7 @@ from core.models import Event
 from core.models import EventType
 from core.models import Faq
 from core.models import FaqViewed
+from core.models import LeadershipType
 from core.models import Location
 from core.models import PermissionType
 from core.models import PracticeArea
@@ -226,6 +227,19 @@ class FaqViewedSerializer(serializers.ModelSerializer):
             "uuid",
             "faq",
         )
+
+
+class LeadershipTypeSerializer(serializers.ModelSerializer):
+    """Used to retrieve leadership_type info"""
+
+    class Meta:
+        model = LeadershipType
+        fields = (
+            "uuid",
+            "name",
+            "description",
+        )
+        read_only_fields = ("uuid", "created_at", "updated_at")
 
 
 class LocationSerializer(serializers.ModelSerializer):
