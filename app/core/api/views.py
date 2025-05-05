@@ -18,6 +18,7 @@ from ..models import Event
 from ..models import EventType
 from ..models import Faq
 from ..models import FaqViewed
+from ..models import LeadershipType
 from ..models import Location
 from ..models import PermissionType
 from ..models import PracticeArea
@@ -40,6 +41,7 @@ from .serializers import EventSerializer
 from .serializers import EventTypeSerializer
 from .serializers import FaqSerializer
 from .serializers import FaqViewedSerializer
+from .serializers import LeadershipTypeSerializer
 from .serializers import LocationSerializer
 from .serializers import PermissionTypeSerializer
 from .serializers import PracticeAreaSerializer
@@ -247,6 +249,20 @@ class FaqViewSet(viewsets.ModelViewSet):
 class FaqViewedViewSet(mixins.CreateModelMixin, viewsets.ReadOnlyModelViewSet):
     queryset = FaqViewed.objects.all()
     serializer_class = FaqViewedSerializer
+    permission_classes = [IsAuthenticated]
+
+
+@extend_schema_view(
+    list=extend_schema(description="Return a list of all locations"),
+    create=extend_schema(description="Create a new location"),
+    retrieve=extend_schema(description="Return the details of a location"),
+    destroy=extend_schema(description="Delete a location"),
+    update=extend_schema(description="Update a location"),
+    partial_update=extend_schema(description="Patch a location"),
+)
+class LeadershipTypeViewSet(viewsets.ModelViewSet):
+    queryset = LeadershipType.objects.all()
+    serializer_class = LeadershipTypeSerializer
     permission_classes = [IsAuthenticated]
 
 
