@@ -172,7 +172,7 @@ https://api.github.com/repos/[org]/[repo]',
     google_drive_id = models.CharField(max_length=255, blank=True)
     # leads = models.ManyToManyField("lead")
     leadership_type = models.ForeignKey(
-        LeadershipType, null=True, on_delete=models.SET_NULL
+        LeadershipType, null=True, on_delete=models.PROTECT
     )
     image_logo = models.URLField(blank=True)
     image_hero = models.URLField(blank=True)
