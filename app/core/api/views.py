@@ -253,12 +253,12 @@ class FaqViewedViewSet(mixins.CreateModelMixin, viewsets.ReadOnlyModelViewSet):
 
 
 @extend_schema_view(
-    list=extend_schema(description="Return a list of all locations"),
-    create=extend_schema(description="Create a new location"),
-    retrieve=extend_schema(description="Return the details of a location"),
-    destroy=extend_schema(description="Delete a location"),
-    update=extend_schema(description="Update a location"),
-    partial_update=extend_schema(description="Patch a location"),
+    list=extend_schema(description="Return a list of all leadership types"),
+    create=extend_schema(description="Create a new leadership type"),
+    retrieve=extend_schema(description="Return the details of a leadership type"),
+    destroy=extend_schema(description="Delete a leadership type"),
+    update=extend_schema(description="Update a leadership type"),
+    partial_update=extend_schema(description="Patch a leadership type"),
 )
 class LeadershipTypeViewSet(viewsets.ModelViewSet):
     queryset = LeadershipType.objects.all()
