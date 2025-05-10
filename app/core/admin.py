@@ -174,7 +174,7 @@ class FaqViewed(admin.ModelAdmin):
 
 
 @admin.register(LeadershipType)
-class LeadershipType(admin.ModelAdmin):
+class LeadershipTypeAdmin(admin.ModelAdmin):
     list_display = ("name", "description")
 
 
