@@ -7,6 +7,7 @@ from ..models import ProgramArea
 from ..models import ProjectProgramAreaXref
 from ..models import ProjectSdgXref
 from ..models import ProjectStatus
+from ..models import ReferrerType
 from ..models import Sdg
 
 pytestmark = pytest.mark.django_db
@@ -233,3 +234,17 @@ def test_user_status_type(user_status_type):
 
 def test_referrer_type(referrer_type):
     assert str(referrer_type) == "Test Referrer Type"
+
+
+def test_referrer(referrer):
+    assert str(referrer) == "This is a test referrer"
+
+
+def test_referrer_has_a_referrer_type(referrer):
+    bootcamp_referrer_type = ReferrerType.objects.get(name="Bootcamp")
+    bootcamp_referrer_type.referrer_set.add(referrer)
+    assert bootcamp_referrer_type.referrer_set.count() == 1
+
+    assert referrer.referrer_type == bootcamp_referrer_type
+    bootcamp_referrer_type.referrer_set.remove(referrer)
+    assert bootcamp_referrer_type.referrer_set.count() == 0
