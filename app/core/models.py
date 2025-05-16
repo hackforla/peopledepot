@@ -509,3 +509,14 @@ class ReferrerType(AbstractBaseModel):
 
     def __str__(self):
         return f"{self.name}"
+
+
+class Referrer(AbstractBaseModel):
+    name = models.CharField(max_length=255)
+    url = models.URLField(blank=True)
+    referrer_type = models.ForeignKey(ReferrerType, null=True, on_delete=models.PROTECT)
+    contact_name = models.CharField(max_length=255)
+    contact_email = models.EmailField(blank=True)
+
+    def __str__(self):
+        return f"{self.name}"

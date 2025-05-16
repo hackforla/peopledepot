@@ -17,6 +17,7 @@ from ..models import PracticeArea
 from ..models import ProgramArea
 from ..models import Project
 from ..models import ProjectStatus
+from ..models import Referrer
 from ..models import ReferrerType
 from ..models import Sdg
 from ..models import Skill
@@ -342,4 +343,11 @@ def user_status_type():
 def referrer_type():
     return ReferrerType.objects.create(
         name="Test Referrer Type", description="Test Referrer Type description"
+    )
+
+
+@pytest.fixture
+def referrer():
+    return Referrer.objects.create(
+        name="This is a test referrer",
     )
