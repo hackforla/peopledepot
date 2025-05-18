@@ -22,6 +22,7 @@ FAQS_VIEWED_URL = reverse("faq-viewed-list")
 AFFILIATE_URL = reverse("affiliate-list")
 LOCATION_URL = reverse("location-list")
 PROGRAM_AREAS_URL = reverse("program-area-list")
+REFERRERS_URL = reverse("referrer-list")
 REFERRER_TYPES_URL = reverse("referrer-type-list")
 SKILL_URL = reverse("skill-list")
 STACK_ELEMENT_URL = reverse("stack-element-list")
@@ -481,4 +482,12 @@ def test_create_referrer_type(auth_client):
     }
     res = auth_client.post(REFERRER_TYPES_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
+    assert res.data["name"] == payload["name"]
+
+
+def test_create_referrer(auth_client):
+    payload = {"name": "This is a test referrer"}
+    res = auth_client.post(REFERRERS_URL, payload)
+    assert res.status_code == status.HTTP_201_CREATED
+    print(res.data)
     assert res.data["name"] == payload["name"]
