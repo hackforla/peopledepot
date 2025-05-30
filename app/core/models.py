@@ -87,7 +87,7 @@ class User(PermissionsMixin, AbstractBaseUser, AbstractBaseModel):
 
     # desired_roles = models.ManyToManyField("Role")
     # availability = models.IntegerField()  # not in ERD, is a separate table. Want to confirm to remove this
-    # referred_by = models.ForeignKey(referrer, on_delete=models.PROTECT) # FK
+    referrer = models.ForeignKey("Referrer", null=True, on_delete=models.PROTECT)  # FK
     # to referrer
 
     linkedin_account = models.CharField(max_length=255, blank=True)
