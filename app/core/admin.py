@@ -67,6 +67,7 @@ class UserAdmin(DefaultUserAdmin):
                     "target_job_title",
                     "current_skills",
                     "target_skills",
+                    "referrer",
                     "linkedin_account",
                     "github_handle",
                     "slack_id",
