@@ -491,3 +491,12 @@ def test_create_referrer(auth_client):
     assert res.status_code == status.HTTP_201_CREATED
     print(res.data)
     assert res.data["name"] == payload["name"]
+
+
+def test_assign_referrer_to_user(auth_client, user, referrer):
+    payload = {"referrer": str(referrer.uuid)}
+
+    res = auth_client.patch(f"{USERS_URL}{user.uuid}/", payload)
+
+    assert res.status_code == status.HTTP_200_OK
+    assert str(res.data["referrer"]) == str(referrer.uuid)

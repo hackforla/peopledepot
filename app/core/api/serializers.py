@@ -88,6 +88,7 @@ class UserSerializer(serializers.ModelSerializer):
             "target_job_title",
             "current_skills",
             "target_skills",
+            "referrer",
             "linkedin_account",
             "github_handle",
             "slack_id",
