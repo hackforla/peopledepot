@@ -22,6 +22,7 @@ FAQS_VIEWED_URL = reverse("faq-viewed-list")
 AFFILIATE_URL = reverse("affiliate-list")
 LOCATION_URL = reverse("location-list")
 PROGRAM_AREAS_URL = reverse("program-area-list")
+REFERRERS_URL = reverse("referrer-list")
 REFERRER_TYPES_URL = reverse("referrer-type-list")
 SKILL_URL = reverse("skill-list")
 STACK_ELEMENT_URL = reverse("stack-element-list")
@@ -482,3 +483,28 @@ def test_create_referrer_type(auth_client):
     res = auth_client.post(REFERRER_TYPES_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
     assert res.data["name"] == payload["name"]
+
+
+def test_create_referrer(auth_client, referrer_type):
+    payload = {
+        "name": "This is a test referrer",
+        "referrer_type": str(referrer_type.uuid),
+        "contact_name": "John Doe",
+        "contact_email": "john@example.com",
+    }
+
+    res = auth_client.post(REFERRERS_URL, payload)
+
+    assert res.status_code == status.HTTP_201_CREATED
+    assert res.data["name"] == payload["name"]
+    assert str(res.data["referrer_type"]) == str(referrer_type.uuid)
+    assert res.data["contact_name"] == payload["contact_name"]
+
+
+def test_assign_referrer_to_user(auth_client, user, referrer):
+    payload = {"referrer": str(referrer.uuid)}
+
+    res = auth_client.patch(f"{USERS_URL}{user.uuid}/", payload)
+
+    assert res.status_code == status.HTTP_200_OK
+    assert str(res.data["referrer"]) == str(referrer.uuid)

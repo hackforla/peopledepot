@@ -14,6 +14,7 @@ from core.models import PracticeArea
 from core.models import ProgramArea
 from core.models import Project
 from core.models import ProjectStatus
+from core.models import Referrer
 from core.models import ReferrerType
 from core.models import Sdg
 from core.models import Skill
@@ -87,6 +88,7 @@ class UserSerializer(serializers.ModelSerializer):
             "target_job_title",
             "current_skills",
             "target_skills",
+            "referrer",
             "linkedin_account",
             "github_handle",
             "slack_id",
@@ -430,4 +432,20 @@ class ReferrerTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = ReferrerType
         fields = ("uuid", "name", "description")
+        read_only_fields = ("uuid", "created_at", "updated_at")
+
+
+class ReferrerSerializer(serializers.ModelSerializer):
+    """Used to retrieve referrer info"""
+
+    class Meta:
+        model = Referrer
+        fields = (
+            "uuid",
+            "name",
+            "url",
+            "referrer_type",
+            "contact_name",
+            "contact_email",
+        )
         read_only_fields = ("uuid", "created_at", "updated_at")

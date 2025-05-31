@@ -18,6 +18,7 @@ from .models import PracticeArea
 from .models import ProgramArea
 from .models import Project
 from .models import ProjectStatus
+from .models import Referrer
 from .models import ReferrerType
 from .models import Sdg
 from .models import Skill
@@ -66,6 +67,7 @@ class UserAdmin(DefaultUserAdmin):
                     "target_job_title",
                     "current_skills",
                     "target_skills",
+                    "referrer",
                     "linkedin_account",
                     "github_handle",
                     "slack_id",
@@ -275,3 +277,8 @@ class UserStatusTypeAdmin(admin.ModelAdmin):
 @admin.register(ReferrerType)
 class ReferrerTypeAdmin(admin.ModelAdmin):
     list_display = ("name", "description")
+
+
+@admin.register(Referrer)
+class ReferrerAdmin(admin.ModelAdmin):
+    list_display = ("name", "url")

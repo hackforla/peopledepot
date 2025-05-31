@@ -87,7 +87,7 @@ class User(PermissionsMixin, AbstractBaseUser, AbstractBaseModel):
 
     # desired_roles = models.ManyToManyField("Role")
     # availability = models.IntegerField()  # not in ERD, is a separate table. Want to confirm to remove this
-    # referred_by = models.ForeignKey(referrer, on_delete=models.PROTECT) # FK
+    referrer = models.ForeignKey("Referrer", null=True, on_delete=models.PROTECT)  # FK
     # to referrer
 
     linkedin_account = models.CharField(max_length=255, blank=True)
@@ -159,7 +159,9 @@ https://api.github.com/repos/[org]/[repo]',
     # location_id = models.ForeignKey("location", on_delete=models.PROTECT)
     google_drive_id = models.CharField(max_length=255, blank=True)
     # leads = models.ManyToManyField("lead")
-    # leadership_type_id = models.ForeignKey("leadership_type", on_delete=models.PROTECT)
+    # leadership_type = models.ForeignKey(
+    #     LeadershipType, null=True, on_delete=models.PROTECT
+    # )
     image_logo = models.URLField(blank=True)
     image_hero = models.URLField(blank=True)
     image_icon = models.URLField(blank=True)
@@ -506,6 +508,17 @@ class UserStatusType(AbstractBaseModel):
 class ReferrerType(AbstractBaseModel):
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True)
+
+    def __str__(self):
+        return f"{self.name}"
+
+
+class Referrer(AbstractBaseModel):
+    name = models.CharField(max_length=255)
+    url = models.URLField(blank=True)
+    referrer_type = models.ForeignKey(ReferrerType, null=True, on_delete=models.PROTECT)
+    contact_name = models.CharField(max_length=255)
+    contact_email = models.EmailField(blank=True)
 
     def __str__(self):
         return f"{self.name}"
