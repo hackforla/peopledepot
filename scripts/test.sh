@@ -74,13 +74,13 @@ if [ "$CHECK_MIGRATIONS" = true ]; then
   echo "Checking for missing migrations..."
   set -x
   docker-compose exec -T web python manage.py makemigrations --check
-  set +x
+  { set +x; } 2>&-;
 fi
 
 if [ "$EXEC_COMMAND" = true ]; then
   set -x
   docker-compose exec -T web pytest -n "$N_CPU" $COVERAGE "${PYTEST_ARGS[@]}"
-  set +x
+  { set +x; } 2>&-;
 else
   echo docker-compose exec -T web pytest -n "$N_CPU" $COVERAGE "${PYTEST_ARGS[@]}"
 fi
