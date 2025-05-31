@@ -440,5 +440,12 @@ class ReferrerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Referrer
-        fields = ("uuid", "name", "url", "referrer_type")
+        fields = (
+            "uuid",
+            "name",
+            "url",
+            "referrer_type",
+            "contact_name",
+            "contact_email",
+        )
         read_only_fields = ("uuid", "created_at", "updated_at")

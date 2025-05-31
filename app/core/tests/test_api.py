@@ -485,12 +485,20 @@ def test_create_referrer_type(auth_client):
     assert res.data["name"] == payload["name"]
 
 
-def test_create_referrer(auth_client):
-    payload = {"name": "This is a test referrer"}
+def test_create_referrer(auth_client, referrer_type):
+    payload = {
+        "name": "This is a test referrer",
+        "referrer_type": str(referrer_type.uuid),
+        "contact_name": "John Doe",
+        "contact_email": "john@example.com",
+    }
+
     res = auth_client.post(REFERRERS_URL, payload)
+
     assert res.status_code == status.HTTP_201_CREATED
-    print(res.data)
     assert res.data["name"] == payload["name"]
+    assert str(res.data["referrer_type"]) == str(referrer_type.uuid)
+    assert res.data["contact_name"] == payload["contact_name"]
 
 
 def test_assign_referrer_to_user(auth_client, user, referrer):

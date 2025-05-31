@@ -347,7 +347,10 @@ def referrer_type():
 
 
 @pytest.fixture
-def referrer():
+def referrer(referrer_type):
     return Referrer.objects.create(
         name="This is a test referrer",
+        referrer_type=referrer_type,
+        contact_name="John Doe",
+        contact_email="john@example.com",
     )
