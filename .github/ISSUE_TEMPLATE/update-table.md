@@ -8,8 +8,7 @@ assignees: ''
 
 ### Overview
 
-We need to update the [Replace with TABLE NAME] table model to [Replace with REASON]
-[possibly "to include new fields and have the correct names for fields."]
+We need to update the [Replace with TABLE NAME] table model to [Replace with REASON, possibly "to include new fields and have the correct names for fields."]
 
 #### Details
 
@@ -18,19 +17,26 @@ We need to update the [Replace with TABLE NAME] table model to [Replace with REA
 
 ### Action Items
 
-Update existing Django model
+- Update existing Django model
 
 - [ ] In the files indicated by Resource 1.01, Change the following items in the code
 
-    | Current name in code             | Updated Name | Updated Type (may already be this type) |
-    | -------------------------------- | ------------ | --------------------------------------- |
-    | [Replace with UPDATE TABLE DATA] |              |                                         |
+| Current Name in code | Updated Name | Updated Type (may already be this type) | FK Table | FK Table Issue(s) |
+| -------------------- | ------------ | --------------------------------------- | -------- | ----------------- |
+| --                   | --           | --                                      | --       | --                |
 
 - [ ] Add the following items in the code
 
-    | Name                     | Type |
-    | ------------------------ | ---- |
-    | [Replace with ADD TABLE] |      |
+| Name | Type | FK Table | FK Table Issue(s) |
+| ---- | ---- | -------- | ----------------- |
+| --   | --   | --       | --                |
+
+- Check to see if open issues in `FK status` below
+
+    - [ ] If all Issues listed are closed (or there are no FKs), then skip the next 3 steps
+        - [ ] comment out the code after you create it (see FK Status below for open/closed state)
+        - [ ] add an action item on the open issue to uncomment the code line you commented out when that issue's table is created.
+        - [ ] Provide your file and line number as a permalink under resources in that issue
 
 - [ ] Write a test for the new relationships this model will have with other models (e.g., creating a user and assigning them a set of permissions on a project) if any.
 
@@ -41,6 +47,10 @@ Update existing Django model
 - [ ] [generate a schema table definition](https://github.com/hackforla/peopledepot/issues/378#issuecomment-2493062821) and post it in a comment below and add a link to it in the Update Schema dependency issue.
 
 - [ ] Document the endpoint in ReDocs
+
+### FK status
+
+- [#ISSUE NUMBER OF ANY FK TABLE(S)]
 
 ### After PR has been approved
 
