@@ -302,15 +302,15 @@ def test_user_practice_area_relationship(user, user2, user3):
     )
     design_practice_area = PracticeArea.objects.get(name="Design")
 
-    user.practice_area_primary.add(development_practice_area)
-    assert user.practice_area_primary.count() == 1
-    assert user.practice_area_primary.contains(development_practice_area)
-    assert development_practice_area.primary_users.contains(user)
+    user.practice_area_primary = development_practice_area
+    user.save()
+    assert user.practice_area_primary == development_practice_area
+    assert development_practice_area.primary_users.filter(uuid=user.uuid).exists()
 
-    user.practice_area_primary.remove(development_practice_area)
-    assert user.practice_area_primary.count() == 0
-    assert not user.practice_area_primary.contains(development_practice_area)
-    assert not development_practice_area.primary_users.contains(user)
+    user.practice_area_primary = None
+    user.save()
+    assert user.practice_area_primary is None
+    assert not development_practice_area.primary_users.filter(uuid=user.uuid).exists()
 
     user2.practice_area_secondary.add(project_management_practice_area)
     assert user2.practice_area_secondary.count() == 1

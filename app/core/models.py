@@ -123,9 +123,12 @@ class User(PermissionsMixin, AbstractBaseUser, AbstractBaseModel):
     user_status = models.ForeignKey(
         "UserStatusType", null=True, on_delete=models.PROTECT
     )
-    # current_practice_area = models.ManyToManyField("PracticeArea")
-    practice_area_primary = models.ManyToManyField(
-        "PracticeArea", related_name="primary_users", blank=True
+    practice_area_primary = models.ForeignKey(
+        "PracticeArea",
+        related_name="primary_users",
+        blank=True,
+        null=True,
+        on_delete=models.PROTECT,
     )
     practice_area_secondary = models.ManyToManyField(
         "PracticeArea", related_name="secondary_users", blank=True
