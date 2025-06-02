@@ -3,12 +3,15 @@ import re
 import pytest
 
 from ..models import Event
+from ..models import PracticeArea
 from ..models import ProgramArea
 from ..models import ProjectProgramAreaXref
 from ..models import ProjectSdgXref
 from ..models import ProjectStatus
 from ..models import ReferrerType
 from ..models import Sdg
+from ..models import User
+from ..models import UserStatusType
 
 pytestmark = pytest.mark.django_db
 
@@ -248,3 +251,83 @@ def test_referrer_has_a_referrer_type(referrer):
     assert referrer.referrer_type == bootcamp_referrer_type
     bootcamp_referrer_type.referrer_set.remove(referrer)
     assert bootcamp_referrer_type.referrer_set.count() == 0
+
+
+def test_user_model_old_names():
+    """
+    Test that accessing old field names raises AttributeError.
+    """
+    old_fields = [
+        "current_job_title",
+        "email",
+        "first_name",
+        "gmail",
+        "is_active",
+        "last_name",
+        "preferred_email",
+        "target_job_title",
+    ]
+    for field in old_fields:
+        if not hasattr(User, field):
+            with pytest.raises(
+                AttributeError, match=f"type object 'User' has no attribute '{field}'"
+            ):
+                getattr(User, field)
+
+
+def test_user_has_a_user_status_relationship(user, user2):
+    active_user_status = UserStatusType.objects.get(name="Active")
+    inactive_user_status = UserStatusType.objects.get(name="Inactive")
+    active_user_status.user_set.add(user)
+    active_user_status.user_set.add(user2)
+
+    assert active_user_status.user_set.count() == 2
+
+    assert user.user_status == active_user_status
+    assert user2.user_status == active_user_status
+
+    active_user_status.user_set.remove(user)
+    inactive_user_status.user_set.add(user)
+
+    assert active_user_status.user_set.count() == 1
+    assert inactive_user_status.user_set.count() == 1
+
+    assert user.user_status == inactive_user_status
+
+
+def test_user_practice_area_relationship(user, user2, user3):
+    development_practice_area = PracticeArea.objects.get(name="Development")
+    project_management_practice_area = PracticeArea.objects.get(
+        name="Project Management"
+    )
+    design_practice_area = PracticeArea.objects.get(name="Design")
+
+    user.practice_area_primary = development_practice_area
+    user.save()
+    assert user.practice_area_primary == development_practice_area
+    assert development_practice_area.primary_users.filter(uuid=user.uuid).exists()
+
+    user.practice_area_primary = None
+    user.save()
+    assert user.practice_area_primary is None
+    assert not development_practice_area.primary_users.filter(uuid=user.uuid).exists()
+
+    user2.practice_area_secondary.add(project_management_practice_area)
+    assert user2.practice_area_secondary.count() == 1
+    assert user2.practice_area_secondary.contains(project_management_practice_area)
+    assert project_management_practice_area.secondary_users.contains(user2)
+
+    user2.practice_area_secondary.remove(project_management_practice_area)
+    assert user2.practice_area_secondary.count() == 0
+    assert not user2.practice_area_secondary.contains(project_management_practice_area)
+    assert not project_management_practice_area.secondary_users.contains(user2)
+
+    user3.practice_area_target_intake.add(design_practice_area)
+    assert user3.practice_area_target_intake.count() == 1
+    assert user3.practice_area_target_intake.contains(design_practice_area)
+    assert design_practice_area.target_intake_users.contains(user3)
+
+    user3.practice_area_target_intake.remove(design_practice_area)
+    assert user3.practice_area_target_intake.count() == 0
+    assert not user3.practice_area_target_intake.contains(design_practice_area)
+    assert not design_practice_area.target_intake_users.contains(user3)
