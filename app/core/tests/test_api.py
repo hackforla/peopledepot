@@ -264,6 +264,17 @@ def test_create_leadership_type(auth_client):
     assert res.data["description"] == payload["description"]
 
 
+def test_project_leadership_type_relationship(auth_client, project_1, leadership_type):
+    res = auth_client.patch(
+        reverse("project-detail", args=[project_1.pk]),
+        {"leadership_type": leadership_type.pk},
+    )
+    assert res.status_code == status.HTTP_200_OK
+
+    res = auth_client.get(PROJECTS_URL)
+    assert res.data[0]["leadership_type"] == leadership_type.pk
+
+
 def test_create_location(auth_client):
     """Test that we can create a location"""
 

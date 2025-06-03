@@ -124,6 +124,7 @@ class ProjectSerializer(serializers.ModelSerializer):
             "github_org_id",
             "github_primary_repo_id",
             "hide",
+            "leadership_type",
             "google_drive_id",
             "image_logo",
             "image_hero",
