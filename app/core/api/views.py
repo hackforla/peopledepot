@@ -5,11 +5,14 @@ from drf_spectacular.utils import OpenApiParameter
 from drf_spectacular.utils import extend_schema
 from drf_spectacular.utils import extend_schema_view
 from rest_framework import mixins
+from rest_framework import status
 from rest_framework import viewsets
+from rest_framework.decorators import action
 from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.response import Response
 
 from ..models import Affiliate
 from ..models import Affiliation
@@ -18,6 +21,7 @@ from ..models import Event
 from ..models import EventType
 from ..models import Faq
 from ..models import FaqViewed
+from ..models import LeadershipType
 from ..models import Location
 from ..models import PermissionType
 from ..models import PracticeArea
@@ -41,6 +45,7 @@ from .serializers import EventSerializer
 from .serializers import EventTypeSerializer
 from .serializers import FaqSerializer
 from .serializers import FaqViewedSerializer
+from .serializers import LeadershipTypeSerializer
 from .serializers import LocationSerializer
 from .serializers import PermissionTypeSerializer
 from .serializers import PracticeAreaSerializer
@@ -148,6 +153,22 @@ class ProjectViewSet(viewsets.ModelViewSet):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
 
+    @action(methods=["patch"], detail=True, permission_classes=permission_classes)
+    def set_leadership_type(self, request, pk=None):
+        try:
+            project = Project.objects.get(pk=pk)
+            leadership_type = LeadershipType.objects.get(
+                pk=request.data["leadership_type"]
+            )
+            project.leadership_type = leadership_type
+            project.save()
+        except Exception as e:
+            return Response(
+                {"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
+        return Response(status=status.HTTP_202_ACCEPTED)
+
 
 @extend_schema_view(
     list=extend_schema(description="Return a list of all the events"),
@@ -249,6 +270,20 @@ class FaqViewSet(viewsets.ModelViewSet):
 class FaqViewedViewSet(mixins.CreateModelMixin, viewsets.ReadOnlyModelViewSet):
     queryset = FaqViewed.objects.all()
     serializer_class = FaqViewedSerializer
+    permission_classes = [IsAuthenticated]
+
+
+@extend_schema_view(
+    list=extend_schema(description="Return a list of all leadership types"),
+    create=extend_schema(description="Create a new leadership type"),
+    retrieve=extend_schema(description="Return the details of a leadership type"),
+    destroy=extend_schema(description="Delete a leadership type"),
+    update=extend_schema(description="Update a leadership type"),
+    partial_update=extend_schema(description="Patch a leadership type"),
+)
+class LeadershipTypeViewSet(viewsets.ModelViewSet):
+    queryset = LeadershipType.objects.all()
+    serializer_class = LeadershipTypeSerializer
     permission_classes = [IsAuthenticated]
 
 

@@ -11,6 +11,7 @@ from ..models import Event
 from ..models import EventType
 from ..models import Faq
 from ..models import FaqViewed
+from ..models import LeadershipType
 from ..models import Location
 from ..models import PermissionType
 from ..models import PracticeArea
@@ -206,6 +207,14 @@ def faq():
 @pytest.fixture
 def faq_viewed(faq):
     return FaqViewed.objects.create(faq=faq)
+
+
+@pytest.fixture
+def leadership_type():
+    return LeadershipType.objects.create(
+        name="This is a test leadership_type",
+        description="This is a test leadership_type description",
+    )
 
 
 @pytest.fixture
