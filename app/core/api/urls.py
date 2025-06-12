@@ -19,6 +19,7 @@ from .views import ReferrerViewSet
 from .views import SdgViewSet
 from .views import SkillViewSet
 from .views import SocMajorViewSet
+from .views import SocMinorViewSet
 from .views import StackElementTypeViewSet
 from .views import StackElementViewSet
 from .views import UrlTypeViewSet
@@ -56,6 +57,7 @@ router.register(
 router.register(r"check-types", CheckTypeViewSet, basename="check-type")
 router.register(r"project-statuses", ProjectStatusViewSet, basename="project-status")
 router.register(r"soc-majors", SocMajorViewSet, basename="soc-major")
+router.register(r"soc-minors", SocMinorViewSet, basename="soc-minor")
 router.register(r"url-types", UrlTypeViewSet, basename="url-type")
 router.register(
     r"user-status-types", UserStatusTypeViewSet, basename="user-status-type"

@@ -1,0 +1,148 @@
+from django.db import migrations
+
+from core.models import SocMinor
+from core.models import SocMajor
+
+
+def forward(__code__, __reverse_code__):
+    items = [
+        (1, "1", "11-1000", "Top Executives"),
+        (
+            2,
+            "1",
+            "11-2000",
+            "Advertising, Marketing, Promotions, Public Relations, and Sales Managers",
+        ),
+        (3, "1", "11-3000", "Operations Specialties Managers"),
+        (4, "1", "11-9000", "Other Management Occupations"),
+        (5, "2", "13-1000", "Business Operations Specialists"),
+        (6, "2", "13-2000", "Financial Specialists"),
+        (7, "3", "15-1200", "Computer Occupations"),
+        (8, "3", "15-2000", "Mathematical Science Occupations"),
+        (9, "4", "17-1000", "Architects, Surveyors, and Cartographers"),
+        (10, "4", "17-2000", "Engineers"),
+        (
+            11,
+            "4",
+            "17-3000",
+            "Drafters, Engineering Technicians, and Mapping Technicians",
+        ),
+        (12, "5", "19-1000", "Life Scientists"),
+        (13, "5", "19-2000", "Physical Scientists"),
+        (14, "5", "19-3000", "Social Scientists and Related Workers"),
+        (15, "5", "19-4000", "Life, Physical, and Social Science Technicians"),
+        (
+            16,
+            "5",
+            "19-5000",
+            "Occupational Health and Safety Specialists and Technicians",
+        ),
+        (
+            17,
+            "6",
+            "21-1000",
+            "Counselors, Social Workers, and Other Community and Social Service Specialists",
+        ),
+        (18, "6", "21-2000", "Religious Workers"),
+        (19, "7", "23-1000", "Lawyers, Judges, and Related Workers"),
+        (20, "7", "23-2000", "Legal Support Workers"),
+        (21, "8", "25-1000", "Postsecondary Teachers"),
+        (
+            22,
+            "8",
+            "25-2000",
+            "Preschool, Elementary, Middle, Secondary, and Special Education Teachers",
+        ),
+        (23, "8", "25-3000", "Other Teachers and Instructors"),
+        (24, "8", "25-4000", "Librarians, Curators, and Archivists"),
+        (25, "8", "25-9000", "Other Educational Instruction and Library Occupations"),
+        (26, "9", "27-1000", "Art and Design Workers"),
+        (27, "9", "27-2000", "Entertainers and Performers, Sports and Related Workers"),
+        (28, "9", "27-3000", "Media and Communication Workers"),
+        (29, "9", "27-4000", "Media and Communication Equipment Workers"),
+        (30, "10", "29-1000", "Healthcare Diagnosing or Treating Practitioners"),
+        (31, "10", "29-2000", "Health Technologists and Technicians"),
+        (
+            32,
+            "10",
+            "29-9000",
+            "Other Healthcare Practitioners and Technical Occupations",
+        ),
+        # (33, "11", "31-1100", "Home Health and Personal Care Aides; and Nursing Assistants, Orderlies, and Psychiatric Aides"),
+        # (34, "11", "31-2000", "Occupational Therapy and Physical Therapist Assistants and Aides"),
+        # (35, "11", "31-9000", "Other Healthcare Support Occupations"),
+        # (36, "12", "33-1000", "Supervisors of Protective Service Workers"),
+        # (37, "12", "33-2000", "Firefighting and Prevention Workers"),
+        # (38, "12", "33-3000", "Law Enforcement Workers"),
+        # (39, "12", "33-9000", "Other Protective Service Workers"),
+        # (40, "13", "35-1000", "Supervisors of Food Preparation and Serving Workers"),
+        # (41, "13", "35-2000", "Cooks and Food Preparation Workers"),
+        # (42, "13", "35-3000", "Food and Beverage Serving Workers"),
+        # (43, "13", "35-9000", "Other Food Preparation and Serving Related Workers"),
+        # (44, "14", "37-1000", "Supervisors of Building and Grounds Cleaning and Maintenance Workers"),
+        # (45, "14", "37-2000", "Building Cleaning and Pest Control Workers"),
+        # (46, "14", "37-3000", "Grounds Maintenance Workers"),
+        # (47, "15", "39-1000", "Supervisors of Personal Care and Service Workers"),
+        # (48, "15", "39-2000", "Animal Care and Service Workers"),
+        # (49, "15", "39-3000", "Entertainment Attendants and Related Workers"),
+        # (50, "15", "39-5000", "Personal Appearance Workers"),
+        # (51, "15", "39-6000", "Baggage Porters, Bellhops, and Concierges"),
+        # (52, "15", "39-7000", "Tour and Travel Guides"),
+        # (53, "16", "41-1000", "Supervisors of Sales Workers"),
+        # (54, "16", "41-2000", "Retail Sales Workers"),
+        # (55, "16", "41-3000", "Sales Representatives, Services"),
+        # (56, "16", "41-4000", "Sales Representatives, Wholesale and Manufacturing"),
+        # (57, "16", "41-9000", "Other Sales and Related Workers"),
+        # (58, "17", "43-1000", "Supervisors of Office and Administrative Support Workers"),
+        # (59, "17", "43-2000", "Communications Equipment Operators"),
+        # (60, "17", "43-3000", "Financial Clerks"),
+        # (61, "17", "43-4000", "Information and Record Clerks"),
+        # (62, "17", "43-5000", "Material Recording, Scheduling, Dispatching, and Distributing Workers"),
+        # (63, "17", "43-6000", "Secretaries and Administrative Assistants"),
+        # (64, "17", "43-9000", "Other Office and Administrative Support Workers"),
+        # (65, "18", "45-1000", "Supervisors of Farming, Fishing, and Forestry Workers"),
+        # (66, "18", "45-2000", "Agricultural Workers"),
+        # (67, "18", "45-4000", "Forest, Conservation, and Logging Workers"),
+        # (68, "19", "47-1000", "Supervisors of Construction and Extraction Workers"),
+        # (69, "19", "47-2000", "Construction Trades Workers"),
+        # (70, "19", "47-3000", "Helpers, Construction Trades"),
+        # (71, "19", "47-4000", "Other Construction and Related Workers"),
+        # (72, "19", "47-5000", "Extraction Workers"),
+        # (73, "20", "49-1000", "Supervisors of Installation, Maintenance, and Repair Workers"),
+        # (74, "20", "49-2000", "Electrical and Electronic Equipment Mechanics, Installers, and Repairers"),
+        # (75, "20", "49-3000", "Vehicle and Mobile Equipment Mechanics, Installers, and Repairers"),
+        # (76, "20", "49-9000", "Other Installation, Maintenance, and Repair Occupations"),
+        # (77, "21", "51-1000", "Supervisors of Production Workers"),
+        # (78, "21", "51-2000", "Assemblers and Fabricators"),
+        # (79, "21", "51-3000", "Food Processing Workers"),
+        # (80, "21", "51-4000", "Metal Workers and Plastic Workers"),
+        # (81, "21", "51-5100", "Printing Workers"),
+        # (82, "21", "51-6000", "Textile, Apparel, and Furnishings Workers"),
+        # (83, "21", "51-7000", "Woodworkers"),
+        # (84, "21", "51-8000", "Plant and System Operators"),
+        # (85, "21", "51-9000", "Other Production Occupations"),
+        # (86, "22", "53-1000", "Supervisors of Transportation and Material Moving Workers"),
+        # (87, "22", "53-2000", "Air Transportation Workers"),
+        # (88, "22", "53-3000", "Motor Vehicle Operators"),
+        # (89, "22", "53-4000", "Rail Transportation Workers"),
+        # (90, "22", "53-5000", "Water Transportation Workers"),
+        # (91, "22", "53-6000", "Other Transportation Workers"),
+        # (92, "22", "53-7000", "Material Moving Workers"),
+    ]
+    for id, soc_major_id, occ_code, title in items:
+        SocMinor.objects.create(
+            uuid=id,
+            soc_major=SocMajor.objects.get(uuid=int(soc_major_id)),
+            occ_code=occ_code,
+            title=title,
+        )
+
+
+def reverse(__code__, __reverse_code__):
+    SocMinor.objects.all().delete()
+
+
+class Migration(migrations.Migration):
+    dependencies = [("data", "0011_referrertype_seed")]
+
+    operations = [migrations.RunPython(forward, reverse)]

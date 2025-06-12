@@ -22,6 +22,7 @@ from ..models import ReferrerType
 from ..models import Sdg
 from ..models import Skill
 from ..models import SocMajor
+from ..models import SocMinor
 from ..models import StackElement
 from ..models import StackElementType
 from ..models import UrlType
@@ -322,6 +323,11 @@ def project_status():
 @pytest.fixture
 def soc_major():
     return SocMajor.objects.create(occ_code="22-2222", title="Test Soc Major")
+
+
+@pytest.fixture
+def soc_minor():
+    return SocMinor.objects.create(occ_code="22-2222", title="Test Soc Minor")
 
 
 @pytest.fixture
