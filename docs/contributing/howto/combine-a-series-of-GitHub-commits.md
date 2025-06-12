@@ -1,9 +1,11 @@
+# Combine a series of GitHub commits into one commit 
+
 This is a quick way of combining a series of GitHub commits into one:
 
 1. Assume we're at the head of the PR branch with 4 commits and want to combine the 4 commits into one.
 1. Soft reset to the earliest commit, with all the changes of the later commits staged.
     ```bash
-    git reset --soft Head~3
+    git reset --soft HEAD~3
     ```
 1. Amend the staged changed into the earliest commit.
     ```bash
