@@ -433,6 +433,6 @@ class Accomplishment(AbstractBaseModel):
     description = models.CharField(max_length=255)
     url = models.URLField()
     accomplished_on = models.DateTimeField()
-    # created_date = models.DateTimeField() already in abstrat base model
+    #created_date = models.DateTimeField() already in abstrat base model
     # last_updated = models
 
