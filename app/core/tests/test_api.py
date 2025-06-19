@@ -34,7 +34,7 @@ AFFILIATION_URL = reverse("affiliation-list")
 CHECK_TYPE_URL = reverse("check-type-list")
 PROJECT_STATUSES_URL = reverse("project-status-list")
 SOC_MAJOR_URL = reverse("soc-major-list")
-SOC_MINOR_URL = reverse("soc-minor-list")
+SOC_MINORS_URL = reverse("soc-minor-list")
 URL_TYPE_URL = reverse("url-type-list")
 
 CREATE_USER_PAYLOAD = {
@@ -416,7 +416,7 @@ def test_create_soc_minor(auth_client):
         "occ_code": "33-3333",
         "title": "Test soc minor",
     }
-    res = auth_client.post(SOC_MINOR_URL, payload)
+    res = auth_client.post(SOC_MINORS_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
     assert res.data["title"] == payload["title"]
     assert res.data["occ_code"] == payload["occ_code"]
@@ -424,12 +424,12 @@ def test_create_soc_minor(auth_client):
 
 def test_soc_minor_soc_major_relationship(auth_client, soc_minor, soc_major):
     res = auth_client.patch(
-        SOC_MINOR_URL + str(soc_minor.pk) + "/set_soc_major/",
+        SOC_MINORS_URL + str(soc_minor.pk) + "/set_soc_major/",
         {"soc_major": soc_major.pk},
     )
     assert res.status_code == status.HTTP_202_ACCEPTED
 
-    res = auth_client.get(SOC_MINOR_URL)
+    res = auth_client.get(SOC_MINORS_URL)
 
     soc_major_exists = False
 
