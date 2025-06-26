@@ -1,1 +1,1 @@
-0011_referrertype_seed
+0012_socminor_seed

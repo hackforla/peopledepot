@@ -158,6 +158,16 @@ def test_soc_major(soc_major):
     assert str(soc_major) == "Test Soc Major"
 
 
+def test_soc_minor(soc_minor):
+    assert str(soc_minor) == "Test Soc Minor"
+
+
+def test_soc_major_soc_minor_relationship(soc_major, soc_minor):
+    assert soc_minor.soc_major is None
+    soc_minor.soc_major = soc_major
+    assert soc_minor.soc_major == soc_major
+
+
 def test_project_program_area_relationship(project):
     workforce_development_program_area = ProgramArea.objects.get(
         name="Workforce Development"

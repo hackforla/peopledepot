@@ -468,6 +468,17 @@ class SocMajor(AbstractBaseModel):
         return self.title
 
 
+class SocMinor(AbstractBaseModel):
+    soc_major = models.ForeignKey(
+        SocMajor, blank=True, null=True, on_delete=models.CASCADE
+    )
+    occ_code = models.CharField(max_length=255)
+    title = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.title
+
+
 class ProjectProgramAreaXref(AbstractBaseModel):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     program_area = models.ForeignKey(ProgramArea, on_delete=models.CASCADE)
