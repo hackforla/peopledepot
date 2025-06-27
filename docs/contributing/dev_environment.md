@@ -1,5 +1,7 @@
 # Development Environment
 
+!!! tip "Please reach out in the [People Depot Slack channel](https://hackforla.slack.com/messages/people-depot/) if you have trouble setting up your development environment"
+
 ## Pre-requisites
 
 ### GitHub account
@@ -50,8 +52,6 @@ docker-compose -v
 ```
 
 The recommended installation method for your operating system can be found [here](https://docs.docker.com/install/).
-
-!!! tip "Feel free to reach out in the [Hack for LA Slack channel](https://hackforla.slack.com/messages/people-depot/) if you have trouble installing docker on your system"
 
 More on using Docker and the concepts of containerization:
 
