@@ -2,12 +2,12 @@ import pytest
 from django.urls import reverse
 from rest_framework import status
 
+from core.api.serializers import AccomplishmentSerializer
 from core.api.serializers import ProgramAreaSerializer
 from core.api.serializers import UserSerializer
-from core.api.serializers import AccomplishmentSerializer
+from core.models import Accomplishment
 from core.models import ProgramArea
 from core.models import UserPermission
-from core.models import Accomplishment
 
 pytestmark = pytest.mark.django_db
 
@@ -410,6 +410,7 @@ def test_create_soc_major(auth_client):
     assert res.status_code == status.HTTP_201_CREATED
     assert res.data["title"] == payload["title"]
 
+
 def test_accomplishment(auth_client, project):
     """Test that we can create a accomplishment"""
 
@@ -423,6 +424,7 @@ def test_accomplishment(auth_client, project):
     res = auth_client.post(Accomplishment_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
     assert res.data["name"] == payload["name"]
+
 
 def test_project_sdg_xref(auth_client, project, sdg, sdg1):
     def get_object(objects, target_uuid):

@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from timezone_field.rest_framework import TimeZoneSerializerField
 
+from core.models import Accomplishment
 from core.models import Affiliate
 from core.models import Affiliation
 from core.models import CheckType
@@ -24,7 +25,6 @@ from core.models import StackElementType
 from core.models import UrlType
 from core.models import User
 from core.models import UserPermission
-from core.models import Accomplishment
 from core.models import UserStatusType
 
 
@@ -408,8 +408,9 @@ class SocMajorSerializer(serializers.ModelSerializer):
         fields = ("uuid", "occ_code", "title")
         read_only_fields = ("uuid", "created_at", "updated_at")
 
+
 class AccomplishmentSerializer(serializers.ModelSerializer):
-    """Used to retrieve recurring_event info""" # Note: This comment seems off, it should be about accomplishment info
+    """Used to retrieve recurring_event info"""  # Note: This comment seems off, it should be about accomplishment info
 
     class Meta:
         model = Accomplishment
@@ -427,6 +428,7 @@ class AccomplishmentSerializer(serializers.ModelSerializer):
             "url",
             "accomplished_on",
         )
+
 
 class UrlTypeSerializer(serializers.ModelSerializer):
     """Used to retrieve url_type info"""

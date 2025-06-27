@@ -467,6 +467,7 @@ class SocMajor(AbstractBaseModel):
     def __str__(self):
         return self.title
 
+
 class Accomplishment(AbstractBaseModel):
     project_id = models.ForeignKey(Project, on_delete=models.DO_NOTHING)
     title = models.CharField(max_length=255)

@@ -417,6 +417,7 @@ class SocMajorViewSet(viewsets.ModelViewSet):
     queryset = SocMajor.objects.all()
     serializer_class = SocMajorSerializer
 
+
 @extend_schema_view(
     list=extend_schema(description="Return a list of all the accomplishments"),
     create=extend_schema(description="Create a new accomplishment"),
@@ -429,6 +430,7 @@ class AccomplishmentViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = Accomplishment.objects.all()
     serializer_class = AccomplishmentSerializer
+
 
 @extend_schema_view(
     list=extend_schema(description="Return a list of all the url types"),
