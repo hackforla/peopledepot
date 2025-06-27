@@ -35,7 +35,7 @@ from ..models import StackElementType
 from ..models import UrlType
 from ..models import UserPermission
 from ..models import UserStatusType
-from .serializers import Accomplishment
+from .serializers import AccomplishmentSerializer
 from .serializers import AffiliateSerializer
 from .serializers import AffiliationSerializer
 from .serializers import CheckTypeSerializer
