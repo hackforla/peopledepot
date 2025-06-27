@@ -8,13 +8,15 @@ The pre-commit checks should be fast while the pre-push hooks will take longer s
 
 It's recommended to install "global" tools via pipx, which installs packages in an isolated environment rather than the global python environment.
 
-1. [Install pipx](https://pipx.pypa.io/latest/installation/)
+1. [Install uv](tools/uv.md)
 
 1. Install pre-commit
 
     ```bash
-    pipx install pre-commit
+    uv tool install pre-commit --with pre-commit-uv
     ```
+
+    [Source guide](https://adamj.eu/tech/2025/05/07/pre-commit-install-uv/)
 
 1. Add the hook to git
 
