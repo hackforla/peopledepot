@@ -9,6 +9,7 @@ from .models import Affiliate
 from .models import Affiliation
 from .models import CheckType
 from .models import Event
+from .models import EventType
 from .models import Faq
 from .models import FaqViewed
 from .models import Location
@@ -16,12 +17,17 @@ from .models import PermissionType
 from .models import PracticeArea
 from .models import ProgramArea
 from .models import Project
+from .models import ProjectStatus
+from .models import Referrer
+from .models import ReferrerType
 from .models import Sdg
 from .models import Skill
 from .models import SocMajor
 from .models import StackElement
 from .models import StackElementType
+from .models import UrlType
 from .models import User
+from .models import UserStatusType
 
 
 class UserCreationForm(DefaultUserCreationForm):
@@ -61,6 +67,7 @@ class UserAdmin(DefaultUserAdmin):
                     "target_job_title",
                     "current_skills",
                     "target_skills",
+                    "referrer",
                     "linkedin_account",
                     "github_handle",
                     "slack_id",
@@ -242,6 +249,36 @@ class CheckTypeAdmin(admin.ModelAdmin):
     list_display = ("name", "description")
 
 
+@admin.register(EventType)
+class EventTypeAdmin(admin.ModelAdmin):
+    list_display = ("name", "description")
+
+
+@admin.register(ProjectStatus)
+class ProjectStatusAdmin(admin.ModelAdmin):
+    list_display = ("name", "description")
+
+
 @admin.register(SocMajor)
 class SocMajorAdmin(admin.ModelAdmin):
     list_display = ("occ_code", "title")
+
+
+@admin.register(UrlType)
+class UrlTypeAdmin(admin.ModelAdmin):
+    list_display = ("name", "description")
+
+
+@admin.register(UserStatusType)
+class UserStatusTypeAdmin(admin.ModelAdmin):
+    list_display = ("name", "description")
+
+
+@admin.register(ReferrerType)
+class ReferrerTypeAdmin(admin.ModelAdmin):
+    list_display = ("name", "description")
+
+
+@admin.register(Referrer)
+class ReferrerAdmin(admin.ModelAdmin):
+    list_display = ("name", "url")

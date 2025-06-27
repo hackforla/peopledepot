@@ -1,4 +1,3 @@
-black
 django~=4.2.0
 django-extensions
 django-linear-migrations
@@ -7,10 +6,9 @@ django-timezone-field
 djangorestframework
 drf-jwt
 drf-spectacular
-flake8
-isort
 markdown
 psycopg2-binary
 pytest-cov
 pytest-django
+pytest-xdist
 tzdata

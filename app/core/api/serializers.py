@@ -5,6 +5,7 @@ from core.models import Affiliate
 from core.models import Affiliation
 from core.models import CheckType
 from core.models import Event
+from core.models import EventType
 from core.models import Faq
 from core.models import FaqViewed
 from core.models import Location
@@ -12,14 +13,19 @@ from core.models import PermissionType
 from core.models import PracticeArea
 from core.models import ProgramArea
 from core.models import Project
+from core.models import ProjectStatus
+from core.models import Referrer
+from core.models import ReferrerType
 from core.models import Sdg
 from core.models import Skill
 from core.models import SocMajor
 from core.models import StackElement
 from core.models import StackElementType
+from core.models import UrlType
 from core.models import User
 from core.models import UserPermission
 from core.models import Accomplishment
+from core.models import UserStatusType
 
 
 class PracticeAreaSerializer(serializers.ModelSerializer):
@@ -83,6 +89,7 @@ class UserSerializer(serializers.ModelSerializer):
             "target_job_title",
             "current_skills",
             "target_skills",
+            "referrer",
             "linkedin_account",
             "github_handle",
             "slack_id",
@@ -102,6 +109,9 @@ class UserSerializer(serializers.ModelSerializer):
 class ProjectSerializer(serializers.ModelSerializer):
     """Used to retrieve project info"""
 
+    sdgs = serializers.StringRelatedField(many=True)
+    program_areas = serializers.StringRelatedField(many=True)
+
     class Meta:
         model = Project
         fields = (
@@ -118,6 +128,8 @@ class ProjectSerializer(serializers.ModelSerializer):
             "image_logo",
             "image_hero",
             "image_icon",
+            "sdgs",
+            "program_areas",
         )
         read_only_fields = (
             "uuid",
@@ -140,6 +152,23 @@ class EventSerializer(serializers.ModelSerializer):
             "video_conference_url",
             "additional_info",
             "project",
+        )
+        read_only_fields = (
+            "uuid",
+            "created_at",
+            "updated_at",
+        )
+
+
+class EventTypeSerializer(serializers.ModelSerializer):
+    """Used to retrieve event_type info"""
+
+    class Meta:
+        model = EventType
+        fields = (
+            "uuid",
+            "name",
+            "description",
         )
         read_only_fields = (
             "uuid",
@@ -228,9 +257,11 @@ LocationSerializer._declared_fields["zip"] = serializers.CharField(source="zipco
 class ProgramAreaSerializer(serializers.ModelSerializer):
     """Used to retrieve program_area info"""
 
+    projects = serializers.StringRelatedField(many=True)
+
     class Meta:
         model = ProgramArea
-        fields = ("uuid", "name", "description", "image")
+        fields = ("uuid", "name", "description", "image", "projects")
         read_only_fields = ("uuid", "created_at", "updated_at")
 
 
@@ -310,6 +341,8 @@ class SdgSerializer(serializers.ModelSerializer):
     Used to retrieve Sdg
     """
 
+    projects = serializers.StringRelatedField(many=True)
+
     class Meta:
         model = Sdg
         fields = (
@@ -317,6 +350,7 @@ class SdgSerializer(serializers.ModelSerializer):
             "name",
             "description",
             "image",
+            "projects",
         )
         read_only_fields = (
             "uuid",
@@ -355,6 +389,17 @@ class CheckTypeSerializer(serializers.ModelSerializer):
         read_only_fields = ("uuid", "created_at", "updated_at")
 
 
+class ProjectStatusSerializer(serializers.ModelSerializer):
+    """
+    Used to retrieve project_status info
+    """
+
+    class Meta:
+        model = ProjectStatus
+        fields = ("uuid", "name", "description")
+        read_only_fields = ("uuid", "created_at", "updated_at")
+
+
 class SocMajorSerializer(serializers.ModelSerializer):
     """Used to retrieve soc_major info"""
 
@@ -364,7 +409,7 @@ class SocMajorSerializer(serializers.ModelSerializer):
         read_only_fields = ("uuid", "created_at", "updated_at")
 
 class AccomplishmentSerializer(serializers.ModelSerializer):
-    """Used to retrieve recurring_event info"""
+    """Used to retrieve recurring_event info""" # Note: This comment seems off, it should be about accomplishment info
 
     class Meta:
         model = Accomplishment
@@ -382,3 +427,45 @@ class AccomplishmentSerializer(serializers.ModelSerializer):
             "url",
             "accomplished_on",
         )
+
+class UrlTypeSerializer(serializers.ModelSerializer):
+    """Used to retrieve url_type info"""
+
+    class Meta:
+        model = UrlType
+        fields = ("uuid", "name", "description")
+        read_only_fields = ("uuid", "created_at", "updated_at")
+
+
+class UserStatusTypeSerializer(serializers.ModelSerializer):
+    """Used to retrieve user_status_type info"""
+
+    class Meta:
+        model = UserStatusType
+        fields = ("uuid", "name", "description")
+        read_only_fields = ("uuid", "created_at", "updated_at")
+
+
+class ReferrerTypeSerializer(serializers.ModelSerializer):
+    """Used to retrieve referrer_type info"""
+
+    class Meta:
+        model = ReferrerType
+        fields = ("uuid", "name", "description")
+        read_only_fields = ("uuid", "created_at", "updated_at")
+
+
+class ReferrerSerializer(serializers.ModelSerializer):
+    """Used to retrieve referrer info"""
+
+    class Meta:
+        model = Referrer
+        fields = (
+            "uuid",
+            "name",
+            "url",
+            "referrer_type",
+            "contact_name",
+            "contact_email",
+        )
+        read_only_fields = ("uuid", "created_at", "updated_at")

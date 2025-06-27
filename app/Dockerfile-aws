@@ -1,0 +1,44 @@
+# pull official base image
+FROM python:3.10-alpine
+
+# set work directory
+WORKDIR /usr/src/app
+
+# set environment variables
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
+# install system dependencies
+RUN \
+  apk add \
+  'graphviz=~12'
+
+# install font for graphviz
+COPY Roboto-Regular.ttf /root/.fonts/
+RUN fc-cache -f
+
+# install dependencies
+COPY ./requirements.txt .
+# hadolint ignore=DL3042
+RUN \
+  pip install uv==0.1.15 \
+  && uv pip install --system -r requirements.txt
+
+
+# copy project
+COPY . .
+
+# copy entrypoint-aws.sh
+COPY ./entrypoint-aws.sh .
+RUN sed -i 's/\r$//g' /usr/src/app/entrypoint-aws.sh \
+  && chmod +x /usr/src/app/entrypoint-aws.sh
+
+# Expose the Django port
+EXPOSE 8000
+
+
+# run entrypoint.sh
+ENTRYPOINT ["/usr/src/app/entrypoint-aws.sh"]
+
+# Run Django’s development server
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

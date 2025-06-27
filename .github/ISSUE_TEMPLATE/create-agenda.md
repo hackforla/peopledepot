@@ -2,10 +2,8 @@
 name: Create Agenda
 about: Assign issue to all team members day after meetup in prep for next meetup
 title: ''
-labels: 'role: product, feature: agenda, s: PD team, complexity: small, size: 0.25pt'
+labels: 'complexity: small, feature: agenda, role: product, s: PD team, size: 0.25pt'
 assignees: ''
-milestone: '05. Team Workflow'
-
 ---
 
 ### Overview

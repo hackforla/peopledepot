@@ -74,7 +74,9 @@ class User(PermissionsMixin, AbstractBaseUser, AbstractBaseModel):
     gmail = models.EmailField(blank=True)
     preferred_email = models.EmailField(blank=True)
 
-    # user_status = models.ForeignKey(user_status_type, on_delete=models.PROTECT)
+    user_status = models.ForeignKey(
+        "UserStatusType", null=True, on_delete=models.PROTECT
+    )
     # current_practice_area = models.ManyToManyField("PracticeArea")
     # target_practice_area = models.ManyToManyField("PracticeArea")
 
@@ -85,7 +87,7 @@ class User(PermissionsMixin, AbstractBaseUser, AbstractBaseModel):
 
     # desired_roles = models.ManyToManyField("Role")
     # availability = models.IntegerField()  # not in ERD, is a separate table. Want to confirm to remove this
-    # referred_by = models.ForeignKey(referrer, on_delete=models.PROTECT) # FK
+    referrer = models.ForeignKey("Referrer", null=True, on_delete=models.PROTECT)  # FK
     # to referrer
 
     linkedin_account = models.CharField(max_length=255, blank=True)
@@ -114,6 +116,21 @@ class User(PermissionsMixin, AbstractBaseUser, AbstractBaseModel):
         return f"{self.email}"
 
 
+class ProjectStatus(AbstractBaseModel):
+    """
+    Dictionary of status options for project
+    """
+
+    name = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+
+    class Meta:
+        verbose_name_plural = "project statuses"
+
+    def __str__(self):
+        return f"{self.name}"
+
+
 class Project(AbstractBaseModel):
     """
     List of projects
@@ -135,7 +152,9 @@ class Project(AbstractBaseModel):
 "Authorization: token [gh_PAT]" \
 https://api.github.com/repos/[org]/[repo]',
     )
-    # current_status_id = models.ForeignKey("status", on_delete=models.PROTECT)
+    current_status = models.ForeignKey(
+        ProjectStatus, null=True, on_delete=models.PROTECT
+    )
     hide = models.BooleanField(default=True)
     # location_id = models.ForeignKey("location", on_delete=models.PROTECT)
     google_drive_id = models.CharField(max_length=255, blank=True)
@@ -144,6 +163,15 @@ https://api.github.com/repos/[org]/[repo]',
     image_logo = models.URLField(blank=True)
     image_hero = models.URLField(blank=True)
     image_icon = models.URLField(blank=True)
+    sdgs = models.ManyToManyField(
+        "Sdg", related_name="projects", blank=True, through="ProjectSdgXref"
+    )
+    program_areas = models.ManyToManyField(
+        "ProgramArea",
+        related_name="projects",
+        blank=True,
+        through="ProjectProgramAreaXref",
+    )
 
     def __str__(self):
         return f"{self.name}"
@@ -420,6 +448,18 @@ class CheckType(AbstractBaseModel):
         return f"{self.name}"
 
 
+class EventType(AbstractBaseModel):
+    """
+    Dictionary of event types
+    """
+
+    name = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+
+    def __str__(self):
+        return f"{self.name}"
+
+
 class SocMajor(AbstractBaseModel):
     occ_code = models.CharField(max_length=255)
     title = models.CharField(max_length=255)
@@ -436,3 +476,56 @@ class Accomplishment(AbstractBaseModel):
     # created_date = models.DateTimeField() already in abstrat base model
     # last_updated = models
 
+
+class ProjectProgramAreaXref(AbstractBaseModel):
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    program_area = models.ForeignKey(ProgramArea, on_delete=models.CASCADE)
+
+
+class ProjectSdgXref(AbstractBaseModel):
+    """
+    Joins an SDG to a project
+    """
+
+    sdg_id = models.ForeignKey(Sdg, on_delete=models.CASCADE)
+    project_id = models.ForeignKey(Project, on_delete=models.CASCADE)
+    ended_on = models.DateField("Ended on", null=True, blank=True)
+
+
+class UrlType(AbstractBaseModel):
+    """
+    Type of the URL (ReadMe, Wiki, etc.)
+    """
+
+    name = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.name
+
+
+class UserStatusType(AbstractBaseModel):
+    name = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+
+    def __str__(self):
+        return f"{self.name}"
+
+
+class ReferrerType(AbstractBaseModel):
+    name = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+
+    def __str__(self):
+        return f"{self.name}"
+
+
+class Referrer(AbstractBaseModel):
+    name = models.CharField(max_length=255)
+    url = models.URLField(blank=True)
+    referrer_type = models.ForeignKey(ReferrerType, null=True, on_delete=models.PROTECT)
+    contact_name = models.CharField(max_length=255)
+    contact_email = models.EmailField(blank=True)
+
+    def __str__(self):
+        return f"{self.name}"

@@ -11,10 +11,12 @@ from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
+from ..models import Accomplishment
 from ..models import Affiliate
 from ..models import Affiliation
 from ..models import CheckType
 from ..models import Event
+from ..models import EventType
 from ..models import Faq
 from ..models import FaqViewed
 from ..models import Location
@@ -22,17 +24,23 @@ from ..models import PermissionType
 from ..models import PracticeArea
 from ..models import ProgramArea
 from ..models import Project
+from ..models import ProjectStatus
+from ..models import Referrer
+from ..models import ReferrerType
 from ..models import Sdg
 from ..models import Skill
 from ..models import SocMajor
 from ..models import StackElement
 from ..models import StackElementType
+from ..models import UrlType
 from ..models import UserPermission
-from ..models import Accomplishment
+from ..models import UserStatusType
+from .serializers import Accomplishment
 from .serializers import AffiliateSerializer
 from .serializers import AffiliationSerializer
 from .serializers import CheckTypeSerializer
 from .serializers import EventSerializer
+from .serializers import EventTypeSerializer
 from .serializers import FaqSerializer
 from .serializers import FaqViewedSerializer
 from .serializers import LocationSerializer
@@ -40,14 +48,18 @@ from .serializers import PermissionTypeSerializer
 from .serializers import PracticeAreaSerializer
 from .serializers import ProgramAreaSerializer
 from .serializers import ProjectSerializer
+from .serializers import ProjectStatusSerializer
+from .serializers import ReferrerSerializer
+from .serializers import ReferrerTypeSerializer
 from .serializers import SdgSerializer
 from .serializers import SkillSerializer
 from .serializers import SocMajorSerializer
 from .serializers import StackElementSerializer
 from .serializers import StackElementTypeSerializer
+from .serializers import UrlTypeSerializer
 from .serializers import UserPermissionSerializer
 from .serializers import UserSerializer
-from .serializers import Accomplishment
+from .serializers import UserStatusTypeSerializer
 
 
 class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
@@ -151,6 +163,20 @@ class EventViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = Event.objects.all()
     serializer_class = EventSerializer
+
+
+@extend_schema_view(
+    list=extend_schema(description="Return a list of all the event types"),
+    create=extend_schema(description="Create a new event type"),
+    retrieve=extend_schema(description="Return the details of an event type"),
+    destroy=extend_schema(description="Delete an event type"),
+    update=extend_schema(description="Update an event type"),
+    partial_update=extend_schema(description="Patch an event type"),
+)
+class EventTypeViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = EventType.objects.all()
+    serializer_class = EventTypeSerializer
 
 
 @extend_schema_view(
@@ -355,6 +381,20 @@ class CheckTypeViewSet(viewsets.ModelViewSet):
 
 
 @extend_schema_view(
+    list=extend_schema(description="Return a list of all the project statuses"),
+    create=extend_schema(description="Create a new project status"),
+    retrieve=extend_schema(description="Return the details of an project status"),
+    destroy=extend_schema(description="Delete a project status"),
+    update=extend_schema(description="Update a project status"),
+    partial_update=extend_schema(description="Patch a project status"),
+)
+class ProjectStatusViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = ProjectStatus.objects.all()
+    serializer_class = ProjectStatusSerializer
+
+
+@extend_schema_view(
     list=extend_schema(description="Return a list of all the user permissions"),
     retrieve=extend_schema(description="Return the details of a user permission"),
 )
@@ -378,14 +418,69 @@ class SocMajorViewSet(viewsets.ModelViewSet):
     serializer_class = SocMajorSerializer
 
 @extend_schema_view(
-    list=extend_schema(description="Return a list of all the recurring events"),
-    create=extend_schema(description="Create a new recurring event"),
-    retrieve=extend_schema(description="Return the details of a recurring event"),
-    destroy=extend_schema(description="Delete a recurring event"),
-    update=extend_schema(description="Update a recurring event"),
-    partial_update=extend_schema(description="Patch a recurring event"),
+    list=extend_schema(description="Return a list of all the accomplishments"),
+    create=extend_schema(description="Create a new accomplishment"),
+    retrieve=extend_schema(description="Return the details of a accomplishment"),
+    destroy=extend_schema(description="Delete a accomplishment"),
+    update=extend_schema(description="Update a accomplishment"),
+    partial_update=extend_schema(description="Patch a accomplishment"),
 )
 class AccomplishmentViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = Accomplishment.objects.all()
     serializer_class = AccomplishmentSerializer
+
+@extend_schema_view(
+    list=extend_schema(description="Return a list of all the url types"),
+    create=extend_schema(description="Create a new url type"),
+    retrieve=extend_schema(description="Return the details of a url type"),
+    destroy=extend_schema(description="Delete a url type"),
+    update=extend_schema(description="Update a url type"),
+    partial_update=extend_schema(description="Patch a url type"),
+)
+class UrlTypeViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = UrlType.objects.all()
+    serializer_class = UrlTypeSerializer
+
+
+@extend_schema_view(
+    list=extend_schema(description="Return a list of all the user status types"),
+    create=extend_schema(description="Create a new user status type"),
+    retrieve=extend_schema(description="Return the details of a user status type"),
+    destroy=extend_schema(description="Delete a user status type"),
+    update=extend_schema(description="Update a user status type"),
+    partial_update=extend_schema(description="Patch a user status type"),
+)
+class UserStatusTypeViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = UserStatusType.objects.all()
+    serializer_class = UserStatusTypeSerializer
+
+
+@extend_schema_view(
+    list=extend_schema(description="Return a list of all the referrer types"),
+    create=extend_schema(description="Create a new referrer type"),
+    retrieve=extend_schema(description="Return the details of a referrer type"),
+    destroy=extend_schema(description="Delete a referrer type"),
+    update=extend_schema(description="Update a referrer type"),
+    partial_update=extend_schema(description="Patch a referrer type"),
+)
+class ReferrerTypeViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = ReferrerType.objects.all()
+    serializer_class = ReferrerTypeSerializer
+
+
+@extend_schema_view(
+    list=extend_schema(description="Return a list of all the referrers"),
+    create=extend_schema(description="Create a new referrer"),
+    retrieve=extend_schema(description="Return the details of a referrer"),
+    destroy=extend_schema(description="Delete a referrer"),
+    update=extend_schema(description="Update a referrer"),
+    partial_update=extend_schema(description="Patch a referrer"),
+)
+class ReferrerViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = Referrer.objects.all()
+    serializer_class = ReferrerSerializer

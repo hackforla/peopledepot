@@ -8,6 +8,7 @@ from ..models import Affiliate
 from ..models import Affiliation
 from ..models import CheckType
 from ..models import Event
+from ..models import EventType
 from ..models import Faq
 from ..models import FaqViewed
 from ..models import Location
@@ -15,13 +16,18 @@ from ..models import PermissionType
 from ..models import PracticeArea
 from ..models import ProgramArea
 from ..models import Project
+from ..models import ProjectStatus
+from ..models import Referrer
+from ..models import ReferrerType
 from ..models import Sdg
 from ..models import Skill
 from ..models import SocMajor
 from ..models import StackElement
 from ..models import StackElementType
+from ..models import UrlType
 from ..models import User
 from ..models import UserPermission
+from ..models import UserStatusType
 
 
 @pytest.fixture
@@ -247,6 +253,11 @@ def sdg():
 
 
 @pytest.fixture
+def sdg1():
+    return Sdg.objects.create(name="Test SDG name1")
+
+
+@pytest.fixture
 def affiliation1(project, affiliate):
     return Affiliation.objects.create(
         is_sponsor=True, is_partner=False, project=project, affiliate=affiliate
@@ -283,5 +294,63 @@ def check_type():
 
 
 @pytest.fixture
+def event_type():
+    return EventType.objects.create(
+        name="This is a test event_type.",
+        description="This is a test event_type description.",
+    )
+
+
+@pytest.fixture
+def project_1():
+    return Project.objects.create(name="Project 1")
+
+
+@pytest.fixture
+def project_2():
+    return Project.objects.create(name="Project 2")
+
+
+@pytest.fixture
+def project_status():
+    return ProjectStatus.objects.create(
+        name="This is a test project_status",
+        description="This is a test project_status",
+    )
+
+
+@pytest.fixture
 def soc_major():
     return SocMajor.objects.create(occ_code="22-2222", title="Test Soc Major")
+
+
+@pytest.fixture
+def url_type():
+    return UrlType.objects.create(
+        name="This is a test url type name",
+        description="This is a test url type description",
+    )
+
+
+@pytest.fixture
+def user_status_type():
+    return UserStatusType.objects.create(
+        name="Test User Status Type", description="Test User Status Type description"
+    )
+
+
+@pytest.fixture
+def referrer_type():
+    return ReferrerType.objects.create(
+        name="Test Referrer Type", description="Test Referrer Type description"
+    )
+
+
+@pytest.fixture
+def referrer(referrer_type):
+    return Referrer.objects.create(
+        name="This is a test referrer",
+        referrer_type=referrer_type,
+        contact_name="John Doe",
+        contact_email="john@example.com",
+    )
