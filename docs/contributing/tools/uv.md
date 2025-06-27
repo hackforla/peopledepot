@@ -30,6 +30,17 @@ See the [official documentation](https://docs.astral.sh/uv/getting-started/insta
 
 ## Usage
 
+### Install python
+
+`uv` can install and manage python versions if the system doesn't come with one.
+
+```bash
+# install the latest python version
+uv python install
+```
+
+See the [official documentation](https://docs.astral.sh/uv/guides/install-python/#installing-python) for more information.
+
 ### Upgrade dependencies
 
 We shouldn't run this on every build, but we should do this manually every month/quarter or so. Be sure to re-run all tests to make sure they still pass.
