@@ -1,6 +1,6 @@
 # uv
 
-We're using `uv` as a faster replacement to `pip` and `pip-tools`. See the [official documentation on getting started](https://github.com/astral-sh/uv#getting-started).
+We're using `uv` as a faster replacement to `pip` and `pip-tools`. See the [official documentation on getting started](https://docs.astral.sh/uv/getting-started/).
 
 ## How we use it
 
