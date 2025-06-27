@@ -32,8 +32,6 @@ Before cloning your forked repository to your local machine, you must have Git i
         git config --system set autocrlf=false
         ```
 
-        !!! tip "Feel free to reach out in the [Hack for LA Slack channel](https://hackforla.slack.com/messages/people-depot/) if you encounter any errors while running scripts on Windows"
-
 === "Mac"
 
     Please note that if you have a Mac the page offers several options (see other option, if you need to conserve hard drive space) including:
