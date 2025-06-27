@@ -57,6 +57,14 @@ More on using Docker and the concepts of containerization:
 
 - [Get started with Docker](https://docs.docker.com/get-started/)
 
+### Install pre-commit
+
+This will check your changes for common problems.
+
+See the [Pre-commit page](tools/pre-commit.md) for installation instructions.
+
+For consistency, an automated bot will perform the same checks on the repository side when you open a pull request.
+
 ## Fork the repository
 
 You can fork the hackforla/peopledepot repository by clicking <a href="https://github.com/hackforla/peopledepot/fork"> <button> <img src="https://user-images.githubusercontent.com/17777237/54873012-40fa5b00-4dd6-11e9-98e0-cc436426c720.png" width="8px"> Fork</button></a>
@@ -168,14 +176,6 @@ upstream        https://github.com/hackforla/peopledepot.git (push)
 1. Browse to the web admin interface at `http://localhost:8000/admin/` and confirm the admin site is running. Use DJANGO_SUPERUSER_USERNAME and DJANGO_SUPERUSER_PASSWORD from .env.docker for credentials.
 
 See our documentation for [Working with Docker](tools/docker.md#working-with-docker) for more useful Docker commands.
-
-## Install pre-commit
-
-This will check your changes for common problems.
-
-See the [Pre-commit page](tools/pre-commit.md) for installation instructions.
-
-For consistency, an automated bot will perform the same checks on the repository side when you open a pull request.
 
 [docker-compose-install]: https://docs.docker.com/compose/install/
 [docker-install]: https://docs.docker.com/get-docker/
