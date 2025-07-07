@@ -46,19 +46,19 @@ repos:
       - id: hadolint
 
   - repo: https://github.com/asottile/pyupgrade
-    rev: v3.19.0
+    rev: v3.20.0
     hooks:
       - id: pyupgrade
         args: [--py310-plus]
 
   - repo: https://github.com/adamchainz/django-upgrade
-    rev: 1.22.2
+    rev: 1.25.0
     hooks:
       - id: django-upgrade
         args: [--target-version, "4.0"]
 
   - repo: https://github.com/psf/black-pre-commit-mirror
-    rev: 24.10.0
+    rev: 25.1.0
     hooks:
       - id: black
         exclude: ^app/core/migrations/
@@ -71,7 +71,7 @@ repos:
           - black==24.10.0
 
   - repo: https://github.com/pycqa/flake8
-    rev: 7.1.1
+    rev: 7.3.0
     hooks:
       - id: flake8
         exclude: "^app/core/migrations/|^app/data/migrations/|^app/core/scripts"
@@ -93,14 +93,14 @@ repos:
           ]
 
   - repo: https://github.com/pycqa/isort
-    rev: 5.13.2
+    rev: 6.0.1
     hooks:
       - id: isort
         name: isort (python)
         args: ["--filter-files", "--force-single-line-imports"]
 
   - repo: https://github.com/PyCQA/bandit
-    rev: 1.8.0
+    rev: 1.8.6
     hooks:
       - id: bandit
         exclude: ^app/core/tests/
@@ -124,7 +124,7 @@ repos:
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
     # Ruff version.
-    rev: v0.8.1
+    rev: v0.12.2
     hooks:
       # Run the linter.
       - id: ruff
@@ -135,7 +135,7 @@ repos:
         exclude: ^app/core/migrations/
 
   - repo: https://github.com/executablebooks/mdformat
-    rev: 0.7.19
+    rev: 0.7.22
     hooks:
       - id: mdformat
         exclude: |
