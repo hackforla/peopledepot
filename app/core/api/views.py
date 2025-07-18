@@ -82,7 +82,7 @@ class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
         description="Return a list of all the existing users",
         parameters=[
             OpenApiParameter(
-                name="email",
+                name="email_intake",
                 type=str,
                 description="Filter by email address",
                 examples=[
@@ -126,9 +126,9 @@ class UserViewSet(viewsets.ModelViewSet):
         Optionally filter users by an 'email' and/or 'username' query paramerter in the URL
         """
         queryset = get_user_model().objects.all()
-        email = self.request.query_params.get("email")
-        if email is not None:
-            queryset = queryset.filter(email=email)
+        email_intake = self.request.query_params.get("email_intake")
+        if email_intake is not None:
+            queryset = queryset.filter(email_intake=email_intake)
         username = self.request.query_params.get("username")
         if username is not None:
             queryset = queryset.filter(username=username)

@@ -50,7 +50,7 @@ class UserAdmin(DefaultUserAdmin):
             {
                 "fields": (
                     "username",
-                    "email",
+                    "email_intake",
                     "password",
                 )
             },
@@ -59,12 +59,12 @@ class UserAdmin(DefaultUserAdmin):
             _("Profile"),
             {
                 "fields": (
-                    "first_name",
-                    "last_name",
-                    "gmail",
-                    "preferred_email",
-                    "current_job_title",
-                    "target_job_title",
+                    "name_first",
+                    "name_last",
+                    "email_gmail",
+                    "email_preferred",
+                    "job_title_current_intake",
+                    "job_title_target_intake",
                     "current_skills",
                     "target_skills",
                     "referrer",
@@ -74,6 +74,10 @@ class UserAdmin(DefaultUserAdmin):
                     "phone",
                     "texting_ok",
                     "time_zone",
+                    "practice_area_primary",
+                    "practice_area_secondary",
+                    "practice_area_target_intake",
+                    "email_cognito",
                 )
             },
         ),
@@ -81,7 +85,7 @@ class UserAdmin(DefaultUserAdmin):
             _("Permissions"),
             {
                 "fields": (
-                    "is_active",
+                    "user_status",
                     "is_staff",
                     "is_superuser",
                     "groups",
@@ -99,7 +103,7 @@ class UserAdmin(DefaultUserAdmin):
             },
         ),
     )
-    readonly_fields = ("username", "email", "created_at", "updated_at")
+    readonly_fields = ("username", "email_intake", "created_at", "updated_at")
     add_fieldsets = (
         (
             None,
@@ -107,7 +111,7 @@ class UserAdmin(DefaultUserAdmin):
                 "classes": ("wide",),
                 "fields": (
                     "username",
-                    "email",
+                    "email_intake",
                     "password",
                     "password2",
                 ),
@@ -116,8 +120,8 @@ class UserAdmin(DefaultUserAdmin):
     )
     form = UserChangeForm
     add_form = UserCreationForm
-    list_display = ("username", "is_staff", "is_active")
-    list_filter = ("username", "email")
+    list_display = ("username", "is_staff", "user_status")
+    list_filter = ("username", "email_intake")
 
 
 @admin.register(Project)
