@@ -1,0 +1,437 @@
+//People Depot Schema Entity Relationship Diagram
+// Use DBML to define your database structure
+// Docs: https://dbml.dbdiagram.io/docs
+
+TablePartial AbstractBaseModel {
+  id uuid [pk, unique, not null]
+  created_at DateTimeField [not null, default: `now()`]
+  updated_at DateTimeField [not null, default: `now()`]
+}
+
+Table accomplishment {
+  ~AbstractBaseModel
+  project_id uuid [ref: > project.id]
+  title varchar
+  description varchar
+  url URLField
+  accomplished_on DateField
+}
+
+Table affiliate {
+  //created
+  //formerly sponsor_partner
+  ~AbstractBaseModel
+  partner_name varchar
+  partner_logo URLField
+  is_active boolean
+  url URLField
+  is_org_sponsor boolean
+  is_org_partner boolean
+}
+
+Table cancelled_event [note: 'under review'] {
+  ~AbstractBaseModel
+  recurring_event_id int [ref: > event.id]
+  project_id int [ref: > project.id]
+  cancelled_event_date date
+  reason varchar
+  user_id int [ref: > user.id]
+}
+
+Table check_in {
+  ~AbstractBaseModel
+  event_id int [ref: > event.id]
+  user_id int [ref: > user.id]
+  checked_in DateTimeField
+}
+
+Table check_type [note: 'Data tab: https://docs.google.com/spreadsheets/d/1x_zZ8JLS2hO-zG0jUocOJmX16jh-DF5dccrd_OEGNZ0/edit?gid=1784987068#gid=1784987068']{
+  //created
+  ~AbstractBaseModel
+  name varchar
+  description varchar
+}
+
+Table event {
+  //created
+  ~AbstractBaseModel
+  event_type int [ref: > event_type.id]
+  name varchar
+  description varchar
+  start_date_time DateTimeField
+  duration_in_min int
+  recurrences RecurrenceField
+  project_id int [ref: > project.id]
+  video_conference_url URLField
+  location_id int [ref: > location.id]
+  organization_id int [ref: > organization.id]
+  additional_info varchar
+  must_attend JSON[ ]
+  should_attend JSON[ ]
+  could_attend JSON[ ]
+}
+
+Table event_type {
+  //created
+  ~AbstractBaseModel
+  name varchar
+  description varchar
+}
+
+Table faq {
+  //created
+  ~AbstractBaseModel
+  question varchar
+  answer varchar
+  title varchar
+}
+
+Table faq_viewed {  
+  //created
+  ~AbstractBaseModel
+  faq_id int [ref: > faq.id]
+  read DateTimeField
+}
+
+Table language {
+  ~AbstractBaseModel
+  name varchar
+  description varchar
+  logo URLField
+}
+
+Table leadership_type {
+  //created
+  ~AbstractBaseModel
+  name varchar
+  description varchar
+}
+
+Table location {
+  //created
+  ~AbstractBaseModel
+  name varchar
+  address_line_1 varchar
+  address_line_2 varchar
+  city varchar
+  state varchar
+  zip varchar
+  phone varchar
+}
+
+Table modern_job_title {
+  ~AbstractBaseModel
+  soc_detailed_id int [ref: > soc_detailed.id]
+  title varchar
+}
+
+Table organization {
+  ~AbstractBaseModel
+  name varchar
+  time_zone varchar
+}
+
+Table permission {
+  //created
+  ~AbstractBaseModel
+  user_id int [ref: > user.id]
+  project_id int [ref: > project.id]
+  permission_type_id int [ref: > permission_type.id]
+  practice_area_id int [ref: > practice_area.id]
+  granted DateTimeField
+  ended DateTimeField
+  created_by int
+  updated_by int
+}
+
+Table permission_history {
+  ~AbstractBaseModel
+  user_id int [ref: > user.id]
+  project_id int [ref: > project.id]
+  permission_type_id int [ref: > permission_type.id]
+  practice_area_id int [ref: > practice_area.id]
+  granted DateTimeField
+  ended DateTimeField
+  created_by int
+  updated_by int
+}
+
+Table permission_type {
+  //created
+  ~AbstractBaseModel
+  name varchar
+  description varchar
+}
+
+Table practice_area {
+  //created
+  ~AbstractBaseModel
+  name varchar
+  description varchar
+  image URLField
+}
+
+Table program_area {
+  //created
+  ~AbstractBaseModel
+  name varchar
+  description varchar
+  image URLField
+}
+
+Table project {
+  //created
+  ~AbstractBaseModel
+  name String
+  description String
+  completed_on date
+  github_org_id int [ref: - project_url.id, note: 'The unique id assigned to GitHub orgs. A foreign key to a row in project_url that corresponds to the org repo link']
+  github_primary_repo_id int [ref: - project_url.id, note: 'A project might have many repos, this is for the primary starting place for new users. A foreign key to a row in project_url that corresponds to the primary repo']
+  current_status_id int [ref: > project_status.id]
+  hide Boolean
+  location_id int [ref: > location.id]
+  google_drive_id int [ref: > project_url.id, note: 'The unique id of the google drive, used for adding people with automation. A foreign key to a row in project_url that corresponds to the google drive.']
+  project_leads int[ ] (user_id)
+  leadership_type_id int [ref: > leadership_type.id]
+  image_logo URLField
+  image_hero URLField
+  image_icon URLField
+}
+
+Table project_affiliate_xref {
+  //created
+  ~AbstractBaseModel
+  affiliate_id int [ref: > affiliate.id]
+  project_id int [ref: > project.id]
+  ended_on DateField
+  is_sponsor boolean
+  is_partner boolean
+}
+
+Table project_language_xref {
+  ~AbstractBaseModel
+  project_id int [ref: > project.id]
+  language_id int [ref: > language.id]
+  started_on DateTimeField
+  ended_on DateTimeField
+}
+
+Table project_program_area_xref {
+  //created
+  ~AbstractBaseModel
+  project_id int [ref: > project.id]
+  program_area_id int [ref: > program_area.id]
+}
+
+Table project_sdg_xref {
+  //created
+  ~AbstractBaseModel
+  sdg_id int [ref: > sdg.id]
+  project_id int [ref: > project.id]
+  ended_on DateField
+}
+
+Table project_stack_element_xref {
+  ~AbstractBaseModel
+  project_id int [ref: > project.id]
+  stack_element_id int [ref: > stack_element.id]
+  removed_on DateField
+}
+
+Table project_status {
+  //created
+  ~AbstractBaseModel
+  name varchar
+  description varchar
+}
+
+Table project_status_history {
+  ~AbstractBaseModel
+  project_id int [ref: > project.id]
+  status_id int [ref: > project_status.id]
+}
+
+Table project_url {
+  ~AbstractBaseModel
+  project_id int [ref: > project.id]
+  url_type_id int [ref: > url_type.id]
+  name CharField
+  external_id CharField [note: 'resource id provided by GitHub or google']
+  url URLField
+  status_id int [ref: > url_status_type.id]
+}
+
+Table referrer {
+  //created
+  ~AbstractBaseModel
+  name varchar
+  url URLField
+  referrer_type_id int [ref: > referrer_type.id]
+  contact_name varchar
+  contact_email EmailField
+}
+
+Table referrer_type {
+  //created
+  ~AbstractBaseModel
+  name varchar
+  description varchar
+}
+
+Table sdg {
+  //created
+  ~AbstractBaseModel
+  name varchar
+  description varchar
+  image URLField
+}
+
+Table sdg_target_indicator {
+  ~AbstractBaseModel
+  sdg_id int [ref: > sdg.id]
+  code varchar
+  description_number varchar
+  description_text varchar
+}
+
+Table skill {
+  //created
+  ~AbstractBaseModel
+  name varchar
+  description varchar
+}
+
+Table soc_broad {
+  ~AbstractBaseModel
+  soc_minor_id int [ref: > soc_minor.id]
+  occ_code varchar
+  title varchar
+}
+
+Table soc_detailed {
+  ~AbstractBaseModel
+  soc_broad_id int [ref: > soc_broad.id]
+  occ_code varchar
+  title varchar
+  description varchar
+}
+
+Table soc_major {
+  //created
+  ~AbstractBaseModel
+  occ_code varchar
+  title varchar
+}
+
+Table soc_minor {
+  ~AbstractBaseModel
+  soc_major_id int [ref: > soc_major.id]
+  occ_code varchar
+  title varchar
+}
+
+Table stack_element {
+  //created
+  ~AbstractBaseModel
+  name varchar
+  description varchar
+  url URLField
+  logo URLField
+  active boolean
+  stack_element_type_id int [ref: > stack_element_type.id]
+}
+
+Table stack_element_type {
+  //created
+  ~AbstractBaseModel
+  name varchar
+  description varchar
+}
+
+Table url_status_type {
+  ~AbstractBaseModel
+  name varchar
+  description varchar
+}
+
+Table url_type {
+  //created
+  ~AbstractBaseModel
+  name varchar
+  description varchar
+}
+
+Table user {
+  //created
+  ~AbstractBaseModel
+  name_first varchar
+  name_last varchar
+  gmail EmailField
+  preferred_email EmailField
+  user_status_id int [ref: > user_status_type.id]
+  practice_area_primary int [ref: > practice_area.id]
+  practice_area_secondary int[] [ref: <> practice_area.id]
+  job_title_current varchar
+  practice_area_target int[] [ref: <> practice_area.id]
+  job_title_target varchar
+  current_skills varchar
+  target_skills varchar
+  linkedin_account URLField
+  referred_by int [ref: > referrer.id]
+  github_handle varchar
+  phone varchar
+  texting_ok boolean
+  slack_id varchar(11)
+  time_zone varchar [note: 'full time zone name']
+}
+
+Table user_availability {
+  ~AbstractBaseModel
+  user_id int [ref: > user.id, not null]
+  day_of_week day (enum)
+  start time
+  duration int
+}
+
+Table user_check {
+  ~AbstractBaseModel
+  user_id int [ref: > user.id]
+  organization_id int [ref: > organization.id]
+  check_type_id int [ref: > check_type.id]
+  check_result boolean
+  reminder_start DateTimeField
+  completion DateTimeField
+  project_id int [ref: > project.id]
+}
+
+Table user_employment_change {
+  ~AbstractBaseModel
+  user_id int [ref: > user.id]
+  soc_detailed_id int [ref: > soc_detailed.id]
+  employment_change_date DateTimeField
+}
+
+Table user_status_type {
+  //created
+  ~AbstractBaseModel
+  name varchar
+  description varchar
+}
+
+Table win {
+  ~AbstractBaseModel
+  user_id int [ref: > user.id]
+  practice_areas int[] [ref: <> practice_area.id]
+  teams int[] [ref: <> project.id]
+  description varchar
+  win_type_id int [ref: > win_type.id]
+  can_use_photo boolean
+}
+
+Table win_type {
+  ~AbstractBaseModel
+  name varchar
+  display_text varchar
+}
+
+
