@@ -86,7 +86,7 @@ Table faq {
   title varchar
 }
 
-Table faq_viewed {  
+Table faq_viewed {
   //created
   ~AbstractBaseModel
   faq_id int [ref: > faq.id]
@@ -433,5 +433,3 @@ Table win_type {
   name varchar
   display_text varchar
 }
-
-
