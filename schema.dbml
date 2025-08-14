@@ -1,4 +1,4 @@
-//People Depot Schema Entity Relationship Diagram
+////People Depot Schema Entity Relationship Diagram
 // Use DBML to define your database structure
 // Docs: https://dbml.dbdiagram.io/docs
 
@@ -57,7 +57,6 @@ Table event {
   ~AbstractBaseModel
   event_type int [ref: > event_type.id]
   name varchar
-  description varchar
   start_date_time DateTimeField
   duration_in_min int
   recurrences RecurrenceField
@@ -86,7 +85,7 @@ Table faq {
   title varchar
 }
 
-Table faq_viewed {
+Table faq_viewed {  
   //created
   ~AbstractBaseModel
   faq_id int [ref: > faq.id]
@@ -131,7 +130,7 @@ Table organization {
   time_zone varchar
 }
 
-Table permission {
+Table user_permission {
   //created
   ~AbstractBaseModel
   user_id int [ref: > user.id]
@@ -140,8 +139,8 @@ Table permission {
   practice_area_id int [ref: > practice_area.id]
   granted DateTimeField
   ended DateTimeField
-  created_by int
-  updated_by int
+  created_by int [ref: > user.id]
+  updated_by int [ref: > user.id]
 }
 
 Table permission_history {
@@ -187,7 +186,7 @@ Table project {
   completed_on date
   github_org_id int [ref: - project_url.id, note: 'The unique id assigned to GitHub orgs. A foreign key to a row in project_url that corresponds to the org repo link']
   github_primary_repo_id int [ref: - project_url.id, note: 'A project might have many repos, this is for the primary starting place for new users. A foreign key to a row in project_url that corresponds to the primary repo']
-  current_status_id int [ref: > project_status.id]
+  current_status_id int [ref: > project_program_area_status_type.id]
   hide Boolean
   location_id int [ref: > location.id]
   google_drive_id int [ref: > project_url.id, note: 'The unique id of the google drive, used for adding people with automation. A foreign key to a row in project_url that corresponds to the google drive.']
@@ -238,17 +237,17 @@ Table project_stack_element_xref {
   removed_on DateField
 }
 
-Table project_status {
+Table project_program_area_status_type [note: 'currently named projectstatus in code'] {
   //created
   ~AbstractBaseModel
   name varchar
   description varchar
 }
 
-Table project_status_history {
+Table project_program_area_status_history [note: 'currently named project_program_area_status in open issue']{
   ~AbstractBaseModel
   project_id int [ref: > project.id]
-  status_id int [ref: > project_status.id]
+  status_id int [ref: > project_program_area_status_type.id]
 }
 
 Table project_url {
