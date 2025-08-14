@@ -85,7 +85,7 @@ Table faq {
   title varchar
 }
 
-Table faq_viewed {  
+Table faq_viewed {
   //created
   ~AbstractBaseModel
   faq_id int [ref: > faq.id]
