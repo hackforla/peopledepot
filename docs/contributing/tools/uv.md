@@ -1,6 +1,6 @@
 # uv
 
-We're using `uv` as a faster replacement to `pip` and `pip-tools`. See the [official documentation on getting started](https://github.com/astral-sh/uv#getting-started).
+We're using `uv` as a faster replacement to `pip` and `pip-tools`. See the [official documentation on getting started](https://docs.astral.sh/uv/getting-started/).
 
 ## How we use it
 
@@ -10,7 +10,36 @@ We're using `uv` to compile and install python dependencies, which replaces the 
 
 `requirements.in` is the requirements file and `uv pip compile` generates `requirement.txt`, with pinned versions, similar to lock files in other languages.
 
+## Installation
+
+=== "Linux (macOS/WSL)"
+
+    ```bash
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+    ```
+
+    See the [uv installation guide](https://docs.astral.sh/uv/getting-started/installation/#__tabbed_1_1) for more options.
+
+=== "Windows"
+
+    We recommend using WSL for windows since it's a Linux environment. WSL provides a Linux-compatible environment that can prevent common errors during script execution.
+
+    Here's [how to install uv on Windows](https://docs.astral.sh/uv/getting-started/installation/#__tabbed_1_2).
+
+See the [official documentation](https://docs.astral.sh/uv/getting-started/installation/) for more information.
+
 ## Usage
+
+### Install python
+
+`uv` can install and manage python versions if the system doesn't come with one.
+
+```bash
+# install the latest python version
+uv python install
+```
+
+See the [official documentation](https://docs.astral.sh/uv/guides/install-python/#installing-python) for more information.
 
 ### Upgrade dependencies
 
