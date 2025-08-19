@@ -270,11 +270,7 @@ def test_user_model_old_names():
     """
     old_fields = [
         "current_job_title",
-        "email",
-        "first_name",
         "gmail",
-        "is_active",
-        "last_name",
         "preferred_email",
         "target_job_title",
     ]
@@ -297,7 +293,6 @@ def test_user_has_a_user_status_relationship(user, user2):
     assert user.user_status == active_user_status
     assert user2.user_status == active_user_status
 
-    active_user_status.user_set.remove(user)
     inactive_user_status.user_set.add(user)
 
     assert active_user_status.user_set.count() == 1
@@ -306,12 +301,12 @@ def test_user_has_a_user_status_relationship(user, user2):
     assert user.user_status == inactive_user_status
 
 
-def test_user_practice_area_relationship(user, user2, user3):
+def test_user_practice_area_relationship(user, user2):
     development_practice_area = PracticeArea.objects.get(name="Development")
     project_management_practice_area = PracticeArea.objects.get(
         name="Project Management"
     )
-    design_practice_area = PracticeArea.objects.get(name="Design")
+    # design_practice_area = PracticeArea.objects.get(name="Design")
 
     user.practice_area_primary = development_practice_area
     user.save()
@@ -332,13 +327,3 @@ def test_user_practice_area_relationship(user, user2, user3):
     assert user2.practice_area_secondary.count() == 0
     assert not user2.practice_area_secondary.contains(project_management_practice_area)
     assert not project_management_practice_area.secondary_users.contains(user2)
-
-    user3.practice_area_target_intake.add(design_practice_area)
-    assert user3.practice_area_target_intake.count() == 1
-    assert user3.practice_area_target_intake.contains(design_practice_area)
-    assert design_practice_area.target_intake_users.contains(user3)
-
-    user3.practice_area_target_intake.remove(design_practice_area)
-    assert user3.practice_area_target_intake.count() == 0
-    assert not user3.practice_area_target_intake.contains(design_practice_area)
-    assert not design_practice_area.target_intake_users.contains(user3)

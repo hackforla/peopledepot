@@ -80,9 +80,9 @@ class UserSerializer(serializers.ModelSerializer):
             "username",
             "created_at",
             "updated_at",
-            "email_intake",
-            "name_first",
-            "name_last",
+            "email",
+            "first_name",
+            "last_name",
             "email_gmail",
             "email_preferred",
             "job_title_current_intake",
@@ -100,13 +100,15 @@ class UserSerializer(serializers.ModelSerializer):
             "practice_area_secondary",
             "practice_area_target_intake",
             "email_cognito",
+            "is_active",
+            "user_status",
         )
         read_only_fields = (
             "uuid",
             "created_at",
             "updated_at",
             "username",
-            "email_intake",
+            "email",
         )
 
 

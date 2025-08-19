@@ -1,9 +1,8 @@
 import uuid
 
-from django.apps import apps
 from django.contrib.auth.base_user import AbstractBaseUser
-from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
+from django.contrib.auth.models import UserManager
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
@@ -63,6 +62,7 @@ class User(PermissionsMixin, AbstractBaseUser, AbstractBaseModel):
     # (unique identifier (UUID) for the authenticated user).
     # For django-users it will contain username which will be used to login
     # into django-admin site
+    is_active = models.BooleanField("Active", default=True)
     username = models.CharField(
         "Username", max_length=255, unique=True, validators=[username_validator]
     )
@@ -74,17 +74,15 @@ class User(PermissionsMixin, AbstractBaseUser, AbstractBaseModel):
 
     # Django-user related fields #
     # password is inherited from AbstractBaseUser
-    email_intake = models.EmailField(
-        "Email address", blank=True
-    )  # allow non-unique emails
+    email = models.EmailField("Email address", blank=True)  # allow non-unique emails
     is_staff = models.BooleanField(
         "staff status",
         default=False,
         help_text="Designates whether the user can log into this admin site.",
     )
 
-    name_first = models.CharField(max_length=255, blank=True)
-    name_last = models.CharField(max_length=255, blank=True)
+    first_name = models.CharField(max_length=255, blank=True)
+    last_name = models.CharField(max_length=255, blank=True)
     email_gmail = models.EmailField(blank=True)
     email_preferred = models.EmailField(blank=True)
     email_cognito = models.EmailField(blank=True)
@@ -129,17 +127,16 @@ class User(PermissionsMixin, AbstractBaseUser, AbstractBaseModel):
     # this
 
     objects = UserManager()
-
     USERNAME_FIELD = "username"
     EMAIL_FIELD = "email_preferred"
-    REQUIRED_FIELDS = ["email_intake"]  # used only on createsuperuser
+    REQUIRED_FIELDS = ["email"]  # used only on createsuperuser
 
     @property
     def is_django_user(self):
         return self.has_usable_password()
 
     def __str__(self):
-        return f"{self.email_intake}"
+        return f"{self.email}"
 
 
 class ProjectStatus(AbstractBaseModel):
