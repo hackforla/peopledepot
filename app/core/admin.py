@@ -51,7 +51,7 @@ class UserAdmin(DefaultUserAdmin):
             {
                 "fields": (
                     "username",
-                    "email_intake",
+                    "email",
                     "password",
                 )
             },
@@ -60,8 +60,8 @@ class UserAdmin(DefaultUserAdmin):
             _("Profile"),
             {
                 "fields": (
-                    "name_first",
-                    "name_last",
+                    "first_name",
+                    "last_name",
                     "email_gmail",
                     "email_preferred",
                     "job_title_current_intake",
@@ -79,6 +79,7 @@ class UserAdmin(DefaultUserAdmin):
                     "practice_area_secondary",
                     "practice_area_target_intake",
                     "email_cognito",
+                    "user_status",
                 )
             },
         ),
@@ -86,7 +87,7 @@ class UserAdmin(DefaultUserAdmin):
             _("Permissions"),
             {
                 "fields": (
-                    "user_status",
+                    "is_active",
                     "is_staff",
                     "is_superuser",
                     "groups",
@@ -104,7 +105,7 @@ class UserAdmin(DefaultUserAdmin):
             },
         ),
     )
-    readonly_fields = ("username", "email_intake", "created_at", "updated_at")
+    readonly_fields = ("username", "email", "created_at", "updated_at")
     add_fieldsets = (
         (
             None,
@@ -112,7 +113,7 @@ class UserAdmin(DefaultUserAdmin):
                 "classes": ("wide",),
                 "fields": (
                     "username",
-                    "email_intake",
+                    "email",
                     "password",
                     "password2",
                 ),
@@ -121,8 +122,8 @@ class UserAdmin(DefaultUserAdmin):
     )
     form = UserChangeForm
     add_form = UserCreationForm
-    list_display = ("username", "is_staff", "user_status")
-    list_filter = ("username", "email_intake")
+    list_display = ("username", "is_staff", "is_active")
+    list_filter = ("username", "email")
 
 
 @admin.register(Project)

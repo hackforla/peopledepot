@@ -88,7 +88,7 @@ def test_get_users(auth_client, django_user_model):
 
 
 def test_get_single_user(auth_client, user):
-    res = auth_client.get(f"{USERS_URL}?email_intake={user.email_intake}")
+    res = auth_client.get(f"{USERS_URL}?email={user.email}")
     assert res.status_code == status.HTTP_200_OK
 
     res = auth_client.get(f"{USERS_URL}?username={user.username}")
@@ -116,7 +116,7 @@ user_actions_test_data = [
         "auth_client",
         "patch",
         "user_url",
-        {"name_first": "TestUser2"},
+        {"first_name": "TestUser2"},
         status.HTTP_200_OK,
     ),
     (
@@ -131,7 +131,7 @@ user_actions_test_data = [
         "admin_client",
         "patch",
         "user_url",
-        {"name_first": "TestUser2"},
+        {"first_name": "TestUser2"},
         status.HTTP_200_OK,
     ),
     (
@@ -146,7 +146,7 @@ user_actions_test_data = [
         "auth_client2",
         "patch",
         "user_url",
-        {"name_first": "TestUser2"},
+        {"first_name": "TestUser2"},
         status.HTTP_200_OK,
     ),
     (
