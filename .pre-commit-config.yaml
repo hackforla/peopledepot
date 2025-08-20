@@ -33,6 +33,8 @@ repos:
 
       # general quality checks
       - id: mixed-line-ending
+        args: [--fix=lf]
+        exclude: ^app/core/initial_data/
       - id: trailing-whitespace
         args: [--markdown-linebreak-ext=md]
       - id: check-executables-have-shebangs

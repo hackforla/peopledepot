@@ -71,6 +71,22 @@ It's recommended to install "global" tools via pipx, which installs packages in 
     pre-commit autoupdate
     ```
 
+## Helpful automations
+
+??? note "Autofix file line endings to LF"
+
+    We use LF line endings since the code is designed to run on Linux. We're forcing this to happen so speed up our PR review process. Individual developers should still set up their editors to use LF line endings.
+
+    We do this via the following lines in `git-commit-hooks`:
+
+    ```bash
+    - id: mixed-line-ending
+    args: [--fix=lf]
+    exclude: ^app/core/initial_data/
+    ```
+
+    Note that we're excluding the initial data from this check for now since we're not decided on the correct line ending there.
+
 ## Disabled rules
 
 Sometimes, we need to disable a few specific rules that are causing problems. We list them here along with information about them.
