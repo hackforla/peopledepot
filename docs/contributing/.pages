@@ -4,6 +4,7 @@ nav:
     - dev_environment.md
     - issues.md
     - git.md
+    - ERD.md
     - documentation.md
   - howto
   - ...
