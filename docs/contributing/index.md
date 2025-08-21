@@ -14,8 +14,6 @@ Thank you for volunteering your time! The following is a set of guidelines for c
 
 - [Updating code](code.md)
 
-- [Working with Git](git.md)
-
 - [Documentation](documentation.md)
 
 - [How-to Guides](howto/index.md)
