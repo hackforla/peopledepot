@@ -30,16 +30,17 @@ Or run the script
 #### pip compile options
 
 Disable header in the generated file
-: `--no-header` This solves the problem unnecessary code churn caused by changing headers
+:   `--no-header` This solves the problem unnecessary code churn caused by changing headers
+:   another definition
 
 Upgrade all dependencies
-: `--upgrade`
+:   `--upgrade`
 
 Generate pip-8 style hashes
-: `--generate-hashes` Hashes improve security but are not verified by `uv` at the moment. It is planned. Switch back to `pip` for installation if we need to verify hashes.
+:   `--generate-hashes` Hashes improve security but are not verified by `uv` at the moment. It is planned. Switch back to `pip` for installation if we need to verify hashes.
 
 Disable annotation of where dependencies come from
-: `--no-annotate` This makes the generated file shorter but less informative
+:   `--no-annotate` This makes the generated file shorter but less informative
 
 See [pip-compile docs](https://pip-tools.readthedocs.io/en/stable/cli/pip-compile/) for more options and explanation
 
@@ -54,7 +55,7 @@ uv pip install --system -r requirements.txt
 #### pip install options
 
 Install to global
-: `--system` bypass the virtual environment requirement
+:   `--system` bypass the virtual environment requirement
 
 See [pip install docs](https://pip.pypa.io/en/stable/cli/pip_install/) for more options and explanation
 
