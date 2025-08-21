@@ -62,10 +62,10 @@ class User(PermissionsMixin, AbstractBaseUser, AbstractBaseModel):
     # (unique identifier (UUID) for the authenticated user).
     # For django-users it will contain username which will be used to login
     # into django-admin site
-    is_active = models.BooleanField("Active", default=True)
     username = models.CharField(
         "Username", max_length=255, unique=True, validators=[username_validator]
     )
+    is_active = models.BooleanField("Active", default=True)
 
     # Cognito-user related fields #
     # some additional fields which will be filled-out only for users
@@ -127,6 +127,7 @@ class User(PermissionsMixin, AbstractBaseUser, AbstractBaseModel):
     # this
 
     objects = UserManager()
+
     USERNAME_FIELD = "username"
     EMAIL_FIELD = "email_preferred"
     REQUIRED_FIELDS = ["email"]  # used only on createsuperuser
