@@ -31,33 +31,33 @@ migrate() {
   # Run migrations
 set -x
   "$SCRIPT_DIR"/migrate.sh
-set +x
+{ set +x; } 2>&-;
 }
 
 createsuperuser() {
   # Create superuser
 set -x
   "$SCRIPT_DIR"/createsuperuser.sh
-set +x
+{ set +x; } 2>&-;
 }
 
 logs() {
   # Tail Logs
 set -x
   "$SCRIPT_DIR"/logs.sh
-set +x
+{ set +x; } 2>&-;
 }
 
 dc_down() {
 set -x
   docker-compose down "${DOWN_ARGS[@]}"
-set +x
+{ set +x; } 2>&-;
 }
 
 dc_up() {
 set -x
   docker-compose up "${UP_ARGS[@]}"
-set +x
+{ set +x; } 2>&-;
 }
 
 DOWN_ARGS=()
