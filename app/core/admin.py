@@ -12,6 +12,7 @@ from .models import Event
 from .models import EventType
 from .models import Faq
 from .models import FaqViewed
+from .models import LeadershipType
 from .models import Location
 from .models import PermissionType
 from .models import PracticeArea
@@ -61,10 +62,10 @@ class UserAdmin(DefaultUserAdmin):
                 "fields": (
                     "first_name",
                     "last_name",
-                    "gmail",
-                    "preferred_email",
-                    "current_job_title",
-                    "target_job_title",
+                    "email_gmail",
+                    "email_preferred",
+                    "job_title_current_intake",
+                    "job_title_target_intake",
                     "current_skills",
                     "target_skills",
                     "referrer",
@@ -74,6 +75,11 @@ class UserAdmin(DefaultUserAdmin):
                     "phone",
                     "texting_ok",
                     "time_zone",
+                    "practice_area_primary",
+                    "practice_area_secondary",
+                    "practice_area_target_intake",
+                    "email_cognito",
+                    "user_status",
                 )
             },
         ),
@@ -172,6 +178,11 @@ class Faq(admin.ModelAdmin):
 @admin.register(FaqViewed)
 class FaqViewed(admin.ModelAdmin):
     list_display = ("faq",)
+
+
+@admin.register(LeadershipType)
+class LeadershipTypeAdmin(admin.ModelAdmin):
+    list_display = ("name", "description")
 
 
 @admin.register(Location)
