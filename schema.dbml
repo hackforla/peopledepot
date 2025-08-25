@@ -10,7 +10,7 @@ TablePartial AbstractBaseModel {
 
 Table accomplishment {
   ~AbstractBaseModel
-  project_id uuid [ref: > project.id]
+  project uuid [ref: > project.id]
   title varchar
   description varchar
   url URLField
@@ -27,21 +27,22 @@ Table affiliate {
   url URLField
   is_org_sponsor boolean
   is_org_partner boolean
+  //considering adding org_id
 }
 
 Table cancelled_event [note: 'under review'] {
   ~AbstractBaseModel
-  recurring_event_id int [ref: > event.id]
-  project_id int [ref: > project.id]
+  recurring_event int [ref: > event.id]
+  project int [ref: > project.id]
   cancelled_event_date date
   reason varchar
-  user_id int [ref: > user.id]
+  user int [ref: > user.id]
 }
 
 Table check_in {
   ~AbstractBaseModel
-  event_id int [ref: > event.id]
-  user_id int [ref: > user.id]
+  event int [ref: > event.id]
+  user int [ref: > user.id]
   checked_in DateTimeField
 }
 
@@ -60,10 +61,10 @@ Table event {
   start_date_time DateTimeField
   duration_in_min int
   recurrences RecurrenceField
-  project_id int [ref: > project.id]
+  project int [ref: > project.id]
   video_conference_url URLField
-  location_id int [ref: > location.id]
-  organization_id int [ref: > organization.id]
+  location int [ref: > location.id]
+  org int [ref: > org.id]
   additional_info varchar
   must_attend JSON[ ]
   should_attend JSON[ ]
@@ -85,10 +86,10 @@ Table faq {
   title varchar
 }
 
-Table faq_viewed {
+Table faq_viewed {  
   //created
   ~AbstractBaseModel
-  faq_id int [ref: > faq.id]
+  faq int [ref: > faq.id]
   read DateTimeField
 }
 
@@ -120,11 +121,11 @@ Table location {
 
 Table modern_job_title {
   ~AbstractBaseModel
-  soc_detailed_id int [ref: > soc_detailed.id]
+  soc_detailed int [ref: > soc_detailed.id]
   title varchar
 }
 
-Table organization {
+Table org {
   ~AbstractBaseModel
   name varchar
   time_zone varchar
@@ -133,10 +134,10 @@ Table organization {
 Table user_permission {
   //created
   ~AbstractBaseModel
-  user_id int [ref: > user.id]
-  project_id int [ref: > project.id]
-  permission_type_id int [ref: > permission_type.id]
-  practice_area_id int [ref: > practice_area.id]
+  user int [ref: > user.id]
+  project int [ref: > project.id]
+  permission_type int [ref: > permission_type.id]
+  practice_area int [ref: > practice_area.id]
   granted DateTimeField
   ended DateTimeField
   created_by int [ref: > user.id]
@@ -145,10 +146,10 @@ Table user_permission {
 
 Table permission_history {
   ~AbstractBaseModel
-  user_id int [ref: > user.id]
-  project_id int [ref: > project.id]
-  permission_type_id int [ref: > permission_type.id]
-  practice_area_id int [ref: > practice_area.id]
+  user int [ref: > user.id]
+  project int [ref: > project.id]
+  permission_type int [ref: > permission_type.id]
+  practice_area int [ref: > practice_area.id]
   granted DateTimeField
   ended DateTimeField
   created_by int
@@ -184,14 +185,14 @@ Table project {
   name String
   description String
   completed_on date
-  github_org_id int [ref: - project_url.id, note: 'The unique id assigned to GitHub orgs. A foreign key to a row in project_url that corresponds to the org repo link']
-  github_primary_repo_id int [ref: - project_url.id, note: 'A project might have many repos, this is for the primary starting place for new users. A foreign key to a row in project_url that corresponds to the primary repo']
-  current_status_id int [ref: > project_program_area_status_type.id]
+  github_org int [ref: - project_url.id, note: 'The unique id assigned to GitHub orgs. A foreign key to a row in project_url that corresponds to the org repo link']
+  github_primary_repo int [ref: - project_url.id, note: 'A project might have many repos, this is for the primary starting place for new users. A foreign key to a row in project_url that corresponds to the primary repo']
+  current_status int [ref: > project_program_area_status_type.id]
   hide Boolean
-  location_id int [ref: > location.id]
-  google_drive_id int [ref: > project_url.id, note: 'The unique id of the google drive, used for adding people with automation. A foreign key to a row in project_url that corresponds to the google drive.']
+  location int [ref: > location.id]
+  google_drive int [ref: > project_url.id, note: 'The unique id of the google drive, used for adding people with automation. A foreign key to a row in project_url that corresponds to the google drive.']
   project_leads int[ ] (user_id)
-  leadership_type_id int [ref: > leadership_type.id]
+  leadership_type int [ref: > leadership_type.id]
   image_logo URLField
   image_hero URLField
   image_icon URLField
@@ -200,8 +201,8 @@ Table project {
 Table project_affiliate_xref {
   //created
   ~AbstractBaseModel
-  affiliate_id int [ref: > affiliate.id]
-  project_id int [ref: > project.id]
+  affiliate int [ref: > affiliate.id]
+  project int [ref: > project.id]
   ended_on DateField
   is_sponsor boolean
   is_partner boolean
@@ -209,8 +210,8 @@ Table project_affiliate_xref {
 
 Table project_language_xref {
   ~AbstractBaseModel
-  project_id int [ref: > project.id]
-  language_id int [ref: > language.id]
+  project int [ref: > project.id]
+  language int [ref: > language.id]
   started_on DateTimeField
   ended_on DateTimeField
 }
@@ -218,22 +219,22 @@ Table project_language_xref {
 Table project_program_area_xref {
   //created
   ~AbstractBaseModel
-  project_id int [ref: > project.id]
-  program_area_id int [ref: > program_area.id]
+  project int [ref: > project.id]
+  program_area int [ref: > program_area.id]
 }
 
 Table project_sdg_xref {
   //created
   ~AbstractBaseModel
-  sdg_id int [ref: > sdg.id]
-  project_id int [ref: > project.id]
+  sdg int [ref: > sdg.id]
+  project int [ref: > project.id]
   ended_on DateField
 }
 
 Table project_stack_element_xref {
   ~AbstractBaseModel
-  project_id int [ref: > project.id]
-  stack_element_id int [ref: > stack_element.id]
+  project int [ref: > project.id]
+  stack_element int [ref: > stack_element.id]
   removed_on DateField
 }
 
@@ -246,18 +247,18 @@ Table project_program_area_status_type [note: 'currently named projectstatus in 
 
 Table project_program_area_status_history [note: 'currently named project_program_area_status in open issue']{
   ~AbstractBaseModel
-  project_id int [ref: > project.id]
-  status_id int [ref: > project_program_area_status_type.id]
+  project int [ref: > project.id]
+  status int [ref: > project_program_area_status_type.id]
 }
 
 Table project_url {
   ~AbstractBaseModel
-  project_id int [ref: > project.id]
-  url_type_id int [ref: > url_type.id]
+  project int [ref: > project.id]
+  url_type int [ref: > url_type.id]
   name CharField
   external_id CharField [note: 'resource id provided by GitHub or google']
   url URLField
-  status_id int [ref: > url_status_type.id]
+  url_status int [ref: > url_status_type.id]
 }
 
 Table referrer {
@@ -265,7 +266,7 @@ Table referrer {
   ~AbstractBaseModel
   name varchar
   url URLField
-  referrer_type_id int [ref: > referrer_type.id]
+  referrer_type int [ref: > referrer_type.id]
   contact_name varchar
   contact_email EmailField
 }
@@ -287,7 +288,7 @@ Table sdg {
 
 Table sdg_target_indicator {
   ~AbstractBaseModel
-  sdg_id int [ref: > sdg.id]
+  sdg int [ref: > sdg.id]
   code varchar
   description_number varchar
   description_text varchar
@@ -302,14 +303,14 @@ Table skill {
 
 Table soc_broad {
   ~AbstractBaseModel
-  soc_minor_id int [ref: > soc_minor.id]
+  soc_minor int [ref: > soc_minor.id]
   occ_code varchar
   title varchar
 }
 
 Table soc_detailed {
   ~AbstractBaseModel
-  soc_broad_id int [ref: > soc_broad.id]
+  soc_broad int [ref: > soc_broad.id]
   occ_code varchar
   title varchar
   description varchar
@@ -324,7 +325,7 @@ Table soc_major {
 
 Table soc_minor {
   ~AbstractBaseModel
-  soc_major_id int [ref: > soc_major.id]
+  soc_major int [ref: > soc_major.id]
   occ_code varchar
   title varchar
 }
@@ -337,7 +338,7 @@ Table stack_element {
   url URLField
   logo URLField
   active boolean
-  stack_element_type_id int [ref: > stack_element_type.id]
+  stack_element_type int [ref: > stack_element_type.id]
 }
 
 Table stack_element_type {
@@ -363,11 +364,13 @@ Table url_type {
 Table user {
   //created
   ~AbstractBaseModel
-  name_first varchar
-  name_last varchar
-  gmail EmailField
-  preferred_email EmailField
-  user_status_id int [ref: > user_status_type.id]
+  first_name varchar
+  last_name varchar
+  email EmailField [note:'The email given during intake']
+  email_gmail EmailField
+  email_preferred EmailField
+  is_active bool [default: True, note:'Required by django. A boolean field that indicates whether the user\'s account is active.']
+  user_status int [ref: > user_status_type.id]
   practice_area_primary int [ref: > practice_area.id]
   practice_area_secondary int[] [ref: <> practice_area.id]
   job_title_current varchar
@@ -386,28 +389,28 @@ Table user {
 
 Table user_availability {
   ~AbstractBaseModel
-  user_id int [ref: > user.id, not null]
+  user int [ref: > user.id, not null]
   day_of_week day (enum)
   start time
-  duration int
+  duration_minutes int
 }
 
 Table user_check {
   ~AbstractBaseModel
-  user_id int [ref: > user.id]
-  organization_id int [ref: > organization.id]
-  check_type_id int [ref: > check_type.id]
-  check_result boolean
+  user int [ref: > user.id]
+  org int [ref: > org.id]
+  type int [ref: > check_type.id]
+  result boolean
   reminder_start DateTimeField
-  completion DateTimeField
-  project_id int [ref: > project.id]
+  completed_at DateTimeField
+  project int [ref: > project.id]
 }
 
 Table user_employment_change {
   ~AbstractBaseModel
-  user_id int [ref: > user.id]
-  soc_detailed_id int [ref: > soc_detailed.id]
-  employment_change_date DateTimeField
+  user int [ref: > user.id]
+  soc_detailed int [ref: > soc_detailed.id]
+  employment_change_date DateField
 }
 
 Table user_status_type {
@@ -419,11 +422,11 @@ Table user_status_type {
 
 Table win {
   ~AbstractBaseModel
-  user_id int [ref: > user.id]
+  user int [ref: > user.id]
   practice_areas int[] [ref: <> practice_area.id]
   teams int[] [ref: <> project.id]
   description varchar
-  win_type_id int [ref: > win_type.id]
+  win_type int [ref: > win_type.id]
   can_use_photo boolean
 }
 
