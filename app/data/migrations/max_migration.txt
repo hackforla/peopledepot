@@ -1,5 +1,1 @@
-<<<<<<< HEAD
-0012_leadershiptype_seed
-=======
-0012_socminor_seed
->>>>>>> eec8078 (feat: add seed data soc_minor)
+0013_socminor_seed
