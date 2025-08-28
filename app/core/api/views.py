@@ -30,6 +30,7 @@ from ..models import ReferrerType
 from ..models import Sdg
 from ..models import Skill
 from ..models import SocMajor
+from ..models import SocMinor
 from ..models import StackElement
 from ..models import StackElementType
 from ..models import UrlType
@@ -54,6 +55,7 @@ from .serializers import ReferrerTypeSerializer
 from .serializers import SdgSerializer
 from .serializers import SkillSerializer
 from .serializers import SocMajorSerializer
+from .serializers import SocMinorSerializer
 from .serializers import StackElementSerializer
 from .serializers import StackElementTypeSerializer
 from .serializers import UrlTypeSerializer
@@ -430,6 +432,20 @@ class SocMajorViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = SocMajor.objects.all()
     serializer_class = SocMajorSerializer
+
+
+@extend_schema_view(
+    list=extend_schema(description="Return a list of all the soc minors"),
+    create=extend_schema(description="Create a new soc minor"),
+    retrieve=extend_schema(description="Return the details of a soc minor"),
+    destroy=extend_schema(description="Delete a soc minor"),
+    update=extend_schema(description="Update a soc minor"),
+    partial_update=extend_schema(description="Patch a soc major"),
+)
+class SocMinorViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = SocMinor.objects.all()
+    serializer_class = SocMinorSerializer
 
 
 @extend_schema_view(
