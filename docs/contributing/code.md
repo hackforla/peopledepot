@@ -1,17 +1,5 @@
 # Updating Code
 
-## Find an issue
-
-Find an issue in Prioritized Backlog [here](https://github.com/orgs/hackforla/projects/61/views/2)
-
-If you joined the PeopleDepot repository as described in a previous section:
-
-1. Assign the issue to yourself and move it to "In progress" column.
-1. Follow the steps in the issue description to complete the issue.
-1. Make sure to comment your ETA and Availability when you first assign yourself.
-
-If you don't have privileges, add a comment that you are working on the issue.
-
 ## Create a new branch
 
 Once you have selected an issue to work on, create a branch for that issue.
@@ -149,7 +137,3 @@ fixes #<issue-number>
 1. Below this, add a brief description of the changes you made
 1. Click the green "Create pull request" button
 1. Add the PR to the project board
-
-# Creating Issues
-
-To create a new issue, please use the blank issue template (available when you click New Issue). If you want to create an issue for other projects to use, please create the issue in your own repository and send a slack message to one of your hack night hosts with the link.
