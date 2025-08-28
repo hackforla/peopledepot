@@ -1,4 +1,5 @@
 nav:
+  - index.md
   - Onboarding:
     - Joining the team: https://github.com/hackforla/peopledepot/wiki/Joining-the-repository-team
     - dev_environment.md
