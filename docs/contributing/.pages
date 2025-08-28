@@ -2,8 +2,8 @@ nav:
   - Onboarding:
     - team.md
     - dev_environment.md
-    - issues.md
     - git.md
+    - code.md
     - documentation.md
   - howto
   - ...
