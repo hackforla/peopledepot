@@ -11,6 +11,7 @@ from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
+from ..models import Accomplishment
 from ..models import Affiliate
 from ..models import Affiliation
 from ..models import CheckType
@@ -35,6 +36,7 @@ from ..models import StackElementType
 from ..models import UrlType
 from ..models import UserPermission
 from ..models import UserStatusType
+from .serializers import AccomplishmentSerializer
 from .serializers import AffiliateSerializer
 from .serializers import AffiliationSerializer
 from .serializers import CheckTypeSerializer
@@ -430,6 +432,20 @@ class SocMajorViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = SocMajor.objects.all()
     serializer_class = SocMajorSerializer
+
+
+@extend_schema_view(
+    list=extend_schema(description="Return a list of all the accomplishments"),
+    create=extend_schema(description="Create a new accomplishment"),
+    retrieve=extend_schema(description="Return the details of a accomplishment"),
+    destroy=extend_schema(description="Delete a accomplishment"),
+    update=extend_schema(description="Update a accomplishment"),
+    partial_update=extend_schema(description="Patch a accomplishment"),
+)
+class AccomplishmentViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = Accomplishment.objects.all()
+    serializer_class = AccomplishmentSerializer
 
 
 @extend_schema_view(
