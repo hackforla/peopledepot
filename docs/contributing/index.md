@@ -4,7 +4,7 @@ Thank you for volunteering your time! The following is a set of guidelines for c
 
 **Please make sure you have completed the onboarding process which includes joining the Hack for LA Slack, GitHub, and Google Drive. If you have not been onboarded, see the [Getting Started Page](https://www.hackforla.org/getting-started).** _Workshop attendees are granted a temporary exception from this requirement._
 
-- [Joining the team](team.md)
+- [Joining the team](https://github.com/hackforla/peopledepot/wiki/Joining-the-repository-team)
 
 - [Setting up the Development Environment](dev_environment.md)
 
