@@ -449,10 +449,10 @@ def test_create_soc_minor(auth_client):
 
 def test_soc_minor_soc_major_relationship(auth_client, soc_minor, soc_major):
     res = auth_client.patch(
-        SOC_MINORS_URL + str(soc_minor.pk) + "/set_soc_major/",
+        reverse("soc-minor-detail", kwargs={"pk": soc_minor.pk}),
         {"soc_major": soc_major.pk},
     )
-    assert res.status_code == status.HTTP_202_ACCEPTED
+    assert res.status_code == status.HTTP_200_OK
 
     res = auth_client.get(SOC_MINORS_URL)
 

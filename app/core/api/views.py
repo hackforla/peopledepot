@@ -5,14 +5,11 @@ from drf_spectacular.utils import OpenApiParameter
 from drf_spectacular.utils import extend_schema
 from drf_spectacular.utils import extend_schema_view
 from rest_framework import mixins
-from rest_framework import status
 from rest_framework import viewsets
-from rest_framework.decorators import action
 from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from rest_framework.response import Response
 
 from ..models import Affiliate
 from ..models import Affiliation
@@ -449,19 +446,6 @@ class SocMinorViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = SocMinor.objects.all()
     serializer_class = SocMinorSerializer
-
-    @action(methods=["patch"], detail=True, permission_classes=permission_classes)
-    def set_soc_major(self, request, pk=None):
-        try:
-            soc_minor = SocMinor.objects.get(pk=pk)
-            soc_major = SocMajor.objects.get(pk=request.data["soc_major"])
-            soc_minor.soc_major = soc_major
-            soc_minor.save()
-        except Exception as e:
-            return Response(
-                {"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
-            )
-        return Response(status=status.HTTP_202_ACCEPTED)
 
 
 @extend_schema_view(
