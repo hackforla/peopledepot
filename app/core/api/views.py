@@ -11,6 +11,7 @@ from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
+from ..models import Accomplishment
 from ..models import Affiliate
 from ..models import Affiliation
 from ..models import CheckType
@@ -35,6 +36,7 @@ from ..models import StackElementType
 from ..models import UrlType
 from ..models import UserPermission
 from ..models import UserStatusType
+from .serializers import AccomplishmentSerializer
 from .serializers import AffiliateSerializer
 from .serializers import AffiliationSerializer
 from .serializers import CheckTypeSerializer
@@ -378,6 +380,20 @@ class AffiliationViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = Affiliation.objects.all()
     serializer_class = AffiliationSerializer
+
+
+@extend_schema_view(
+    list=extend_schema(description="Return a list of all accomplishments"),
+    create=extend_schema(description="Create a new accomplishment"),
+    retrieve=extend_schema(description="Return the details of an accomplishment"),
+    destroy=extend_schema(description="Delete an accomplishment"),
+    update=extend_schema(description="Update an accomplishment"),
+    partial_update=extend_schema(description="Patch an accomplishment"),
+)
+class AccomplishmentViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = Accomplishment.objects.all()
+    serializer_class = AccomplishmentSerializer
 
 
 @extend_schema_view(
