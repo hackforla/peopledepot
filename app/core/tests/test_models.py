@@ -622,3 +622,8 @@ def test_win_type_str(win_type):
 def test_win_type_fields(win_type):
     assert win_type.name == "funding"
     assert win_type.display_text == "Funding / Grant awarded"
+
+
+def test_accomplishment_str(accomplishment):
+    # __str__ returns the name
+    assert str(accomplishment) == "Test Accomplishment"

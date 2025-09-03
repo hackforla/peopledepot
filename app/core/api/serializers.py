@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from timezone_field.rest_framework import TimeZoneSerializerField
 
+from core.models import Accomplishment
 from core.models import Affiliate
 from core.models import Affiliation
 from core.models import CheckType
@@ -459,6 +460,28 @@ class SocMinorSerializer(serializers.ModelSerializer):
         model = SocMinor
         fields = ("uuid", "soc_major", "occ_code", "title")
         read_only_fields = ("uuid", "created_at", "updated_at")
+
+
+class AccomplishmentSerializer(serializers.ModelSerializer):
+    """Used to retrieve accomplishment info"""
+
+    class Meta:
+        model = Accomplishment
+        fields = (
+            "uuid",
+            "created_at",
+            "updated_at",
+            "project",
+            "title",
+            "description",
+            "url",
+            "accomplished_on",
+        )
+        read_only_fields = (
+            "uuid",
+            "created_at",
+            "updated_at",
+        )
 
 
 class UrlTypeSerializer(serializers.ModelSerializer):
