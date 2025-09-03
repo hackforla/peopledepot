@@ -6,6 +6,7 @@ from django.contrib.auth.forms import UserCreationForm as DefaultUserCreationFor
 from django.contrib.auth.forms import UsernameField
 from django.utils.translation import gettext_lazy as _
 
+from .models import Accomplishment
 from .models import Affiliate
 from .models import Affiliation
 from .models import CheckType
@@ -339,6 +340,17 @@ class ProjectStackElementXrefAdmin(admin.ModelAdmin):
 @admin.register(UrlStatusType)
 class UrlStatusTypeAdmin(admin.ModelAdmin):
     list_display = ("name", "description")
+
+
+@admin.register(Accomplishment)
+class AccomplishmentAdmin(admin.ModelAdmin):
+    list_display = (
+        "title",
+        "project",
+        "accomplished_on",
+        "created_at",
+    )
+    list_filter = ("project", "accomplished_on")
 
 
 @admin.register(Organization)

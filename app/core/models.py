@@ -524,6 +524,48 @@ class SocMinor(AbstractBaseModel):
         return self.title
 
 
+class Accomplishment(AbstractBaseModel):
+    """
+    Project accomplishments and milestones
+    """
+
+    project = models.ForeignKey(
+        Project,
+        on_delete=models.PROTECT,
+        related_name="accomplishments",
+        db_comment="Project this accomplishment belongs to",
+        help_text="Project this accomplishment belongs to",
+    )
+    title = models.CharField(
+        max_length=255,
+        db_comment="Title of the accomplishment",
+        help_text="Title of the accomplishment",
+    )
+    description = models.TextField(
+        db_comment="Detailed description of the accomplishment",
+        help_text="Detailed description of the accomplishment",
+    )
+    url = models.URLField(
+        db_comment="URL link to the accomplishment",
+        help_text="URL link to the accomplishment",
+    )
+    accomplished_on = models.DateTimeField(
+        db_comment="Date when the accomplishment was achieved",
+        help_text="Date when the accomplishment was achieved",
+    )
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["project", "title"],
+                name="unique_accomplishment_per_project",
+            )
+        ]
+
+    def __str__(self):
+        return self.title
+
+
 class ProjectProgramAreaXref(AbstractBaseModel):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     program_area = models.ForeignKey(ProgramArea, on_delete=models.CASCADE)

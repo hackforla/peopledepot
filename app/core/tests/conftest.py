@@ -4,6 +4,7 @@ from rest_framework.test import APIClient
 from constants import admin_project
 from constants import practice_lead_project
 
+from ..models import Accomplishment
 from ..models import Affiliate
 from ..models import Affiliation
 from ..models import CheckType
@@ -414,6 +415,17 @@ def project_stack_element_xref(project, stack_element):
 def url_status_type(db):
     return UrlStatusType.objects.create(
         name="active", description="URL is live and valid"
+    )
+
+
+@pytest.fixture
+def accomplishment(project):
+    return Accomplishment.objects.create(
+        project=project,
+        title="Test Accomplishment",
+        description="This is a test accomplishment",
+        url="https://example.com",
+        accomplished_on="2025-09-11T18:05:00Z",
     )
 
 
