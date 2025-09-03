@@ -1,6 +1,7 @@
 from django.urls import path
 from rest_framework import routers
 
+from .views import AccomplishmentViewSet
 from .views import AffiliateViewSet
 from .views import AffiliationViewSet
 from .views import CheckTypeViewSet
@@ -64,6 +65,7 @@ router.register(r"project-statuses", ProjectStatusViewSet, basename="project-sta
 router.register(r"project-urls", ProjectUrlViewSet, basename="project-url")
 router.register(r"soc-majors", SocMajorViewSet, basename="soc-major")
 router.register(r"soc-minors", SocMinorViewSet, basename="soc-minor")
+router.register(r"accomplishments", AccomplishmentViewSet, basename="accomplishment")
 router.register(r"url-types", UrlTypeViewSet, basename="url-type")
 router.register(
     r"user-status-types", UserStatusTypeViewSet, basename="user-status-type"
