@@ -35,6 +35,7 @@ AFFILIATION_URL = reverse("affiliation-list")
 CHECK_TYPE_URL = reverse("check-type-list")
 PROJECT_STATUSES_URL = reverse("project-status-list")
 SOC_MAJOR_URL = reverse("soc-major-list")
+ACCOMPLISHMENT_URL = reverse("accomplishment-list")
 URL_TYPE_URL = reverse("url-type-list")
 
 CREATE_USER_PAYLOAD = {
@@ -429,6 +430,21 @@ def test_create_soc_major(auth_client):
         "title": "Test marketing and sales",
     }
     res = auth_client.post(SOC_MAJOR_URL, payload)
+    assert res.status_code == status.HTTP_201_CREATED
+    assert res.data["title"] == payload["title"]
+
+
+def test_accomplishment(auth_client, project):
+    """Test that we can create a accomplishment"""
+
+    payload = {
+        "project_id": project.uuid,
+        "title": "Test title",
+        "description": "Test description",
+        "url": "https://redwind01.com",
+        "accomplished_on": "2024-01-01T18:00:00Z",
+    }
+    res = auth_client.post(ACCOMPLISHMENT_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
     assert res.data["title"] == payload["title"]
 
