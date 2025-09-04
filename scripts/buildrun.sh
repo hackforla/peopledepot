@@ -1,7 +1,6 @@
 #!/bin/bash
 set -euo pipefail
 IFS=$'\n\t'
-set -x
 
 SCRIPT_DIR="$(dirname "$0")"
 # https://codefather.tech/blog/bash-get-script-directory/
@@ -15,4 +14,5 @@ SCRIPT_DIR="$(dirname "$0")"
 # m     Run migrations
 # s     Create superuser
 # l     Tail logs after run
+set -x
 "$SCRIPT_DIR"/run.sh -c -o -d -b -m "$@"
