@@ -2,10 +2,8 @@
 name: Update Table
 about: Describe this issue template's purpose here.
 title: 'Update Table: [TABLE NAME]'
-labels: 'feature: update table, good first issue, milestone: missing, role: back end,
-  size: 0.25pt, stakeholder: missing'
+labels: 'feature: update table, good first issue, milestone: missing, role: back end, size: 0.25pt, stakeholder: missing'
 assignees: ''
-
 ---
 
 ### Overview
