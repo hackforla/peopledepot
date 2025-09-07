@@ -10,6 +10,7 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.response import Response
 from rest_framework.exceptions import AuthenticationFailed
 from core.utils.jwt import cognito_jwt_decode_handler
 from rest_framework.response import Response
