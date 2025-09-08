@@ -1,7 +1,9 @@
-from rest_framework.exceptions import PermissionDenied, ValidationError
+from rest_framework.exceptions import PermissionDenied
+from rest_framework.exceptions import ValidationError
 
 from core.api.permission_validation import PermissionValidation
-from core.models import User, UserPermission
+from core.models import User
+from core.models import UserPermission
 
 
 class UserRelatedRequest:
@@ -80,7 +82,11 @@ class UserRelatedRequest:
         )
 
         # Return only allowed fields
-        return {key: value for key, value in original_representation.items() if key in user_fields}
+        return {
+            key: value
+            for key, value in original_representation.items()
+            if key in user_fields
+        }
 
     @classmethod
     def validate_post_fields(cls, view, request):

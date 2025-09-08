@@ -2,9 +2,13 @@ import pytest
 from django.urls import reverse
 from rest_framework.test import APIClient
 
-from constants import admin_project, member_project
+from constants import admin_project
+from constants import member_project
 from core.api.permission_validation import PermissionValidation
-from core.tests.utils.seed_constants import valerie_name, wally_name, wanda_admin_project, winona_name
+from core.tests.utils.seed_constants import valerie_name
+from core.tests.utils.seed_constants import wally_name
+from core.tests.utils.seed_constants import wanda_admin_project
+from core.tests.utils.seed_constants import winona_name
 from core.tests.utils.seed_user import SeedUser
 
 # Constants representing expected user counts in tests
@@ -51,7 +55,9 @@ class TestGetUser:
 
         # Throw error if target user not found
         if response_related_user is None:
-            raise ValueError(f"Test set up mistake. No user with first name of {first_name}")
+            raise ValueError(
+                f"Test set up mistake. No user with first name of {first_name}"
+            )
 
         # Otherwise check if user fields in response data are the same as fields
         return set(response_related_user)

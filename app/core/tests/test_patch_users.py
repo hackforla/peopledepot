@@ -6,7 +6,9 @@ from rest_framework import status
 from rest_framework.test import APIClient
 
 from core.api.user_related_request import UserRelatedRequest
-from core.tests.utils.seed_constants import garry_name, valerie_name, wanda_admin_project
+from core.tests.utils.seed_constants import garry_name
+from core.tests.utils.seed_constants import valerie_name
+from core.tests.utils.seed_constants import wanda_admin_project
 from core.tests.utils.seed_user import SeedUser
 
 
@@ -91,7 +93,10 @@ class TestPatchUser:
 
         Fields in the request that are not permitted should trigger a validation error.
         """
-        patch_data = {"email_gmail": "smith@example.com", "created_at": "2022-01-01T00:00:00Z"}
+        patch_data = {
+            "email_gmail": "smith@example.com",
+            "created_at": "2022-01-01T00:00:00Z",
+        }
         response = cls._call_api(
             requesting_user_name=garry_name,
             response_related_name=wanda_admin_project,

@@ -1,4 +1,7 @@
-from core.models import PermissionType, Project, User, UserPermission
+from core.models import PermissionType
+from core.models import Project
+from core.models import User
+from core.models import UserPermission
 from core.tests.utils.seed_constants import password
 
 
@@ -7,7 +10,7 @@ class SeedUser:
     Helper class to create and manage seed users for tests.
 
     Attributes:
-        seed_users_list (dict): Stores users created via `create_user`. 
+        seed_users_list (dict): Stores users created via `create_user`.
             Keys are first names, values are User instances. Used for retrieval in tests.
 
     Methods:
@@ -65,14 +68,16 @@ class SeedUser:
         return user
 
     @classmethod
-    def create_related_data(cls, *, user: User, permission_type_name: str, project_name: str = None) -> UserPermission:
+    def create_related_data(
+        cls, *, user: User, permission_type_name: str, project_name: str = None
+    ) -> UserPermission:
         """
         Create a UserPermission for the given user.
 
         Args:
             user (User): The user to assign permissions to.
             permission_type_name (str): Name of the PermissionType to assign.
-            project_name (str, optional): Name of the Project to link the permission to. 
+            project_name (str, optional): Name of the Project to link the permission to.
                                           If None, permission is global.
 
         Returns:
@@ -82,12 +87,12 @@ class SeedUser:
         permission_type = PermissionType.objects.get(name=permission_type_name)
 
         # Optionally link the permission to a project
-        project_data = {"project": Project.objects.get(name=project_name)} if project_name else {}
+        project_data = (
+            {"project": Project.objects.get(name=project_name)} if project_name else {}
+        )
 
         user_permission = UserPermission.objects.create(
-            user=user,
-            permission_type=permission_type,
-            **project_data
+            user=user, permission_type=permission_type, **project_data
         )
         user_permission.save()
         return user_permission
