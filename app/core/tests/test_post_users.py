@@ -1,97 +1,116 @@
 import pytest
 from django.urls import reverse
-from rest_framework import status
-from rest_framework.test import APIRequestFactory
-from rest_framework.test import force_authenticate
+from rest_framework.test import APIClient
 
-from core.api.views import UserViewSet
-from core.tests.utils.seed_constants import garry_name
-from core.tests.utils.seed_constants import wanda_admin_project
+from constants import admin_project, member_project
+from core.api.permission_validation import PermissionValidation
+from core.tests.utils.seed_constants import valerie_name, wally_name, wanda_admin_project, winona_name
 from core.tests.utils.seed_user import SeedUser
 
-count_website_members = 4
-count_people_depot_members = 3
-count_members_either = 6
+# Constants representing expected user counts in tests
+COUNT_WEBSITE_MEMBERS = 5
+COUNT_PEOPLE_DEPOT_MEMBERS = 3
+COUNT_MEMBERS_EITHER = 6
+
+_USER_GET_URL = reverse("user-list")
 
 
 @pytest.mark.django_db
-@pytest.mark.load_user_data_required  # see load_user_data_required in conftest.py
-class TestPostUser:
+@pytest.mark.load_user_data_required
+class TestGetUser:
+    """
+    Test suite for the User GET API endpoint.
+
+    Verifies that users are returned according to project and team membership, 
+    and that the fields returned comply with the requesting user's permission level.
+    """
+
     @staticmethod
-    def _post_request_to_viewset(requesting_user, create_data):
-        new_data = create_data.copy()
-        factory = APIRequestFactory()
-        request = factory.post(reverse("user-list"), data=new_data, format="json")
-        force_authenticate(request, user=requesting_user)
-        view = UserViewSet.as_view({"post": "create"})
-        response = view(request)
-        return response
-
-    @classmethod
-    def test_valid_post(cls):
-        """Test POST request returns success when the request fields match configured fields.
-
-        This test mocks a PATCH request to skip submitting the request to the server and instead
-        calls the view directly with the request.  This is done so that variables used by the
-        server can be set to test values.
+    def _get_response_fields(first_name: str, response_data: list[dict]) -> set:
         """
-        requesting_user = SeedUser.get_user(garry_name)  # project lead for website
+        Extract the set of fields returned for a user with a given first name.
 
-        create_data = {
-            "username": "foo",
-            "last_name": "Smith",
-            "first_name": "John",
-            "email_gmail": "smith@example.com",
-            "time_zone": "America/Los_Angeles",
-            "password": "password",
-        }
-        response = cls._post_request_to_viewset(requesting_user, create_data)
-        print(r"Debug", response.data)
+        Args:
+            first_name (str): The first name of the user to search for in the response data.
+            response_data (list[dict]): The JSON-decoded response data from GET /users.
 
-        assert response.status_code == status.HTTP_201_CREATED
+        Returns:
+            set: The set of keys (field names) present for the target user.
 
-    def test_post_with_not_allowed_fields(self):
-        """Test post request returns 400 response when request fields do not match configured fields.
-
-        Fields are configured to not include last_name.  The test will attempt to create a user
-        with last_name in the request data.  The test should fail with a 400 status code.
-
-        See documentation for test_allowable_patch_fields_configurable for more information.
+        Raises:
+            ValueError: If no user with the specified first name is found in the response.
         """
+        response_related_user = None
 
-        requesting_user = SeedUser.get_user(garry_name)  # project lead for website
-        post_data = {
-            "username": "foo",
-            "first_name": "Mary",
-            "last_name": "Smith",
-            "email_gmail": "smith@example.com",
-            "time_zone": "America/Los_Angeles",
-            "password": "password",
-            "created_at": "2022-01-01T00:00:00Z",
-        }
-        response = TestPostUser._post_request_to_viewset(requesting_user, post_data)
-        assert response.status_code == status.HTTP_400_BAD_REQUEST
+        for user in response_data:
+            if user["first_name"] == first_name:
+                response_related_user = user
+                break
 
-    def test_post_with_unprivileged_requesting_user(self):
-        """Test post request returns 400 response when request fields do not match configured fields.
+        if response_related_user is None:
+            raise ValueError(f"Test set up mistake. No user with first name of {first_name}")
 
-        Fields are configured to not include last_name.  The test will attempt to create a user
-        with last_name in the request data.  The test should fail with a 400 status code.
+        return set(response_related_user)
 
-        See documentation for test_allowable_patch_fields_configurable for more information.
+    def _perform_get_request(self, requesting_user: str) -> tuple[int, list[dict]]:
         """
+        Helper method to perform an authenticated GET request to the user list endpoint.
 
-        requesting_user = SeedUser.get_user(
-            wanda_admin_project
-        )  # project lead for website
-        post_data = {
-            "username": "foo",
-            "first_name": "Mary",
-            "last_name": "Smith",
-            "email_gmail": "smith@example.com",
-            "time_zone": "America/Los_Angeles",
-            "password": "password",
-            "created_at": "2022-01-01T00:00:00Z",
-        }
-        response = TestPostUser._post_request_to_viewset(requesting_user, post_data)
-        assert response.status_code == status.HTTP_403_FORBIDDEN
+        Args:
+            requesting_user (str): The first name of the user to authenticate as.
+
+        Returns:
+            tuple: A tuple containing the HTTP status code and the JSON-decoded response data.
+        """
+        client = APIClient()
+        client.force_authenticate(user=SeedUser.get_user(requesting_user))
+        response = client.get(_USER_GET_URL)
+        return response.status_code, response.json()
+
+    def test_get_url_results_for_admin_project(self):
+        """
+        Test GET /users for a project admin.
+
+        Verifies that:
+        - All users on the website project are returned.
+        - The returned fields match those allowed for a project admin.
+        """
+        status_code, response_data = self._perform_get_request(wanda_admin_project)
+        assert status_code == 200
+        assert len(response_data) == COUNT_WEBSITE_MEMBERS
+
+        response_fields = self._get_response_fields(winona_name, response_data)
+        valid_fields = PermissionValidation.get_permitted_fields(
+            operation="get", permission_type=admin_project, table_name="User"
+        )
+        assert response_fields == set(valid_fields)
+
+    def test_get_results_for_users_on_same_team(self):
+        """
+        Test GET /users for a team member.
+
+        Verifies that:
+        - Only users on the same project/team are returned.
+        - The returned fields comply with the member permission configuration.
+        """
+        status_code, response_data = self._perform_get_request(wally_name)
+        assert status_code == 200
+        assert len(response_data) == COUNT_WEBSITE_MEMBERS
+
+        response_fields = self._get_response_fields(winona_name, response_data)
+        valid_fields = PermissionValidation.get_permitted_fields(
+            operation="get", permission_type=member_project, table_name="User"
+        )
+        assert response_fields == set(valid_fields)
+
+    def test_no_user_permission(self):
+        """
+        Test GET /users when the requesting user has no permissions.
+
+        Verifies that:
+        - The response succeeds with status 200.
+        - No user data is returned.
+        """
+        status_code, response_data = self._perform_get_request(valerie_name)
+        assert status_code == 200
+        assert len(response_data) == 0
