@@ -269,13 +269,6 @@ def stack_element(stack_element_type):
 
 
 @pytest.fixture
-def permission_type1():
-    return PermissionType.objects.create(
-        name="Test Permission Type", description="", rank=1000
-    )
-
-
-@pytest.fixture
 def stack_element_type():
     return StackElementType.objects.create(name="Test Stack Element Type")
 
