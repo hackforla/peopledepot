@@ -15,6 +15,7 @@ from ..models import UserStatusType
 
 pytestmark = pytest.mark.django_db
 
+
 @pytest.mark.skip(reason="Skipping to fix later.  Test data is seeded differently now.")
 def test_user(user, django_user_model):
     assert django_user_model.objects.filter(is_staff=False).count() == 1
@@ -74,6 +75,7 @@ def test_stack_element(stack_element):
 
 
 # Permission Type tested in test_permission_type.py
+
 
 def test_stack_element_type(stack_element_type):
     assert str(stack_element_type) == "Test Stack Element Type"
