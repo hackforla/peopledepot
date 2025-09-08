@@ -6,12 +6,16 @@ These are the github actions used in the project.
 
 ```bash
 .github/workflows/
-└── deploy-docs.yml # (1)!
+├── deploy-docs.yml # (1)!
+└── pull-request.yml # (2)!
 ```
 
 1. Deploy Documentation
     - triggered by commits to `main`
     - builds and deploys the mkdocs documentation to github pages.
+1. PR Checks
+    - triggered by pull requests
+    - validates the mkdocs build configuration
 
 ## Actions page workflows
 
