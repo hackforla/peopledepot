@@ -13,7 +13,6 @@ from core.models import UserPermission
 class PermissionValidation:
     """A collection of static methods for validating user permissions."""
 
-
     @staticmethod
     def is_admin(user) -> bool:
         """Check if a user assigned "globalAdmin" permission."""
@@ -27,7 +26,7 @@ class PermissionValidation:
     def get_rank_dict() -> dict[str, int]:
         """Return a dictionary mapping permission names to their ranks.
         Example: {"adminGlobal": 1, "adminProject": 2, "practiceLeadProject": 3, "memberProject": 4}.
-        Used in algorithm to determine most privileged permission type between two users.  The lower the rank, 
+        Used in algorithm to determine most privileged permission type between two users.  The lower the rank,
         the more privileged the permission.
         """
         permissions = PermissionType.objects.values("name", "rank")
@@ -37,7 +36,8 @@ class PermissionValidation:
     def get_csv_field_permissions() -> dict[str, dict[str, list[dict[str, Any]]]]:
         """Read the field permissions from a CSV file.
         Returns a list of dictionaries, each representing a row in the CSV file.
-        Each dictionary contains key values for: table_name, field_name, get, post, patch."""
+        Each dictionary contains key values for: table_name, field_name, get, post, patch.
+        """
         file_path = Path(field_permissions_csv_file)
         with file_path.open() as file:
             reader = csv.DictReader(file)
@@ -48,19 +48,19 @@ class PermissionValidation:
         cls, operation: str, permission_type: str, table_name: str
     ) -> list[str]:
         """
-        Return the list of field names accessible for a user with the given permission type 
+        Return the list of field names accessible for a user with the given permission type
         for a given operation.
 
         Parameters:
             operation (str): The type of operation. (e.g., "get", "post", "patch").
-            permission_type (str): The permission type of the requesting user 
+            permission_type (str): The permission type of the requesting user
                 (e.g., "adminGlobal", "adminProject", etc.).
-            table_name (str): The name of the table/model 
+            table_name (str): The name of the table/model
                 (e.g., "User", "Project").
 
         Returns:
-            list[str]: A list of field names that the user with the given 
-            permission_type can access for the specified operation on the 
+            list[str]: A list of field names that the user with the given
+            permission_type can access for the specified operation on the
             specified table.
 
         Example:
@@ -166,22 +166,22 @@ class PermissionValidation:
         cls, operation: str, permission_type: str, table_name: str, field: dict
     ) -> bool:
         """
-        Determine whether a user with a given permission type has access to a field 
+        Determine whether a user with a given permission type has access to a field
         for a specific operation on a specific table.
 
         Parameters:
             operation (str): The type of operation ("get", "post", or "patch").
-            permission_type (str): The user's permission type 
+            permission_type (str): The user's permission type
                 (e.g., "adminGlobal", "adminProject").
             table_name (str): The name of the table/model to check (e.g., "User").
             field (dict): A dictionary describing the field, including at least:
                 - "field_name"
                 - "table_name"
-                - operation-specific permission values 
+                - operation-specific permission values
                   (e.g., {"get": "adminProject"}).
 
         Returns:
-            bool: True if the permission type allows access to the field for the operation, 
+            bool: True if the permission type allows access to the field for the operation,
             False otherwise.
 
         Example:
@@ -198,8 +198,10 @@ class PermissionValidation:
             return False
 
         rank_dict = cls.get_rank_dict()
-        if permission_type not in rank_dict or operation_permission_type not in rank_dict:
+        if (
+            permission_type not in rank_dict
+            or operation_permission_type not in rank_dict
+        ):
             return False
 
         return rank_dict[permission_type] <= rank_dict[operation_permission_type]
-

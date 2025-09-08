@@ -12,5 +12,3 @@ UserPermissions
 user
 
 blackBox(logged in user, self.user, "UserPermission")
-
-
