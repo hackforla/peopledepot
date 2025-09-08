@@ -1,0 +1,15 @@
+name: PR Checks
+
+on:
+  pull_request:
+
+jobs:
+  Audit-Pull-Request:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Validate mkdocs
+        run: |
+          docker run --rm -v $(pwd):/app hackforlaops/mkdocs:latest mkdocs build -d /tmp --strict
