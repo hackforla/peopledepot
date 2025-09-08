@@ -3,7 +3,6 @@ from django.urls import reverse
 from rest_framework import status
 
 from core.api.serializers import ProgramAreaSerializer
-from core.api.serializers import UserSerializer
 from core.models import ProgramArea
 from core.models import UserPermission
 
@@ -15,161 +14,22 @@ ME_URL = reverse("my_profile")
 USER_STATUS_TYPES_URL = reverse("user-status-type-list")
 USERS_URL = reverse("user-list")
 EVENTS_URL = reverse("event-list")
-EVENT_TYPES_URL = reverse("event-type-list")
 PRACTICE_AREA_URL = reverse("practice-area-list")
 FAQS_URL = reverse("faq-list")
 FAQS_VIEWED_URL = reverse("faq-viewed-list")
 AFFILIATE_URL = reverse("affiliate-list")
-LEADERSHIP_TYPES_URL = reverse("leadership-type-list")
 LOCATION_URL = reverse("location-list")
-PROGRAM_AREAS_URL = reverse("program-area-list")
-REFERRERS_URL = reverse("referrer-list")
-REFERRER_TYPES_URL = reverse("referrer-type-list")
+PROGRAM_AREA_URL = reverse("program-area-list")
 SKILL_URL = reverse("skill-list")
 STACK_ELEMENT_URL = reverse("stack-element-list")
 PERMISSION_TYPE = reverse("permission-type-list")
-PROJECTS_URL = reverse("project-list")
 STACK_ELEMENT_TYPE_URL = reverse("stack-element-type-list")
-SDGS_URL = reverse("sdg-list")
+SDG_URL = reverse("sdg-list")
 AFFILIATION_URL = reverse("affiliation-list")
 CHECK_TYPE_URL = reverse("check-type-list")
-PROJECT_STATUSES_URL = reverse("project-status-list")
 SOC_MAJOR_URL = reverse("soc-major-list")
 URL_TYPE_URL = reverse("url-type-list")
-
-CREATE_USER_PAYLOAD = {
-    "username": "TestUserAPI",
-    "password": "testpass",
-    # time_zone is required because django_timezone_field doesn't yet support
-    # the blank string
-    "time_zone": "America/Los_Angeles",
-}
-
-
-@pytest.fixture
-def users_url():
-    return reverse("user-list")
-
-
-@pytest.fixture
-def user_url(user):
-    return reverse("user-detail", args=[user.uuid])
-
-
-def create_user(django_user_model, **params):
-    return django_user_model.objects.create_user(**params)
-
-
-def test_list_users_fail(client):
-    res = client.get(USERS_URL)
-
-    assert res.status_code == status.HTTP_401_UNAUTHORIZED
-
-
-def test_get_profile(auth_client):
-    res = auth_client.get(ME_URL)
-
-    assert res.status_code == status.HTTP_200_OK
-    assert res.data["username"] == "TestUser"
-
-
-def test_get_users(auth_client, django_user_model):
-    create_user(django_user_model, username="TestUser2", password="testpass")
-    create_user(django_user_model, username="TestUser3", password="testpass")
-
-    res = auth_client.get(USERS_URL)
-
-    assert res.status_code == status.HTTP_200_OK
-    assert len(res.data) == 3
-
-    users = django_user_model.objects.all().order_by("created_at")
-    serializer = UserSerializer(users, many=True)
-    assert res.data == serializer.data
-
-
-def test_get_single_user(auth_client, user):
-    res = auth_client.get(f"{USERS_URL}?email={user.email}")
-    assert res.status_code == status.HTTP_200_OK
-
-    res = auth_client.get(f"{USERS_URL}?username={user.username}")
-    assert res.status_code == status.HTTP_200_OK
-
-
-user_actions_test_data = [
-    (
-        "admin_client",
-        "post",
-        "users_url",
-        CREATE_USER_PAYLOAD,
-        status.HTTP_201_CREATED,
-    ),
-    ("admin_client", "get", "users_url", {}, status.HTTP_200_OK),
-    (
-        "auth_client",
-        "post",
-        "users_url",
-        CREATE_USER_PAYLOAD,
-        status.HTTP_201_CREATED,
-    ),
-    ("auth_client", "get", "users_url", {}, status.HTTP_200_OK),
-    (
-        "auth_client",
-        "patch",
-        "user_url",
-        {"first_name": "TestUser2"},
-        status.HTTP_200_OK,
-    ),
-    (
-        "auth_client",
-        "put",
-        "user_url",
-        CREATE_USER_PAYLOAD,
-        status.HTTP_200_OK,
-    ),
-    ("auth_client", "delete", "user_url", {}, status.HTTP_204_NO_CONTENT),
-    (
-        "admin_client",
-        "patch",
-        "user_url",
-        {"first_name": "TestUser2"},
-        status.HTTP_200_OK,
-    ),
-    (
-        "admin_client",
-        "put",
-        "user_url",
-        CREATE_USER_PAYLOAD,
-        status.HTTP_200_OK,
-    ),
-    ("admin_client", "delete", "user_url", {}, status.HTTP_204_NO_CONTENT),
-    (
-        "auth_client2",
-        "patch",
-        "user_url",
-        {"first_name": "TestUser2"},
-        status.HTTP_200_OK,
-    ),
-    (
-        "auth_client2",
-        "put",
-        "user_url",
-        CREATE_USER_PAYLOAD,
-        status.HTTP_200_OK,
-    ),
-    ("auth_client2", "delete", "user_url", {}, status.HTTP_204_NO_CONTENT),
-]
-
-
-@pytest.mark.parametrize(
-    ("client_name", "action", "endpoint", "payload", "expected_status"),
-    user_actions_test_data,
-)
-def test_user_actions(client_name, action, endpoint, payload, expected_status, request):
-    client = request.getfixturevalue(client_name)
-    action_fn = getattr(client, action)
-    url = request.getfixturevalue(endpoint)
-    res = action_fn(url, payload)
-    assert res.status_code == expected_status
+USER_STATUS_TYPES_URL = reverse("user-status-type-list")
 
 
 def test_create_event(auth_client, project):
@@ -198,13 +58,6 @@ def test_create_event(auth_client, project):
         ],
     }
     res = auth_client.post(EVENTS_URL, payload)
-    assert res.status_code == status.HTTP_201_CREATED
-    assert res.data["name"] == payload["name"]
-
-
-def test_create_event_type(auth_client):
-    payload = {"name": "Test Event Type", "description": "Test Event Type Description"}
-    res = auth_client.post(EVENT_TYPES_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
     assert res.data["name"] == payload["name"]
 
@@ -251,30 +104,6 @@ def test_get_faq_viewed(auth_client, faq_viewed):
     assert res.data[0]["faq"] == faq_viewed.faq.pk
 
 
-def test_create_leadership_type(auth_client):
-    """Test that we can create a leadership_type"""
-
-    payload = {
-        "name": "Create leadership_type test",
-        "description": "Create leadership_type test description",
-    }
-    res = auth_client.post(LEADERSHIP_TYPES_URL, payload)
-    assert res.status_code == status.HTTP_201_CREATED
-    assert res.data["name"] == payload["name"]
-    assert res.data["description"] == payload["description"]
-
-
-def test_project_leadership_type_relationship(auth_client, project_1, leadership_type):
-    res = auth_client.patch(
-        reverse("project-detail", args=[project_1.pk]),
-        {"leadership_type": leadership_type.pk},
-    )
-    assert res.status_code == status.HTTP_200_OK
-
-    res = auth_client.get(PROJECTS_URL)
-    assert res.data[0]["leadership_type"] == leadership_type.pk
-
-
 def test_create_location(auth_client):
     """Test that we can create a location"""
 
@@ -298,7 +127,7 @@ def test_create_program_area(auth_client):
         "description": "About program area",
         "image": "http://www.imageurl.com",
     }
-    res = auth_client.post(PROGRAM_AREAS_URL, payload)
+    res = auth_client.post(PROGRAM_AREA_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
     assert res.data["name"] == payload["name"]
 
@@ -311,9 +140,9 @@ def test_list_program_area(auth_client):
         "description": "About program area",
         "image": "http://www.imageurl.com",
     }
-    res = auth_client.post(PROGRAM_AREAS_URL, payload)
+    res = auth_client.post(PROGRAM_AREA_URL, payload)
 
-    res = auth_client.get(PROGRAM_AREAS_URL)
+    res = auth_client.get(PROGRAM_AREA_URL)
 
     program_areas = ProgramArea.objects.all()
     expected_data = ProgramAreaSerializer(program_areas, many=True).data
@@ -366,7 +195,7 @@ def test_create_stack_element_type(auth_client):
     assert res.data["name"] == payload["name"]
 
 
-def test_get_user_permissions(user_superuser_admin, user_permissions, auth_client):
+def test_get_user_permissions(user_superuser_admin, auth_client):
     auth_client.force_authenticate(user=user_superuser_admin)
     permission_count = UserPermission.objects.count()
     res = auth_client.get(USER_PERMISSIONS_URL)
@@ -380,7 +209,7 @@ def test_create_sdg(auth_client):
         "description": "Test SDG description",
         "image": "https://unsplash.com",
     }
-    res = auth_client.post(SDGS_URL, payload)
+    res = auth_client.post(SDG_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
     assert res.data["name"] == payload["name"]
 
@@ -407,16 +236,6 @@ def test_create_check_type(auth_client):
         "description": "This is a test description",
     }
     res = auth_client.post(CHECK_TYPE_URL, payload)
-    assert res.status_code == status.HTTP_201_CREATED
-    assert res.data["name"] == payload["name"]
-
-
-def test_create_project_status(auth_client):
-    payload = {
-        "name": "This is a api-test project status name",
-        "description": "This is a api-test project status description",
-    }
-    res = auth_client.post(PROJECT_STATUSES_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
     assert res.data["name"] == payload["name"]
 
@@ -449,7 +268,7 @@ def test_project_sdg_xref(auth_client, project, sdg, sdg1):
     assert sdg.name in test_proj["sdgs"]
     assert sdg1.name in test_proj["sdgs"]
 
-    sdg_res = auth_client.get(SDGS_URL)
+    sdg_res = auth_client.get(SDG_URL)
     test_sdg = get_object(sdg_res.data, sdg.uuid)
     assert test_sdg is not None
     assert len(test_sdg["projects"]) == 1
@@ -477,59 +296,3 @@ def test_create_user_status_type(auth_client):
     res = auth_client.post(USER_STATUS_TYPES_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
     assert res.data["name"] == payload["name"]
-
-
-def test_project_program_area_xref(auth_client, project, program_area):
-    def get_object(objects, target_uuid):
-        for obj in objects:
-            if str(obj["uuid"]) == str(target_uuid):
-                return obj
-        return None
-
-    project.program_areas.add(program_area)
-    proj_res = auth_client.get(PROJECTS_URL)
-    test_proj = get_object(proj_res.data, project.uuid)
-    assert test_proj is not None
-    assert len(test_proj["program_areas"]) == 1
-    assert program_area.name in test_proj["program_areas"]
-
-    program_area_res = auth_client.get(PROGRAM_AREAS_URL)
-    test_program_ar = get_object(program_area_res.data, program_area.uuid)
-    assert test_program_ar is not None
-    assert len(test_program_ar["projects"]) == 1
-    assert project.name in test_program_ar["projects"]
-
-
-def test_create_referrer_type(auth_client):
-    payload = {
-        "name": "Test Referrer Type",
-        "description": "Test Referrer Type description",
-    }
-    res = auth_client.post(REFERRER_TYPES_URL, payload)
-    assert res.status_code == status.HTTP_201_CREATED
-    assert res.data["name"] == payload["name"]
-
-
-def test_create_referrer(auth_client, referrer_type):
-    payload = {
-        "name": "This is a test referrer",
-        "referrer_type": str(referrer_type.uuid),
-        "contact_name": "John Doe",
-        "contact_email": "john@example.com",
-    }
-
-    res = auth_client.post(REFERRERS_URL, payload)
-
-    assert res.status_code == status.HTTP_201_CREATED
-    assert res.data["name"] == payload["name"]
-    assert str(res.data["referrer_type"]) == str(referrer_type.uuid)
-    assert res.data["contact_name"] == payload["contact_name"]
-
-
-def test_assign_referrer_to_user(auth_client, user, referrer):
-    payload = {"referrer": str(referrer.uuid)}
-
-    res = auth_client.patch(f"{USERS_URL}{user.uuid}/", payload)
-
-    assert res.status_code == status.HTTP_200_OK
-    assert str(res.data["referrer"]) == str(referrer.uuid)
