@@ -20,6 +20,7 @@ plugins:
   - search
   - autolinks
   - awesome-pages
+  - tags
 
 markdown_extensions:
   - abbr
