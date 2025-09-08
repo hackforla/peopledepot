@@ -55,7 +55,7 @@ class UserRelatedRequest:
         else:
             response_related_user = instance.user
         # Get dynamic fields from some logic
-        user_fields = PermissionValidation.get_response_fields(
+        user_fields = PermissionValidation.get_fields_for_get_request(
             request=request,
             table_name=model_class.__name__,
             response_related_user=response_related_user,
