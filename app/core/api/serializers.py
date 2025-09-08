@@ -109,9 +109,47 @@ class UserSerializer(serializers.ModelSerializer):
             "practice_area_primary",
             "practice_area_secondary",
             "practice_area_target_intake",
-            "email_cognito",
-            "is_active",
+            "email_cognito",        
             "user_status",
+            )
+        read_only_fields = (
+            "uuid",
+            "created_at",
+            "updated_at",
+            "username",
+            "email",
+        )
+
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    time_zone = TimeZoneSerializerField(use_pytz=False)
+
+    class Meta:
+        model = User
+        fields = (
+            "uuid",
+            "username",
+            "created_at",
+            "updated_at",
+            "is_superuser",
+            "is_active",
+            "user_status"
+            "is_staff",
+            "email",
+            "first_name",
+            "last_name",
+            "gmail",
+            "preferred_email",
+            "current_job_title",
+            "target_job_title",
+            "current_skills",
+            "target_skills",
+            "linkedin_account",
+            "github_handle",
+            "slack_id",
+            "phone",
+            "texting_ok",
+            "time_zone",
         )
         read_only_fields = (
             "uuid",
