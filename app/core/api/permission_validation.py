@@ -4,8 +4,10 @@ from typing import Any
 
 from rest_framework.exceptions import PermissionDenied
 
-from constants import admin_global, field_permissions_csv_file
-from core.models import PermissionType, UserPermission
+from constants import admin_global
+from constants import field_permissions_csv_file
+from core.models import PermissionType
+from core.models import UserPermission
 
 
 class PermissionValidation:
@@ -176,7 +178,9 @@ class PermissionValidation:
         :param response_related_user: The user whose data is being modified.
         :return: A list of permitted field names for PATCH operations.
         """
-        perm_type = cls.get_most_privileged_perm_type(request.user, response_related_user)
+        perm_type = cls.get_most_privileged_perm_type(
+            request.user, response_related_user
+        )
         return cls.get_permitted_fields("patch", perm_type, table_name)
 
     @classmethod
@@ -188,13 +192,17 @@ class PermissionValidation:
         :param response_related_user: The user whose data is being accessed.
         :return: A list of permitted field names for GET operations.
         """
-        perm_type = cls.get_most_privileged_perm_type(request.user, response_related_user)
+        perm_type = cls.get_most_privileged_perm_type(
+            request.user, response_related_user
+        )
         return cls.get_permitted_fields("get", perm_type, table_name)
 
     # ---------- Privilege Comparison ----------
 
     @classmethod
-    def get_most_privileged_perm_type(cls, requesting_user, response_related_user) -> str:
+    def get_most_privileged_perm_type(
+        cls, requesting_user, response_related_user
+    ) -> str:
         """Return the most privileged permission type between two users.
 
         If the requesting user is a global admin, ``adminGlobal`` is returned.
