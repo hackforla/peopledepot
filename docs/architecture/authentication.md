@@ -1,3 +1,9 @@
+---
+tags:
+  - Cognito
+  - Authentication
+---
+
 # Cognito authentication
 
 ## What is it
