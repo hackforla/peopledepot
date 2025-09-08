@@ -4,4 +4,5 @@ nav:
   - ref
   - howto
   - contributing
+  - Global Tags: tags.md
   - license.md
