@@ -20,7 +20,14 @@ plugins:
   - search
   - autolinks
   - awesome-pages
-  - tags
+  - meta
+  - tags:
+      tags_allowed:
+        - git
+        - GitHub Actions
+        - Cognito
+        - Authentication
+        - Onboarding
 
 markdown_extensions:
   - abbr
