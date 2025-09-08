@@ -19,7 +19,8 @@ scripts/
 ├── run.sh
 ├── start-local.sh
 ├── test.sh
-└── update-dependencies.sh
+├── update-dependencies.sh
+└── validate-mkdocs.sh
 ```
 
 These scripts assume you are using bash.
@@ -71,6 +72,8 @@ These scripts assume you are using bash.
     1. use `--help-pytest` to see pytest options that can be added.
 
 1. **update-dependencies.sh** - update python dependencies to the latest versions
+
+1. **validate-mkdocs.sh** - validate mkdocs build for config and link issues
 
 ## Script Elements
 

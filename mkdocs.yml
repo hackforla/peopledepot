@@ -47,6 +47,12 @@ markdown_extensions:
       title: On this page
       permalink: true
 
+validation:
+  absolute_links: relative_to_docs # MkDocs 1.6
+  anchors: warn # MkDocs 1.6
+  omitted_files: warn
+  unrecognized_links: warn
+
 watch:
   - README.md
   - CONTRIBUTING.md
