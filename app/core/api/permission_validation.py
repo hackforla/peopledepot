@@ -44,7 +44,7 @@ class PermissionValidation:
             return list(reader)
 
     @classmethod
-    def get_fields(
+    def get_permitted_fields(
         cls, operation: str, permission_type: str, table_name: str
     ) -> list[str]:
         """
@@ -88,7 +88,7 @@ class PermissionValidation:
         requesting_user = request.user
         if not cls.is_admin(requesting_user):
             raise PermissionDenied("You do not have privilges to create.")
-        fields = cls.get_fields(
+        fields = cls.get_permitted_fields(
             operation="post",
             table_name=table_name,
             permission_type=admin_global,
@@ -102,7 +102,7 @@ class PermissionValidation:
         most_privileged_perm_type = cls.get_most_privileged_perm_type(
             requesting_user, response_related_user
         )
-        fields = cls.get_fields(
+        fields = cls.get_permitted_fields(
             operation="patch",
             table_name=table_name,
             permission_type=most_privileged_perm_type,
@@ -115,7 +115,7 @@ class PermissionValidation:
         most_privileged_perm_type = cls.get_most_privileged_perm_type(
             requesting_user, response_related_user
         )
-        fields = cls.get_fields(
+        fields = cls.get_permitted_fields(
             operation="get",
             table_name=table_name,
             permission_type=most_privileged_perm_type,
@@ -154,7 +154,7 @@ class PermissionValidation:
         most_privileged_perm_type = cls.get_most_privileged_perm_type(
             requesting_user, response_related_user
         )
-        fields = cls.get_fields(
+        fields = cls.get_permitted_fields(
             operation="get",
             table_name=table_name,
             permission_type=most_privileged_perm_type,

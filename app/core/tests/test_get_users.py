@@ -51,7 +51,7 @@ class TestGetUser:
         assert response.status_code == 200
         assert len(response.json()) == count_website_members
         response_fields = self._get_response_fields(winona_name, response.data)
-        valid_fields = PermissionValidation.get_fields(
+        valid_fields = PermissionValidation.get_permitted_fields(
             operation="get", permission_type=admin_project, table_name="User"
         )
         assert response_fields == set(valid_fields)
@@ -69,7 +69,7 @@ class TestGetUser:
         assert response.status_code == 200
         assert len(response.json()) == count_website_members
         response_fields = self._get_response_fields(winona_name, response.data)
-        valid_fields = PermissionValidation.get_fields(
+        valid_fields = PermissionValidation.get_permitted_fields(
             operation="get", permission_type=member_project, table_name="User"
         )
         assert response_fields == set(valid_fields)
