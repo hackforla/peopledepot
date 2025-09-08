@@ -11,9 +11,12 @@ from core.models import UserPermission
 
 
 class PermissionValidation:
+    """A collection of static methods for validating user permissions."""
+
+
     @staticmethod
     def is_admin(user) -> bool:
-        """Check if a user has admin permissions."""
+        """Check if a user assigned "globalAdmin" permission."""
         permission_type = PermissionType.objects.filter(name=admin_global).first()
         # return True
         return UserPermission.objects.filter(
@@ -22,13 +25,19 @@ class PermissionValidation:
 
     @staticmethod
     def get_rank_dict() -> dict[str, int]:
-        """Return a dictionary mapping permission names to their ranks."""
+        """Return a dictionary mapping permission names to their ranks.
+        Example: {"adminGlobal": 1, "adminProject": 2, "practiceLeadProject": 3, "memberProject": 4}.
+        Used in algorithm to determine most privileged permission type between two users.  The lower the rank, 
+        the more privileged the permission.
+        """
         permissions = PermissionType.objects.values("name", "rank")
         return {perm["name"]: perm["rank"] for perm in permissions}
 
     @staticmethod
     def get_csv_field_permissions() -> dict[str, dict[str, list[dict[str, Any]]]]:
-        """Read the field permissions from a CSV file."""
+        """Read the field permissions from a CSV file.
+        Returns a list of dictionaries, each representing a row in the CSV file.
+        Each dictionary contains key values for: table_name, field_name, get, post, patch."""
         file_path = Path(field_permissions_csv_file)
         with file_path.open() as file:
             reader = csv.DictReader(file)
@@ -38,20 +47,41 @@ class PermissionValidation:
     def get_fields(
         cls, operation: str, permission_type: str, table_name: str
     ) -> list[str]:
-        """Return the valid fields for the given permission type."""
+        """
+        Return the list of field names accessible for a user with the given permission type 
+        for a given operation.
 
-        valid_fields = []
-        if permission_type == "":
-            return valid_fields
-        for field in cls.get_csv_field_permissions():
-            if cls.is_field_valid(
+        Parameters:
+            operation (str): The type of operation. (e.g., "get", "post", "patch").
+            permission_type (str): The permission type of the requesting user 
+                (e.g., "adminGlobal", "adminProject", etc.).
+            table_name (str): The name of the table/model 
+                (e.g., "User", "Project").
+
+        Returns:
+            list[str]: A list of field names that the user with the given 
+            permission_type can access for the specified operation on the 
+            specified table.
+
+        Example:
+            >>> get_fields("get", "adminProject", "User")
+            ["first_name", "last_name"]
+        """
+        if not permission_type:  # Early exit guard clause
+            return []
+
+        valid_fields = set()
+
+        for field_permission in cls.get_csv_field_permissions():
+            if cls.has_field_permission(
                 operation=operation,
                 permission_type=permission_type,
                 table_name=table_name,
-                field=field,
+                field=field_permission,
             ):
-                valid_fields += [field["field_name"]]
-        return valid_fields
+                valid_fields.add(field_permission["field_name"])
+
+        return list(valid_fields)
 
     @classmethod
     def get_fields_for_post_request(cls, request, table_name):
@@ -132,14 +162,44 @@ class PermissionValidation:
         return fields
 
     @classmethod
-    def is_field_valid(
+    def has_field_permission(
         cls, operation: str, permission_type: str, table_name: str, field: dict
-    ):
-        operation_permission_type = field[operation]
-        if operation_permission_type == "" or field["table_name"] != table_name:
+    ) -> bool:
+        """
+        Determine whether a user with a given permission type has access to a field 
+        for a specific operation on a specific table.
+
+        Parameters:
+            operation (str): The type of operation ("get", "post", or "patch").
+            permission_type (str): The user's permission type 
+                (e.g., "adminGlobal", "adminProject").
+            table_name (str): The name of the table/model to check (e.g., "User").
+            field (dict): A dictionary describing the field, including at least:
+                - "field_name"
+                - "table_name"
+                - operation-specific permission values 
+                  (e.g., {"get": "adminProject"}).
+
+        Returns:
+            bool: True if the permission type allows access to the field for the operation, 
+            False otherwise.
+
+        Example:
+            >>> field_info = {
+            ...     "field_name": "email",
+            ...     "table_name": "User",
+            ...     "get": "adminProject"
+            ... }
+            >>> has_field_permission("get", "adminProject", "User", field_info)
+            True
+        """
+        operation_permission_type = field.get(operation, "")
+        if not operation_permission_type or field.get("table_name") != table_name:
             return False
+
         rank_dict = cls.get_rank_dict()
-        source_rank = rank_dict[permission_type]
-        source_rank = rank_dict[permission_type]
-        rank_match = source_rank <= rank_dict[operation_permission_type]
-        return rank_match
+        if permission_type not in rank_dict or operation_permission_type not in rank_dict:
+            return False
+
+        return rank_dict[permission_type] <= rank_dict[operation_permission_type]
+
