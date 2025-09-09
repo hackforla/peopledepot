@@ -9,7 +9,7 @@ These are the directories and files in the project. Parts are summarized for cla
 ├── app/     # (1)!
 ├── docs/    # (2)!
 ├── scripts/ # (3)!
-├── docker compose.yml # (4)!
+├── docker-compose.yml # (4)!
 └── pyproject.toml # (5)!
 ```
 

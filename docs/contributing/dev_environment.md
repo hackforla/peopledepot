@@ -42,7 +42,7 @@ Before cloning your forked repository to your local machine, you must have Git i
 
 ### Install Docker
 
-Install or make sure [docker][docker-install] and [docker compose][docker compose-install] are installed on your computer
+Install or make sure [docker][docker-install] and [docker compose][docker-compose-install] are installed on your computer.
 
 ```bash
 docker -v
@@ -175,5 +175,5 @@ upstream        https://github.com/hackforla/peopledepot.git (push)
 
 See our documentation for [Working with Docker](tools/docker.md#working-with-docker) for more useful Docker commands.
 
-[docker compose-install]: https://docs.docker.com/compose/install/
+[docker-compose-install]: https://docs.docker.com/compose/install/
 [docker-install]: https://docs.docker.com/get-docker/
