@@ -10,8 +10,9 @@ User,email_preferred,practiceLeadProject,adminBrigade,adminGlobal
 User,email_cognito,practiceLeadProject,adminBrigade,adminGlobal
 User,created_at,adminProject,,,
 User,user_status_id,adminBrigade,adminBrigade,adminGlobal
-User,current_job_title,adminBrigade,adminBrigade,adminGlobal
-User,target_job_title,adminBrigade,adminBrigade,adminGlobal
+User,job_title_current_intake,memberProject,adminBrigade,adminGlobal
+User,job_title_target_intake,memberProject,adminBrigade,adminGlobal
+User,uuid,memberProject,,
 User,current_skills,adminBrigade,adminBrigade,adminGlobal
 User,target_skills,adminBrigade,adminBrigade,adminGlobal
 User,linkedin_account,memberProject,adminBrigade,adminGlobal
@@ -20,22 +21,13 @@ User,phone,practiceLeadProject,adminBrigade,adminGlobal
 User,texting_ok,practiceLeadProject,adminBrigade,adminGlobal
 User,slack_id,memberProject,adminBrigade,adminGlobal
 User,time_zone,memberProject,adminBrigade,adminGlobal
-User,last_updated,adminBrigade,,adminGlobal
-User,password,,adminBrigade,adminGlobal,,,,
-UserPermission,field1,memberProject,adminProject,adminProject
-
-blackBox(logged in user, target user, table)
-
-UserOpportunities
-user
-blackBox(logged in user, self.user, "UserPermission")
+User,updated_at,memberProject,,
+User,password,,adminBrigade,adminGlobal,
+User,referrer,memberProject,adminBrigade,adminGlobal
+User,practice_area_target_intake,memberProject,adminBrigade,adminGlobal
+User,practice_area_secondary,memberProject,adminBrigade,adminGlobal
+User,practice_area_primary,memberProject,adminBrigade,adminGlobal
+User,user_status,memberProject,adminBrigade,adminGlobal
 
 
-User =< UserEvent =< UserAttendance
 
-UserEvent
-user
-
-UserAttendance
-user userEvent.user
-userEvent
