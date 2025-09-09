@@ -96,8 +96,6 @@ class UserSerializer(BaseUserSerializer):
     """
 
 
-
-
 class UserProfileSerializer(BaseUserSerializer):
     """
     Serializer for retrieving basic user profile information.
@@ -112,6 +110,7 @@ class UserProfileSerializer(BaseUserSerializer):
 # ------------------------
 # Other serializers
 # ------------------------
+
 
 class PracticeAreaSerializer(serializers.ModelSerializer):
     """Used to retrieve practice area info"""
