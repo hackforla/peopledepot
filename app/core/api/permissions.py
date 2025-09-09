@@ -7,4 +7,3 @@ class DenyAny(BasePermission):
 
     def has_object_permission(self, request, view, obj) -> bool:
         return False
-
