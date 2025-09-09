@@ -38,11 +38,13 @@ class UserRelatedRequest:
         return User.objects.filter(permissions__project__in=projects).distinct()
 
     @classmethod
-    def get_queryset(cls, view):
+    def filter_queryset_by_allowed_users(cls, view):
         """
-        Get the queryset of objects that the requesting user has permission to view.
+        If view is for User model, return allowed users.
+        Otherwise, filter the model's records to only include those
+        associated with allowed users.
 
-        This method is typically called from `get_queryset` in a DRF ViewSet.
+        This method is called from `get_queryset` in a DRF ViewSet.
 
         Args:
             view (ViewSet): The DRF view instance.
@@ -64,8 +66,8 @@ class UserRelatedRequest:
         the requesting user is allowed to see.
 
         Args:
-            instance (Model): The instance being serialized.
-            original_representation (dict): The original serializer data.
+            instance (Model): The model instance being serialized.
+            original_representation (dict): List of default fields from the original serializer.
 
         Returns:
             dict: A filtered representation containing only permitted fields.
@@ -106,7 +108,7 @@ class UserRelatedRequest:
         valid_fields = RequestFieldsAllowed.get_fields_for_post_request(
             request=request, table_name=table_name
         )
-        cls.validate_request_fields(request, valid_fields)
+        cls._validate_request_fields(request, valid_fields)
 
     @classmethod
     def validate_patch_fields(cls, view, request, obj):
@@ -130,10 +132,10 @@ class UserRelatedRequest:
             request=request,
             response_related_user=response_related_user,
         )
-        cls.validate_request_fields(request, valid_fields)
+        cls._validate_request_fields(request, valid_fields)
 
     @staticmethod
-    def validate_request_fields(request, valid_fields) -> None:
+    def _validate_request_fields(request, valid_fields) -> None:
         """
         Ensure the request only contains allowed fields.
 

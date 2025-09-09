@@ -169,7 +169,7 @@ class UserViewSet(viewsets.ModelViewSet):
         """
         Optionally filter users by an 'email' and/or 'username' query paramerter in the URL
         """
-        queryset = UserRelatedRequest.get_queryset(view=self)
+        queryset = UserRelatedRequest.filter_queryset_by_allowed_users(view=self)
 
         email = self.request.query_params.get("email_preferred")
         if email is not None:
