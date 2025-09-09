@@ -2,9 +2,9 @@ from rest_framework.permissions import BasePermission
 
 
 class DenyAny(BasePermission):
-    def has_permission(self, request, view) -> bool:
+    def has_permission(self, request, view):
         return False
 
-    def has_object_permission(self, request, view, obj) -> bool:
+    def has_object_permission(self, request, view, obj):
         return False
 
