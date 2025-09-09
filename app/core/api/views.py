@@ -13,7 +13,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 
-from core.api.permissions import GenericPermission
+from core.api.user_related_post_patch_permission import UserRelatedPostPatchPermission
 from core.api.user_related_request import UserRelatedRequest
 
 from ..models import Affiliate
@@ -161,7 +161,7 @@ class UserProfileAPIView(RetrieveModelMixin, UpdateModelMixin, GenericAPIView):
     partial_update=extend_schema(description="Update the given user"),
 )
 class UserViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticated, GenericPermission]
+    permission_classes = [IsAuthenticated, UserRelatedPostPatchPermission]
     serializer_class = UserSerializer
     lookup_field = "uuid"
 
