@@ -2,9 +2,9 @@ import pytest
 from django.urls import reverse
 from rest_framework.test import APIClient
 
+from app.core.api.request_fields_allowed import RequestFieldsAllowed
 from constants import admin_project
 from constants import member_project
-from app.core.api.request_fields_allowed import RequestFieldsAllowed
 from core.tests.utils.seed_constants import valerie_name
 from core.tests.utils.seed_constants import wally_name
 from core.tests.utils.seed_constants import wanda_admin_project

@@ -5,11 +5,11 @@ import pytest
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.exceptions import ValidationError
 
+from app.core.api.request_fields_allowed import RequestFieldsAllowed
 from constants import admin_global
 from constants import admin_project
 from constants import member_project
 from constants import practice_lead_project
-from app.core.api.request_fields_allowed import RequestFieldsAllowed
 from core.api.user_related_request import UserRelatedRequest
 from core.api.views import UserViewSet
 from core.tests.utils.seed_constants import garry_name
@@ -127,7 +127,9 @@ def test_get_most_privileged_perm_type(
 
 @pytest.mark.django_db
 @pytest.mark.load_user_data_required
-@patch.object(RequestFieldsAllowed, "_get_csv_field_permissions", return_value=mock_data)
+@patch.object(
+    RequestFieldsAllowed, "_get_csv_field_permissions", return_value=mock_data
+)
 def test_patch_with_valid_fields(_):
     """
     Verify that validate_patch_fields succeeds for a PATCH request with allowed fields.
@@ -146,7 +148,9 @@ def test_patch_with_valid_fields(_):
 
 @pytest.mark.django_db
 @pytest.mark.load_user_data_required
-@patch.object(RequestFieldsAllowed, "_get_csv_field_permissions", return_value=mock_data)
+@patch.object(
+    RequestFieldsAllowed, "_get_csv_field_permissions", return_value=mock_data
+)
 def test_patch_with_invalid_fields(_):
     """
     Verify that validate_patch_fields raises ValidationError when PATCH contains invalid fields.
@@ -166,7 +170,9 @@ def test_patch_with_invalid_fields(_):
 
 
 @pytest.mark.django_db
-@patch.object(RequestFieldsAllowed, "_get_csv_field_permissions", return_value=mock_data)
+@patch.object(
+    RequestFieldsAllowed, "_get_csv_field_permissions", return_value=mock_data
+)
 def test_patch_fields_no_privileges(_):
     """
     Verify that validate_patch_fields raises PermissionDenied when user has no privilege.
@@ -183,7 +189,9 @@ def test_patch_fields_no_privileges(_):
 
 @pytest.mark.django_db
 @pytest.mark.load_user_data_required
-@patch.object(RequestFieldsAllowed, "_get_csv_field_permissions", return_value=mock_data)
+@patch.object(
+    RequestFieldsAllowed, "_get_csv_field_permissions", return_value=mock_data
+)
 def test_post_with_valid_fields(_):
     """
     Verify that validate_post_fields succeeds for a POST request with allowed fields.
@@ -198,7 +206,9 @@ def test_post_with_valid_fields(_):
 
 @pytest.mark.django_db
 @pytest.mark.load_user_data_required
-@patch.object(RequestFieldsAllowed, "_get_csv_field_permissions", return_value=mock_data)
+@patch.object(
+    RequestFieldsAllowed, "_get_csv_field_permissions", return_value=mock_data
+)
 def test_post_with_invalid_fields(_):
     """
     Verify that validate_post_fields raises ValidationError when POST contains invalid fields.
