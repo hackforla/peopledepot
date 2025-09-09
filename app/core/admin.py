@@ -5,6 +5,7 @@ from django.contrib.auth.forms import UserCreationForm as DefaultUserCreationFor
 from django.contrib.auth.forms import UsernameField
 from django.utils.translation import gettext_lazy as _
 
+from .models import Accomplishment
 from .models import Affiliate
 from .models import Affiliation
 from .models import CheckType
@@ -293,3 +294,14 @@ class ReferrerTypeAdmin(admin.ModelAdmin):
 @admin.register(Referrer)
 class ReferrerAdmin(admin.ModelAdmin):
     list_display = ("name", "url")
+
+
+@admin.register(Accomplishment)
+class AccomplishmentAdmin(admin.ModelAdmin):
+    list_display = (
+        "title",
+        "project_id",
+        "accomplished_on",
+        "created_at",
+    )
+    list_filter = ("project_id", "accomplished_on")

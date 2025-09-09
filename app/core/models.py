@@ -494,6 +494,17 @@ class SocMajor(AbstractBaseModel):
         return self.title
 
 
+class Accomplishment(AbstractBaseModel):
+    project_id = models.ForeignKey(Project, on_delete=models.DO_NOTHING)
+    title = models.CharField(max_length=255)
+    description = models.CharField(max_length=255)
+    url = models.URLField()
+    accomplished_on = models.DateTimeField()
+
+    def __str__(self):
+        return self.title
+
+
 class ProjectProgramAreaXref(AbstractBaseModel):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     program_area = models.ForeignKey(ProgramArea, on_delete=models.CASCADE)
