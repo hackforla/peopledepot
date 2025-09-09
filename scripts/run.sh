@@ -50,13 +50,13 @@ set -x
 
 dc_down() {
 set -x
-  docker-compose down "${DOWN_ARGS[@]}"
+  docker compose down "${DOWN_ARGS[@]}"
 { set +x; } 2>&-;
 }
 
 dc_up() {
 set -x
-  docker-compose up "${UP_ARGS[@]}"
+  docker compose up "${UP_ARGS[@]}"
 { set +x; } 2>&-;
 }
 

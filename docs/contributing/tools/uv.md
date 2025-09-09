@@ -6,7 +6,7 @@ We're using `uv` as a faster replacement to `pip` and `pip-tools`. See the [offi
 
 We're using `uv` to compile and install python dependencies, which replaces the functionalities of `pip` and `pip-tools`. `uv` can also create and maintain a virtual environment but we're not using it for now. In fact, we're suppressing it with the `--system` option during `uv pip install`.
 
-`uv` is already part of the `docker` image, so there's no need to install it on the host. It does require prepending the docker-compose information to run, for example: `docker-compose exec web uv pip compile requirements.in -o requirements.txt`. We'll omit the `docker-compose exec web` portion from now on in this document.
+`uv` is already part of the `docker` image, so there's no need to install it on the host. It does require prepending the docker compose information to run, for example: `docker compose exec web uv pip compile requirements.in -o requirements.txt`. We'll omit the `docker compose exec web` portion from now on in this document.
 
 `requirements.in` is the requirements file and `uv pip compile` generates `requirement.txt`, with pinned versions, similar to lock files in other languages.
 
@@ -46,7 +46,7 @@ See the [official documentation](https://docs.astral.sh/uv/guides/install-python
 We shouldn't run this on every build, but we should do this manually every month/quarter or so. Be sure to re-run all tests to make sure they still pass.
 
 ```bash
-# docker-compose exec web \
+# docker compose exec web \
     uv pip compile requirements.in -o requirements.txt --no-header --upgrade
 ```
 

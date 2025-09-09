@@ -42,11 +42,11 @@ Before cloning your forked repository to your local machine, you must have Git i
 
 ### Install Docker
 
-Install or make sure [docker][docker-install] and [docker-compose][docker-compose-install] are installed on your computer
+Install or make sure [docker][docker-install] and [docker compose][docker-compose-install] are installed on your computer.
 
 ```bash
 docker -v
-docker-compose -v
+docker compose -v
 ```
 
 The recommended installation method for your operating system can be found [here](https://docs.docker.com/install/).
@@ -159,7 +159,7 @@ upstream        https://github.com/hackforla/peopledepot.git (push)
     cp ./app/.env.docker-example ./app/.env.docker
     ```
 
-1. Build and run the project via the script (this includes running `docker-compose up`)
+1. Build and run the project via the script (this includes running `docker compose up`)
 
     ```bash
     ./scripts/buildrun.sh
@@ -168,7 +168,7 @@ upstream        https://github.com/hackforla/peopledepot.git (push)
 1. Create a super user for logging into the web admin interface
 
     ```bash
-    docker-compose exec web python manage.py createsuperuser --no-input
+    docker compose exec web python manage.py createsuperuser --no-input
     ```
 
 1. Browse to the web admin interface at `http://localhost:8000/admin/` and confirm the admin site is running. Use DJANGO_SUPERUSER_USERNAME and DJANGO_SUPERUSER_PASSWORD from .env.docker for credentials.
