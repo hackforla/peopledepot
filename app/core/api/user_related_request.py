@@ -1,7 +1,7 @@
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.exceptions import ValidationError
 
-from core.api.permission_validation import PermissionValidation
+from app.core.api.request_fields_allowed import RequestFieldsAllowed
 from core.models import User
 from core.models import UserPermission
 
@@ -14,7 +14,7 @@ class UserRelatedRequest:
     """
 
     @staticmethod
-    def get_allowed_users(request):
+    def _get_allowed_users(request):
         """
         Return a queryset of users that the requesting user is allowed to view.
 
@@ -30,7 +30,7 @@ class UserRelatedRequest:
         current_user = User.objects.get(username=request.user.username)
         user_permissions = UserPermission.objects.filter(user=current_user)
 
-        if PermissionValidation.is_admin(current_user):
+        if RequestFieldsAllowed.is_admin(current_user):
             return User.objects.all()
 
         # Get the projects the user has permissions for
@@ -50,7 +50,7 @@ class UserRelatedRequest:
         Returns:
             QuerySet: The queryset filtered according to the requesting user's permissions.
         """
-        allowed_users = cls.get_allowed_users(view.request)
+        allowed_users = cls._get_allowed_users(view.request)
         model_class = view.serializer_class.Meta.model
 
         if model_class == User:
@@ -75,7 +75,7 @@ class UserRelatedRequest:
         response_related_user = instance if model_class == User else instance.user
 
         # Determine which fields the requesting user can access
-        user_fields = PermissionValidation.get_fields_for_get_request(
+        user_fields = RequestFieldsAllowed.get_fields_for_get_request(
             request=request,
             table_name=model_class.__name__,
             response_related_user=response_related_user,
@@ -103,7 +103,7 @@ class UserRelatedRequest:
         """
         model_class = view.serializer_class.Meta.model
         table_name = model_class.__name__
-        valid_fields = PermissionValidation.get_fields_for_post_request(
+        valid_fields = RequestFieldsAllowed.get_fields_for_post_request(
             request=request, table_name=table_name
         )
         cls.validate_request_fields(request, valid_fields)
@@ -125,7 +125,7 @@ class UserRelatedRequest:
         model_class = view.serializer_class.Meta.model
         table_name = model_class.__name__
         response_related_user = obj if model_class == User else obj.user
-        valid_fields = PermissionValidation.get_fields_for_patch_request(
+        valid_fields = RequestFieldsAllowed.get_fields_for_patch_request(
             table_name=table_name,
             request=request,
             response_related_user=response_related_user,

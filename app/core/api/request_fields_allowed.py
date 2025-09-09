@@ -10,7 +10,7 @@ from core.models import PermissionType
 from core.models import UserPermission
 
 
-class PermissionValidation:
+class RequestFieldsAllowed:
     """Utility methods for validating user permissions and field-level access."""
 
     # ---------- Admin Check ----------
@@ -28,10 +28,54 @@ class PermissionValidation:
             permission_type=permission_type, user=user
         ).exists()
 
+    # ---------- Request-Oriented Field Getters ----------
+
+    @classmethod
+    def get_fields_for_post_request(cls, request, table_name) -> list[str]:
+        """Return permitted fields for a POST request.
+
+        Only admins may create records. Raises ``PermissionDenied`` otherwise.
+
+        :param request: The request object containing the user.
+        :param table_name: The table/model name.
+        :return: A list of permitted field names for POST operations.
+        """
+        if not cls.is_admin(request.user):
+            raise PermissionDenied("You do not have privileges to create.")
+        return cls._get_permitted_fields("post", admin_global, table_name)
+
+    @classmethod
+    def get_fields_for_patch_request(cls, request, table_name, response_related_user):
+        """Return permitted fields for a PATCH request.
+
+        :param request: The request object containing the requesting user.
+        :param table_name: The table/model name.
+        :param response_related_user: The user whose data is being modified.
+        :return: A list of permitted field names for PATCH operations.
+        """
+        perm_type = cls._get_most_privileged_perm_type(
+            request.user, response_related_user
+        )
+        return cls._get_permitted_fields("patch", perm_type, table_name)
+
+    @classmethod
+    def get_fields_for_get_request(cls, request, table_name, response_related_user):
+        """Return permitted fields for a GET request (response data).
+
+        :param request: The request object containing the requesting user.
+        :param table_name: The table/model name.
+        :param response_related_user: The user whose data is being accessed.
+        :return: A list of permitted field names for GET operations.
+        """
+        perm_type = cls._get_most_privileged_perm_type(
+            request.user, response_related_user
+        )
+        return cls._get_permitted_fields("get", perm_type, table_name)
+
     # ---------- Rank Utilities ----------
 
     @staticmethod
-    def get_rank_dict() -> dict[str, int]:
+    def _get_rank_dict() -> dict[str, int]:
         """Return a dictionary mapping permission type names to rank values.
 
         The lower the rank value, the more privileged the permission.
@@ -51,7 +95,7 @@ class PermissionValidation:
     # ---------- CSV Utilities ----------
 
     @staticmethod
-    def get_csv_field_permissions() -> list[dict[str, Any]]:
+    def _get_csv_field_permissions() -> list[dict[str, Any]]:
         """Load field permissions from a CSV file.
 
         Each row in the CSV represents one field and the permissions required for
@@ -80,7 +124,7 @@ class PermissionValidation:
     # ---------- Core Permission Logic ----------
 
     @classmethod
-    def get_permitted_fields(
+    def _get_permitted_fields(
         cls, operation: str, permission_type: str, table_name: str
     ) -> list[str]:
         """Return permitted field names for a given operation.
@@ -96,7 +140,7 @@ class PermissionValidation:
 
         Example::
 
-            >>> PermissionValidation.get_permitted_fields("get", "adminProject", "User")
+            >>> PermissionValidation._get_permitted_fields("get", "adminProject", "User")
             ["first_name", "last_name"]
         """
         if not permission_type:
@@ -104,8 +148,8 @@ class PermissionValidation:
 
         valid_fields = set()
 
-        for field_permission in cls.get_csv_field_permissions():
-            if cls.has_field_permission(
+        for field_permission in cls._get_csv_field_permissions():
+            if cls._has_field_permission(
                 operation=operation,
                 permission_type=permission_type,
                 table_name=table_name,
@@ -116,7 +160,7 @@ class PermissionValidation:
         return list(valid_fields)
 
     @classmethod
-    def has_field_permission(
+    def _has_field_permission(
         cls, operation: str, permission_type: str, table_name: str, field: dict
     ) -> bool:
         """Check if a permission type allows access to a field.
@@ -146,61 +190,17 @@ class PermissionValidation:
         if not operation_perm_type or field.get("table_name") != table_name:
             return False
 
-        rank_dict = cls.get_rank_dict()
+        rank_dict = cls._get_rank_dict()
         return (
             permission_type in rank_dict
             and operation_perm_type in rank_dict
             and rank_dict[permission_type] <= rank_dict[operation_perm_type]
         )
 
-    # ---------- Request-Oriented Field Getters ----------
-
-    @classmethod
-    def get_fields_for_post_request(cls, request, table_name) -> list[str]:
-        """Return permitted fields for a POST request.
-
-        Only admins may create records. Raises ``PermissionDenied`` otherwise.
-
-        :param request: The request object containing the user.
-        :param table_name: The table/model name.
-        :return: A list of permitted field names for POST operations.
-        """
-        if not cls.is_admin(request.user):
-            raise PermissionDenied("You do not have privileges to create.")
-        return cls.get_permitted_fields("post", admin_global, table_name)
-
-    @classmethod
-    def get_fields_for_patch_request(cls, request, table_name, response_related_user):
-        """Return permitted fields for a PATCH request.
-
-        :param request: The request object containing the requesting user.
-        :param table_name: The table/model name.
-        :param response_related_user: The user whose data is being modified.
-        :return: A list of permitted field names for PATCH operations.
-        """
-        perm_type = cls.get_most_privileged_perm_type(
-            request.user, response_related_user
-        )
-        return cls.get_permitted_fields("patch", perm_type, table_name)
-
-    @classmethod
-    def get_fields_for_get_request(cls, request, table_name, response_related_user):
-        """Return permitted fields for a GET request (response data).
-
-        :param request: The request object containing the requesting user.
-        :param table_name: The table/model name.
-        :param response_related_user: The user whose data is being accessed.
-        :return: A list of permitted field names for GET operations.
-        """
-        perm_type = cls.get_most_privileged_perm_type(
-            request.user, response_related_user
-        )
-        return cls.get_permitted_fields("get", perm_type, table_name)
-
     # ---------- Privilege Comparison ----------
 
     @classmethod
-    def get_most_privileged_perm_type(
+    def _get_most_privileged_perm_type(
         cls, requesting_user, response_related_user
     ) -> str:
         """Return the most privileged permission type between two users.

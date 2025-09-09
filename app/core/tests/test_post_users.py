@@ -4,7 +4,7 @@ from rest_framework.test import APIClient
 
 from constants import admin_project
 from constants import member_project
-from core.api.permission_validation import PermissionValidation
+from app.core.api.request_fields_allowed import RequestFieldsAllowed
 from core.tests.utils.seed_constants import valerie_name
 from core.tests.utils.seed_constants import wally_name
 from core.tests.utils.seed_constants import wanda_admin_project
@@ -86,7 +86,7 @@ class TestGetUser:
         assert len(response_data) == COUNT_WEBSITE_MEMBERS
 
         response_fields = self._get_response_fields(winona_name, response_data)
-        valid_fields = PermissionValidation.get_permitted_fields(
+        valid_fields = RequestFieldsAllowed._get_permitted_fields(
             operation="get", permission_type=admin_project, table_name="User"
         )
         assert response_fields == set(valid_fields)
@@ -104,7 +104,7 @@ class TestGetUser:
         assert len(response_data) == COUNT_WEBSITE_MEMBERS
 
         response_fields = self._get_response_fields(winona_name, response_data)
-        valid_fields = PermissionValidation.get_permitted_fields(
+        valid_fields = RequestFieldsAllowed._get_permitted_fields(
             operation="get", permission_type=member_project, table_name="User"
         )
         assert response_fields == set(valid_fields)

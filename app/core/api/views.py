@@ -171,7 +171,7 @@ class UserViewSet(viewsets.ModelViewSet):
         """
         queryset = UserRelatedRequest.get_queryset(view=self)
 
-        email = self.request.query_params.get("email")
+        email = self.request.query_params.get("email_preferred")
         if email is not None:
             queryset = queryset.filter(email=email)
         username = self.request.query_params.get("username")

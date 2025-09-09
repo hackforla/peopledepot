@@ -9,7 +9,7 @@ from constants import admin_global
 from constants import admin_project
 from constants import member_project
 from constants import practice_lead_project
-from core.api.permission_validation import PermissionValidation
+from app.core.api.request_fields_allowed import RequestFieldsAllowed
 from core.api.user_related_request import UserRelatedRequest
 from core.api.views import UserViewSet
 from core.tests.utils.seed_constants import garry_name
@@ -75,28 +75,12 @@ def mock_csv_data():
     ]
 
 
-@patch("builtins.open", new_callable=mock_open)
-@patch("csv.DictReader")
-def test_csv_field_permissions(mock_dict_reader, _, mock_csv_data):
-    """
-    Test that CSV field permissions are correctly parsed.
-
-    Args:
-        mock_dict_reader: Mocked CSV.DictReader.
-        _: Mocked open function (unused).
-        mock_csv_data: Fixture providing expected CSV data.
-    """
-    mock_dict_reader.return_value = mock_csv_data
-    result = PermissionValidation.get_csv_field_permissions()
-    assert result == mock_csv_data
-
-
 @pytest.mark.django_db
 @pytest.mark.load_user_data_required
 def test_is_admin():
     """Verify that is_admin returns True for a global or project admin user."""
     admin_user = SeedUser.get_user(garry_name)
-    assert PermissionValidation.is_admin(admin_user) is True
+    assert RequestFieldsAllowed.is_admin(admin_user) is True
 
 
 @pytest.mark.django_db
@@ -104,7 +88,7 @@ def test_is_admin():
 def test_is_not_admin():
     """Verify that is_admin returns False for a non-admin user."""
     non_admin_user = SeedUser.get_user(wanda_admin_project)
-    assert PermissionValidation.is_admin(non_admin_user) is False
+    assert RequestFieldsAllowed.is_admin(non_admin_user) is False
 
 
 @pytest.mark.parametrize(
@@ -135,7 +119,7 @@ def test_get_most_privileged_perm_type(
     """
     request_user = SeedUser.get_user(request_user_name)
     response_related_user = SeedUser.get_user(response_related_user_name)
-    result = PermissionValidation.get_most_privileged_perm_type(
+    result = RequestFieldsAllowed._get_most_privileged_perm_type(
         request_user, response_related_user
     )
     assert result == expected_permission_type
@@ -143,7 +127,7 @@ def test_get_most_privileged_perm_type(
 
 @pytest.mark.django_db
 @pytest.mark.load_user_data_required
-@patch.object(PermissionValidation, "get_csv_field_permissions", return_value=mock_data)
+@patch.object(RequestFieldsAllowed, "_get_csv_field_permissions", return_value=mock_data)
 def test_patch_with_valid_fields(_):
     """
     Verify that validate_patch_fields succeeds for a PATCH request with allowed fields.
@@ -162,7 +146,7 @@ def test_patch_with_valid_fields(_):
 
 @pytest.mark.django_db
 @pytest.mark.load_user_data_required
-@patch.object(PermissionValidation, "get_csv_field_permissions", return_value=mock_data)
+@patch.object(RequestFieldsAllowed, "_get_csv_field_permissions", return_value=mock_data)
 def test_patch_with_invalid_fields(_):
     """
     Verify that validate_patch_fields raises ValidationError when PATCH contains invalid fields.
@@ -182,7 +166,7 @@ def test_patch_with_invalid_fields(_):
 
 
 @pytest.mark.django_db
-@patch.object(PermissionValidation, "get_csv_field_permissions", return_value=mock_data)
+@patch.object(RequestFieldsAllowed, "_get_csv_field_permissions", return_value=mock_data)
 def test_patch_fields_no_privileges(_):
     """
     Verify that validate_patch_fields raises PermissionDenied when user has no privilege.
@@ -199,7 +183,7 @@ def test_patch_fields_no_privileges(_):
 
 @pytest.mark.django_db
 @pytest.mark.load_user_data_required
-@patch.object(PermissionValidation, "get_csv_field_permissions", return_value=mock_data)
+@patch.object(RequestFieldsAllowed, "_get_csv_field_permissions", return_value=mock_data)
 def test_post_with_valid_fields(_):
     """
     Verify that validate_post_fields succeeds for a POST request with allowed fields.
@@ -214,7 +198,7 @@ def test_post_with_valid_fields(_):
 
 @pytest.mark.django_db
 @pytest.mark.load_user_data_required
-@patch.object(PermissionValidation, "get_csv_field_permissions", return_value=mock_data)
+@patch.object(RequestFieldsAllowed, "_get_csv_field_permissions", return_value=mock_data)
 def test_post_with_invalid_fields(_):
     """
     Verify that validate_post_fields raises ValidationError when POST contains invalid fields.
