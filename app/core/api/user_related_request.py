@@ -1,7 +1,7 @@
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.exceptions import ValidationError
 
-from app.core.api.request_fields_allowed import RequestFieldsAllowed
+from core.api.request_fields_allowed import RequestFieldsAllowed
 from core.models import User
 from core.models import UserPermission
 

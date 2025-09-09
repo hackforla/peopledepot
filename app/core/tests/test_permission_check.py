@@ -5,7 +5,7 @@ import pytest
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.exceptions import ValidationError
 
-from app.core.api.request_fields_allowed import RequestFieldsAllowed
+from core.api.request_fields_allowed import RequestFieldsAllowed
 from constants import admin_global
 from constants import admin_project
 from constants import member_project
