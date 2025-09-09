@@ -2,11 +2,11 @@
 # migration
 
 # example:
-# docker-compose exec web python core/scripts/convert.py \
+# docker compose exec web python core/scripts/convert.py \
 # core/initial_data/UserStatus.csv
 
 # to apply the seed script:
-# docker-compose exec web python manage.py runscript userstatus-seed
+# docker compose exec web python manage.py runscript userstatus-seed
 
 import csv
 import json

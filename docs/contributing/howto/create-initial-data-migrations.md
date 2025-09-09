@@ -43,7 +43,7 @@ It is required that there be data in the first column of the sheet.
 1. Go to the project root and run this command
 
     ```bash
-    docker-compose exec web python scripts/convert.py "core/initial_data/PD_ Table and field explanations  - ProgramArea - Data.csv"
+    docker compose exec web python scripts/convert.py "core/initial_data/PD_ Table and field explanations  - ProgramArea - Data.csv"
     ```
 
 1. Check that there's a new file called `app/core/scripts/programarea_seed.py` and that it looks correct
@@ -53,13 +53,13 @@ It is required that there be data in the first column of the sheet.
     1. Run this command to run the script
 
     ```bash
-    docker-compose exec web python manage.py runscript programarea_seed
+    docker compose exec web python manage.py runscript programarea_seed
     ```
 
     1. To remove the data, go into the database and delete all rows from `core_programarea`
 
     ```bash
-    docker-compose exec web python manage.py dbshell
+    docker compose exec web python manage.py dbshell
 
     # now we have a shell to the db
 

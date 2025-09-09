@@ -9,7 +9,7 @@ We are using MkDocs to generate our documentation. See [Docker-mkdocs repo](http
 1. Run the mkdocs container.
 
     ```bash
-    docker-compose up mkdocs # (1)!
+    docker compose up mkdocs # (1)!
     ```
 
     1. Optionally use the `-d` flag to run the container in the background
