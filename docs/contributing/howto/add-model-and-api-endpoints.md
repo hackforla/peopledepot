@@ -14,7 +14,7 @@ This guide aims to enable developers with little or no django experience to add 
     - API design
     - command line
 
-This guide assumes the developer has followed the [working with issues guide](issues.md) and have forked and created a local branch to work on this. The development server would be already running in the background and will automatically apply the changes when we save the files.
+This guide assumes the developer has followed the [updating code guide](code.md) and have forked and created a local branch to work on this. The development server would be already running in the background and will automatically apply the changes when we save the files.
 
 We will choose the [recurring_event issue](https://github.com/hackforla/peopledepot/issues/14) as an example. Our goal is to create a database table and an API that a client can use to work with the data. The work is split into 3 testable components: the model, the admin site, and the API
 
@@ -675,7 +675,3 @@ In `app/core/api/urls.py`
         git add -A
         git commit -m "feat: add endpoints: recurring_event"
         ```
-
-??? note "Push the code and start a PR"
-
-    Refer to the [Issues page section on "Push to upstream origin"](issues.md#push-to-upstream-origin-aka-your-fork) onward.
