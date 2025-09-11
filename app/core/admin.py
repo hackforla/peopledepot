@@ -19,6 +19,7 @@ from .models import PracticeArea
 from .models import ProgramArea
 from .models import Project
 from .models import ProjectStatus
+from .models import ProjectUrl
 from .models import Referrer
 from .models import ReferrerType
 from .models import Sdg
@@ -299,3 +300,14 @@ class ReferrerTypeAdmin(admin.ModelAdmin):
 @admin.register(Referrer)
 class ReferrerAdmin(admin.ModelAdmin):
     list_display = ("name", "url")
+
+
+@admin.register(ProjectUrl)
+class ProjectUrlAdmin(admin.ModelAdmin):
+    list_display = (
+        "project",
+        "url_type",
+        "name",
+        "external_id",
+        "url",
+    )
