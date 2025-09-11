@@ -1,0 +1,23 @@
+id,occ_code,title
+1,11-2000,Management Occupations
+2,13-0000,Business and Financial Operations Occupations
+3,15-0000,Computer and Mathematical Occupations
+4,17-0000,Architecture and Engineering Occupations
+5,19-0000,"Life, Physical, and Social Science Occupations"
+6,21-0000,Community and Social Service Occupations
+7,23-0000,Legal Occupations
+8,25-0000,Educational Instruction and Library Occupations
+9,27-0000,"Arts, Design, Entertainment, Sports, and Media Occupations"
+10,29-0000,Healthcare Practitioners and Technical Occupations
+11,31-0000,Healthcare Support Occupations
+12,33-0000,Protective Service Occupations
+13,35-0000,Food Preparation and Serving Related Occupations
+14,37-0000,Building and Grounds Cleaning and Maintenance Occupations
+15,39-0000,Personal Care and Service Occupations
+16,41-0000,Sales and Related Occupations
+17,43-0000,Office and Administrative Support Occupations
+18,45-0000,"Farming, Fishing, and Forestry Occupations"
+19,47-0000,Construction and Extraction Occupations
+20,49-0000,"Installation, Maintenance, and Repair Occupations"
+21,51-0000,Production Occupations
+22,53-0000,Transportation and Material Moving Occupations
