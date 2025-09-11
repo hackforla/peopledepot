@@ -25,6 +25,7 @@ from ..models import PracticeArea
 from ..models import ProgramArea
 from ..models import Project
 from ..models import ProjectStatus
+from ..models import ProjectUrl
 from ..models import Referrer
 from ..models import ReferrerType
 from ..models import Sdg
@@ -50,6 +51,7 @@ from .serializers import PracticeAreaSerializer
 from .serializers import ProgramAreaSerializer
 from .serializers import ProjectSerializer
 from .serializers import ProjectStatusSerializer
+from .serializers import ProjectUrlSerializer
 from .serializers import ReferrerSerializer
 from .serializers import ReferrerTypeSerializer
 from .serializers import SdgSerializer
@@ -502,3 +504,17 @@ class ReferrerViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = Referrer.objects.all()
     serializer_class = ReferrerSerializer
+
+
+@extend_schema_view(
+    list=extend_schema(description="Return a list of all the project urls"),
+    create=extend_schema(description="Create a new project url"),
+    retrieve=extend_schema(description="Return the details of a project url"),
+    destroy=extend_schema(description="Delete a project url"),
+    update=extend_schema(description="Update a project url"),
+    partial_update=extend_schema(description="Patch a project url"),
+)
+class ProjectUrlViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = ProjectUrl.objects.all()
+    serializer_class = ProjectUrlSerializer

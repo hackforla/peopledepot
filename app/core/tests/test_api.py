@@ -34,6 +34,7 @@ SDGS_URL = reverse("sdg-list")
 AFFILIATION_URL = reverse("affiliation-list")
 CHECK_TYPE_URL = reverse("check-type-list")
 PROJECT_STATUSES_URL = reverse("project-status-list")
+PROJECT_URLS_URL = reverse("project-url-list")
 SOC_MAJOR_URL = reverse("soc-major-list")
 SOC_MINORS_URL = reverse("soc-minor-list")
 URL_TYPE_URL = reverse("url-type-list")
@@ -566,3 +567,35 @@ def test_assign_referrer_to_user(auth_client, user, referrer):
 
     assert res.status_code == status.HTTP_200_OK
     assert str(res.data["referrer"]) == str(referrer.uuid)
+
+
+def test_create_project_url(auth_client, project, url_type):
+    payload = {
+        # "project": project.pk,
+        # "url_type": url_type.pk,
+        "name": "This is a test project url",
+        "external_id": "This is a test external id",
+        "url": "https://test.com",
+    }
+    res = auth_client.post(PROJECT_URLS_URL, payload)
+    assert res.status_code == status.HTTP_201_CREATED
+    # assert res.data["project"] == payload["project"]
+    # assert res.data["url_type"] == payload["url_type"]
+    assert res.data["name"] == payload["name"]
+    assert res.data["external_id"] == payload["external_id"]
+    assert res.data["url"] == payload["url"]
+
+
+def test_project_url_project_relationship(auth_client, project_url, project):
+    res = auth_client.patch(
+        reverse("project-url-detail", kwargs={"pk": project_url.pk}),
+        {"project": project.pk},
+    )
+    assert res.status_code == status.HTTP_200_OK
+    res = auth_client.get(PROJECT_URLS_URL)
+    project.exists = False
+    for item in res.data:
+        if item["project"] == project.pk:
+            project_exists = True
+            break
+    assert project_exists is True
