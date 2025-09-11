@@ -14,6 +14,7 @@ from .views import PermissionTypeViewSet
 from .views import PracticeAreaViewSet
 from .views import ProgramAreaViewSet
 from .views import ProjectStatusViewSet
+from .views import ProjectUrlViewSet
 from .views import ProjectViewSet
 from .views import ReferrerTypeViewSet
 from .views import ReferrerViewSet
@@ -58,6 +59,7 @@ router.register(
 )
 router.register(r"check-types", CheckTypeViewSet, basename="check-type")
 router.register(r"project-statuses", ProjectStatusViewSet, basename="project-status")
+router.register(r"project-urls", ProjectUrlViewSet, basename="project-url")
 router.register(r"soc-majors", SocMajorViewSet, basename="soc-major")
 router.register(r"soc-minors", SocMinorViewSet, basename="soc-minor")
 router.register(r"url-types", UrlTypeViewSet, basename="url-type")
