@@ -337,3 +337,17 @@ def test_user_practice_area_relationship(user, user2):
     assert user2.practice_area_secondary.count() == 0
     assert not user2.practice_area_secondary.contains(project_management_practice_area)
     assert not project_management_practice_area.secondary_users.contains(user2)
+
+
+def test_project_url(project_url):
+    assert project_url is not None
+
+    assert project_url.project is not None
+    assert project_url.url_type is not None
+
+    assert project_url.name == "This is a test project url"
+    assert project_url.external_id == "This is a test external id"
+
+    assert project_url.url == "https://test.com"
+
+    assert str(project_url) == "This is a test project url"

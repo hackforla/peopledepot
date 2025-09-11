@@ -18,6 +18,7 @@ from ..models import PracticeArea
 from ..models import ProgramArea
 from ..models import Project
 from ..models import ProjectStatus
+from ..models import ProjectUrl
 from ..models import Referrer
 from ..models import ReferrerType
 from ..models import Sdg
@@ -368,4 +369,15 @@ def referrer(referrer_type):
         referrer_type=referrer_type,
         contact_name="John Doe",
         contact_email="john@example.com",
+    )
+
+
+@pytest.fixture
+def project_url(project, url_type):
+    return ProjectUrl.objects.create(
+        project=project,
+        url_type=url_type,
+        name="This is a test project url",
+        external_id="This is a test external id",
+        url="https://test.com",
     )

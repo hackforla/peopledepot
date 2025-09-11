@@ -15,6 +15,7 @@ from core.models import PracticeArea
 from core.models import ProgramArea
 from core.models import Project
 from core.models import ProjectStatus
+from core.models import ProjectUrl
 from core.models import Referrer
 from core.models import ReferrerType
 from core.models import Sdg
@@ -478,5 +479,19 @@ class ReferrerSerializer(serializers.ModelSerializer):
             "referrer_type",
             "contact_name",
             "contact_email",
+        )
+        read_only_fields = ("uuid", "created_at", "updated_at")
+
+
+class ProjectUrlSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProjectUrl
+        fields = (
+            "uuid",
+            "project",
+            "url_type",
+            "name",
+            "external_id",
+            "url",
         )
         read_only_fields = ("uuid", "created_at", "updated_at")
