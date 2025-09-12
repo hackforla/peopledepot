@@ -448,7 +448,8 @@ def test_accomplishment(auth_client, project):
     res = auth_client.post(Accomplishment_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
     assert res.data["name"] == payload["name"]
-    
+
+
 def test_create_soc_minor(auth_client):
     """Test that we can create a soc minor"""
 

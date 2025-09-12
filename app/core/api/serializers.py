@@ -431,7 +431,6 @@ class SocMajorSerializer(serializers.ModelSerializer):
         read_only_fields = ("uuid", "created_at", "updated_at")
 
 
-
 class AccomplishmentSerializer(serializers.ModelSerializer):
     """Used to retrieve recurring_event info"""  # Note: This comment seems off, it should be about accomplishment info
 
@@ -452,6 +451,7 @@ class AccomplishmentSerializer(serializers.ModelSerializer):
             "accomplished_on",
         )
 
+
 class SocMinorSerializer(serializers.ModelSerializer):
     """Used to retrieve soc_minor info"""
 
@@ -459,7 +459,6 @@ class SocMinorSerializer(serializers.ModelSerializer):
         model = SocMinor
         fields = ("uuid", "soc_major", "occ_code", "title")
         read_only_fields = ("uuid", "created_at", "updated_at")
-        
 
 
 class UrlTypeSerializer(serializers.ModelSerializer):

@@ -502,7 +502,8 @@ class Accomplishment(AbstractBaseModel):
     accomplished_on = models.DateTimeField()
     # created_date = models.DateTimeField() already in abstrat base model
     # last_updated = models
-    
+
+
 class SocMinor(AbstractBaseModel):
     soc_major = models.ForeignKey(
         SocMajor, blank=True, null=True, on_delete=models.CASCADE
