@@ -9,6 +9,7 @@ from core.models import Event
 from core.models import EventType
 from core.models import Faq
 from core.models import FaqViewed
+from core.models import LeadershipType
 from core.models import Location
 from core.models import PermissionType
 from core.models import PracticeArea
@@ -20,6 +21,7 @@ from core.models import ReferrerType
 from core.models import Sdg
 from core.models import Skill
 from core.models import SocMajor
+from core.models import SocMinor
 from core.models import StackElement
 from core.models import StackElementType
 from core.models import UrlType
@@ -83,10 +85,10 @@ class UserSerializer(serializers.ModelSerializer):
             "email",
             "first_name",
             "last_name",
-            "gmail",
-            "preferred_email",
-            "current_job_title",
-            "target_job_title",
+            "email_gmail",
+            "email_preferred",
+            "job_title_current_intake",
+            "job_title_target_intake",
             "current_skills",
             "target_skills",
             "referrer",
@@ -96,6 +98,12 @@ class UserSerializer(serializers.ModelSerializer):
             "phone",
             "texting_ok",
             "time_zone",
+            "practice_area_primary",
+            "practice_area_secondary",
+            "practice_area_target_intake",
+            "email_cognito",
+            "is_active",
+            "user_status",
         )
         read_only_fields = (
             "uuid",
@@ -124,6 +132,7 @@ class ProjectSerializer(serializers.ModelSerializer):
             "github_org_id",
             "github_primary_repo_id",
             "hide",
+            "leadership_type",
             "google_drive_id",
             "image_logo",
             "image_hero",
@@ -227,6 +236,19 @@ class FaqViewedSerializer(serializers.ModelSerializer):
             "uuid",
             "faq",
         )
+
+
+class LeadershipTypeSerializer(serializers.ModelSerializer):
+    """Used to retrieve leadership_type info"""
+
+    class Meta:
+        model = LeadershipType
+        fields = (
+            "uuid",
+            "name",
+            "description",
+        )
+        read_only_fields = ("uuid", "created_at", "updated_at")
 
 
 class LocationSerializer(serializers.ModelSerializer):
@@ -409,6 +431,7 @@ class SocMajorSerializer(serializers.ModelSerializer):
         read_only_fields = ("uuid", "created_at", "updated_at")
 
 
+
 class AccomplishmentSerializer(serializers.ModelSerializer):
     """Used to retrieve recurring_event info"""  # Note: This comment seems off, it should be about accomplishment info
 
@@ -428,6 +451,15 @@ class AccomplishmentSerializer(serializers.ModelSerializer):
             "url",
             "accomplished_on",
         )
+
+class SocMinorSerializer(serializers.ModelSerializer):
+    """Used to retrieve soc_minor info"""
+
+    class Meta:
+        model = SocMinor
+        fields = ("uuid", "soc_major", "occ_code", "title")
+        read_only_fields = ("uuid", "created_at", "updated_at")
+        
 
 
 class UrlTypeSerializer(serializers.ModelSerializer):

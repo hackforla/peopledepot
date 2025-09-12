@@ -1,5 +1,7 @@
 # Development Environment
 
+!!! tip "Please reach out in the [People Depot Slack channel](https://hackforla.slack.com/messages/people-depot/) if you have trouble setting up your development environment"
+
 ## Pre-requisites
 
 ### GitHub account
@@ -30,8 +32,6 @@ Before cloning your forked repository to your local machine, you must have Git i
         git config --system set autocrlf=false
         ```
 
-        !!! tip "Feel free to reach out in the [Hack for LA Slack channel](https://hackforla.slack.com/messages/people-depot/) if you encounter any errors while running scripts on Windows"
-
 === "Mac"
 
     Please note that if you have a Mac the page offers several options (see other option, if you need to conserve hard drive space) including:
@@ -42,20 +42,26 @@ Before cloning your forked repository to your local machine, you must have Git i
 
 ### Install Docker
 
-Install or make sure [docker][docker-install] and [docker-compose][docker-compose-install] are installed on your computer
+Install or make sure [docker][docker-install] and [docker compose][docker-compose-install] are installed on your computer.
 
 ```bash
 docker -v
-docker-compose -v
+docker compose -v
 ```
 
 The recommended installation method for your operating system can be found [here](https://docs.docker.com/install/).
 
-!!! tip "Feel free to reach out in the [Hack for LA Slack channel](https://hackforla.slack.com/messages/people-depot/) if you have trouble installing docker on your system"
-
 More on using Docker and the concepts of containerization:
 
 - [Get started with Docker](https://docs.docker.com/get-started/)
+
+### Install pre-commit
+
+This will check your changes for common problems.
+
+See the [Pre-commit page](tools/pre-commit.md) for installation instructions.
+
+For consistency, an automated bot will perform the same checks on the repository side when you open a pull request.
 
 ## Fork the repository
 
@@ -153,7 +159,7 @@ upstream        https://github.com/hackforla/peopledepot.git (push)
     cp ./app/.env.docker-example ./app/.env.docker
     ```
 
-1. Build and run the project via the script (this includes running `docker-compose up`)
+1. Build and run the project via the script (this includes running `docker compose up`)
 
     ```bash
     ./scripts/buildrun.sh
@@ -162,20 +168,12 @@ upstream        https://github.com/hackforla/peopledepot.git (push)
 1. Create a super user for logging into the web admin interface
 
     ```bash
-    docker-compose exec web python manage.py createsuperuser --no-input
+    docker compose exec web python manage.py createsuperuser --no-input
     ```
 
 1. Browse to the web admin interface at `http://localhost:8000/admin/` and confirm the admin site is running. Use DJANGO_SUPERUSER_USERNAME and DJANGO_SUPERUSER_PASSWORD from .env.docker for credentials.
 
 See our documentation for [Working with Docker](tools/docker.md#working-with-docker) for more useful Docker commands.
-
-## Install pre-commit
-
-This will check your changes for common problems.
-
-See the [Pre-commit page](tools/pre-commit.md) for installation instructions.
-
-For consistency, an automated bot will perform the same checks on the repository side when you open a pull request.
 
 [docker-compose-install]: https://docs.docker.com/compose/install/
 [docker-install]: https://docs.docker.com/get-docker/

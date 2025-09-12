@@ -12,6 +12,7 @@ from .models import Event
 from .models import EventType
 from .models import Faq
 from .models import FaqViewed
+from .models import LeadershipType
 from .models import Location
 from .models import PermissionType
 from .models import PracticeArea
@@ -23,6 +24,7 @@ from .models import ReferrerType
 from .models import Sdg
 from .models import Skill
 from .models import SocMajor
+from .models import SocMinor
 from .models import StackElement
 from .models import StackElementType
 from .models import UrlType
@@ -61,10 +63,10 @@ class UserAdmin(DefaultUserAdmin):
                 "fields": (
                     "first_name",
                     "last_name",
-                    "gmail",
-                    "preferred_email",
-                    "current_job_title",
-                    "target_job_title",
+                    "email_gmail",
+                    "email_preferred",
+                    "job_title_current_intake",
+                    "job_title_target_intake",
                     "current_skills",
                     "target_skills",
                     "referrer",
@@ -74,6 +76,11 @@ class UserAdmin(DefaultUserAdmin):
                     "phone",
                     "texting_ok",
                     "time_zone",
+                    "practice_area_primary",
+                    "practice_area_secondary",
+                    "practice_area_target_intake",
+                    "email_cognito",
+                    "user_status",
                 )
             },
         ),
@@ -174,6 +181,11 @@ class FaqViewed(admin.ModelAdmin):
     list_display = ("faq",)
 
 
+@admin.register(LeadershipType)
+class LeadershipTypeAdmin(admin.ModelAdmin):
+    list_display = ("name", "description")
+
+
 @admin.register(Location)
 class Location(admin.ModelAdmin):
     list_display = (
@@ -262,6 +274,11 @@ class ProjectStatusAdmin(admin.ModelAdmin):
 @admin.register(SocMajor)
 class SocMajorAdmin(admin.ModelAdmin):
     list_display = ("occ_code", "title")
+
+
+@admin.register(SocMinor)
+class SocMinorAdmin(admin.ModelAdmin):
+    list_display = ("soc_major", "occ_code", "title")
 
 
 @admin.register(UrlType)

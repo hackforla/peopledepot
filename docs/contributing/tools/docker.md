@@ -7,19 +7,19 @@
 To stop the service-container, but not destroy it (often sufficient for day-to-day work):
 
 ```bash
-docker-compose stop
+docker compose stop
 ```
 
 To stop and destroy the service container:
 
 ```bash
-docker-compose down
+docker compose down
 ```
 
 Add the `-v` flag to destroy the data volumes as well:
 
 ```bash
-docker-compose down -v
+docker compose down -v
 ```
 
 ### Recycling / Refreshing Database
@@ -30,7 +30,7 @@ From Docker:
 === "Terminal"
 
     ```bash
-    docker-compose down -v
+    docker compose down -v
     ```
 
 === "Docker Desktop"

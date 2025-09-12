@@ -9,6 +9,7 @@ from .views import EventTypeViewSet
 from .views import EventViewSet
 from .views import FaqViewedViewSet
 from .views import FaqViewSet
+from .views import LeadershipTypeViewSet
 from .views import LocationViewSet
 from .views import PermissionTypeViewSet
 from .views import PracticeAreaViewSet
@@ -20,6 +21,7 @@ from .views import ReferrerViewSet
 from .views import SdgViewSet
 from .views import SkillViewSet
 from .views import SocMajorViewSet
+from .views import SocMinorViewSet
 from .views import StackElementTypeViewSet
 from .views import StackElementViewSet
 from .views import UrlTypeViewSet
@@ -40,6 +42,7 @@ router.register(r"practice-areas", PracticeAreaViewSet, basename="practice-area"
 router.register(r"affiliates", AffiliateViewSet, basename="affiliate")
 router.register(r"faqs", FaqViewSet, basename="faq")
 router.register(r"faqs-viewed", FaqViewedViewSet, basename="faq-viewed")
+router.register(r"leadership-types", LeadershipTypeViewSet, basename="leadership-type")
 router.register(r"locations", LocationViewSet, basename="location")
 router.register(r"program-areas", ProgramAreaViewSet, basename="program-area")
 router.register(r"skills", SkillViewSet, basename="skill")
@@ -58,6 +61,7 @@ router.register(r"check-types", CheckTypeViewSet, basename="check-type")
 router.register(r"project-statuses", ProjectStatusViewSet, basename="project-status")
 router.register(r"soc-majors", SocMajorViewSet, basename="soc-major")
 router.register(r"accomplishment", AccomplishmentViewSet, basename="accomplishment")
+router.register(r"soc-minors", SocMinorViewSet, basename="soc-minor")
 router.register(r"url-types", UrlTypeViewSet, basename="url-type")
 router.register(
     r"user-status-types", UserStatusTypeViewSet, basename="user-status-type"

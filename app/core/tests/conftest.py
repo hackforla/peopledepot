@@ -11,6 +11,7 @@ from ..models import Event
 from ..models import EventType
 from ..models import Faq
 from ..models import FaqViewed
+from ..models import LeadershipType
 from ..models import Location
 from ..models import PermissionType
 from ..models import PracticeArea
@@ -22,6 +23,7 @@ from ..models import ReferrerType
 from ..models import Sdg
 from ..models import Skill
 from ..models import SocMajor
+from ..models import SocMinor
 from ..models import StackElement
 from ..models import StackElementType
 from ..models import UrlType
@@ -209,6 +211,14 @@ def faq_viewed(faq):
 
 
 @pytest.fixture
+def leadership_type():
+    return LeadershipType.objects.create(
+        name="This is a test leadership_type",
+        description="This is a test leadership_type description",
+    )
+
+
+@pytest.fixture
 def location():
     return Location.objects.create(name="Test Hack for L.A. HQ")
 
@@ -322,6 +332,11 @@ def project_status():
 @pytest.fixture
 def soc_major():
     return SocMajor.objects.create(occ_code="22-2222", title="Test Soc Major")
+
+
+@pytest.fixture
+def soc_minor():
+    return SocMinor.objects.create(occ_code="22-2222", title="Test Soc Minor")
 
 
 @pytest.fixture

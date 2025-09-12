@@ -20,6 +20,7 @@ PRACTICE_AREA_URL = reverse("practice-area-list")
 FAQS_URL = reverse("faq-list")
 FAQS_VIEWED_URL = reverse("faq-viewed-list")
 AFFILIATE_URL = reverse("affiliate-list")
+LEADERSHIP_TYPES_URL = reverse("leadership-type-list")
 LOCATION_URL = reverse("location-list")
 PROGRAM_AREAS_URL = reverse("program-area-list")
 REFERRERS_URL = reverse("referrer-list")
@@ -35,6 +36,7 @@ CHECK_TYPE_URL = reverse("check-type-list")
 PROJECT_STATUSES_URL = reverse("project-status-list")
 SOC_MAJOR_URL = reverse("soc-major-list")
 Accomplishment_URL = reverse("accomplishment-list")
+SOC_MINORS_URL = reverse("soc-minor-list")
 URL_TYPE_URL = reverse("url-type-list")
 
 CREATE_USER_PAYLOAD = {
@@ -251,6 +253,30 @@ def test_get_faq_viewed(auth_client, faq_viewed):
     assert res.data[0]["faq"] == faq_viewed.faq.pk
 
 
+def test_create_leadership_type(auth_client):
+    """Test that we can create a leadership_type"""
+
+    payload = {
+        "name": "Create leadership_type test",
+        "description": "Create leadership_type test description",
+    }
+    res = auth_client.post(LEADERSHIP_TYPES_URL, payload)
+    assert res.status_code == status.HTTP_201_CREATED
+    assert res.data["name"] == payload["name"]
+    assert res.data["description"] == payload["description"]
+
+
+def test_project_leadership_type_relationship(auth_client, project_1, leadership_type):
+    res = auth_client.patch(
+        reverse("project-detail", args=[project_1.pk]),
+        {"leadership_type": leadership_type.pk},
+    )
+    assert res.status_code == status.HTTP_200_OK
+
+    res = auth_client.get(PROJECTS_URL)
+    assert res.data[0]["leadership_type"] == leadership_type.pk
+
+
 def test_create_location(auth_client):
     """Test that we can create a location"""
 
@@ -422,6 +448,37 @@ def test_accomplishment(auth_client, project):
     res = auth_client.post(Accomplishment_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
     assert res.data["name"] == payload["name"]
+    
+def test_create_soc_minor(auth_client):
+    """Test that we can create a soc minor"""
+
+    payload = {
+        "occ_code": "33-3333",
+        "title": "Test soc minor",
+    }
+    res = auth_client.post(SOC_MINORS_URL, payload)
+    assert res.status_code == status.HTTP_201_CREATED
+    assert res.data["title"] == payload["title"]
+    assert res.data["occ_code"] == payload["occ_code"]
+
+
+def test_soc_minor_soc_major_relationship(auth_client, soc_minor, soc_major):
+    res = auth_client.patch(
+        reverse("soc-minor-detail", kwargs={"pk": soc_minor.pk}),
+        {"soc_major": soc_major.pk},
+    )
+    assert res.status_code == status.HTTP_200_OK
+
+    res = auth_client.get(SOC_MINORS_URL)
+
+    soc_major_exists = False
+
+    for item in res.data:
+        if item["soc_major"] == soc_major.pk:
+            soc_major_exists = True
+            break
+
+    assert soc_major_exists is True
 
 
 def test_project_sdg_xref(auth_client, project, sdg, sdg1):

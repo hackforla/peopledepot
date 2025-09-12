@@ -5,7 +5,7 @@ default_stages: [pre-commit, pre-push]
 minimum_pre_commit_version: "2.18"
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v5.0.0
+    rev: v6.0.0
     hooks:
       # identify invalid files
       - id: check-ast
@@ -27,14 +27,14 @@ repos:
       - id: check-builtin-literals
       - id: debug-statements
       - id: requirements-txt-fixer
-      - id: fix-encoding-pragma
-        args: [--remove]
       - id: fix-byte-order-marker
       - id: name-tests-test
         args: [--pytest-test-first]
 
       # general quality checks
       - id: mixed-line-ending
+        args: [--fix=lf]
+        exclude: ^app/core/initial_data/
       - id: trailing-whitespace
         args: [--markdown-linebreak-ext=md]
       - id: check-executables-have-shebangs
@@ -46,19 +46,19 @@ repos:
       - id: hadolint
 
   - repo: https://github.com/asottile/pyupgrade
-    rev: v3.19.0
+    rev: v3.20.0
     hooks:
       - id: pyupgrade
         args: [--py310-plus]
 
   - repo: https://github.com/adamchainz/django-upgrade
-    rev: 1.22.2
+    rev: 1.25.0
     hooks:
       - id: django-upgrade
         args: [--target-version, "4.0"]
 
   - repo: https://github.com/psf/black-pre-commit-mirror
-    rev: 24.10.0
+    rev: 25.1.0
     hooks:
       - id: black
         exclude: ^app/core/migrations/
@@ -68,14 +68,14 @@ repos:
     hooks:
       - id: blacken-docs
         additional_dependencies:
-          - black==24.10.0
+          - black==25.1.0
 
   - repo: https://github.com/pycqa/flake8
     rev: 7.1.1
     hooks:
       - id: flake8
         exclude: "^app/core/migrations/|^app/data/migrations/|^app/core/scripts"
-        args: [--max-line-length=119, --max-complexity=4, --pytest-fixture-no-parentheses]
+        args: [--max-line-length=119, --max-complexity=4, --pytest-fixture-no-parentheses, --extend-ignore=EXE002]
         additional_dependencies:
           [
             flake8-bugbear,
@@ -93,20 +93,20 @@ repos:
           ]
 
   - repo: https://github.com/pycqa/isort
-    rev: 5.13.2
+    rev: 6.0.1
     hooks:
       - id: isort
         name: isort (python)
         args: ["--filter-files", "--force-single-line-imports"]
 
   - repo: https://github.com/PyCQA/bandit
-    rev: 1.8.0
+    rev: 1.8.6
     hooks:
       - id: bandit
         exclude: ^app/core/tests/
 
   - repo: https://github.com/shellcheck-py/shellcheck-py
-    rev: v0.10.0.1
+    rev: v0.11.0.1
     hooks:
       - id: shellcheck
 
@@ -124,7 +124,7 @@ repos:
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
     # Ruff version.
-    rev: v0.8.1
+    rev: v0.12.9
     hooks:
       # Run the linter.
       - id: ruff
@@ -135,7 +135,7 @@ repos:
         exclude: ^app/core/migrations/
 
   - repo: https://github.com/executablebooks/mdformat
-    rev: 0.7.19
+    rev: 0.7.22
     hooks:
       - id: mdformat
         exclude: |
@@ -144,7 +144,7 @@ repos:
             docs/license.md$
           )
         additional_dependencies:
-          - mdformat-mkdocs[recommended]>=4.1.2
+          - mdformat-mkdocs[recommended]>=4.4.1
 
   - repo: local
     hooks:

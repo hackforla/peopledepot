@@ -25,7 +25,7 @@ In the process, it should allow for further automation and do away with manual s
 ## How to contribute
 
 1. Join our organization by going through [Hack for LA Onboarding][hfla onboarding]. It's free to join!
-1. Read the [onboarding section of our Wiki](https://github.com/hackforla/peopledepot/wiki/Developer-Onboarding).
+1. Read the [onboarding section of our Wiki](https://github.com/hackforla/peopledepot/wiki/Technical-Onboarding-for-Developers).
 1. Read our [Contributing Guidelines][contributing] and follow the instructions there.
 
 ## Contact info
