@@ -4,6 +4,7 @@ from rest_framework.test import APIClient
 from constants import admin_project
 from constants import practice_lead_project
 
+from ..models import Accomplishment
 from ..models import Affiliate
 from ..models import Affiliation
 from ..models import CheckType
@@ -362,4 +363,15 @@ def referrer(referrer_type):
         referrer_type=referrer_type,
         contact_name="John Doe",
         contact_email="john@example.com",
+    )
+
+
+@pytest.fixture
+def accomplishment(project):
+    return Accomplishment.objects.create(
+        project_id=project,
+        title="Test Accomplishment",
+        description="This is a test accomplishment",
+        url="https://redwind01.com",
+        accomplished_on="2025-09-11T18:05:00Z"
     )
