@@ -1,3 +1,4 @@
+from core.api.user_related_request import UserRelatedRequest
 from rest_framework import serializers
 from timezone_field.rest_framework import TimeZoneSerializerField
 
@@ -94,6 +95,12 @@ class UserSerializer(BaseUserSerializer):
     Overrides `to_representation` to include computed or related fields via
     UserRelatedRequest.get_serializer_representation.
     """
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        return UserRelatedRequest.get_serializer_representation(
+            self, instance, representation
+        )
+
 
 
 class UserProfileSerializer(BaseUserSerializer):
