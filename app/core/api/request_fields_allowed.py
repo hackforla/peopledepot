@@ -194,7 +194,7 @@ class RequestFieldsAllowed:
         return (
             permission_type in rank_dict
             and operation_perm_type in rank_dict
-            and rank_dict[permission_type] <= rank_dict[operation_perm_type]
+            and rank_dict[permission_type] >= rank_dict[operation_perm_type]
         )
 
     # ---------- Privilege Comparison ----------
@@ -206,8 +206,8 @@ class RequestFieldsAllowed:
         """Return the most privileged permission type between two users.
 
         If the requesting user is a global admin, ``adminGlobal`` is returned.
-        Otherwise, the function finds the lowest-ranked permission shared
-        across the projects of the two users.
+        Otherwise, the function finds the highest-ranked permission shared
+        across the projects of the requesting and response related users.
 
         :param requesting_user: The user making the request.
         :param response_related_user: The user whose data is being accessed.
@@ -227,5 +227,5 @@ class RequestFieldsAllowed:
         if not permissions:
             return ""
 
-        min_permission = min(permissions, key=lambda p: p["permission_type__rank"])
-        return min_permission["permission_type__name"]
+        max_permission = max(permissions, key=lambda p: p["permission_type__rank"])
+        return max_permission["permission_type__name"]

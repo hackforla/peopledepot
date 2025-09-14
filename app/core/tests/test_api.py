@@ -178,7 +178,7 @@ def test_create_stack_element(auth_client, stack_element_type):
 
 
 def test_create_permission_type(auth_client):
-    payload = {"name": "newRecord", "description": "Can CRUD anything"}
+    payload = {"name": "newRecord", "description": "Can CRUD anything", "rank": 2000}
     res = auth_client.post(PERMISSION_TYPE, payload)
     assert res.status_code == status.HTTP_201_CREATED
     assert res.data["name"] == payload["name"]
