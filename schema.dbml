@@ -34,9 +34,9 @@ Table cancelled_event [note: 'under review'] {
   ~AbstractBaseModel
   recurring_event int [ref: > event.id]
   project int [ref: > project.id]
-  cancelled_event_date date
+  cancelled_event_datetime datetime
   reason varchar
-  user int [ref: > user.id]
+  cancelled_by int [ref: > user.id]
 }
 
 Table check_in {
@@ -406,11 +406,11 @@ Table user_check {
   project int [ref: > project.id]
 }
 
-Table user_employment_change {
+Table user_employment_history {
   ~AbstractBaseModel
   user int [ref: > user.id]
   soc_detailed int [ref: > soc_detailed.id]
-  employment_change_date DateField
+  title varchar
 }
 
 Table user_status_type {
