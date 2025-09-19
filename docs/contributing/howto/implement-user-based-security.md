@@ -97,21 +97,21 @@ The following API endpoints retrieve users:
 
         - Project admins can read and update fields specified in
             [cru.py](../../app/core/cru.py) for other project leads.\
-            Search for for `_user_permissions[admin_project]` in [cru.py](../../app/core/cru.py)
+            Search for for `_user_permissions[PROJECT_ADMIN]` in [cru.py](../../app/core/cru.py)
 
         - Practice area leads can read and update fields specified in
             [cru.py](../../app/core/cru.py) for fellow team members. If
             the team member is in the same practice area,\
-            Search for for `_user_permissions[practice_lead_project]` in [cru.py](../../app/core/cru.py)
+            Search for for `_user_permissions[PRACTICE_LEAD_PROJECT]` in [cru.py](../../app/core/cru.py)
 
-            If user being queried is not from the same practice area then search for `_user_permissions[member_project]`
+            If user being queried is not from the same practice area then search for `_user_permissions[MEMBER_PROJECT]`
 
             Note: As of 24-Sep-2024, the implemented code treats practice area leads the same as project
             admins.
 
         - Project members can read fields specified in
             [cru.py](../../app/core/cru.py) for fellow team members.
-            Search for for `_user_permissions[member_project]` in [cru.py](../../app/core/cru.py)
+            Search for for `_user_permissions[MEMBER_PROJECT]` in [cru.py](../../app/core/cru.py)
 
     Note: for non global admins, the /me endpoint, which can be used when reading or
     updating yourself, provides more field permissions.

@@ -2,12 +2,12 @@ import pytest
 from django.urls import reverse
 from rest_framework.test import APIClient
 
-from constants import admin_project
-from constants import member_project
+from constants import PROJECT_ADMIN
+from constants import MEMBER_PROJECT
 from core.api.permission_validation import PermissionValidation
 from core.tests.utils.seed_constants import valerie_name
 from core.tests.utils.seed_constants import wally_name
-from core.tests.utils.seed_constants import wanda_admin_project
+from core.tests.utils.seed_constants import wanda_PROJECT_ADMIN
 from core.tests.utils.seed_constants import winona_name
 from core.tests.utils.seed_user import SeedUser
 
@@ -40,19 +40,19 @@ class TestGetUser:
         # Otherwise check if user fields in response data are the same as fields
         return set(user)
 
-    def test_get_url_results_for_admin_project(self):
+    def test_get_url_results_for_PROJECT_ADMIN(self):
         """Test that the get user request returns (a) all users on the website project
         and (b) the fields match fields configured for a project admin
         **WHEN** the requesting_user is a project admin.
         """
         client = APIClient()
-        client.force_authenticate(user=SeedUser.get_user(wanda_admin_project))
+        client.force_authenticate(user=SeedUser.get_user(wanda_PROJECT_ADMIN))
         response = client.get(_user_get_url)
         assert response.status_code == 200
         assert len(response.json()) == count_website_members
         response_fields = self._get_response_fields(winona_name, response.data)
         valid_fields = PermissionValidation.get_permitted_fields(
-            operation="get", permission_type=admin_project, table_name="User"
+            operation="get", permission_type=PROJECT_ADMIN, table_name="User"
         )
         assert response_fields == set(valid_fields)
 
@@ -70,7 +70,7 @@ class TestGetUser:
         assert len(response.json()) == count_website_members
         response_fields = self._get_response_fields(winona_name, response.data)
         valid_fields = PermissionValidation.get_permitted_fields(
-            operation="get", permission_type=member_project, table_name="User"
+            operation="get", permission_type=MEMBER_PROJECT, table_name="User"
         )
         assert response_fields == set(valid_fields)
         assert len(response.json()) == count_website_members
