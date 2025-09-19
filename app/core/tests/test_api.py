@@ -62,8 +62,6 @@ def create_user(django_user_model, **params):
     return django_user_model.objects.create_user(**params)
 
 
-
-
 user_actions_test_data = [
     (
         "admin_client",
