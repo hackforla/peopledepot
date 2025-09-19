@@ -1,7 +1,7 @@
 import csv
 from pathlib import Path
 from typing import Any
-
+import pytest
 from rest_framework.exceptions import PermissionDenied
 
 from constants import ADMIN_GLOBAL  # Assuming you have this constant
@@ -9,7 +9,7 @@ from constants import FIELD_PERMISSIONS_CSV
 from core.models import PermissionType
 from core.models import UserPermission
 
-
+@pytest.mark.load_user_data_required
 class PermissionValidation:
     """A collection of static methods for validating user permissions."""
 
@@ -140,12 +140,13 @@ class PermissionValidation:
         permissions = UserPermission.objects.filter(
             user=requesting_user, project__name__in=target_projects
         ).values("permission_type__name", "permission_type__rank")
-
+        print("permissions:", list(permissions.values()), list(target_projects.values()), list(permissions))
+        print(list(UserPermission.objects.all().values()))
         if not permissions:
-            return ""
+           return ""
 
-        min_permission = min(permissions, key=lambda p: p["permission_type__rank"])
-        return min_permission["permission_type__name"]
+        max_permission = max(permissions, key=lambda p: p["permission_type__rank"])
+        return max_permission["permission_type__name"]
 
     @classmethod
     def get_response_fields(cls, request, table_name, response_related_user) -> None:

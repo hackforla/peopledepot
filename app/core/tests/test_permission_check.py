@@ -9,6 +9,7 @@ from
 from constants import MEMBER_PROJECT
 from constants import PRACTICE_LEAD_PROJECT
 from constants import ADMIN_PROJECT
+from constants import ADMIN_GLOBAL
 from core.api.permission_validation import PermissionValidation
 from core.api.user_related_request import UserRelatedRequest
 from core.api.views import UserViewSet
