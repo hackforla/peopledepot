@@ -1,0 +1,14 @@
+
+John Smith adminGlobal
+
+Wanda adminProject website-project
+Wally memberProject website-project
+Paul memberProjbect peopledepot-project
+
+If Wanda tries to read Wally, the highest privilege is adminProject for Wanda, gmail should be includded
+If Wanda tries to read Paul, there is no project in common, the highest privilege is None
+
+UserPermissions
+user
+
+blackBox(logged in user, self.user, "UserPermission")

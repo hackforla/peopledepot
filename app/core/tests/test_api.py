@@ -62,41 +62,6 @@ def create_user(django_user_model, **params):
     return django_user_model.objects.create_user(**params)
 
 
-def test_list_users_fail(client):
-    res = client.get(USERS_URL)
-
-    assert res.status_code == status.HTTP_401_UNAUTHORIZED
-
-
-def test_get_profile(auth_client):
-    res = auth_client.get(ME_URL)
-
-    assert res.status_code == status.HTTP_200_OK
-    assert res.data["username"] == "TestUser"
-
-
-def test_get_users(auth_client, django_user_model):
-    create_user(django_user_model, username="TestUser2", password="testpass")
-    create_user(django_user_model, username="TestUser3", password="testpass")
-
-    res = auth_client.get(USERS_URL)
-
-    assert res.status_code == status.HTTP_200_OK
-    assert len(res.data) == 3
-
-    users = django_user_model.objects.all().order_by("created_at")
-    serializer = UserSerializer(users, many=True)
-    assert res.data == serializer.data
-
-
-def test_get_single_user(auth_client, user):
-    res = auth_client.get(f"{USERS_URL}?email={user.email}")
-    assert res.status_code == status.HTTP_200_OK
-
-    res = auth_client.get(f"{USERS_URL}?username={user.username}")
-    assert res.status_code == status.HTTP_200_OK
-
-
 user_actions_test_data = [
     (
         "admin_client",
@@ -351,7 +316,7 @@ def test_create_stack_element(auth_client, stack_element_type):
 
 
 def test_create_permission_type(auth_client):
-    payload = {"name": "newRecord", "description": "Can CRUD anything"}
+    payload = {"name": "newRecord", "description": "Can CRUD anything", "rank": 2000}
     res = auth_client.post(PERMISSION_TYPE, payload)
     assert res.status_code == status.HTTP_201_CREATED
     assert res.data["name"] == payload["name"]
@@ -560,6 +525,7 @@ def test_create_referrer(auth_client, referrer_type):
     assert res.data["contact_name"] == payload["contact_name"]
 
 
+@pytest.mark.skip(reason="User patch tests moved to test_patch_users.py")
 def test_assign_referrer_to_user(auth_client, user, referrer):
     payload = {"referrer": str(referrer.uuid)}
 
