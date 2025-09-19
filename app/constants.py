@@ -1,5 +1,5 @@
 ADMIN_GLOBAL = "globalAdmin"
-PROJECT_ADMIN = "adminProject"
+ADMIN_PROJECT = "adminProject"
 PRACTICE_LEAD_PROJECT = "practiceLeadProject"
 MEMBER_PROJECT = "memberProject"
 FIELD_PERMISSIONS_CSV = "core/api/field_permissions.csv"
