@@ -17,7 +17,7 @@ def revert_ranks(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("data", "0012_leadershiptype_seed"),
+        ("data", "0014_socminor_seed"),
     ]
 
     operations = [

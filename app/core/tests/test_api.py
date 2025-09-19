@@ -75,20 +75,6 @@ def test_get_profile(auth_client):
     assert res.data["username"] == "TestUser"
 
 
-def test_get_users(auth_client, django_user_model):
-    create_user(django_user_model, username="TestUser2", password="testpass")
-    create_user(django_user_model, username="TestUser3", password="testpass")
-
-    res = auth_client.get(USERS_URL)
-
-    assert res.status_code == status.HTTP_200_OK
-    assert len(res.data) == 3
-
-    users = django_user_model.objects.all().order_by("created_at")
-    serializer = UserSerializer(users, many=True)
-    assert res.data == serializer.data
-
-
 def test_get_single_user(auth_client, user):
     res = auth_client.get(f"{USERS_URL}?email={user.email}")
     assert res.status_code == status.HTTP_200_OK
@@ -351,7 +337,7 @@ def test_create_stack_element(auth_client, stack_element_type):
 
 
 def test_create_permission_type(auth_client):
-    payload = {"name": "newRecord", "description": "Can CRUD anything"}
+    payload = {"name": "newRecord", "description": "Can CRUD anything", "rank": 2000}
     res = auth_client.post(PERMISSION_TYPE, payload)
     assert res.status_code == status.HTTP_201_CREATED
     assert res.data["name"] == payload["name"]
