@@ -2,7 +2,7 @@ import pytest
 from rest_framework.test import APIClient
 
 from constants import PRACTICE_LEAD_PROJECT
-from constants import PROJECT_ADMIN
+from constants import ADMIN_PROJECT
 
 from ..models import Affiliate
 from ..models import Affiliation
@@ -79,7 +79,7 @@ def user_permission_admin_project():
         email="TestUserAdminProject@example.com",
     )
     project = Project.objects.create(name="Test Project Admin Project")
-    permission_type = PermissionType.objects.filter(name=PROJECT_ADMIN).first()
+    permission_type = PermissionType.objects.filter(name=ADMIN_PROJECT).first()
     user_permission = UserPermission.objects.create(
         user=user,
         permission_type=permission_type,

@@ -1,10 +1,10 @@
 import copy
 
 from constants import ADMIN_GLOBAL
-from constants import PROJECT_ADMIN
+from constants import ADMIN_PROJECT
 from constants import MEMBER_PROJECT
 from constants import PRACTICE_LEAD_PROJECT
-from constants import PROJECT_ADMIN
+from constants import ADMIN_PROJECT
 from constants import admin_global
 from core.models import Project
 from core.tests.utils.seed_constants import garry_name
@@ -64,12 +64,12 @@ def load_data():
         {
             "first_name": garry_name,
             "project_name": website_project_name,
-            "permission_type_name": PROJECT_ADMIN,
+            "permission_type_name": ADMIN_PROJECT,
         },
         {
             "first_name": wanda_PROJECT_ADMIN,
             "project_name": website_project_name,
-            "permission_type_name": PROJECT_ADMIN,
+            "permission_type_name": ADMIN_PROJECT,
         },
         {
             "first_name": wally_name,
@@ -94,7 +94,7 @@ def load_data():
         {
             "first_name": zani_name,
             "project_name": people_depot_project,
-            "permission_type_name": PROJECT_ADMIN,
+            "permission_type_name": ADMIN_PROJECT,
         },
         {
             "first_name": zani_name,

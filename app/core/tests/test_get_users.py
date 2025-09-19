@@ -3,7 +3,7 @@ from django.urls import reverse
 from rest_framework.test import APIClient
 
 from constants import MEMBER_PROJECT
-from constants import PROJECT_ADMIN
+from constants import ADMIN_PROJECT
 from core.api.permission_validation import PermissionValidation
 from core.tests.utils.seed_constants import valerie_name
 from core.tests.utils.seed_constants import wally_name
@@ -52,7 +52,7 @@ class TestGetUser:
         assert len(response.json()) == count_website_members
         response_fields = self._get_response_fields(winona_name, response.data)
         valid_fields = PermissionValidation.get_permitted_fields(
-            operation="get", permission_type=PROJECT_ADMIN, table_name="User"
+            operation="get", permission_type=ADMIN_PROJECT, table_name="User"
         )
         assert response_fields == set(valid_fields)
 

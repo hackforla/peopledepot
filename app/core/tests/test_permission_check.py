@@ -7,7 +7,7 @@ from rest_framework.exceptions import ValidationError
 
 from constants import MEMBER_PROJECT
 from constants import PRACTICE_LEAD_PROJECT
-from constants import PROJECT_ADMIN
+from constants import ADMIN_PROJECT
 from core.api.permission_validation import PermissionValidation
 from core.api.user_related_request import UserRelatedRequest
 from core.api.views import UserViewSet
@@ -21,8 +21,8 @@ from core.tests.utils.seed_user import SeedUser
 keys = ["table_name", "field_name", "get", "patch", "post"]
 rows = [
     ["User", "field1", MEMBER_PROJECT, PRACTICE_LEAD_PROJECT, ADMIN_GLOBAL],
-    ["User", "field2", PROJECT_ADMIN, PROJECT_ADMIN, ADMIN_GLOBAL],
-    ["User", "field3", PROJECT_ADMIN, ADMIN_GLOBAL, ADMIN_GLOBAL],
+    ["User", "field2", ADMIN_PROJECT, ADMIN_PROJECT, ADMIN_GLOBAL],
+    ["User", "field3", ADMIN_PROJECT, ADMIN_GLOBAL, ADMIN_GLOBAL],
     ["User", "system_field", MEMBER_PROJECT, "", ""],
     ["foo", "bar", MEMBER_PROJECT, MEMBER_PROJECT, MEMBER_PROJECT],
 ]
@@ -94,8 +94,8 @@ def test_is_not_admin():
 @pytest.mark.parametrize(  # noqa: PT006 PT007
     "request_user_name, response_related_user_name, expected_permission_type",
     (
-        # Wanda is an admin project for website, Wally is on the same project => PROJECT_ADMIN
-        (wanda_PROJECT_ADMIN, wally_name, PROJECT_ADMIN),
+        # Wanda is an admin project for website, Wally is on the same project => ADMIN_PROJECT
+        (wanda_PROJECT_ADMIN, wally_name, ADMIN_PROJECT),
         # Wally is a project member for website, Wanda is on the same project => MEMBER_PROJECT
         (wally_name, wanda_PROJECT_ADMIN, MEMBER_PROJECT),
         # Garry is both a project admin for website and a global admin => ADMIN_GLOBAL
@@ -110,8 +110,8 @@ def test_is_not_admin():
         # Zani is part of two projects with different permission types
         # Zani is a MEMBER_PROJECT for website, Wally is assigned same team => MEMBER_PROJECT
         (zani_name, wally_name, MEMBER_PROJECT),
-        # Zani is a project admin for website, Wally is assigned same team => PROJECT_ADMIN
-        (zani_name, patti_name, PROJECT_ADMIN),
+        # Zani is a project admin for website, Wally is assigned same team => ADMIN_PROJECT
+        (zani_name, patti_name, ADMIN_PROJECT),
     ),
 )
 @pytest.mark.django_db

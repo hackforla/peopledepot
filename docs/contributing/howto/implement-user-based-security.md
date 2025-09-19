@@ -97,7 +97,7 @@ The following API endpoints retrieve users:
 
         - Project admins can read and update fields specified in
             [cru.py](../../app/core/cru.py) for other project leads.\
-            Search for for `_user_permissions[PROJECT_ADMIN]` in [cru.py](../../app/core/cru.py)
+            Search for for `_user_permissions[ADMIN_PROJECT]` in [cru.py](../../app/core/cru.py)
 
         - Practice area leads can read and update fields specified in
             [cru.py](../../app/core/cru.py) for fellow team members. If
