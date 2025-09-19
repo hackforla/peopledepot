@@ -39,6 +39,106 @@ SOC_MAJOR_URL = reverse("soc-major-list")
 SOC_MINORS_URL = reverse("soc-minor-list")
 URL_TYPE_URL = reverse("url-type-list")
 
+CREATE_USER_PAYLOAD = {
+    "username": "TestUserAPI",
+    "password": "testpass",
+    # time_zone is required because django_timezone_field doesn't yet support
+    # the blank string
+    "time_zone": "America/Los_Angeles",
+}
+
+
+@pytest.fixture
+def users_url():
+    return reverse("user-list")
+
+
+@pytest.fixture
+def user_url(user):
+    return reverse("user-detail", args=[user.uuid])
+
+
+def create_user(django_user_model, **params):
+    return django_user_model.objects.create_user(**params)
+
+
+user_actions_test_data = [
+    (
+        "admin_client",
+        "post",
+        "users_url",
+        CREATE_USER_PAYLOAD,
+        status.HTTP_201_CREATED,
+    ),
+    ("admin_client", "get", "users_url", {}, status.HTTP_200_OK),
+    (
+        "auth_client",
+        "post",
+        "users_url",
+        CREATE_USER_PAYLOAD,
+        status.HTTP_201_CREATED,
+    ),
+    ("auth_client", "get", "users_url", {}, status.HTTP_200_OK),
+    (
+        "auth_client",
+        "patch",
+        "user_url",
+        {"first_name": "TestUser2"},
+        status.HTTP_200_OK,
+    ),
+    (
+        "auth_client",
+        "put",
+        "user_url",
+        CREATE_USER_PAYLOAD,
+        status.HTTP_200_OK,
+    ),
+    ("auth_client", "delete", "user_url", {}, status.HTTP_204_NO_CONTENT),
+    (
+        "admin_client",
+        "patch",
+        "user_url",
+        {"first_name": "TestUser2"},
+        status.HTTP_200_OK,
+    ),
+    (
+        "admin_client",
+        "put",
+        "user_url",
+        CREATE_USER_PAYLOAD,
+        status.HTTP_200_OK,
+    ),
+    ("admin_client", "delete", "user_url", {}, status.HTTP_204_NO_CONTENT),
+    (
+        "auth_client2",
+        "patch",
+        "user_url",
+        {"first_name": "TestUser2"},
+        status.HTTP_200_OK,
+    ),
+    (
+        "auth_client2",
+        "put",
+        "user_url",
+        CREATE_USER_PAYLOAD,
+        status.HTTP_200_OK,
+    ),
+    ("auth_client2", "delete", "user_url", {}, status.HTTP_204_NO_CONTENT),
+]
+
+
+@pytest.mark.parametrize(
+    ("client_name", "action", "endpoint", "payload", "expected_status"),
+    user_actions_test_data,
+)
+def test_user_actions(client_name, action, endpoint, payload, expected_status, request):
+    client = request.getfixturevalue(client_name)
+    action_fn = getattr(client, action)
+    url = request.getfixturevalue(endpoint)
+    res = action_fn(url, payload)
+    assert res.status_code == expected_status
+
+
 def test_create_event(auth_client, project):
     """Test that we can create an event"""
 
