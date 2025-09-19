@@ -1,8 +1,8 @@
 import pytest
 from rest_framework.test import APIClient
 
-from constants import admin_project
-from constants import practice_lead_project
+from constants import PROJECT_ADMIN
+from constants import PRACTICE_LEAD_PROJECT
 
 from ..models import Affiliate
 from ..models import Affiliation
@@ -66,12 +66,12 @@ def user_permissions():
 
 
 @pytest.fixture
-def user_permission_admin_project():
+def user_permission_PROJECT_ADMIN():
     user = User.objects.create(
         username="TestUser Admin Project", email="TestUserAdminProject@example.com"
     )
     project = Project.objects.create(name="Test Project Admin Project")
-    permission_type = PermissionType.objects.filter(name=admin_project).first()
+    permission_type = PermissionType.objects.filter(name=PROJECT_ADMIN).first()
     user_permission = UserPermission.objects.create(
         user=user,
         permission_type=permission_type,
@@ -82,12 +82,12 @@ def user_permission_admin_project():
 
 
 @pytest.fixture
-def user_permission_practice_lead_project():
+def user_permission_PRACTICE_LEAD_PROJECT():
     user = User.objects.create(
         username="TestUser Practie Lead Project",
         email="TestUserPracticeLeadProject@example.com",
     )
-    permission_type = PermissionType.objects.filter(name=practice_lead_project).first()
+    permission_type = PermissionType.objects.filter(name=PRACTICE_LEAD_PROJECT).first()
     project = Project.objects.create(name="Test Project Admin Project")
     practice_area = PracticeArea.objects.first()
     user_permission = UserPermission.objects.create(

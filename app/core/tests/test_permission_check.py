@@ -6,26 +6,26 @@ from rest_framework.exceptions import PermissionDenied
 from rest_framework.exceptions import ValidationError
 
 from constants import admin_global
-from constants import admin_project
-from constants import member_project
-from constants import practice_lead_project
+from constants import PROJECT_ADMIN
+from constants import MEMBER_PROJECT
+from constants import PRACTICE_LEAD_PROJECT
 from core.api.permission_validation import PermissionValidation
 from core.api.user_related_request import UserRelatedRequest
 from core.api.views import UserViewSet
 from core.tests.utils.seed_constants import garry_name
 from core.tests.utils.seed_constants import patti_name
 from core.tests.utils.seed_constants import wally_name
-from core.tests.utils.seed_constants import wanda_admin_project
+from core.tests.utils.seed_constants import wanda_PROJECT_ADMIN
 from core.tests.utils.seed_constants import zani_name
 from core.tests.utils.seed_user import SeedUser
 
 keys = ["table_name", "field_name", "get", "patch", "post"]
 rows = [
-    ["User", "field1", member_project, practice_lead_project, admin_global],
-    ["User", "field2", admin_project, admin_project, admin_global],
-    ["User", "field3", admin_project, admin_global, admin_global],
-    ["User", "system_field", member_project, "", ""],
-    ["foo", "bar", member_project, member_project, member_project],
+    ["User", "field1", MEMBER_PROJECT, PRACTICE_LEAD_PROJECT, admin_global],
+    ["User", "field2", PROJECT_ADMIN, PROJECT_ADMIN, admin_global],
+    ["User", "field3", PROJECT_ADMIN, admin_global, admin_global],
+    ["User", "system_field", MEMBER_PROJECT, "", ""],
+    ["foo", "bar", MEMBER_PROJECT, MEMBER_PROJECT, MEMBER_PROJECT],
 ]
 # Create an array of dictionaries with keys specified by keys[] andsss
 # values for each row specified by rows
@@ -88,31 +88,31 @@ def test_is_admin():
 @pytest.mark.load_user_data_required  # see load_user_data_required in conftest.py
 def test_is_not_admin():
     """Test that is_admin returns True for an admin user."""
-    admin_user = SeedUser.get_user(wanda_admin_project)
+    admin_user = SeedUser.get_user(wanda_PROJECT_ADMIN)
     assert PermissionValidation.is_admin(admin_user) is False
 
 
 @pytest.mark.parametrize(  # noqa: PT006 PT007
     "request_user_name, response_related_user_name, expected_permission_type",
     (
-        # Wanda is an admin project for website, Wally is on the same project => admin_project
-        (wanda_admin_project, wally_name, admin_project),
-        # Wally is a project member for website, Wanda is on the same project => member_project
-        (wally_name, wanda_admin_project, member_project),
+        # Wanda is an admin project for website, Wally is on the same project => PROJECT_ADMIN
+        (wanda_PROJECT_ADMIN, wally_name, PROJECT_ADMIN),
+        # Wally is a project member for website, Wanda is on the same project => MEMBER_PROJECT
+        (wally_name, wanda_PROJECT_ADMIN, MEMBER_PROJECT),
         # Garry is both a project admin for website and a global admin => admin_global
         (garry_name, wally_name, admin_global),
         # Wally is a project member of website and Garry is a project lead on the same team
-        # => member_project
-        (wally_name, garry_name, member_project),
+        # => MEMBER_PROJECT
+        (wally_name, garry_name, MEMBER_PROJECT),
         # Garry is a global admin.  Even though Patti is not assigned to same team => admin_global
         (garry_name, patti_name, admin_global),
         # Patti has no project in common with Garry => ""
         (patti_name, wally_name, ""),
         # Zani is part of two projects with different permission types
-        # Zani is a member_project for website, Wally is assigned same team => member_project
-        (zani_name, wally_name, member_project),
-        # Zani is a project admin for website, Wally is assigned same team => admin_project
-        (zani_name, patti_name, admin_project),
+        # Zani is a MEMBER_PROJECT for website, Wally is assigned same team => MEMBER_PROJECT
+        (zani_name, wally_name, MEMBER_PROJECT),
+        # Zani is a project admin for website, Wally is assigned same team => PROJECT_ADMIN
+        (zani_name, patti_name, PROJECT_ADMIN),
     ),
 )
 @pytest.mark.django_db
@@ -140,7 +140,7 @@ def test_patch_with_valid_fields(_):  # noqa: PT019
     # Create a PATCH request with a JSON payload
     patch_data = {"field1": "foo", "field2": "bar"}
     mock_simplified_request = MockSimplifiedRequest(
-        method="PATCH", user=SeedUser.get_user(wanda_admin_project), data=patch_data
+        method="PATCH", user=SeedUser.get_user(wanda_PROJECT_ADMIN), data=patch_data
     )
 
     UserRelatedRequest.validate_patch_fields(
@@ -158,12 +158,12 @@ def test_patch_with_invalid_fields(_):  # noqa: PT019
     """Test that validate_user_fields_patchable raises a ValidationError for invalid fields."""
     patch_data = {"field1": "foo", "field2": "bar", "field3": "not valid for patch"}
     mock_simplified_request = MockSimplifiedRequest(
-        method="PATCH", user=SeedUser.get_user(wanda_admin_project), data=patch_data
+        method="PATCH", user=SeedUser.get_user(wanda_PROJECT_ADMIN), data=patch_data
     )
 
     with pytest.raises(ValidationError):
         UserRelatedRequest.validate_patch_fields(
-            obj=SeedUser.get_user(wanda_admin_project),
+            obj=SeedUser.get_user(wanda_PROJECT_ADMIN),
             view=UserViewSet,
             request=mock_simplified_request,
         )
