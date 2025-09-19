@@ -93,7 +93,7 @@ The following API endpoints retrieve users:
     - /user end point:
         - Global admins can read, update, and create fields specified in
             [cru.py](../../app/core/cru.py). Search for
-            `_user_permissions[admin_global]`).
+            `_user_permissions[ADMIN_GLOBAL]`).
 
         - Project admins can read and update fields specified in
             [cru.py](../../app/core/cru.py) for other project leads.\

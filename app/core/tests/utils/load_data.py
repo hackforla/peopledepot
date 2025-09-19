@@ -1,6 +1,6 @@
 import copy
 
-from constants import admin_global
+from constants import ADMIN_GLOBAL
 from constants import PROJECT_ADMIN
 from constants import MEMBER_PROJECT
 from constants import PRACTICE_LEAD_PROJECT
@@ -58,7 +58,7 @@ def load_data():
     SeedUser.create_user(first_name=valerie_name, description="Verified user")
 
     related_data = [
-        {"first_name": garry_name, "permission_type_name": admin_global},
+        {"first_name": garry_name, "permission_type_name": ADMIN_GLOBAL},
         {
             "first_name": garry_name,
             "project_name": website_project_name,

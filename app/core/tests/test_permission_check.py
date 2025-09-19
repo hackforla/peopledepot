@@ -5,7 +5,7 @@ import pytest
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.exceptions import ValidationError
 
-from constants import admin_global
+from constants import ADMIN_GLOBAL
 from constants import PROJECT_ADMIN
 from constants import MEMBER_PROJECT
 from constants import PRACTICE_LEAD_PROJECT
@@ -21,9 +21,9 @@ from core.tests.utils.seed_user import SeedUser
 
 keys = ["table_name", "field_name", "get", "patch", "post"]
 rows = [
-    ["User", "field1", MEMBER_PROJECT, PRACTICE_LEAD_PROJECT, admin_global],
-    ["User", "field2", PROJECT_ADMIN, PROJECT_ADMIN, admin_global],
-    ["User", "field3", PROJECT_ADMIN, admin_global, admin_global],
+    ["User", "field1", MEMBER_PROJECT, PRACTICE_LEAD_PROJECT, ADMIN_GLOBAL],
+    ["User", "field2", PROJECT_ADMIN, PROJECT_ADMIN, ADMIN_GLOBAL],
+    ["User", "field3", PROJECT_ADMIN, ADMIN_GLOBAL, ADMIN_GLOBAL],
     ["User", "system_field", MEMBER_PROJECT, "", ""],
     ["foo", "bar", MEMBER_PROJECT, MEMBER_PROJECT, MEMBER_PROJECT],
 ]
@@ -49,7 +49,7 @@ def mock_csv_data():
             "field_name": "email",
             "view": "viewer",
             "update": "moderator",
-            "create": admin_global,
+            "create": ADMIN_GLOBAL,
         },
         {
             "operation": "create",
@@ -57,7 +57,7 @@ def mock_csv_data():
             "field_name": "name",
             "view": "viewer",
             "update": "moderator",
-            "create": admin_global,
+            "create": ADMIN_GLOBAL,
         },
     ]
 
@@ -99,13 +99,13 @@ def test_is_not_admin():
         (wanda_PROJECT_ADMIN, wally_name, PROJECT_ADMIN),
         # Wally is a project member for website, Wanda is on the same project => MEMBER_PROJECT
         (wally_name, wanda_PROJECT_ADMIN, MEMBER_PROJECT),
-        # Garry is both a project admin for website and a global admin => admin_global
-        (garry_name, wally_name, admin_global),
+        # Garry is both a project admin for website and a global admin => ADMIN_GLOBAL
+        (garry_name, wally_name, ADMIN_GLOBAL),
         # Wally is a project member of website and Garry is a project lead on the same team
         # => MEMBER_PROJECT
         (wally_name, garry_name, MEMBER_PROJECT),
-        # Garry is a global admin.  Even though Patti is not assigned to same team => admin_global
-        (garry_name, patti_name, admin_global),
+        # Garry is a global admin.  Even though Patti is not assigned to same team => ADMIN_GLOBAL
+        (garry_name, patti_name, ADMIN_GLOBAL),
         # Patti has no project in common with Garry => ""
         (patti_name, wally_name, ""),
         # Zani is part of two projects with different permission types

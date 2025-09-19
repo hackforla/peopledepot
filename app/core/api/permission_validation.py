@@ -4,8 +4,8 @@ from typing import Any
 
 from rest_framework.exceptions import PermissionDenied
 
-from constants import admin_global  # Assuming you have this constant
-from constants import field_permissions_csv_file
+from constants import ADMIN_GLOBAL  # Assuming you have this constant
+from constants import FIELD_PERMISSIONS_CSV
 from core.models import PermissionType
 from core.models import UserPermission
 
@@ -16,7 +16,7 @@ class PermissionValidation:
     @staticmethod
     def is_admin(user) -> bool:
         """Check if a user assigned "globalAdmin" permission."""
-        permission_type = PermissionType.objects.filter(name=admin_global).first()
+        permission_type = PermissionType.objects.filter(name=ADMIN_GLOBAL).first()
         # return True
         return UserPermission.objects.filter(
             permission_type=permission_type, user=user
@@ -38,7 +38,7 @@ class PermissionValidation:
         Returns a list of dictionaries, each representing a row in the CSV file.
         Each dictionary contains key values for: table_name, field_name, get, post, patch.
         """
-        file_path = Path(field_permissions_csv_file)
+        file_path = Path(FIELD_PERMISSIONS_CSV)
         with file_path.open() as file:
             reader = csv.DictReader(file)
             return list(reader)
@@ -91,7 +91,7 @@ class PermissionValidation:
         fields = cls.get_permitted_fields(
             operation="post",
             table_name=table_name,
-            permission_type=admin_global,
+            permission_type=ADMIN_GLOBAL,
         )
         return fields
 
@@ -128,7 +128,7 @@ class PermissionValidation:
     ) -> str:
         """Return the most privileged permission type between users."""
         if cls.is_admin(requesting_user):
-            return admin_global
+            return ADMIN_GLOBAL
 
         target_projects = UserPermission.objects.filter(
             user=response_related_user

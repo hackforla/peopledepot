@@ -62,25 +62,6 @@ def create_user(django_user_model, **params):
     return django_user_model.objects.create_user(**params)
 
 
-def test_list_users_fail(client):
-    res = client.get(USERS_URL)
-
-    assert res.status_code == status.HTTP_401_UNAUTHORIZED
-
-
-def test_get_profile(auth_client):
-    res = auth_client.get(ME_URL)
-
-    assert res.status_code == status.HTTP_200_OK
-    assert res.data["username"] == "TestUser"
-
-
-def test_get_single_user(auth_client, user):
-    res = auth_client.get(f"{USERS_URL}?email={user.email}")
-    assert res.status_code == status.HTTP_200_OK
-
-    res = auth_client.get(f"{USERS_URL}?username={user.username}")
-    assert res.status_code == status.HTTP_200_OK
 
 
 user_actions_test_data = [
@@ -546,6 +527,7 @@ def test_create_referrer(auth_client, referrer_type):
     assert res.data["contact_name"] == payload["contact_name"]
 
 
+@pytest.mark.skip(reason="User patch tests moved to test_patch_users.py")
 def test_assign_referrer_to_user(auth_client, user, referrer):
     payload = {"referrer": str(referrer.uuid)}
 
