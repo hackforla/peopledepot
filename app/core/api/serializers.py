@@ -16,11 +16,13 @@ from core.models import PracticeArea
 from core.models import ProgramArea
 from core.models import Project
 from core.models import ProjectStatus
+from core.models import ProjectUrl
 from core.models import Referrer
 from core.models import ReferrerType
 from core.models import Sdg
 from core.models import Skill
 from core.models import SocMajor
+from core.models import SocMinor
 from core.models import StackElement
 from core.models import StackElementType
 from core.models import UrlType
@@ -476,6 +478,15 @@ class SocMajorSerializer(serializers.ModelSerializer):
         read_only_fields = ("uuid", "created_at", "updated_at")
 
 
+class SocMinorSerializer(serializers.ModelSerializer):
+    """Used to retrieve soc_minor info"""
+
+    class Meta:
+        model = SocMinor
+        fields = ("uuid", "soc_major", "occ_code", "title")
+        read_only_fields = ("uuid", "created_at", "updated_at")
+
+
 class UrlTypeSerializer(serializers.ModelSerializer):
     """Used to retrieve url_type info"""
 
@@ -515,5 +526,19 @@ class ReferrerSerializer(serializers.ModelSerializer):
             "referrer_type",
             "contact_name",
             "contact_email",
+        )
+        read_only_fields = ("uuid", "created_at", "updated_at")
+
+
+class ProjectUrlSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProjectUrl
+        fields = (
+            "uuid",
+            "project",
+            "url_type",
+            "name",
+            "external_id",
+            "url",
         )
         read_only_fields = ("uuid", "created_at", "updated_at")
