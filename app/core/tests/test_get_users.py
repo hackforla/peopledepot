@@ -2,8 +2,8 @@ import pytest
 from django.urls import reverse
 from rest_framework.test import APIClient
 
-from constants import PROJECT_ADMIN
 from constants import MEMBER_PROJECT
+from constants import PROJECT_ADMIN
 from core.api.permission_validation import PermissionValidation
 from core.tests.utils.seed_constants import valerie_name
 from core.tests.utils.seed_constants import wally_name

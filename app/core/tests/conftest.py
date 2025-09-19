@@ -1,8 +1,8 @@
 import pytest
 from rest_framework.test import APIClient
 
-from constants import PROJECT_ADMIN
 from constants import PRACTICE_LEAD_PROJECT
+from constants import PROJECT_ADMIN
 
 from ..models import Affiliate
 from ..models import Affiliation

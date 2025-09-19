@@ -1,9 +1,9 @@
 import copy
 
-from constants import admin_global
-from constants import PROJECT_ADMIN
 from constants import MEMBER_PROJECT
 from constants import PRACTICE_LEAD_PROJECT
+from constants import PROJECT_ADMIN
+from constants import admin_global
 from core.models import Project
 from core.tests.utils.seed_constants import garry_name
 from core.tests.utils.seed_constants import patrick_practice_lead
