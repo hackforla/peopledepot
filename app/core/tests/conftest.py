@@ -43,6 +43,7 @@ def pytest_configure(config):  # noqa: PT004
 @pytest.fixture(scope="session", autouse=True)
 def _load_data_once_for_specific_tests(request, django_db_setup, django_db_blocker):
     # Check if any tests marked with 'load_data_required' are going to be run
+    print("Running autouse fixture in conftest.py to check for marker")
     if request.node.items:
         for item in request.node.items:
             if "load_user_data_required" in item.keywords:
