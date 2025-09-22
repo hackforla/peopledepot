@@ -140,8 +140,6 @@ class PermissionValidation:
         permissions = UserPermission.objects.filter(
             user=requesting_user, project__name__in=target_projects
         ).values("permission_type__name", "permission_type__rank")
-        print("permissions:", list(permissions.values()), list(target_projects.values()), list(permissions))
-        print(list(UserPermission.objects.all().values()))
         if not permissions:
            return ""
 
