@@ -72,10 +72,12 @@ class PermissionValidation:
 
         valid_fields = set()
 
+        print("debug operation, permission_type, table_name", operation, permission_type, table_name)  # --- IGNORE ---
         for field_permission in cls.get_csv_field_permissions():
+            print("debug field_permission", field_permission["field_name"], field_permission[operation],)  # --- IGNORE ---
             if cls.has_field_permission(
                 operation=operation,
-                permission_type=permission_type,
+                requester_permission_type=permission_type,
                 table_name=table_name,
                 field=field_permission,
             ):
@@ -162,7 +164,7 @@ class PermissionValidation:
 
     @classmethod
     def has_field_permission(
-        cls, operation: str, permission_type: str, table_name: str, field: dict
+        cls, operation: str, requester_permission_type: str, table_name: str, field: dict
     ) -> bool:
         """
         Determine whether a user with a given permission type has access to a field
@@ -192,15 +194,20 @@ class PermissionValidation:
             >>> has_field_permission("get", "adminProject", "User", field_info)
             True
         """
+        print("debug checking field permission for name, operation, requester_permission_type, operation look up", field.get("field_name"), operation, requester_permission_type, field.get(operation))  # --- IGNORE ---
         operation_permission_type = field.get(operation, "")
         if not operation_permission_type or field.get("table_name") != table_name:
+            print("debug no permission type or table name mismatch")  # --- IGNORE ---
             return False
 
         rank_dict = cls.get_rank_dict()
         if (
-            permission_type not in rank_dict
+            requester_permission_type not in rank_dict
             or operation_permission_type not in rank_dict
         ):
+            print("debug no requester_permission_type or operation_permission_type")  # --- IGNORE ---
             return False
+        print("debug ranks", rank_dict[requester_permission_type], rank_dict[operation_permission_type])  # --- IGNORE ---
+        print("returning", rank_dict[requester_permission_type] >= rank_dict[operation_permission_type])  # --- IGNORE ---
 
-        return rank_dict[permission_type] <= rank_dict[operation_permission_type]
+        return rank_dict[requester_permission_type] >= rank_dict[operation_permission_type]
