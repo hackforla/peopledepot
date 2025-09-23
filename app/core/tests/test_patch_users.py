@@ -46,7 +46,7 @@ class TestPatchUser:
         url = reverse("user-detail", args=[response_related_user.uuid])
         data = {
             "last_name": "Updated",
-            "gmail": "update@example.com",
+            "email_gmail": "update@example.com",
         }
         client.patch(url, data, format="json")
         __args__, kwargs = mock_validate_fields.call_args
@@ -60,7 +60,7 @@ class TestPatchUser:
     def test_valid_patch(cls):
         patch_data = {
             "last_name": "Foo",
-            # "gmail": "smith@example.com",
+            # "email_gmail": "smith@example.com",
             # "first_name": "John",
         }
         response = cls._call_api(
@@ -86,7 +86,7 @@ class TestPatchUser:
         """
 
         patch_data = {
-            "gmail": "smith@example.com",
+            "email_gmail": "smith@example.com",
             "created_at": "2022-01-01T00:00:00Z",
         }
         response = cls._call_api(
@@ -112,7 +112,7 @@ class TestPatchUser:
         """
 
         patch_data = {
-            "gmail": "smith@example.com",
+            "email_gmail": "smith@example.com",
         }
         response = cls._call_api(
             requesting_user_name=wanda_PROJECT_ADMIN,
