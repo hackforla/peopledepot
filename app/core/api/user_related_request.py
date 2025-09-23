@@ -91,6 +91,7 @@ class UserRelatedRequest:
             request=request,
             response_related_user=response_related_user,
         )
+        print("debug valid fields", valid_fields)  # --- IGNORE ---
         cls.validate_request_fields(request, valid_fields)
 
     @staticmethod
@@ -98,6 +99,10 @@ class UserRelatedRequest:
         """Ensure the requesting user can patch the provided fields."""
         request_data_keys = set(request.data)
         disallowed_fields = request_data_keys - set(valid_fields)
+        print("valid fields", valid_fields)
+        print(request_data_keys)
+        print("disallowed fields", disallowed_fields)  
+        print("request data keys", request_data_keys)
 
         if not valid_fields:
             raise PermissionDenied("You do not have privileges ")

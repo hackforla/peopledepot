@@ -46,7 +46,7 @@ def mock_csv_data():
         {
             "operation": "update",
             "table_name": "user",
-            "field_name": "email",
+            "field_name": "gmail_email",
             "view": "viewer",
             "update": "moderator",
             "create": ADMIN_GLOBAL,

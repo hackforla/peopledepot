@@ -46,7 +46,22 @@ class SeedUser:
         return user
 
     @classmethod
-    def create_related_data(cls, *, user, permission_type_name, project_name=None):
+    def create_related_data(
+        cls, *, user: User, permission_type_name: str, project_name: str = None
+    ) -> UserPermission:
+        """
+        Create a UserPermission for the given user.
+
+        Args:
+            user (User): The user to assign permissions to.
+            permission_type_name (str): Name of the PermissionType to assign.
+            project_name (str, optional): Name of the Project to link the permission to.
+                                          If None, permission is global.
+
+        Returns:
+            UserPermission: The created UserPermission instance.
+        """
+        # Retrieve PermissionType object from DB
         permission_type = PermissionType.objects.get(name=permission_type_name)
         if project_name:
             project_data = {"project": Project.objects.get(name=project_name)}
