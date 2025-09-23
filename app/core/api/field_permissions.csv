@@ -5,8 +5,9 @@ User,is_active,,,
 User,is_staff,,,
 User,first_name,memberProject,adminBrigade,adminGlobal
 User,last_name,memberProject,adminBrigade,adminGlobal
-User,gmail,practiceLeadProject,adminBrigade,adminGlobal
-User,preferred_email,practiceLeadProject,adminBrigade,adminGlobal
+User,email_gmail,practiceLeadProject,adminBrigade,adminGlobal
+User,email_preferred,practiceLeadProject,adminBrigade,adminGlobal
+User,email_cognito,adminBrigade,adminBrigade,adminGlobal
 User,created_at,adminProject,,,
 User,user_status_id,adminBrigade,adminBrigade,adminGlobal
 User,current_job_title,adminBrigade,adminBrigade,adminGlobal

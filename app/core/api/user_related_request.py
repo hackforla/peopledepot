@@ -39,6 +39,7 @@ class UserRelatedRequest:
         """
         allowed_users = cls.get_allowed_users(view.request)
         current_model = view.serializer_class.Meta.model
+        print("debuga allowed users:", allowed_users)  # --- IGNORE ---
         if current_model == User:
             queryset = allowed_users
         else:
@@ -55,11 +56,14 @@ class UserRelatedRequest:
         else:
             response_related_user = instance.user
         # Get dynamic fields from some logic
+        print("debuga related user", response_related_user.first_name)  # --- IGNORE ---
+        print("debuga request user", request.user.first_name)  # --- IGNORE ---
         user_fields = PermissionValidation.get_response_fields(
             request=request,
             table_name=model_class.__name__,
             response_related_user=response_related_user,
         )
+        print("debuga user fields", user_fields)  # --- IGNORE ---
         # Only retain the fields you want to include in the output
         return {
             key: value

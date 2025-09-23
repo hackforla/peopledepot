@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from .user_related_request import UserRelatedRequest
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import OpenApiExample
 from drf_spectacular.utils import OpenApiParameter
@@ -131,7 +132,7 @@ class UserViewSet(viewsets.ModelViewSet):
         """
         Optionally filter users by an 'email' and/or 'username' query paramerter in the URL
         """
-        queryset = get_user_model().objects.all()
+        queryset = UserRelatedRequest.get_queryset(self)
         email = self.request.query_params.get("email")
         if email is not None:
             queryset = queryset.filter(email=email)

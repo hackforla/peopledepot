@@ -194,7 +194,7 @@ class PermissionValidation:
             >>> has_field_permission("get", "adminProject", "User", field_info)
             True
         """
-        print("debug checking field permission for name, operation, requester_permission_type, operation look up", field.get("field_name"), operation, requester_permission_type, field.get(operation))  # --- IGNORE ---
+        print("debug checking field permission for name, operation, requester_permission_type, [operation look up]", field.get("field_name"), operation, requester_permission_type, field.get(operation))  # --- IGNORE ---
         operation_permission_type = field.get(operation, "")
         if not operation_permission_type or field.get("table_name") != table_name:
             print("debug no permission type or table name mismatch")  # --- IGNORE ---
