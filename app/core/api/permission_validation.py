@@ -1,6 +1,7 @@
 import csv
 from pathlib import Path
 from typing import Any
+
 import pytest
 from rest_framework.exceptions import PermissionDenied
 
@@ -8,6 +9,7 @@ from constants import ADMIN_GLOBAL  # Assuming you have this constant
 from constants import FIELD_PERMISSIONS_CSV
 from core.models import PermissionType
 from core.models import UserPermission
+
 
 @pytest.mark.load_user_data_required
 class PermissionValidation:
@@ -72,9 +74,18 @@ class PermissionValidation:
 
         valid_fields = set()
 
-        print("debug operation, permission_type, table_name", operation, permission_type, table_name)  # --- IGNORE ---
+        print(
+            "debug operation, permission_type, table_name",
+            operation,
+            permission_type,
+            table_name,
+        )  # --- IGNORE ---
         for field_permission in cls.get_csv_field_permissions():
-            print("debug field_permission", field_permission["field_name"], field_permission[operation],)  # --- IGNORE ---
+            print(
+                "debug field_permission",
+                field_permission["field_name"],
+                field_permission[operation],
+            )  # --- IGNORE ---
             if cls.has_field_permission(
                 operation=operation,
                 requester_permission_type=permission_type,
@@ -143,7 +154,7 @@ class PermissionValidation:
             user=requesting_user, project__name__in=target_projects
         ).values("permission_type__name", "permission_type__rank")
         if not permissions:
-           return ""
+            return ""
 
         max_permission = max(permissions, key=lambda p: p["permission_type__rank"])
         return max_permission["permission_type__name"]
@@ -164,7 +175,11 @@ class PermissionValidation:
 
     @classmethod
     def has_field_permission(
-        cls, operation: str, requester_permission_type: str, table_name: str, field: dict
+        cls,
+        operation: str,
+        requester_permission_type: str,
+        table_name: str,
+        field: dict,
     ) -> bool:
         """
         Determine whether a user with a given permission type has access to a field
@@ -194,7 +209,13 @@ class PermissionValidation:
             >>> has_field_permission("get", "adminProject", "User", field_info)
             True
         """
-        print("debug checking field permission for name, operation, requester_permission_type, [operation look up]", field.get("field_name"), operation, requester_permission_type, field.get(operation))  # --- IGNORE ---
+        print(
+            "debug checking field permission for name, operation, requester_permission_type, [operation look up]",
+            field.get("field_name"),
+            operation,
+            requester_permission_type,
+            field.get(operation),
+        )  # --- IGNORE ---
         operation_permission_type = field.get(operation, "")
         if not operation_permission_type or field.get("table_name") != table_name:
             print("debug no permission type or table name mismatch")  # --- IGNORE ---
@@ -205,9 +226,21 @@ class PermissionValidation:
             requester_permission_type not in rank_dict
             or operation_permission_type not in rank_dict
         ):
-            print("debug no requester_permission_type or operation_permission_type")  # --- IGNORE ---
+            print(
+                "debug no requester_permission_type or operation_permission_type"
+            )  # --- IGNORE ---
             return False
-        print("debug ranks", rank_dict[requester_permission_type], rank_dict[operation_permission_type])  # --- IGNORE ---
-        print("returning", rank_dict[requester_permission_type] >= rank_dict[operation_permission_type])  # --- IGNORE ---
+        print(
+            "debug ranks",
+            rank_dict[requester_permission_type],
+            rank_dict[operation_permission_type],
+        )  # --- IGNORE ---
+        print(
+            "returning",
+            rank_dict[requester_permission_type]
+            >= rank_dict[operation_permission_type],
+        )  # --- IGNORE ---
 
-        return rank_dict[requester_permission_type] >= rank_dict[operation_permission_type]
+        return (
+            rank_dict[requester_permission_type] >= rank_dict[operation_permission_type]
+        )

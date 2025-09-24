@@ -1,5 +1,6 @@
-from core.api.user_related_request import UserRelatedRequest
 from rest_framework.permissions import BasePermission
+
+from core.api.user_related_request import UserRelatedRequest
 
 
 class HasUserPermission(BasePermission):

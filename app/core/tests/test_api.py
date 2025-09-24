@@ -58,73 +58,73 @@ def user_url(user):
     return reverse("user-detail", args=[user.uuid])
 
 
-def create_user(django_user_model, **params):
-    return django_user_model.objects.create_user(**params)
+# def create_user(django_user_model, **params):
+#     return django_user_model.objects.create_user(**params)
 
 
-user_actions_test_data = [
-    (
-        "admin_client",
-        "post",
-        "users_url",
-        CREATE_USER_PAYLOAD,
-        status.HTTP_201_CREATED,
-    ),
-    ("admin_client", "get", "users_url", {}, status.HTTP_200_OK),
-    (
-        "auth_client",
-        "post",
-        "users_url",
-        CREATE_USER_PAYLOAD,
-        status.HTTP_201_CREATED,
-    ),
-    ("auth_client", "get", "users_url", {}, status.HTTP_200_OK),
-    (
-        "auth_client",
-        "patch",
-        "user_url",
-        {"first_name": "TestUser2"},
-        status.HTTP_200_OK,
-    ),
-    (
-        "auth_client",
-        "put",
-        "user_url",
-        CREATE_USER_PAYLOAD,
-        status.HTTP_200_OK,
-    ),
-    ("auth_client", "delete", "user_url", {}, status.HTTP_204_NO_CONTENT),
-    (
-        "admin_client",
-        "patch",
-        "user_url",
-        {"first_name": "TestUser2"},
-        status.HTTP_200_OK,
-    ),
-    (
-        "admin_client",
-        "put",
-        "user_url",
-        CREATE_USER_PAYLOAD,
-        status.HTTP_200_OK,
-    ),
-    ("admin_client", "delete", "user_url", {}, status.HTTP_204_NO_CONTENT),
-    (
-        "auth_client2",
-        "patch",
-        "user_url",
-        {"first_name": "TestUser2"},
-        status.HTTP_200_OK,
-    ),
-    (
-        "auth_client2",
-        "put",
-        "user_url",
-        CREATE_USER_PAYLOAD,
-        status.HTTP_200_OK,
-    ),
-    ("auth_client2", "delete", "user_url", {}, status.HTTP_204_NO_CONTENT),
-]
+# user_actions_test_data = [
+#     (
+#         "admin_client",
+#         "post",
+#         "users_url",
+#         CREATE_USER_PAYLOAD,
+#         status.HTTP_201_CREATED,
+#     ),
+#     ("admin_client", "get", "users_url", {}, status.HTTP_200_OK),
+#     (
+#         "auth_client",
+#         "post",
+#         "users_url",
+#         CREATE_USER_PAYLOAD,
+#         status.HTTP_201_CREATED,
+#     ),
+#     ("auth_client", "get", "users_url", {}, status.HTTP_200_OK),
+#     (
+#         "auth_client",
+#         "patch",
+#         "user_url",
+#         {"first_name": "TestUser2"},
+#         status.HTTP_200_OK,
+#     ),
+#     (
+#         "auth_client",
+#         "put",
+#         "user_url",
+#         CREATE_USER_PAYLOAD,
+#         status.HTTP_200_OK,
+#     ),
+#     ("auth_client", "delete", "user_url", {}, status.HTTP_204_NO_CONTENT),
+#     (
+#         "admin_client",
+#         "patch",
+#         "user_url",
+#         {"first_name": "TestUser2"},
+#         status.HTTP_200_OK,
+#     ),
+#     (
+#         "admin_client",
+#         "put",
+#         "user_url",
+#         CREATE_USER_PAYLOAD,
+#         status.HTTP_200_OK,
+#     ),
+#     ("admin_client", "delete", "user_url", {}, status.HTTP_204_NO_CONTENT),
+#     (
+#         "auth_client2",
+#         "patch",
+#         "user_url",
+#         {"first_name": "TestUser2"},
+#         status.HTTP_200_OK,
+#     ),
+#     (
+#         "auth_client2",
+#         "put",
+#         "user_url",
+#         CREATE_USER_PAYLOAD,
+#         status.HTTP_200_OK,
+#     ),
+#     ("auth_client2", "delete", "user_url", {}, status.HTTP_204_NO_CONTENT),
+# ]
 
 
 @pytest.mark.parametrize(
@@ -230,7 +230,10 @@ def test_create_leadership_type(auth_client):
     assert res.data["name"] == payload["name"]
     assert res.data["description"] == payload["description"]
 
-@pytest.mark.skip(reason="Leadership type relationship test moved to test_patch_project.py")
+
+@pytest.mark.skip(
+    reason="Leadership type relationship test moved to test_patch_project.py"
+)
 def test_project_leadership_type_relationship(auth_client, project_1, leadership_type):
     res = auth_client.patch(
         reverse("project-detail", args=[project_1.pk]),
