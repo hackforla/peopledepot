@@ -1,4 +1,6 @@
 from django.contrib.auth import get_user_model
+
+from core.api.has_user_permissions import HasUserPermission
 from .user_related_request import UserRelatedRequest
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import OpenApiExample
@@ -124,7 +126,7 @@ class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
     partial_update=extend_schema(description="Partially update the given user"),
 )
 class UserViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, HasUserPermission]
     serializer_class = UserSerializer
     lookup_field = "uuid"
 
