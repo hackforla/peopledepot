@@ -6,7 +6,7 @@ from rest_framework.test import force_authenticate
 
 from core.api.views import UserViewSet
 from core.tests.utils.seed_constants import garry_name
-from core.tests.utils.seed_constants import wanda_PROJECT_ADMIN
+from core.tests.utils.seed_constants import wanda_admin_project
 from core.tests.utils.seed_user import SeedUser
 
 count_website_members = 4
@@ -82,7 +82,7 @@ class TestPostUser:
         """
 
         requesting_user = SeedUser.get_user(
-            wanda_PROJECT_ADMIN
+            wanda_admin_project
         )  # project lead for website
         post_data = {
             "username": "foo",

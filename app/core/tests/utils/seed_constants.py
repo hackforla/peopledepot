@@ -1,4 +1,4 @@
-wanda_PROJECT_ADMIN = "Wanda"
+wanda_admin_project = "Wanda"
 wally_name = "Wally"
 winona_name = "Winona"
 zani_name = "Zani"
@@ -9,7 +9,7 @@ garry_name = "Garry"
 
 descriptions = {
     wally_name: "Website member",
-    wanda_PROJECT_ADMIN: "Website project admin",
+    wanda_admin_project: "Website project admin",
     winona_name: "Website member",
     zani_name: "Website member and People Depot project admin",
     patti_name: "People Depot member",

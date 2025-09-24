@@ -15,7 +15,7 @@ from core.api.views import UserViewSet
 from core.tests.utils.seed_constants import garry_name
 from core.tests.utils.seed_constants import patti_name
 from core.tests.utils.seed_constants import wally_name
-from core.tests.utils.seed_constants import wanda_PROJECT_ADMIN
+from core.tests.utils.seed_constants import wanda_admin_project
 from core.tests.utils.seed_constants import zani_name
 from core.tests.utils.seed_user import SeedUser
 
@@ -88,7 +88,7 @@ def test_is_admin():
 @pytest.mark.load_user_data_required  # see load_user_data_required in conftest.py
 def test_is_not_admin():
     """Test that is_admin returns True for an admin user."""
-    admin_user = SeedUser.get_user(wanda_PROJECT_ADMIN)
+    admin_user = SeedUser.get_user(wanda_admin_project)
     assert PermissionValidation.is_admin(admin_user) is False
 
 
@@ -96,9 +96,9 @@ def test_is_not_admin():
     "request_user_name, response_related_user_name, expected_permission_type",
     (
         # Wanda is an admin project for website, Wally is on the same project => ADMIN_PROJECT
-        (wanda_PROJECT_ADMIN, wally_name, ADMIN_PROJECT),
+        (wanda_admin_project, wally_name, ADMIN_PROJECT),
         # Wally is a project member for website, Wanda is on the same project => MEMBER_PROJECT
-        (wally_name, wanda_PROJECT_ADMIN, MEMBER_PROJECT),
+        (wally_name, wanda_admin_project, MEMBER_PROJECT),
         # Garry is both a project admin for website and a global admin => ADMIN_GLOBAL
         (garry_name, wally_name, ADMIN_GLOBAL),
         # Wally is a project member of website and Garry is a project lead on the same team
@@ -140,7 +140,7 @@ def test_patch_with_valid_fields(_):  # noqa: PT019
     # Create a PATCH request with a JSON payload
     patch_data = {"field1": "foo", "field2": "bar"}
     mock_simplified_request = MockSimplifiedRequest(
-        method="PATCH", user=SeedUser.get_user(wanda_PROJECT_ADMIN), data=patch_data
+        method="PATCH", user=SeedUser.get_user(wanda_admin_project), data=patch_data
     )
 
     UserRelatedRequest.validate_patch_fields(
@@ -158,12 +158,12 @@ def test_patch_with_invalid_fields(_):  # noqa: PT019
     """Test that validate_user_fields_patchable raises a ValidationError for invalid fields."""
     patch_data = {"field1": "foo", "field2": "bar", "field3": "not valid for patch"}
     mock_simplified_request = MockSimplifiedRequest(
-        method="PATCH", user=SeedUser.get_user(wanda_PROJECT_ADMIN), data=patch_data
+        method="PATCH", user=SeedUser.get_user(wanda_admin_project), data=patch_data
     )
 
     with pytest.raises(ValidationError):
         UserRelatedRequest.validate_patch_fields(
-            obj=SeedUser.get_user(wanda_PROJECT_ADMIN),
+            obj=SeedUser.get_user(wanda_admin_project),
             view=UserViewSet,
             request=mock_simplified_request,
         )

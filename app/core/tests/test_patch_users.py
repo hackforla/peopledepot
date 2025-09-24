@@ -8,7 +8,7 @@ from rest_framework.test import APIClient
 from core.api.user_related_request import UserRelatedRequest
 from core.tests.utils.seed_constants import garry_name
 from core.tests.utils.seed_constants import valerie_name
-from core.tests.utils.seed_constants import wanda_PROJECT_ADMIN
+from core.tests.utils.seed_constants import wanda_admin_project
 from core.tests.utils.seed_user import SeedUser
 
 
@@ -65,12 +65,12 @@ class TestPatchUser:
         }
         response = cls._call_api(
             requesting_user_name=garry_name,
-            response_related_name=wanda_PROJECT_ADMIN,
+            response_related_name=wanda_admin_project,
             data=patch_data,
         )
         response = cls._call_api(
             requesting_user_name=garry_name,
-            response_related_name=wanda_PROJECT_ADMIN,
+            response_related_name=wanda_admin_project,
             data=patch_data,
         )
         assert response.status_code == status.HTTP_200_OK
@@ -91,12 +91,12 @@ class TestPatchUser:
         }
         response = cls._call_api(
             requesting_user_name=garry_name,
-            response_related_name=wanda_PROJECT_ADMIN,
+            response_related_name=wanda_admin_project,
             data=patch_data,
         )
         response = cls._call_api(
             requesting_user_name=garry_name,
-            response_related_name=wanda_PROJECT_ADMIN,
+            response_related_name=wanda_admin_project,
             data=patch_data,
         )
         assert response.status_code == status.HTTP_400_BAD_REQUEST
@@ -115,12 +115,12 @@ class TestPatchUser:
             "email_gmail": "smith@example.com",
         }
         response = cls._call_api(
-            requesting_user_name=wanda_PROJECT_ADMIN,
+            requesting_user_name=wanda_admin_project,
             response_related_name=valerie_name,
             data=patch_data,
         )
         response = cls._call_api(
-            requesting_user_name=wanda_PROJECT_ADMIN,
+            requesting_user_name=wanda_admin_project,
             response_related_name=valerie_name,
             data=patch_data,
         )

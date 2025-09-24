@@ -7,7 +7,7 @@ from constants import MEMBER_PROJECT
 from core.api.permission_validation import PermissionValidation
 from core.tests.utils.seed_constants import valerie_name
 from core.tests.utils.seed_constants import wally_name
-from core.tests.utils.seed_constants import wanda_PROJECT_ADMIN
+from core.tests.utils.seed_constants import wanda_admin_project
 from core.tests.utils.seed_constants import winona_name
 from core.tests.utils.seed_user import SeedUser
 
@@ -40,13 +40,13 @@ class TestGetUser:
         # Otherwise check if user fields in response data are the same as fields
         return set(user)
 
-    def test_get_url_results_for_PROJECT_ADMIN(self):
+    def test_get_url_results_for_admin_project(self):
         """Test that the get user request returns (a) all users on the website project
         and (b) the fields match fields configured for a project admin
         **WHEN** the requesting_user is a project admin.
         """
         client = APIClient()
-        client.force_authenticate(user=SeedUser.get_user(wanda_PROJECT_ADMIN))
+        client.force_authenticate(user=SeedUser.get_user(wanda_admin_project))
         response = client.get(_user_get_url)
         assert response.status_code == 200
         assert len(response.json()) == count_website_members
