@@ -1,7 +1,10 @@
 import pytest
+
 from core.models import Project
 from core.tests.utils.load_data import load_data  # adjust path if needed
-from core.tests.utils.seed_constants import website_project_name, people_depot_project
+from core.tests.utils.seed_constants import people_depot_project
+from core.tests.utils.seed_constants import website_project_name
+
 
 @pytest.mark.load_user_data_required
 @pytest.mark.django_db
