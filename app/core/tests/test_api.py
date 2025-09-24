@@ -62,8 +62,6 @@ URL_TYPE_URL = reverse("url-type-list")
 #     return django_user_model.objects.create_user(**params)
 
 
-
-
 # user_actions_test_data = [
 #     (
 #         "admin_client",
@@ -232,7 +230,10 @@ def test_create_leadership_type(auth_client):
     assert res.data["name"] == payload["name"]
     assert res.data["description"] == payload["description"]
 
-@pytest.mark.skip(reason="Leadership type relationship test moved to test_patch_project.py")
+
+@pytest.mark.skip(
+    reason="Leadership type relationship test moved to test_patch_project.py"
+)
 def test_project_leadership_type_relationship(auth_client, project_1, leadership_type):
     res = auth_client.patch(
         reverse("project-detail", args=[project_1.pk]),

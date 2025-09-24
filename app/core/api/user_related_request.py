@@ -105,7 +105,7 @@ class UserRelatedRequest:
         disallowed_fields = request_data_keys - set(valid_fields)
         print("valid fields", valid_fields)
         print(request_data_keys)
-        print("disallowed fields", disallowed_fields)  
+        print("disallowed fields", disallowed_fields)
         print("request data keys", request_data_keys)
 
         if not valid_fields:
