@@ -83,6 +83,8 @@ Table faq {
   ~AbstractBaseModel
   question varchar
   answer varchar
+  project int [ref: > project.id]
+  permission_type int [ref: > permission_type.id]
   title varchar
 }
 
