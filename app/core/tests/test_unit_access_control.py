@@ -124,9 +124,7 @@ def test_get_most_privileged_perm_type(
     request_user = SeedUser.get_user(request_user_name)
     response_related_user = SeedUser.get_user(response_related_user_name)
     assert (
-        AccessControl.get_most_privileged_perm_type(
-            request_user, response_related_user
-        )
+        AccessControl.get_most_privileged_perm_type(request_user, response_related_user)
         == expected_permission_type
     )
 
