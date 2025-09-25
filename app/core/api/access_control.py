@@ -2,7 +2,6 @@ import csv
 from pathlib import Path
 from typing import Any
 
-import pytest
 from rest_framework.exceptions import PermissionDenied
 
 from constants import ADMIN_GLOBAL  # Assuming you have this constant

@@ -3,7 +3,6 @@ from django.urls import reverse
 from rest_framework import status
 
 from core.api.serializers import ProgramAreaSerializer
-from core.api.serializers import UserSerializer
 from core.models import ProgramArea
 from core.models import UserPermission
 
