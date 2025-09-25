@@ -1,6 +1,6 @@
+from django.contrib.auth import get_user_model
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.exceptions import ValidationError
-from django.contrib.auth import get_user_model
 
 from core.models import User
 from core.models import UserPermission
