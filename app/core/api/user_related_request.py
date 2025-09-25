@@ -1,6 +1,6 @@
+from django.contrib.auth import get_user_model
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.exceptions import ValidationError
-from django.contrib.auth import get_user_model
 
 from core.models import User
 from core.models import UserPermission
@@ -22,9 +22,11 @@ class UserRelatedRequest:
             # Get the users with user permissions for the same projects
             # that the requesting_user has permission to view
             projects = [p.project for p in user_permissions if p.project is not None]
-            allowed_users = get_user_model().objects.filter(
-                permissions__project__in=projects
-            ).distinct()
+            allowed_users = (
+                get_user_model()
+                .objects.filter(permissions__project__in=projects)
+                .distinct()
+            )
         return allowed_users
 
     @classmethod
