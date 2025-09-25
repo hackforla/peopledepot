@@ -1,8 +1,10 @@
-from core.tests.utils.seed_user import SeedUser
 import pytest
 from rest_framework.test import APIClient
 
-from constants import ADMIN_GLOBAL, ADMIN_PROJECT, PRACTICE_LEAD_PROJECT
+from constants import ADMIN_GLOBAL
+from constants import ADMIN_PROJECT
+from constants import PRACTICE_LEAD_PROJECT
+from core.tests.utils.seed_user import SeedUser
 
 from ..models import Affiliate
 from ..models import Affiliation
@@ -146,9 +148,7 @@ def admin(django_user_model):
         email="testadmin@email.com",
         password="testadmin",
     )
-    SeedUser.create_related_data(
-        user=admin_user, permission_type_name=ADMIN_GLOBAL
-    )
+    SeedUser.create_related_data(user=admin_user, permission_type_name=ADMIN_GLOBAL)
     return admin_user
 
 
