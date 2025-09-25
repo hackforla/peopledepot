@@ -10,6 +10,7 @@ from core.models import Faq
 from core.models import FaqViewed
 from core.models import LeadershipType
 from core.models import Location
+from core.models import PermissionHistory
 from core.models import PermissionType
 from core.models import PracticeArea
 from core.models import ProgramArea
@@ -318,6 +319,29 @@ class StackElementSerializer(serializers.ModelSerializer):
             "logo",
             "active",
             "element_type",
+        )
+        read_only_fields = (
+            "uuid",
+            "created_at",
+            "updated_at",
+        )
+
+
+class PermissionHistorySerializer(serializers.ModelSerializer):
+    """Used to retrieve permission history info"""
+
+    class Meta:
+        model = PermissionHistory
+        fields = (
+            "uuid",
+            "user",
+            "permission_type",
+            "project",
+            "practice_area",
+            "granted",
+            "ended",
+            "created_by",
+            "updated_by",
         )
         read_only_fields = (
             "uuid",
