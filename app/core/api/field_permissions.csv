@@ -21,21 +21,6 @@ User,texting_ok,practiceLeadProject,adminBrigade,adminGlobal
 User,slack_id,memberProject,adminBrigade,adminGlobal
 User,time_zone,memberProject,adminBrigade,adminGlobal
 User,last_updated,adminBrigade,,adminGlobal
-User,password,,adminBrigade,adminGlobal,,,,
+User,password,,adminBrigade,adminGlobal
+User,referrer,memberProject,adminBrigade,adminGlobal
 UserPermission,field1,memberProject,adminProject,adminProject
-
-blackBox(logged in user, target user, table)
-
-UserOpportunities
-user
-blackBox(logged in user, self.user, "UserPermission")
-
-
-User =< UserEvent =< UserAttendance
-
-UserEvent
-user
-
-UserAttendance
-user userEvent.user
-userEvent

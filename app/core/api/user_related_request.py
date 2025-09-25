@@ -1,7 +1,7 @@
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.exceptions import ValidationError
 
-from core.api.permission_validation import PermissionValidation
+from .access_control import AccessControl
 from core.models import User
 from core.models import UserPermission
 
@@ -14,7 +14,7 @@ class UserRelatedRequest:
         current_user = User.objects.get(username=current_username)
         user_permissions = UserPermission.objects.filter(user=current_user)
 
-        if PermissionValidation.is_admin(current_user):
+        if AccessControl.is_admin(current_user):
             allowed_users = User.objects.all()
         else:
             # Get the users with user permissions for the same projects
@@ -39,7 +39,6 @@ class UserRelatedRequest:
         """
         allowed_users = cls.get_allowed_users(view.request)
         current_model = view.serializer_class.Meta.model
-        print("debuga allowed users:", allowed_users)  # --- IGNORE ---
         if current_model == User:
             queryset = allowed_users
         else:
@@ -56,14 +55,11 @@ class UserRelatedRequest:
         else:
             response_related_user = instance.user
         # Get dynamic fields from some logic
-        print("debuga related user", response_related_user.first_name)  # --- IGNORE ---
-        print("debuga request user", request.user.first_name)  # --- IGNORE ---
-        user_fields = PermissionValidation.get_response_fields(
+        user_fields = AccessControl.get_response_fields(
             request=request,
             table_name=model_class.__name__,
             response_related_user=response_related_user,
         )
-        print("debuga user fields", user_fields)  # --- IGNORE ---
         # Only retain the fields you want to include in the output
         return {
             key: value
@@ -76,7 +72,7 @@ class UserRelatedRequest:
         # todo
         serializer_class = view.serializer_class
         table_name = serializer_class.Meta.model.__name__
-        valid_fields = PermissionValidation.get_fields_for_post_request(
+        valid_fields = AccessControl.get_fields_for_post_request(
             request=request, table_name=table_name
         )
         cls.validate_request_fields(request, valid_fields)
@@ -90,12 +86,11 @@ class UserRelatedRequest:
             response_related_user = obj
         else:
             response_related_user = obj.user
-        valid_fields = PermissionValidation.get_fields_for_patch_request(
+        valid_fields = AccessControl.get_fields_for_patch_request(
             table_name=table_name,
             request=request,
             response_related_user=response_related_user,
         )
-        print("debug valid fields", valid_fields)  # --- IGNORE ---
         cls.validate_request_fields(request, valid_fields)
 
     @staticmethod
@@ -103,11 +98,6 @@ class UserRelatedRequest:
         """Ensure the requesting user can patch the provided fields."""
         request_data_keys = set(request.data)
         disallowed_fields = request_data_keys - set(valid_fields)
-        print("valid fields", valid_fields)
-        print(request_data_keys)
-        print("disallowed fields", disallowed_fields)
-        print("request data keys", request_data_keys)
-
         if not valid_fields:
             raise PermissionDenied("You do not have privileges ")
         elif disallowed_fields:
