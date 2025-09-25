@@ -22,9 +22,11 @@ class UserRelatedRequest:
             # Get the users with user permissions for the same projects
             # that the requesting_user has permission to view
             projects = [p.project for p in user_permissions if p.project is not None]
-            permitted_users = get_user_model().objects.filter(
-                permissions__project__in=projects
-            ).distinct()
+            permitted_users = (
+                get_user_model()
+                .objects.filter(permissions__project__in=projects)
+                .distinct()
+            )
         return permitted_users
 
     @classmethod
