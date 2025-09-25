@@ -1,5 +1,6 @@
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.exceptions import ValidationError
+from django.contrib.auth import get_user_model
 
 from core.models import User
 from core.models import UserPermission
@@ -12,16 +13,16 @@ class UserRelatedRequest:
     def get_allowed_users(request):
         current_username = request.user.username
 
-        current_user = User.objects.get(username=current_username)
+        current_user = get_user_model().objects.get(username=current_username)
         user_permissions = UserPermission.objects.filter(user=current_user)
 
         if AccessControl.is_admin(current_user):
-            allowed_users = User.objects.all()
+            allowed_users = get_user_model().objects.all()
         else:
             # Get the users with user permissions for the same projects
             # that the requesting_user has permission to view
             projects = [p.project for p in user_permissions if p.project is not None]
-            allowed_users = User.objects.filter(
+            allowed_users = get_user_model().objects.filter(
                 permissions__project__in=projects
             ).distinct()
         return allowed_users

@@ -606,10 +606,7 @@ def test_create_referrer(auth_client, referrer_type):
 
 def test_assign_referrer_to_user(admin_client, user, referrer):
     payload = {"referrer": str(referrer.uuid)}
-    result = admin_client.get(f"{USERS_URL}{user.uuid}/")
-
     res = admin_client.patch(f"{USERS_URL}{user.uuid}/", payload)
-
     assert res.status_code == status.HTTP_200_OK, http_error_details(
         res.status_code, res.content
     )
