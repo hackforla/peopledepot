@@ -1,5 +1,6 @@
 import pytest
 from django.urls import reverse
+from django.utils import timezone
 from rest_framework import status
 
 from core.api.serializers import ProgramAreaSerializer
@@ -27,6 +28,7 @@ REFERRERS_URL = reverse("referrer-list")
 REFERRER_TYPES_URL = reverse("referrer-type-list")
 SKILL_URL = reverse("skill-list")
 STACK_ELEMENT_URL = reverse("stack-element-list")
+PERMISSION_HISTORY_URL = reverse("permission-history-list")
 PERMISSION_TYPE = reverse("permission-type-list")
 PROJECTS_URL = reverse("project-list")
 STACK_ELEMENT_TYPE_URL = reverse("stack-element-type-list")
@@ -608,3 +610,27 @@ def test_project_url_url_type_relationship(auth_client, url_type, project_url):
 
     # Verify the url_type relationship was set correctly
     assert res.data["url_type"] == url_type.pk
+
+
+def test_create_permission_history(
+    auth_client, user, project, practice_area, permission_type1
+):
+    payload = {
+        "project": str(project.uuid),
+        "practice_area": str(practice_area.uuid),
+        "permission_type": str(permission_type1.uuid),
+        "user": str(user.uuid),
+        "created_by": str(user.uuid),
+        "updated_by": str(user.uuid),
+        "granted": timezone.now(),
+    }
+
+    res = auth_client.post(PERMISSION_HISTORY_URL, payload)
+
+    assert res.status_code == status.HTTP_201_CREATED
+    assert str(res.data["user"]) == str(user.uuid)
+    assert str(res.data["project"]) == str(project.uuid)
+    assert str(res.data["practice_area"]) == str(practice_area.uuid)
+    assert str(res.data["permission_type"]) == str(permission_type1.uuid)
+    assert str(res.data["created_by"]) == str(user.uuid)
+    assert str(res.data["updated_by"]) == str(user.uuid)
