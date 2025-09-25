@@ -35,6 +35,7 @@ from ..models import UserPermission
 from ..models import UserStatusType
 from .utils.load_data import load_data
 
+collect_ignore = ["utils"]
 
 def pytest_configure(config):  # noqa: PT004
     config.addinivalue_line(
