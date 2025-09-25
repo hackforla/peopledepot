@@ -9,7 +9,7 @@ from constants import ADMIN_GLOBAL
 from constants import ADMIN_PROJECT
 from constants import MEMBER_PROJECT
 from constants import PRACTICE_LEAD_PROJECT
-from core.api.permission_validation import PermissionValidation
+from core.api.access_control import AccessControl
 from core.api.user_related_request import UserRelatedRequest
 from core.api.views import UserViewSet
 from core.tests.utils.seed_constants import garry_name
@@ -71,7 +71,7 @@ def test_csv_field_permissions(mock_dict_reader, _, mock_csv_data):  # noqa: PT0
     """Test that get_csv_field_permissions returns the correct parsed data."""
     mock_dict_reader.return_value = mock_csv_data
 
-    result = PermissionValidation.get_csv_field_permissions()
+    result = AccessControl.get_csv_field_permissions()
     assert result == mock_csv_data
 
 
@@ -81,7 +81,7 @@ def test_is_admin():
     """Test that is_admin returns True for an admin user."""
     admin_user = SeedUser.get_user(garry_name)
 
-    assert PermissionValidation.is_admin(admin_user) is True
+    assert AccessControl.is_admin(admin_user) is True
 
 
 @pytest.mark.django_db
@@ -89,7 +89,7 @@ def test_is_admin():
 def test_is_not_admin():
     """Test that is_admin returns True for an admin user."""
     admin_user = SeedUser.get_user(wanda_admin_project)
-    assert PermissionValidation.is_admin(admin_user) is False
+    assert AccessControl.is_admin(admin_user) is False
 
 
 @pytest.mark.parametrize(  # noqa: PT006 PT007
@@ -124,7 +124,7 @@ def test_get_most_privileged_perm_type(
     request_user = SeedUser.get_user(request_user_name)
     response_related_user = SeedUser.get_user(response_related_user_name)
     assert (
-        PermissionValidation.get_most_privileged_perm_type(
+        AccessControl.get_most_privileged_perm_type(
             request_user, response_related_user
         )
         == expected_permission_type
@@ -133,7 +133,7 @@ def test_get_most_privileged_perm_type(
 
 @pytest.mark.django_db
 @pytest.mark.load_user_data_required
-@patch.object(PermissionValidation, "get_csv_field_permissions", return_value=mock_data)
+@patch.object(AccessControl, "get_csv_field_permissions", return_value=mock_data)
 def test_patch_with_valid_fields(_):  # noqa: PT019
     """Test that validate_user_fields_patchable does not raise an error for valid fields."""
 
@@ -153,7 +153,7 @@ def test_patch_with_valid_fields(_):  # noqa: PT019
 
 @pytest.mark.django_db
 @pytest.mark.load_user_data_required
-@patch.object(PermissionValidation, "get_csv_field_permissions", return_value=mock_data)
+@patch.object(AccessControl, "get_csv_field_permissions", return_value=mock_data)
 def test_patch_with_invalid_fields(_):  # noqa: PT019
     """Test that validate_user_fields_patchable raises a ValidationError for invalid fields."""
     patch_data = {"field1": "foo", "field2": "bar", "field3": "not valid for patch"}
@@ -170,7 +170,7 @@ def test_patch_with_invalid_fields(_):  # noqa: PT019
 
 
 @pytest.mark.django_db
-@patch.object(PermissionValidation, "get_csv_field_permissions", return_value=mock_data)
+@patch.object(AccessControl, "get_csv_field_permissions", return_value=mock_data)
 def test_patch_fields_no_privileges(_):  # noqa: PT019
     """Test that validate_user_fields_patchable raises a PermissionError when no privileges exist."""
     patch_data = {"field1": "foo"}
@@ -188,7 +188,7 @@ def test_patch_fields_no_privileges(_):  # noqa: PT019
 
 @pytest.mark.django_db
 @pytest.mark.load_user_data_required
-@patch.object(PermissionValidation, "get_csv_field_permissions", return_value=mock_data)
+@patch.object(AccessControl, "get_csv_field_permissions", return_value=mock_data)
 def test_post_with_valid_fields(_):  # noqa: PT019
     """Test that validate_user_fields_patchable does not raise an error for valid fields."""
 
@@ -206,7 +206,7 @@ def test_post_with_valid_fields(_):  # noqa: PT019
 
 @pytest.mark.django_db
 @pytest.mark.load_user_data_required
-@patch.object(PermissionValidation, "get_csv_field_permissions", return_value=mock_data)
+@patch.object(AccessControl, "get_csv_field_permissions", return_value=mock_data)
 def test_post_with_invalid_fields(_):  # noqa: PT019
     """Test that validate_user_fields_patchable raises a ValidationError for invalid fields."""
     post_data = {"field1": "foo", "field2": "bar", "system_field": "not valid for post"}

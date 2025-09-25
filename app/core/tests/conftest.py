@@ -1,8 +1,8 @@
+from core.tests.utils.seed_user import SeedUser
 import pytest
 from rest_framework.test import APIClient
 
-from constants import ADMIN_PROJECT
-from constants import PRACTICE_LEAD_PROJECT
+from constants import ADMIN_GLOBAL, ADMIN_PROJECT, PRACTICE_LEAD_PROJECT
 
 from ..models import Affiliate
 from ..models import Affiliation
@@ -141,12 +141,15 @@ def user2(django_user_model):
 
 @pytest.fixture
 def admin(django_user_model):
-    return django_user_model.objects.create_user(
-        is_staff=True,
+    admin_user = django_user_model.objects.create_user(
         username="TestAdminUser",
         email="testadmin@email.com",
         password="testadmin",
     )
+    SeedUser.create_related_data(
+        user=admin_user, permission_type_name=ADMIN_GLOBAL
+    )
+    return admin_user
 
 
 @pytest.fixture
