@@ -145,6 +145,7 @@ def test_user_actions(client_name, action, endpoint, payload, expected_status, r
 def http_error_details(status_code, content):
     return f"*** {RED}Unexpected status {status_code}: {content}{RESET} ***"
 
+
 def test_create_event(auth_client, project):
     """Test that we can create an event"""
 
@@ -242,7 +243,9 @@ def test_project_leadership_type_relationship(auth_client, project_1, leadership
         reverse("project-detail", args=[project_1.pk]),
         {"leadership_type": leadership_type.pk},
     )
-    assert res.status_code == status.HTTP_200_OK, http_error_details(res.status_code,  res.content)
+    assert res.status_code == status.HTTP_200_OK, http_error_details(
+        res.status_code, res.content
+    )
 
     res = auth_client.get(PROJECTS_URL)
     assert res.data[0]["leadership_type"] == leadership_type.pk
@@ -291,7 +294,9 @@ def test_list_program_area(auth_client):
     program_areas = ProgramArea.objects.all()
     expected_data = ProgramAreaSerializer(program_areas, many=True).data
 
-    assert res.status_code == status.HTTP_200_OK, http_error_details(res.status_code,  res.content)
+    assert res.status_code == status.HTTP_200_OK, http_error_details(
+        res.status_code, res.content
+    )
     assert res.data == expected_data
 
 
@@ -344,7 +349,9 @@ def test_get_user_permissions(user_superuser_admin, user_permissions, auth_clien
     permission_count = UserPermission.objects.count()
     res = auth_client.get(USER_PERMISSIONS_URL)
     assert len(res.data) == permission_count
-    assert res.status_code == status.HTTP_200_OK, http_error_details(res.status_code,  res.content)
+    assert res.status_code == status.HTTP_200_OK, http_error_details(
+        res.status_code, res.content
+    )
 
 
 def test_create_sdg(auth_client):
@@ -424,7 +431,9 @@ def test_soc_minor_soc_major_relationship(auth_client, soc_minor, soc_major):
         reverse("soc-minor-detail", kwargs={"pk": soc_minor.pk}),
         {"soc_major": soc_major.pk},
     )
-    assert res.status_code == status.HTTP_200_OK, http_error_details(res.status_code,  res.content)
+    assert res.status_code == status.HTTP_200_OK, http_error_details(
+        res.status_code, res.content
+    )
 
     res = auth_client.get(SOC_MINORS_URL)
 
@@ -537,7 +546,9 @@ def test_assign_referrer_to_user(admin_client, user, referrer):
 
     res = admin_client.patch(f"{USERS_URL}{user.uuid}/", payload)
 
-    assert res.status_code == status.HTTP_200_OK, http_error_details(res.status_code,  res.content)
+    assert res.status_code == status.HTTP_200_OK, http_error_details(
+        res.status_code, res.content
+    )
     assert str(res.data["referrer"]) == str(referrer.uuid)
 
 
@@ -564,7 +575,9 @@ def test_project_url_project_relationship(auth_client, project_url, project):
         reverse("project-url-detail", kwargs={"pk": project_url.pk}),
         {"project": project.pk},
     )
-    assert res.status_code == status.HTTP_200_OK, http_error_details(res.status_code,  res.content)
+    assert res.status_code == status.HTTP_200_OK, http_error_details(
+        res.status_code, res.content
+    )
 
     # Verify the relationship was set by checking the response directly
     assert res.data["project"] == project.pk
@@ -576,7 +589,9 @@ def test_project_url_url_type_relationship(auth_client, url_type, project_url):
         reverse("project-url-detail", kwargs={"pk": project_url.pk}),
         {"url_type": url_type.pk},
     )
-    assert res.status_code == status.HTTP_200_OK, http_error_details(res.status_code,  res.content)
+    assert res.status_code == status.HTTP_200_OK, http_error_details(
+        res.status_code, res.content
+    )
 
     # Verify the url_type relationship was set correctly
     assert res.data["url_type"] == url_type.pk
