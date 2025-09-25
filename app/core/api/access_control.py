@@ -27,7 +27,7 @@ class AccessControl:
     def get_rank_dict() -> dict[str, int]:
         """Return a dictionary mapping permission names to their ranks.
         Example: {"adminGlobal": 1, "adminProject": 2, "practiceLeadProject": 3, "memberProject": 4}.
-        Used in algorithm to determine most privileged permission type between two users.  The lower the rank,
+        Used in algorithm to determine most privileged permission type between two users.  The higher the rank,
         the more privileged the permission.
         """
         permissions = PermissionType.objects.values("name", "rank")
