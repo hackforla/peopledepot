@@ -33,7 +33,7 @@ class UserPermissionViewSet(ModelViewSet):
 ```
 
 - **Notes**:
-    - `get_queryset()` internally calls `get_allowed_users()` and applies any project or admin-based filtering.
+    - `get_queryset()` internally calls `get_permitted_users()` and applies any project or admin-based filtering.
     - This ensures **GET/list operations only return records the user is allowed to see**.
 
 ---

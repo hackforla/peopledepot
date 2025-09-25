@@ -12,6 +12,9 @@ from core.models import UserPermission
 
 class AccessControl:
     """A collection of static methods for validating user permissions."""
+    _rank_dict_cache: dict[str, int] | None = None  # class-level cache
+    _csv_field_permissions_cache: list[dict[str, Any]] | None = None
+
 
     @staticmethod
     def is_admin(user) -> bool:
@@ -22,26 +25,31 @@ class AccessControl:
             permission_type=permission_type, user=user
         ).exists()
 
-    @staticmethod
-    def get_rank_dict() -> dict[str, int]:
+    @classmethod
+    def _get_rank_dict(cls) -> dict[str, int]:
         """Return a dictionary mapping permission names to their ranks.
         Example: {"adminGlobal": 1, "adminProject": 2, "practiceLeadProject": 3, "memberProject": 4}.
         Used in algorithm to determine most privileged permission type between two users.  The higher the rank,
         the more privileged the permission.
         """
-        permissions = PermissionType.objects.values("name", "rank")
-        return {perm["name"]: perm["rank"] for perm in permissions}
+        if cls._rank_dict_cache is None:
+            permissions = PermissionType.objects.values("name", "rank")
+            cls._rank_dict_cache = {perm["name"]: perm["rank"] for perm in permissions}
+        return cls._rank_dict_cache
 
-    @staticmethod
-    def get_csv_field_permissions() -> dict[str, dict[str, list[dict[str, Any]]]]:
+    @classmethod
+    def _get_csv_field_permissions(cls) -> list[dict[str, Any]]:
         """Read the field permissions from a CSV file.
-        Returns a list of dictionaries, each representing a row in the CSV file.
-        Each dictionary contains key values for: table_name, field_name, get, post, patch.
+
+        Caches the result so the CSV is read only once.
         """
-        file_path = Path(FIELD_PERMISSIONS_CSV)
-        with file_path.open() as file:
-            reader = csv.DictReader(file)
-            return list(reader)
+        if cls._csv_field_permissions_cache is None:
+            file_path = Path(FIELD_PERMISSIONS_CSV)
+            with file_path.open() as file:
+                reader = csv.DictReader(file)
+                cls._csv_field_permissions_cache = list(reader)
+        return cls._csv_field_permissions_cache
+    
 
     @classmethod
     def get_permitted_fields(
@@ -72,7 +80,7 @@ class AccessControl:
 
         valid_fields = set()
 
-        for field_permission in cls.get_csv_field_permissions():
+        for field_permission in cls._get_csv_field_permissions():
             if cls.has_field_permission(
                 operation=operation,
                 requester_permission_type=permission_type,
@@ -200,7 +208,6 @@ class AccessControl:
         if not operation_permission_type or field.get("table_name") != table_name:
             return False
 
-        rank_dict = cls.get_rank_dict()
         if (
             requester_permission_type not in rank_dict
             or operation_permission_type not in rank_dict

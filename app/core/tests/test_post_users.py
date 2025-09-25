@@ -49,7 +49,7 @@ class TestPostUser:
 
         assert response.status_code == status.HTTP_201_CREATED
 
-    def test_post_with_not_allowed_fields(self):
+    def test_post_with_not_permitted_fields(self):
         """Test post request returns 400 response when request fields do not match configured fields.
 
         Fields are configured to not include last_name.  The test will attempt to create a user

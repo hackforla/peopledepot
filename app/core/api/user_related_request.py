@@ -10,22 +10,22 @@ from .access_control import AccessControl
 
 class UserRelatedRequest:
     @staticmethod
-    def get_allowed_users(request):
+    def get_permitted_users(request):
         current_username = request.user.username
 
         current_user = get_user_model().objects.get(username=current_username)
         user_permissions = UserPermission.objects.filter(user=current_user)
 
         if AccessControl.is_admin(current_user):
-            allowed_users = get_user_model().objects.all()
+            permitted_users = get_user_model().objects.all()
         else:
             # Get the users with user permissions for the same projects
             # that the requesting_user has permission to view
             projects = [p.project for p in user_permissions if p.project is not None]
-            allowed_users = get_user_model().objects.filter(
+            permitted_users = get_user_model().objects.filter(
                 permissions__project__in=projects
             ).distinct()
-        return allowed_users
+        return permitted_users
 
     @classmethod
     def get_queryset(cls, view):
@@ -39,12 +39,12 @@ class UserRelatedRequest:
         Returns:
             queryset: the queryset of users that the requesting user has permission to view
         """
-        allowed_users = cls.get_allowed_users(view.request)
+        permitted_users = cls.get_permitted_users(view.request)
         current_model = view.serializer_class.Meta.model
         if current_model == User:
-            queryset = allowed_users
+            queryset = permitted_users
         else:
-            queryset = current_model.objects.filter(user__in=allowed_users)
+            queryset = current_model.objects.filter(user__in=permitted_users)
 
         return queryset
 
@@ -77,7 +77,7 @@ class UserRelatedRequest:
         valid_fields = AccessControl.get_fields_for_post_request(
             request=request, table_name=table_name
         )
-        cls.validate_request_fields(request, valid_fields)
+        cls._validate_request_fields(request, valid_fields)
 
     @classmethod
     def validate_patch_fields(cls, view, request, obj):
@@ -93,14 +93,14 @@ class UserRelatedRequest:
             request=request,
             response_related_user=response_related_user,
         )
-        cls.validate_request_fields(request, valid_fields)
+        cls._validate_request_fields(request, valid_fields)
 
     @staticmethod
-    def validate_request_fields(request, valid_fields) -> None:
+    def _validate_request_fields(request, valid_fields) -> None:
         """Ensure the requesting user can patch the provided fields."""
         request_data_keys = set(request.data)
-        disallowed_fields = request_data_keys - set(valid_fields)
+        notpermitted_fields = request_data_keys - set(valid_fields)
         if not valid_fields:
             raise PermissionDenied("You do not have privileges ")
-        elif disallowed_fields:
-            raise ValidationError(f"Invalid fields: {', '.join(disallowed_fields)}")
+        elif notpermitted_fields:
+            raise ValidationError(f"Invalid fields: {', '.join(notpermitted_fields)}")

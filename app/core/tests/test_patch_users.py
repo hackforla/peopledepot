@@ -76,7 +76,7 @@ class TestPatchUser:
         assert response.status_code == status.HTTP_200_OK
 
     @classmethod
-    def test_patch_with_not_allowed_fields(cls):
+    def test_patch_with_not_permitted_fields(cls):
         """Test patch request returns 400 response when request fields do not match configured fields.
 
         Fields are configured to not include last_name.  The test will attempt to create a user

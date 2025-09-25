@@ -16,7 +16,7 @@ This document explains the flow of **field-level and user-level access control**
 - Responsibilities:
     - `is_admin(user)` → Check if user has the `ADMIN_GLOBAL` permission.
     - `get_rank_dict()` → Returns permission ranks (higher rank = higher privilege).
-    - `get_csv_field_permissions()` → Reads CSV to load field-level permissions.
+    - `_get_csv_field_permissions()` → Reads CSV to load field-level permissions.
     - `get_permitted_fields()` → Determines allowed fields for `get`, `post`, or `patch`.
     - `get_most_privileged_perm_type()` → Finds the strongest permission type between two users.
     - `has_field_permission()` → Evaluates if a given permission type allows access to a specific field.\
@@ -28,7 +28,7 @@ This document explains the flow of **field-level and user-level access control**
 
 - Provides logic for **filtering querysets** and **validating request data**.
 - Responsibilities:
-    - `get_allowed_users(request)` → Returns the set of users the requester is allowed to view. (**views.py**)
+    - `get_permitted_users(request)` → Returns the set of users the requester is allowed to view. (**views.py**)
     - `get_queryset(view)` → Restricts view queryset based on allowed users. (**views.py**)
     - `get_serializer_representation(...)` → Filters serialized output fields dynamically based on permissions. (**serializers.py**)
     - `validate_post_fields(view, request)` → Ensures only permitted fields are used in a POST request. (**views.py**)
@@ -75,7 +75,7 @@ flowchart TD
     D5 -->|Disallowed fields?| D6[ValidationError]
 
     %% GET
-    E --> E1[UserRelatedRequest.get_allowed_users]
+    E --> E1[UserRelatedRequest.get_permitted_users]
     E1 --> E2[AccessControl.is_admin?]
     E2 -->|Yes| E3[Return all users]
     E2 -->|No| E4[Filter users by shared projects]
