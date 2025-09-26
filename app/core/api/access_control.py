@@ -206,7 +206,7 @@ class AccessControl:
         operation_permission_type = field.get(operation, "")
         if not operation_permission_type or field.get("table_name") != table_name:
             return False
-        
+
         rank_dict = cls._get_rank_dict()
         if (
             requester_permission_type not in rank_dict
