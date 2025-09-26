@@ -8,11 +8,11 @@ from core.models import Project
 from core.tests.utils.seed_constants import garry_name
 from core.tests.utils.seed_constants import patrick_practice_lead
 from core.tests.utils.seed_constants import patti_name
-from core.tests.utils.seed_constants import people_depot_project
+from core.tests.utils.seed_constants import PROJECT2_NAME
 from core.tests.utils.seed_constants import valerie_name
 from core.tests.utils.seed_constants import wally_name
 from core.tests.utils.seed_constants import wanda_admin_project
-from core.tests.utils.seed_constants import website_project_name
+from core.tests.utils.seed_constants import PROJECT1_NAME
 from core.tests.utils.seed_constants import winona_name
 from core.tests.utils.seed_constants import zani_name
 from core.tests.utils.seed_user import SeedUser
@@ -36,7 +36,7 @@ def load_data():
     - Zani is a member of the website project and the project lead for the People Depot project
     - Valerie is a verified user with no UserPermission assignments.
     """
-    projects = [website_project_name, people_depot_project]
+    projects = [PROJECT1_NAME, PROJECT2_NAME]
     for project_name in projects:
         project = Project.objects.create(name=project_name)
         project.save()
@@ -61,42 +61,42 @@ def load_data():
         {"first_name": garry_name, "permission_type_name": ADMIN_GLOBAL},
         {
             "first_name": garry_name,
-            "project_name": website_project_name,
+            "project_name": PROJECT1_NAME,
             "permission_type_name": ADMIN_PROJECT,
         },
         {
             "first_name": wanda_admin_project,
-            "project_name": website_project_name,
+            "project_name": PROJECT1_NAME,
             "permission_type_name": ADMIN_PROJECT,
         },
         {
             "first_name": wally_name,
-            "project_name": website_project_name,
+            "project_name": PROJECT1_NAME,
             "permission_type_name": MEMBER_PROJECT,
         },
         {
             "first_name": winona_name,
-            "project_name": website_project_name,
+            "project_name": PROJECT1_NAME,
             "permission_type_name": MEMBER_PROJECT,
         },
         {
             "first_name": patti_name,
-            "project_name": people_depot_project,
+            "project_name": PROJECT2_NAME,
             "permission_type_name": MEMBER_PROJECT,
         },
         {
             "first_name": patrick_practice_lead,
-            "project_name": people_depot_project,
+            "project_name": PROJECT2_NAME,
             "permission_type_name": PRACTICE_LEAD_PROJECT,
         },
         {
             "first_name": zani_name,
-            "project_name": people_depot_project,
+            "project_name": PROJECT2_NAME,
             "permission_type_name": ADMIN_PROJECT,
         },
         {
             "first_name": zani_name,
-            "project_name": website_project_name,
+            "project_name": PROJECT1_NAME,
             "permission_type_name": MEMBER_PROJECT,
         },
     ]
