@@ -311,8 +311,8 @@ def test_project_leadership_type_relationship(auth_client, project_1, leadership
         res.status_code, res.content
     )
 
-    res = auth_client.get(PROJECTS_URL)
-    assert res.data[0]["leadership_type"] == leadership_type.pk
+    res = auth_client.get(f"{PROJECTS_URL}{project_1.pk}/")
+    assert res.data["leadership_type"] == leadership_type.pk
 
 
 def test_create_location(auth_client):
