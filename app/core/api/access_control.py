@@ -12,9 +12,9 @@ from core.models import UserPermission
 
 class AccessControl:
     """A collection of static methods for validating user permissions."""
+
     _rank_dict_cache: dict[str, int] | None = None  # class-level cache
     _csv_field_permissions_cache: list[dict[str, Any]] | None = None
-
 
     @staticmethod
     def is_admin(user) -> bool:
@@ -49,7 +49,6 @@ class AccessControl:
                 reader = csv.DictReader(file)
                 cls._csv_field_permissions_cache = list(reader)
         return cls._csv_field_permissions_cache
-    
 
     @classmethod
     def get_permitted_fields(
