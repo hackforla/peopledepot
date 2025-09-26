@@ -92,4 +92,3 @@ class SeedUser:
             if assoc[0] == assoc_lookup:
                 return assoc[1]
         raise ValueError(f"No user found with permission type {assoc_lookup}")
-
