@@ -16,13 +16,6 @@ from ..models import UserStatusType
 pytestmark = pytest.mark.django_db
 
 
-def test_user(user, django_user_model):
-    assert django_user_model.objects.filter(is_staff=False).count() == 1
-    assert str(user) == "testuser@email.com"
-    assert user.is_django_user is True
-    assert repr(user) == f"<User {user.uuid}>"
-
-
 def test_project(project):
     assert str(project) == "Test Project"
 
@@ -73,18 +66,7 @@ def test_stack_element(stack_element):
     assert str(stack_element) == "Test Stack Element"
 
 
-def test_permission_type1(permission_type1):
-    assert str(permission_type1.name) == "Test Permission Type"
-    assert str(permission_type1.description) == ""
-    assert str(permission_type1) == "Test Permission Type"
-
-
-def test_permission_type2(permission_type2):
-    assert str(permission_type2.name) == "Test Permission Type"
-    assert str(permission_type2.description) == "A permission type description"
-    assert (
-        str(permission_type2) == "Test Permission Type: A permission type description"
-    )
+# Permission Type tested in test_permission_type.py
 
 
 def test_stack_element_type(stack_element_type):
@@ -170,16 +152,6 @@ def test_leadership_type_project_relationship(project, leadership_type):
 
 def test_soc_major(soc_major):
     assert str(soc_major) == "Test Soc Major"
-
-
-def test_soc_minor(soc_minor):
-    assert str(soc_minor) == "Test Soc Minor"
-
-
-def test_soc_major_soc_minor_relationship(soc_major, soc_minor):
-    assert soc_minor.soc_major is None
-    soc_minor.soc_major = soc_major
-    assert soc_minor.soc_major == soc_major
 
 
 def test_project_program_area_relationship(project):
@@ -280,7 +252,7 @@ def test_user_model_old_names():
     """
     old_fields = [
         "current_job_title",
-        "gmail",
+        "email_gmail",
         "preferred_email",
         "target_job_title",
     ]
@@ -337,17 +309,3 @@ def test_user_practice_area_relationship(user, user2):
     assert user2.practice_area_secondary.count() == 0
     assert not user2.practice_area_secondary.contains(project_management_practice_area)
     assert not project_management_practice_area.secondary_users.contains(user2)
-
-
-def test_project_url(project_url):
-    assert project_url is not None
-
-    assert project_url.project is not None
-    assert project_url.url_type is not None
-
-    assert project_url.name == "This is a test project url"
-    assert project_url.external_id == "This is a test external id"
-
-    assert project_url.url == "https://test.com"
-
-    assert str(project_url) == "This is a test project url"

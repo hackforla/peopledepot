@@ -1,4 +1,3 @@
-from django.contrib.auth import get_user_model
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import OpenApiExample
 from drf_spectacular.utils import OpenApiParameter
@@ -10,6 +9,8 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
+
+from core.api.has_user_permissions import HasUserPermission
 
 from ..models import Affiliate
 from ..models import Affiliation
@@ -64,6 +65,7 @@ from .serializers import UrlTypeSerializer
 from .serializers import UserPermissionSerializer
 from .serializers import UserSerializer
 from .serializers import UserStatusTypeSerializer
+from .user_related_request import UserRelatedRequest
 
 
 class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
@@ -123,7 +125,7 @@ class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
     partial_update=extend_schema(description="Partially update the given user"),
 )
 class UserViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, HasUserPermission]
     serializer_class = UserSerializer
     lookup_field = "uuid"
 
@@ -131,7 +133,7 @@ class UserViewSet(viewsets.ModelViewSet):
         """
         Optionally filter users by an 'email' and/or 'username' query paramerter in the URL
         """
-        queryset = get_user_model().objects.all()
+        queryset = UserRelatedRequest.get_queryset(self)
         email = self.request.query_params.get("email")
         if email is not None:
             queryset = queryset.filter(email=email)
