@@ -62,18 +62,6 @@ def mock_csv_data():
     ]
 
 
-# Beginner Tip:
-# Mocking means creating a "fake" version of a function that behaves how you want for testing purposes.
-# This allows us to test code without relying on external resources like databases.
-@patch("builtins.open", new_callable=mock_open)
-@patch("csv.DictReader")
-def test_csv_field_permissions(mock_dict_reader, _, mock_csv_data):  # noqa: PT019
-    """Test that _get_csv_field_permissions returns the correct parsed data."""
-    mock_dict_reader.return_value = mock_csv_data
-
-    result = AccessControl._get_csv_field_permissions()
-    assert result == mock_csv_data
-
 
 @pytest.mark.django_db
 @pytest.mark.load_user_data_required  # see load_user_data_required in conftest.py

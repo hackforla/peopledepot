@@ -15,6 +15,7 @@ class SeedUser:
     """
 
     seed_users_list = {}
+    _assocs = []
 
     def __init__(self, first_name, last_name):
         self.first_name = first_name
@@ -71,6 +72,7 @@ class SeedUser:
             user=user, permission_type=permission_type, **project_data
         )
         user_permission.save()
+        cls._assocs.append([[permission_type.name], user])
         return user_permission
 
     @classmethod
@@ -79,3 +81,15 @@ class SeedUser:
         For more info, see notes on seed_users_list in the class docstring.
         """
         return cls.seed_users_list.get(first_name)
+
+    @classmethod
+    def get_user2(cls, assoc_lookup):
+        """Looks up user info from seed_users_list dictionary.
+        For more info, see notes on seed_users_list in the class docstring.
+        """
+        for assoc in cls._assocs:
+            print("assoc:", assoc, assoc[0], assoc_lookup, assoc[0] == assoc_lookup)
+            if assoc[0] == assoc_lookup:
+                return assoc[1]
+        raise ValueError(f"No user found with permission type {assoc_lookup}")
+

@@ -1,6 +1,7 @@
 from unittest.mock import patch
 
 import pytest
+from constants import ADMIN_GLOBAL
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient
@@ -38,7 +39,7 @@ class TestPatchUser:
     @patch.object(UserRelatedRequest, UserRelatedRequest.validate_patch_fields.__name__)
     def test_patch_request_calls_validate_request(self, mock_validate_fields):
         """Test that the patch requests succeeds when the requester is an admin."""
-        requester = SeedUser.get_user(garry_name)
+        requester = SeedUser.get_user2([ADMIN_GLOBAL])
         client = APIClient()
         client.force_authenticate(user=requester)
 
