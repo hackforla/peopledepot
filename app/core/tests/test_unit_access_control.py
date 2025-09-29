@@ -62,7 +62,6 @@ def mock_csv_data():
     ]
 
 
-
 @pytest.mark.django_db
 @pytest.mark.load_user_data_required  # see load_user_data_required in conftest.py
 def test_is_admin():

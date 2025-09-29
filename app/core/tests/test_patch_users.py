@@ -1,11 +1,11 @@
 from unittest.mock import patch
 
 import pytest
-from constants import ADMIN_GLOBAL
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient
 
+from constants import ADMIN_GLOBAL
 from core.api.user_related_request import UserRelatedRequest
 from core.tests.utils.seed_constants import garry_name
 from core.tests.utils.seed_constants import valerie_name

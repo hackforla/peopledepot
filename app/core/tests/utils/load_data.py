@@ -5,14 +5,14 @@ from constants import ADMIN_PROJECT
 from constants import MEMBER_PROJECT
 from constants import PRACTICE_LEAD_PROJECT
 from core.models import Project
+from core.tests.utils.seed_constants import PROJECT1_NAME
+from core.tests.utils.seed_constants import PROJECT2_NAME
 from core.tests.utils.seed_constants import garry_name
 from core.tests.utils.seed_constants import patrick_practice_lead
 from core.tests.utils.seed_constants import patti_name
-from core.tests.utils.seed_constants import PROJECT2_NAME
 from core.tests.utils.seed_constants import valerie_name
 from core.tests.utils.seed_constants import wally_name
 from core.tests.utils.seed_constants import wanda_admin_project
-from core.tests.utils.seed_constants import PROJECT1_NAME
 from core.tests.utils.seed_constants import winona_name
 from core.tests.utils.seed_constants import zani_name
 from core.tests.utils.seed_user import SeedUser
