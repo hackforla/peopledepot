@@ -18,6 +18,6 @@ descriptions = {
     garry_name: "Global admin",
 }
 
-PROJECT1_NAME = "Website"
-PROJECT2_NAME = "People Depot"
+website_project_name = "Website"
+people_depot_project = "People Depot"
 password = "Hello2024"

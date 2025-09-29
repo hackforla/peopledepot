@@ -39,7 +39,7 @@ class TestPatchUser:
     @patch.object(UserRelatedRequest, UserRelatedRequest.validate_patch_fields.__name__)
     def test_patch_request_calls_validate_request(self, mock_validate_fields):
         """Test that the patch requests succeeds when the requester is an admin."""
-        requester = SeedUser.get_user2([ADMIN_GLOBAL])
+        requester = SeedUser.get_user(garry_name)
         client = APIClient()
         client.force_authenticate(user=requester)
 
