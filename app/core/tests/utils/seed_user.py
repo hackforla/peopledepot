@@ -1,6 +1,9 @@
 from dataclasses import dataclass
-from typing import Dict, List
-from core.models import PermissionType, PracticeArea
+from typing import Dict
+from typing import List
+
+from core.models import PermissionType
+from core.models import PracticeArea
 from core.models import Project
 from core.models import User
 from core.models import UserPermission
@@ -17,9 +20,9 @@ class UserRelatedData:
 
 class UserRelatedData2:
     user: User
-    related_data: List[UserRelatedData]
-    
-    def __init__(self, user: User, related_data: List[UserRelatedData]):
+    related_data: list[UserRelatedData]
+
+    def __init__(self, user: User, related_data: list[UserRelatedData]):
         self.user = user
         self.related_data = related_data
 
@@ -35,7 +38,7 @@ class SeedUser:
     """
 
     seed_users_list = {}
-    seed_users_list2: Dict[str, List[UserRelatedData2]] = {}
+    seed_users_list2: dict[str, list[UserRelatedData2]] = {}
     _assocs = []
 
     def __init__(self, first_name, last_name):
@@ -45,7 +48,7 @@ class SeedUser:
         self.email = self.user_name
         self.user = SeedUser.create_user(first_name=first_name, description=last_name)
         self.seed_users_list[first_name] = self.user
-        self.seed_users_list2[first_name] = UserRelatedData2 (self.user, [])
+        self.seed_users_list2[first_name] = UserRelatedData2(self.user, [])
 
     @classmethod
     def create_user2(cls, user_data: UserRelatedData):

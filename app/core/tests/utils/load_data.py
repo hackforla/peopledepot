@@ -43,22 +43,23 @@ def load_data():
         project.save()
 
     # Create user with global admin and also project admin for project1
-    global_admin_related_data = UserRelatedData (
-        first_name=garry_name,
-        permission_type_name=ADMIN_GLOBAL
+    global_admin_related_data = UserRelatedData(
+        first_name=garry_name, permission_type_name=ADMIN_GLOBAL
     )
     adminUser = SeedUser.create_user2(global_admin_related_data)
-    SeedUser.create_related_data(user=adminUser, permission_type_name=ADMIN_PROJECT, project_name=PROJECT1_NAME)
+    SeedUser.create_related_data(
+        user=adminUser, permission_type_name=ADMIN_PROJECT, project_name=PROJECT1_NAME
+    )
 
     # Create user with no permission types
-    SeedUser.create_user(first_name=valerie_name, description="Verified user")      
+    SeedUser.create_user(first_name=valerie_name, description="Verified user")
 
     # Create user with project admin for project2 and also member for project1
     zani_related_data = UserRelatedData(
-            first_name=zani_name,
-            project_name=PROJECT2_NAME,
-            permission_type_name=ADMIN_PROJECT,
-        )
+        first_name=zani_name,
+        project_name=PROJECT2_NAME,
+        permission_type_name=ADMIN_PROJECT,
+    )
     zaniUser = SeedUser.create_user2(zani_related_data)
     SeedUser.create_related_data(
         user=zaniUser,

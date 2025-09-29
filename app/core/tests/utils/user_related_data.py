@@ -1,5 +1,7 @@
 from dataclasses import dataclass
-from core.models import PermissionType, PracticeArea
+
+from core.models import PermissionType
+from core.models import PracticeArea
 from core.models import Project
 from core.models import User
 from core.models import UserPermission
