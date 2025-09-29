@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from typing import Dict, List
 from core.models import PermissionType, PracticeArea
 from core.models import Project
 from core.models import User
@@ -15,15 +14,6 @@ class UserRelatedData:
     practice_area_name: str = None
 
 
-class UserRelatedData2:
-    user: User
-    related_data: List[UserRelatedData]
-    
-    def __init__(self, user: User, related_data: List[UserRelatedData]):
-        self.user = user
-        self.related_data = related_data
-
-
 class SeedUser:
     """Summary
     Attributes:
@@ -35,7 +25,6 @@ class SeedUser:
     """
 
     seed_users_list = {}
-    seed_users_list2: Dict[str, List[UserRelatedData2]] = {}
     _assocs = []
 
     def __init__(self, first_name, last_name):
@@ -45,7 +34,6 @@ class SeedUser:
         self.email = self.user_name
         self.user = SeedUser.create_user(first_name=first_name, description=last_name)
         self.seed_users_list[first_name] = self.user
-        self.seed_users_list2[first_name] = UserRelatedData2 (self.user, [])
 
     @classmethod
     def create_user2(cls, user_data: UserRelatedData):
@@ -80,7 +68,6 @@ class SeedUser:
         )
         user.set_password(password)
         cls.seed_users_list[first_name] = user
-        cls.seed_users_list2[first_name] = UserRelatedData2(user, [])
         user.save()
         return user
 
@@ -131,10 +118,13 @@ class SeedUser:
             project_name=project_name,
             practice_area_name=practice_area_name,
         )
-        seed_user2 = cls.seed_users_list2.get(user.first_name)
-        if seed_user2 is None:
+        seed_user = cls.seed_users_list.get(user.first_name)
+        if seed_user is None:
             raise ValueError(f"User {user.first_name} not found in seed_users_list")
-        seed_user2.related_data.append(user_related)
+        if seed_user[1]:
+            seed_user[1].append(user_related)
+        else:
+            seed_user[1] = [user_related]
 
         cls._assocs.append((user_related, user))
 
