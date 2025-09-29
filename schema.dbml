@@ -260,7 +260,7 @@ Table project_url {
   name CharField
   external_id CharField [note: 'resource id provided by GitHub or google']
   url URLField
-  url_status int [ref: > url_status_type.id]
+  url_status_type int [ref: > url_status_type.id]
 }
 
 Table referrer {
@@ -401,7 +401,7 @@ Table user_check {
   ~AbstractBaseModel
   user int [ref: > user.id]
   org int [ref: > org.id]
-  type int [ref: > check_type.id]
+  check_type int [ref: > check_type.id]
   result boolean
   reminder_start DateTimeField
   completed_at DateTimeField
