@@ -48,8 +48,15 @@ def load_data():
     )
     adminUser = SeedUser.create_user2(global_admin_related_data)
     SeedUser.create_related_data(user=adminUser, permission_type_name=ADMIN_PROJECT, project_name=PROJECT1_NAME)
+    related_data2 = [ UserRelatedData(
+        first_name=wanda_admin_project,
+        project_name=PROJECT1_NAME,
+        permission_type_name=ADMIN_PROJECT,
+    )]
     
-    SeedUser.create_user(first_name=wanda_admin_project, description="Website project admin")
+    for data in related_data2:
+        SeedUser.create_user2(data)
+    # SeedUser.create_user(first_name=wanda_admin_project, description="Website project admin")
     SeedUser.create_user(first_name=wally_name, description="Website member")
     SeedUser.create_user(first_name=winona_name, description="Website member")
     SeedUser.create_user(
@@ -63,11 +70,11 @@ def load_data():
     SeedUser.create_user(first_name=valerie_name, description="Verified user")
 
     related_data = [
-        {
-            "first_name": wanda_admin_project,
-            "project_name": PROJECT1_NAME,
-            "permission_type_name": ADMIN_PROJECT,
-        },
+        # {
+        #     "first_name": wanda_admin_project,
+        #     "project_name": PROJECT1_NAME,
+        #     "permission_type_name": ADMIN_PROJECT,
+        # },
         {
             "first_name": wally_name,
             "project_name": PROJECT1_NAME,
