@@ -10,7 +10,6 @@ class HasUserPermission(BasePermission):
         return True  # Default to allow the request
 
     def has_object_permission(self, request, view, obj):
-        print("HasUserPermission.has_object_permission called")
         if request.method == "PATCH":
             UserRelatedRequest.validate_patch_fields(
                 view=view, obj=obj, request=request

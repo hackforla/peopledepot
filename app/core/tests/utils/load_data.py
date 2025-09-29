@@ -16,6 +16,7 @@ from core.tests.utils.seed_constants import PROJECT1_NAME
 from core.tests.utils.seed_constants import winona_name
 from core.tests.utils.seed_constants import zani_name
 from core.tests.utils.seed_user import SeedUser
+from core.tests.utils.seed_user import UserRelatedData
 
 
 def load_data():
@@ -40,9 +41,15 @@ def load_data():
     for project_name in projects:
         project = Project.objects.create(name=project_name)
         project.save()
-    SeedUser.create_user(
-        first_name=wanda_admin_project, description="Website project admin"
+
+    global_admin_related_data = UserRelatedData (
+        first_name=garry_name,
+        permission_type_name=ADMIN_GLOBAL
     )
+    adminUser = SeedUser.create_user2(global_admin_related_data)
+    SeedUser.create_related_data(user=adminUser, permission_type_name=ADMIN_PROJECT, project_name=PROJECT1_NAME)
+    
+    SeedUser.create_user(first_name=wanda_admin_project, description="Website project admin")
     SeedUser.create_user(first_name=wally_name, description="Website member")
     SeedUser.create_user(first_name=winona_name, description="Website member")
     SeedUser.create_user(
@@ -53,17 +60,9 @@ def load_data():
     SeedUser.create_user(
         first_name=patrick_practice_lead, description="People Depot project admin"
     )
-    SeedUser.create_user(first_name=garry_name, description="Global admin")
-    SeedUser.get_user(garry_name).save()
     SeedUser.create_user(first_name=valerie_name, description="Verified user")
 
     related_data = [
-        {"first_name": garry_name, "permission_type_name": ADMIN_GLOBAL},
-        {
-            "first_name": garry_name,
-            "project_name": PROJECT1_NAME,
-            "permission_type_name": ADMIN_PROJECT,
-        },
         {
             "first_name": wanda_admin_project,
             "project_name": PROJECT1_NAME,

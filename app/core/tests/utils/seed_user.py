@@ -1,9 +1,16 @@
-from core.models import PermissionType
+from dataclasses import dataclass
+from core.models import PermissionType, PracticeArea
 from core.models import Project
 from core.models import User
 from core.models import UserPermission
 from core.tests.utils.seed_constants import password
 
+@dataclass
+class UserRelatedData:
+    first_name: str
+    permission_type_name: str
+    project_name: str = None
+    practice_area_name: str = None
 
 class SeedUser:
     """Summary
@@ -24,6 +31,21 @@ class SeedUser:
         self.email = self.user_name
         self.user = SeedUser.create_user(first_name=first_name, description=last_name)
         self.seed_users_list[first_name] = self.user
+
+
+    @classmethod
+    def create_user2(cls, user_data: UserRelatedData):
+        """Creates a user with the given first_name and description and
+        stores the user in the seed_users_list dictionary.
+        """
+        user = cls.create_user(first_name=user_data.first_name)
+        cls.create_related_data(
+            user=user,
+            permission_type_name=user_data.permission_type_name,
+            project_name=user_data.project_name,
+            practice_area_name=user_data.practice_area_name,
+        )
+        return user
 
     @classmethod
     def create_user(cls, *, first_name, description=None):
@@ -48,7 +70,7 @@ class SeedUser:
 
     @classmethod
     def create_related_data(
-        cls, *, user: User, permission_type_name: str, project_name: str = None
+        cls, *, user: User, permission_type_name: str, project_name: str = None, practice_area_name: str = None
     ) -> UserPermission:
         """
         Create a UserPermission for the given user.
@@ -64,12 +86,14 @@ class SeedUser:
         """
         # Retrieve PermissionType object from DB
         permission_type = PermissionType.objects.get(name=permission_type_name)
-        if project_name:
-            project_data = {"project": Project.objects.get(name=project_name)}
-        else:
-            project_data = {}
+        project_data = {"project": Project.objects.get(name=project_name)} \
+            if project_name \
+            else {}
+        practice_area_data = {"practice_area": PracticeArea.objects.get(name=practice_area_name)} \
+            if practice_area_name \
+            else {}
         user_permission = UserPermission.objects.create(
-            user=user, permission_type=permission_type, **project_data
+            user=user, permission_type=permission_type, **project_data, **practice_area_data
         )
         user_permission.save()
         cls._assocs.append([[permission_type.name], user])
@@ -88,8 +112,6 @@ class SeedUser:
         For more info, see notes on seed_users_list in the class docstring.
         """
         for assoc in cls._assocs:
-            print("assoc:", assoc, assoc[0], assoc_lookup, assoc[0] == assoc_lookup)
             if assoc[0] == assoc_lookup:
                 return assoc[1]
         raise ValueError(f"No user found with permission type {assoc_lookup}")
-
