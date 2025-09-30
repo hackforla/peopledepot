@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from timezone_field.rest_framework import TimeZoneSerializerField
 
+from core.api.user_related_request import UserRelatedRequest
 from core.models import Affiliate
 from core.models import Affiliation
 from core.models import CheckType
@@ -28,6 +29,96 @@ from core.models import UrlType
 from core.models import User
 from core.models import UserPermission
 from core.models import UserStatusType
+
+# ------------------------
+# Base serializers
+# ------------------------
+
+
+class ReadOnlyBaseSerializer(serializers.ModelSerializer):
+    """Base serializer with common read-only fields."""
+
+    class Meta:
+        abstract = True
+        read_only_fields = ("uuid", "created_at", "updated_at")
+
+
+class BaseUserSerializer(ReadOnlyBaseSerializer):
+    """
+    Base serializer for the User model.
+
+    Includes all commonly needed fields when retrieving user info.
+    Intended to be inherited by other serializers to avoid repetition.
+
+    Attributes:
+        time_zone: Uses TimeZoneSerializerField (without pytz) for user time zones.
+    """
+
+    time_zone = TimeZoneSerializerField(use_pytz=False)
+
+    class Meta(ReadOnlyBaseSerializer.Meta):
+        model = User
+        fields = (
+            "uuid",
+            "username",
+            "created_at",
+            "updated_at",
+            "is_superuser",
+            "is_active",
+            "is_staff",
+            "email",
+            "first_name",
+            "last_name",
+            "email_gmail",
+            "email_preferred",
+            "job_title_current_intake",
+            "job_title_target_intake",
+            "current_skills",
+            "target_skills",
+            "referrer",
+            "linkedin_account",
+            "github_handle",
+            "slack_id",
+            "phone",
+            "texting_ok",
+            "time_zone",
+            "practice_area_primary",
+            "practice_area_secondary",
+            "practice_area_target_intake",
+            "email_cognito",
+            "user_status",
+        )
+
+
+class UserSerializer(BaseUserSerializer):
+    """
+    Serializer for retrieving full user info with custom representation.
+
+    Overrides `to_representation` to include computed or related fields via
+    UserRelatedRequest.get_serializer_representation.
+    """
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        return UserRelatedRequest.get_serializer_representation(
+            self, instance, representation
+        )
+
+
+class UserProfileSerializer(BaseUserSerializer):
+    """
+    Serializer for retrieving basic user profile information.
+
+    Inherits from BaseUserSerializer without modifying to_representation.
+    Use for endpoints where standard model fields suffice.
+    """
+
+    pass
+
+
+# ------------------------
+# Other serializers
+# ------------------------
 
 
 class PracticeAreaSerializer(serializers.ModelSerializer):
@@ -67,50 +158,6 @@ class UserPermissionSerializer(serializers.ModelSerializer):
             "uuid",
             "created_at",
             "updated_at",
-        )
-
-
-class UserSerializer(serializers.ModelSerializer):
-    """Used to retrieve user info"""
-
-    time_zone = TimeZoneSerializerField(use_pytz=False)
-
-    class Meta:
-        model = User
-        fields = (
-            "uuid",
-            "username",
-            "created_at",
-            "updated_at",
-            "email",
-            "first_name",
-            "last_name",
-            "email_gmail",
-            "email_preferred",
-            "job_title_current_intake",
-            "job_title_target_intake",
-            "current_skills",
-            "target_skills",
-            "referrer",
-            "linkedin_account",
-            "github_handle",
-            "slack_id",
-            "phone",
-            "texting_ok",
-            "time_zone",
-            "practice_area_primary",
-            "practice_area_secondary",
-            "practice_area_target_intake",
-            "email_cognito",
-            "is_active",
-            "user_status",
-        )
-        read_only_fields = (
-            "uuid",
-            "created_at",
-            "updated_at",
-            "username",
-            "email",
         )
 
 
