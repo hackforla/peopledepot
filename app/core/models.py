@@ -11,14 +11,12 @@ from timezone_field import TimeZoneField
 
 class AbstractBaseModel(models.Model):
     """
-    Base abstract model, that has `uuid` instead of `id` and included `created_at`, `updated_at` fields.
+    Base abstract model, that has `uuid` instead of `id` fields.
     """
 
     uuid = models.UUIDField(
         primary_key=True, default=uuid.uuid4, editable=False, unique=True
     )
-    created_at = models.DateTimeField("Created at", auto_now_add=True)
-    updated_at = models.DateTimeField("Updated at", auto_now=True)
 
     class Meta:
         abstract = True
@@ -503,7 +501,7 @@ class SocMinor(AbstractBaseModel):
     title = models.CharField(max_length=255)
 
 class Accomplishment(AbstractBaseModel):
-    project_id = models.ForeignKey(Project, on_delete=models.DO_NOTHING)
+    project = models.ForeignKey(Project, on_delete=models.DO_NOTHING)
     title = models.CharField(max_length=255)
     description = models.CharField(max_length=255)
     url = models.URLField()

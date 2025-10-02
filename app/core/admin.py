@@ -332,8 +332,8 @@ class UrlStatusTypeAdmin(admin.ModelAdmin):
 class AccomplishmentAdmin(admin.ModelAdmin):
     list_display = (
         "title",
-        "project_id",
+        "project",
         "accomplished_on",
         "created_at",
     )
-    list_filter = ("project_id", "accomplished_on")
+    list_filter = ("project", "accomplished_on")

@@ -478,7 +478,7 @@ def test_accomplishment(auth_client, project):
     """Test that we can create a accomplishment"""
 
     payload = {
-        "project_id": project.uuid,
+        "project": project.uuid,
         "title": "Test title",
         "description": "Test description",
         "url": "https://redwind01.com",

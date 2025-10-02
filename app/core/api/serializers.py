@@ -450,7 +450,7 @@ class AccomplishmentSerializer(serializers.ModelSerializer):
         fields = (
             "uuid",
             "created_at",
-            "project_id",
+            "project",
             "title",
             "description",
             "url",

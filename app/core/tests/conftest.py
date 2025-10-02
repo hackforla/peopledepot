@@ -406,7 +406,7 @@ def url_status_type(db):
 @pytest.fixture
 def accomplishment(project):
     return Accomplishment.objects.create(
-        project_id=project,
+        project=project,
         title="Test Accomplishment",
         description="This is a test accomplishment",
         url="https://redwind01.com",
