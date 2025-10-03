@@ -1,10 +1,11 @@
 import pytest
 from django.urls import reverse
 from rest_framework import status
+from uuid import UUID
 
 from core.api.serializers import ProgramAreaSerializer
 from core.api.serializers import UserSerializer
-from core.models import ProgramArea
+from core.models import ProgramArea, ProjectStackElementXref
 from core.models import UserPermission
 
 pytestmark = pytest.mark.django_db
@@ -38,6 +39,7 @@ PROJECT_URLS_URL = reverse("project-url-list")
 SOC_MAJOR_URL = reverse("soc-major-list")
 SOC_MINORS_URL = reverse("soc-minor-list")
 URL_TYPE_URL = reverse("url-type-list")
+PROJECT_STACK_ELEMENTS_URL = reverse("project-stack-elements-list")
 
 CREATE_USER_PAYLOAD = {
     "username": "TestUserAPI",
@@ -608,3 +610,96 @@ def test_project_url_url_type_relationship(auth_client, url_type, project_url):
 
     # Verify the url_type relationship was set correctly
     assert res.data["url_type"] == url_type.pk
+
+def test_create_project_stack_element(auth_client, project, stack_element):
+    payload = {
+        "project": str(project.uuid),
+        "stack_element": str(stack_element.uuid),
+    }
+    res = auth_client.post(PROJECT_STACK_ELEMENTS_URL, payload)
+    assert res.status_code == status.HTTP_201_CREATED
+
+    # Compare UUIDs robustly (res.data may return string or UUID object)
+    assert UUID(str(res.data["project"])) == project.uuid
+    assert UUID(str(res.data["stack_element"])) == stack_element.uuid
+
+
+def test_list_project_stack_elements(auth_client, project_stack_element_xref):
+    res = auth_client.get(PROJECT_STACK_ELEMENTS_URL)
+    assert res.status_code == status.HTTP_200_OK
+
+    # One record created via fixture
+    assert len(res.data) == 1
+    assert UUID(str(res.data[0]["project"])) == project_stack_element_xref.project.uuid
+    assert UUID(str(res.data[0]["stack_element"])) == project_stack_element_xref.stack_element.uuid
+
+
+def test_retrieve_project_stack_element(auth_client, project_stack_element_xref):
+    url = reverse("project-stack-elements-detail", args=[project_stack_element_xref.uuid])
+    res = auth_client.get(url)
+
+    assert res.status_code == status.HTTP_200_OK
+    assert UUID(str(res.data["uuid"])) == project_stack_element_xref.uuid
+    assert UUID(str(res.data["project"])) == project_stack_element_xref.project.uuid
+    assert UUID(str(res.data["stack_element"])) == project_stack_element_xref.stack_element.uuid
+
+
+def test_delete_project_stack_element(auth_client, project_stack_element_xref):
+    url = reverse("project-stack-elements-detail", args=[project_stack_element_xref.uuid])
+    res = auth_client.delete(url)
+
+    assert res.status_code == status.HTTP_204_NO_CONTENT
+    assert not ProjectStackElementXref.objects.filter(uuid=project_stack_element_xref.uuid).exists()
+
+
+def test_prevent_duplicate_project_stack_element(auth_client, project, stack_element):
+    payload = {"project": str(project.uuid), "stack_element": str(stack_element.uuid)}
+
+    # First creation works
+    res1 = auth_client.post(PROJECT_STACK_ELEMENTS_URL, payload)
+    assert res1.status_code == status.HTTP_201_CREATED
+
+    # Second creation should fail due to unique constraint
+    res2 = auth_client.post(PROJECT_STACK_ELEMENTS_URL, payload)
+    assert res2.status_code == status.HTTP_400_BAD_REQUEST
+
+    # Assert error mentions uniqueness
+    assert any("unique" in str(err).lower() for err in res2.data.values())
+
+def test_project_stack_element_workflow(auth_client):
+    # Step 1. Create a StackElementType
+    stack_type_payload = {"name": "Language", "description": "Programming language"}
+    res_type = auth_client.post(reverse("stack-element-type-list"), stack_type_payload)
+    assert res_type.status_code == status.HTTP_201_CREATED
+    stack_type_uuid = UUID(res_type.data["uuid"])
+
+    # Step 2. Create a StackElement "Python"
+    stack_element_payload = {
+        "name": "Python",
+        "description": "A high-level programming language",
+        "url": "https://www.python.org/",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg",
+        "active": True,
+        "element_type": stack_type_uuid,
+    }
+    res_element = auth_client.post(reverse("stack-element-list"), stack_element_payload)
+    assert res_element.status_code == status.HTTP_201_CREATED
+    stack_element_uuid = UUID(res_element.data["uuid"])
+
+    # Step 3. Create a Project "PeopleDepot"
+    project_payload = {"name": "PeopleDepot", "description": "People management system", "hide": False}
+    res_project = auth_client.post(reverse("project-list"), project_payload)
+    assert res_project.status_code == status.HTTP_201_CREATED
+    project_uuid = UUID(res_project.data["uuid"])
+
+    # Step 4. Link Project + StackElement
+    link_payload = {"project": project_uuid, "stack_element": stack_element_uuid}
+    res_link = auth_client.post(reverse("project-stack-elements-list"), link_payload)
+    assert res_link.status_code == status.HTTP_201_CREATED
+
+    # Step 5. Verify link shows up
+    res_list = auth_client.get(reverse("project-stack-elements-list"))
+    assert res_list.status_code == status.HTTP_200_OK
+    assert len(res_list.data) == 1
+    assert res_list.data[0]["project"] == project_uuid
+    assert res_list.data[0]["stack_element"] == stack_element_uuid
