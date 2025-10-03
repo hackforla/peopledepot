@@ -619,7 +619,6 @@ def test_create_project_stack_element(auth_client, project, stack_element):
     res = auth_client.post(PROJECT_STACK_ELEMENTS_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
 
-    # Compare UUIDs robustly (res.data may return string or UUID object)
     assert UUID(str(res.data["project"])) == project.uuid
     assert UUID(str(res.data["stack_element"])) == stack_element.uuid
 
@@ -667,13 +666,13 @@ def test_prevent_duplicate_project_stack_element(auth_client, project, stack_ele
     assert any("unique" in str(err).lower() for err in res2.data.values())
 
 def test_project_stack_element_workflow(auth_client):
-    # Step 1. Create a StackElementType
+    # Create a StackElementType
     stack_type_payload = {"name": "Language", "description": "Programming language"}
     res_type = auth_client.post(reverse("stack-element-type-list"), stack_type_payload)
     assert res_type.status_code == status.HTTP_201_CREATED
     stack_type_uuid = UUID(res_type.data["uuid"])
 
-    # Step 2. Create a StackElement "Python"
+    #Create a StackElement "Python"
     stack_element_payload = {
         "name": "Python",
         "description": "A high-level programming language",
@@ -686,18 +685,18 @@ def test_project_stack_element_workflow(auth_client):
     assert res_element.status_code == status.HTTP_201_CREATED
     stack_element_uuid = UUID(res_element.data["uuid"])
 
-    # Step 3. Create a Project "PeopleDepot"
+    # Create a Project "PeopleDepot"
     project_payload = {"name": "PeopleDepot", "description": "People management system", "hide": False}
     res_project = auth_client.post(reverse("project-list"), project_payload)
     assert res_project.status_code == status.HTTP_201_CREATED
     project_uuid = UUID(res_project.data["uuid"])
 
-    # Step 4. Link Project + StackElement
+    # Link Project + StackElement
     link_payload = {"project": project_uuid, "stack_element": stack_element_uuid}
     res_link = auth_client.post(reverse("project-stack-elements-list"), link_payload)
     assert res_link.status_code == status.HTTP_201_CREATED
 
-    # Step 5. Verify link shows up
+    # Verify link shows up
     res_list = auth_client.get(reverse("project-stack-elements-list"))
     assert res_list.status_code == status.HTTP_200_OK
     assert len(res_list.data) == 1
