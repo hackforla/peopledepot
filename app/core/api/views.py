@@ -20,6 +20,7 @@ from ..models import Faq
 from ..models import FaqViewed
 from ..models import LeadershipType
 from ..models import Location
+from ..models import PermissionHistory
 from ..models import PermissionType
 from ..models import PracticeArea
 from ..models import ProgramArea
@@ -46,6 +47,7 @@ from .serializers import FaqSerializer
 from .serializers import FaqViewedSerializer
 from .serializers import LeadershipTypeSerializer
 from .serializers import LocationSerializer
+from .serializers import PermissionHistorySerializer
 from .serializers import PermissionTypeSerializer
 from .serializers import PracticeAreaSerializer
 from .serializers import ProgramAreaSerializer
@@ -326,6 +328,22 @@ class StackElementViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = StackElement.objects.all()
     serializer_class = StackElementSerializer
+
+
+@extend_schema_view(
+    list=extend_schema(description="Return a list of all permission history records"),
+    create=extend_schema(description="Create a new permission history record"),
+    retrieve=extend_schema(
+        description="Return the details of a permission history record"
+    ),
+    destroy=extend_schema(description="Delete a permission history record"),
+    update=extend_schema(description="Update a permission history record"),
+    partial_update=extend_schema(description="Patch a permission history record"),
+)
+class PermissionHistoryViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = PermissionHistory.objects.all()
+    serializer_class = PermissionHistorySerializer
 
 
 @extend_schema_view(

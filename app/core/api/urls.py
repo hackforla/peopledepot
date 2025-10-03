@@ -10,6 +10,7 @@ from .views import FaqViewedViewSet
 from .views import FaqViewSet
 from .views import LeadershipTypeViewSet
 from .views import LocationViewSet
+from .views import PermissionHistoryViewSet
 from .views import PermissionTypeViewSet
 from .views import PracticeAreaViewSet
 from .views import ProgramAreaViewSet
@@ -39,6 +40,9 @@ router.register(r"referrers", ReferrerViewSet, basename="referrer")
 router.register(r"events", EventViewSet, basename="event")
 router.register(r"event-types", EventTypeViewSet, basename="event-type")
 router.register(r"practice-areas", PracticeAreaViewSet, basename="practice-area")
+router.register(
+    r"permission-histories", PermissionHistoryViewSet, basename="permission-history"
+)
 router.register(r"affiliates", AffiliateViewSet, basename="affiliate")
 router.register(r"faqs", FaqViewSet, basename="faq")
 router.register(r"faqs-viewed", FaqViewedViewSet, basename="faq-viewed")

@@ -14,6 +14,7 @@ from .models import Faq
 from .models import FaqViewed
 from .models import LeadershipType
 from .models import Location
+from .models import PermissionHistory
 from .models import PermissionType
 from .models import PracticeArea
 from .models import ProgramArea
@@ -223,6 +224,22 @@ class StackElementAdmin(admin.ModelAdmin):
         "url",
         "logo",
         "active",
+    )
+
+
+@admin.register(PermissionHistory)
+class PermissionHistoryAdmin(admin.ModelAdmin):
+    list_display = (
+        "user",
+        "project",
+        "permission_type",
+        "practice_area",
+        "created_by",
+        "updated_by",
+        "granted",
+        "ended",
+        "created_at",
+        "updated_at",
     )
 
 
