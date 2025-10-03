@@ -37,6 +37,7 @@ from ..models import StackElementType
 from ..models import UrlType
 from ..models import UserPermission
 from ..models import UserStatusType
+from ..models import ProjectStackElementXref
 from .serializers import AffiliateSerializer
 from .serializers import AffiliationSerializer
 from .serializers import CheckTypeSerializer
@@ -64,6 +65,7 @@ from .serializers import UrlTypeSerializer
 from .serializers import UserPermissionSerializer
 from .serializers import UserSerializer
 from .serializers import UserStatusTypeSerializer
+from .serializers import ProjectStackElementXrefSerializer
 
 
 class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
@@ -518,3 +520,8 @@ class ProjectUrlViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = ProjectUrl.objects.all()
     serializer_class = ProjectUrlSerializer
+
+class ProjectStackElementXrefViewSet(viewsets.ModelViewSet):
+    queryset = ProjectStackElementXref.objects.all()
+    serializer_class = ProjectStackElementXrefSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]

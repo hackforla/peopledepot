@@ -2,6 +2,8 @@ import re
 
 import pytest
 
+from django.db import IntegrityError
+
 from ..models import Event
 from ..models import PracticeArea
 from ..models import ProgramArea
@@ -12,6 +14,7 @@ from ..models import ReferrerType
 from ..models import Sdg
 from ..models import User
 from ..models import UserStatusType
+from ..models import ProjectStackElementXref
 
 pytestmark = pytest.mark.django_db
 
@@ -351,3 +354,46 @@ def test_project_url(project_url):
     assert project_url.url == "https://test.com"
 
     assert str(project_url) == "This is a test project url"
+
+def test_project_stack_element_relationship(project, stack_element):
+    """
+    Verify that a Project can be linked to a StackElement via ProjectStackElementXref.
+    """
+    # Create the cross-reference record
+    xref = ProjectStackElementXref.objects.create(
+        project=project,
+        stack_element=stack_element
+    )
+
+    # Check string representation
+    assert str(xref) == f"Project: {project.name} -> StackElement: {stack_element.name}"
+
+    # Forward relationships
+    assert xref.project == project
+    assert xref.stack_element == stack_element
+    assert xref.created_at is not None  # from AbstractBaseModel
+
+    # Reverse relationships
+    assert project.stack_elements.filter(pk=stack_element.pk).exists()
+    assert stack_element.projects.filter(pk=project.pk).exists() 
+
+
+
+def test_project_stack_element_unique_constraint(project, stack_element):
+    """
+    Ensure that duplicate project-stack_element pairs are prevented
+    by the unique constraint on ProjectStackElementXref.
+    """
+    # First insert is fine
+    ProjectStackElementXref.objects.create(
+        project=project,
+        stack_element=stack_element
+    )
+
+    # Second insert with same project + stack_element should fail
+    with pytest.raises(IntegrityError):
+        ProjectStackElementXref.objects.create(
+            project=project,
+            stack_element=stack_element
+        )
+
