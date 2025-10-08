@@ -576,6 +576,7 @@ class ProjectUrl(AbstractBaseModel):
     def __str__(self):
         return f"{self.name}"
 
+
 class ProjectStackElementXref(AbstractBaseModel):
     """
     Cross-reference table joining a project to a stack element.
@@ -583,25 +584,21 @@ class ProjectStackElementXref(AbstractBaseModel):
     """
 
     project = models.ForeignKey(
-        Project,
-        on_delete=models.CASCADE,
-        related_name="project_stack_elements" 
+        Project, on_delete=models.CASCADE, related_name="project_stack_elements"
     )
     stack_element = models.ForeignKey(
-        StackElement,
-        on_delete=models.CASCADE,
-        related_name="stack_element_projects" 
+        StackElement, on_delete=models.CASCADE, related_name="stack_element_projects"
     )
 
     class Meta:
         db_table = "project_stack_element_xref"
         constraints = [
             models.UniqueConstraint(
-                fields=["project", "stack_element"],
-                name="unique_project_stack_element"
+                fields=["project", "stack_element"], name="unique_project_stack_element"
             )
         ]
 
     def __str__(self):
-        return f"Project: {self.project.name} -> StackElement: {self.stack_element.name}"
-
+        return (
+            f"Project: {self.project.name} -> StackElement: {self.stack_element.name}"
+        )

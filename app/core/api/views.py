@@ -24,6 +24,7 @@ from ..models import PermissionType
 from ..models import PracticeArea
 from ..models import ProgramArea
 from ..models import Project
+from ..models import ProjectStackElementXref
 from ..models import ProjectStatus
 from ..models import ProjectUrl
 from ..models import Referrer
@@ -37,7 +38,6 @@ from ..models import StackElementType
 from ..models import UrlType
 from ..models import UserPermission
 from ..models import UserStatusType
-from ..models import ProjectStackElementXref
 from .serializers import AffiliateSerializer
 from .serializers import AffiliationSerializer
 from .serializers import CheckTypeSerializer
@@ -51,6 +51,7 @@ from .serializers import PermissionTypeSerializer
 from .serializers import PracticeAreaSerializer
 from .serializers import ProgramAreaSerializer
 from .serializers import ProjectSerializer
+from .serializers import ProjectStackElementXrefSerializer
 from .serializers import ProjectStatusSerializer
 from .serializers import ProjectUrlSerializer
 from .serializers import ReferrerSerializer
@@ -65,7 +66,6 @@ from .serializers import UrlTypeSerializer
 from .serializers import UserPermissionSerializer
 from .serializers import UserSerializer
 from .serializers import UserStatusTypeSerializer
-from .serializers import ProjectStackElementXrefSerializer
 
 
 class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
@@ -520,6 +520,7 @@ class ProjectUrlViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = ProjectUrl.objects.all()
     serializer_class = ProjectUrlSerializer
+
 
 class ProjectStackElementXrefViewSet(viewsets.ModelViewSet):
     queryset = ProjectStackElementXref.objects.all()

@@ -1,11 +1,13 @@
+from uuid import UUID
+
 import pytest
 from django.urls import reverse
 from rest_framework import status
-from uuid import UUID
 
 from core.api.serializers import ProgramAreaSerializer
 from core.api.serializers import UserSerializer
-from core.models import ProgramArea, ProjectStackElementXref
+from core.models import ProgramArea
+from core.models import ProjectStackElementXref
 from core.models import UserPermission
 
 pytestmark = pytest.mark.django_db
@@ -611,6 +613,7 @@ def test_project_url_url_type_relationship(auth_client, url_type, project_url):
     # Verify the url_type relationship was set correctly
     assert res.data["url_type"] == url_type.pk
 
+
 def test_create_project_stack_element(auth_client, project, stack_element):
     payload = {
         "project": str(project.uuid),
@@ -630,25 +633,37 @@ def test_list_project_stack_elements(auth_client, project_stack_element_xref):
     # One record created via fixture
     assert len(res.data) == 1
     assert UUID(str(res.data[0]["project"])) == project_stack_element_xref.project.uuid
-    assert UUID(str(res.data[0]["stack_element"])) == project_stack_element_xref.stack_element.uuid
+    assert (
+        UUID(str(res.data[0]["stack_element"]))
+        == project_stack_element_xref.stack_element.uuid
+    )
 
 
 def test_retrieve_project_stack_element(auth_client, project_stack_element_xref):
-    url = reverse("project-stack-elements-detail", args=[project_stack_element_xref.uuid])
+    url = reverse(
+        "project-stack-elements-detail", args=[project_stack_element_xref.uuid]
+    )
     res = auth_client.get(url)
 
     assert res.status_code == status.HTTP_200_OK
     assert UUID(str(res.data["uuid"])) == project_stack_element_xref.uuid
     assert UUID(str(res.data["project"])) == project_stack_element_xref.project.uuid
-    assert UUID(str(res.data["stack_element"])) == project_stack_element_xref.stack_element.uuid
+    assert (
+        UUID(str(res.data["stack_element"]))
+        == project_stack_element_xref.stack_element.uuid
+    )
 
 
 def test_delete_project_stack_element(auth_client, project_stack_element_xref):
-    url = reverse("project-stack-elements-detail", args=[project_stack_element_xref.uuid])
+    url = reverse(
+        "project-stack-elements-detail", args=[project_stack_element_xref.uuid]
+    )
     res = auth_client.delete(url)
 
     assert res.status_code == status.HTTP_204_NO_CONTENT
-    assert not ProjectStackElementXref.objects.filter(uuid=project_stack_element_xref.uuid).exists()
+    assert not ProjectStackElementXref.objects.filter(
+        uuid=project_stack_element_xref.uuid
+    ).exists()
 
 
 def test_prevent_duplicate_project_stack_element(auth_client, project, stack_element):
@@ -665,6 +680,7 @@ def test_prevent_duplicate_project_stack_element(auth_client, project, stack_ele
     # Assert error mentions uniqueness
     assert any("unique" in str(err).lower() for err in res2.data.values())
 
+
 def test_project_stack_element_workflow(auth_client):
     # Create a StackElementType
     stack_type_payload = {"name": "Language", "description": "Programming language"}
@@ -672,7 +688,7 @@ def test_project_stack_element_workflow(auth_client):
     assert res_type.status_code == status.HTTP_201_CREATED
     stack_type_uuid = UUID(res_type.data["uuid"])
 
-    #Create a StackElement "Python"
+    # Create a StackElement "Python"
     stack_element_payload = {
         "name": "Python",
         "description": "A high-level programming language",
@@ -686,7 +702,11 @@ def test_project_stack_element_workflow(auth_client):
     stack_element_uuid = UUID(res_element.data["uuid"])
 
     # Create a Project "PeopleDepot"
-    project_payload = {"name": "PeopleDepot", "description": "People management system", "hide": False}
+    project_payload = {
+        "name": "PeopleDepot",
+        "description": "People management system",
+        "hide": False,
+    }
     res_project = auth_client.post(reverse("project-list"), project_payload)
     assert res_project.status_code == status.HTTP_201_CREATED
     project_uuid = UUID(res_project.data["uuid"])
