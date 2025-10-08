@@ -1,7 +1,6 @@
 import re
 
 import pytest
-
 from django.db import IntegrityError
 
 from ..models import Event
@@ -9,12 +8,12 @@ from ..models import PracticeArea
 from ..models import ProgramArea
 from ..models import ProjectProgramAreaXref
 from ..models import ProjectSdgXref
+from ..models import ProjectStackElementXref
 from ..models import ProjectStatus
 from ..models import ReferrerType
 from ..models import Sdg
 from ..models import User
 from ..models import UserStatusType
-from ..models import ProjectStackElementXref
 
 pytestmark = pytest.mark.django_db
 
@@ -355,14 +354,14 @@ def test_project_url(project_url):
 
     assert str(project_url) == "This is a test project url"
 
+
 def test_project_stack_element_relationship(project, stack_element):
     """
     Verify that a Project can be linked to a StackElement via ProjectStackElementXref.
     """
     # Create the cross-reference record
     xref = ProjectStackElementXref.objects.create(
-        project=project,
-        stack_element=stack_element
+        project=project, stack_element=stack_element
     )
 
     # Check string representation
@@ -375,8 +374,7 @@ def test_project_stack_element_relationship(project, stack_element):
 
     # Reverse relationships
     assert project.stack_elements.filter(pk=stack_element.pk).exists()
-    assert stack_element.projects.filter(pk=project.pk).exists() 
-
+    assert stack_element.projects.filter(pk=project.pk).exists()
 
 
 def test_project_stack_element_unique_constraint(project, stack_element):
@@ -385,15 +383,10 @@ def test_project_stack_element_unique_constraint(project, stack_element):
     by the unique constraint on ProjectStackElementXref.
     """
     # First insert is fine
-    ProjectStackElementXref.objects.create(
-        project=project,
-        stack_element=stack_element
-    )
+    ProjectStackElementXref.objects.create(project=project, stack_element=stack_element)
 
     # Second insert with same project + stack_element should fail
     with pytest.raises(IntegrityError):
         ProjectStackElementXref.objects.create(
-            project=project,
-            stack_element=stack_element
+            project=project, stack_element=stack_element
         )
-
