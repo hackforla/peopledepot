@@ -91,21 +91,46 @@ class AccessControl:
         return list(valid_fields)
 
     @classmethod
-    def get_highest_user_perm_type(
-        cls, requesting_user
-    ) -> str:
-        """Return the most privileged permission type between users."""
-        permissions = UserPermission.objects.filter(
-            user=requesting_user, project__name=None
-        ).values("permission_type__name", "permission_type__rank")
-        if not permissions:
-            return ""
-
-        max_permission = max(permissions, key=lambda p: p["permission_type__rank"])
-        return max_permission["permission_type__name"]
+    def get_valid_post_request_fields(cls, request, table_name):
+        requesting_user = request.user
+        if not cls.is_admin(requesting_user):
+            raise PermissionDenied("You do not have privilges to create.")
+        fields = cls.get_permitted_fields(
+            operation="post",
+            table_name=table_name,
+            permission_type=GLOBAL_ADMIN,
+        )
+        return fields
 
     @classmethod
-    def get_highest_shared_project_perm_type(
+    def get_valid_patch_request_fields(cls, request, table_name, response_related_user):
+        requesting_user = request.user
+        requesting_user = request.user
+        most_privileged_perm_type = cls.get_most_privileged_perm_type(
+            requesting_user, response_related_user
+        )
+        fields = cls.get_permitted_fields(
+            operation="patch",
+            table_name=table_name,
+            permission_type=most_privileged_perm_type,
+        )
+        return fields
+
+    @classmethod
+    def get_fields_for_response(cls, request, table_name, response_related_user):
+        requesting_user = request.user
+        most_privileged_perm_type = cls.get_most_privileged_perm_type(
+            requesting_user, response_related_user
+        )
+        fields = cls.get_permitted_fields(
+            operation="get",
+            table_name=table_name,
+            permission_type=most_privileged_perm_type,
+        )
+        return fields
+
+    @classmethod
+    def get_most_privileged_perm_type(
         cls, requesting_user, response_related_user
     ) -> str:
         """Return the most privileged permission type between users."""
@@ -127,6 +152,20 @@ class AccessControl:
 
         max_permission = max(permissions, key=lambda p: p["permission_type__rank"])
         return max_permission["permission_type__name"]
+
+    @classmethod
+    def get_response_fields(cls, request, table_name, response_related_user) -> None:
+        """Ensure the requesting user can patch the provided fields."""
+        requesting_user = request.user
+        most_privileged_perm_type = cls.get_most_privileged_perm_type(
+            requesting_user, response_related_user
+        )
+        fields = cls.get_permitted_fields(
+            operation="get",
+            table_name=table_name,
+            permission_type=most_privileged_perm_type,
+        )
+        return fields
 
     @classmethod
     def has_field_permission(
