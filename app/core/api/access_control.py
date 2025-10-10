@@ -4,7 +4,7 @@ from typing import Any
 
 from rest_framework.exceptions import PermissionDenied
 
-from constants import GLOBAL_ADMIN  # Assuming you have this constant
+from constants import ADMIN_GLOBAL  # Assuming you have this constant
 from constants import FIELD_PERMISSIONS_CSV
 from core.models import PermissionType
 from core.models import UserPermission
@@ -18,8 +18,8 @@ class AccessControl:
 
     @staticmethod
     def is_admin(user) -> bool:
-        """Check if a user assigned "globalAdmin" permission."""
-        permission_type = PermissionType.objects.filter(name=GLOBAL_ADMIN).first()
+        """Check if a user assigned "adminGlobal" permission."""
+        permission_type = PermissionType.objects.filter(name=ADMIN_GLOBAL).first()
         # return True
         return UserPermission.objects.filter(
             permission_type=permission_type, user=user
@@ -94,10 +94,14 @@ class AccessControl:
     def get_highest_user_perm_type(
         cls, requesting_user
     ) -> str:
-        """Return the most privileged permission type between users."""
+        """Return the most privileged permission type of a user."""
+
+
+
         permissions = UserPermission.objects.filter(
             user=requesting_user, project__name=None
         ).values("permission_type__name", "permission_type__rank")
+
         if not permissions:
             return ""
 
@@ -110,7 +114,7 @@ class AccessControl:
     ) -> str:
         """Return the most privileged permission type between users."""
         if cls.is_admin(requesting_user):
-            return GLOBAL_ADMIN
+            return ADMIN_GLOBAL
 
         target_projects = UserPermission.objects.filter(
             user=response_related_user

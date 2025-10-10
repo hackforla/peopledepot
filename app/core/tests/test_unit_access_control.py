@@ -5,25 +5,25 @@ import pytest
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.exceptions import ValidationError
 
-from constants import GLOBAL_ADMIN
+from constants import ADMIN_GLOBAL
 from constants import ADMIN_PROJECT
 from constants import MEMBER_PROJECT
 from constants import PRACTICE_LEAD_PROJECT
 from core.api.access_control import AccessControl
 # from core.api.user_related_request import UserRelatedRequest
 from core.api.views import UserViewSet
-from core.tests.utils.seed_constants import garry_name
-from core.tests.utils.seed_constants import patti_name
-from core.tests.utils.seed_constants import wally_name
-from core.tests.utils.seed_constants import wanda_admin_project
-from core.tests.utils.seed_constants import zani_name
-from core.tests.utils.seed_user import SeedUser
+from test_data.utils.seed_constants import garry_name
+from test_data.utils.seed_constants import patti_name
+from test_data.utils.seed_constants import wally_name
+from test_data.utils.seed_constants import wanda_admin_project
+from test_data.utils.seed_constants import zani_name
+from test_data.utils.seed_user import SeedUser
 
 keys = ["table_name", "field_name", "get", "patch", "post"]
 rows = [
-    ["User", "field1", MEMBER_PROJECT, PRACTICE_LEAD_PROJECT, GLOBAL_ADMIN],
-    ["User", "field2", ADMIN_PROJECT, ADMIN_PROJECT, GLOBAL_ADMIN],
-    ["User", "field3", ADMIN_PROJECT, GLOBAL_ADMIN, GLOBAL_ADMIN],
+    ["User", "field1", MEMBER_PROJECT, PRACTICE_LEAD_PROJECT, ADMIN_GLOBAL],
+    ["User", "field2", ADMIN_PROJECT, ADMIN_PROJECT, ADMIN_GLOBAL],
+    ["User", "field3", ADMIN_PROJECT, ADMIN_GLOBAL, ADMIN_GLOBAL],
     ["User", "system_field", MEMBER_PROJECT, "", ""],
     ["foo", "bar", MEMBER_PROJECT, MEMBER_PROJECT, MEMBER_PROJECT],
 ]
@@ -49,7 +49,7 @@ def mock_csv_data():
             "field_name": "gmail_email",
             "view": "viewer",
             "update": "moderator",
-            "create": GLOBAL_ADMIN,
+            "create": ADMIN_GLOBAL,
         },
         {
             "operation": "create",
@@ -57,7 +57,7 @@ def mock_csv_data():
             "field_name": "name",
             "view": "viewer",
             "update": "moderator",
-            "create": GLOBAL_ADMIN,
+            "create": ADMIN_GLOBAL,
         },
     ]
 
@@ -87,12 +87,12 @@ def test_is_not_admin():
         # Wally is a project member for website, Wanda is on the same project => MEMBER_PROJECT
         (wally_name, wanda_admin_project, MEMBER_PROJECT),
         # Garry is both a project admin for website and a global admin => ADMIN_GLOBAL
-        (garry_name, wally_name, GLOBAL_ADMIN),
+        (garry_name, wally_name, ADMIN_GLOBAL),
         # Wally is a project member of website and Garry is a project lead on the same team
         # => MEMBER_PROJECT
         (wally_name, garry_name, MEMBER_PROJECT),
         # Garry is a global admin.  Even though Patti is not assigned to same team => ADMIN_GLOBAL
-        (garry_name, patti_name, GLOBAL_ADMIN),
+        (garry_name, patti_name, ADMIN_GLOBAL),
         # Patti has no project in common with Garry => ""
         (patti_name, wally_name, ""),
         # Zani is part of two projects with different permission types
