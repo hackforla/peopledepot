@@ -29,7 +29,7 @@ def get_fields_for_patch_request(request, table_name, response_related_user):
 
 
 def _get_permitted_fields_for_post_request(request, table_name):
-    highest_perm_type = AccessControl.get_highest_user_permission(request.user)
+    highest_perm_type = AccessControl.get_highest_user_perm_type(request.user)
     fields = AccessControl.get_permitted_fields(
         operation="post",
         table_name=table_name,
@@ -55,7 +55,7 @@ def validate_patch_fields(request, obj):
         request=request,
         response_related_user=response_related_user,
     )
-    _validate_request_fields(request, valid_fields)
+    _validate_request_fields_permitted(request, valid_fields)
 
 # @staticmethod
 def _validate_request_fields_permitted(request, valid_fields) -> None:

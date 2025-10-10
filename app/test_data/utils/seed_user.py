@@ -2,7 +2,7 @@ from core.models import PermissionType
 from core.models import Project
 from core.models import User
 from core.models import UserPermission
-from core.tests.utils.seed_constants import password
+from .seed_constants import password
 
 
 class SeedUser:

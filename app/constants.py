@@ -1,4 +1,4 @@
-GLOBAL_ADMIN = "globalAdmin"
+ADMIN_GLOBAL = "adminGlobal"
 ADMIN_PROJECT = "adminProject"
 PRACTICE_LEAD_PROJECT = "practiceLeadProject"
 MEMBER_PROJECT = "memberProject"

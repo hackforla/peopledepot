@@ -1,21 +1,21 @@
 import copy
 
-from constants import GLOBAL_ADMIN
+from constants import ADMIN_GLOBAL
 from constants import ADMIN_PROJECT
 from constants import MEMBER_PROJECT
 from constants import PRACTICE_LEAD_PROJECT
-from core.models import Project
-from core.tests.utils.seed_constants import garry_name
-from core.tests.utils.seed_constants import patrick_practice_lead
-from core.tests.utils.seed_constants import patti_name
-from core.tests.utils.seed_constants import people_depot_project
-from core.tests.utils.seed_constants import valerie_name
-from core.tests.utils.seed_constants import wally_name
-from core.tests.utils.seed_constants import wanda_admin_project
-from core.tests.utils.seed_constants import website_project_name
-from core.tests.utils.seed_constants import winona_name
-from core.tests.utils.seed_constants import zani_name
-from core.tests.utils.seed_user import SeedUser
+from core.models import PermissionType, Project
+from .seed_constants import garry_name
+from .seed_constants import patrick_practice_lead
+from .seed_constants import patti_name
+from .seed_constants import people_depot_project
+from .seed_constants import valerie_name
+from .seed_constants import wally_name
+from .seed_constants import wanda_admin_project
+from .seed_constants import website_project_name
+from .seed_constants import winona_name
+from .seed_constants import zani_name
+from .seed_user import SeedUser
 
 
 def load_data():
@@ -58,7 +58,7 @@ def load_data():
     SeedUser.create_user(first_name=valerie_name, description="Verified user")
 
     related_data = [
-        {"first_name": garry_name, "permission_type_name": GLOBAL_ADMIN},
+        {"first_name": garry_name, "permission_type_name": ADMIN_GLOBAL},
         {
             "first_name": garry_name,
             "project_name": website_project_name,
