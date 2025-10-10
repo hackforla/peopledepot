@@ -28,6 +28,8 @@ plugins:
         - Cognito
         - Authentication
         - Onboarding
+        - database
+        - postgres
 
 markdown_extensions:
   - abbr
