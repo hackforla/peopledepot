@@ -44,9 +44,9 @@ We need to update the [Replace with TABLE NAME] table model to [Replace with REA
 
 - [ ] Update API unit tests
 
-- [ ] [generate a schema table definition](https://github.com/hackforla/peopledepot/issues/378#issuecomment-2493062821) and post it in a comment below and add a link to it in the Update Schema dependency issue.
+- [ ] generate a schema table description (see resources 1.04), post it in a comment below, and add a link to it in the Update Schema dependency issue
 
-- [ ] Document the endpoint in ReDocs
+- [ ] Document the endpoint in ReDocs (see resources 1.05)
 
 ### FK status
 
@@ -69,3 +69,5 @@ We need to update the [Replace with TABLE NAME] table model to [Replace with REA
     - API Endpoint
 - 1.03 Spreadsheet: [PD: Table and field explanations, Field Permission tab](https://docs.google.com/spreadsheets/d/1x_zZ8JLS2hO-zG0jUocOJmX16jh-DF5dccrd_OEGNZ0/edit?gid=371053454#gid=371053454)
     -1.03.01 [ADD A LINK TO A SPECIFIC FILTER FOR THE TABLE]
+- 1.04 [Instructions for how to generate a schema table description](https://hackforla.github.io/peopledepot/contributing/howto/generate-db-table-definition/)
+- 1.05 [Instructions for how to Document End point](https://hackforla.github.io/peopledepot/contributing/howto/add-model-and-api-endpoints/#add-viewset) step 3
