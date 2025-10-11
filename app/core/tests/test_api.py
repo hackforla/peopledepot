@@ -139,7 +139,7 @@ user_actions_test_data = [
     #     CREATE_USER_PAYLOAD,
     #     status.HTTP_200_OK,
     # ),
-    ("auth_client", "delete", "user_url", {}, status.HTTP_204_NO_CONTENT),
+    ("admin_client", "delete", "user_url", {}, status.HTTP_204_NO_CONTENT),
     # Replaced by tests in test_patch_users.py
     # (
     #     "admin_client",
@@ -149,7 +149,7 @@ user_actions_test_data = [
     #     status.HTTP_200_OK,
     # ),
     (
-        "auth_client",
+        "admin_client",
         "put",
         "user_url",
         CREATE_USER_PAYLOAD,
@@ -581,37 +581,6 @@ def test_create_referrer(auth_client, referrer_type):
 
 import pytest
 from django.contrib.auth import get_user_model
-
-
-@pytest.fixture
-def admin_client(db, client):
-    """
-    Logs in as a global admin user without password.
-    """
-
-    print("=== admin_client fixture started ===")
-
-    User = get_user_model()
-    print("Getting user from SeedUser...")
-    user = SeedUser.get_user(garry_name)
-
-    if user is None:
-        print(f"User '{garry_name}' not found! Creating in test DB...")
-        user, created = User.objects.get_or_create(username=garry_name)
-        if created:
-            print(f"Created user: {user}")
-    else:
-        print(f"Found user: {user}")
-
-    print("Logging in with force_login...")
-    client.force_login(user)
-
-    # Verify authentication by hitting a DRF protected endpoint
-    test_res = client.get("/api/v1/users/")
-    print("Test GET /protected-endpoint:", test_res.status_code)
-
-    print("=== admin_client fixture done ===\n")
-    return client
 
 
 def test_create_project_url(auth_client, project, url_type):
