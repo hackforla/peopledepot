@@ -22,5 +22,5 @@ User,slack_id,memberProject,adminBrigade,adminGlobal
 User,time_zone,memberProject,adminBrigade,adminGlobal
 User,last_updated,adminBrigade,,adminGlobal
 User,password,,adminBrigade,adminGlobal
-User,referrer,memberProject,adminBrigade,adminGlobal
+User,referrer,memberProject,adminGlobal,adminGlobal
 UserPermission,field1,memberProject,adminProject,adminProject

@@ -1,6 +1,8 @@
 import pytest
 from rest_framework.test import APIClient
 
+from test_data.utils.seed_constants import garry_name
+from test_data.utils.seed_user import SeedUser
 from constants import ADMIN_PROJECT
 from constants import PRACTICE_LEAD_PROJECT
 from ..models import Affiliate
@@ -33,6 +35,30 @@ from ..models import UserStatusType
 
 
 collect_ignore = ["utils"]
+
+# conftest.py
+import pytest
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
+
+@pytest.fixture
+def admin_client(client, db):
+    """
+    Logs in as a given user without password.
+    Usage in a test:
+        def test_something(login_user):
+            user = login_user(user)
+    """
+
+    def do_login():
+        # Force login as global admin
+        print("Hwere we are")
+        client.force_login(SeedUser.get_user(garry_name))
+        return client
+
+    return do_login()
 
 
 @pytest.fixture
@@ -122,12 +148,7 @@ def user2(django_user_model):
 
 @pytest.fixture
 def admin(django_user_model):
-    return django_user_model.objects.create_user(
-        is_staff=True,
-        username="TestAdminUser",
-        email="testadmin@email.com",
-        password="testadmin",
-    )
+    return SeedUser.get_user(garry_name)
 
 
 @pytest.fixture
@@ -189,12 +210,6 @@ def auth_client(user, client):
 @pytest.fixture
 def auth_client2(user2, client):
     client.force_authenticate(user=user2)
-    return client
-
-
-@pytest.fixture
-def admin_client(admin, client):
-    client.force_authenticate(user=admin)
     return client
 
 

@@ -50,7 +50,7 @@ def _get_related_user_from_obj(obj):
 def validate_patch_fields(request, obj):
     table_name = obj.__class__.__name__
     response_related_user = _get_related_user_from_obj(obj)
-    valid_fields = AccessControl.get_fields_for_patch_request(
+    valid_fields = get_fields_for_patch_request(
         table_name=table_name,
         request=request,
         response_related_user=response_related_user,
