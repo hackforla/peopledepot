@@ -44,24 +44,6 @@ User = get_user_model()
 
 
 @pytest.fixture
-def admin_client(client, db):
-    """
-    Logs in as a given user without password.
-    Usage in a test:
-        def test_something(login_user):
-            user = login_user(user)
-    """
-
-    def do_login():
-        # Force login as global admin
-        print("Hwere we are")
-        client.force_login(SeedUser.get_user(garry_name))
-        return client
-
-    return do_login()
-
-
-@pytest.fixture
 def user_superuser_admin():
     return User.objects.create_user(
         username="AdminUser",
@@ -210,6 +192,12 @@ def auth_client(user, client):
 @pytest.fixture
 def auth_client2(user2, client):
     client.force_authenticate(user=user2)
+    return client
+
+
+@pytest.fixture
+def admin_client(admin, client):
+    client.force_authenticate(user=admin)
     return client
 
 
