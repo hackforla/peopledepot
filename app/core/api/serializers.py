@@ -14,6 +14,7 @@ from core.models import PermissionType
 from core.models import PracticeArea
 from core.models import ProgramArea
 from core.models import Project
+from core.models import ProjectStackElementXref
 from core.models import ProjectStatus
 from core.models import ProjectUrl
 from core.models import Referrer
@@ -495,3 +496,22 @@ class ProjectUrlSerializer(serializers.ModelSerializer):
             "url",
         )
         read_only_fields = ("uuid", "created_at", "updated_at")
+
+
+class ProjectStackElementXrefSerializer(serializers.ModelSerializer):
+    project_name = serializers.CharField(source="project.name", read_only=True)
+    stack_element_name = serializers.CharField(
+        source="stack_element.name", read_only=True
+    )
+
+    class Meta:
+        model = ProjectStackElementXref
+        fields = [
+            "uuid",
+            "project",
+            "project_name",
+            "stack_element",
+            "stack_element_name",
+            "created_at",
+            "updated_at",
+        ]
