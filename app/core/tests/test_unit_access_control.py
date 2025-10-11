@@ -63,7 +63,6 @@ def mock_csv_data():
 
 
 @pytest.mark.django_db
-@pytest.mark.load_user_data_required  # see load_user_data_required in conftest.py
 def test_is_admin():
     """Test that is_admin returns True for an admin user."""
     admin_user = SeedUser.get_user(garry_name)
@@ -72,7 +71,6 @@ def test_is_admin():
 
 
 @pytest.mark.django_db
-@pytest.mark.load_user_data_required  # see load_user_data_required in conftest.py
 def test_is_not_admin():
     """Test that is_admin returns True for an admin user."""
     admin_user = SeedUser.get_user(wanda_admin_project)
@@ -103,16 +101,14 @@ def test_is_not_admin():
     ),
 )
 @pytest.mark.django_db
-@pytest.mark.load_user_data_required  # see load_user_data_required in conftest.py
-def test_get_most_privileged_perm_type(
+# see load_user_data_required in conftest.py
+def test_get_highest_shared_project_perm_type(
     request_user_name, response_related_user_name, expected_permission_type
 ):
     """Test that the correct permission type is returned."""
     request_user = SeedUser.get_user(request_user_name)
     response_related_user = SeedUser.get_user(response_related_user_name)
     assert (
-        AccessControl.get_most_privileged_perm_type(request_user, response_related_user)
+        AccessControl.get_highest_shared_project_perm_type(request_user, response_related_user)
         == expected_permission_type
     )
-
-
