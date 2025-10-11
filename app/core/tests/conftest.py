@@ -219,6 +219,12 @@ def auth_client2(user2, client):
 
 
 @pytest.fixture
+def admin_client(admin, client):
+    client.force_authenticate(user=admin)
+    return client
+
+
+@pytest.fixture
 def affiliate():
     return Affiliate.objects.create(partner_name="Test Affiliate")
 
