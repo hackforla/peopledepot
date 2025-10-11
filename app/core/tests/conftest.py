@@ -1,6 +1,8 @@
 import pytest
 from rest_framework.test import APIClient
 
+from test_data.utils.seed_constants import garry_name
+from test_data.utils.seed_user import SeedUser
 from constants import ADMIN_PROJECT
 from constants import PRACTICE_LEAD_PROJECT
 from test_data.utils.seed_constants import garry_name
@@ -213,12 +215,6 @@ def auth_client(user, client):
 @pytest.fixture
 def auth_client2(user2, client):
     client.force_authenticate(user=user2)
-    return client
-
-
-@pytest.fixture
-def admin_client(admin, client):
-    client.force_authenticate(user=admin)
     return client
 
 

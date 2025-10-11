@@ -1,3 +1,5 @@
+from test_data.utils.seed_user import SeedUser
+from test_data.utils.seed_constants import garry_name
 import pytest
 from django.urls import reverse
 from rest_framework import status
@@ -279,6 +281,7 @@ def test_create_leadership_type(auth_client):
 
 
 def test_project_leadership_type_relationship(auth_client, project_1, leadership_type):
+    print("debug: test_project_leadership_type_relationship", project_1.pk, leadership_type.pk)
     res = auth_client.patch(
         reverse("project-detail", args=[project_1.pk]),
         {"leadership_type": leadership_type.pk},
