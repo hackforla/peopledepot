@@ -11,11 +11,11 @@ from ..models import ProjectProgramAreaXref
 from ..models import ProjectSdgXref
 from ..models import ProjectStackElementXref
 from ..models import ProjectStatus
+from ..models import ProjectUrl
 from ..models import ReferrerType
 from ..models import Sdg
 from ..models import User
 from ..models import UserStatusType
-from ..models import ProjectUrl
 
 pytestmark = pytest.mark.django_db
 
@@ -392,6 +392,7 @@ def test_project_stack_element_unique_constraint(project, stack_element):
         ProjectStackElementXref.objects.create(
             project=project, stack_element=stack_element
         )
+
 
 def test_url_status_type_str(url_status_type):
     # __str__ returns the name

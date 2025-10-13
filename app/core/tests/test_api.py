@@ -8,9 +8,9 @@ from core.api.serializers import ProgramAreaSerializer
 from core.api.serializers import UserSerializer
 from core.models import ProgramArea
 from core.models import ProjectStackElementXref
-from core.models import UserPermission
-from core.models import UrlStatusType
 from core.models import ProjectUrl
+from core.models import UrlStatusType
+from core.models import UserPermission
 
 pytestmark = pytest.mark.django_db
 
@@ -726,6 +726,7 @@ def test_project_stack_element_workflow(auth_client):
     assert res_list.data[0]["project"] == project_uuid
     assert res_list.data[0]["stack_element"] == stack_element_uuid
 
+
 def test_create_url_status_type(auth_client):
     payload = {"name": "active", "description": "URL is live"}
     res = auth_client.post(URL_STATUS_TYPES_URL, payload)
@@ -734,6 +735,7 @@ def test_create_url_status_type(auth_client):
     # sanity: created in DB
     assert UrlStatusType.objects.filter(uuid=UUID(str(res.data["uuid"]))).exists()
 
+
 def test_list_url_status_types(auth_client):
     # ensure at least one exists
     auth_client.post(URL_STATUS_TYPES_URL, {"name": "archived"})
@@ -741,7 +743,10 @@ def test_list_url_status_types(auth_client):
     assert res.status_code == status.HTTP_200_OK
     assert any(item["name"] in ("active", "archived") for item in res.data)
 
-def test_project_url_accepts_status_type(auth_client, project, url_type, url_status_type):
+
+def test_project_url_accepts_status_type(
+    auth_client, project, url_type, url_status_type
+):
     # create ProjectUrl with a status type FK
     payload = {
         "project": project.pk,
@@ -760,6 +765,7 @@ def test_project_url_accepts_status_type(auth_client, project, url_type, url_sta
     pu = ProjectUrl.objects.get(uuid=UUID(str(res.data["uuid"])))
     assert pu.url_status_type == url_status_type
 
+
 def test_project_url_rejects_invalid_status_type(auth_client, project, url_type):
     payload = {
         "project": project.pk,
@@ -774,7 +780,10 @@ def test_project_url_rejects_invalid_status_type(auth_client, project, url_type)
     # should mention that the related object does not exist
     assert any("does not exist" in str(v).lower() for v in res.data.values())
 
-def test_cannot_delete_url_status_type_in_use(auth_client, project, url_type, url_status_type):
+
+def test_cannot_delete_url_status_type_in_use(
+    auth_client, project, url_type, url_status_type
+):
     # create a ProjectUrl pointing at this status type
     res = auth_client.post(
         reverse("project-url-list"),
@@ -797,6 +806,7 @@ def test_cannot_delete_url_status_type_in_use(auth_client, project, url_type, ur
     assert delete_res.status_code == status.HTTP_400_BAD_REQUEST
     assert "protect" in str(delete_res.data).lower()
 
+
 def test_delete_unused_url_status_type(auth_client):
     # create & delete
     res = auth_client.post(reverse("url-status-type-list"), {"name": "unused"})
@@ -805,4 +815,3 @@ def test_delete_unused_url_status_type(auth_client):
 
     del_res = auth_client.delete(reverse("url-status-type-detail", args=[uuid_]))
     assert del_res.status_code == 204
-

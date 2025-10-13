@@ -6,13 +6,13 @@ from drf_spectacular.utils import OpenApiParameter
 from drf_spectacular.utils import extend_schema
 from drf_spectacular.utils import extend_schema_view
 from rest_framework import mixins
+from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
-from rest_framework import status
 
 from ..models import Affiliate
 from ..models import Affiliation
@@ -38,10 +38,10 @@ from ..models import SocMajor
 from ..models import SocMinor
 from ..models import StackElement
 from ..models import StackElementType
+from ..models import UrlStatusType
 from ..models import UrlType
 from ..models import UserPermission
 from ..models import UserStatusType
-from ..models import UrlStatusType
 from .serializers import AffiliateSerializer
 from .serializers import AffiliationSerializer
 from .serializers import CheckTypeSerializer
@@ -66,11 +66,11 @@ from .serializers import SocMajorSerializer
 from .serializers import SocMinorSerializer
 from .serializers import StackElementSerializer
 from .serializers import StackElementTypeSerializer
+from .serializers import UrlStatusTypeSerializer
 from .serializers import UrlTypeSerializer
 from .serializers import UserPermissionSerializer
 from .serializers import UserSerializer
 from .serializers import UserStatusTypeSerializer
-from .serializers import UrlStatusTypeSerializer
 
 
 class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
@@ -531,6 +531,7 @@ class ProjectStackElementXrefViewSet(viewsets.ModelViewSet):
     queryset = ProjectStackElementXref.objects.all()
     serializer_class = ProjectStackElementXrefSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
+
 
 @extend_schema_view(
     list=extend_schema(description="Return a list of all the url status types"),

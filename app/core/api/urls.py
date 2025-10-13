@@ -25,12 +25,12 @@ from .views import SocMajorViewSet
 from .views import SocMinorViewSet
 from .views import StackElementTypeViewSet
 from .views import StackElementViewSet
+from .views import UrlStatusTypeViewSet
 from .views import UrlTypeViewSet
 from .views import UserPermissionViewSet
 from .views import UserProfileAPIView
 from .views import UserStatusTypeViewSet
 from .views import UserViewSet
-from .views import UrlStatusTypeViewSet
 
 router = routers.SimpleRouter()
 router.register(r"user-permissions", UserPermissionViewSet, basename="user-permission")

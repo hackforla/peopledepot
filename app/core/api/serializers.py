@@ -25,11 +25,11 @@ from core.models import SocMajor
 from core.models import SocMinor
 from core.models import StackElement
 from core.models import StackElementType
+from core.models import UrlStatusType
 from core.models import UrlType
 from core.models import User
 from core.models import UserPermission
 from core.models import UserStatusType
-from core.models import UrlStatusType
 
 
 class PracticeAreaSerializer(serializers.ModelSerializer):
@@ -518,8 +518,10 @@ class ProjectStackElementXrefSerializer(serializers.ModelSerializer):
             "updated_at",
         ]
 
+
 class UrlStatusTypeSerializer(serializers.ModelSerializer):
     """Used to retrieve url_status_type info"""
+
     class Meta:
         model = UrlStatusType
         fields = ("uuid", "name", "description")
