@@ -553,7 +553,10 @@ class UrlStatusTypeViewSet(viewsets.ModelViewSet):
         except ProtectedError as e:
             return Response(
                 {
-                    "detail": "Cannot delete UrlStatusType because it is referenced by one or more ProjectUrl records.",
+                    "detail": (
+                        "Cannot delete UrlStatusType because it is referenced by one or "
+                        "more ProjectUrl records."
+                    ),
                     "protected": [str(obj.uuid) for obj in e.protected_objects],
                 },
                 status=status.HTTP_400_BAD_REQUEST,
