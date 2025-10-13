@@ -32,6 +32,7 @@ from ..models import UrlType
 from ..models import User
 from ..models import UserPermission
 from ..models import UserStatusType
+from ..models import UrlStatusType
 
 
 @pytest.fixture
@@ -392,4 +393,11 @@ def project_stack_element_xref(project, stack_element):
     """
     return ProjectStackElementXref.objects.create(
         project=project, stack_element=stack_element
+    )
+
+@pytest.fixture
+def url_status_type(db):
+    return UrlStatusType.objects.create(
+        name="active",
+        description="URL is live and valid"
     )

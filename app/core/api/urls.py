@@ -30,6 +30,7 @@ from .views import UserPermissionViewSet
 from .views import UserProfileAPIView
 from .views import UserStatusTypeViewSet
 from .views import UserViewSet
+from .views import UrlStatusTypeViewSet
 
 router = routers.SimpleRouter()
 router.register(r"user-permissions", UserPermissionViewSet, basename="user-permission")
@@ -72,6 +73,7 @@ router.register(
     ProjectStackElementXrefViewSet,
     basename="project-stack-elements",
 )
+router.register(r"url-status-types", UrlStatusTypeViewSet, basename="url-status-type")
 urlpatterns = [
     path("me/", UserProfileAPIView.as_view(), name="my_profile"),
 ]

@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.db.models.deletion import ProtectedError
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import OpenApiExample
 from drf_spectacular.utils import OpenApiParameter
@@ -10,6 +11,8 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.response import Response
+from rest_framework import status
 
 from ..models import Affiliate
 from ..models import Affiliation
@@ -38,6 +41,7 @@ from ..models import StackElementType
 from ..models import UrlType
 from ..models import UserPermission
 from ..models import UserStatusType
+from ..models import UrlStatusType
 from .serializers import AffiliateSerializer
 from .serializers import AffiliationSerializer
 from .serializers import CheckTypeSerializer
@@ -66,6 +70,7 @@ from .serializers import UrlTypeSerializer
 from .serializers import UserPermissionSerializer
 from .serializers import UserSerializer
 from .serializers import UserStatusTypeSerializer
+from .serializers import UrlStatusTypeSerializer
 
 
 class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
@@ -526,3 +531,30 @@ class ProjectStackElementXrefViewSet(viewsets.ModelViewSet):
     queryset = ProjectStackElementXref.objects.all()
     serializer_class = ProjectStackElementXrefSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
+
+@extend_schema_view(
+    list=extend_schema(description="Return a list of all the url status types"),
+    create=extend_schema(description="Create a new url status type"),
+    retrieve=extend_schema(description="Return the details of a url status type"),
+    destroy=extend_schema(description="Delete a url status type"),
+    update=extend_schema(description="Update a url status type"),
+    partial_update=extend_schema(description="Patch a url status type"),
+)
+class UrlStatusTypeViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = UrlStatusType.objects.all()
+    serializer_class = UrlStatusTypeSerializer
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        try:
+            self.perform_destroy(instance)
+        except ProtectedError as e:
+            return Response(
+                {
+                    "detail": "Cannot delete UrlStatusType because it is referenced by one or more ProjectUrl records.",
+                    "protected": [str(obj.uuid) for obj in e.protected_objects],
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        return Response(status=status.HTTP_204_NO_CONTENT)
