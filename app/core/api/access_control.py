@@ -179,5 +179,5 @@ class AccessControl:
         ):
             return False
         return (
-            rank_dict[requester_permission_type] >= rank_dict[operation_permission_type]
+            rank_dict[requester_permission_type] <= rank_dict[operation_permission_type]
         )
