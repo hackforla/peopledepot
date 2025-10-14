@@ -10,5 +10,6 @@ markdown
 psycopg2-binary
 pytest-cov
 pytest-django
+pytest-mock
 pytest-xdist
 tzdata
