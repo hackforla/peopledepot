@@ -1,6 +1,3 @@
-from unittest.mock import mock_open
-from unittest.mock import patch
-
 import pytest
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.exceptions import ValidationError
@@ -11,55 +8,12 @@ from constants import MEMBER_PROJECT
 from constants import PRACTICE_LEAD_PROJECT
 from core.api.access_control import AccessControl
 # from core.api.user_related_request import UserRelatedRequest
-from core.api.views import UserViewSet
 from test_data.utils.seed_constants import garry_name
 from test_data.utils.seed_constants import patti_name
 from test_data.utils.seed_constants import wally_name
 from test_data.utils.seed_constants import wanda_admin_project
 from test_data.utils.seed_constants import zani_name
 from test_data.utils.seed_user import SeedUser
-
-keys = ["table_name", "field_name", "get", "patch", "post"]
-rows = [
-    ["User", "field1", MEMBER_PROJECT, PRACTICE_LEAD_PROJECT, ADMIN_GLOBAL],
-    ["User", "field2", ADMIN_PROJECT, ADMIN_PROJECT, ADMIN_GLOBAL],
-    ["User", "field3", ADMIN_PROJECT, ADMIN_GLOBAL, ADMIN_GLOBAL],
-    ["User", "system_field", MEMBER_PROJECT, "", ""],
-    ["foo", "bar", MEMBER_PROJECT, MEMBER_PROJECT, MEMBER_PROJECT],
-]
-# Create an array of dictionaries with keys specified by keys[] andsss
-# values for each row specified by rows
-mock_data = [dict(zip(keys, row)) for row in rows]
-
-
-class MockSimplifiedRequest:
-    def __init__(self, user, data, method):
-        self.user = user
-        self.data = data
-        self.method = method
-
-
-@pytest.fixture
-def mock_csv_data():
-    """Fixture to provide mock CSV field permissions."""
-    return [
-        {
-            "operation": "update",
-            "table_name": "user",
-            "field_name": "gmail_email",
-            "view": "viewer",
-            "update": "moderator",
-            "create": ADMIN_GLOBAL,
-        },
-        {
-            "operation": "create",
-            "table_name": "user",
-            "field_name": "name",
-            "view": "viewer",
-            "update": "moderator",
-            "create": ADMIN_GLOBAL,
-        },
-    ]
 
 
 @pytest.mark.django_db

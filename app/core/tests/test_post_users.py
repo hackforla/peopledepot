@@ -31,9 +31,7 @@ class TestPostUser:
     def test_valid_post(cls):
         """Test POST request returns success when the request fields match configured fields.
 
-        This test mocks a PATCH request to skip submitting the request to the server and instead
-        calls the view directly with the request.  This is done so that variables used by the
-        server can be set to test values.
+        This test calls the UserViewSet directly with the request.  
         """
         requesting_user = SeedUser.get_user(garry_name)  # project lead for website
 
