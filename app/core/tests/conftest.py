@@ -1,10 +1,11 @@
 import pytest
 from rest_framework.test import APIClient
 
-from test_data.utils.seed_constants import garry_name
-from test_data.utils.seed_user import SeedUser
 from constants import ADMIN_PROJECT
 from constants import PRACTICE_LEAD_PROJECT
+from test_data.utils.seed_constants import garry_name
+from test_data.utils.seed_user import SeedUser
+
 from ..models import Affiliate
 from ..models import Affiliation
 from ..models import CheckType
@@ -32,7 +33,6 @@ from ..models import UrlType
 from ..models import User
 from ..models import UserPermission
 from ..models import UserStatusType
-
 
 collect_ignore = ["utils"]
 

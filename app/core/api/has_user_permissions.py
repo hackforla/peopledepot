@@ -1,6 +1,7 @@
 from rest_framework.permissions import BasePermission
 
-from .validate_request import validate_post_fields, validate_patch_fields
+from .validate_request import validate_patch_fields
+from .validate_request import validate_post_fields
 
 
 class HasUserPermission(BasePermission):
@@ -11,7 +12,5 @@ class HasUserPermission(BasePermission):
 
     def has_object_permission(self, request, view, obj):
         if request.method == "PATCH":
-            validate_patch_fields(
-                obj=obj, request=request
-            )
+            validate_patch_fields(obj=obj, request=request)
         return True
