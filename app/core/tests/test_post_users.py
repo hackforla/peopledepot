@@ -1,4 +1,3 @@
-from core.models import User
 import pytest
 from django.urls import reverse
 from rest_framework import status

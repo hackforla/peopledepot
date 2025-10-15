@@ -1,5 +1,3 @@
-from test_data.utils.seed_user import SeedUser
-from test_data.utils.seed_constants import garry_name
 import pytest
 from django.urls import reverse
 from rest_framework import status
