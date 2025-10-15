@@ -91,12 +91,8 @@ class AccessControl:
         return list(valid_fields)
 
     @classmethod
-    def get_highest_user_perm_type(
-        cls, requesting_user
-    ) -> str:
+    def get_highest_user_perm_type(cls, requesting_user) -> str:
         """Return the most privileged permission type of a user."""
-
-
 
         permissions = UserPermission.objects.filter(
             user=requesting_user, project__name=None
