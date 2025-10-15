@@ -1,5 +1,4 @@
 from django.contrib.auth import get_user_model
-from core.api.has_user_permissions import HasUserPermission
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import OpenApiExample
 from drf_spectacular.utils import OpenApiParameter
@@ -11,6 +10,8 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
+
+from core.api.has_user_permissions import HasUserPermission
 
 from ..models import Affiliate
 from ..models import Affiliation

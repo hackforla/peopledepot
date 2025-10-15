@@ -1,4 +1,3 @@
-from core.models import User
 import pytest
 from django.urls import reverse
 from rest_framework import status
@@ -6,6 +5,7 @@ from rest_framework.test import APIRequestFactory
 from rest_framework.test import force_authenticate
 
 from core.api.views import UserViewSet
+from core.models import User
 from test_data.utils.seed_constants import garry_name
 from test_data.utils.seed_constants import wanda_admin_project
 from test_data.utils.seed_user import SeedUser
@@ -31,7 +31,7 @@ class TestPostUser:
     def test_valid_post(cls):
         """Test POST request returns success when the request fields match configured fields.
 
-        This test calls the UserViewSet directly with the request.  
+        This test calls the UserViewSet directly with the request.
         """
         requesting_user = SeedUser.get_user(garry_name)  # project lead for website
 

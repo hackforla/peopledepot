@@ -4,7 +4,9 @@ from constants import ADMIN_GLOBAL
 from constants import ADMIN_PROJECT
 from constants import MEMBER_PROJECT
 from constants import PRACTICE_LEAD_PROJECT
-from core.models import PermissionType, Project
+from core.models import PermissionType
+from core.models import Project
+
 from .seed_constants import garry_name
 from .seed_constants import patrick_practice_lead
 from .seed_constants import patti_name

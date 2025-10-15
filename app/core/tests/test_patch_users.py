@@ -1,11 +1,14 @@
-from core.api.validate_request import validate_patch_fields
 import pytest
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient
 
-from test_data.utils.seed_constants import garry_name, valerie_name, wanda_admin_project
+from core.api.validate_request import validate_patch_fields
+from test_data.utils.seed_constants import garry_name
+from test_data.utils.seed_constants import valerie_name
+from test_data.utils.seed_constants import wanda_admin_project
 from test_data.utils.seed_user import SeedUser
+
 
 def _call_api(requesting_user_name, response_related_name, data):
     requester = SeedUser.get_user(requesting_user_name)
@@ -31,7 +34,9 @@ class TestPatchUser:
             "email_gmail": "update@example.com",
         }
 
-        mock_validate_patch = mocker.patch("core.api.has_user_permissions.validate_patch_fields")
+        mock_validate_patch = mocker.patch(
+            "core.api.has_user_permissions.validate_patch_fields"
+        )
         client.patch(url, data, format="json")
 
         # Assert it was called
