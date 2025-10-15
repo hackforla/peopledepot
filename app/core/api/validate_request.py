@@ -1,6 +1,10 @@
+from rest_framework.exceptions import PermissionDenied
+from rest_framework.exceptions import ValidationError
+
 from core.models import User
-from.access_control import AccessControl
-from rest_framework.exceptions import PermissionDenied, ValidationError
+
+from .access_control import AccessControl
+
 
 def validate_post_fields(view, request):
     # todo
@@ -15,10 +19,8 @@ def validate_post_fields(view, request):
 def get_fields_for_patch_request(request, table_name, response_related_user):
     requesting_user = request.user
     requesting_user = request.user
-    most_privileged_perm_type = (
-        AccessControl.get_highest_shared_project_perm_type(
-            requesting_user, response_related_user
-        )
+    most_privileged_perm_type = AccessControl.get_highest_shared_project_perm_type(
+        requesting_user, response_related_user
     )
     fields = AccessControl.get_permitted_fields(
         operation="patch",
@@ -56,6 +58,7 @@ def validate_patch_fields(request, obj):
         response_related_user=response_related_user,
     )
     _validate_request_fields_permitted(request, valid_fields)
+
 
 # @staticmethod
 def _validate_request_fields_permitted(request, valid_fields) -> None:

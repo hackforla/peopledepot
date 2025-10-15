@@ -7,6 +7,7 @@ from constants import ADMIN_PROJECT
 from constants import MEMBER_PROJECT
 from constants import PRACTICE_LEAD_PROJECT
 from core.api.access_control import AccessControl
+
 # from core.api.user_related_request import UserRelatedRequest
 from test_data.utils.seed_constants import garry_name
 from test_data.utils.seed_constants import patti_name
@@ -63,6 +64,8 @@ def test_get_highest_shared_project_perm_type(
     request_user = SeedUser.get_user(request_user_name)
     response_related_user = SeedUser.get_user(response_related_user_name)
     assert (
-        AccessControl.get_highest_shared_project_perm_type(request_user, response_related_user)
+        AccessControl.get_highest_shared_project_perm_type(
+            request_user, response_related_user
+        )
         == expected_permission_type
     )
