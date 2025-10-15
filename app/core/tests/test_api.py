@@ -155,7 +155,7 @@ user_actions_test_data = [
         CREATE_USER_PAYLOAD,
         status.HTTP_200_OK,
     ),
-    ("auth_client", "delete", "user_url", {}, status.HTTP_204_NO_CONTENT),
+    ("admin_client", "delete", "user_url", {}, status.HTTP_204_NO_CONTENT),
     # Replaced by tests in test_patch_users.py
     # (
     #     "auth_client2",
@@ -576,10 +576,6 @@ def test_create_referrer(auth_client, referrer_type):
     assert res.data["name"] == payload["name"]
     assert str(res.data["referrer_type"]) == str(referrer_type.uuid)
     assert res.data["contact_name"] == payload["contact_name"]
-
-
-import pytest
-from django.contrib.auth import get_user_model
 
 
 def test_create_project_url(auth_client, project, url_type):
