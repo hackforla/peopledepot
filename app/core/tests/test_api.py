@@ -284,7 +284,7 @@ def test_project_leadership_type_relationship(auth_client, project_1, leadership
     assert res.status_code == status.HTTP_200_OK, res.data
 
     res = auth_client.get(PROJECTS_URL)
-    project_from_res = None
+    project_from_response = None
     for project in res.data:
         if project["uuid"] == str(project_1.uuid):
             project_from_response = project

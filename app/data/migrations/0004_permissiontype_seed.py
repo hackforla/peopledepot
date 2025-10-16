@@ -5,7 +5,7 @@ from core.models import PermissionType
 
 def insert_data(__code__, __reverse_code__):
     items = [
-        (1, "adminGlobal", "Granted to People Depo Admins. Can CRUD anything.", 1),
+        (1, "globalAdmin", "Granted to People Depo Admins. Can CRUD anything.", 1),
         (
             2,
             "adminVrms",

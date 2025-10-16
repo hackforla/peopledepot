@@ -5,7 +5,6 @@ from rest_framework.test import APIRequestFactory
 from rest_framework.test import force_authenticate
 
 from core.api.views import UserViewSet
-from core.models import User
 from test_data.utils.seed_constants import garry_name
 from test_data.utils.seed_constants import wanda_admin_project
 from test_data.utils.seed_user import SeedUser

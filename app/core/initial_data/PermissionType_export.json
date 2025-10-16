@@ -1,7 +1,7 @@
 [
     {
         "uuid":1,
-        "name":"adminGlobal",
+        "name":"globalAdmin",
         "description":"Granted to People Depo Admins. Can CRUD anything."},
     {
         "uuid":2,
