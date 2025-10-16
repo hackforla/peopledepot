@@ -30,15 +30,13 @@ from ..models import SocMinor
 from ..models import StackElement
 from ..models import StackElementType
 from ..models import UrlType
-from ..models import User
 from ..models import UserPermission
 from ..models import UserStatusType
+from django.contrib.auth import get_user_model
 
 collect_ignore = ["utils"]
 
 # conftest.py
-import pytest
-from django.contrib.auth import get_user_model
 
 User = get_user_model()
 

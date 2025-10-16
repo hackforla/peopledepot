@@ -3,7 +3,6 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient
 
-from core.api.validate_request import validate_patch_fields
 from test_data.utils.seed_constants import garry_name
 from test_data.utils.seed_constants import valerie_name
 from test_data.utils.seed_constants import wanda_admin_project

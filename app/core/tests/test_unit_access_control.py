@@ -1,11 +1,8 @@
 import pytest
-from rest_framework.exceptions import PermissionDenied
-from rest_framework.exceptions import ValidationError
 
 from constants import ADMIN_GLOBAL
 from constants import ADMIN_PROJECT
 from constants import MEMBER_PROJECT
-from constants import PRACTICE_LEAD_PROJECT
 from core.api.access_control import AccessControl
 
 # from core.api.user_related_request import UserRelatedRequest
