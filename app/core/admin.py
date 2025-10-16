@@ -18,6 +18,7 @@ from .models import PermissionType
 from .models import PracticeArea
 from .models import ProgramArea
 from .models import Project
+from .models import ProjectStackElementXref
 from .models import ProjectStatus
 from .models import ProjectUrl
 from .models import Referrer
@@ -310,4 +311,12 @@ class ProjectUrlAdmin(admin.ModelAdmin):
         "name",
         "external_id",
         "url",
+    )
+
+
+@admin.register(ProjectStackElementXref)
+class ProjectStackElementXrefAdmin(admin.ModelAdmin):
+    list_display = (
+        "project",
+        "stack_element",
     )
