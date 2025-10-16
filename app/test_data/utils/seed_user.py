@@ -3,6 +3,7 @@ from core.models import Project
 from core.models import User
 from core.models import UserPermission
 
+
 class SeedUser:
     """Summary
     Attributes:
