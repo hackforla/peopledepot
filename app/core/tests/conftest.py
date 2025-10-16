@@ -1,5 +1,6 @@
 import pytest
 from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model
 from rest_framework.test import APIClient
 
 from constants import ADMIN_PROJECT
@@ -41,14 +42,6 @@ from ..models import UserStatusType
 collect_ignore = ["utils"]
 
 # conftest.py
-
-User = get_user_model()
-
-collect_ignore = ["utils"]
-
-# conftest.py
-import pytest
-from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
