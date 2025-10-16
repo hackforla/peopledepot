@@ -3,9 +3,6 @@ from core.models import Project
 from core.models import User
 from core.models import UserPermission
 
-from .seed_constants import password
-
-
 class SeedUser:
     """Summary
     Attributes:
@@ -41,7 +38,6 @@ class SeedUser:
             email=email,
             is_active=True,
         )
-        user.set_password(password)
         cls.seed_users_list[first_name] = user
         user.save()
         return user

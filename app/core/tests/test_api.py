@@ -7,8 +7,6 @@ from core.api.serializers import UserSerializer
 from core.models import ProgramArea
 from core.models import User
 from core.models import UserPermission
-from test_data.utils.seed_constants import garry_name
-from test_data.utils.seed_user import SeedUser
 
 pytestmark = pytest.mark.django_db
 

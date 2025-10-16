@@ -4,7 +4,6 @@ from constants import ADMIN_GLOBAL
 from constants import ADMIN_PROJECT
 from constants import MEMBER_PROJECT
 from constants import PRACTICE_LEAD_PROJECT
-from core.models import PermissionType
 from core.models import Project
 
 from .seed_constants import garry_name
@@ -20,7 +19,7 @@ from .seed_constants import zani_name
 from .seed_user import SeedUser
 
 
-def load_data():
+def seed_user_test_data():
     """Populalates projects, users, and userpermissions with seed data
     that is used by the tests in the core app.
 
