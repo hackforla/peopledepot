@@ -1,4 +1,5 @@
 import pytest
+from django.contrib.auth import get_user_model
 from rest_framework.test import APIClient
 
 from constants import ADMIN_PROJECT
@@ -32,7 +33,6 @@ from ..models import StackElementType
 from ..models import UrlType
 from ..models import UserPermission
 from ..models import UserStatusType
-from django.contrib.auth import get_user_model
 
 collect_ignore = ["utils"]
 
