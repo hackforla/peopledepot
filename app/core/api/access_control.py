@@ -2,8 +2,8 @@ import csv
 from pathlib import Path
 from typing import Any
 
-from constants import GLOBAL_ADMIN  # Assuming you have this constant
 from constants import FIELD_PERMISSIONS_CSV
+from constants import GLOBAL_ADMIN  # Assuming you have this constant
 from core.models import PermissionType
 from core.models import UserPermission
 

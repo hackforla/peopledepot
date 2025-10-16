@@ -1,7 +1,7 @@
 import pytest
 
-from constants import GLOBAL_ADMIN
 from constants import ADMIN_PROJECT
+from constants import GLOBAL_ADMIN
 from constants import MEMBER_PROJECT
 from core.api.access_control import AccessControl
 

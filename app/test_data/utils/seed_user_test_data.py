@@ -1,7 +1,7 @@
 import copy
 
-from constants import GLOBAL_ADMIN
 from constants import ADMIN_PROJECT
+from constants import GLOBAL_ADMIN
 from constants import MEMBER_PROJECT
 from constants import PRACTICE_LEAD_PROJECT
 from core.models import Project
