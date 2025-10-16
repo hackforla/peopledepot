@@ -1,12 +1,7 @@
 import pytest
 from django.contrib.auth import get_user_model
-from django.contrib.auth import get_user_model
 from rest_framework.test import APIClient
 
-from constants import ADMIN_PROJECT
-from constants import PRACTICE_LEAD_PROJECT
-from test_data.utils.seed_constants import garry_name
-from test_data.utils.seed_user import SeedUser
 from constants import ADMIN_PROJECT
 from constants import PRACTICE_LEAD_PROJECT
 from test_data.utils.seed_constants import garry_name
