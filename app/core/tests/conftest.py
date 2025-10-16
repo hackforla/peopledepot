@@ -1,8 +1,11 @@
 import pytest
+from django.contrib.auth import get_user_model
 from rest_framework.test import APIClient
 
-from constants import admin_project
-from constants import practice_lead_project
+from constants import ADMIN_PROJECT
+from constants import PRACTICE_LEAD_PROJECT
+from test_data.utils.seed_constants import garry_name
+from test_data.utils.seed_user import SeedUser
 
 from ..models import Affiliate
 from ..models import Affiliation
@@ -28,9 +31,27 @@ from ..models import SocMinor
 from ..models import StackElement
 from ..models import StackElementType
 from ..models import UrlType
-from ..models import User
 from ..models import UserPermission
 from ..models import UserStatusType
+
+collect_ignore = ["utils"]
+
+# conftest.py
+
+User = get_user_model()
+
+
+@pytest.fixture(scope="session", autouse=True)
+def _load_data_once_for_specific_tests(request, django_db_setup, django_db_blocker):
+    # Check if any tests marked with 'load_data_required' are going to be run
+    print("Running autouse fixture in conftest.py to check for marker")
+    if request.node.items:
+        for item in request.node.items:
+            if "load_user_data_required" in item.keywords:
+                with django_db_blocker.unblock():
+                    print("Running load_data before any test classes in marked files")
+                    load_data()
+                break  # Run only once before all the test files
 
 
 @pytest.fixture
@@ -71,7 +92,7 @@ def user_permission_admin_project():
         username="TestUser Admin Project", email="TestUserAdminProject@example.com"
     )
     project = Project.objects.create(name="Test Project Admin Project")
-    permission_type = PermissionType.objects.filter(name=admin_project).first()
+    permission_type = PermissionType.objects.filter(name=ADMIN_PROJECT).first()
     user_permission = UserPermission.objects.create(
         user=user,
         permission_type=permission_type,
@@ -87,7 +108,7 @@ def user_permission_practice_lead_project():
         username="TestUser Practie Lead Project",
         email="TestUserPracticeLeadProject@example.com",
     )
-    permission_type = PermissionType.objects.filter(name=practice_lead_project).first()
+    permission_type = PermissionType.objects.filter(name=PRACTICE_LEAD_PROJECT).first()
     project = Project.objects.create(name="Test Project Admin Project")
     practice_area = PracticeArea.objects.first()
     user_permission = UserPermission.objects.create(
@@ -120,12 +141,7 @@ def user2(django_user_model):
 
 @pytest.fixture
 def admin(django_user_model):
-    return django_user_model.objects.create_user(
-        is_staff=True,
-        username="TestAdminUser",
-        email="testadmin@email.com",
-        password="testadmin",
-    )
+    return SeedUser.get_user(garry_name)
 
 
 @pytest.fixture

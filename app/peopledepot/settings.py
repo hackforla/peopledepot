@@ -88,6 +88,7 @@ INSTALLED_APPS = [
     # Local
     "core",
     "data",
+    "test_data",
 ]
 
 MIDDLEWARE = [

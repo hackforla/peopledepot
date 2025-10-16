@@ -5,6 +5,7 @@ from rest_framework import status
 from core.api.serializers import ProgramAreaSerializer
 from core.api.serializers import UserSerializer
 from core.models import ProgramArea
+from core.models import User
 from core.models import UserPermission
 
 pytestmark = pytest.mark.django_db
@@ -82,7 +83,7 @@ def test_get_users(auth_client, django_user_model):
     res = auth_client.get(USERS_URL)
 
     assert res.status_code == status.HTTP_200_OK
-    assert len(res.data) == 3
+    assert len(res.data) == User.objects.count()
 
     users = django_user_model.objects.all().order_by("created_at")
     serializer = UserSerializer(users, many=True)
@@ -98,44 +99,52 @@ def test_get_single_user(auth_client, user):
 
 
 user_actions_test_data = [
-    (
-        "admin_client",
-        "post",
-        "users_url",
-        CREATE_USER_PAYLOAD,
-        status.HTTP_201_CREATED,
-    ),
-    ("admin_client", "get", "users_url", {}, status.HTTP_200_OK),
-    (
-        "auth_client",
-        "post",
-        "users_url",
-        CREATE_USER_PAYLOAD,
-        status.HTTP_201_CREATED,
-    ),
+    # Replaced by tests in test_post_users.py
+    # (
+    #     "admin_client",
+    #     "post",
+    #     "users_url",
+    #     CREATE_USER_PAYLOAD,
+    #     status.HTTP_201_CREATED,
+    # ),
+    #
+    # Redundant
+    #
+    # ("admin_client", "get", "users_url", {}, status.HTTP_200_OK),
+    # (
+    #     "auth_client",
+    #     "post",
+    #     "users_url",
+    #     CREATE_USER_PAYLOAD,
+    #     status.HTTP_201_CREATED,
+    # ),
     ("auth_client", "get", "users_url", {}, status.HTTP_200_OK),
-    (
-        "auth_client",
-        "patch",
-        "user_url",
-        {"first_name": "TestUser2"},
-        status.HTTP_200_OK,
-    ),
-    (
-        "auth_client",
-        "put",
-        "user_url",
-        CREATE_USER_PAYLOAD,
-        status.HTTP_200_OK,
-    ),
-    ("auth_client", "delete", "user_url", {}, status.HTTP_204_NO_CONTENT),
-    (
-        "admin_client",
-        "patch",
-        "user_url",
-        {"first_name": "TestUser2"},
-        status.HTTP_200_OK,
-    ),
+    # Replaced by tests in test_patch_users.py
+    # (
+    #     "auth_client",
+    #     "patch",
+    #     "user_url",
+    #     {"first_name": "TestUser2"},
+    #     status.HTTP_200_OK,
+    # ),
+    #
+    #
+    # (
+    #     "auth_client",
+    #     "put",
+    #     "user_url",
+    #     CREATE_USER_PAYLOAD,
+    #     status.HTTP_200_OK,
+    # ),
+    ("admin_client", "delete", "user_url", {}, status.HTTP_204_NO_CONTENT),
+    # Replaced by tests in test_patch_users.py
+    # (
+    #     "admin_client",
+    #     "patch",
+    #     "user_url",
+    #     {"first_name": "TestUser2"},
+    #     status.HTTP_200_OK,
+    # ),
     (
         "admin_client",
         "put",
@@ -144,13 +153,14 @@ user_actions_test_data = [
         status.HTTP_200_OK,
     ),
     ("admin_client", "delete", "user_url", {}, status.HTTP_204_NO_CONTENT),
-    (
-        "auth_client2",
-        "patch",
-        "user_url",
-        {"first_name": "TestUser2"},
-        status.HTTP_200_OK,
-    ),
+    # Replaced by tests in test_patch_users.py
+    # (
+    #     "auth_client2",
+    #     "patch",
+    #     "user_url",
+    #     {"first_name": "TestUser2"},
+    #     status.HTTP_200_OK,
+    # ),
     (
         "auth_client2",
         "put",
@@ -271,10 +281,15 @@ def test_project_leadership_type_relationship(auth_client, project_1, leadership
         reverse("project-detail", args=[project_1.pk]),
         {"leadership_type": leadership_type.pk},
     )
-    assert res.status_code == status.HTTP_200_OK
+    assert res.status_code == status.HTTP_200_OK, res.data
 
     res = auth_client.get(PROJECTS_URL)
-    assert res.data[0]["leadership_type"] == leadership_type.pk
+    project_from_res = None
+    for project in res.data:
+        if project["uuid"] == str(project_1.uuid):
+            project_from_response = project
+            break
+    assert project_from_response["leadership_type"] == leadership_type.pk
 
 
 def test_create_location(auth_client):
@@ -558,15 +573,6 @@ def test_create_referrer(auth_client, referrer_type):
     assert res.data["name"] == payload["name"]
     assert str(res.data["referrer_type"]) == str(referrer_type.uuid)
     assert res.data["contact_name"] == payload["contact_name"]
-
-
-def test_assign_referrer_to_user(auth_client, user, referrer):
-    payload = {"referrer": str(referrer.uuid)}
-
-    res = auth_client.patch(f"{USERS_URL}{user.uuid}/", payload)
-
-    assert res.status_code == status.HTTP_200_OK
-    assert str(res.data["referrer"]) == str(referrer.uuid)
 
 
 def test_create_project_url(auth_client, project, url_type):

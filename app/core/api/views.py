@@ -11,6 +11,8 @@ from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
+from core.api.has_user_permissions import HasUserPermission
+
 from ..models import Affiliate
 from ..models import Affiliation
 from ..models import CheckType
@@ -123,7 +125,7 @@ class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
     partial_update=extend_schema(description="Partially update the given user"),
 )
 class UserViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, HasUserPermission]
     serializer_class = UserSerializer
     lookup_field = "uuid"
 
