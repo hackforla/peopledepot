@@ -1,5 +1,18 @@
 import pytest
-def _parse_csv_permissions():
+from django.apps import apps
+
+from core.api.access_control import AccessControl
+
+# Adjust this path if your CSV file is located elsewhere
+
+
+@pytest.mark.django_db
+def test_model_fields_match_permissions_csv():
+    """
+    Ensure the fields listed for each table in permissions.csv exactly match
+    the fields on the corresponding Django model — no extra and none missing.
+    """
+    # --- 1. Parse CSV ---
     table_to_fields = {}
     for row in AccessControl._get_csv_field_permissions():
         table = row["table_name"]
