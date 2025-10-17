@@ -1,5 +1,6 @@
 import pytest
 from django.apps import apps
+
 from core.api.access_control import AccessControl
 
 # Adjust this path if your CSV file is located elsewhere
@@ -20,7 +21,6 @@ def test_model_fields_match_permissions_csv():
         if table not in table_to_fields:
             table_to_fields[table] = set()
         table_to_fields[table].add(field)
-
 
     # --- 2. Check each model ---
     errors = []
