@@ -2,7 +2,7 @@ import csv
 from pathlib import Path
 from typing import Any
 
-from constants import GLOBAL_ADMIN  # Assuming you have this constant
+from constants import ADMIN_GLOBAL  # Assuming you have this constant
 from constants import FIELD_PERMISSIONS_CSV
 from core.models import PermissionType
 from core.models import UserPermission
@@ -16,8 +16,8 @@ class AccessControl:
 
     @staticmethod
     def is_admin(user) -> bool:
-        """Check if a user assigned "globalAdmin" permission."""
-        permission_type = PermissionType.objects.filter(name=GLOBAL_ADMIN).first()
+        """Check if a user assigned "adminGlobal" permission."""
+        permission_type = PermissionType.objects.filter(name=ADMIN_GLOBAL).first()
         # return True
         return UserPermission.objects.filter(
             permission_type=permission_type, user=user
@@ -26,7 +26,7 @@ class AccessControl:
     @classmethod
     def _get_rank_dict(cls) -> dict[str, int]:
         """Return a dictionary mapping permission names to their ranks.
-        Example: {"globalAdmin": 1, "adminProject": 2, "practiceLeadProject": 3, "memberProject": 4}.
+        Example: {"adminGlobal": 1, "adminProject": 2, "practiceLeadProject": 3, "memberProject": 4}.
         Used in algorithm to determine most privileged permission type between two users.  The higher the rank,
         the more privileged the permission.
         """
@@ -59,7 +59,7 @@ class AccessControl:
         Parameters:
             operation (str): The type of operation. (e.g., "get", "post", "patch").
             permission_type (str): The permission type of the requesting user
-                (e.g., "globalAdmin", "adminProject", etc.).
+                (e.g., "adminGlobal", "adminProject", etc.).
             table_name (str): The name of the table/model
                 (e.g., "User", "Project").
 
@@ -108,7 +108,7 @@ class AccessControl:
     ) -> str:
         """Return the most privileged permission type between users."""
         if cls.is_admin(requesting_user):
-            return GLOBAL_ADMIN
+            return ADMIN_GLOBAL
 
         target_projects = UserPermission.objects.filter(
             user=response_related_user
@@ -141,7 +141,7 @@ class AccessControl:
         Parameters:
             operation (str): The type of operation ("get", "post", or "patch").
             permission_type (str): The user's permission type
-                (e.g., "globalAdmin", "adminProject").
+                (e.g., "adminGlobal", "adminProject").
             table_name (str): The name of the table/model to check (e.g., "User").
             field (dict): A dictionary describing the field, including at least:
                 - "field_name"
