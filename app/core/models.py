@@ -392,8 +392,6 @@ class StackElementType(AbstractBaseModel):
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True)
 
-    # PK of this model is the ForeignKey for stack_element
-
     def __str__(self):
         return f"{self.name}"
 
@@ -409,9 +407,6 @@ class StackElement(AbstractBaseModel):
     logo = models.URLField(blank=True)
     active = models.BooleanField(null=True)
     element_type = models.ForeignKey(StackElementType, on_delete=models.CASCADE)
-
-    # PK of this model is the ForeignKey for project_stack_element_xref
-    # we might be able to use the builtin django many-to-many relation that manages the xref table automatically
 
     class Meta:
         verbose_name_plural = "Stack Elements"
