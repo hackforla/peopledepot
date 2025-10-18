@@ -30,18 +30,30 @@ Table affiliate {
   //considering adding org_id
 }
 
-Table cancelled_event [note: 'under review'] {
+Table cancelled_event {
   ~AbstractBaseModel
-  recurring_event int [ref: > event.id]
-  project int [ref: > project.id]
-  cancelled_event_datetime datetime
+  event int [ref: > event.id]
+  cancelled_event_date date
   reason varchar
-  cancelled_by int [ref: > user.id]
+  user int [ref: > user.id]
+  name varchar
+  description varchar
+  event_type int [ref: > event_type.id]
+  start_time datetime
+  duration_in_min int
+  project int [ref: > project.id]
+  video_conference_url URLField
+  location int [ref: > location.id]
+  org int [ref: > org.id]
+  additional_info varchar
+  must_attend JSON
+  should_attend JSON
+  could_attend JSON
 }
 
 Table check_in {
   ~AbstractBaseModel
-  event int [ref: > event.id]
+  occurance int [ref: > event_occurrence.id]
   user int [ref: > user.id]
   checked_in DateTimeField
 }
@@ -56,19 +68,38 @@ Table check_type [note: 'Data tab: https://docs.google.com/spreadsheets/d/1x_zZ8
 Table event {
   //created
   ~AbstractBaseModel
-  event_type int [ref: > event_type.id]
   name varchar
-  start_date_time DateTimeField
+  description varchar
+  event_type int [ref: > event_type.id]
+  start_time DateTimeField
   duration_in_min int
-  recurrences RecurrenceField
+  rrule RecurrenceField [note: 'recurrence rule, used by django-recurrence']
   project int [ref: > project.id]
   video_conference_url URLField
   location int [ref: > location.id]
   org int [ref: > org.id]
   additional_info varchar
-  must_attend JSON[ ]
-  should_attend JSON[ ]
-  could_attend JSON[ ]
+  must_attend JSON
+  should_attend JSON
+  could_attend JSON
+}
+
+Table event_occurrence {
+  ~AbstractBaseModel
+  event int [ref: > event.id]
+  name varchar
+  description varchar
+  event_type int [ref: > event_type.id]
+  start_time datetime
+  duration_in_min int
+  project int [ref: > project.id]
+  video_conference_url URLField
+  location int [ref: > location.id]
+  org int [ref: > org.id]
+  additional_info varchar
+  must_attend JSON
+  should_attend JSON
+  could_attend JSON
 }
 
 Table event_type {
