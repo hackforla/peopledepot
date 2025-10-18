@@ -198,6 +198,12 @@ https://api.github.com/repos/[org]/[repo]',
         blank=True,
         through="ProjectProgramAreaXref",
     )
+    stack_elements = models.ManyToManyField(
+        "StackElement",
+        through="ProjectStackElementXref",
+        related_name="projects",
+        blank=True,
+    )
 
     def __str__(self):
         return f"{self.name}"
@@ -559,13 +565,54 @@ class Referrer(AbstractBaseModel):
         return f"{self.name}"
 
 
+class UrlStatusType(AbstractBaseModel):
+    """
+    Dictionary of URL status values (e.g., active, archived, 404).
+    """
+
+    name = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.name
+
+
 class ProjectUrl(AbstractBaseModel):
     project = models.ForeignKey(Project, null=True, on_delete=models.PROTECT)
     url_type = models.ForeignKey(UrlType, null=True, on_delete=models.PROTECT)
     name = models.CharField(max_length=255)
     external_id = models.CharField(max_length=255, blank=True, default="")
     url = models.URLField(blank=True)
-    # url_status_type = models.ForeignKey(UrlStatusType, null=True, on_delete=models.PROTECT)
+    url_status_type = models.ForeignKey(
+        UrlStatusType, null=True, on_delete=models.PROTECT
+    )
 
     def __str__(self):
         return f"{self.name}"
+
+
+class ProjectStackElementXref(AbstractBaseModel):
+    """
+    Cross-reference table joining a project to a stack element.
+    This allows a project to be associated with multiple stack elements and vice versa.
+    """
+
+    project = models.ForeignKey(
+        Project, on_delete=models.CASCADE, related_name="project_stack_elements"
+    )
+    stack_element = models.ForeignKey(
+        StackElement, on_delete=models.CASCADE, related_name="stack_element_projects"
+    )
+
+    class Meta:
+        db_table = "project_stack_element_xref"
+        constraints = [
+            models.UniqueConstraint(
+                fields=["project", "stack_element"], name="unique_project_stack_element"
+            )
+        ]
+
+    def __str__(self):
+        return (
+            f"Project: {self.project.name} -> StackElement: {self.stack_element.name}"
+        )

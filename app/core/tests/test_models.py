@@ -1,13 +1,17 @@
 import re
 
 import pytest
+from django.db import IntegrityError
+from django.db.models.deletion import ProtectedError
 
 from ..models import Event
 from ..models import PracticeArea
 from ..models import ProgramArea
 from ..models import ProjectProgramAreaXref
 from ..models import ProjectSdgXref
+from ..models import ProjectStackElementXref
 from ..models import ProjectStatus
+from ..models import ProjectUrl
 from ..models import ReferrerType
 from ..models import Sdg
 from ..models import User
@@ -351,3 +355,79 @@ def test_project_url(project_url):
     assert project_url.url == "https://test.com"
 
     assert str(project_url) == "This is a test project url"
+
+
+def test_project_stack_element_relationship(project, stack_element):
+    """
+    Verify that a Project can be linked to a StackElement via ProjectStackElementXref.
+    """
+    # Create the cross-reference record
+    xref = ProjectStackElementXref.objects.create(
+        project=project, stack_element=stack_element
+    )
+
+    # Check string representation
+    assert str(xref) == f"Project: {project.name} -> StackElement: {stack_element.name}"
+
+    # Forward relationships
+    assert xref.project == project
+    assert xref.stack_element == stack_element
+    assert xref.created_at is not None  # from AbstractBaseModel
+
+    # Reverse relationships
+    assert project.stack_elements.filter(pk=stack_element.pk).exists()
+    assert stack_element.projects.filter(pk=project.pk).exists()
+
+
+def test_project_stack_element_unique_constraint(project, stack_element):
+    """
+    Ensure that duplicate project-stack_element pairs are prevented
+    by the unique constraint on ProjectStackElementXref.
+    """
+    # First insert is fine
+    ProjectStackElementXref.objects.create(project=project, stack_element=stack_element)
+
+    # Second insert with same project + stack_element should fail
+    with pytest.raises(IntegrityError):
+        ProjectStackElementXref.objects.create(
+            project=project, stack_element=stack_element
+        )
+
+
+def test_url_status_type_str(url_status_type):
+    # __str__ returns the name
+    assert str(url_status_type) == "active"
+
+
+def test_project_url_can_set_status(project_url, url_status_type):
+    # Set FK and save
+    project_url.url_status_type = url_status_type
+    project_url.save()
+
+    # Reload & assert
+    pu = ProjectUrl.objects.get(pk=project_url.pk)
+    assert pu.url_status_type == url_status_type
+
+
+def test_url_status_type_reverse_relation(project_url, url_status_type):
+    # Attach and verify reverse relation works
+    project_url.url_status_type = url_status_type
+    project_url.save()
+
+    # Default reverse accessor: <ModelName>_set
+    assert url_status_type.projecturl_set.count() == 1
+    assert url_status_type.projecturl_set.first().pk == project_url.pk
+
+
+def test_protect_deletion_when_in_use(project_url, url_status_type):
+    # PROTECT should block deletion while referenced
+    project_url.url_status_type = url_status_type
+    project_url.save()
+
+    with pytest.raises(ProtectedError):
+        url_status_type.delete()
+
+
+def test_status_is_nullable(project_url):
+    # Field allows null=True; default should be None unless set
+    assert project_url.url_status_type is None
