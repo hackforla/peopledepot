@@ -198,6 +198,12 @@ https://api.github.com/repos/[org]/[repo]',
         blank=True,
         through="ProjectProgramAreaXref",
     )
+    stack_elements = models.ManyToManyField(
+        "StackElement",
+        through="ProjectStackElementXref",
+        related_name="projects",
+        blank=True,
+    )
 
     def __str__(self):
         return f"{self.name}"
@@ -386,8 +392,6 @@ class StackElementType(AbstractBaseModel):
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True)
 
-    # PK of this model is the ForeignKey for stack_element
-
     def __str__(self):
         return f"{self.name}"
 
@@ -403,9 +407,6 @@ class StackElement(AbstractBaseModel):
     logo = models.URLField(blank=True)
     active = models.BooleanField(null=True)
     element_type = models.ForeignKey(StackElementType, on_delete=models.CASCADE)
-
-    # PK of this model is the ForeignKey for project_stack_element_xref
-    # we might be able to use the builtin django many-to-many relation that manages the xref table automatically
 
     class Meta:
         verbose_name_plural = "Stack Elements"
@@ -569,3 +570,30 @@ class ProjectUrl(AbstractBaseModel):
 
     def __str__(self):
         return f"{self.name}"
+
+
+class ProjectStackElementXref(AbstractBaseModel):
+    """
+    Cross-reference table joining a project to a stack element.
+    This allows a project to be associated with multiple stack elements and vice versa.
+    """
+
+    project = models.ForeignKey(
+        Project, on_delete=models.CASCADE, related_name="project_stack_elements"
+    )
+    stack_element = models.ForeignKey(
+        StackElement, on_delete=models.CASCADE, related_name="stack_element_projects"
+    )
+
+    class Meta:
+        db_table = "project_stack_element_xref"
+        constraints = [
+            models.UniqueConstraint(
+                fields=["project", "stack_element"], name="unique_project_stack_element"
+            )
+        ]
+
+    def __str__(self):
+        return (
+            f"Project: {self.project.name} -> StackElement: {self.stack_element.name}"
+        )
