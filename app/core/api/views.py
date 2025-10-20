@@ -523,6 +523,6 @@ class ProjectUrlViewSet(viewsets.ModelViewSet):
 
 
 class ProjectStackElementXrefViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
     queryset = ProjectStackElementXref.objects.all()
     serializer_class = ProjectStackElementXrefSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
