@@ -506,7 +506,7 @@ class ProjectStackElementXrefSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ProjectStackElementXref
-        fields = [
+        fields = (
             "uuid",
             "project",
             "project_name",
@@ -514,4 +514,5 @@ class ProjectStackElementXrefSerializer(serializers.ModelSerializer):
             "stack_element_name",
             "created_at",
             "updated_at",
-        ]
+        )
+        read_only_fields = ("uuid", "created_at", "updated_at")
