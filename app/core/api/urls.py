@@ -70,7 +70,7 @@ router.register(
 router.register(
     r"project-stack-elements",
     ProjectStackElementXrefViewSet,
-    basename="project-stack-elements",
+    basename="project-stack-element",
 )
 urlpatterns = [
     path("me/", UserProfileAPIView.as_view(), name="my_profile"),
