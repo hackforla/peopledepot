@@ -2,8 +2,10 @@
 name: Update Table
 about: Describe this issue template's purpose here.
 title: 'Update Table: [TABLE NAME]'
-labels: 'feature: update table, good first issue, milestone: missing, role: back end, size: 0.25pt, stakeholder: missing'
+labels: 'feature: update table, good first issue, milestone: missing, role: back end,
+  size: 0.25pt, stakeholder: missing'
 assignees: ''
+
 ---
 
 ### Overview
@@ -62,7 +64,7 @@ We need to update the [Replace with TABLE NAME] table model to [Replace with REA
     - 1.01.01 [/app/core/models.py](https://github.com/hackforla/peopledepot/blob/main/app/core/models.py)
     - 1.01.02 [/app/core/admin.py](https://github.com/hackforla/peopledepot/blob/main/app/core/admin.py)
     - 1.01.03 [/app/core/api/serializers.py](https://github.com/hackforla/peopledepot/blob/main/app/core/api/serializers.py)
-    - 1.01.04
+    - 1.01.04 [/app/core/api/views.py](https://github.com/hackforla/peopledepot/blob/main/app/core/api/views.py)
 - 1.02 [People Depot Resources wiki page](https://github.com/hackforla/peopledepot/wiki/Resources-and-Links) for links
     - ERD
     - Table and Field Definitions
