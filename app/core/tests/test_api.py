@@ -41,7 +41,7 @@ PROJECT_URLS_URL = reverse("project-url-list")
 SOC_MAJOR_URL = reverse("soc-major-list")
 SOC_MINORS_URL = reverse("soc-minor-list")
 URL_TYPE_URL = reverse("url-type-list")
-PROJECT_STACK_ELEMENTS_URL = reverse("project-stack-elements-list")
+PROJECT_STACK_ELEMENTS_URL = reverse("project-stack-element-list")
 
 CREATE_USER_PAYLOAD = {
     "username": "TestUserAPI",
@@ -641,7 +641,7 @@ def test_list_project_stack_elements(auth_client, project_stack_element_xref):
 
 def test_retrieve_project_stack_element(auth_client, project_stack_element_xref):
     url = reverse(
-        "project-stack-elements-detail", args=[project_stack_element_xref.uuid]
+        "project-stack-element-detail", args=[project_stack_element_xref.uuid]
     )
     res = auth_client.get(url)
 
@@ -656,7 +656,7 @@ def test_retrieve_project_stack_element(auth_client, project_stack_element_xref)
 
 def test_delete_project_stack_element(auth_client, project_stack_element_xref):
     url = reverse(
-        "project-stack-elements-detail", args=[project_stack_element_xref.uuid]
+        "project-stack-element-detail", args=[project_stack_element_xref.uuid]
     )
     res = auth_client.delete(url)
 
@@ -713,11 +713,11 @@ def test_project_stack_element_workflow(auth_client):
 
     # Link Project + StackElement
     link_payload = {"project": project_uuid, "stack_element": stack_element_uuid}
-    res_link = auth_client.post(reverse("project-stack-elements-list"), link_payload)
+    res_link = auth_client.post(reverse("project-stack-element-list"), link_payload)
     assert res_link.status_code == status.HTTP_201_CREATED
 
     # Verify link shows up
-    res_list = auth_client.get(reverse("project-stack-elements-list"))
+    res_list = auth_client.get(reverse("project-stack-element-list"))
     assert res_list.status_code == status.HTTP_200_OK
     assert len(res_list.data) == 1
     assert res_list.data[0]["project"] == project_uuid
