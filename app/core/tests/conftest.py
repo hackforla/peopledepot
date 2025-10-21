@@ -17,6 +17,7 @@ from ..models import PermissionType
 from ..models import PracticeArea
 from ..models import ProgramArea
 from ..models import Project
+from ..models import ProjectStackElementXref
 from ..models import ProjectStatus
 from ..models import ProjectUrl
 from ..models import Referrer
@@ -380,4 +381,15 @@ def project_url(project, url_type):
         name="This is a test project url",
         external_id="This is a test external id",
         url="https://test.com",
+    )
+
+
+@pytest.fixture
+def project_stack_element_xref(project, stack_element):
+    """
+    Fixture to create and return a ProjectStackElementXref record
+    linking a project and a stack element.
+    """
+    return ProjectStackElementXref.objects.create(
+        project=project, stack_element=stack_element
     )

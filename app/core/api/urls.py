@@ -13,6 +13,7 @@ from .views import LocationViewSet
 from .views import PermissionTypeViewSet
 from .views import PracticeAreaViewSet
 from .views import ProgramAreaViewSet
+from .views import ProjectStackElementXrefViewSet
 from .views import ProjectStatusViewSet
 from .views import ProjectUrlViewSet
 from .views import ProjectViewSet
@@ -65,6 +66,11 @@ router.register(r"soc-minors", SocMinorViewSet, basename="soc-minor")
 router.register(r"url-types", UrlTypeViewSet, basename="url-type")
 router.register(
     r"user-status-types", UserStatusTypeViewSet, basename="user-status-type"
+)
+router.register(
+    r"project-stack-elements",
+    ProjectStackElementXrefViewSet,
+    basename="project-stack-element",
 )
 urlpatterns = [
     path("me/", UserProfileAPIView.as_view(), name="my_profile"),
