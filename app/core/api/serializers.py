@@ -25,6 +25,7 @@ from core.models import SocMajor
 from core.models import SocMinor
 from core.models import StackElement
 from core.models import StackElementType
+from core.models import UrlStatusType
 from core.models import UrlType
 from core.models import User
 from core.models import UserPermission
@@ -484,7 +485,19 @@ class ReferrerSerializer(serializers.ModelSerializer):
         read_only_fields = ("uuid", "created_at", "updated_at")
 
 
+# Helper class to represent UUID PKs as strings
+class UUIDPKRelatedField(serializers.PrimaryKeyRelatedField):
+    def to_representation(self, value):
+        return str(super().to_representation(value))
+
+
 class ProjectUrlSerializer(serializers.ModelSerializer):
+    url_status_type = UUIDPKRelatedField(
+        queryset=UrlStatusType.objects.all(),
+        allow_null=True,
+        required=False,
+    )
+
     class Meta:
         model = ProjectUrl
         fields = (
@@ -494,6 +507,7 @@ class ProjectUrlSerializer(serializers.ModelSerializer):
             "name",
             "external_id",
             "url",
+            "url_status_type",
         )
         read_only_fields = ("uuid", "created_at", "updated_at")
 
@@ -515,4 +529,13 @@ class ProjectStackElementXrefSerializer(serializers.ModelSerializer):
             "created_at",
             "updated_at",
         )
+        read_only_fields = ("uuid", "created_at", "updated_at")
+
+
+class UrlStatusTypeSerializer(serializers.ModelSerializer):
+    """Used to retrieve url_status_type info"""
+
+    class Meta:
+        model = UrlStatusType
+        fields = ("uuid", "name", "description")
         read_only_fields = ("uuid", "created_at", "updated_at")

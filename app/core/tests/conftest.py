@@ -28,6 +28,7 @@ from ..models import SocMajor
 from ..models import SocMinor
 from ..models import StackElement
 from ..models import StackElementType
+from ..models import UrlStatusType
 from ..models import UrlType
 from ..models import User
 from ..models import UserPermission
@@ -392,4 +393,11 @@ def project_stack_element_xref(project, stack_element):
     """
     return ProjectStackElementXref.objects.create(
         project=project, stack_element=stack_element
+    )
+
+
+@pytest.fixture
+def url_status_type(db):
+    return UrlStatusType.objects.create(
+        name="active", description="URL is live and valid"
     )
