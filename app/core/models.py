@@ -1,11 +1,11 @@
 import uuid
 
+from django.conf import settings
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.models import UserManager
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.db import models
-from django.conf import settings
 from phonenumber_field.modelfields import PhoneNumberField
 from timezone_field import TimeZoneField
 
@@ -227,6 +227,7 @@ class Event(AbstractBaseModel):
     could_attend = models.JSONField(default=list)
     # location_id = model
 
+
 class Permission(AbstractBaseModel):
     """
     Defines user permissions for various parts of the application,
@@ -237,7 +238,9 @@ class Permission(AbstractBaseModel):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     # Renamed from project_id
-    project = models.ForeignKey(Project, null=True, blank=True, on_delete=models.CASCADE)
+    project = models.ForeignKey(
+        Project, null=True, blank=True, on_delete=models.CASCADE
+    )
 
     # Renamed from permission_type_id.
     # TODO: Uncomment when issue #24 is resolved.
@@ -268,7 +271,7 @@ class Permission(AbstractBaseModel):
     # )
 
     class Meta:
-        db_table = 'permission'
+        db_table = "permission"
 
     def __str__(self):
         return f"Permission for {self.user} on {self.project or 'Practice Area'}"

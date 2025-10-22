@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from timezone_field.rest_framework import TimeZoneSerializerField
 
+# from core.models import UserPermission # Renamed to Permission
 from core.models import Affiliate
 from core.models import Affiliation
 from core.models import CheckType
@@ -10,6 +11,7 @@ from core.models import Faq
 from core.models import FaqViewed
 from core.models import LeadershipType
 from core.models import Location
+from core.models import Permission  # New model name
 from core.models import PermissionType
 from core.models import PracticeArea
 from core.models import ProgramArea
@@ -27,8 +29,6 @@ from core.models import StackElement
 from core.models import StackElementType
 from core.models import UrlType
 from core.models import User
-# from core.models import UserPermission # Renamed to Permission
-from core.models import Permission # New model name
 from core.models import UserStatusType
 
 
@@ -51,11 +51,13 @@ class PracticeAreaSerializer(serializers.ModelSerializer):
         )
 
 
-class PermissionSerializer(serializers.ModelSerializer): # Renamed from UserPermissionSerializer
+class PermissionSerializer(
+    serializers.ModelSerializer
+):  # Renamed from UserPermissionSerializer
     """Used to retrieve user permissions"""
 
     class Meta:
-        model = Permission # Updated from UserPermission
+        model = Permission  # Updated from UserPermission
         fields = (
             "uuid",
             "created_at",
@@ -64,10 +66,10 @@ class PermissionSerializer(serializers.ModelSerializer): # Renamed from UserPerm
             "permission_type",
             "project",
             "practice_area",
-            "created_by", # New field
-            "ended", # New field
-            "granted", # New field
-            "updated_by", # New field
+            "created_by",  # New field
+            "ended",  # New field
+            "granted",  # New field
+            "updated_by",  # New field
         )
         read_only_fields = (
             "uuid",
@@ -259,7 +261,10 @@ class LeadershipTypeSerializer(serializers.ModelSerializer):
 
 class LocationSerializer(serializers.ModelSerializer):
     """Used to retrieve Location info"""
-    zip = serializers.CharField(source="zipcode") # Refactored: moved from outside class
+
+    zip = serializers.CharField(
+        source="zipcode"
+    )  # Refactored: moved from outside class
 
     class Meta:
         model = Location
@@ -501,7 +506,7 @@ class ProjectUrlSerializer(serializers.ModelSerializer):
         read_only_fields = ("uuid", "created_at", "updated_at")
 
 
-class ProjectStackElementXrefSerializer(serializers.ModelSerializer): # Completed
+class ProjectStackElementXrefSerializer(serializers.ModelSerializer):  # Completed
     class Meta:
         model = ProjectStackElementXref
         fields = (
