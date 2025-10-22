@@ -27,7 +27,8 @@ from core.models import StackElement
 from core.models import StackElementType
 from core.models import UrlType
 from core.models import User
-from core.models import UserPermission
+# from core.models import UserPermission # Renamed to Permission
+from core.models import Permission # New model name
 from core.models import UserStatusType
 
 
@@ -50,11 +51,11 @@ class PracticeAreaSerializer(serializers.ModelSerializer):
         )
 
 
-class UserPermissionSerializer(serializers.ModelSerializer):
+class PermissionSerializer(serializers.ModelSerializer): # Renamed from UserPermissionSerializer
     """Used to retrieve user permissions"""
 
     class Meta:
-        model = UserPermission
+        model = Permission # Updated from UserPermission
         fields = (
             "uuid",
             "created_at",
@@ -63,6 +64,10 @@ class UserPermissionSerializer(serializers.ModelSerializer):
             "permission_type",
             "project",
             "practice_area",
+            "created_by", # New field
+            "ended", # New field
+            "granted", # New field
+            "updated_by", # New field
         )
         read_only_fields = (
             "uuid",
@@ -254,6 +259,7 @@ class LeadershipTypeSerializer(serializers.ModelSerializer):
 
 class LocationSerializer(serializers.ModelSerializer):
     """Used to retrieve Location info"""
+    zip = serializers.CharField(source="zipcode") # Refactored: moved from outside class
 
     class Meta:
         model = Location
@@ -272,9 +278,6 @@ class LocationSerializer(serializers.ModelSerializer):
             "created_at",
             "updated_at",
         )
-
-
-LocationSerializer._declared_fields["zip"] = serializers.CharField(source="zipcode")
 
 
 class ProgramAreaSerializer(serializers.ModelSerializer):
@@ -498,20 +501,13 @@ class ProjectUrlSerializer(serializers.ModelSerializer):
         read_only_fields = ("uuid", "created_at", "updated_at")
 
 
-class ProjectStackElementXrefSerializer(serializers.ModelSerializer):
-    project_name = serializers.CharField(source="project.name", read_only=True)
-    stack_element_name = serializers.CharField(
-        source="stack_element.name", read_only=True
-    )
-
+class ProjectStackElementXrefSerializer(serializers.ModelSerializer): # Completed
     class Meta:
         model = ProjectStackElementXref
         fields = (
             "uuid",
             "project",
-            "project_name",
             "stack_element",
-            "stack_element_name",
             "created_at",
             "updated_at",
         )

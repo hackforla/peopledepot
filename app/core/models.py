@@ -5,6 +5,7 @@ from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.models import UserManager
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.db import models
+from django.conf import settings
 from phonenumber_field.modelfields import PhoneNumberField
 from timezone_field import TimeZoneField
 
@@ -224,376 +225,50 @@ class Event(AbstractBaseModel):
     must_attend = models.JSONField(default=list)
     should_attend = models.JSONField(default=list)
     could_attend = models.JSONField(default=list)
-    # location_id = models.ForeignKey("Location", on_delete=models.DO_NOTHING)
-    # event_type_id = models.ForeignKey("EventType", on_delete=models.DO_NOTHING)
-    # brigade_id = models.ForeignKey("Brigade", on_delete=models.DO_NOTHING)
-    # day_of_week = models.ForeignKey("DayOfWeek", on_delete=models.DO_NOTHING)
-    # frequency_id = models.ForeignKey("Frequency", on_delete=models.DO_NOTHING)
+    # location_id = model
 
-    def __str__(self):
-        return (
-            f"Event: {self.name}, "
-            f"Must_Attend: {self.must_attend}, "
-            f"Should_Attend: {self.should_attend}, "
-            f"Could_Attend: {self.could_attend}"
-        )
-
-
-class Affiliate(AbstractBaseModel):
+class Permission(AbstractBaseModel):
     """
-    Dictionary of sponsors and partners
+    Defines user permissions for various parts of the application,
+    such as projects or practice areas.
     """
 
-    partner_name = models.CharField(max_length=255)
-    partner_logo = models.URLField(blank=True)
-    is_active = models.BooleanField(null=True)
-    url = models.URLField(blank=True)
-    is_org_sponsor = models.BooleanField(null=True)
-    is_org_partner = models.BooleanField(null=True)
+    # Renamed from user_id
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
-    # PK of this model is the ForeignKey for project_affiliate_xref
+    # Renamed from project_id
+    project = models.ForeignKey(Project, null=True, blank=True, on_delete=models.CASCADE)
 
-    def __str__(self):
-        return f"{self.partner_name}"
+    # Renamed from permission_type_id.
+    # TODO: Uncomment when issue #24 is resolved.
+    # permission_type = models.ForeignKey('permission_type.PermissionType', on_delete=models.CASCADE)
 
+    # Renamed from practice_area_id.
+    # TODO: Uncomment when issue #63 is resolved.
+    # practice_area = models.ForeignKey('practice_area.PracticeArea', null=True, blank=True, on_delete=models.CASCADE)
 
-class Faq(AbstractBaseModel):
-    question = models.CharField(max_length=255, unique=True)
-    answer = models.CharField(max_length=255, blank=True)
-    tool_tip_name = models.CharField(max_length=255, blank=True)
+    # New fields
+    granted = models.DateTimeField(auto_now_add=True)
+    ended = models.DateTimeField(null=True, blank=True)
 
-    # PK of this model is the ForeignKey for faq_id
+    # TODO: Uncomment when issues #15, #429, #172 are resolved.
+    # created_by = models.ForeignKey(
+    #     settings.AUTH_USER_MODEL,
+    #     on_delete=models.CASCADE,
+    #     related_name='permissions_created'
+    # )
 
-    def __str__(self):
-        return f"{self.question}"
-
-
-class FaqViewed(AbstractBaseModel):
-    """
-    FaqViewed tracks how many times an FAQ has been viewed by serving as an instance of an FAQ being viewed.
-    """
-
-    faq = models.ForeignKey(Faq, on_delete=models.CASCADE)
+    # TODO: Uncomment when issues #15, #429, #172 are resolved.
+    # updated_by = models.ForeignKey(
+    #     settings.AUTH_USER_MODEL,
+    #     on_delete=models.CASCADE,
+    #     related_name='permissions_updated',
+    #     null=True,
+    #     blank=True
+    # )
 
     class Meta:
-        verbose_name = "FAQ view"
+        db_table = 'permission'
 
     def __str__(self):
-        return f"{self.faq} viewed at {self.created_at.strftime('%b %d %Y %H:%M:%S')}"
-
-
-class Location(AbstractBaseModel):
-    """
-    Location for event
-    """
-
-    name = models.CharField(max_length=255, unique=True, verbose_name="Location name")
-    address_line_1 = models.CharField(max_length=255, unique=False)
-    address_line_2 = models.CharField(max_length=255, unique=False, blank=True)
-    city = models.CharField(max_length=100, unique=False)
-    state = models.CharField(max_length=2, unique=False)
-    zipcode = models.CharField(max_length=10, unique=False)
-    phone = PhoneNumberField(blank=True)
-
-    def __str__(self):
-        return f"{self.name}"
-
-
-class PracticeArea(AbstractBaseModel):
-    """
-    Practice Area
-    """
-
-    name = models.CharField(max_length=255, unique=True)
-    description = models.CharField(max_length=255, blank=True)
-
-    def __str__(self):
-        return f"{self.name}"
-
-
-class ProgramArea(AbstractBaseModel):
-    """
-    Dictionary of program areas (to be joined with project)
-    """
-
-    name = models.CharField(max_length=255, unique=True)
-    description = models.TextField(blank=True)
-    image = models.URLField(blank=True)
-
-    def __str__(self):
-        return f"{self.name}"
-
-
-class Skill(AbstractBaseModel):
-    """
-    Dictionary of skills
-    """
-
-    name = models.CharField(max_length=255, unique=True)
-    description = models.TextField(blank=True)
-
-    def __str__(self):
-        return f"{self.name}"
-
-
-class PermissionType(AbstractBaseModel):
-    """
-    Permission Type
-    """
-
-    name = models.CharField(max_length=255, unique=True)
-    description = models.TextField(blank=True)
-    rank = models.IntegerField(unique=True, default=0)
-
-    def __str__(self):
-        if self.description and isinstance(self.description, str):
-            return f"{self.name}: {self.description}"
-        else:
-            return f"{self.name}"
-
-
-class UserPermission(AbstractBaseModel):
-    """
-    User Permissions
-    """
-
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="permissions")
-    permission_type = models.ForeignKey(PermissionType, on_delete=models.CASCADE)
-    practice_area = models.ForeignKey(
-        PracticeArea, on_delete=models.CASCADE, blank=True, null=True
-    )
-    project = models.ForeignKey(
-        Project, blank=True, null=True, on_delete=models.CASCADE
-    )
-
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(
-                fields=["user", "permission_type", "project", "practice_area"],
-                name="unique_user_permission",
-            )
-        ]
-
-    def __str__(self):
-        username = self.user.username
-        permission_type_name = self.permission_type.name
-        project_name = self.project.name
-        str_val = f"User: {username} / Permission Type: {permission_type_name}/ Project: {project_name}"
-        if self.practice_area:
-            str_val += f" / Practice Area: {self.practice_area.name}"
-        return str_val
-
-
-class StackElementType(AbstractBaseModel):
-    """
-    Stack element type used to update a shared data store across projects
-    """
-
-    name = models.CharField(max_length=255)
-    description = models.TextField(blank=True)
-
-    def __str__(self):
-        return f"{self.name}"
-
-
-class StackElement(AbstractBaseModel):
-    """
-    Dictionary of stack elements used in projects
-    """
-
-    name = models.CharField(max_length=255)
-    description = models.TextField(blank=True)
-    url = models.URLField(blank=True)
-    logo = models.URLField(blank=True)
-    active = models.BooleanField(null=True)
-    element_type = models.ForeignKey(StackElementType, on_delete=models.CASCADE)
-
-    class Meta:
-        verbose_name_plural = "Stack Elements"
-
-    def __str__(self):
-        return f"{self.name}"
-
-
-class Sdg(AbstractBaseModel):
-    """
-    Dictionary of SDGs
-    """
-
-    name = models.CharField(max_length=255)
-    description = models.TextField(blank=True)
-    image = models.URLField(blank=True)
-
-    # PK of this model is the ForeignKey for sdg_target_indicator
-
-    def __str__(self):
-        return f"{self.name}"
-
-
-class Affiliation(AbstractBaseModel):
-    """
-    Sponsor/partner relationships stored in this table are project-dependent.
-    They can be both a sponsor and a partner for the same project,
-    so if is_sponsor is true, they are a project partner,
-    if is_sponsor is true, they are a project sponsor.
-    """
-
-    affiliate = models.ForeignKey(Affiliate, on_delete=models.CASCADE)
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
-    ended_at = models.DateTimeField("Ended at", null=True, blank=True)
-    is_sponsor = models.BooleanField(null=True)
-    is_partner = models.BooleanField(null=True)
-
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(
-                fields=["project", "affiliate"], name="unique_project_affiliate"
-            )
-        ]
-        db_table = "project_affiliate_xref"
-
-    def __str__(self):
-        if self.is_sponsor is True and self.is_partner is True:
-            return f"Sponsor {self.project} and Partner {self.affiliate}"
-        elif self.is_sponsor is True and self.is_partner is False:
-            return f"Sponsor {self.project}"
-        elif self.is_sponsor is False and self.is_partner is True:
-            return f"Partner {self.affiliate}"
-        else:
-            return "Neither a partner or a sponsor"
-
-
-class CheckType(AbstractBaseModel):
-    """
-    Types of checks we perform
-    """
-
-    name = models.CharField(max_length=255)
-    description = models.TextField(blank=True)
-
-    def __str__(self):
-        return f"{self.name}"
-
-
-class EventType(AbstractBaseModel):
-    """
-    Dictionary of event types
-    """
-
-    name = models.CharField(max_length=255)
-    description = models.TextField(blank=True)
-
-    def __str__(self):
-        return f"{self.name}"
-
-
-class SocMajor(AbstractBaseModel):
-    occ_code = models.CharField(max_length=255)
-    title = models.CharField(max_length=255)
-
-    def __str__(self):
-        return self.title
-
-
-class SocMinor(AbstractBaseModel):
-    soc_major = models.ForeignKey(
-        SocMajor, blank=True, null=True, on_delete=models.CASCADE
-    )
-    occ_code = models.CharField(max_length=255)
-    title = models.CharField(max_length=255)
-
-    def __str__(self):
-        return self.title
-
-
-class ProjectProgramAreaXref(AbstractBaseModel):
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
-    program_area = models.ForeignKey(ProgramArea, on_delete=models.CASCADE)
-
-
-class ProjectSdgXref(AbstractBaseModel):
-    """
-    Joins an SDG to a project
-    """
-
-    sdg_id = models.ForeignKey(Sdg, on_delete=models.CASCADE)
-    project_id = models.ForeignKey(Project, on_delete=models.CASCADE)
-    ended_on = models.DateField("Ended on", null=True, blank=True)
-
-
-class UrlType(AbstractBaseModel):
-    """
-    Type of the URL (ReadMe, Wiki, etc.)
-    """
-
-    name = models.CharField(max_length=255)
-    description = models.TextField(blank=True)
-
-    def __str__(self):
-        return self.name
-
-
-class UserStatusType(AbstractBaseModel):
-    name = models.CharField(max_length=255)
-    description = models.TextField(blank=True)
-
-    def __str__(self):
-        return f"{self.name}"
-
-
-class ReferrerType(AbstractBaseModel):
-    name = models.CharField(max_length=255)
-    description = models.TextField(blank=True)
-
-    def __str__(self):
-        return f"{self.name}"
-
-
-class Referrer(AbstractBaseModel):
-    name = models.CharField(max_length=255)
-    url = models.URLField(blank=True)
-    referrer_type = models.ForeignKey(ReferrerType, null=True, on_delete=models.PROTECT)
-    contact_name = models.CharField(max_length=255)
-    contact_email = models.EmailField(blank=True)
-
-    def __str__(self):
-        return f"{self.name}"
-
-
-class ProjectUrl(AbstractBaseModel):
-    project = models.ForeignKey(Project, null=True, on_delete=models.PROTECT)
-    url_type = models.ForeignKey(UrlType, null=True, on_delete=models.PROTECT)
-    name = models.CharField(max_length=255)
-    external_id = models.CharField(max_length=255, blank=True, default="")
-    url = models.URLField(blank=True)
-    # url_status_type = models.ForeignKey(UrlStatusType, null=True, on_delete=models.PROTECT)
-
-    def __str__(self):
-        return f"{self.name}"
-
-
-class ProjectStackElementXref(AbstractBaseModel):
-    """
-    Cross-reference table joining a project to a stack element.
-    This allows a project to be associated with multiple stack elements and vice versa.
-    """
-
-    project = models.ForeignKey(
-        Project, on_delete=models.CASCADE, related_name="project_stack_elements"
-    )
-    stack_element = models.ForeignKey(
-        StackElement, on_delete=models.CASCADE, related_name="stack_element_projects"
-    )
-
-    class Meta:
-        db_table = "project_stack_element_xref"
-        constraints = [
-            models.UniqueConstraint(
-                fields=["project", "stack_element"], name="unique_project_stack_element"
-            )
-        ]
-
-    def __str__(self):
-        return (
-            f"Project: {self.project.name} -> StackElement: {self.stack_element.name}"
-        )
+        return f"Permission for {self.user} on {self.project or 'Practice Area'}"
