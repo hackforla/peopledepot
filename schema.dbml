@@ -8,18 +8,16 @@ TablePartial AbstractBaseModel {
   updated_at DateTimeField [not null, default: `now()`]
 }
 
-Table accomplishment {
+Table Accomplishment {
   ~AbstractBaseModel
-  project uuid [ref: > project.id]
+  project uuid [ref: > Project.id]
   title varchar
   description varchar
   url URLField
   accomplished_on DateField
 }
 
-Table affiliate {
-  //created
-  //formerly sponsor_partner
+Table Affiliate {
   ~AbstractBaseModel
   partner_name varchar
   partner_logo URLField
@@ -27,121 +25,113 @@ Table affiliate {
   url URLField
   is_org_sponsor boolean
   is_org_partner boolean
-  //considering adding org_id
 }
 
-Table cancelled_event {
+Table CancelledEvent {
   ~AbstractBaseModel
-  event int [ref: > event.id]
-  cancelled_event_date date
+  event int [ref: > Event.id]
+  cancelled_event_date DateTimeField
   reason varchar
-  user int [ref: > user.id]
+  user int [ref: > User.id]
   name varchar
   description varchar
-  event_type int [ref: > event_type.id]
+  event_type int [ref: > EventType.id]
   start_time datetime
   duration_in_min int
-  project int [ref: > project.id]
+  project int [ref: > Project.id]
   video_conference_url URLField
-  location int [ref: > location.id]
-  org int [ref: > org.id]
+  location int [ref: > Location.id]
+  org int [ref: > Org.id]
   additional_info varchar
   must_attend JSON
   should_attend JSON
   could_attend JSON
 }
 
-Table check_in {
+Table CheckIn {
   ~AbstractBaseModel
-  occurance int [ref: > event_occurrence.id]
-  user int [ref: > user.id]
+  occurance int [ref: > EventOccurrence.id]
+  user int [ref: > User.id]
   checked_in DateTimeField
 }
 
-Table check_type [note: 'Data tab: https://docs.google.com/spreadsheets/d/1x_zZ8JLS2hO-zG0jUocOJmX16jh-DF5dccrd_OEGNZ0/edit?gid=1784987068#gid=1784987068']{
-  //created
+Table CheckType {
   ~AbstractBaseModel
   name varchar
   description varchar
 }
 
-Table event {
-  //created
+Table Event {
   ~AbstractBaseModel
   name varchar
   description varchar
-  event_type int [ref: > event_type.id]
+  event_type int [ref: > EventType.id]
   start_time DateTimeField
   duration_in_min int
-  rrule RecurrenceField [note: 'recurrence rule, used by django-recurrence']
-  project int [ref: > project.id]
+  rrule RecurrenceField
+  project int [ref: > Project.id]
   video_conference_url URLField
-  location int [ref: > location.id]
-  org int [ref: > org.id]
+  location int [ref: > Location.id]
+  org int [ref: > Org.id]
   additional_info varchar
   must_attend JSON
   should_attend JSON
   could_attend JSON
 }
 
-Table event_occurrence {
+Table EventOccurrence {
   ~AbstractBaseModel
-  event int [ref: > event.id]
+  event int [ref: > Event.id]
   name varchar
   description varchar
-  event_type int [ref: > event_type.id]
-  start_time datetime
+  event_type int [ref: > EventType.id]
+  start_time DateTimeField
   duration_in_min int
-  project int [ref: > project.id]
+  project int [ref: > Project.id]
   video_conference_url URLField
-  location int [ref: > location.id]
-  org int [ref: > org.id]
+  location int [ref: > Location.id]
+  org int [ref: > Org.id]
   additional_info varchar
   must_attend JSON
   should_attend JSON
   could_attend JSON
 }
 
-Table event_type {
-  //created
+Table EventType {
   ~AbstractBaseModel
   name varchar
   description varchar
 }
 
-Table faq {
-  //created
+Table Faq {
   ~AbstractBaseModel
   question varchar
   answer varchar
-  project int [ref: > project.id]
-  permission_type int [ref: > permission_type.id]
+  project int [ref: > Project.id]
+  permission_type int [ref: > PermissionType.id]
   title varchar
 }
 
-Table faq_viewed {
-  //created
+Table FaqViewed {
   ~AbstractBaseModel
-  faq int [ref: > faq.id]
+  faq int [ref: > Faq.id]
   read DateTimeField
 }
 
-Table language {
+Table Language {
   ~AbstractBaseModel
   name varchar
   description varchar
   logo URLField
 }
 
-Table leadership_type {
-  //created
+Table LeadershipType {
   ~AbstractBaseModel
   name varchar
   description varchar
 }
 
-Table location {
-  //created
+Table Location {
   ~AbstractBaseModel
   name varchar
   address_line_1 varchar
@@ -152,318 +142,299 @@ Table location {
   phone varchar
 }
 
-Table modern_job_title {
+Table ModernJobTitle {
   ~AbstractBaseModel
-  soc_detailed int [ref: > soc_detailed.id]
+  soc_detailed int [ref: > SocDetailed.id]
   title varchar
 }
 
-Table org {
+Table Org {
   ~AbstractBaseModel
   name varchar
   time_zone varchar
 }
 
-Table user_permission {
-  //created
+Table UserPermission {
   ~AbstractBaseModel
-  user int [ref: > user.id]
-  project int [ref: > project.id]
-  permission_type int [ref: > permission_type.id]
-  practice_area int [ref: > practice_area.id]
+  user int [ref: > User.id]
+  project int [ref: > Project.id]
+  permission_type int [ref: > PermissionType.id]
+  practice_area int [ref: > PracticeArea.id]
   granted DateTimeField
   ended DateTimeField
-  created_by int [ref: > user.id]
-  updated_by int [ref: > user.id]
+  created_by int [ref: > User.id]
+  updated_by int [ref: > User.id]
 }
 
-Table permission_history {
+Table PermissionHistory {
   ~AbstractBaseModel
-  user int [ref: > user.id]
-  project int [ref: > project.id]
-  permission_type int [ref: > permission_type.id]
-  practice_area int [ref: > practice_area.id]
+  user int [ref: > User.id]
+  project int [ref: > Project.id]
+  permission_type int [ref: > PermissionType.id]
+  practice_area int [ref: > PracticeArea.id]
   granted DateTimeField
   ended DateTimeField
   created_by int
   updated_by int
 }
 
-Table permission_type {
-  //created
+Table PermissionType {
   ~AbstractBaseModel
   name varchar
   description varchar
 }
 
-Table practice_area {
-  //created
-  ~AbstractBaseModel
-  name varchar
-  description varchar
-  image URLField
-}
-
-Table program_area {
-  //created
+Table PracticeArea {
   ~AbstractBaseModel
   name varchar
   description varchar
   image URLField
 }
 
-Table project {
-  //created
+Table ProgramArea {
+  ~AbstractBaseModel
+  name varchar
+  description varchar
+  image URLField
+}
+
+Table Project {
   ~AbstractBaseModel
   name String
   description String
   completed_on date
-  github_org int [ref: - project_url.id, note: 'The unique id assigned to GitHub orgs. A foreign key to a row in project_url that corresponds to the org repo link']
-  github_primary_repo int [ref: - project_url.id, note: 'A project might have many repos, this is for the primary starting place for new users. A foreign key to a row in project_url that corresponds to the primary repo']
-  current_status int [ref: > project_program_area_status_type.id]
+  github_org int [ref: - ProjectUrl.id]
+  github_primary_repo int [ref: - ProjectUrl.id]
+  current_status int [ref: > ProjectProgramAreaStatusType.id]
   hide Boolean
-  location int [ref: > location.id]
-  google_drive int [ref: > project_url.id, note: 'The unique id of the google drive, used for adding people with automation. A foreign key to a row in project_url that corresponds to the google drive.']
-  project_leads int[ ] (user_id)
-  leadership_type int [ref: > leadership_type.id]
+  location int [ref: > Location.id]
+  google_drive int [ref: > ProjectUrl.id]
+  project_leads int[] (user_id)
+  leadership_type int [ref: > LeadershipType.id]
   image_logo URLField
   image_hero URLField
   image_icon URLField
 }
 
-Table project_affiliate_xref {
-  //created
+Table ProjectAffiliateXref {
   ~AbstractBaseModel
-  affiliate int [ref: > affiliate.id]
-  project int [ref: > project.id]
+  affiliate int [ref: > Affiliate.id]
+  project int [ref: > Project.id]
   ended_on DateField
   is_sponsor boolean
   is_partner boolean
 }
 
-Table project_language_xref {
+Table ProjectLanguageXref {
   ~AbstractBaseModel
-  project int [ref: > project.id]
-  language int [ref: > language.id]
+  project int [ref: > Project.id]
+  language int [ref: > Language.id]
   started_on DateTimeField
   ended_on DateTimeField
 }
 
-Table project_program_area_xref {
-  //created
+Table ProjectProgramAreaXref {
   ~AbstractBaseModel
-  project int [ref: > project.id]
-  program_area int [ref: > program_area.id]
+  project int [ref: > Project.id]
+  program_area int [ref: > ProgramArea.id]
 }
 
-Table project_sdg_xref {
-  //created
+Table ProjectSdgXref {
   ~AbstractBaseModel
-  sdg int [ref: > sdg.id]
-  project int [ref: > project.id]
+  sdg int [ref: > Sdg.id]
+  project int [ref: > Project.id]
   ended_on DateField
 }
 
-Table project_stack_element_xref {
+Table ProjectStackElementXref {
   ~AbstractBaseModel
-  project int [ref: > project.id]
-  stack_element int [ref: > stack_element.id]
+  project int [ref: > Project.id]
+  stack_element int [ref: > StackElement.id]
   removed_on DateField
 }
 
-Table project_program_area_status_type [note: 'currently named projectstatus in code'] {
-  //created
+Table ProjectProgramAreaStatusType {
   ~AbstractBaseModel
   name varchar
   description varchar
 }
 
-Table project_program_area_status_history [note: 'currently named project_program_area_status in open issue']{
+Table ProjectProgramAreaStatusHistory {
   ~AbstractBaseModel
-  project int [ref: > project.id]
-  status int [ref: > project_program_area_status_type.id]
+  project int [ref: > Project.id]
+  status int [ref: > ProjectProgramAreaStatusType.id]
 }
 
-Table project_url {
+Table ProjectUrl {
   ~AbstractBaseModel
-  project int [ref: > project.id]
-  url_type int [ref: > url_type.id]
+  project int [ref: > Project.id]
+  url_type int [ref: > UrlType.id]
   name CharField
-  external_id CharField [note: 'resource id provided by GitHub or google']
+  external_id CharField
   url URLField
-  url_status_type int [ref: > url_status_type.id]
+  url_status_type int [ref: > UrlStatusType.id]
 }
 
-Table referrer {
-  //created
+Table Referrer {
   ~AbstractBaseModel
   name varchar
   url URLField
-  referrer_type int [ref: > referrer_type.id]
+  referrer_type int [ref: > ReferrerType.id]
   contact_name varchar
   contact_email EmailField
 }
 
-Table referrer_type {
-  //created
+Table ReferrerType {
   ~AbstractBaseModel
   name varchar
   description varchar
 }
 
-Table sdg {
-  //created
+Table Sdg {
   ~AbstractBaseModel
   name varchar
   description varchar
   image URLField
 }
 
-Table sdg_target_indicator {
+Table SdgTargetIndicator {
   ~AbstractBaseModel
-  sdg int [ref: > sdg.id]
+  sdg int [ref: > Sdg.id]
   code varchar
   description_number varchar
   description_text varchar
 }
 
-Table skill {
-  //created
+Table Skill {
   ~AbstractBaseModel
   name varchar
   description varchar
 }
 
-Table soc_broad {
+Table SocBroad {
   ~AbstractBaseModel
-  soc_minor int [ref: > soc_minor.id]
+  soc_minor int [ref: > SocMinor.id]
   occ_code varchar
   title varchar
 }
 
-Table soc_detailed {
+Table SocDetailed {
   ~AbstractBaseModel
-  soc_broad int [ref: > soc_broad.id]
+  soc_broad int [ref: > SocBroad.id]
   occ_code varchar
   title varchar
   description varchar
 }
 
-Table soc_major {
-  //created
+Table SocMajor {
   ~AbstractBaseModel
   occ_code varchar
   title varchar
 }
 
-Table soc_minor {
+Table SocMinor {
   ~AbstractBaseModel
-  soc_major int [ref: > soc_major.id]
+  soc_major int [ref: > SocMajor.id]
   occ_code varchar
   title varchar
 }
 
-Table stack_element {
-  //created
+Table StackElement {
   ~AbstractBaseModel
   name varchar
   description varchar
   url URLField
   logo URLField
   active boolean
-  stack_element_type int [ref: > stack_element_type.id]
+  stack_element_type int [ref: > StackElementType.id]
 }
 
-Table stack_element_type {
-  //created
+Table StackElementType {
   ~AbstractBaseModel
   name varchar
   description varchar
 }
 
-Table url_status_type {
+Table UrlStatusType {
   ~AbstractBaseModel
   name varchar
   description varchar
 }
 
-Table url_type {
-  //created
+Table UrlType {
   ~AbstractBaseModel
   name varchar
   description varchar
 }
 
-Table user {
-  //created
+Table User {
   ~AbstractBaseModel
   first_name varchar
   last_name varchar
-  email EmailField [note:'The email given during intake']
+  email EmailField
   email_gmail EmailField
   email_preferred EmailField
-  is_active bool [default: True, note:'Required by django. A boolean field that indicates whether the user\'s account is active.']
-  user_status int [ref: > user_status_type.id]
-  practice_area_primary int [ref: > practice_area.id]
-  practice_area_secondary int[] [ref: <> practice_area.id]
+  is_active bool [default: True]
+  user_status int [ref: > UserStatusType.id]
+  practice_area_primary int [ref: > PracticeArea.id]
+  practice_area_secondary int[] [ref: <> PracticeArea.id]
   job_title_current varchar
-  practice_area_target int[] [ref: <> practice_area.id]
+  practice_area_target int[] [ref: <> PracticeArea.id]
   job_title_target varchar
   current_skills varchar
   target_skills varchar
   linkedin_account URLField
-  referred_by int [ref: > referrer.id]
+  referred_by int [ref: > Referrer.id]
   github_handle varchar
   phone varchar
   texting_ok boolean
   slack_id varchar(11)
-  time_zone varchar [note: 'full time zone name']
+  time_zone varchar
 }
 
-Table user_availability {
+Table UserAvailability {
   ~AbstractBaseModel
-  user int [ref: > user.id, not null]
+  user int [ref: > User.id, not null]
   day_of_week day (enum)
-  start time
+  start TimeField
   duration_minutes int
 }
 
-Table user_check {
+Table UserCheck {
   ~AbstractBaseModel
-  user int [ref: > user.id]
-  org int [ref: > org.id]
-  check_type int [ref: > check_type.id]
+  user int [ref: > User.id]
+  org int [ref: > Org.id]
+  check_type int [ref: > CheckType.id]
   result boolean
   reminder_start DateTimeField
   completed_at DateTimeField
-  project int [ref: > project.id]
+  project int [ref: > Project.id]
 }
 
-Table user_employment_history {
+Table UserEmploymentHistory {
   ~AbstractBaseModel
-  user int [ref: > user.id]
-  soc_detailed int [ref: > soc_detailed.id]
+  user int [ref: > User.id]
+  soc_detailed int [ref: > SocDetailed.id]
   title varchar
 }
 
-Table user_status_type {
-  //created
+Table UserStatusType {
   ~AbstractBaseModel
   name varchar
   description varchar
 }
 
-Table win {
+Table Win {
   ~AbstractBaseModel
-  user int [ref: > user.id]
-  practice_areas int[] [ref: <> practice_area.id]
-  teams int[] [ref: <> project.id]
+  user int [ref: > User.id]
+  practice_areas int[] [ref: <> PracticeArea.id]
+  teams int[] [ref: <> Project.id]
   description varchar
-  win_type int [ref: > win_type.id]
+  win_type int [ref: > WinType.id]
   can_use_photo boolean
 }
 
-Table win_type {
+Table WinType {
   ~AbstractBaseModel
   name varchar
   display_text varchar
