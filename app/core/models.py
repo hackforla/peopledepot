@@ -352,16 +352,16 @@ class PermissionHistory(AbstractBaseModel):
     """
 
     user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="user_permission_history"
+        User, on_delete=models.PROTECT, related_name="user_permission_history"
     )
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
-    permission_type = models.ForeignKey(PermissionType, on_delete=models.CASCADE)
-    practice_area = models.ForeignKey(PracticeArea, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, on_delete=models.PROTECT)
+    permission_type = models.ForeignKey(PermissionType, on_delete=models.PROTECT)
+    practice_area = models.ForeignKey(PracticeArea, on_delete=models.PROTECT)
     created_by = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="user_permission_created_by"
+        User, on_delete=models.PROTECT, related_name="user_permission_created_by"
     )
     updated_by = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="user_permission_updated_by"
+        User, on_delete=models.PROTECT, related_name="user_permission_updated_by"
     )
     granted = models.DateTimeField("Granted", null=True, blank=True)
     ended = models.DateTimeField("Ended", null=True, blank=True)
