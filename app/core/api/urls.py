@@ -25,6 +25,7 @@ from .views import SocMajorViewSet
 from .views import SocMinorViewSet
 from .views import StackElementTypeViewSet
 from .views import StackElementViewSet
+from .views import UrlStatusTypeViewSet
 from .views import UrlTypeViewSet
 from .views import UserPermissionViewSet
 from .views import UserProfileAPIView
@@ -72,6 +73,8 @@ router.register(
     ProjectStackElementXrefViewSet,
     basename="project-stack-element",
 )
+router.register(r"url-status-types", UrlStatusTypeViewSet, basename="url-status-type")
+
 urlpatterns = [
     path("me/", UserProfileAPIView.as_view(), name="my_profile"),
 ]

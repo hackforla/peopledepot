@@ -560,13 +560,27 @@ class Referrer(AbstractBaseModel):
         return f"{self.name}"
 
 
+class UrlStatusType(AbstractBaseModel):
+    """
+    Dictionary of URL status values (e.g., active, archived, 404).
+    """
+
+    name = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.name
+
+
 class ProjectUrl(AbstractBaseModel):
     project = models.ForeignKey(Project, null=True, on_delete=models.PROTECT)
     url_type = models.ForeignKey(UrlType, null=True, on_delete=models.PROTECT)
     name = models.CharField(max_length=255)
     external_id = models.CharField(max_length=255, blank=True, default="")
     url = models.URLField(blank=True)
-    # url_status_type = models.ForeignKey(UrlStatusType, null=True, on_delete=models.PROTECT)
+    url_status_type = models.ForeignKey(
+        UrlStatusType, null=True, on_delete=models.PROTECT
+    )
 
     def __str__(self):
         return f"{self.name}"
