@@ -537,5 +537,5 @@ class UrlStatusTypeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UrlStatusType
-        fields = ("uuid", "name", "description")
+        fields = ("uuid", "name", "description", "created_at", "updated_at")
         read_only_fields = ("uuid", "created_at", "updated_at")
