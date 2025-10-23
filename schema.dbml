@@ -33,7 +33,7 @@ Table affiliate {
 Table cancelled_event {
   ~AbstractBaseModel
   event int [ref: > event.id]
-  cancelled_event_date date
+  cancelled_event_date DateTimeField
   reason varchar
   user int [ref: > user.id]
   name varchar
@@ -90,7 +90,7 @@ Table event_occurrence {
   name varchar
   description varchar
   event_type int [ref: > event_type.id]
-  start_time datetime
+  start_time DateTimeField
   duration_in_min int
   project int [ref: > project.id]
   video_conference_url URLField
@@ -424,7 +424,7 @@ Table user_availability {
   ~AbstractBaseModel
   user int [ref: > user.id, not null]
   day_of_week day (enum)
-  start time
+  start TimeField
   duration_minutes int
 }
 
