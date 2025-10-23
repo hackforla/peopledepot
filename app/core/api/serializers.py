@@ -485,19 +485,7 @@ class ReferrerSerializer(serializers.ModelSerializer):
         read_only_fields = ("uuid", "created_at", "updated_at")
 
 
-# Helper class to represent UUID PKs as strings
-class UUIDPKRelatedField(serializers.PrimaryKeyRelatedField):
-    def to_representation(self, value):
-        return str(super().to_representation(value))
-
-
 class ProjectUrlSerializer(serializers.ModelSerializer):
-    url_status_type = UUIDPKRelatedField(
-        queryset=UrlStatusType.objects.all(),
-        allow_null=True,
-        required=False,
-    )
-
     class Meta:
         model = ProjectUrl
         fields = (

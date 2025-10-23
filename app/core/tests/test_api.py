@@ -752,12 +752,12 @@ def test_project_url_accepts_status_type(
         "name": "Readme",
         "external_id": "",
         "url": "https://example.com/readme",
-        "url_status_type": str(url_status_type.uuid),
+        "url_status_type": url_status_type.pk,
     }
     res = auth_client.post(reverse("project-url-list"), payload)
     assert res.status_code == status.HTTP_201_CREATED
 
-    assert res.data["url_status_type"] == str(url_status_type.uuid)
+    assert res.data["url_status_type"] == url_status_type.pk
 
     pu = ProjectUrl.objects.get(uuid=res.data["uuid"])
     assert pu.url_status_type == url_status_type
@@ -770,7 +770,7 @@ def test_project_url_rejects_invalid_status_type(auth_client, project, url_type)
         "name": "Bad Status FK",
         "external_id": "",
         "url": "https://example.com/bad",
-        "url_status_type": str(UUID("00000000-0000-0000-0000-000000000000")),
+        "url_status_type": "00000000-0000-0000-0000-000000000000",
     }
     res = auth_client.post(reverse("project-url-list"), payload)
     assert res.status_code == status.HTTP_400_BAD_REQUEST
@@ -790,7 +790,7 @@ def test_cannot_delete_url_status_type_in_use(
             "name": "Wiki",
             "external_id": "",
             "url": "https://example.com/wiki",
-            "url_status_type": str(url_status_type.uuid),
+            "url_status_type": url_status_type.pk,
         },
     )
     assert res.status_code == status.HTTP_201_CREATED
@@ -799,8 +799,7 @@ def test_cannot_delete_url_status_type_in_use(
     delete_res = auth_client.delete(
         reverse("url-status-type-detail", args=[url_status_type.uuid])
     )
-    # DRF will return 400 because deletion is protected by FK
-    assert delete_res.status_code == status.HTTP_400_BAD_REQUEST
+    assert delete_res.status_code == status.HTTP_409_CONFLICT
     assert "protect" in str(delete_res.data).lower()
 
 

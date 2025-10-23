@@ -557,8 +557,6 @@ class UrlStatusTypeViewSet(viewsets.ModelViewSet):
                         "Cannot delete UrlStatusType because it is referenced by one or "
                         "more ProjectUrl records."
                     ),
-                    "protected": [str(obj.uuid) for obj in e.protected_objects],
-                },
                     "protected": [str(obj.pk) for obj in e.protected_objects],
                 },
                 status=status.HTTP_409_CONFLICT,
