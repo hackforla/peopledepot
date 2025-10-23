@@ -559,6 +559,8 @@ class UrlStatusTypeViewSet(viewsets.ModelViewSet):
                     ),
                     "protected": [str(obj.uuid) for obj in e.protected_objects],
                 },
-                status=status.HTTP_400_BAD_REQUEST,
+                    "protected": [str(obj.pk) for obj in e.protected_objects],
+                },
+                status=status.HTTP_409_CONFLICT,
             )
         return Response(status=status.HTTP_204_NO_CONTENT)
