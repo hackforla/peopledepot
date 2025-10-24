@@ -500,6 +500,7 @@ class SocMinor(AbstractBaseModel):
     occ_code = models.CharField(max_length=255)
     title = models.CharField(max_length=255)
 
+
 class Accomplishment(AbstractBaseModel):
     project = models.ForeignKey(Project, on_delete=models.DO_NOTHING)
     title = models.CharField(max_length=255)

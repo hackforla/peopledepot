@@ -403,6 +403,7 @@ def url_status_type(db):
         name="active", description="URL is live and valid"
     )
 
+
 @pytest.fixture
 def accomplishment(project):
     return Accomplishment.objects.create(
@@ -410,5 +411,5 @@ def accomplishment(project):
         title="Test Accomplishment",
         description="This is a test accomplishment",
         url="https://redwind01.com",
-        accomplished_on="2025-09-11T18:05:00Z"
+        accomplished_on="2025-09-11T18:05:00Z",
     )

@@ -328,6 +328,7 @@ class ProjectStackElementXrefAdmin(admin.ModelAdmin):
 class UrlStatusTypeAdmin(admin.ModelAdmin):
     list_display = ("name", "description")
 
+
 @admin.register(Accomplishment)
 class AccomplishmentAdmin(admin.ModelAdmin):
     list_display = (

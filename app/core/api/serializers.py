@@ -442,6 +442,7 @@ class SocMinorSerializer(serializers.ModelSerializer):
         fields = ("uuid", "soc_major", "occ_code", "title")
         read_only_fields = ("uuid", "created_at", "updated_at")
 
+
 class AccomplishmentSerializer(serializers.ModelSerializer):
     """Used to retrieve accomplishment info"""
 

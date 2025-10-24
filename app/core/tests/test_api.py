@@ -474,6 +474,7 @@ def test_soc_minor_soc_major_relationship(auth_client, soc_minor, soc_major):
 
     assert soc_major_exists is True
 
+
 def test_accomplishment(auth_client, project):
     """Test that we can create a accomplishment"""
 
