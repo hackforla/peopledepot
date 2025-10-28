@@ -14,6 +14,7 @@ from .models import Faq
 from .models import FaqViewed
 from .models import LeadershipType
 from .models import Location
+from .models import Organization
 from .models import PermissionType
 from .models import PracticeArea
 from .models import ProgramArea
@@ -326,3 +327,10 @@ class ProjectStackElementXrefAdmin(admin.ModelAdmin):
 @admin.register(UrlStatusType)
 class UrlStatusTypeAdmin(admin.ModelAdmin):
     list_display = ("name", "description")
+
+
+@admin.register(Organization)
+class OrganizationAdmin(admin.ModelAdmin):
+    list_display = ("name", "time_zone")
+    search_fields = ("name",)
+    list_filter = ("time_zone",)

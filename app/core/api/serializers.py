@@ -10,6 +10,7 @@ from core.models import Faq
 from core.models import FaqViewed
 from core.models import LeadershipType
 from core.models import Location
+from core.models import Organization
 from core.models import PermissionType
 from core.models import PracticeArea
 from core.models import ProgramArea
@@ -526,4 +527,13 @@ class UrlStatusTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = UrlStatusType
         fields = ("uuid", "name", "description", "created_at", "updated_at")
+        read_only_fields = ("uuid", "created_at", "updated_at")
+
+
+class OrganizationSerializer(serializers.ModelSerializer):
+    time_zone = TimeZoneSerializerField(use_pytz=False)
+
+    class Meta:
+        model = Organization
+        fields = ("uuid", "name", "time_zone", "created_at", "updated_at")
         read_only_fields = ("uuid", "created_at", "updated_at")
