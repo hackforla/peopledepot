@@ -18,7 +18,7 @@ class AbstractBaseModel(models.Model):
         primary_key=True, default=uuid.uuid4, editable=False, unique=True
     )
     created_at = models.DateTimeField("Created at", auto_now_add=True)
-    updated_at = models.DateTimeField("Updated at", auto_now=True)
+    # updated_at = models.DateTimeField("Updated at", auto_now=True)
 
     class Meta:
         abstract = True
@@ -493,6 +493,16 @@ class SocMajor(AbstractBaseModel):
 
     def __str__(self):
         return self.title
+
+
+class Accomplishment(AbstractBaseModel):
+    project_id = models.ForeignKey(Project, on_delete=models.DO_NOTHING)
+    title = models.CharField(max_length=255)
+    description = models.CharField(max_length=255)
+    url = models.URLField()
+    accomplished_on = models.DateTimeField()
+    # created_date = models.DateTimeField() already in abstrat base model
+    # last_updated = models
 
 
 class SocMinor(AbstractBaseModel):
