@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.contrib.admin.filters import AllValuesFieldListFilter
 from django.contrib.auth.admin import UserAdmin as DefaultUserAdmin
 from django.contrib.auth.forms import UserChangeForm as DefaultUserChangeForm
 from django.contrib.auth.forms import UserCreationForm as DefaultUserCreationForm
@@ -333,4 +334,4 @@ class UrlStatusTypeAdmin(admin.ModelAdmin):
 class OrganizationAdmin(admin.ModelAdmin):
     list_display = ("name", "time_zone")
     search_fields = ("name",)
-    list_filter = ("time_zone",)
+    list_filter = (("time_zone", AllValuesFieldListFilter),)
