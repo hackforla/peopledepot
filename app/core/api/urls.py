@@ -10,6 +10,7 @@ from .views import FaqViewedViewSet
 from .views import FaqViewSet
 from .views import LeadershipTypeViewSet
 from .views import LocationViewSet
+from .views import OrganizationViewSet
 from .views import PermissionTypeViewSet
 from .views import PracticeAreaViewSet
 from .views import ProgramAreaViewSet
@@ -74,6 +75,7 @@ router.register(
     basename="project-stack-element",
 )
 router.register(r"url-status-types", UrlStatusTypeViewSet, basename="url-status-type")
+router.register(r"organizations", OrganizationViewSet, basename="organization")
 
 urlpatterns = [
     path("me/", UserProfileAPIView.as_view(), name="my_profile"),

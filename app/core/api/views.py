@@ -23,6 +23,7 @@ from ..models import Faq
 from ..models import FaqViewed
 from ..models import LeadershipType
 from ..models import Location
+from ..models import Organization
 from ..models import PermissionType
 from ..models import PracticeArea
 from ..models import ProgramArea
@@ -51,6 +52,7 @@ from .serializers import FaqSerializer
 from .serializers import FaqViewedSerializer
 from .serializers import LeadershipTypeSerializer
 from .serializers import LocationSerializer
+from .serializers import OrganizationSerializer
 from .serializers import PermissionTypeSerializer
 from .serializers import PracticeAreaSerializer
 from .serializers import ProgramAreaSerializer
@@ -562,3 +564,17 @@ class UrlStatusTypeViewSet(viewsets.ModelViewSet):
                 status=status.HTTP_409_CONFLICT,
             )
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+@extend_schema_view(
+    list=extend_schema(description="Return a list of all organizations"),
+    create=extend_schema(description="Create a new organization"),
+    retrieve=extend_schema(description="Return the details of an organization"),
+    destroy=extend_schema(description="Delete an organization"),
+    update=extend_schema(description="Update an organization"),
+    partial_update=extend_schema(description="Patch an organization"),
+)
+class OrganizationViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = Organization.objects.all()
+    serializer_class = OrganizationSerializer

@@ -431,3 +431,7 @@ def test_protect_deletion_when_in_use(project_url, url_status_type):
 def test_status_is_nullable(project_url):
     # Field allows null=True; default should be None unless set
     assert project_url.url_status_type is None
+
+
+def test_organization_str(organization):
+    assert str(organization) == "Hack for LA"

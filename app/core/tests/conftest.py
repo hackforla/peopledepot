@@ -13,6 +13,7 @@ from ..models import Faq
 from ..models import FaqViewed
 from ..models import LeadershipType
 from ..models import Location
+from ..models import Organization
 from ..models import PermissionType
 from ..models import PracticeArea
 from ..models import ProgramArea
@@ -400,4 +401,12 @@ def project_stack_element_xref(project, stack_element):
 def url_status_type(db):
     return UrlStatusType.objects.create(
         name="active", description="URL is live and valid"
+    )
+
+
+@pytest.fixture
+def organization():
+    return Organization.objects.create(
+        name="Hack for LA",
+        time_zone="America/Los_Angeles",
     )

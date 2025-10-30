@@ -6,6 +6,7 @@ from rest_framework import status
 
 from core.api.serializers import ProgramAreaSerializer
 from core.api.serializers import UserSerializer
+from core.models import Organization
 from core.models import ProgramArea
 from core.models import ProjectStackElementXref
 from core.models import ProjectUrl
@@ -45,6 +46,7 @@ SOC_MINORS_URL = reverse("soc-minor-list")
 URL_TYPE_URL = reverse("url-type-list")
 PROJECT_STACK_ELEMENTS_URL = reverse("project-stack-element-list")
 URL_STATUS_TYPES_URL = reverse("url-status-type-list")
+ORGANIZATIONS_URL = reverse("organization-list")
 
 CREATE_USER_PAYLOAD = {
     "username": "TestUserAPI",
@@ -811,3 +813,45 @@ def test_delete_unused_url_status_type(auth_client):
 
     del_res = auth_client.delete(reverse("url-status-type-detail", args=[uuid_]))
     assert del_res.status_code == 204
+
+
+def test_create_organization(auth_client):
+    payload = {"name": "Civic Tech Org", "time_zone": "America/Los_Angeles"}
+    res = auth_client.post(ORGANIZATIONS_URL, payload)
+    assert res.status_code == status.HTTP_201_CREATED
+    assert res.data["name"] == payload["name"]
+    assert res.data["time_zone"] == payload["time_zone"]
+    assert Organization.objects.filter(uuid=res.data["uuid"]).exists()
+
+
+def test_list_organizations(auth_client, organization):
+    res = auth_client.get(ORGANIZATIONS_URL)
+    assert res.status_code == status.HTTP_200_OK
+    assert any(item["name"] == "Hack for LA" for item in res.data)
+
+
+def test_retrieve_update_delete_organization(auth_client, organization):
+    detail = reverse("organization-detail", args=[organization.pk])
+
+    # retrieve
+    res = auth_client.get(detail)
+    assert res.status_code == status.HTTP_200_OK
+    assert res.data["name"] == "Hack for LA"
+
+    # partial update
+    res = auth_client.patch(detail, {"time_zone": "America/New_York"})
+    assert res.status_code == status.HTTP_200_OK
+    assert res.data["time_zone"] == "America/New_York"
+
+    # uniqueness guard
+    Organization.objects.create(name="Unique Org", time_zone="UTC")
+    res = auth_client.post(
+        ORGANIZATIONS_URL, {"name": "Unique Org", "time_zone": "UTC"}
+    )
+    assert res.status_code == status.HTTP_400_BAD_REQUEST
+    assert any("unique" in str(v).lower() for v in res.data.values())
+
+    # delete
+    res = auth_client.delete(detail)
+    assert res.status_code == status.HTTP_204_NO_CONTENT
+    assert not Organization.objects.filter(uuid=organization.uuid).exists()

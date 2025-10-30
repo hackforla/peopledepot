@@ -611,3 +611,15 @@ class ProjectStackElementXref(AbstractBaseModel):
         return (
             f"Project: {self.project.name} -> StackElement: {self.stack_element.name}"
         )
+
+
+class Organization(AbstractBaseModel):
+    """
+    An organization with a display name and default time zone.
+    """
+
+    name = models.CharField(max_length=255, unique=True)
+    time_zone = TimeZoneField(use_pytz=False)
+
+    def __str__(self) -> str:
+        return self.name
