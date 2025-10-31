@@ -46,5 +46,5 @@ Any existing columns that need to be changed are added to the table below (ex: n
 
 ### Resources
 
-- [Entity Relationship Diagram (ERD)](https://lucid.app/lucidchart/ac2f3e81-00d2-4257-b1fc-266d7f0a4cbe/view)
+- [Entity Relationship Diagram (ERD)](https://dbdiagram.io/d/People-Depot-Schema-ERD-68917d4edd90d178656e4061)
 - [PD: Table and field explanations, Field Permissions](https://docs.google.com/spreadsheets/d/1x_zZ8JLS2hO-zG0jUocOJmX16jh-DF5dccrd_OEGNZ0/edit?gid=371053454#gid=371053454)
