@@ -623,3 +623,54 @@ class Organization(AbstractBaseModel):
 
     def __str__(self) -> str:
         return self.name
+
+
+class UserCheck(AbstractBaseModel):
+    """
+    Represents a specific check performed for a user.
+    """
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="user_checks",
+    )
+    org = models.ForeignKey(
+        Organization,
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True,
+        related_name="user_checks",
+    )
+    check_type = models.ForeignKey(
+        CheckType,
+        on_delete=models.PROTECT,
+        related_name="user_checks",
+    )
+    result = models.BooleanField(
+        null=True,
+        help_text="Result of the check (Yes/No). Unknown if null.",
+    )
+    reminder_start = models.DateTimeField(
+        null=True, blank=True, help_text="When reminders should start."
+    )
+    completed_at = models.DateTimeField(
+        null=True, blank=True, help_text="When the check was completed."
+    )
+    project = models.ForeignKey(
+        Project,
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True,
+        related_name="user_checks",
+    )
+
+    class Meta:
+        indexes = [
+            models.Index(fields=["user", "check_type"]),
+            models.Index(fields=["org"]),
+            models.Index(fields=["project"]),
+        ]
+
+    def __str__(self):
+        return f"{self.user.username} - {self.check_type.name} ({'done' if self.result else 'pending'})"

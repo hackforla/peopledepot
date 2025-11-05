@@ -435,3 +435,29 @@ def test_status_is_nullable(project_url):
 
 def test_organization_str(organization):
     assert str(organization) == "Hack for LA"
+
+
+def test_user_check_str_and_nullable_fields(user_check):
+    # String shows user + check_type + pending
+    assert "pending" in str(user_check)
+    assert user_check.result is None
+    assert user_check.completed_at is None
+    assert user_check.reminder_start is None
+
+
+def test_user_check_relationships(user_check):
+    assert user_check.user is not None
+    assert user_check.org is not None
+    assert user_check.check_type is not None
+    assert user_check.project is not None
+
+
+def test_user_check_complete_flow(user_check):
+    user_check.result = True
+    user_check.completed_at = (
+        user_check.created_at
+    )  # any datetime works; reuse created_at
+    user_check.save()
+    user_check.refresh_from_db()
+    assert user_check.result is True
+    assert user_check.completed_at is not None

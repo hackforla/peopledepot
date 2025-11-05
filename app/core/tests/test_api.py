@@ -11,6 +11,7 @@ from core.models import ProgramArea
 from core.models import ProjectStackElementXref
 from core.models import ProjectUrl
 from core.models import UrlStatusType
+from core.models import UserCheck
 from core.models import UserPermission
 
 pytestmark = pytest.mark.django_db
@@ -47,6 +48,7 @@ URL_TYPE_URL = reverse("url-type-list")
 PROJECT_STACK_ELEMENTS_URL = reverse("project-stack-element-list")
 URL_STATUS_TYPES_URL = reverse("url-status-type-list")
 ORGANIZATIONS_URL = reverse("organization-list")
+USER_CHECKS_URL = reverse("user-check-list")
 
 CREATE_USER_PAYLOAD = {
     "username": "TestUserAPI",
@@ -855,3 +857,48 @@ def test_retrieve_update_delete_organization(auth_client, organization):
     res = auth_client.delete(detail)
     assert res.status_code == status.HTTP_204_NO_CONTENT
     assert not Organization.objects.filter(uuid=organization.uuid).exists()
+
+
+def test_create_user_check(auth_client, user, organization, check_type, project):
+    payload = {
+        "user": user.pk,
+        "org": organization.pk,
+        "check_type": check_type.pk,
+        "result": True,
+        "reminder_start": "2024-01-01 10:00:00",
+        "completed_at": "2024-01-02 11:00:00",
+        "project": project.pk,
+    }
+
+    res = auth_client.post(USER_CHECKS_URL, payload)
+
+    assert res.status_code == status.HTTP_201_CREATED
+    assert UserCheck.objects.filter(uuid=res.data["uuid"]).exists()
+    assert res.data["result"] is True
+
+
+def test_list_user_checks(auth_client, user_check):
+    res = auth_client.get(USER_CHECKS_URL)
+
+    assert res.status_code == status.HTTP_200_OK
+    assert len(res.data) == 1
+    assert res.data[0]["user"] == user_check.user.pk
+
+
+def test_retrieve_update_delete_user_check(auth_client, user_check):
+    detail = reverse("user-check-detail", args=[user_check.pk])
+
+    # retrieve
+    res = auth_client.get(detail)
+    assert res.status_code == status.HTTP_200_OK
+    assert res.data["user"] == user_check.user.pk
+
+    # partial update
+    res = auth_client.patch(detail, {"result": False})
+    assert res.status_code == status.HTTP_200_OK
+    assert res.data["result"] is False
+
+    # delete
+    res = auth_client.delete(detail)
+    assert res.status_code == status.HTTP_204_NO_CONTENT
+    assert not UserCheck.objects.filter(uuid=user_check.uuid).exists()

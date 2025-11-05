@@ -29,6 +29,7 @@ from core.models import StackElementType
 from core.models import UrlStatusType
 from core.models import UrlType
 from core.models import User
+from core.models import UserCheck
 from core.models import UserPermission
 from core.models import UserStatusType
 
@@ -536,4 +537,22 @@ class OrganizationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Organization
         fields = ("uuid", "name", "time_zone", "created_at", "updated_at")
+        read_only_fields = ("uuid", "created_at", "updated_at")
+
+
+class UserCheckSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserCheck
+        fields = (
+            "uuid",
+            "created_at",
+            "updated_at",
+            "user",
+            "org",
+            "check_type",
+            "result",
+            "reminder_start",
+            "completed_at",
+            "project",
+        )
         read_only_fields = ("uuid", "created_at", "updated_at")

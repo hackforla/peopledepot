@@ -41,6 +41,7 @@ from ..models import StackElement
 from ..models import StackElementType
 from ..models import UrlStatusType
 from ..models import UrlType
+from ..models import UserCheck
 from ..models import UserPermission
 from ..models import UserStatusType
 from .serializers import AffiliateSerializer
@@ -70,6 +71,7 @@ from .serializers import StackElementSerializer
 from .serializers import StackElementTypeSerializer
 from .serializers import UrlStatusTypeSerializer
 from .serializers import UrlTypeSerializer
+from .serializers import UserCheckSerializer
 from .serializers import UserPermissionSerializer
 from .serializers import UserSerializer
 from .serializers import UserStatusTypeSerializer
@@ -578,3 +580,17 @@ class OrganizationViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = Organization.objects.all()
     serializer_class = OrganizationSerializer
+
+
+@extend_schema_view(
+    list=extend_schema(description="Return a list of all the user checks"),
+    create=extend_schema(description="Create a new user check"),
+    retrieve=extend_schema(description="Return the details of a user check"),
+    destroy=extend_schema(description="Delete a user check"),
+    update=extend_schema(description="Update a user check"),
+    partial_update=extend_schema(description="Patch a user check"),
+)
+class UserCheckViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = UserCheck.objects.all()
+    serializer_class = UserCheckSerializer
