@@ -5,6 +5,7 @@ from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.models import UserManager
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.db import models
+from django.db.models import Q
 from phonenumber_field.modelfields import PhoneNumberField
 from timezone_field import TimeZoneField
 
@@ -623,3 +624,81 @@ class Organization(AbstractBaseModel):
 
     def __str__(self) -> str:
         return self.name
+
+
+class UserCheck(AbstractBaseModel):
+    """
+    Represents a specific check performed for a user.
+    """
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="user_checks",
+    )
+    org = models.ForeignKey(
+        Organization,
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True,
+        related_name="user_checks",
+    )
+    check_type = models.ForeignKey(
+        CheckType,
+        on_delete=models.PROTECT,
+        related_name="user_checks",
+    )
+    result = models.BooleanField(
+        null=True,
+        help_text="Result of the check (Yes/No). Unknown if null.",
+        db_comment="Result of the check (Yes/No). Unknown if null.",
+    )
+    reminder_start = models.DateTimeField(
+        null=True,
+        blank=True,
+        help_text="When reminders should start.",
+        db_comment="Timestamp when reminder workflow begins.",
+    )
+    completed_at = models.DateTimeField(
+        null=True,
+        blank=True,
+        help_text="When the check was completed.",
+        db_comment="Completion timestamp; NULL if pending.",
+    )
+    project = models.ForeignKey(
+        Project,
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True,
+        related_name="user_checks",
+    )
+
+    class Meta:
+        indexes = [
+            models.Index(fields=["user", "check_type"]),
+            models.Index(fields=["org"]),
+            models.Index(fields=["project"]),
+        ]
+        constraints = [
+            # Only one global check per user+type (org/project NULL)
+            models.UniqueConstraint(
+                fields=["user", "check_type"],
+                condition=Q(org__isnull=True, project__isnull=True),
+                name="uniq_global_user_check",
+            ),
+            # Only one org-scoped check per user+type+org
+            models.UniqueConstraint(
+                fields=["user", "check_type", "org"],
+                condition=Q(org__isnull=False),
+                name="uniq_org_user_check",
+            ),
+            # Only one project-scoped check per user+type+project
+            models.UniqueConstraint(
+                fields=["user", "check_type", "project"],
+                condition=Q(project__isnull=False),
+                name="uniq_project_user_check",
+            ),
+        ]
+
+    def __str__(self):
+        return f"{self.user.username} - {self.check_type.name} ({'done' if self.result else 'pending'})"

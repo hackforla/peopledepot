@@ -32,6 +32,7 @@ from ..models import StackElementType
 from ..models import UrlStatusType
 from ..models import UrlType
 from ..models import User
+from ..models import UserCheck
 from ..models import UserPermission
 from ..models import UserStatusType
 
@@ -409,4 +410,17 @@ def organization():
     return Organization.objects.create(
         name="Hack for LA",
         time_zone="America/Los_Angeles",
+    )
+
+
+@pytest.fixture
+def user_check(user, organization, check_type, project):
+    return UserCheck.objects.create(
+        user=user,
+        org=organization,
+        check_type=check_type,
+        result=None,
+        reminder_start=None,
+        completed_at=None,
+        project=project,
     )

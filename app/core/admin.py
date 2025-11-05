@@ -34,6 +34,7 @@ from .models import StackElementType
 from .models import UrlStatusType
 from .models import UrlType
 from .models import User
+from .models import UserCheck
 from .models import UserStatusType
 
 
@@ -335,3 +336,19 @@ class OrganizationAdmin(admin.ModelAdmin):
     list_display = ("name", "time_zone")
     search_fields = ("name",)
     list_filter = (("time_zone", AllValuesFieldListFilter),)
+
+
+@admin.register(UserCheck)
+class UserCheckAdmin(admin.ModelAdmin):
+    list_display = (
+        "user",
+        "check_type",
+        "org",
+        "project",
+        "result",
+        "reminder_start",
+        "completed_at",
+        "created_at",
+    )
+    search_fields = ("user__username", "check_type__name", "org__name", "project__name")
+    list_filter = ("result", "check_type", "org", "project")
