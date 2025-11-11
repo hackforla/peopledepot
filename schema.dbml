@@ -18,6 +18,8 @@ Table Accomplishment {
 }
 
 Table Affiliate {
+  //created
+  //formerly sponsor_partner
   ~AbstractBaseModel
   partner_name varchar
   partner_logo URLField
@@ -25,6 +27,7 @@ Table Affiliate {
   url URLField
   is_org_sponsor boolean
   is_org_partner boolean
+  //considering adding org_id
 }
 
 Table CancelledEvent {
@@ -46,6 +49,7 @@ Table CancelledEvent {
   must_attend JSON
   should_attend JSON
   could_attend JSON
+  version_of uuid [ref: > Event.id]
 }
 
 Table CheckIn {
@@ -55,20 +59,22 @@ Table CheckIn {
   checked_in DateTimeField
 }
 
-Table CheckType {
+Table CheckType [note: 'Data tab: https://docs.google.com/spreadsheets/d/1x_zZ8JLS2hO-zG0jUocOJmX16jh-DF5dccrd_OEGNZ0/edit?gid=1784987068#gid=1784987068'] {
+  //created
   ~AbstractBaseModel
   name varchar
   description varchar
 }
 
 Table Event {
+  //created
   ~AbstractBaseModel
   name varchar
   description varchar
   event_type int [ref: > EventType.id]
   start_time DateTimeField
   duration_in_min int
-  rrule RecurrenceField
+  rrule RecurrenceField [note: 'recurrence rule, used by django-recurrence']
   project int [ref: > Project.id]
   video_conference_url URLField
   location int [ref: > Location.id]
@@ -77,6 +83,8 @@ Table Event {
   must_attend JSON
   should_attend JSON
   could_attend JSON
+  last_generated DateTimeField
+  version_of uuid [ref: > Event.id]
 }
 
 Table EventOccurrence {
@@ -95,15 +103,18 @@ Table EventOccurrence {
   must_attend JSON
   should_attend JSON
   could_attend JSON
+  version_of uuid [ref: > Event.id]
 }
 
 Table EventType {
+  //created
   ~AbstractBaseModel
   name varchar
   description varchar
 }
 
 Table Faq {
+  //created
   ~AbstractBaseModel
   question varchar
   answer varchar
@@ -113,6 +124,7 @@ Table Faq {
 }
 
 Table FaqViewed {
+  //created
   ~AbstractBaseModel
   faq int [ref: > Faq.id]
   read DateTimeField
@@ -126,12 +138,14 @@ Table Language {
 }
 
 Table LeadershipType {
+  //created
   ~AbstractBaseModel
   name varchar
   description varchar
 }
 
 Table Location {
+  //created
   ~AbstractBaseModel
   name varchar
   address_line_1 varchar
@@ -155,6 +169,7 @@ Table Org {
 }
 
 Table UserPermission {
+  //created
   ~AbstractBaseModel
   user int [ref: > User.id]
   project int [ref: > Project.id]
@@ -179,12 +194,14 @@ Table PermissionHistory {
 }
 
 Table PermissionType {
+  //created
   ~AbstractBaseModel
   name varchar
   description varchar
 }
 
 Table PracticeArea {
+  //created
   ~AbstractBaseModel
   name varchar
   description varchar
@@ -192,6 +209,7 @@ Table PracticeArea {
 }
 
 Table ProgramArea {
+  //created
   ~AbstractBaseModel
   name varchar
   description varchar
@@ -199,16 +217,17 @@ Table ProgramArea {
 }
 
 Table Project {
+  //created
   ~AbstractBaseModel
   name String
   description String
   completed_on date
-  github_org int [ref: - ProjectUrl.id]
-  github_primary_repo int [ref: - ProjectUrl.id]
+  github_org int [ref: - ProjectUrl.id, note: 'The unique id assigned to GitHub orgs. A foreign key to a row in ProjectUrl that corresponds to the org repo link']
+  github_primary_repo int [ref: - ProjectUrl.id, note: 'A project might have many repos, this is for the primary starting place for new users. A foreign key to a row in ProjectUrl that corresponds to the primary repo']
   current_status int [ref: > ProjectProgramAreaStatusType.id]
   hide Boolean
   location int [ref: > Location.id]
-  google_drive int [ref: > ProjectUrl.id]
+  google_drive int [ref: > ProjectUrl.id, note: 'The unique id of the google drive, used for adding people with automation. A foreign key to a row in ProjectUrl that corresponds to the google drive.']
   project_leads int[] (user_id)
   leadership_type int [ref: > LeadershipType.id]
   image_logo URLField
@@ -217,6 +236,7 @@ Table Project {
 }
 
 Table ProjectAffiliateXref {
+  //created
   ~AbstractBaseModel
   affiliate int [ref: > Affiliate.id]
   project int [ref: > Project.id]
@@ -234,12 +254,14 @@ Table ProjectLanguageXref {
 }
 
 Table ProjectProgramAreaXref {
+  //created
   ~AbstractBaseModel
   project int [ref: > Project.id]
   program_area int [ref: > ProgramArea.id]
 }
 
 Table ProjectSdgXref {
+  //created
   ~AbstractBaseModel
   sdg int [ref: > Sdg.id]
   project int [ref: > Project.id]
@@ -253,13 +275,14 @@ Table ProjectStackElementXref {
   removed_on DateField
 }
 
-Table ProjectProgramAreaStatusType {
+Table ProjectProgramAreaStatusType [note: 'currently named projectstatus in code'] {
+  //created
   ~AbstractBaseModel
   name varchar
   description varchar
 }
 
-Table ProjectProgramAreaStatusHistory {
+Table ProjectProgramAreaStatusHistory [note: 'currently named project_program_area_status in open issue'] {
   ~AbstractBaseModel
   project int [ref: > Project.id]
   status int [ref: > ProjectProgramAreaStatusType.id]
@@ -270,12 +293,13 @@ Table ProjectUrl {
   project int [ref: > Project.id]
   url_type int [ref: > UrlType.id]
   name CharField
-  external_id CharField
+  external_id CharField [note: 'resource id provided by GitHub or google']
   url URLField
   url_status_type int [ref: > UrlStatusType.id]
 }
 
 Table Referrer {
+  //created
   ~AbstractBaseModel
   name varchar
   url URLField
@@ -285,12 +309,14 @@ Table Referrer {
 }
 
 Table ReferrerType {
+  //created
   ~AbstractBaseModel
   name varchar
   description varchar
 }
 
 Table Sdg {
+  //created
   ~AbstractBaseModel
   name varchar
   description varchar
@@ -306,6 +332,7 @@ Table SdgTargetIndicator {
 }
 
 Table Skill {
+  //created
   ~AbstractBaseModel
   name varchar
   description varchar
@@ -327,6 +354,7 @@ Table SocDetailed {
 }
 
 Table SocMajor {
+  //created
   ~AbstractBaseModel
   occ_code varchar
   title varchar
@@ -340,6 +368,7 @@ Table SocMinor {
 }
 
 Table StackElement {
+  //created
   ~AbstractBaseModel
   name varchar
   description varchar
@@ -350,6 +379,7 @@ Table StackElement {
 }
 
 Table StackElementType {
+  //created
   ~AbstractBaseModel
   name varchar
   description varchar
@@ -362,19 +392,21 @@ Table UrlStatusType {
 }
 
 Table UrlType {
+  //created
   ~AbstractBaseModel
   name varchar
   description varchar
 }
 
 Table User {
+  //created
   ~AbstractBaseModel
   first_name varchar
   last_name varchar
-  email EmailField
+  email EmailField [note:'The email given during intake']
   email_gmail EmailField
   email_preferred EmailField
-  is_active bool [default: True]
+  is_active bool [default: True, note:'Required by django. A boolean field that indicates whether the user\'s account is active.']
   user_status int [ref: > UserStatusType.id]
   practice_area_primary int [ref: > PracticeArea.id]
   practice_area_secondary int[] [ref: <> PracticeArea.id]
@@ -389,7 +421,7 @@ Table User {
   phone varchar
   texting_ok boolean
   slack_id varchar(11)
-  time_zone varchar
+  time_zone varchar [note: 'full time zone name']
 }
 
 Table UserAvailability {
@@ -419,6 +451,7 @@ Table UserEmploymentHistory {
 }
 
 Table UserStatusType {
+  //created
   ~AbstractBaseModel
   name varchar
   description varchar
