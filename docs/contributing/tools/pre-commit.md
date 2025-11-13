@@ -116,3 +116,7 @@ Sometimes, we need to disable a few specific rules that are causing problems. We
     This rule is broken in the following way:
 
     1. It asks the operating system to check if the file is executable and checks the file for a shebang. But NTFS does not have the notion of the executable bit, and will always return `True` for all files. So files like `app/core/admin.py` that's not meant to be executable will look like they are executable, and cause the rule to fail, because it doesn't contain a shebang.
+
+??? info "Compile requirements.txt"
+
+    We're using `uv` to generate the `requirements.txt` file, and we're using `uv` to install the dependencies, so the `compile` rule is not needed.

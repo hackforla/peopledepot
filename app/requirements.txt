@@ -6,7 +6,7 @@ attrs==25.4.0
     #   referencing
 cffi==2.0.0
     # via cryptography
-coverage==7.11.1
+coverage==7.11.2
     # via pytest-cov
 cryptography==46.0.3
     # via pyjwt
@@ -65,7 +65,7 @@ pygments==2.19.2
     # via pytest
 pyjwt==2.10.1
     # via drf-jwt
-pytest==8.4.2
+pytest==9.0.0
     # via
     #   pytest-cov
     #   pytest-django
@@ -88,6 +88,8 @@ rpds-py==0.28.0
     #   referencing
 sqlparse==0.5.3
     # via django
+typing-extensions==4.15.0
+    # via referencing
 tzdata==2025.2
     # via -r app/requirements.in
 uritemplate==4.2.0
