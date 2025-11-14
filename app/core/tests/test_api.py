@@ -11,6 +11,7 @@ from core.models import ProgramArea
 from core.models import ProjectStackElementXref
 from core.models import ProjectUrl
 from core.models import UrlStatusType
+from core.models import UserCheck
 from core.models import UserPermission
 
 pytestmark = pytest.mark.django_db
@@ -47,6 +48,7 @@ URL_TYPE_URL = reverse("url-type-list")
 PROJECT_STACK_ELEMENTS_URL = reverse("project-stack-element-list")
 URL_STATUS_TYPES_URL = reverse("url-status-type-list")
 ORGANIZATIONS_URL = reverse("organization-list")
+USER_CHECKS_URL = reverse("user-check-list")
 
 CREATE_USER_PAYLOAD = {
     "username": "TestUserAPI",
@@ -855,3 +857,136 @@ def test_retrieve_update_delete_organization(auth_client, organization):
     res = auth_client.delete(detail)
     assert res.status_code == status.HTTP_204_NO_CONTENT
     assert not Organization.objects.filter(uuid=organization.uuid).exists()
+
+
+def test_create_user_check(auth_client, user, organization, check_type, project):
+    payload = {
+        "user": user.pk,
+        "org": organization.pk,
+        "check_type": check_type.pk,
+        "result": True,
+        "reminder_start": "2024-01-01 10:00:00",
+        "completed_at": "2024-01-02 11:00:00",
+        "project": project.pk,
+    }
+
+    res = auth_client.post(USER_CHECKS_URL, payload)
+
+    assert res.status_code == status.HTTP_201_CREATED
+    assert UserCheck.objects.filter(uuid=res.data["uuid"]).exists()
+    assert res.data["result"] is True
+
+
+def test_list_user_checks(auth_client, user_check):
+    res = auth_client.get(USER_CHECKS_URL)
+
+    assert res.status_code == status.HTTP_200_OK
+    assert len(res.data) == 1
+    assert res.data[0]["user"] == user_check.user.pk
+
+
+def test_retrieve_update_delete_user_check(auth_client, user_check):
+    detail = reverse("user-check-detail", args=[user_check.pk])
+
+    # retrieve
+    res = auth_client.get(detail)
+    assert res.status_code == status.HTTP_200_OK
+    assert res.data["user"] == user_check.user.pk
+
+    # partial update
+    res = auth_client.patch(detail, {"result": False})
+    assert res.status_code == status.HTTP_200_OK
+    assert res.data["result"] is False
+
+    # delete
+    res = auth_client.delete(detail)
+    assert res.status_code == status.HTTP_204_NO_CONTENT
+    assert not UserCheck.objects.filter(uuid=user_check.uuid).exists()
+
+
+def test_api_create_global_usercheck_allowed(auth_client, user, check_type):
+    payload = {"user": user.pk, "check_type": check_type.pk}  # no org/project
+    response = auth_client.post(USER_CHECKS_URL, payload)
+    assert response.status_code == status.HTTP_201_CREATED
+    assert UserCheck.objects.filter(uuid=response.data["uuid"]).exists()
+    assert response.data["org"] is None
+    assert response.data["project"] is None
+
+
+def test_api_prevent_duplicate_active_global_usercheck(auth_client, user, check_type):
+    """
+    API should reject a second ACTIVE global UserCheck for the same user+check_type.
+    """
+    payload = {"user": user.pk, "check_type": check_type.pk}
+
+    # First create should succeed (no org, no project => global scope)
+    first_response = auth_client.post(USER_CHECKS_URL, payload)
+    assert first_response.status_code == status.HTTP_201_CREATED
+
+    # Second create with the same scope should hit the DB unique constraint
+    second_response = auth_client.post(USER_CHECKS_URL, payload)
+    assert second_response.status_code == status.HTTP_400_BAD_REQUEST
+    # optional: check that the error message mentions uniqueness
+    assert any(
+        "unique" in str(message).lower() for message in second_response.data.values()
+    )
+
+
+def test_api_allow_new_global_after_complete(auth_client, user, check_type):
+    # create active
+    r1 = auth_client.post(
+        USER_CHECKS_URL, {"user": user.pk, "check_type": check_type.pk}
+    )
+    assert r1.status_code == status.HTTP_201_CREATED
+
+    # mark completed so it's no longer "active"
+    detail = reverse("user-check-detail", args=[r1.data["uuid"]])
+    r_patch = auth_client.patch(detail, {"completed_at": "2024-01-02T11:00:00Z"})
+    assert r_patch.status_code == status.HTTP_200_OK
+
+    # now new active global should be allowed
+    r2 = auth_client.post(
+        USER_CHECKS_URL, {"user": user.pk, "check_type": check_type.pk}
+    )
+    assert r2.status_code == status.HTTP_201_CREATED
+
+
+def test_api_prevent_duplicate_active_org_usercheck(
+    auth_client, user, check_type, organization
+):
+    payload = {"user": user.pk, "check_type": check_type.pk, "org": organization.pk}
+    r1 = auth_client.post(USER_CHECKS_URL, payload)
+    assert r1.status_code == status.HTTP_201_CREATED
+
+    # duplicate active org-scoped → blocked by uniq_active_org_user_check
+    r2 = auth_client.post(USER_CHECKS_URL, payload)
+    assert r2.status_code == status.HTTP_400_BAD_REQUEST
+
+
+def test_api_prevent_duplicate_active_project_usercheck(
+    auth_client, user, check_type, project
+):
+    payload = {"user": user.pk, "check_type": check_type.pk, "project": project.pk}
+    r1 = auth_client.post(USER_CHECKS_URL, payload)
+    assert r1.status_code == status.HTTP_201_CREATED
+
+    # duplicate active project-scoped → blocked by uniq_active_project_user_check
+    r2 = auth_client.post(USER_CHECKS_URL, payload)
+    assert r2.status_code == status.HTTP_400_BAD_REQUEST
+
+
+def test_api_allow_org_and_project_same_type_different_scopes(
+    auth_client, user, check_type, organization, project
+):
+    # org-scoped active
+    r1 = auth_client.post(
+        USER_CHECKS_URL,
+        {"user": user.pk, "check_type": check_type.pk, "org": organization.pk},
+    )
+    assert r1.status_code == status.HTTP_201_CREATED
+    # project-scoped active for same user+type is allowed (different constraint)
+    r2 = auth_client.post(
+        USER_CHECKS_URL,
+        {"user": user.pk, "check_type": check_type.pk, "project": project.pk},
+    )
+    assert r2.status_code == status.HTTP_201_CREATED

@@ -28,6 +28,7 @@ from .views import StackElementTypeViewSet
 from .views import StackElementViewSet
 from .views import UrlStatusTypeViewSet
 from .views import UrlTypeViewSet
+from .views import UserCheckViewSet
 from .views import UserPermissionViewSet
 from .views import UserProfileAPIView
 from .views import UserStatusTypeViewSet
@@ -76,6 +77,7 @@ router.register(
 )
 router.register(r"url-status-types", UrlStatusTypeViewSet, basename="url-status-type")
 router.register(r"organizations", OrganizationViewSet, basename="organization")
+router.register(r"user-checks", UserCheckViewSet, basename="user-check")
 
 urlpatterns = [
     path("me/", UserProfileAPIView.as_view(), name="my_profile"),
