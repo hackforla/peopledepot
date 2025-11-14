@@ -457,9 +457,7 @@ def test_user_check_relationships(user_check):
 
 def test_user_check_complete_flow(user_check):
     user_check.result = True
-    user_check.completed_at = (
-        user_check.created_at
-    )
+    user_check.completed_at = user_check.created_at
     user_check.save()
     user_check.refresh_from_db()
     assert user_check.result is True
