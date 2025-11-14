@@ -541,6 +541,23 @@ class OrganizationSerializer(serializers.ModelSerializer):
 
 
 class UserCheckSerializer(serializers.ModelSerializer):
+    org = serializers.PrimaryKeyRelatedField(
+        queryset=Organization.objects.all(),
+        required=False,
+        allow_null=True,
+        default=None,
+    )
+    project = serializers.PrimaryKeyRelatedField(
+        queryset=Project.objects.all(),
+        required=False,
+        allow_null=True,
+        default=None,
+    )
+    check_type = serializers.PrimaryKeyRelatedField(queryset=CheckType.objects.all())
+    result = serializers.BooleanField(required=False, allow_null=True)
+    reminder_start = serializers.DateTimeField(required=False, allow_null=True)
+    completed_at = serializers.DateTimeField(required=False, allow_null=True)
+
     class Meta:
         model = UserCheck
         fields = (
@@ -556,3 +573,6 @@ class UserCheckSerializer(serializers.ModelSerializer):
             "project",
         )
         read_only_fields = ("uuid", "created_at", "updated_at")
+
+    def validate(self, attrs):
+        return super().validate(attrs)

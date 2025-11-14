@@ -2,7 +2,9 @@ import re
 
 import pytest
 from django.db import IntegrityError
+from django.db import transaction
 from django.db.models.deletion import ProtectedError
+from django.utils import timezone
 
 from ..models import Event
 from ..models import PracticeArea
@@ -15,6 +17,7 @@ from ..models import ProjectUrl
 from ..models import ReferrerType
 from ..models import Sdg
 from ..models import User
+from ..models import UserCheck
 from ..models import UserStatusType
 
 pytestmark = pytest.mark.django_db
@@ -456,8 +459,178 @@ def test_user_check_complete_flow(user_check):
     user_check.result = True
     user_check.completed_at = (
         user_check.created_at
-    )  # any datetime works; reuse created_at
+    )
     user_check.save()
     user_check.refresh_from_db()
     assert user_check.result is True
     assert user_check.completed_at is not None
+
+
+def test_usercheck_unique_active_global_per_user_type(user, check_type):
+    # 1st ACTIVE global (org=None, project=None, completed_at=None)
+    UserCheck.objects.create(user=user, check_type=check_type)
+
+    # 2nd ACTIVE global for same (user, check_type) -> violates uniq_active_global_user_check
+    with pytest.raises(IntegrityError), transaction.atomic():
+        UserCheck.objects.create(user=user, check_type=check_type)
+
+    # Complete the first -> a new ACTIVE global is allowed
+    uc = UserCheck.objects.get(user=user, check_type=check_type)
+    uc.completed_at = timezone.now()
+    uc.save()
+    UserCheck.objects.create(user=user, check_type=check_type)
+
+
+def test_usercheck_unique_active_org_scope(user, organization, check_type):
+    UserCheck.objects.create(user=user, check_type=check_type, org=organization)
+    with pytest.raises(IntegrityError), transaction.atomic():
+        UserCheck.objects.create(user=user, check_type=check_type, org=organization)
+
+    uc = UserCheck.objects.get(user=user, check_type=check_type, org=organization)
+    uc.completed_at = timezone.now()
+    uc.save()
+    UserCheck.objects.create(user=user, check_type=check_type, org=organization)  # OK
+
+
+def test_usercheck_unique_active_project_scope(user, project, check_type):
+    UserCheck.objects.create(user=user, check_type=check_type, project=project)
+    with pytest.raises(IntegrityError), transaction.atomic():
+        UserCheck.objects.create(user=user, check_type=check_type, project=project)
+
+    uc = UserCheck.objects.get(user=user, check_type=check_type, project=project)
+    uc.completed_at = timezone.now()
+    uc.save()
+    UserCheck.objects.create(user=user, check_type=check_type, project=project)  # OK
+
+
+def test_usercheck_cross_scopes_allowed_simultaneously(
+    user, organization, project, check_type
+):
+    """
+    We allow one ACTIVE per scope at the same time:
+      - one ACTIVE global
+      - one ACTIVE org-scoped
+      - one ACTIVE project-scoped
+    """
+    global_user_check = UserCheck.objects.create(
+        user=user,
+        check_type=check_type,
+    )
+    org_user_check = UserCheck.objects.create(
+        user=user,
+        check_type=check_type,
+        org=organization,
+    )
+    project_user_check = UserCheck.objects.create(
+        user=user,
+        check_type=check_type,
+        project=project,
+    )
+
+    assert global_user_check.pk is not None
+    assert org_user_check.pk is not None
+    assert project_user_check.pk is not None
+
+
+def test_usercheck_completed_rows_can_duplicate_keys(
+    user, organization, project, check_type
+):
+    """
+    Completed rows (completed_at IS NOT NULL) are NOT constrained by the unique
+    rules. Multiple historical rows with same key are allowed.
+    """
+    now = timezone.now()
+
+    # global duplicates (completed)
+    UserCheck.objects.create(user=user, check_type=check_type, completed_at=now)
+    UserCheck.objects.create(user=user, check_type=check_type, completed_at=now)
+
+    # org duplicates (completed)
+    UserCheck.objects.create(
+        user=user, check_type=check_type, org=organization, completed_at=now
+    )
+    UserCheck.objects.create(
+        user=user, check_type=check_type, org=organization, completed_at=now
+    )
+
+    # project duplicates (completed)
+    UserCheck.objects.create(
+        user=user, check_type=check_type, project=project, completed_at=now
+    )
+    UserCheck.objects.create(
+        user=user, check_type=check_type, project=project, completed_at=now
+    )
+
+
+def test_model_prevent_duplicate_active_global_usercheck(user, check_type):
+    """
+    Model-level: only one ACTIVE global (org=None, project=None, completed_at=None)
+    UserCheck per user + check_type.
+    """
+    # First active global check is allowed
+    UserCheck.objects.create(user=user, check_type=check_type)
+
+    # Second active global check should violate uniq_active_global_user_check
+    with pytest.raises(IntegrityError):
+        UserCheck.objects.create(user=user, check_type=check_type)
+
+
+def test_model_prevent_duplicate_active_org_usercheck(user, organization, check_type):
+    """
+    Model-level: only one ACTIVE org-scoped UserCheck per user + check_type + org.
+    """
+    # First active org-scoped check is allowed
+    UserCheck.objects.create(user=user, check_type=check_type, org=organization)
+
+    # Second active org-scoped check should violate uniq_active_org_user_check
+    with pytest.raises(IntegrityError):
+        UserCheck.objects.create(
+            user=user,
+            check_type=check_type,
+            org=organization,
+        )
+
+
+def test_model_prevent_duplicate_active_project_usercheck(user, project, check_type):
+    """
+    Model-level: only one ACTIVE project-scoped UserCheck per user + check_type + project.
+    """
+    # First active project-scoped check is allowed
+    UserCheck.objects.create(user=user, check_type=check_type, project=project)
+
+    # Second active project-scoped check should violate uniq_active_project_user_check
+    with pytest.raises(IntegrityError):
+        UserCheck.objects.create(
+            user=user,
+            check_type=check_type,
+            project=project,
+        )
+
+
+def test_model_allows_multiple_inactive_userchecks_same_scope(
+    user, organization, check_type, project
+):
+    """
+    Completed (inactive) checks should not be blocked by the 'active' unique constraints.
+    """
+    global_completed = UserCheck.objects.create(
+        user=user,
+        check_type=check_type,
+        completed_at=timezone.now(),
+    )
+    org_completed = UserCheck.objects.create(
+        user=user,
+        check_type=check_type,
+        org=organization,
+        completed_at=timezone.now(),
+    )
+    project_completed = UserCheck.objects.create(
+        user=user,
+        check_type=check_type,
+        project=project,
+        completed_at=timezone.now(),
+    )
+
+    assert global_completed.completed_at is not None
+    assert org_completed.completed_at is not None
+    assert project_completed.completed_at is not None
