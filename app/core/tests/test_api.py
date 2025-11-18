@@ -13,6 +13,7 @@ from core.models import ProjectUrl
 from core.models import UrlStatusType
 from core.models import UserCheck
 from core.models import UserPermission
+from core.models import WinType
 
 pytestmark = pytest.mark.django_db
 
@@ -49,6 +50,7 @@ PROJECT_STACK_ELEMENTS_URL = reverse("project-stack-element-list")
 URL_STATUS_TYPES_URL = reverse("url-status-type-list")
 ORGANIZATIONS_URL = reverse("organization-list")
 USER_CHECKS_URL = reverse("user-check-list")
+WIN_TYPES_URL = reverse("win-type-list")
 
 CREATE_USER_PAYLOAD = {
     "username": "TestUserAPI",
@@ -995,3 +997,33 @@ def test_api_allow_org_and_project_same_type_different_scopes(
         {"user": user.pk, "check_type": check_type.pk, "project": project.pk},
     )
     assert r2.status_code == status.HTTP_201_CREATED
+
+
+def test_create_win_type(auth_client):
+    payload = {"name": "funding", "display_text": "Funding / Grant awarded"}
+    res = auth_client.post(WIN_TYPES_URL, payload)
+    assert res.status_code == status.HTTP_201_CREATED
+    assert res.data["name"] == payload["name"]
+    assert res.data["display_text"] == payload["display_text"]
+    assert WinType.objects.filter(uuid=res.data["uuid"]).exists()
+
+
+def test_list_win_types(auth_client):
+    WinType.objects.create(name="funding", display_text="Funding / Grant awarded")
+    WinType.objects.create(name="milestone", display_text="Major delivery milestone")
+
+    res = auth_client.get(WIN_TYPES_URL)
+    assert res.status_code == status.HTTP_200_OK
+    names = {item["name"] for item in res.data}
+    assert "funding" in names
+    assert "milestone" in names
+
+
+def test_prevent_duplicate_win_type_name(auth_client):
+    WinType.objects.create(name="funding", display_text="Funding / Grant awarded")
+
+    payload = {"name": "funding", "display_text": "Another label"}
+    res = auth_client.post(WIN_TYPES_URL, payload)
+
+    assert res.status_code == status.HTTP_400_BAD_REQUEST
+    assert any("unique" in str(err).lower() for err in res.data.values())

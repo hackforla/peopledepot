@@ -35,6 +35,7 @@ from ..models import User
 from ..models import UserCheck
 from ..models import UserPermission
 from ..models import UserStatusType
+from ..models import WinType
 
 
 @pytest.fixture
@@ -423,4 +424,12 @@ def user_check(user, organization, check_type, project):
         reminder_start=None,
         completed_at=None,
         project=project,
+    )
+
+
+@pytest.fixture
+def win_type():
+    return WinType.objects.create(
+        name="funding",
+        display_text="Funding / Grant awarded",
     )

@@ -32,6 +32,7 @@ from core.models import User
 from core.models import UserCheck
 from core.models import UserPermission
 from core.models import UserStatusType
+from core.models import WinType
 
 
 class PracticeAreaSerializer(serializers.ModelSerializer):
@@ -572,4 +573,11 @@ class UserCheckSerializer(serializers.ModelSerializer):
             "completed_at",
             "project",
         )
+        read_only_fields = ("uuid", "created_at", "updated_at")
+
+
+class WinTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = WinType
+        fields = ("uuid", "name", "display_text", "created_at", "updated_at")
         read_only_fields = ("uuid", "created_at", "updated_at")

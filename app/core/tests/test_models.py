@@ -588,3 +588,13 @@ def test_model_prevent_duplicate_project_usercheck(user, project, check_type):
             check_type=check_type,
             project=project,
         )
+
+
+def test_win_type_str(win_type):
+    # __str__ should be the name
+    assert str(win_type) == "funding"
+
+
+def test_win_type_fields(win_type):
+    assert win_type.name == "funding"
+    assert win_type.display_text == "Funding / Grant awarded"

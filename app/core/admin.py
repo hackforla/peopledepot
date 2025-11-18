@@ -36,6 +36,7 @@ from .models import UrlType
 from .models import User
 from .models import UserCheck
 from .models import UserStatusType
+from .models import WinType
 
 
 class UserCreationForm(DefaultUserCreationForm):
@@ -352,3 +353,8 @@ class UserCheckAdmin(admin.ModelAdmin):
     )
     search_fields = ("user__username", "check_type__name", "org__name", "project__name")
     list_filter = ("result", "check_type", "org", "project")
+
+
+@admin.register(WinType)
+class WinTypeAdmin(admin.ModelAdmin):
+    list_display = ("name", "display_text")
