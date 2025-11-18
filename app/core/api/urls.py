@@ -33,6 +33,7 @@ from .views import UserPermissionViewSet
 from .views import UserProfileAPIView
 from .views import UserStatusTypeViewSet
 from .views import UserViewSet
+from .views import WinTypeViewSet
 
 router = routers.SimpleRouter()
 router.register(r"user-permissions", UserPermissionViewSet, basename="user-permission")
@@ -78,6 +79,7 @@ router.register(
 router.register(r"url-status-types", UrlStatusTypeViewSet, basename="url-status-type")
 router.register(r"organizations", OrganizationViewSet, basename="organization")
 router.register(r"user-checks", UserCheckViewSet, basename="user-check")
+router.register(r"win-types", WinTypeViewSet, basename="win-type")
 
 urlpatterns = [
     path("me/", UserProfileAPIView.as_view(), name="my_profile"),

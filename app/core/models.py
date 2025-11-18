@@ -702,3 +702,18 @@ class UserCheck(AbstractBaseModel):
 
     def __str__(self):
         return f"{self.user.username} - {self.check_type.name} ({'done' if self.result else 'pending'})"
+
+
+class WinType(AbstractBaseModel):
+    """
+    Lookup table for different types of 'wins'
+    """
+
+    name = models.CharField(max_length=255, unique=True)
+    display_text = models.CharField(max_length=255)
+
+    class Meta:
+        ordering = ["name"]
+
+    def __str__(self) -> str:
+        return self.name
