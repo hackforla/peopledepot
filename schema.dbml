@@ -413,8 +413,14 @@ Table User {
   job_title_current varchar
   practice_area_target int[] [ref: <> PracticeArea.id]
   job_title_target varchar
-  current_skills varchar
-  target_skills varchar
+  intake_present_job_title	varchar
+  intake_present_skills	varchar
+  intake_target_job_titles	varchar
+  intake_target_skills	int[ ]
+  current_job_title	varchar
+  current_skills	int[ ]
+  current_target_job_titles	varchar
+  current_target_skills	varchar
   linkedin_account URLField
   referred_by int [ref: > Referrer.id]
   github_handle varchar
