@@ -17,6 +17,8 @@ class AbstractBaseModel(models.Model):
     uuid = models.UUIDField(
         primary_key=True, default=uuid.uuid4, editable=False, unique=True
     )
+    created_at = models.DateTimeField("Created at", auto_now_add=True)
+    updated_at = models.DateTimeField("Updated at", auto_now=True)
 
     class Meta:
         abstract = True
@@ -501,11 +503,46 @@ class SocMinor(AbstractBaseModel):
     title = models.CharField(max_length=255)
 
 class Accomplishment(AbstractBaseModel):
-    project = models.ForeignKey(Project, on_delete=models.DO_NOTHING)
-    title = models.CharField(max_length=255)
-    description = models.CharField(max_length=255)
-    url = models.URLField()
-    accomplished_on = models.DateTimeField()
+    """
+    Project accomplishments and milestones
+    """
+
+    project = models.ForeignKey(
+        Project,
+        on_delete=models.PROTECT,
+        related_name="accomplishments",
+        db_comment="Project this accomplishment belongs to",
+        help_text="Project this accomplishment belongs to",
+    )
+    title = models.CharField(
+        max_length=255,
+        db_comment="Title of the accomplishment",
+        help_text="Title of the accomplishment",
+    )
+    description = models.TextField(
+        db_comment="Detailed description of the accomplishment",
+        help_text="Detailed description of the accomplishment",
+    )
+    url = models.URLField(
+        db_comment="URL link to the accomplishment",
+        help_text="URL link to the accomplishment",
+    )
+    accomplished_on = models.DateTimeField(
+        db_comment="Date when the accomplishment was achieved",
+        help_text="Date when the accomplishment was achieved",
+    )
+
+    class Meta:
+        indexes = [
+            models.Index(fields=["project"], name="core_accomp_project_idx"),
+            models.Index(fields=["accomplished_on"], name="core_accomp_date_idx"),
+        ]
+        constraints = [
+            models.UniqueConstraint(
+                fields=["project", "title"],
+                name="unique_accomplishment_per_project",
+            )
+        ]
 
     def __str__(self):
         return self.title
