@@ -8,3 +8,4 @@ These are the developer guides for how to do specific things with the project.
 1. [Combine git commits](combine-a-series-of-GitHub-commits.md)
 1. [Combine migrations](combine-migrations.md)
 1. [Generate database table description](generate-db-table-description.md)
+1. [Resolve migration conflicts](resolve-migration-conflict.md)
