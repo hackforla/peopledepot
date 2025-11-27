@@ -37,6 +37,7 @@ from .models import UrlType
 from .models import User
 from .models import UserCheck
 from .models import UserStatusType
+from .models import Win
 from .models import WinType
 
 
@@ -361,6 +362,19 @@ class UserCheckAdmin(admin.ModelAdmin):
     )
     search_fields = ("user__username", "check_type__name", "org__name", "project__name")
     list_filter = ("result", "check_type", "org", "project")
+
+
+@admin.register(Win)
+class WinAdmin(admin.ModelAdmin):
+    list_display = (
+        "user",
+        "description",
+        "win_type",
+        "can_use_photo",
+        "created_at",
+        "updated_at",
+    )
+    list_filter = ("win_type", "can_use_photo", "user")
 
 
 @admin.register(WinType)

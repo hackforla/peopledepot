@@ -52,6 +52,7 @@ PROJECT_STACK_ELEMENTS_URL = reverse("project-stack-element-list")
 URL_STATUS_TYPES_URL = reverse("url-status-type-list")
 ORGANIZATIONS_URL = reverse("organization-list")
 USER_CHECKS_URL = reverse("user-check-list")
+WIN_URL = reverse("win-list")
 WIN_TYPES_URL = reverse("win-type-list")
 
 CREATE_USER_PAYLOAD = {
@@ -1028,6 +1029,35 @@ def test_api_allow_org_and_project_same_type_different_scopes(
         {"user": user.pk, "check_type": check_type.pk, "project": project.pk},
     )
     assert r2.status_code == status.HTTP_201_CREATED
+
+
+def test_create_win(auth_client, user, practice_area, project, win_type):
+    payload = {
+        "user": user.pk,
+        "practice_areas": [practice_area.pk],
+        "teams": [project.pk],
+        "description": "Funding secured for prototype",
+        "win_type": win_type.pk,
+        "can_use_photo": True,
+    }
+    res = auth_client.post(WIN_URL, payload)
+
+    assert res.status_code == status.HTTP_201_CREATED
+    assert res.data["description"] == payload["description"]
+    assert res.data["can_use_photo"] is True
+
+    assert res.data["user"] == user.pk
+    assert res.data["win_type"] == win_type.pk
+    assert res.data["practice_areas"] == [practice_area.pk]
+    assert res.data["teams"] == [project.pk]
+
+
+def test_list_wins(auth_client, win):
+    res = auth_client.get(WIN_URL)
+
+    assert res.status_code == status.HTTP_200_OK
+    assert len(res.data) == 1
+    assert res.data[0]["description"] == win.description
 
 
 def test_create_win_type(auth_client):

@@ -602,6 +602,18 @@ def test_model_prevent_duplicate_project_usercheck(user, project, check_type):
         )
 
 
+def test_win_str(win):
+    assert "Win for" in str(win)
+    assert win.description[:20] in str(win)
+
+
+def test_win_relationships(win, user, practice_area, project, win_type):
+    assert win.user == user
+    assert win.win_type == win_type
+    assert list(win.practice_areas.all()) == [practice_area]
+    assert list(win.teams.all()) == [project]
+
+
 def test_win_type_str(win_type):
     # __str__ should be the name
     assert str(win_type) == "funding"
