@@ -721,6 +721,43 @@ class UserCheck(AbstractBaseModel):
         return f"{self.user.username} - {self.check_type.name} ({'done' if self.result else 'pending'})"
 
 
+class Win(AbstractBaseModel):
+    """
+    Represents a 'win' associated with a user, practice areas, and projects.
+    """
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="wins",
+    )
+    practice_areas = models.ManyToManyField(
+        PracticeArea,
+        related_name="wins",
+        blank=True,
+    )
+    teams = models.ManyToManyField(
+        Project,
+        related_name="wins",
+        blank=True,
+    )
+    description = models.CharField(max_length=255)
+    win_type = models.ForeignKey(
+        "WinType",
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True,
+        related_name="wins",
+    )
+    can_use_photo = models.BooleanField(default=False)
+
+    class Meta:
+        ordering = ["-created_at"]
+
+    def __str__(self) -> str:
+        return f"Win for {self.user} - {self.description[:40]}"
+
+
 class WinType(AbstractBaseModel):
     """
     Lookup table for different types of 'wins'

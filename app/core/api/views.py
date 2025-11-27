@@ -14,8 +14,6 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 
-from core.models import WinType
-
 from ..models import Affiliate
 from ..models import Affiliation
 from ..models import CheckType
@@ -47,6 +45,8 @@ from ..models import UrlType
 from ..models import UserCheck
 from ..models import UserPermission
 from ..models import UserStatusType
+from ..models import Win
+from ..models import WinType
 from .serializers import AffiliateSerializer
 from .serializers import AffiliationSerializer
 from .serializers import CheckTypeSerializer
@@ -79,6 +79,7 @@ from .serializers import UserCheckSerializer
 from .serializers import UserPermissionSerializer
 from .serializers import UserSerializer
 from .serializers import UserStatusTypeSerializer
+from .serializers import WinSerializer
 from .serializers import WinTypeSerializer
 
 
@@ -613,6 +614,12 @@ class UserCheckViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = UserCheck.objects.all()
     serializer_class = UserCheckSerializer
+
+
+class WinViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = Win.objects.all().order_by("-created_at")
+    serializer_class = WinSerializer
 
 
 class WinTypeViewSet(viewsets.ModelViewSet):

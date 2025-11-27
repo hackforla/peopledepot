@@ -36,6 +36,7 @@ from ..models import User
 from ..models import UserCheck
 from ..models import UserPermission
 from ..models import UserStatusType
+from ..models import Win
 from ..models import WinType
 
 
@@ -435,6 +436,19 @@ def user_check(user, organization, check_type, project):
         completed_at=None,
         project=project,
     )
+
+
+@pytest.fixture
+def win(user, practice_area, project, win_type):
+    win_obj = Win.objects.create(
+        user=user,
+        description="Got funding for the project",
+        win_type=win_type,
+        can_use_photo=True,
+    )
+    win_obj.practice_areas.add(practice_area)
+    win_obj.teams.add(project)
+    return win_obj
 
 
 @pytest.fixture
