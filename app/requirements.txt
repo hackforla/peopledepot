@@ -1,17 +1,18 @@
-asgiref==3.8.1
+asgiref==3.10.0
     # via django
-attrs==24.2.0
+attrs==25.4.0
     # via
     #   jsonschema
     #   referencing
-cffi==1.17.1
+cffi==2.0.0
     # via cryptography
-coverage==7.6.8
+coverage==7.11.1
     # via pytest-cov
-cryptography==44.0.0
+cryptography==46.0.3
     # via pyjwt
-django==4.2.16
+django==4.2.26
     # via
+    #   -r app/requirements.in
     #   django-extensions
     #   django-linear-migrations
     #   django-phonenumber-field
@@ -19,66 +20,75 @@ django==4.2.16
     #   djangorestframework
     #   drf-jwt
     #   drf-spectacular
-django-extensions==3.2.3
-django-linear-migrations==2.16.0
-django-phonenumber-field==8.0.0
-django-timezone-field==7.0
-djangorestframework==3.15.2
+django-extensions==4.1
+    # via -r app/requirements.in
+django-linear-migrations==2.19.0
+    # via -r app/requirements.in
+django-phonenumber-field==8.3.0
+    # via -r app/requirements.in
+django-timezone-field==7.1
+    # via -r app/requirements.in
+djangorestframework==3.16.1
     # via
+    #   -r app/requirements.in
     #   drf-jwt
     #   drf-spectacular
 drf-jwt==1.19.2
-drf-spectacular==0.28.0
-exceptiongroup==1.2.2
-    # via pytest
+    # via -r app/requirements.in
+drf-spectacular==0.29.0
+    # via -r app/requirements.in
 execnet==2.1.1
     # via pytest-xdist
 inflection==0.5.1
     # via drf-spectacular
-iniconfig==2.0.0
+iniconfig==2.3.0
     # via pytest
-jsonschema==4.23.0
+jsonschema==4.25.1
     # via drf-spectacular
-jsonschema-specifications==2024.10.1
+jsonschema-specifications==2025.9.1
     # via jsonschema
-markdown==3.7
-packaging==24.2
+markdown==3.10
+    # via -r app/requirements.in
+packaging==25.0
     # via pytest
-phonenumbers==8.13.51
+phonenumbers==9.0.18
     # via django-phonenumber-field
-pluggy==1.5.0
-    # via pytest
-psycopg2-binary==2.9.10
-pycparser==2.22
+pluggy==1.6.0
+    # via
+    #   pytest
+    #   pytest-cov
+psycopg2-binary==2.9.11
+    # via -r app/requirements.in
+pycparser==2.23
     # via cffi
+pygments==2.19.2
+    # via pytest
 pyjwt==2.10.1
     # via drf-jwt
-pytest==8.3.4
+pytest==8.4.2
     # via
     #   pytest-cov
     #   pytest-django
     #   pytest-xdist
-pytest-cov==6.0.0
-pytest-django==4.9.0
-pytest-xdist==3.6.1
-pyyaml==6.0.2
+pytest-cov==7.0.0
+    # via -r app/requirements.in
+pytest-django==4.11.1
+    # via -r app/requirements.in
+pytest-xdist==3.8.0
+    # via -r app/requirements.in
+pyyaml==6.0.3
     # via drf-spectacular
-referencing==0.35.1
+referencing==0.37.0
     # via
     #   jsonschema
     #   jsonschema-specifications
-rpds-py==0.22.1
+rpds-py==0.28.0
     # via
     #   jsonschema
     #   referencing
-sqlparse==0.5.2
+sqlparse==0.5.3
     # via django
-tomli==2.2.1
-    # via
-    #   coverage
-    #   pytest
-typing-extensions==4.12.2
-    # via asgiref
-tzdata==2024.2
-uritemplate==4.1.1
+tzdata==2025.2
+    # via -r app/requirements.in
+uritemplate==4.2.0
     # via drf-spectacular
