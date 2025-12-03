@@ -37,6 +37,7 @@ from ..models import Referrer
 from ..models import ReferrerType
 from ..models import Sdg
 from ..models import Skill
+from ..models import SocBroad
 from ..models import SocMajor
 from ..models import SocMinor
 from ..models import StackElement
@@ -67,6 +68,7 @@ from .serializers import ReferrerSerializer
 from .serializers import ReferrerTypeSerializer
 from .serializers import SdgSerializer
 from .serializers import SkillSerializer
+from .serializers import SocBroadSerializer
 from .serializers import SocMajorSerializer
 from .serializers import SocMinorSerializer
 from .serializers import StackElementSerializer
@@ -434,6 +436,20 @@ class UserPermissionViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = []
     queryset = UserPermission.objects.all()
     serializer_class = UserPermissionSerializer
+
+
+@extend_schema_view(
+    list=extend_schema(description="Return a list of all SOC broad occupations"),
+    create=extend_schema(description="Create a new SOC broad occupation"),
+    retrieve=extend_schema(description="Return the details of a SOC broad occupation"),
+    destroy=extend_schema(description="Delete a SOC broad occupation"),
+    update=extend_schema(description="Update a SOC broad occupation"),
+    partial_update=extend_schema(description="Patch a SOC broad occupation"),
+)
+class SocBroadViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = SocBroad.objects.select_related("soc_minor").all().order_by("title")
+    serializer_class = SocBroadSerializer
 
 
 @extend_schema_view(
