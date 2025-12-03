@@ -175,6 +175,18 @@ def test_leadership_type_project_relationship(project, leadership_type):
     assert project.leadership_type == leadership_type
 
 
+def test_soc_broad_str(soc_broad):
+    assert str(soc_broad) == soc_broad.title
+
+
+def test_soc_broad_relationships(soc_broad, soc_minor):
+    # forward relation
+    assert soc_broad.soc_minor == soc_minor
+
+    # reverse relation via related_name
+    assert list(soc_minor.soc_broads.all()) == [soc_broad]
+
+
 def test_soc_major(soc_major):
     assert str(soc_major) == "Test Soc Major"
 
