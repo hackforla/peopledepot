@@ -27,6 +27,7 @@ from .models import Referrer
 from .models import ReferrerType
 from .models import Sdg
 from .models import Skill
+from .models import SocBroad
 from .models import SocMajor
 from .models import SocMinor
 from .models import StackElement
@@ -276,6 +277,13 @@ class EventTypeAdmin(admin.ModelAdmin):
 @admin.register(ProjectStatus)
 class ProjectStatusAdmin(admin.ModelAdmin):
     list_display = ("name", "description")
+
+
+@admin.register(SocBroad)
+class SocBroadAdmin(admin.ModelAdmin):
+    list_display = ("title", "occ_code", "soc_minor")
+    list_filter = ("soc_minor",)
+    search_fields = ("title", "occ_code")
 
 
 @admin.register(SocMajor)
