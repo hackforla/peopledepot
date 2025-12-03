@@ -1,0 +1,22 @@
+# Only include issues (not pull requests)
+types:
+  include: ["issue"]
+  exclude: ["pull_request"]
+
+# Map issue labels to release-note categories
+categories:
+  - title: "Features"
+    types: ["feature"]          # matches issue type selector
+    labels: ["enhancement"]     # also match this label
+  - title: "Bug Fixes"
+    types: ["bug"]
+    labels: ["bug"]
+  - title: "Tasks"
+    types: ["task"]
+    labels: ["chore", "task"]
+
+# Labels that cause an issue to be excluded entirely
+exclude-labels: ["skip-release", "no-release"]
+
+# Fallback category for issues without the above labels
+uncategorized: "Other changes"
