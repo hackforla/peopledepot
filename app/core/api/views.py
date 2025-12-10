@@ -35,6 +35,7 @@ from ..models import ProjectUrl
 from ..models import Referrer
 from ..models import ReferrerType
 from ..models import Sdg
+from ..models import SdgTargetIndicator
 from ..models import Skill
 from ..models import SocBroad
 from ..models import SocDetailed
@@ -70,6 +71,7 @@ from .serializers import ProjectUrlSerializer
 from .serializers import ReferrerSerializer
 from .serializers import ReferrerTypeSerializer
 from .serializers import SdgSerializer
+from .serializers import SdgTargetIndicatorSerializer
 from .serializers import SkillSerializer
 from .serializers import SocBroadSerializer
 from .serializers import SocDetailedSerializer
@@ -389,6 +391,22 @@ class SdgViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = Sdg.objects.all()
     serializer_class = SdgSerializer
+
+
+@extend_schema_view(
+    list=extend_schema(description="List all SDG Target Indicators"),
+    create=extend_schema(description="Create a new SDG Target Indicator"),
+    retrieve=extend_schema(description="Retrieve an SDG Target Indicator"),
+    update=extend_schema(description="Update an SDG Target Indicator"),
+    partial_update=extend_schema(
+        description="Partially update an SDG Target Indicator"
+    ),
+    destroy=extend_schema(description="Delete an SDG Target Indicator"),
+)
+class SdgTargetIndicatorViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = SdgTargetIndicator.objects.all()
+    serializer_class = SdgTargetIndicatorSerializer
 
 
 @extend_schema_view(

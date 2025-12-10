@@ -22,6 +22,7 @@ from core.models import ProjectUrl
 from core.models import Referrer
 from core.models import ReferrerType
 from core.models import Sdg
+from core.models import SdgTargetIndicator
 from core.models import Skill
 from core.models import SocBroad
 from core.models import SocDetailed
@@ -388,6 +389,21 @@ class SdgSerializer(serializers.ModelSerializer):
             "created_at",
             "updated_at",
         )
+
+
+class SdgTargetIndicatorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SdgTargetIndicator
+        fields = (
+            "uuid",
+            "sdg",
+            "code",
+            "description_number",
+            "description_text",
+            "created_at",
+            "updated_at",
+        )
+        read_only_fields = ("uuid", "created_at", "updated_at")
 
 
 class AffiliationSerializer(serializers.ModelSerializer):

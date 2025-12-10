@@ -21,6 +21,7 @@ from .views import ProjectUrlViewSet
 from .views import ProjectViewSet
 from .views import ReferrerTypeViewSet
 from .views import ReferrerViewSet
+from .views import SdgTargetIndicatorViewSet
 from .views import SdgViewSet
 from .views import SkillViewSet
 from .views import SocBroadViewSet
@@ -61,6 +62,9 @@ router.register(
     r"stack-element-types", StackElementTypeViewSet, basename="stack-element-type"
 )
 router.register(r"sdgs", SdgViewSet, basename="sdg")
+router.register(
+    r"sdg-target-indicators", SdgTargetIndicatorViewSet, basename="sdg-target-indicator"
+)
 router.register(
     r"affiliations",
     AffiliationViewSet,

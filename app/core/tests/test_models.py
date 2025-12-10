@@ -16,6 +16,7 @@ from ..models import ProjectStatus
 from ..models import ProjectUrl
 from ..models import ReferrerType
 from ..models import Sdg
+from ..models import SdgTargetIndicator
 from ..models import SocDetailed
 from ..models import User
 from ..models import UserCheck
@@ -101,6 +102,65 @@ def test_stack_element_type(stack_element_type):
 
 def test_sdg(sdg):
     assert str(sdg) == "Test SDG name"
+
+
+def test_create_sdg_target_indicator(sdg):
+    indicator = SdgTargetIndicator.objects.create(
+        sdg=sdg,
+        code="1.1",
+        description_number="Target 1.1",
+        description_text="Eradicate extreme poverty",
+    )
+
+    assert indicator.uuid is not None
+    assert indicator.sdg == sdg
+    assert indicator.code == "1.1"
+    assert indicator.description_number == "Target 1.1"
+    assert "poverty" in indicator.description_text
+
+
+def test_sdg_deletion_cascades_to_target_indicators(sdg):
+    SdgTargetIndicator.objects.create(
+        sdg=sdg,
+        code="1.2",
+        description_number="Target 1.2",
+        description_text="Test text",
+    )
+
+    sdg.delete()
+    assert SdgTargetIndicator.objects.count() == 0
+
+
+def test_sdg_can_have_multiple_indicators(sdg):
+    ind1 = SdgTargetIndicator.objects.create(
+        sdg=sdg,
+        code="1.1",
+        description_number="Target 1.1",
+        description_text="First",
+    )
+    ind2 = SdgTargetIndicator.objects.create(
+        sdg=sdg,
+        code="1.2",
+        description_number="Target 1.2",
+        description_text="Second",
+    )
+
+    indicators = sdg.sdg_target_indicators.all()
+
+    assert indicators.count() == 2
+    assert ind1 in indicators
+    assert ind2 in indicators
+
+
+def test_indicator_str_method(sdg):
+    indicator = SdgTargetIndicator.objects.create(
+        sdg=sdg,
+        code="1.3",
+        description_number="Target 1.3",
+        description_text="Representation test",
+    )
+
+    assert str(indicator) == "1.3 - Target 1.3"
 
 
 def test_affiliation_sponsor(affiliation1):
