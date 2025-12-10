@@ -20,6 +20,7 @@ from .views import ProjectUrlViewSet
 from .views import ProjectViewSet
 from .views import ReferrerTypeViewSet
 from .views import ReferrerViewSet
+from .views import SdgTargetIndicatorViewSet
 from .views import SdgViewSet
 from .views import SkillViewSet
 from .views import SocMajorViewSet
@@ -80,6 +81,9 @@ router.register(r"url-status-types", UrlStatusTypeViewSet, basename="url-status-
 router.register(r"organizations", OrganizationViewSet, basename="organization")
 router.register(r"user-checks", UserCheckViewSet, basename="user-check")
 router.register(r"win-types", WinTypeViewSet, basename="win-type")
+router.register(
+    r"sdg-target-indicators", SdgTargetIndicatorViewSet, basename="sdg-target-indicator"
+)
 
 urlpatterns = [
     path("me/", UserProfileAPIView.as_view(), name="my_profile"),

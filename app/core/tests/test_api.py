@@ -10,6 +10,7 @@ from core.models import Organization
 from core.models import ProgramArea
 from core.models import ProjectStackElementXref
 from core.models import ProjectUrl
+from core.models import SdgTargetIndicator
 from core.models import UrlStatusType
 from core.models import UserCheck
 from core.models import UserPermission
@@ -398,6 +399,75 @@ def test_create_sdg(auth_client):
     res = auth_client.post(SDGS_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
     assert res.data["name"] == payload["name"]
+
+
+def test_list_sdg_target_indicators(auth_client, sdg_target_indicator):
+    res = auth_client.get(reverse("sdg-target-indicator-list"))
+    assert res.status_code == 200
+    assert len(res.data) == 1
+    assert res.data[0]["code"] == sdg_target_indicator.code
+
+
+def test_retrieve_sdg_target_indicator(auth_client, sdg_target_indicator):
+    url = reverse("sdg-target-indicator-detail", args=[sdg_target_indicator.uuid])
+
+    res = auth_client.get(url)
+
+    assert res.status_code == 200
+    assert res.data["code"] == sdg_target_indicator.code
+    assert res.data["sdg"] == sdg_target_indicator.sdg_id
+
+
+def test_create_sdg_target_indicator(auth_client, sdg):
+    payload = {
+        "sdg": sdg.pk,
+        "code": "2.3",
+        "description_number": "Target 2.3",
+        "description_text": "Increase agricultural productivity",
+    }
+
+    res = auth_client.post(reverse("sdg-target-indicator-list"), payload)
+    assert res.status_code == 201
+
+    created = SdgTargetIndicator.objects.get(uuid=res.data["uuid"])
+    assert created.code == payload["code"]
+    assert created.description_number == payload["description_number"]
+    assert created.sdg == sdg
+
+
+def test_update_sdg_target_indicator(auth_client, sdg_target_indicator):
+    url = reverse("sdg-target-indicator-detail", args=[sdg_target_indicator.uuid])
+
+    payload = {
+        "code": "UPDATED",
+        "description_number": sdg_target_indicator.description_number,
+        "sdg": sdg_target_indicator.sdg.pk,
+        "description_text": sdg_target_indicator.description_text,
+    }
+
+    res = auth_client.put(url, payload)
+    assert res.status_code == 200
+
+    sdg_target_indicator.refresh_from_db()
+    assert sdg_target_indicator.code == "UPDATED"
+
+
+def test_partial_update_sdg_target_indicator(auth_client, sdg_target_indicator):
+    url = reverse("sdg-target-indicator-detail", args=[sdg_target_indicator.uuid])
+
+    res = auth_client.patch(url, {"code": "PATCHED"})
+    assert res.status_code == 200
+
+    sdg_target_indicator.refresh_from_db()
+    assert sdg_target_indicator.code == "PATCHED"
+
+
+def test_delete_sdg_target_indicator(auth_client, sdg_target_indicator):
+    url = reverse("sdg-target-indicator-detail", args=[sdg_target_indicator.uuid])
+
+    res = auth_client.delete(url)
+    assert res.status_code == 204
+    assert SdgTargetIndicator.objects.count() == 0
 
 
 def test_create_affiliation(auth_client, project, affiliate):
