@@ -27,6 +27,7 @@ from .models import ProjectUrl
 from .models import Referrer
 from .models import ReferrerType
 from .models import Sdg
+from .models import SdgTargetIndicator
 from .models import Skill
 from .models import SocBroad
 from .models import SocDetailed
@@ -252,6 +253,18 @@ class StackElementType(admin.ModelAdmin):
 @admin.register(Sdg)
 class SdgAdmin(admin.ModelAdmin):
     list_display = ("name", "description", "image")
+
+
+@admin.register(SdgTargetIndicator)
+class SdgTargetIndicatorAdmin(admin.ModelAdmin):
+    list_display = (
+        "sdg",
+        "code",
+        "description_number",
+        "created_at",
+    )
+    search_fields = ("code", "description_number", "sdg__name")
+    list_filter = ("sdg",)
 
 
 @admin.register(Affiliation)

@@ -431,6 +431,24 @@ class Sdg(AbstractBaseModel):
         return f"{self.name}"
 
 
+class SdgTargetIndicator(AbstractBaseModel):
+    """
+    Target indicators for each SDG.
+    """
+
+    sdg = models.ForeignKey(
+        Sdg,
+        on_delete=models.CASCADE,
+        related_name="sdg_target_indicators",
+    )
+    code = models.CharField(max_length=255)
+    description_number = models.CharField(max_length=255)
+    description_text = models.TextField()
+
+    def __str__(self):
+        return f"{self.code} - {self.description_number}"
+
+
 class Affiliation(AbstractBaseModel):
     """
     Sponsor/partner relationships stored in this table are project-dependent.
