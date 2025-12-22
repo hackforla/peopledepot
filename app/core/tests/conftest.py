@@ -4,6 +4,7 @@ from rest_framework.test import APIClient
 from constants import admin_project
 from constants import practice_lead_project
 
+# from ..models import SocDetailed
 from ..models import Affiliate
 from ..models import Affiliation
 from ..models import CheckType
@@ -343,6 +344,17 @@ def soc_major():
 @pytest.fixture
 def soc_minor():
     return SocMinor.objects.create(occ_code="22-2222", title="Test Soc Minor")
+
+
+# Note: Uncomment after SocBroad is merged into main
+# @pytest.fixture
+# def soc_detailed(soc_broad):
+#     return SocDetailed.objects.create(
+#         soc_broad=soc_broad,
+#         occ_code="15-1252",
+#         title="Software Developers",
+#         description="Develop and maintain software systems.",
+#     )
 
 
 @pytest.fixture
