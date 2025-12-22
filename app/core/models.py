@@ -524,6 +524,25 @@ class SocMinor(AbstractBaseModel):
         return self.title
 
 
+class SocDetailed(AbstractBaseModel):
+    """
+    Dictionary of SOC detailed occupations.
+    """
+
+    soc_broad = models.ForeignKey(
+        "SocBroad",
+        on_delete=models.CASCADE,
+        related_name="soc_detailed",
+    )
+
+    occ_code = models.CharField(max_length=255)
+    title = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+
+    def __str__(self):
+        return f"{self.occ_code} - {self.title}"
+
+
 class ProjectProgramAreaXref(AbstractBaseModel):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     program_area = models.ForeignKey(ProgramArea, on_delete=models.CASCADE)

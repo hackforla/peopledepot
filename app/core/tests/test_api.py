@@ -11,6 +11,7 @@ from core.models import ProgramArea
 from core.models import ProjectStackElementXref
 from core.models import ProjectUrl
 from core.models import SocBroad
+from core.models import SocDetailed
 from core.models import UrlStatusType
 from core.models import UserCheck
 from core.models import UserPermission
@@ -47,6 +48,7 @@ PROJECT_URLS_URL = reverse("project-url-list")
 SOC_BROAD_URL = reverse("soc-broad-list")
 SOC_MAJOR_URL = reverse("soc-major-list")
 SOC_MINORS_URL = reverse("soc-minor-list")
+SOC_DETAILED_URL = reverse("soc-detailed-list")
 URL_TYPE_URL = reverse("url-type-list")
 PROJECT_STACK_ELEMENTS_URL = reverse("project-stack-element-list")
 URL_STATUS_TYPES_URL = reverse("url-status-type-list")
@@ -511,6 +513,81 @@ def test_soc_minor_soc_major_relationship(auth_client, soc_minor, soc_major):
             break
 
     assert soc_major_exists is True
+
+
+def test_list_soc_detailed(auth_client):
+    res = auth_client.get(SOC_DETAILED_URL)
+
+    assert res.status_code == status.HTTP_200_OK
+    assert len(res.data) > 0
+    for item in res.data:
+        soc_detailed = SocDetailed.objects.get(uuid=item["uuid"])
+        assert soc_detailed.occ_code == item["occ_code"]
+        assert soc_detailed.soc_broad.pk == item["soc_broad"]
+
+
+def test_retrieve_soc_detailed(auth_client, soc_detailed):
+    url = reverse("soc-detailed-detail", args=[soc_detailed.pk])
+    res = auth_client.get(url)
+
+    assert res.status_code == status.HTTP_200_OK
+    assert res.data["uuid"] == str(soc_detailed.pk)
+    assert res.data["occ_code"] == soc_detailed.occ_code
+    assert res.data["title"] == soc_detailed.title
+    assert res.data["soc_broad"] == soc_detailed.soc_broad.pk
+
+
+def test_create_soc_detailed(auth_client, soc_broad):
+    payload = {
+        "soc_broad": soc_broad.pk,
+        "occ_code": "33-3333",
+        "title": "Test SOC Detailed API",
+        "description": "Created via API",
+    }
+
+    res = auth_client.post(SOC_DETAILED_URL, payload)
+    assert res.status_code == status.HTTP_201_CREATED
+
+    created = SocDetailed.objects.get(uuid=res.data["uuid"])
+    assert created.occ_code == payload["occ_code"]
+    assert created.title == payload["title"]
+    assert created.soc_broad == soc_broad
+
+
+def test_update_soc_detailed(auth_client, soc_detailed):
+    url = f"{SOC_DETAILED_URL}{soc_detailed.pk}/"
+
+    payload = {
+        "soc_broad": soc_detailed.soc_broad.pk,
+        "occ_code": soc_detailed.occ_code,
+        "title": "UPDATED TITLE",
+        "description": soc_detailed.description,
+    }
+
+    res = auth_client.put(url, payload)
+    assert res.status_code == status.HTTP_200_OK
+
+    soc_detailed.refresh_from_db()
+    assert soc_detailed.title == "UPDATED TITLE"
+
+
+def test_partial_update_soc_detailed(auth_client, soc_detailed):
+    url = f"{SOC_DETAILED_URL}{soc_detailed.pk}/"
+
+    res = auth_client.patch(url, {"title": "PATCHED TITLE"})
+    assert res.status_code == status.HTTP_200_OK
+
+    soc_detailed.refresh_from_db()
+    assert soc_detailed.title == "PATCHED TITLE"
+
+
+def test_delete_soc_detailed(auth_client, soc_detailed):
+    url = f"{SOC_DETAILED_URL}{soc_detailed.pk}/"
+
+    detailed_count = SocDetailed.objects.count()
+    res = auth_client.delete(url)
+    assert res.status_code == status.HTTP_204_NO_CONTENT
+    assert SocDetailed.objects.count() == detailed_count - 1
 
 
 def test_project_sdg_xref(auth_client, project, sdg, sdg1):

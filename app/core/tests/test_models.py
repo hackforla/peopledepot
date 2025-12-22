@@ -16,6 +16,7 @@ from ..models import ProjectStatus
 from ..models import ProjectUrl
 from ..models import ReferrerType
 from ..models import Sdg
+from ..models import SocDetailed
 from ..models import User
 from ..models import UserCheck
 from ..models import UserStatusType
@@ -199,6 +200,67 @@ def test_soc_major_soc_minor_relationship(soc_major, soc_minor):
     assert soc_minor.soc_major is None
     soc_minor.soc_major = soc_major
     assert soc_minor.soc_major == soc_major
+
+
+def test_create_soc_detailed(soc_broad):
+    soc = SocDetailed.objects.create(
+        soc_broad=soc_broad,
+        occ_code="11-1111",
+        title="Test SOC Detailed",
+        description="Test description",
+    )
+
+    assert soc.uuid is not None
+    assert soc.soc_broad == soc_broad
+    assert soc.occ_code == "11-1111"
+    assert soc.title == "Test SOC Detailed"
+    assert "Test" in soc.description
+
+
+def test_soc_detailed_str_method(soc_broad):
+    soc = SocDetailed.objects.create(
+        soc_broad=soc_broad,
+        occ_code="22-2222",
+        title="Title",
+        description="Anything",
+    )
+
+    assert str(soc) == "22-2222 - Title"
+
+
+def test_soc_broad_has_multiple_soc_detailed(soc_broad):
+    d1 = SocDetailed.objects.create(
+        soc_broad=soc_broad,
+        occ_code="15-1111",
+        title="Title 1",
+        description="Desc 1",
+    )
+    d2 = SocDetailed.objects.create(
+        soc_broad=soc_broad,
+        occ_code="15-2222",
+        title="Title 2",
+        description="Desc 2",
+    )
+
+    related = soc_broad.soc_detailed.all()
+
+    assert related.count() == 2
+    assert d1 in related
+    assert d2 in related
+
+
+def test_soc_broad_deletion_cascades_to_soc_detailed(soc_broad):
+    initial_count = SocDetailed.objects.count()
+
+    SocDetailed.objects.create(
+        soc_broad=soc_broad,
+        occ_code="15-3333",
+        title="Cascade Test",
+        description="Should be deleted",
+    )
+
+    soc_broad.delete()
+    assert SocDetailed.objects.count() == initial_count
 
 
 def test_project_program_area_relationship(project):

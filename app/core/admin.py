@@ -29,6 +29,7 @@ from .models import ReferrerType
 from .models import Sdg
 from .models import Skill
 from .models import SocBroad
+from .models import SocDetailed
 from .models import SocMajor
 from .models import SocMinor
 from .models import StackElement
@@ -296,6 +297,13 @@ class SocMajorAdmin(admin.ModelAdmin):
 @admin.register(SocMinor)
 class SocMinorAdmin(admin.ModelAdmin):
     list_display = ("soc_major", "occ_code", "title")
+
+
+@admin.register(SocDetailed)
+class SocDetailedAdmin(admin.ModelAdmin):
+    list_display = ("occ_code", "title", "soc_broad", "created_at")
+    search_fields = ("occ_code", "title", "soc_broad__title")
+    list_filter = ("soc_broad",)
 
 
 @admin.register(UrlType)

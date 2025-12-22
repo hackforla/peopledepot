@@ -24,6 +24,7 @@ from core.models import ReferrerType
 from core.models import Sdg
 from core.models import Skill
 from core.models import SocBroad
+from core.models import SocDetailed
 from core.models import SocMajor
 from core.models import SocMinor
 from core.models import StackElement
@@ -459,6 +460,21 @@ class SocMinorSerializer(serializers.ModelSerializer):
     class Meta:
         model = SocMinor
         fields = ("uuid", "soc_major", "occ_code", "title")
+        read_only_fields = ("uuid", "created_at", "updated_at")
+
+
+class SocDetailedSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SocDetailed
+        fields = (
+            "uuid",
+            "soc_broad",
+            "occ_code",
+            "title",
+            "description",
+            "created_at",
+            "updated_at",
+        )
         read_only_fields = ("uuid", "created_at", "updated_at")
 
 
