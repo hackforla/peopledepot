@@ -16,16 +16,19 @@ from pathlib import Path
 
 def get_modelname(path):
     filename = Path(path).name
-    return filename.split(" - ")[1]
+    return filename.split(" - ")[1].replace(" ", "")
 
 
 def to_values_str(_input):
     values = []
     for key, value in _input.items():
+        if isinstance(value, str):
+            value = " ".join(value.split())
+
         if key in ["uuid", "id"] and value.isdigit():
-            values.append(f"{value}")
+            values.append(value)
         else:
-            values.append(f'"{value}"')
+            values.append(repr(value))
 
     return ", ".join(values)
 
