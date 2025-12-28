@@ -16,6 +16,7 @@ from .models import Faq
 from .models import FaqViewed
 from .models import LeadershipType
 from .models import Location
+from .models import ModernJobTitle
 from .models import Organization
 from .models import PermissionType
 from .models import PracticeArea
@@ -209,6 +210,13 @@ class Location(admin.ModelAdmin):
         "zipcode",
         "phone",
     )
+
+
+@admin.register(ModernJobTitle)
+class ModernJobTitleAdmin(admin.ModelAdmin):
+    list_display = ("title", "soc_detailed", "created_at")
+    search_fields = ("title",)
+    list_filter = ("soc_detailed",)
 
 
 @admin.register(ProgramArea)

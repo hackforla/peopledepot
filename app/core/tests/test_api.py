@@ -6,6 +6,7 @@ from rest_framework import status
 
 from core.api.serializers import ProgramAreaSerializer
 from core.api.serializers import UserSerializer
+from core.models import ModernJobTitle
 from core.models import Organization
 from core.models import ProgramArea
 from core.models import ProjectStackElementXref
@@ -33,6 +34,7 @@ FAQS_VIEWED_URL = reverse("faq-viewed-list")
 AFFILIATE_URL = reverse("affiliate-list")
 LEADERSHIP_TYPES_URL = reverse("leadership-type-list")
 LOCATION_URL = reverse("location-list")
+MODERN_JOB_TITLE_URL = reverse("modern-job-title-list")
 PROGRAM_AREAS_URL = reverse("program-area-list")
 REFERRERS_URL = reverse("referrer-list")
 REFERRER_TYPES_URL = reverse("referrer-type-list")
@@ -311,6 +313,72 @@ def test_create_location(auth_client):
     }
     res = auth_client.post(LOCATION_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
+
+
+def test_list_modern_job_titles(auth_client, modern_job_title):
+    res = auth_client.get(MODERN_JOB_TITLE_URL)
+
+    assert res.status_code == status.HTTP_200_OK
+    assert len(res.data) == 1
+    assert res.data[0]["title"] == modern_job_title.title
+    assert res.data[0]["soc_detailed"] == modern_job_title.soc_detailed.pk
+
+
+def test_retrieve_modern_job_title(auth_client, modern_job_title):
+    url = f"{MODERN_JOB_TITLE_URL}{modern_job_title.pk}/"
+    res = auth_client.get(url)
+
+    assert res.status_code == status.HTTP_200_OK
+    assert res.data["uuid"] == str(modern_job_title.pk)
+    assert res.data["title"] == modern_job_title.title
+    assert res.data["soc_detailed"] == modern_job_title.soc_detailed.pk
+
+
+def test_create_modern_job_title(auth_client, soc_detailed):
+    payload = {
+        "soc_detailed": soc_detailed.pk,
+        "title": "Backend Engineer",
+    }
+
+    res = auth_client.post(MODERN_JOB_TITLE_URL, payload)
+    assert res.status_code == status.HTTP_201_CREATED
+
+    created = ModernJobTitle.objects.get(uuid=res.data["uuid"])
+    assert created.title == payload["title"]
+    assert created.soc_detailed == soc_detailed
+
+
+def test_update_modern_job_title(auth_client, modern_job_title):
+    url = f"{MODERN_JOB_TITLE_URL}{modern_job_title.pk}/"
+
+    payload = {
+        "soc_detailed": modern_job_title.soc_detailed.pk,
+        "title": "UPDATED TITLE",
+    }
+
+    res = auth_client.put(url, payload)
+    assert res.status_code == status.HTTP_200_OK
+
+    modern_job_title.refresh_from_db()
+    assert modern_job_title.title == "UPDATED TITLE"
+
+
+def test_partial_update_modern_job_title(auth_client, modern_job_title):
+    url = f"{MODERN_JOB_TITLE_URL}{modern_job_title.pk}/"
+
+    res = auth_client.patch(url, {"title": "PATCHED TITLE"})
+    assert res.status_code == status.HTTP_200_OK
+
+    modern_job_title.refresh_from_db()
+    assert modern_job_title.title == "PATCHED TITLE"
+
+
+def test_delete_modern_job_title(auth_client, modern_job_title):
+    url = f"{MODERN_JOB_TITLE_URL}{modern_job_title.pk}/"
+
+    res = auth_client.delete(url)
+    assert res.status_code == status.HTTP_204_NO_CONTENT
+    assert ModernJobTitle.objects.count() == 0
 
 
 def test_create_program_area(auth_client):

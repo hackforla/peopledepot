@@ -24,6 +24,7 @@ from ..models import Faq
 from ..models import FaqViewed
 from ..models import LeadershipType
 from ..models import Location
+from ..models import ModernJobTitle
 from ..models import Organization
 from ..models import PermissionType
 from ..models import PracticeArea
@@ -60,6 +61,7 @@ from .serializers import FaqSerializer
 from .serializers import FaqViewedSerializer
 from .serializers import LeadershipTypeSerializer
 from .serializers import LocationSerializer
+from .serializers import ModernJobTitleSerializer
 from .serializers import OrganizationSerializer
 from .serializers import PermissionTypeSerializer
 from .serializers import PracticeAreaSerializer
@@ -307,6 +309,20 @@ class LocationViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = Location.objects.all()
     serializer_class = LocationSerializer
+
+
+@extend_schema_view(
+    list=extend_schema(description="Return a list of all modern job titles"),
+    create=extend_schema(description="Create a new modern job title"),
+    retrieve=extend_schema(description="Return the details of a modern job title"),
+    destroy=extend_schema(description="Delete a modern job title"),
+    update=extend_schema(description="Update a modern job title"),
+    partial_update=extend_schema(description="Patch a modern job title"),
+)
+class ModernJobTitleViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = ModernJobTitle.objects.all()
+    serializer_class = ModernJobTitleSerializer
 
 
 @extend_schema_view(

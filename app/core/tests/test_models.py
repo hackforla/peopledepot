@@ -7,6 +7,7 @@ from django.db.models.deletion import ProtectedError
 from django.utils import timezone
 
 from ..models import Event
+from ..models import ModernJobTitle
 from ..models import PracticeArea
 from ..models import ProgramArea
 from ..models import ProjectProgramAreaXref
@@ -68,6 +69,43 @@ def test_faq_viewed(faq_viewed):
 
 def test_location(location):
     assert str(location) == "Test Hack for L.A. HQ"
+
+
+def test_create_modern_job_title(soc_detailed):
+    mjt = ModernJobTitle.objects.create(
+        soc_detailed=soc_detailed,
+        title="Data Analyst",
+    )
+
+    assert mjt.uuid is not None
+    assert mjt.soc_detailed == soc_detailed
+    assert mjt.title == "Data Analyst"
+
+
+def test_modern_job_title_str_method(soc_detailed):
+    mjt = ModernJobTitle.objects.create(
+        soc_detailed=soc_detailed,
+        title="ML Engineer",
+    )
+
+    assert str(mjt) == "ML Engineer"
+
+
+def test_soc_detailed_has_multiple_modern_job_titles(soc_detailed):
+    mjt1 = ModernJobTitle.objects.create(
+        soc_detailed=soc_detailed,
+        title="Backend Engineer",
+    )
+    mjt2 = ModernJobTitle.objects.create(
+        soc_detailed=soc_detailed,
+        title="Frontend Engineer",
+    )
+
+    related = soc_detailed.modern_job_titles.all()
+
+    assert related.count() == 2
+    assert mjt1 in related
+    assert mjt2 in related
 
 
 def test_program_area(program_area):

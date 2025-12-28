@@ -11,6 +11,7 @@ from .views import FaqViewedViewSet
 from .views import FaqViewSet
 from .views import LeadershipTypeViewSet
 from .views import LocationViewSet
+from .views import ModernJobTitleViewSet
 from .views import OrganizationViewSet
 from .views import PermissionTypeViewSet
 from .views import PracticeAreaViewSet
@@ -54,6 +55,9 @@ router.register(r"faqs", FaqViewSet, basename="faq")
 router.register(r"faqs-viewed", FaqViewedViewSet, basename="faq-viewed")
 router.register(r"leadership-types", LeadershipTypeViewSet, basename="leadership-type")
 router.register(r"locations", LocationViewSet, basename="location")
+router.register(
+    r"modern-job-titles", ModernJobTitleViewSet, basename="modern-job-title"
+)
 router.register(r"program-areas", ProgramAreaViewSet, basename="program-area")
 router.register(r"skills", SkillViewSet, basename="skill")
 router.register(r"stack-elements", StackElementViewSet, basename="stack-element")
