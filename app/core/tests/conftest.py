@@ -13,6 +13,7 @@ from ..models import Faq
 from ..models import FaqViewed
 from ..models import LeadershipType
 from ..models import Location
+from ..models import ModernJobTitle
 from ..models import Organization
 from ..models import PermissionType
 from ..models import PracticeArea
@@ -227,6 +228,14 @@ def leadership_type():
 @pytest.fixture
 def location():
     return Location.objects.create(name="Test Hack for L.A. HQ")
+
+
+@pytest.fixture
+def modern_job_title(db, soc_detailed):
+    return ModernJobTitle.objects.create(
+        soc_detailed=soc_detailed,
+        title="Software Engineer",
+    )
 
 
 @pytest.fixture

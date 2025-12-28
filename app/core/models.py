@@ -300,6 +300,21 @@ class Location(AbstractBaseModel):
         return f"{self.name}"
 
 
+class ModernJobTitle(AbstractBaseModel):
+    # Uncomment the ForeignKey field after SocDetailed is merged into main.
+
+    # soc_detailed = models.ForeignKey(
+    #     "SocDetailed",
+    #     on_delete=models.CASCADE,
+    #     related_name="modern_job_titles",
+    # )
+
+    title = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.title
+
+
 class PracticeArea(AbstractBaseModel):
     """
     Practice Area
