@@ -47,6 +47,7 @@ PROJECT_STATUSES_URL = reverse("project-status-list")
 PROJECT_URLS_URL = reverse("project-url-list")
 SOC_MAJOR_URL = reverse("soc-major-list")
 SOC_MINORS_URL = reverse("soc-minor-list")
+SOC_DETAILED_URL = reverse("soc-detailed-list")
 URL_TYPE_URL = reverse("url-type-list")
 PROJECT_STACK_ELEMENTS_URL = reverse("project-stack-element-list")
 URL_STATUS_TYPES_URL = reverse("url-status-type-list")
@@ -485,7 +486,7 @@ def test_soc_minor_soc_major_relationship(auth_client, soc_minor, soc_major):
 # Note: Uncomment after SocBroad is merged into main
 
 # def test_list_soc_detailed(auth_client, soc_detailed):
-#     res = auth_client.get(reverse("soc-detailed-list"))
+#     res = auth_client.get(SOC_DETAILED_URL)
 
 #     assert res.status_code == status.HTTP_200_OK
 #     assert len(res.data) == 1
@@ -512,7 +513,7 @@ def test_soc_minor_soc_major_relationship(auth_client, soc_minor, soc_major):
 #         "description": "Created via API",
 #     }
 
-#     res = auth_client.post(reverse("soc-detailed-list"), payload)
+#     res = auth_client.post(SOC_DETAILED_URL, payload)
 #     assert res.status_code == status.HTTP_201_CREATED
 
 #     created = SocDetailed.objects.get(uuid=res.data["uuid"])
@@ -522,7 +523,7 @@ def test_soc_minor_soc_major_relationship(auth_client, soc_minor, soc_major):
 
 
 # def test_update_soc_detailed(auth_client, soc_detailed):
-#     url = reverse("soc-detailed-detail", args=[soc_detailed.pk])
+#     url = f"{SOC_DETAILED_URL}{soc_detailed.pk}/"
 
 #     payload = {
 #         "soc_broad": soc_detailed.soc_broad.pk,
@@ -539,7 +540,7 @@ def test_soc_minor_soc_major_relationship(auth_client, soc_minor, soc_major):
 
 
 # def test_partial_update_soc_detailed(auth_client, soc_detailed):
-#     url = reverse("soc-detailed-detail", args=[soc_detailed.pk])
+#     url = f"{SOC_DETAILED_URL}{soc_detailed.pk}/"
 
 #     res = auth_client.patch(url, {"title": "PATCHED TITLE"})
 #     assert res.status_code == status.HTTP_200_OK
@@ -549,7 +550,7 @@ def test_soc_minor_soc_major_relationship(auth_client, soc_minor, soc_major):
 
 
 # def test_delete_soc_detailed(auth_client, soc_detailed):
-#     url = reverse("soc-detailed-detail", args=[soc_detailed.pk])
+#     url = f"{SOC_DETAILED_URL}{soc_detailed.pk}/"
 
 #     res = auth_client.delete(url)
 #     assert res.status_code == status.HTTP_204_NO_CONTENT
