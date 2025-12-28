@@ -24,6 +24,7 @@ from ..models import ProjectUrl
 from ..models import Referrer
 from ..models import ReferrerType
 from ..models import Sdg
+from ..models import SdgTargetIndicator
 from ..models import Skill
 from ..models import SocMajor
 from ..models import SocMinor
@@ -271,6 +272,16 @@ def sdg():
 @pytest.fixture
 def sdg1():
     return Sdg.objects.create(name="Test SDG name1")
+
+
+@pytest.fixture
+def sdg_target_indicator(sdg):
+    return SdgTargetIndicator.objects.create(
+        sdg=sdg,
+        code="1.1",
+        description_number="Target 1.1",
+        description_text="Eradicate extreme poverty",
+    )
 
 
 @pytest.fixture
