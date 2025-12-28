@@ -11,6 +11,7 @@ from core.models import Faq
 from core.models import FaqViewed
 from core.models import LeadershipType
 from core.models import Location
+from core.models import ModernJobTitle
 from core.models import Organization
 from core.models import PermissionType
 from core.models import PracticeArea
@@ -284,6 +285,19 @@ class LocationSerializer(serializers.ModelSerializer):
 
 
 LocationSerializer._declared_fields["zip"] = serializers.CharField(source="zipcode")
+
+
+class ModernJobTitleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ModernJobTitle
+        fields = (
+            "uuid",
+            "soc_detailed",
+            "title",
+            "created_at",
+            "updated_at",
+        )
+        read_only_fields = ("uuid", "created_at", "updated_at")
 
 
 class ProgramAreaSerializer(serializers.ModelSerializer):
