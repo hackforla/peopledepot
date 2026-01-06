@@ -5,6 +5,7 @@ from django.urls import reverse
 from rest_framework import status
 
 from core.api.serializers import ProgramAreaSerializer
+from core.api.serializers import UserEmploymentHistorySerializer
 from core.api.serializers import UserSerializer
 from core.models import ModernJobTitle
 from core.models import Organization
@@ -16,6 +17,7 @@ from core.models import SocBroad
 from core.models import SocDetailed
 from core.models import UrlStatusType
 from core.models import UserCheck
+from core.models import UserEmploymentHistory
 from core.models import UserPermission
 from core.models import WinType
 
@@ -59,6 +61,7 @@ URL_STATUS_TYPES_URL = reverse("url-status-type-list")
 ACCOMPLISHMENT_URL = reverse("accomplishment-list")
 ORGANIZATIONS_URL = reverse("organization-list")
 USER_CHECKS_URL = reverse("user-check-list")
+USER_EMPLOYMENT_HISTORIES_URL = reverse("user-employment-history-list")
 WIN_URL = reverse("win-list")
 WIN_TYPES_URL = reverse("win-type-list")
 
@@ -764,16 +767,6 @@ def test_create_url_type(auth_client):
     assert res.data["description"] == payload["description"]
 
 
-def test_create_user_status_type(auth_client):
-    payload = {
-        "name": "Test User Status Type",
-        "description": "Test User Status Type description",
-    }
-    res = auth_client.post(USER_STATUS_TYPES_URL, payload)
-    assert res.status_code == status.HTTP_201_CREATED
-    assert res.data["name"] == payload["name"]
-
-
 def test_project_program_area_xref(auth_client, project, program_area):
     def get_object(objects, target_uuid):
         for obj in objects:
@@ -1260,6 +1253,69 @@ def test_api_allow_org_and_project_same_type_different_scopes(
         {"user": user.pk, "check_type": check_type.pk, "project": project.pk},
     )
     assert r2.status_code == status.HTTP_201_CREATED
+
+
+def test_list_user_employment_histories(auth_client, user, soc_detailed):
+    payload = {
+        "user": user.pk,
+        "soc_detailed": soc_detailed.pk,
+        "title": "Software Engineer",
+    }
+    auth_client.post(USER_EMPLOYMENT_HISTORIES_URL, payload)
+
+    res = auth_client.get(USER_EMPLOYMENT_HISTORIES_URL)
+
+    histories = UserEmploymentHistory.objects.all()
+    expected_data = UserEmploymentHistorySerializer(histories, many=True).data
+
+    assert res.status_code == status.HTTP_200_OK
+    assert res.data == expected_data
+
+
+def test_create_user_employment_history(auth_client, user, soc_detailed):
+    payload = {
+        "user": user.pk,
+        "soc_detailed": soc_detailed.pk,
+        "title": "Backend Engineer",
+    }
+
+    res = auth_client.post(USER_EMPLOYMENT_HISTORIES_URL, payload)
+
+    assert res.status_code == status.HTTP_201_CREATED
+
+    created = UserEmploymentHistory.objects.get(uuid=res.data["uuid"])
+    assert created.user == user
+    assert created.soc_detailed.pk == payload["soc_detailed"]
+    assert created.title == payload["title"]
+
+
+def test_retrieve_user_employment_history(auth_client, user_employment_history):
+    url = f"{USER_EMPLOYMENT_HISTORIES_URL}{user_employment_history.pk}/"
+    res = auth_client.get(url)
+
+    assert res.status_code == status.HTTP_200_OK
+    assert res.data["uuid"] == str(user_employment_history.pk)
+    assert res.data["title"] == user_employment_history.title
+    assert res.data["soc_detailed"] == user_employment_history.soc_detailed.pk
+    assert res.data["user"] == user_employment_history.user.pk
+
+
+def test_delete_user_employment_history(auth_client, user_employment_history):
+    url = f"{USER_EMPLOYMENT_HISTORIES_URL}{user_employment_history.pk}/"
+    res = auth_client.delete(url)
+
+    assert res.status_code == status.HTTP_204_NO_CONTENT
+    assert UserEmploymentHistory.objects.count() == 0
+
+
+def test_create_user_status_type(auth_client):
+    payload = {
+        "name": "Test User Status Type",
+        "description": "Test User Status Type description",
+    }
+    res = auth_client.post(USER_STATUS_TYPES_URL, payload)
+    assert res.status_code == status.HTTP_201_CREATED
+    assert res.data["name"] == payload["name"]
 
 
 def test_create_win(auth_client, user, practice_area, project, win_type):

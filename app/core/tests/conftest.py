@@ -38,6 +38,7 @@ from ..models import UrlStatusType
 from ..models import UrlType
 from ..models import User
 from ..models import UserCheck
+from ..models import UserEmploymentHistory
 from ..models import UserPermission
 from ..models import UserStatusType
 from ..models import Win
@@ -478,6 +479,15 @@ def user_check(user, organization, check_type, project):
         reminder_start=None,
         completed_at=None,
         project=project,
+    )
+
+
+@pytest.fixture
+def user_employment_history(db, user, soc_detailed):
+    return UserEmploymentHistory.objects.create(
+        user=user,
+        soc_detailed=soc_detailed,
+        title="Software Engineer",
     )
 
 

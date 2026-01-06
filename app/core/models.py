@@ -813,6 +813,29 @@ class UserCheck(AbstractBaseModel):
         return f"{self.user.username} - {self.check_type.name} ({'done' if self.result else 'pending'})"
 
 
+class UserEmploymentHistory(AbstractBaseModel):
+    """
+    Stores a user's employment history entry.
+    """
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="employment_histories",
+    )
+
+    soc_detailed = models.ForeignKey(
+        "SocDetailed",
+        on_delete=models.CASCADE,
+        related_name="user_employment_histories",
+    )
+
+    title = models.CharField(max_length=255)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.title}"
+
+
 class Win(AbstractBaseModel):
     """
     Represents a 'win' associated with a user, practice areas, and projects.
