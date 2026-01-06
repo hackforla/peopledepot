@@ -29,6 +29,7 @@ from .views import StackElementViewSet
 from .views import UrlStatusTypeViewSet
 from .views import UrlTypeViewSet
 from .views import UserCheckViewSet
+from .views import UserEmploymentHistoryViewSet
 from .views import UserPermissionViewSet
 from .views import UserProfileAPIView
 from .views import UserStatusTypeViewSet
@@ -68,6 +69,11 @@ router.register(r"project-urls", ProjectUrlViewSet, basename="project-url")
 router.register(r"soc-majors", SocMajorViewSet, basename="soc-major")
 router.register(r"soc-minors", SocMinorViewSet, basename="soc-minor")
 router.register(r"url-types", UrlTypeViewSet, basename="url-type")
+router.register(
+    r"user-employment-histories",
+    UserEmploymentHistoryViewSet,
+    basename="user-employment-history",
+)
 router.register(
     r"user-status-types", UserStatusTypeViewSet, basename="user-status-type"
 )

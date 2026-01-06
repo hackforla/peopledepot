@@ -35,6 +35,7 @@ from .models import UrlStatusType
 from .models import UrlType
 from .models import User
 from .models import UserCheck
+from .models import UserEmploymentHistory
 from .models import UserStatusType
 from .models import WinType
 
@@ -325,6 +326,13 @@ class ProjectStackElementXrefAdmin(admin.ModelAdmin):
         "project",
         "stack_element",
     )
+
+
+@admin.register(UserEmploymentHistory)
+class UserEmploymentHistoryAdmin(admin.ModelAdmin):
+    list_display = ("user", "title", "soc_detailed", "created_at")
+    search_fields = ("title", "user__username", "user__email")
+    list_filter = ("soc_detailed",)
 
 
 @admin.register(UrlStatusType)

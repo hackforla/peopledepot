@@ -33,6 +33,7 @@ from ..models import UrlStatusType
 from ..models import UrlType
 from ..models import User
 from ..models import UserCheck
+from ..models import UserEmploymentHistory
 from ..models import UserPermission
 from ..models import UserStatusType
 from ..models import WinType
@@ -350,6 +351,15 @@ def url_type():
     return UrlType.objects.create(
         name="This is a test url type name",
         description="This is a test url type description",
+    )
+
+
+@pytest.fixture
+def user_employment_history(db, user, soc_detailed):
+    return UserEmploymentHistory.objects.create(
+        user=user,
+        soc_detailed=soc_detailed,
+        title="Software Engineer",
     )
 
 

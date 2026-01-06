@@ -5,6 +5,7 @@ from django.urls import reverse
 from rest_framework import status
 
 from core.api.serializers import ProgramAreaSerializer
+from core.api.serializers import UserEmploymentHistorySerializer
 from core.api.serializers import UserSerializer
 from core.models import Organization
 from core.models import ProgramArea
@@ -12,6 +13,7 @@ from core.models import ProjectStackElementXref
 from core.models import ProjectUrl
 from core.models import UrlStatusType
 from core.models import UserCheck
+from core.models import UserEmploymentHistory
 from core.models import UserPermission
 from core.models import WinType
 
@@ -20,6 +22,7 @@ pytestmark = pytest.mark.django_db
 USER_PERMISSIONS_URL = reverse("user-permission-list")
 PROJECTS_URL = reverse("project-list")
 ME_URL = reverse("my_profile")
+USER_EMPLOYMENT_HISTORIES_URL = reverse("user-employment-history-list")
 USER_STATUS_TYPES_URL = reverse("user-status-type-list")
 USERS_URL = reverse("user-list")
 EVENTS_URL = reverse("event-list")
@@ -514,6 +517,59 @@ def test_create_url_type(auth_client):
     assert res.status_code == status.HTTP_201_CREATED
     assert res.data["name"] == payload["name"]
     assert res.data["description"] == payload["description"]
+
+
+def test_list_user_employment_histories(auth_client, user, soc_detailed):
+    payload = {
+        "user": user.pk,
+        "soc_detailed": soc_detailed.pk,
+        "title": "Software Engineer",
+    }
+    auth_client.post(USER_EMPLOYMENT_HISTORIES_URL, payload)
+
+    res = auth_client.get(USER_EMPLOYMENT_HISTORIES_URL)
+
+    histories = UserEmploymentHistory.objects.all()
+    expected_data = UserEmploymentHistorySerializer(histories, many=True).data
+
+    assert res.status_code == status.HTTP_200_OK
+    assert res.data == expected_data
+
+
+def test_create_user_employment_history(auth_client, user, soc_detailed):
+    payload = {
+        "user": user.pk,
+        "soc_detailed": soc_detailed.pk,
+        "title": "Backend Engineer",
+    }
+
+    res = auth_client.post(USER_EMPLOYMENT_HISTORIES_URL, payload)
+
+    assert res.status_code == status.HTTP_201_CREATED
+
+    created = UserEmploymentHistory.objects.get(uuid=res.data["uuid"])
+    assert created.user == user
+    assert created.soc_detailed == payload["soc_detailed"]
+    assert created.title == payload["title"]
+
+
+def test_retrieve_user_employment_history(auth_client, user_employment_history):
+    url = f"{USER_EMPLOYMENT_HISTORIES_URL}{user_employment_history.pk}/"
+    res = auth_client.get(url)
+
+    assert res.status_code == status.HTTP_200_OK
+    assert res.data["uuid"] == str(user_employment_history.pk)
+    assert res.data["title"] == user_employment_history.title
+    assert res.data["soc_detailed"] == user_employment_history.soc_detailed
+    assert res.data["user"] == user_employment_history.user.pk
+
+
+def test_delete_user_employment_history(auth_client, user_employment_history):
+    url = f"{USER_EMPLOYMENT_HISTORIES_URL}{user_employment_history.pk}/"
+    res = auth_client.delete(url)
+
+    assert res.status_code == status.HTTP_204_NO_CONTENT
+    assert UserEmploymentHistory.objects.count() == 0
 
 
 def test_create_user_status_type(auth_client):
