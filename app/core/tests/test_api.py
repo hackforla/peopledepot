@@ -6,12 +6,11 @@ from rest_framework import status
 
 from core.api.serializers import ProgramAreaSerializer
 from core.api.serializers import UserSerializer
-
-# from core.models import SocDetailed
 from core.models import Organization
 from core.models import ProgramArea
 from core.models import ProjectStackElementXref
 from core.models import ProjectUrl
+from core.models import SocDetailed
 from core.models import UrlStatusType
 from core.models import UserCheck
 from core.models import UserPermission
@@ -483,78 +482,76 @@ def test_soc_minor_soc_major_relationship(auth_client, soc_minor, soc_major):
     assert soc_major_exists is True
 
 
-# Note: Uncomment after SocBroad is merged into main
+def test_list_soc_detailed(auth_client, soc_detailed):
+    res = auth_client.get(SOC_DETAILED_URL)
 
-# def test_list_soc_detailed(auth_client, soc_detailed):
-#     res = auth_client.get(SOC_DETAILED_URL)
-
-#     assert res.status_code == status.HTTP_200_OK
-#     assert len(res.data) == 1
-#     assert res.data[0]["occ_code"] == soc_detailed.occ_code
-#     assert res.data[0]["soc_broad"] == soc_detailed.soc_broad.pk
+    assert res.status_code == status.HTTP_200_OK
+    assert len(res.data) == 1
+    assert res.data[0]["occ_code"] == soc_detailed.occ_code
+    assert res.data[0]["soc_broad"] == soc_detailed.soc_broad.pk
 
 
-# def test_retrieve_soc_detailed(auth_client, soc_detailed):
-#     url = reverse("soc-detailed-detail", args=[soc_detailed.pk])
-#     res = auth_client.get(url)
+def test_retrieve_soc_detailed(auth_client, soc_detailed):
+    url = reverse("soc-detailed-detail", args=[soc_detailed.pk])
+    res = auth_client.get(url)
 
-#     assert res.status_code == status.HTTP_200_OK
-#     assert res.data["uuid"] == str(soc_detailed.pk)
-#     assert res.data["occ_code"] == soc_detailed.occ_code
-#     assert res.data["title"] == soc_detailed.title
-#     assert res.data["soc_broad"] == soc_detailed.soc_broad.pk
-
-
-# def test_create_soc_detailed(auth_client, soc_broad):
-#     payload = {
-#         "soc_broad": soc_broad.pk,
-#         "occ_code": "33-3333",
-#         "title": "Test SOC Detailed API",
-#         "description": "Created via API",
-#     }
-
-#     res = auth_client.post(SOC_DETAILED_URL, payload)
-#     assert res.status_code == status.HTTP_201_CREATED
-
-#     created = SocDetailed.objects.get(uuid=res.data["uuid"])
-#     assert created.occ_code == payload["occ_code"]
-#     assert created.title == payload["title"]
-#     assert created.soc_broad == soc_broad
+    assert res.status_code == status.HTTP_200_OK
+    assert res.data["uuid"] == str(soc_detailed.pk)
+    assert res.data["occ_code"] == soc_detailed.occ_code
+    assert res.data["title"] == soc_detailed.title
+    assert res.data["soc_broad"] == soc_detailed.soc_broad.pk
 
 
-# def test_update_soc_detailed(auth_client, soc_detailed):
-#     url = f"{SOC_DETAILED_URL}{soc_detailed.pk}/"
+def test_create_soc_detailed(auth_client, soc_broad):
+    payload = {
+        "soc_broad": soc_broad.pk,
+        "occ_code": "33-3333",
+        "title": "Test SOC Detailed API",
+        "description": "Created via API",
+    }
 
-#     payload = {
-#         "soc_broad": soc_detailed.soc_broad.pk,
-#         "occ_code": soc_detailed.occ_code,
-#         "title": "UPDATED TITLE",
-#         "description": soc_detailed.description,
-#     }
+    res = auth_client.post(SOC_DETAILED_URL, payload)
+    assert res.status_code == status.HTTP_201_CREATED
 
-#     res = auth_client.put(url, payload)
-#     assert res.status_code == status.HTTP_200_OK
-
-#     soc_detailed.refresh_from_db()
-#     assert soc_detailed.title == "UPDATED TITLE"
-
-
-# def test_partial_update_soc_detailed(auth_client, soc_detailed):
-#     url = f"{SOC_DETAILED_URL}{soc_detailed.pk}/"
-
-#     res = auth_client.patch(url, {"title": "PATCHED TITLE"})
-#     assert res.status_code == status.HTTP_200_OK
-
-#     soc_detailed.refresh_from_db()
-#     assert soc_detailed.title == "PATCHED TITLE"
+    created = SocDetailed.objects.get(uuid=res.data["uuid"])
+    assert created.occ_code == payload["occ_code"]
+    assert created.title == payload["title"]
+    assert created.soc_broad == soc_broad
 
 
-# def test_delete_soc_detailed(auth_client, soc_detailed):
-#     url = f"{SOC_DETAILED_URL}{soc_detailed.pk}/"
+def test_update_soc_detailed(auth_client, soc_detailed):
+    url = f"{SOC_DETAILED_URL}{soc_detailed.pk}/"
 
-#     res = auth_client.delete(url)
-#     assert res.status_code == status.HTTP_204_NO_CONTENT
-#     assert SocDetailed.objects.count() == 0
+    payload = {
+        "soc_broad": soc_detailed.soc_broad.pk,
+        "occ_code": soc_detailed.occ_code,
+        "title": "UPDATED TITLE",
+        "description": soc_detailed.description,
+    }
+
+    res = auth_client.put(url, payload)
+    assert res.status_code == status.HTTP_200_OK
+
+    soc_detailed.refresh_from_db()
+    assert soc_detailed.title == "UPDATED TITLE"
+
+
+def test_partial_update_soc_detailed(auth_client, soc_detailed):
+    url = f"{SOC_DETAILED_URL}{soc_detailed.pk}/"
+
+    res = auth_client.patch(url, {"title": "PATCHED TITLE"})
+    assert res.status_code == status.HTTP_200_OK
+
+    soc_detailed.refresh_from_db()
+    assert soc_detailed.title == "PATCHED TITLE"
+
+
+def test_delete_soc_detailed(auth_client, soc_detailed):
+    url = f"{SOC_DETAILED_URL}{soc_detailed.pk}/"
+
+    res = auth_client.delete(url)
+    assert res.status_code == status.HTTP_204_NO_CONTENT
+    assert SocDetailed.objects.count() == 0
 
 
 def test_project_sdg_xref(auth_client, project, sdg, sdg1):
