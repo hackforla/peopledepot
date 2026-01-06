@@ -44,6 +44,7 @@ from ..models import StackElementType
 from ..models import UrlStatusType
 from ..models import UrlType
 from ..models import UserCheck
+from ..models import UserEmploymentHistory
 from ..models import UserPermission
 from ..models import UserStatusType
 from .serializers import AffiliateSerializer
@@ -74,6 +75,7 @@ from .serializers import StackElementTypeSerializer
 from .serializers import UrlStatusTypeSerializer
 from .serializers import UrlTypeSerializer
 from .serializers import UserCheckSerializer
+from .serializers import UserEmploymentHistorySerializer
 from .serializers import UserPermissionSerializer
 from .serializers import UserSerializer
 from .serializers import UserStatusTypeSerializer
@@ -476,6 +478,22 @@ class UrlTypeViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = UrlType.objects.all()
     serializer_class = UrlTypeSerializer
+
+
+@extend_schema_view(
+    list=extend_schema(description="Return a list of user employment history records"),
+    create=extend_schema(description="Create a new user employment history record"),
+    retrieve=extend_schema(description="Return a user employment history record"),
+    update=extend_schema(description="Update a user employment history record"),
+    partial_update=extend_schema(
+        description="Partially update a user employment history record"
+    ),
+    destroy=extend_schema(description="Delete a user employment history record"),
+)
+class UserEmploymentHistoryViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = UserEmploymentHistory.objects.all()
+    serializer_class = UserEmploymentHistorySerializer
 
 
 @extend_schema_view(

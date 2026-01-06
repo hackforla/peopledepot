@@ -30,6 +30,7 @@ from core.models import UrlStatusType
 from core.models import UrlType
 from core.models import User
 from core.models import UserCheck
+from core.models import UserEmploymentHistory
 from core.models import UserPermission
 from core.models import UserStatusType
 from core.models import WinType
@@ -451,6 +452,15 @@ class UrlTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = UrlType
         fields = ("uuid", "name", "description")
+        read_only_fields = ("uuid", "created_at", "updated_at")
+
+
+class UserEmploymentHistorySerializer(serializers.ModelSerializer):
+    """Used to retrieve user employment history info"""
+
+    class Meta:
+        model = UserEmploymentHistory
+        fields = ("uuid", "user", "soc_detailed", "title")
         read_only_fields = ("uuid", "created_at", "updated_at")
 
 
