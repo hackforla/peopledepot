@@ -40,6 +40,7 @@ from .models import UrlStatusType
 from .models import UrlType
 from .models import User
 from .models import UserCheck
+from .models import UserEmploymentHistory
 from .models import UserStatusType
 from .models import Win
 from .models import WinType
@@ -403,6 +404,13 @@ class UserCheckAdmin(admin.ModelAdmin):
     )
     search_fields = ("user__username", "check_type__name", "org__name", "project__name")
     list_filter = ("result", "check_type", "org", "project")
+
+
+@admin.register(UserEmploymentHistory)
+class UserEmploymentHistoryAdmin(admin.ModelAdmin):
+    list_display = ("user", "title", "soc_detailed", "created_at")
+    search_fields = ("title", "user__username", "user__email")
+    list_filter = ("soc_detailed",)
 
 
 @admin.register(Win)

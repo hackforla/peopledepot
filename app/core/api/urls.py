@@ -34,6 +34,7 @@ from .views import StackElementViewSet
 from .views import UrlStatusTypeViewSet
 from .views import UrlTypeViewSet
 from .views import UserCheckViewSet
+from .views import UserEmploymentHistoryViewSet
 from .views import UserPermissionViewSet
 from .views import UserProfileAPIView
 from .views import UserStatusTypeViewSet
@@ -94,6 +95,11 @@ router.register(r"url-status-types", UrlStatusTypeViewSet, basename="url-status-
 router.register(r"accomplishments", AccomplishmentViewSet, basename="accomplishment")
 router.register(r"organizations", OrganizationViewSet, basename="organization")
 router.register(r"user-checks", UserCheckViewSet, basename="user-check")
+router.register(
+    r"user-employment-histories",
+    UserEmploymentHistoryViewSet,
+    basename="user-employment-history",
+)
 router.register(r"wins", WinViewSet, basename="win")
 router.register(r"win-types", WinTypeViewSet, basename="win-type")
 
