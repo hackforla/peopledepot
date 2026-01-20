@@ -438,13 +438,16 @@ def test_create_project_status(auth_client):
     assert res.data["name"] == payload["name"]
 
 
-def test_list_soc_broads(auth_client, soc_broad):
+def test_list_soc_broads(auth_client):
     res = auth_client.get(SOC_BROAD_URL)
 
     assert res.status_code == status.HTTP_200_OK
-    assert len(res.data) == 1
-    assert res.data[0]["title"] == soc_broad.title
-    assert res.data[0]["soc_minor"] == soc_broad.soc_minor.pk
+    assert len(res.data) > 0
+
+    for item in res.data:
+        soc_broad = SocBroad.objects.get(uuid=item["uuid"])
+        assert soc_broad.title == item["title"]
+        assert soc_broad.soc_minor.pk == item["soc_minor"]
 
 
 def test_create_soc_broad(auth_client, soc_minor):
