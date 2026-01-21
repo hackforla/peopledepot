@@ -141,6 +141,16 @@ repos:
         additional_dependencies:
           - mdformat-mkdocs[recommended]>=4.4.1
 
+  # # disabled because it creates too many changes, often between creating and reviewing a PR
+  # - repo: https://github.com/astral-sh/uv-pre-commit
+  #   # uv version.
+  #   rev: 0.8.14
+  #   hooks:
+  #     # Compile requirements
+  #     - id: pip-compile
+  #       args: [app/requirements.in, -o, app/requirements.txt, --no-header, --upgrade]
+  #       files: ^app/requirements\.(in|txt)$
+
   - repo: local
     hooks:
       - id: buildrun
