@@ -488,23 +488,6 @@ class EventType(AbstractBaseModel):
         return f"{self.name}"
 
 
-class SocBroad(AbstractBaseModel):
-    """
-    Broad SOC category tied to a SocMinor.
-    """
-
-    soc_minor = models.ForeignKey(
-        "SocMinor",
-        on_delete=models.CASCADE,
-        related_name="soc_broads",
-    )
-    occ_code = models.CharField(max_length=255)
-    title = models.CharField(max_length=255)
-
-    def __str__(self) -> str:
-        return self.title
-
-
 class SocMajor(AbstractBaseModel):
     occ_code = models.CharField(max_length=255)
     title = models.CharField(max_length=255)

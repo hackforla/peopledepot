@@ -22,7 +22,6 @@ from core.models import Referrer
 from core.models import ReferrerType
 from core.models import Sdg
 from core.models import Skill
-from core.models import SocBroad
 from core.models import SocMajor
 from core.models import SocMinor
 from core.models import StackElement
@@ -425,20 +424,6 @@ class ProjectStatusSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProjectStatus
         fields = ("uuid", "name", "description")
-        read_only_fields = ("uuid", "created_at", "updated_at")
-
-
-class SocBroadSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = SocBroad
-        fields = (
-            "uuid",
-            "created_at",
-            "updated_at",
-            "soc_minor",
-            "occ_code",
-            "title",
-        )
         read_only_fields = ("uuid", "created_at", "updated_at")
 
 

@@ -10,7 +10,6 @@ from core.models import Organization
 from core.models import ProgramArea
 from core.models import ProjectStackElementXref
 from core.models import ProjectUrl
-from core.models import SocBroad
 from core.models import UrlStatusType
 from core.models import UserCheck
 from core.models import UserPermission
@@ -44,7 +43,6 @@ AFFILIATION_URL = reverse("affiliation-list")
 CHECK_TYPE_URL = reverse("check-type-list")
 PROJECT_STATUSES_URL = reverse("project-status-list")
 PROJECT_URLS_URL = reverse("project-url-list")
-SOC_BROAD_URL = reverse("soc-broad-list")
 SOC_MAJOR_URL = reverse("soc-major-list")
 SOC_MINORS_URL = reverse("soc-minor-list")
 URL_TYPE_URL = reverse("url-type-list")
@@ -436,32 +434,6 @@ def test_create_project_status(auth_client):
     res = auth_client.post(PROJECT_STATUSES_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
     assert res.data["name"] == payload["name"]
-
-
-def test_list_soc_broads(auth_client, soc_broad):
-    res = auth_client.get(SOC_BROAD_URL)
-
-    assert res.status_code == status.HTTP_200_OK
-    assert len(res.data) == 1
-    assert res.data[0]["title"] == soc_broad.title
-    assert res.data[0]["soc_minor"] == soc_broad.soc_minor.pk
-
-
-def test_create_soc_broad(auth_client, soc_minor):
-    payload = {
-        "soc_minor": soc_minor.pk,
-        "occ_code": "15-1211",
-        "title": "Data Analysts",
-    }
-
-    res = auth_client.post(SOC_BROAD_URL, payload)
-
-    assert res.status_code == status.HTTP_201_CREATED
-
-    created = SocBroad.objects.get(uuid=res.data["uuid"])
-    assert created.soc_minor == soc_minor
-    assert created.occ_code == payload["occ_code"]
-    assert created.title == payload["title"]
 
 
 def test_create_soc_major(auth_client):

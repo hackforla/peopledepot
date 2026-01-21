@@ -25,7 +25,6 @@ from ..models import Referrer
 from ..models import ReferrerType
 from ..models import Sdg
 from ..models import Skill
-from ..models import SocBroad
 from ..models import SocMajor
 from ..models import SocMinor
 from ..models import StackElement
@@ -333,15 +332,6 @@ def project_status():
     return ProjectStatus.objects.create(
         name="This is a test project_status",
         description="This is a test project_status",
-    )
-
-
-@pytest.fixture
-def soc_broad(soc_minor):
-    return SocBroad.objects.create(
-        soc_minor=soc_minor,
-        occ_code="15-1252",
-        title="Software Developers",
     )
 
 
