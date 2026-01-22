@@ -512,13 +512,11 @@ class SocDetailed(AbstractBaseModel):
     Dictionary of SOC detailed occupations.
     """
 
-    # Note: Uncomment after SocBroad is merged into main
-
-    # soc_broad = models.ForeignKey(
-    #     "SocBroad",
-    #     on_delete=models.CASCADE,
-    #     related_name="soc_detailed",
-    # )
+    soc_broad = models.ForeignKey(
+        "SocBroad",
+        on_delete=models.CASCADE,
+        related_name="soc_detailed",
+    )
 
     occ_code = models.CharField(max_length=255)
     title = models.CharField(max_length=255)
