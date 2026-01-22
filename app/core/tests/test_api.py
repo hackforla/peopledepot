@@ -10,8 +10,8 @@ from core.models import Organization
 from core.models import ProgramArea
 from core.models import ProjectStackElementXref
 from core.models import ProjectUrl
-from core.models import SocDetailed
 from core.models import SocBroad
+from core.models import SocDetailed
 from core.models import UrlStatusType
 from core.models import UserCheck
 from core.models import UserPermission

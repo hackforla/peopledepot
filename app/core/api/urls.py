@@ -22,8 +22,8 @@ from .views import ReferrerTypeViewSet
 from .views import ReferrerViewSet
 from .views import SdgViewSet
 from .views import SkillViewSet
-from .views import SocDetailedViewSet
 from .views import SocBroadViewSet
+from .views import SocDetailedViewSet
 from .views import SocMajorViewSet
 from .views import SocMinorViewSet
 from .views import StackElementTypeViewSet

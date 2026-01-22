@@ -25,8 +25,8 @@ from ..models import Referrer
 from ..models import ReferrerType
 from ..models import Sdg
 from ..models import Skill
-from ..models import SocDetailed
 from ..models import SocBroad
+from ..models import SocDetailed
 from ..models import SocMajor
 from ..models import SocMinor
 from ..models import StackElement

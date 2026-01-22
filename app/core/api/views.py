@@ -35,8 +35,8 @@ from ..models import Referrer
 from ..models import ReferrerType
 from ..models import Sdg
 from ..models import Skill
-from ..models import SocDetailed
 from ..models import SocBroad
+from ..models import SocDetailed
 from ..models import SocMajor
 from ..models import SocMinor
 from ..models import StackElement
@@ -69,8 +69,8 @@ from .serializers import ReferrerSerializer
 from .serializers import ReferrerTypeSerializer
 from .serializers import SdgSerializer
 from .serializers import SkillSerializer
-from .serializers import SocDetailedSerializer
 from .serializers import SocBroadSerializer
+from .serializers import SocDetailedSerializer
 from .serializers import SocMajorSerializer
 from .serializers import SocMinorSerializer
 from .serializers import StackElementSerializer
