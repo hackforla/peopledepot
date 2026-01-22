@@ -11,6 +11,7 @@ from core.models import ProgramArea
 from core.models import ProjectStackElementXref
 from core.models import ProjectUrl
 from core.models import SocDetailed
+from core.models import SocBroad
 from core.models import UrlStatusType
 from core.models import UserCheck
 from core.models import UserPermission
@@ -44,6 +45,7 @@ AFFILIATION_URL = reverse("affiliation-list")
 CHECK_TYPE_URL = reverse("check-type-list")
 PROJECT_STATUSES_URL = reverse("project-status-list")
 PROJECT_URLS_URL = reverse("project-url-list")
+SOC_BROAD_URL = reverse("soc-broad-list")
 SOC_MAJOR_URL = reverse("soc-major-list")
 SOC_MINORS_URL = reverse("soc-minor-list")
 SOC_DETAILED_URL = reverse("soc-detailed-list")
@@ -52,6 +54,7 @@ PROJECT_STACK_ELEMENTS_URL = reverse("project-stack-element-list")
 URL_STATUS_TYPES_URL = reverse("url-status-type-list")
 ORGANIZATIONS_URL = reverse("organization-list")
 USER_CHECKS_URL = reverse("user-check-list")
+WIN_URL = reverse("win-list")
 WIN_TYPES_URL = reverse("win-type-list")
 
 CREATE_USER_PAYLOAD = {
@@ -436,6 +439,35 @@ def test_create_project_status(auth_client):
     res = auth_client.post(PROJECT_STATUSES_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
     assert res.data["name"] == payload["name"]
+
+
+def test_list_soc_broads(auth_client):
+    res = auth_client.get(SOC_BROAD_URL)
+
+    assert res.status_code == status.HTTP_200_OK
+    assert len(res.data) > 0
+
+    for item in res.data:
+        soc_broad = SocBroad.objects.get(uuid=item["uuid"])
+        assert soc_broad.title == item["title"]
+        assert soc_broad.soc_minor.pk == item["soc_minor"]
+
+
+def test_create_soc_broad(auth_client, soc_minor):
+    payload = {
+        "soc_minor": soc_minor.pk,
+        "occ_code": "15-1211",
+        "title": "Data Analysts",
+    }
+
+    res = auth_client.post(SOC_BROAD_URL, payload)
+
+    assert res.status_code == status.HTTP_201_CREATED
+
+    created = SocBroad.objects.get(uuid=res.data["uuid"])
+    assert created.soc_minor == soc_minor
+    assert created.occ_code == payload["occ_code"]
+    assert created.title == payload["title"]
 
 
 def test_create_soc_major(auth_client):
@@ -1071,6 +1103,35 @@ def test_api_allow_org_and_project_same_type_different_scopes(
         {"user": user.pk, "check_type": check_type.pk, "project": project.pk},
     )
     assert r2.status_code == status.HTTP_201_CREATED
+
+
+def test_create_win(auth_client, user, practice_area, project, win_type):
+    payload = {
+        "user": user.pk,
+        "practice_areas": [practice_area.pk],
+        "teams": [project.pk],
+        "description": "Funding secured for prototype",
+        "win_type": win_type.pk,
+        "can_use_photo": True,
+    }
+    res = auth_client.post(WIN_URL, payload)
+
+    assert res.status_code == status.HTTP_201_CREATED
+    assert res.data["description"] == payload["description"]
+    assert res.data["can_use_photo"] is True
+
+    assert res.data["user"] == user.pk
+    assert res.data["win_type"] == win_type.pk
+    assert res.data["practice_areas"] == [practice_area.pk]
+    assert res.data["teams"] == [project.pk]
+
+
+def test_list_wins(auth_client, win):
+    res = auth_client.get(WIN_URL)
+
+    assert res.status_code == status.HTTP_200_OK
+    assert len(res.data) == 1
+    assert res.data[0]["description"] == win.description
 
 
 def test_create_win_type(auth_client):

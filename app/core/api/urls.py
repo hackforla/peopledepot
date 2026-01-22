@@ -23,6 +23,7 @@ from .views import ReferrerViewSet
 from .views import SdgViewSet
 from .views import SkillViewSet
 from .views import SocDetailedViewSet
+from .views import SocBroadViewSet
 from .views import SocMajorViewSet
 from .views import SocMinorViewSet
 from .views import StackElementTypeViewSet
@@ -35,6 +36,7 @@ from .views import UserProfileAPIView
 from .views import UserStatusTypeViewSet
 from .views import UserViewSet
 from .views import WinTypeViewSet
+from .views import WinViewSet
 
 router = routers.SimpleRouter()
 router.register(r"user-permissions", UserPermissionViewSet, basename="user-permission")
@@ -66,6 +68,7 @@ router.register(
 router.register(r"check-types", CheckTypeViewSet, basename="check-type")
 router.register(r"project-statuses", ProjectStatusViewSet, basename="project-status")
 router.register(r"project-urls", ProjectUrlViewSet, basename="project-url")
+router.register(r"soc-broads", SocBroadViewSet, basename="soc-broad")
 router.register(r"soc-majors", SocMajorViewSet, basename="soc-major")
 router.register(r"soc-minors", SocMinorViewSet, basename="soc-minor")
 router.register(r"soc-detailed", SocDetailedViewSet, basename="soc-detailed")
@@ -81,6 +84,7 @@ router.register(
 router.register(r"url-status-types", UrlStatusTypeViewSet, basename="url-status-type")
 router.register(r"organizations", OrganizationViewSet, basename="organization")
 router.register(r"user-checks", UserCheckViewSet, basename="user-check")
+router.register(r"wins", WinViewSet, basename="win")
 router.register(r"win-types", WinTypeViewSet, basename="win-type")
 
 urlpatterns = [

@@ -23,6 +23,7 @@ from core.models import ReferrerType
 from core.models import Sdg
 from core.models import Skill
 from core.models import SocDetailed
+from core.models import SocBroad
 from core.models import SocMajor
 from core.models import SocMinor
 from core.models import StackElement
@@ -33,6 +34,7 @@ from core.models import User
 from core.models import UserCheck
 from core.models import UserPermission
 from core.models import UserStatusType
+from core.models import Win
 from core.models import WinType
 
 
@@ -428,6 +430,20 @@ class ProjectStatusSerializer(serializers.ModelSerializer):
         read_only_fields = ("uuid", "created_at", "updated_at")
 
 
+class SocBroadSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SocBroad
+        fields = (
+            "uuid",
+            "created_at",
+            "updated_at",
+            "soc_minor",
+            "occ_code",
+            "title",
+        )
+        read_only_fields = ("uuid", "created_at", "updated_at")
+
+
 class SocMajorSerializer(serializers.ModelSerializer):
     """Used to retrieve soc_major info"""
 
@@ -588,6 +604,23 @@ class UserCheckSerializer(serializers.ModelSerializer):
             "reminder_start",
             "completed_at",
             "project",
+        )
+        read_only_fields = ("uuid", "created_at", "updated_at")
+
+
+class WinSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Win
+        fields = (
+            "uuid",
+            "created_at",
+            "updated_at",
+            "user",
+            "practice_areas",
+            "teams",
+            "description",
+            "win_type",
+            "can_use_photo",
         )
         read_only_fields = ("uuid", "created_at", "updated_at")
 

@@ -26,6 +26,7 @@ from ..models import ReferrerType
 from ..models import Sdg
 from ..models import Skill
 from ..models import SocDetailed
+from ..models import SocBroad
 from ..models import SocMajor
 from ..models import SocMinor
 from ..models import StackElement
@@ -36,6 +37,7 @@ from ..models import User
 from ..models import UserCheck
 from ..models import UserPermission
 from ..models import UserStatusType
+from ..models import Win
 from ..models import WinType
 
 
@@ -337,6 +339,15 @@ def project_status():
 
 
 @pytest.fixture
+def soc_broad(soc_minor):
+    return SocBroad.objects.create(
+        soc_minor=soc_minor,
+        occ_code="15-1252",
+        title="Software Developers",
+    )
+
+
+@pytest.fixture
 def soc_major():
     return SocMajor.objects.create(occ_code="22-2222", title="Test Soc Major")
 
@@ -436,6 +447,19 @@ def user_check(user, organization, check_type, project):
         completed_at=None,
         project=project,
     )
+
+
+@pytest.fixture
+def win(user, practice_area, project, win_type):
+    win_obj = Win.objects.create(
+        user=user,
+        description="Got funding for the project",
+        win_type=win_type,
+        can_use_photo=True,
+    )
+    win_obj.practice_areas.add(practice_area)
+    win_obj.teams.add(project)
+    return win_obj
 
 
 @pytest.fixture

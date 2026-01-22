@@ -28,6 +28,7 @@ from .models import ReferrerType
 from .models import Sdg
 from .models import Skill
 from .models import SocDetailed
+from .models import SocBroad
 from .models import SocMajor
 from .models import SocMinor
 from .models import StackElement
@@ -37,6 +38,7 @@ from .models import UrlType
 from .models import User
 from .models import UserCheck
 from .models import UserStatusType
+from .models import Win
 from .models import WinType
 
 
@@ -279,6 +281,13 @@ class ProjectStatusAdmin(admin.ModelAdmin):
     list_display = ("name", "description")
 
 
+@admin.register(SocBroad)
+class SocBroadAdmin(admin.ModelAdmin):
+    list_display = ("title", "occ_code", "soc_minor")
+    list_filter = ("soc_minor",)
+    search_fields = ("title", "occ_code")
+
+
 @admin.register(SocMajor)
 class SocMajorAdmin(admin.ModelAdmin):
     list_display = ("occ_code", "title")
@@ -361,6 +370,19 @@ class UserCheckAdmin(admin.ModelAdmin):
     )
     search_fields = ("user__username", "check_type__name", "org__name", "project__name")
     list_filter = ("result", "check_type", "org", "project")
+
+
+@admin.register(Win)
+class WinAdmin(admin.ModelAdmin):
+    list_display = (
+        "user",
+        "description",
+        "win_type",
+        "can_use_photo",
+        "created_at",
+        "updated_at",
+    )
+    list_filter = ("win_type", "can_use_photo", "user")
 
 
 @admin.register(WinType)
