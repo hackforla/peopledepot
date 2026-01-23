@@ -8,24 +8,10 @@ import uuid
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0045_wintype'),
+        ('core', '0047_win'),
     ]
 
     operations = [
-        migrations.CreateModel(
-            name='SocBroad',
-            fields=[
-                ('uuid', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False, unique=True)),
-                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='Created at')),
-                ('updated_at', models.DateTimeField(auto_now=True, verbose_name='Updated at')),
-                ('occ_code', models.CharField(max_length=255)),
-                ('title', models.CharField(max_length=255)),
-                ('soc_minor', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='soc_broads', to='core.socminor')),
-            ],
-            options={
-                'abstract': False,
-            },
-        ),
         migrations.CreateModel(
             name='SocDetailed',
             fields=[
