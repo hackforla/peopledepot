@@ -47,10 +47,10 @@ PROJECT_URLS_URL = reverse("project-url-list")
 SOC_BROAD_URL = reverse("soc-broad-list")
 SOC_MAJOR_URL = reverse("soc-major-list")
 SOC_MINORS_URL = reverse("soc-minor-list")
-ACCOMPLISHMENT_URL = reverse("accomplishment-list")
 URL_TYPE_URL = reverse("url-type-list")
 PROJECT_STACK_ELEMENTS_URL = reverse("project-stack-element-list")
 URL_STATUS_TYPES_URL = reverse("url-status-type-list")
+ACCOMPLISHMENT_URL = reverse("accomplishment-list")
 ORGANIZATIONS_URL = reverse("organization-list")
 USER_CHECKS_URL = reverse("user-check-list")
 WIN_URL = reverse("win-list")
@@ -513,21 +513,6 @@ def test_soc_minor_soc_major_relationship(auth_client, soc_minor, soc_major):
     assert soc_major_exists is True
 
 
-def test_accomplishment(auth_client, project):
-    """Test that we can create a accomplishment"""
-
-    payload = {
-        "project": project.uuid,
-        "title": "Test title",
-        "description": "Test description",
-        "url": "https://redwind01.com",
-        "accomplished_on": "2024-01-01T18:00:00Z",
-    }
-    res = auth_client.post(ACCOMPLISHMENT_URL, payload)
-    assert res.status_code == status.HTTP_201_CREATED
-    assert res.data["title"] == payload["title"]
-
-
 def test_project_sdg_xref(auth_client, project, sdg, sdg1):
     def get_object(objects, target_uuid):
         for obj in objects:
@@ -865,6 +850,21 @@ def test_delete_unused_url_status_type(auth_client):
 
     del_res = auth_client.delete(reverse("url-status-type-detail", args=[uuid_]))
     assert del_res.status_code == 204
+
+
+def test_accomplishment(auth_client, project):
+    """Test that we can create a accomplishment"""
+
+    payload = {
+        "project": project.uuid,
+        "title": "Test title",
+        "description": "Test description",
+        "url": "https://redwind01.com",
+        "accomplished_on": "2024-01-01T18:00:00Z",
+    }
+    res = auth_client.post(ACCOMPLISHMENT_URL, payload)
+    assert res.status_code == status.HTTP_201_CREATED
+    assert res.data["title"] == payload["title"]
 
 
 def test_create_organization(auth_client):

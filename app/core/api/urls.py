@@ -71,7 +71,6 @@ router.register(r"project-urls", ProjectUrlViewSet, basename="project-url")
 router.register(r"soc-broads", SocBroadViewSet, basename="soc-broad")
 router.register(r"soc-majors", SocMajorViewSet, basename="soc-major")
 router.register(r"soc-minors", SocMinorViewSet, basename="soc-minor")
-router.register(r"accomplishments", AccomplishmentViewSet, basename="accomplishment")
 router.register(r"url-types", UrlTypeViewSet, basename="url-type")
 router.register(
     r"user-status-types", UserStatusTypeViewSet, basename="user-status-type"
@@ -82,6 +81,7 @@ router.register(
     basename="project-stack-element",
 )
 router.register(r"url-status-types", UrlStatusTypeViewSet, basename="url-status-type")
+router.register(r"accomplishments", AccomplishmentViewSet, basename="accomplishment")
 router.register(r"organizations", OrganizationViewSet, basename="organization")
 router.register(r"user-checks", UserCheckViewSet, basename="user-check")
 router.register(r"wins", WinViewSet, basename="win")

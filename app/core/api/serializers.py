@@ -462,28 +462,6 @@ class SocMinorSerializer(serializers.ModelSerializer):
         read_only_fields = ("uuid", "created_at", "updated_at")
 
 
-class AccomplishmentSerializer(serializers.ModelSerializer):
-    """Used to retrieve accomplishment info"""
-
-    class Meta:
-        model = Accomplishment
-        fields = (
-            "uuid",
-            "created_at",
-            "updated_at",
-            "project",
-            "title",
-            "description",
-            "url",
-            "accomplished_on",
-        )
-        read_only_fields = (
-            "uuid",
-            "created_at",
-            "updated_at",
-        )
-
-
 class UrlTypeSerializer(serializers.ModelSerializer):
     """Used to retrieve url_type info"""
 
@@ -569,6 +547,28 @@ class UrlStatusTypeSerializer(serializers.ModelSerializer):
         model = UrlStatusType
         fields = ("uuid", "name", "description", "created_at", "updated_at")
         read_only_fields = ("uuid", "created_at", "updated_at")
+
+
+class AccomplishmentSerializer(serializers.ModelSerializer):
+    """Used to retrieve accomplishment info"""
+
+    class Meta:
+        model = Accomplishment
+        fields = (
+            "uuid",
+            "created_at",
+            "updated_at",
+            "project",
+            "title",
+            "description",
+            "url",
+            "accomplished_on",
+        )
+        read_only_fields = (
+            "uuid",
+            "created_at",
+            "updated_at",
+        )
 
 
 class OrganizationSerializer(serializers.ModelSerializer):
