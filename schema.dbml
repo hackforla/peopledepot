@@ -106,6 +106,23 @@ Table EventOccurrence {
   version_of uuid [ref: > Event.id]
 }
 
+Table EventOccurrenceChange {
+  ~AbstractBaseModel
+  event int [ref: > Event.id]
+  start_time DateTimeField
+  name_change varchar
+  description_change varchar
+  event_type_change int [ref: > EventType.id]
+  start_time_change DateTimeField
+  duration_in_min_change int
+  video_conference_url_change URLField
+  location_change int [ref: > Location.id]
+  additional_info_change varchar
+  must_attend_change JSON
+  should_attend_change JSON
+  could_attend_change JSON
+}
+
 Table EventType {
   //created
   ~AbstractBaseModel
@@ -224,7 +241,7 @@ Table Project {
   completed_on date
   github_org int [ref: - ProjectUrl.id, note: 'The unique id assigned to GitHub orgs. A foreign key to a row in ProjectUrl that corresponds to the org repo link']
   github_primary_repo int [ref: - ProjectUrl.id, note: 'A project might have many repos, this is for the primary starting place for new users. A foreign key to a row in ProjectUrl that corresponds to the primary repo']
-  current_status int [ref: > ProjectProgramAreaStatusType.id]
+  project_status_type int [ref: > ProjectProgramAreaStatusType.id]
   hide Boolean
   location int [ref: > Location.id]
   google_drive int [ref: > ProjectUrl.id, note: 'The unique id of the google drive, used for adding people with automation. A foreign key to a row in ProjectUrl that corresponds to the google drive.']
@@ -407,7 +424,7 @@ Table User {
   email_gmail EmailField
   email_preferred EmailField
   is_active bool [default: True, note:'Required by django. A boolean field that indicates whether the user\'s account is active.']
-  user_status int [ref: > UserStatusType.id]
+  user_status_type int [ref: > UserStatusType.id]
   practice_area_primary int [ref: > PracticeArea.id]
   practice_area_secondary int[] [ref: <> PracticeArea.id]
   job_title_current varchar
