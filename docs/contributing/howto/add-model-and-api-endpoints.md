@@ -118,6 +118,24 @@ class RecurringEvent(AbstractBaseModel):  # (1)!
 1. Try to add the relationships to non-existent models, but comment them out. Another developer will complete them when they go to implement those models.
 1. Always override the `__str__` function to output something more meaningful than the default. It lets us do a quick test of the model by calling `str([model])`. It's also useful for the admin site model list view.
 
+!!! note "Add new model code in alphabetical order to reduce merge conflicts"
+
+    **What to do**: Starting from the end of the file, move the new code backward if its name comes earlier in the alphabet compared to the class name above. Then, maintain the same ordering in the other source code files.
+
+    ??? note "**Problem being solved**"
+
+        If we always add new code to the same position in the file, such as at the end, it will cause a merge conflict when 2 PRs (based on the same commit) are both adding new code there. Git would not know which one to keep or both, and what order they should be in, so it returns a conflict and makes the developer decide.
+
+        For an example, try to rebase/merge commit `b047db4` to `d83bed7` in the peopledepot repo.
+
+        ```sh
+        git checkout b047db4  # switch to the commit in "detached HEAD" state
+        git rebase d83bed7  # will show conflicts
+        # git merge d83bed7  # will also show conflicts
+        ```
+
+        The solution is to impose a rule so that new code gets added in different places in the file.
+
 ??? note "Updating models.py for many-to-many relationships"
 
     For adding many-to-many relationships with additional fields, such as `ended_on`, we can add
