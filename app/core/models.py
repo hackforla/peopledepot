@@ -4,6 +4,7 @@ from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.models import UserManager
 from django.contrib.auth.validators import UnicodeUsernameValidator
+from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.db.models import Q
 from phonenumber_field.modelfields import PhoneNumberField
@@ -88,7 +89,7 @@ class User(PermissionsMixin, AbstractBaseUser, AbstractBaseModel):
     email_preferred = models.EmailField(blank=True)
     email_cognito = models.EmailField(blank=True)
 
-    user_status = models.ForeignKey(
+    user_status_type = models.ForeignKey(
         "UserStatusType", null=True, on_delete=models.PROTECT
     )
     practice_area_primary = models.ForeignKey(
@@ -105,10 +106,19 @@ class User(PermissionsMixin, AbstractBaseUser, AbstractBaseModel):
         "PracticeArea", related_name="target_intake_users", blank=True
     )
 
-    job_title_current_intake = models.CharField(max_length=255, blank=True)
-    job_title_target_intake = models.CharField(max_length=255, blank=True)
+    intake_present_job_title = models.CharField(max_length=255, blank=True)
+    intake_target_job_titles = models.CharField(max_length=255, blank=True)
+    current_target_job_titles = models.CharField(max_length=255, blank=True)
     current_skills = models.CharField(max_length=255, blank=True)
-    target_skills = models.CharField(max_length=255, blank=True)
+
+    intake_target_skills = ArrayField(
+        base_field=models.IntegerField(),
+        default=list,
+        blank=True,
+    )
+
+    intake_present_skills = models.CharField(max_length=255, blank=True)
+    current_target_skills = models.CharField(max_length=255, blank=True)
 
     # desired_roles = models.ManyToManyField("Role")
     # availability = models.IntegerField()  # not in ERD, is a separate table. Want to confirm to remove this
@@ -117,7 +127,7 @@ class User(PermissionsMixin, AbstractBaseUser, AbstractBaseModel):
 
     linkedin_account = models.CharField(max_length=255, blank=True)
     github_handle = models.CharField(max_length=255, blank=True)
-    slack_id = models.CharField(max_length=11, blank=True)
+    slack_member_id = models.CharField(max_length=11, blank=True)
 
     phone = PhoneNumberField(blank=True)
 
