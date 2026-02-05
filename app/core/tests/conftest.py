@@ -349,16 +349,6 @@ def soc_broad(soc_minor):
 
 
 @pytest.fixture
-def soc_major():
-    return SocMajor.objects.create(occ_code="22-2222", title="Test Soc Major")
-
-
-@pytest.fixture
-def soc_minor():
-    return SocMinor.objects.create(occ_code="22-2222", title="Test Soc Minor")
-
-
-@pytest.fixture
 def soc_detailed(soc_broad):
     return SocDetailed.objects.create(
         soc_broad=soc_broad,
@@ -366,6 +356,16 @@ def soc_detailed(soc_broad):
         title="Software Developers",
         description="Develop and maintain software systems.",
     )
+
+
+@pytest.fixture
+def soc_major():
+    return SocMajor.objects.create(occ_code="22-2222", title="Test Soc Major")
+
+
+@pytest.fixture
+def soc_minor():
+    return SocMinor.objects.create(occ_code="22-2222", title="Test Soc Minor")
 
 
 @pytest.fixture

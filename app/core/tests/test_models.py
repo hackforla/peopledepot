@@ -188,20 +188,6 @@ def test_soc_broad_relationships(soc_broad, soc_minor):
     assert list(soc_minor.soc_broads.all()) == [soc_broad]
 
 
-def test_soc_major(soc_major):
-    assert str(soc_major) == "Test Soc Major"
-
-
-def test_soc_minor(soc_minor):
-    assert str(soc_minor) == "Test Soc Minor"
-
-
-def test_soc_major_soc_minor_relationship(soc_major, soc_minor):
-    assert soc_minor.soc_major is None
-    soc_minor.soc_major = soc_major
-    assert soc_minor.soc_major == soc_major
-
-
 def test_create_soc_detailed(soc_broad):
     soc = SocDetailed.objects.create(
         soc_broad=soc_broad,
@@ -261,6 +247,20 @@ def test_soc_broad_deletion_cascades_to_soc_detailed(soc_broad):
 
     soc_broad.delete()
     assert SocDetailed.objects.count() == initial_count
+
+
+def test_soc_major(soc_major):
+    assert str(soc_major) == "Test Soc Major"
+
+
+def test_soc_minor(soc_minor):
+    assert str(soc_minor) == "Test Soc Minor"
+
+
+def test_soc_major_soc_minor_relationship(soc_major, soc_minor):
+    assert soc_minor.soc_major is None
+    soc_minor.soc_major = soc_major
+    assert soc_minor.soc_major == soc_major
 
 
 def test_project_program_area_relationship(project):

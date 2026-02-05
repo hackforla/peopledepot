@@ -289,6 +289,13 @@ class SocBroadAdmin(admin.ModelAdmin):
     search_fields = ("title", "occ_code")
 
 
+@admin.register(SocDetailed)
+class SocDetailedAdmin(admin.ModelAdmin):
+    list_display = ("occ_code", "title", "soc_broad", "created_at")
+    search_fields = ("occ_code", "title", "soc_broad__title")
+    list_filter = ("soc_broad",)
+
+
 @admin.register(SocMajor)
 class SocMajorAdmin(admin.ModelAdmin):
     list_display = ("occ_code", "title")
@@ -297,13 +304,6 @@ class SocMajorAdmin(admin.ModelAdmin):
 @admin.register(SocMinor)
 class SocMinorAdmin(admin.ModelAdmin):
     list_display = ("soc_major", "occ_code", "title")
-
-
-@admin.register(SocDetailed)
-class SocDetailedAdmin(admin.ModelAdmin):
-    list_display = ("occ_code", "title", "soc_broad", "created_at")
-    search_fields = ("occ_code", "title", "soc_broad__title")
-    list_filter = ("soc_broad",)
 
 
 @admin.register(UrlType)

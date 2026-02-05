@@ -471,50 +471,6 @@ def test_create_soc_broad(auth_client, soc_minor):
     assert created.title == payload["title"]
 
 
-def test_create_soc_major(auth_client):
-    """Test that we can create a soc major"""
-
-    payload = {
-        "occ_code": "33-3333",
-        "title": "Test marketing and sales",
-    }
-    res = auth_client.post(SOC_MAJOR_URL, payload)
-    assert res.status_code == status.HTTP_201_CREATED
-    assert res.data["title"] == payload["title"]
-
-
-def test_create_soc_minor(auth_client):
-    """Test that we can create a soc minor"""
-
-    payload = {
-        "occ_code": "33-3333",
-        "title": "Test soc minor",
-    }
-    res = auth_client.post(SOC_MINORS_URL, payload)
-    assert res.status_code == status.HTTP_201_CREATED
-    assert res.data["title"] == payload["title"]
-    assert res.data["occ_code"] == payload["occ_code"]
-
-
-def test_soc_minor_soc_major_relationship(auth_client, soc_minor, soc_major):
-    res = auth_client.patch(
-        reverse("soc-minor-detail", kwargs={"pk": soc_minor.pk}),
-        {"soc_major": soc_major.pk},
-    )
-    assert res.status_code == status.HTTP_200_OK
-
-    res = auth_client.get(SOC_MINORS_URL)
-
-    soc_major_exists = False
-
-    for item in res.data:
-        if item["soc_major"] == soc_major.pk:
-            soc_major_exists = True
-            break
-
-    assert soc_major_exists is True
-
-
 def test_list_soc_detailed(auth_client):
     res = auth_client.get(SOC_DETAILED_URL)
 
@@ -588,6 +544,50 @@ def test_delete_soc_detailed(auth_client, soc_detailed):
     res = auth_client.delete(url)
     assert res.status_code == status.HTTP_204_NO_CONTENT
     assert SocDetailed.objects.count() == detailed_count - 1
+
+
+def test_create_soc_major(auth_client):
+    """Test that we can create a soc major"""
+
+    payload = {
+        "occ_code": "33-3333",
+        "title": "Test marketing and sales",
+    }
+    res = auth_client.post(SOC_MAJOR_URL, payload)
+    assert res.status_code == status.HTTP_201_CREATED
+    assert res.data["title"] == payload["title"]
+
+
+def test_create_soc_minor(auth_client):
+    """Test that we can create a soc minor"""
+
+    payload = {
+        "occ_code": "33-3333",
+        "title": "Test soc minor",
+    }
+    res = auth_client.post(SOC_MINORS_URL, payload)
+    assert res.status_code == status.HTTP_201_CREATED
+    assert res.data["title"] == payload["title"]
+    assert res.data["occ_code"] == payload["occ_code"]
+
+
+def test_soc_minor_soc_major_relationship(auth_client, soc_minor, soc_major):
+    res = auth_client.patch(
+        reverse("soc-minor-detail", kwargs={"pk": soc_minor.pk}),
+        {"soc_major": soc_major.pk},
+    )
+    assert res.status_code == status.HTTP_200_OK
+
+    res = auth_client.get(SOC_MINORS_URL)
+
+    soc_major_exists = False
+
+    for item in res.data:
+        if item["soc_major"] == soc_major.pk:
+            soc_major_exists = True
+            break
+
+    assert soc_major_exists is True
 
 
 def test_project_sdg_xref(auth_client, project, sdg, sdg1):

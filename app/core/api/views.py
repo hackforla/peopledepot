@@ -472,6 +472,20 @@ class SocBroadViewSet(viewsets.ModelViewSet):
 
 
 @extend_schema_view(
+    list=extend_schema(description="Return a list of all SOC detailed records"),
+    create=extend_schema(description="Create a new SOC detailed record"),
+    retrieve=extend_schema(description="Return the details of a SOC detailed record"),
+    destroy=extend_schema(description="Delete a SOC detailed record"),
+    update=extend_schema(description="Update a SOC detailed record"),
+    partial_update=extend_schema(description="Patch a SOC detailed record"),
+)
+class SocDetailedViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = SocDetailed.objects.all()
+    serializer_class = SocDetailedSerializer
+
+
+@extend_schema_view(
     list=extend_schema(description="Return a list of all the soc majors"),
     create=extend_schema(description="Create a new soc major"),
     retrieve=extend_schema(description="Return the details of a soc major"),
@@ -497,20 +511,6 @@ class SocMinorViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = SocMinor.objects.all()
     serializer_class = SocMinorSerializer
-
-
-@extend_schema_view(
-    list=extend_schema(description="Return a list of all SOC detailed records"),
-    create=extend_schema(description="Create a new SOC detailed record"),
-    retrieve=extend_schema(description="Return the details of a SOC detailed record"),
-    destroy=extend_schema(description="Delete a SOC detailed record"),
-    update=extend_schema(description="Update a SOC detailed record"),
-    partial_update=extend_schema(description="Patch a SOC detailed record"),
-)
-class SocDetailedViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticated]
-    queryset = SocDetailed.objects.all()
-    serializer_class = SocDetailedSerializer
 
 
 @extend_schema_view(

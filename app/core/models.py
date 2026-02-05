@@ -505,25 +505,6 @@ class SocBroad(AbstractBaseModel):
         return self.title
 
 
-class SocMajor(AbstractBaseModel):
-    occ_code = models.CharField(max_length=255)
-    title = models.CharField(max_length=255)
-
-    def __str__(self):
-        return self.title
-
-
-class SocMinor(AbstractBaseModel):
-    soc_major = models.ForeignKey(
-        SocMajor, blank=True, null=True, on_delete=models.CASCADE
-    )
-    occ_code = models.CharField(max_length=255)
-    title = models.CharField(max_length=255)
-
-    def __str__(self):
-        return self.title
-
-
 class SocDetailed(AbstractBaseModel):
     """
     Dictionary of SOC detailed occupations.
@@ -541,6 +522,25 @@ class SocDetailed(AbstractBaseModel):
 
     def __str__(self):
         return f"{self.occ_code} - {self.title}"
+
+
+class SocMajor(AbstractBaseModel):
+    occ_code = models.CharField(max_length=255)
+    title = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.title
+
+
+class SocMinor(AbstractBaseModel):
+    soc_major = models.ForeignKey(
+        SocMajor, blank=True, null=True, on_delete=models.CASCADE
+    )
+    occ_code = models.CharField(max_length=255)
+    title = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.title
 
 
 class ProjectProgramAreaXref(AbstractBaseModel):

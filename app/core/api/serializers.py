@@ -445,6 +445,21 @@ class SocBroadSerializer(serializers.ModelSerializer):
         read_only_fields = ("uuid", "created_at", "updated_at")
 
 
+class SocDetailedSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SocDetailed
+        fields = (
+            "uuid",
+            "soc_broad",
+            "occ_code",
+            "title",
+            "description",
+            "created_at",
+            "updated_at",
+        )
+        read_only_fields = ("uuid", "created_at", "updated_at")
+
+
 class SocMajorSerializer(serializers.ModelSerializer):
     """Used to retrieve soc_major info"""
 
@@ -460,21 +475,6 @@ class SocMinorSerializer(serializers.ModelSerializer):
     class Meta:
         model = SocMinor
         fields = ("uuid", "soc_major", "occ_code", "title")
-        read_only_fields = ("uuid", "created_at", "updated_at")
-
-
-class SocDetailedSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = SocDetailed
-        fields = (
-            "uuid",
-            "soc_broad",
-            "occ_code",
-            "title",
-            "description",
-            "created_at",
-            "updated_at",
-        )
         read_only_fields = ("uuid", "created_at", "updated_at")
 
 
