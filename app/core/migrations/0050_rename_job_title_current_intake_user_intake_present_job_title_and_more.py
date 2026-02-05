@@ -46,7 +46,7 @@ def forward_copy_target_skills(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0048_accomplishment_and_more'),
+        ('core', '0049_socbroad_socdetailed'),
     ]
 
     operations = [
