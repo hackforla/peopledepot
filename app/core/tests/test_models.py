@@ -34,6 +34,35 @@ def test_user(user, django_user_model):
     assert repr(user) == f"<User {user.uuid}>"
 
 
+def test_user_intake_fields(user, practice_area, referrer, user_status_type):
+    user.intake_present_job_title = "Software Engineer"
+    user.intake_target_job_titles = "Senior Engineer"
+    user.intake_present_skills = "Python, Django"
+    user.current_target_skills = "System Design"
+
+    # array
+    user.intake_target_skills = [1, 2, 999]
+
+    # FK
+    user.practice_area_primary = practice_area
+    user.practice_area_secondary.add(practice_area)
+    user.practice_area_target_intake.add(practice_area)
+    user.referrer = referrer
+    user.user_status_type = user_status_type
+
+    user.save()
+    user.refresh_from_db()
+
+    assert user.intake_present_job_title == "Software Engineer"
+    assert user.intake_target_job_titles == "Senior Engineer"
+    assert user.intake_target_skills == [1, 2, 999]
+    assert user.practice_area_primary == practice_area
+    assert user.practice_area_secondary.count() == 1
+    assert user.practice_area_target_intake.count() == 1
+    assert user.referrer == referrer
+    assert user.user_status_type == user_status_type
+
+
 def test_project(project):
     assert str(project) == "Test Project"
 
@@ -480,15 +509,15 @@ def test_user_has_a_user_status_relationship(user, user2):
 
     assert active_user_status.user_set.count() == 2
 
-    assert user.user_status == active_user_status
-    assert user2.user_status == active_user_status
+    assert user.user_status_type == active_user_status
+    assert user2.user_status_type == active_user_status
 
     inactive_user_status.user_set.add(user)
 
     assert active_user_status.user_set.count() == 1
     assert inactive_user_status.user_set.count() == 1
 
-    assert user.user_status == inactive_user_status
+    assert user.user_status_type == inactive_user_status
 
 
 def test_user_practice_area_relationship(user, user2):
