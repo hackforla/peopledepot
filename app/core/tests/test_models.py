@@ -34,6 +34,16 @@ def test_user(user, django_user_model):
     assert repr(user) == f"<User {user.uuid}>"
 
 
+def test_user_can_have_multiple_practice_areas(db, user):
+    area1, _ = PracticeArea.objects.get_or_create(name="Data")
+    area2, _ = PracticeArea.objects.get_or_create(name="Design")
+
+    user.practice_area_secondary.add(area1, area2)
+    user.save()
+
+    assert user.practice_area_secondary.count() == 2
+
+
 def test_project(project):
     assert str(project) == "Test Project"
 
@@ -480,15 +490,15 @@ def test_user_has_a_user_status_relationship(user, user2):
 
     assert active_user_status.user_set.count() == 2
 
-    assert user.user_status == active_user_status
-    assert user2.user_status == active_user_status
+    assert user.user_status_type == active_user_status
+    assert user2.user_status_type == active_user_status
 
     inactive_user_status.user_set.add(user)
 
     assert active_user_status.user_set.count() == 1
     assert inactive_user_status.user_set.count() == 1
 
-    assert user.user_status == inactive_user_status
+    assert user.user_status_type == inactive_user_status
 
 
 def test_user_practice_area_relationship(user, user2):
