@@ -1,4 +1,5 @@
 django~=4.2.0
+django-cors-headers
 django-extensions
 django-linear-migrations
 django-phonenumber-field[phonenumbers]
