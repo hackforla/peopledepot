@@ -355,20 +355,6 @@ Table Skill {
   description varchar
 }
 
-Table SOCMajor {
-  //created
-  ~AbstractBaseModel
-  occ_code varchar
-  title varchar
-}
-
-Table SOCMinor {
-  ~AbstractBaseModel
-  soc_major int [ref: > SOCMajor.id]
-  occ_code varchar
-  title varchar
-}
-
 Table SOCBroad {
   ~AbstractBaseModel
   soc_minor int [ref: > SOCMinor.id]
@@ -382,6 +368,21 @@ Table SOCDetailed {
   occ_code varchar
   title varchar
   description varchar
+}
+
+
+Table SOCMajor {
+  //created
+  ~AbstractBaseModel
+  occ_code varchar
+  title varchar
+}
+
+Table SOCMinor {
+  ~AbstractBaseModel
+  soc_major int [ref: > SOCMajor.id]
+  occ_code varchar
+  title varchar
 }
 
 Table StackElement {
