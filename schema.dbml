@@ -175,7 +175,7 @@ Table Location {
 
 Table ModernJobTitle {
   ~AbstractBaseModel
-  soc_detailed int [ref: > SocDetailed.id]
+  soc_detailed int [ref: > SOCDetailed.id]
   title varchar
 }
 
@@ -277,10 +277,10 @@ Table ProjectProgramAreaXref {
   program_area int [ref: > ProgramArea.id]
 }
 
-Table ProjectSdgXref {
+Table ProjectSDGXref {
   //created
   ~AbstractBaseModel
-  sdg int [ref: > Sdg.id]
+  sdg int [ref: > SDG.id]
   project int [ref: > Project.id]
   ended_on DateField
 }
@@ -332,7 +332,7 @@ Table ReferrerType {
   description varchar
 }
 
-Table Sdg {
+Table SDG {
   //created
   ~AbstractBaseModel
   name varchar
@@ -340,9 +340,9 @@ Table Sdg {
   image URLField
 }
 
-Table SdgTargetIndicator {
+Table SDGTargetIndicator {
   ~AbstractBaseModel
-  sdg int [ref: > Sdg.id]
+  sdg int [ref: > SDG.id]
   code varchar
   description_number varchar
   description_text varchar
@@ -355,33 +355,33 @@ Table Skill {
   description varchar
 }
 
-Table SocBroad {
-  ~AbstractBaseModel
-  soc_minor int [ref: > SocMinor.id]
-  occ_code varchar
-  title varchar
-}
-
-Table SocDetailed {
-  ~AbstractBaseModel
-  soc_broad int [ref: > SocBroad.id]
-  occ_code varchar
-  title varchar
-  description varchar
-}
-
-Table SocMajor {
+Table SOCMajor {
   //created
   ~AbstractBaseModel
   occ_code varchar
   title varchar
 }
 
-Table SocMinor {
+Table SOCMinor {
   ~AbstractBaseModel
-  soc_major int [ref: > SocMajor.id]
+  soc_major int [ref: > SOCMajor.id]
   occ_code varchar
   title varchar
+}
+
+Table SOCBroad {
+  ~AbstractBaseModel
+  soc_minor int [ref: > SOCMinor.id]
+  occ_code varchar
+  title varchar
+}
+
+Table SOCDetailed {
+  ~AbstractBaseModel
+  soc_broad int [ref: > SOCBroad.id]
+  occ_code varchar
+  title varchar
+  description varchar
 }
 
 Table StackElement {
@@ -469,8 +469,8 @@ Table UserCheck {
 Table UserEmploymentHistory {
   ~AbstractBaseModel
   user int [ref: > User.id]
-  soc_detailed int [ref: > SocDetailed.id]
-  title varchar
+  soc_detailed int [ref: > SOCDetailed.id]
+  modern_job_title int [ref: > ModernJobTitle.id]
 }
 
 Table UserStatusType {
