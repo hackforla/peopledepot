@@ -60,7 +60,6 @@ Or run the script
 
 Disable header in the generated file
 :   `--no-header` This solves the problem unnecessary code churn caused by changing headers
-:   another definition
 
 Upgrade all dependencies
 :   `--upgrade`
