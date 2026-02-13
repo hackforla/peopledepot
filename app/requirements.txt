@@ -20,7 +20,7 @@ django==4.2.27
     #   djangorestframework
     #   drf-jwt
     #   drf-spectacular
-django-extensions==3.2.3
+django-extensions==4.1
     # via -r requirements.in
 django-linear-migrations==2.16.0
     # via -r requirements.in
