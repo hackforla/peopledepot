@@ -72,7 +72,7 @@ pytest-cov==6.0.0
     # via -r requirements.in
 pytest-django==4.9.0
     # via -r requirements.in
-pytest-xdist==3.6.1
+pytest-xdist==3.8.0
     # via -r requirements.in
 pyyaml==6.0.2
     # via drf-spectacular
