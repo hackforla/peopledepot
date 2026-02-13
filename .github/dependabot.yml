@@ -16,5 +16,3 @@ updates:
     directory: "/app/"
     schedule:
       interval: "weekly"
-
-
