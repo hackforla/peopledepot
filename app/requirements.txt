@@ -6,11 +6,11 @@ attrs==24.2.0
     #   referencing
 cffi==1.17.1
     # via cryptography
-coverage[toml]==7.6.8
+coverage[toml]==7.13.4
     # via pytest-cov
 cryptography==44.0.1
     # via pyjwt
-django==4.2.27
+django==5.2.11
     # via
     #   -r requirements.in
     #   django-extensions
@@ -20,22 +20,22 @@ django==4.2.27
     #   djangorestframework
     #   drf-jwt
     #   drf-spectacular
-django-extensions==3.2.3
+django-extensions==4.1
     # via -r requirements.in
-django-linear-migrations==2.16.0
+django-linear-migrations==2.19.0
     # via -r requirements.in
-django-phonenumber-field[phonenumbers]==8.0.0
+django-phonenumber-field[phonenumbers]==8.4.0
     # via -r requirements.in
-django-timezone-field==7.0
+django-timezone-field==7.2.1
     # via -r requirements.in
-djangorestframework==3.15.2
+djangorestframework==3.16.1
     # via
     #   -r requirements.in
     #   drf-jwt
     #   drf-spectacular
 drf-jwt==1.19.2
     # via -r requirements.in
-drf-spectacular==0.28.0
+drf-spectacular==0.29.0
     # via -r requirements.in
 execnet==2.1.1
     # via pytest-xdist
@@ -47,15 +47,17 @@ jsonschema==4.23.0
     # via drf-spectacular
 jsonschema-specifications==2024.10.1
     # via jsonschema
-markdown==3.7
+markdown==3.10.2
     # via -r requirements.in
 packaging==24.2
     # via pytest
 phonenumbers==8.13.51
     # via django-phonenumber-field
 pluggy==1.5.0
-    # via pytest
-psycopg2-binary==2.9.10
+    # via
+    #   pytest
+    #   pytest-cov
+psycopg2-binary==2.9.11
     # via -r requirements.in
 pycparser==2.22
     # via cffi
@@ -68,11 +70,11 @@ pytest==8.3.4
     #   pytest-cov
     #   pytest-django
     #   pytest-xdist
-pytest-cov==6.0.0
+pytest-cov==7.0.0
     # via -r requirements.in
-pytest-django==4.9.0
+pytest-django==4.11.1
     # via -r requirements.in
-pytest-xdist==3.6.1
+pytest-xdist==3.8.0
     # via -r requirements.in
 pyyaml==6.0.2
     # via drf-spectacular
@@ -86,7 +88,7 @@ rpds-py==0.22.1
     #   referencing
 sqlparse==0.5.2
     # via django
-tzdata==2024.2
+tzdata==2025.3
     # via -r requirements.in
 uritemplate==4.1.1
     # via drf-spectacular
