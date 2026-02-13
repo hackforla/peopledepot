@@ -4,15 +4,32 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    groups:
+      actions-deps:
+        patterns:
+          - "*"
   - package-ecosystem: "docker"
     directory: "/app/"
     schedule:
       interval: "weekly"
+    groups:
+      docker-deps:
+        patterns:
+          - "*"
   - package-ecosystem: "docker-compose"
     directory: "/"
     schedule:
       interval: "weekly"
+    groups:
+      docker-compose-deps:
+        patterns:
+          - "*"
   - package-ecosystem: "pip"
     directory: "/app/"
     schedule:
       interval: "weekly"
+    groups:
+      dev-deps:
+        dependency-type: "development"
+      prod-deps:
+        dependency-type: "production"
