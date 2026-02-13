@@ -70,7 +70,7 @@ pytest==8.3.4
     #   pytest-xdist
 pytest-cov==6.0.0
     # via -r requirements.in
-pytest-django==4.9.0
+pytest-django==4.11.1
     # via -r requirements.in
 pytest-xdist==3.6.1
     # via -r requirements.in
