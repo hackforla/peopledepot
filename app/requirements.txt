@@ -24,7 +24,7 @@ django-extensions==3.2.3
     # via -r requirements.in
 django-linear-migrations==2.16.0
     # via -r requirements.in
-django-phonenumber-field[phonenumbers]==8.0.0
+django-phonenumber-field[phonenumbers]==8.4.0
     # via -r requirements.in
 django-timezone-field==7.0
     # via -r requirements.in
