@@ -1,9 +1,12 @@
 ---
 name: Add seed data to a table
-about: For adding data that will be the same no matter what organization uses People Depot
+about: For adding data that will be the same no matter what organization uses People
+  Depot
 title: 'Add seed data for Table: [Replace with TABLE NAME]'
-labels: 'complexity: small, good first issue, milestone: missing, role: back end, size: 1pt'
+labels: 'complexity: small, good first issue, milestone: missing, ready for dev lead,
+  role: back end, size: 1pt'
 assignees: ''
+
 ---
 
 ### Dependency
@@ -18,8 +21,8 @@ We need to add seed data for the [Replace with TABLE NAME] table, because it won
 
 - [ ] Read the instructions (resource 1.01)
 - [ ] Find the table (resource 1.02), and add it to the resources below (resource 2.01)
-- [ ] create the json file
-- [ ] convert the json file to python script
+- [ ] create the csv file
+- [ ] convert the csv file to python script
 - [ ] Combine the script in migration
 - [ ] Update the 2.02 & 2.03 links when the pr is merged
 
@@ -27,8 +30,8 @@ We need to add seed data for the [Replace with TABLE NAME] table, because it won
 
 #### Resources for creating this issue
 
-- 1.01 Instruction: https://hackforla.github.io/peopledepot/how-to/create-initial-data-migrations/
-- 1.02 tables folder: https://github.com/hackforla/peopledepot/blob/main/app/core/migrations/
+- 1.01 Instruction: https://hackforla.github.io/peopledepot/contributing/howto/create-initial-data-migrations/
+- 1.02 tables folder: https://github.com/hackforla/peopledepot/tree/main/app/core/migrations
 
 #### Resources gathered during the completion of this issue
 
