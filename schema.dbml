@@ -33,23 +33,10 @@ Table Affiliate {
 Table CancelledEvent {
   ~AbstractBaseModel
   event int [ref: > Event.id]
-  cancelled_event_date DateTimeField
+  start_time DateTimeField
+  cancelled_on DateField
   reason varchar
-  user int [ref: > User.id]
-  name varchar
-  description varchar
-  event_type int [ref: > EventType.id]
-  start_time datetime
-  duration_in_min int
-  project int [ref: > Project.id]
-  video_conference_url URLField
-  location int [ref: > Location.id]
-  org int [ref: > Org.id]
-  additional_info varchar
-  must_attend JSON
-  should_attend JSON
-  could_attend JSON
-  version_of uuid [ref: > Event.id]
+  cancelled_by int [ref: > User.id]
 }
 
 Table CheckIn {
