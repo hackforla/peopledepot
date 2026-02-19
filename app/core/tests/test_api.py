@@ -188,6 +188,26 @@ user_actions_test_data = [
 ]
 
 
+def test_update_user_intake_fields_api(auth_client, user, practice_area):
+    payload = {
+        "intake_present_job_title": "Backend Engineer",
+        "intake_target_job_titles": "Staff Engineer",
+        "intake_target_skills": [10, 20, 30],
+        "practice_area_primary": practice_area.pk,
+        "practice_area_secondary": [practice_area.pk],
+    }
+
+    res = auth_client.patch(
+        reverse("user-detail", args=[user.uuid]),
+        payload,
+    )
+
+    assert res.status_code == status.HTTP_200_OK
+    assert res.data["intake_present_job_title"] == "Backend Engineer"
+    assert res.data["intake_target_job_titles"] == "Staff Engineer"
+    assert res.data["intake_target_skills"] == [10, 20, 30]
+
+
 @pytest.mark.parametrize(
     ("client_name", "action", "endpoint", "payload", "expected_status"),
     user_actions_test_data,
