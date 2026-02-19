@@ -33,5 +33,5 @@ We need to add seed data for the [Replace with TABLE NAME] table, because it won
 #### Resources gathered during the completion of this issue
 
 - 2.01 table:
-- 2.02 json file (after commit):
+- 2.02 csv file (after commit):
 - 2.03 script that adds seed data:
