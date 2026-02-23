@@ -71,26 +71,15 @@ Table Event {
   should_attend JSON
   could_attend JSON
   last_generated DateTimeField
-  version_of uuid [ref: > Event.id]
+  previous_version uuid [ref: > Event.id]
 }
 
 Table EventOccurrence {
   ~AbstractBaseModel
   event int [ref: > Event.id]
-  name varchar
-  description varchar
-  event_type int [ref: > EventType.id]
   start_time DateTimeField
-  duration_in_min int
-  project int [ref: > Project.id]
-  video_conference_url URLField
-  location int [ref: > Location.id]
-  org int [ref: > Org.id]
-  additional_info varchar
-  must_attend JSON
-  should_attend JSON
-  could_attend JSON
-  version_of uuid [ref: > Event.id]
+  previous_version uuid [ref: > Event.id]
+  changes uuid [ref: > EventOccurrenceChange.id]
 }
 
 Table EventOccurrenceChange {
