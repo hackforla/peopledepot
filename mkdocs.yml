@@ -30,6 +30,11 @@ plugins:
         - Onboarding
         - database
         - postgres
+        - Django
+        - migrations
+        - AWS
+        - deployment
+        - Docker
 
 markdown_extensions:
   - abbr

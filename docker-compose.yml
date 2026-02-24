@@ -1,5 +1,6 @@
 services:
   web:
+    user: "1000:1000"
     build: ./app
     platform: linux/amd64
     command: python manage.py runserver 0.0.0.0:8000
