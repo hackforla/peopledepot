@@ -1,4 +1,4 @@
-asgiref==3.10.0
+asgiref==3.11.1
     # via django
 attrs==25.4.0
     # via
@@ -6,11 +6,11 @@ attrs==25.4.0
     #   referencing
 cffi==2.0.0
     # via cryptography
-coverage==7.11.2
+coverage==7.13.4
     # via pytest-cov
-cryptography==46.0.3
+cryptography==46.0.5
     # via pyjwt
-django==4.2.26
+django==4.2.28
     # via
     #   -r app/requirements.in
     #   django-extensions
@@ -24,9 +24,9 @@ django-extensions==4.1
     # via -r app/requirements.in
 django-linear-migrations==2.19.0
     # via -r app/requirements.in
-django-phonenumber-field==8.3.0
+django-phonenumber-field==8.4.0
     # via -r app/requirements.in
-django-timezone-field==7.1
+django-timezone-field==7.2.1
     # via -r app/requirements.in
 djangorestframework==3.16.1
     # via
@@ -37,21 +37,21 @@ drf-jwt==1.19.2
     # via -r app/requirements.in
 drf-spectacular==0.29.0
     # via -r app/requirements.in
-execnet==2.1.1
+execnet==2.1.2
     # via pytest-xdist
 inflection==0.5.1
     # via drf-spectacular
 iniconfig==2.3.0
     # via pytest
-jsonschema==4.25.1
+jsonschema==4.26.0
     # via drf-spectacular
 jsonschema-specifications==2025.9.1
     # via jsonschema
-markdown==3.10
+markdown==3.10.2
     # via -r app/requirements.in
-packaging==25.0
+packaging==26.0
     # via pytest
-phonenumbers==9.0.18
+phonenumbers==9.0.24
     # via django-phonenumber-field
 pluggy==1.6.0
     # via
@@ -59,20 +59,20 @@ pluggy==1.6.0
     #   pytest-cov
 psycopg2-binary==2.9.11
     # via -r app/requirements.in
-pycparser==2.23
+pycparser==3.0
     # via cffi
 pygments==2.19.2
     # via pytest
-pyjwt==2.10.1
+pyjwt==2.11.0
     # via drf-jwt
-pytest==9.0.0
+pytest==9.0.2
     # via
     #   pytest-cov
     #   pytest-django
     #   pytest-xdist
 pytest-cov==7.0.0
     # via -r app/requirements.in
-pytest-django==4.11.1
+pytest-django==4.12.0
     # via -r app/requirements.in
 pytest-xdist==3.8.0
     # via -r app/requirements.in
@@ -82,15 +82,13 @@ referencing==0.37.0
     # via
     #   jsonschema
     #   jsonschema-specifications
-rpds-py==0.28.0
+rpds-py==0.30.0
     # via
     #   jsonschema
     #   referencing
-sqlparse==0.5.3
+sqlparse==0.5.5
     # via django
-typing-extensions==4.15.0
-    # via referencing
-tzdata==2025.2
+tzdata==2025.3
     # via -r app/requirements.in
 uritemplate==4.2.0
     # via drf-spectacular
