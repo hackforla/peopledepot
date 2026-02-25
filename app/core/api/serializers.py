@@ -87,6 +87,12 @@ class UserSerializer(serializers.ModelSerializer):
 
     time_zone = TimeZoneSerializerField(use_pytz=False)
 
+    intake_target_skills = serializers.ListField(
+        child=serializers.IntegerField(),
+        required=False,
+        allow_empty=True,
+    )
+
     class Meta:
         model = User
         fields = (
@@ -99,14 +105,17 @@ class UserSerializer(serializers.ModelSerializer):
             "last_name",
             "email_gmail",
             "email_preferred",
-            "job_title_current_intake",
-            "job_title_target_intake",
+            "intake_present_job_title",
+            "intake_target_job_titles",
+            "current_target_job_titles",
             "current_skills",
-            "target_skills",
+            "intake_present_skills",
+            "current_target_skills",
+            "intake_target_skills",
             "referrer",
             "linkedin_account",
             "github_handle",
-            "slack_id",
+            "slack_member_id",
             "phone",
             "texting_ok",
             "time_zone",
@@ -115,7 +124,7 @@ class UserSerializer(serializers.ModelSerializer):
             "practice_area_target_intake",
             "email_cognito",
             "is_active",
-            "user_status",
+            "user_status_type",
         )
         read_only_fields = (
             "uuid",
