@@ -1,5 +1,7 @@
+import textwrap
 import uuid
 
+from django.conf import settings
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.models import UserManager
@@ -163,27 +165,48 @@ class Project(AbstractBaseModel):
 
     name = models.CharField(max_length=255, unique=True)
     description = models.CharField(max_length=255, blank=True)
-    completed_at = models.DateTimeField("Completed at", null=True, blank=True)
-    github_org_id = models.CharField(
-        max_length=8,
+    completed_on = models.DateField("Completed on", null=True, blank=True)
+    github_org = models.ForeignKey(
+        "ProjectUrl",
+        null=True,
         blank=True,
-        help_text='Can be retrieved from gh api with the following: curl -H \
-"Authorization: token [gh_PAT]" https://api.github.com/orgs/[org]',
+        on_delete=models.SET_NULL,
+        related_name="projects_as_org",
+        help_text=textwrap.dedent("""
+            Can be retrieved from gh api with the following: curl -H
+            "Authorization: token [gh_PAT]" https://api.github.com/orgs/[org]
+        """).strip(),
     )
-    github_primary_repo_id = models.CharField(
-        max_length=9,
+    github_primary_repo = models.ForeignKey(
+        "ProjectUrl",
+        null=True,
         blank=True,
-        help_text='Can be retrieved from gh api with the following: curl -H \
-"Authorization: token [gh_PAT]" \
-https://api.github.com/repos/[org]/[repo]',
+        on_delete=models.SET_NULL,
+        related_name="projects_as_repo",
+        help_text=textwrap.dedent("""
+            Can be retrieved from gh api with the following:
+            curl -H "Authorization: token [gh_PAT]"
+            https://api.github.com/repos/[org]/[repo]
+        """).strip(),
     )
     current_status = models.ForeignKey(
         ProjectStatus, null=True, on_delete=models.PROTECT
     )
     hide = models.BooleanField(default=True)
     # location_id = models.ForeignKey("location", on_delete=models.PROTECT)
-    google_drive_id = models.CharField(max_length=255, blank=True)
+    google_drive = models.ForeignKey(
+        "ProjectUrl",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="projects_as_drive",
+    )
     # leads = models.ManyToManyField("lead")
+    project_leads = models.ManyToManyField(
+        settings.AUTH_USER_MODEL,
+        related_name="projects_led",
+        blank=True,
+    )
     leadership_type = models.ForeignKey(
         LeadershipType, blank=True, null=True, on_delete=models.PROTECT
     )

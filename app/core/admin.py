@@ -148,7 +148,7 @@ class ProjectAdmin(admin.ModelAdmin):
         "hide",
         "created_at",
         "updated_at",
-        "completed_at",
+        "completed_on",
     )
 
 

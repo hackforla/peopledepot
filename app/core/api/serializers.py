@@ -140,12 +140,13 @@ class ProjectSerializer(serializers.ModelSerializer):
             "description",
             "created_at",
             "updated_at",
-            "completed_at",
-            "github_org_id",
-            "github_primary_repo_id",
+            "completed_on",
+            "github_org",
+            "github_primary_repo",
             "hide",
+            "project_leads",
             "leadership_type",
-            "google_drive_id",
+            "google_drive",
             "image_logo",
             "image_hero",
             "image_icon",
@@ -156,7 +157,6 @@ class ProjectSerializer(serializers.ModelSerializer):
             "uuid",
             "created_at",
             "updated_at",
-            "completed_at",
         )
 
 
