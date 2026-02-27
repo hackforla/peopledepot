@@ -205,8 +205,8 @@ class AffiliateSerializer(serializers.ModelSerializer):
         model = Affiliate
         fields = (
             "uuid",
-            "partner_name",
-            "partner_logo",
+            "name",
+            "logo",
             "is_active",
             "url",
             "is_org_sponsor",
