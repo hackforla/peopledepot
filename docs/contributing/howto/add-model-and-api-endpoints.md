@@ -349,11 +349,12 @@ In `app/core/api/serializers.py`
                 "description",
                 "created_at",
                 "updated_at",
-                "completed_at",
-                "github_org_id",
-                "github_primary_repo_id",
+                "completed_on",
+                "github_org",
+                "github_primary_repo",
                 "hide",
-                "google_drive_id",
+                "leadership_type",
+                "google_drive",
                 "image_logo",
                 "image_hero",
                 "image_icon",
@@ -363,7 +364,6 @@ In `app/core/api/serializers.py`
                 "uuid",
                 "created_at",
                 "updated_at",
-                "completed_at",
             )
 
 
