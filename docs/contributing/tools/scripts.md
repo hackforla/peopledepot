@@ -30,8 +30,6 @@ These scripts assume you are using bash.
     1. Pass in `-v` to remove data volume, which resets the local database.
     1. See the script file for more options.
 
-1. **check-migrations.sh** - check if migrations are up to date
-
 1. **createsuperuser.sh** - create a default superuser
 
     1. This assumes that `DJANGO_SUPERUSER_USERNAME` and `DJANGO_SUPERUSER_PASSWORD` are set in `.env.docker`
