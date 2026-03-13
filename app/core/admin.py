@@ -172,8 +172,8 @@ class PracticeAreaAdmin(admin.ModelAdmin):
 @admin.register(Affiliate)
 class AffiliateAdmin(admin.ModelAdmin):
     list_display = (
-        "partner_name",
-        "partner_logo",
+        "name",
+        "logo",
         "is_active",
         "url",
         "is_org_sponsor",

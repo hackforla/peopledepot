@@ -210,7 +210,7 @@ def admin_client(admin, client):
 
 @pytest.fixture
 def affiliate():
-    return Affiliate.objects.create(partner_name="Test Affiliate")
+    return Affiliate.objects.create(name="Test Affiliate")
 
 
 @pytest.fixture

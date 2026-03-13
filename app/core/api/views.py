@@ -247,9 +247,9 @@ class AffiliateViewSet(viewsets.ModelViewSet):
     #     Optionally filter sponsor partners by name, is_active, and/or is_sponsor query parameters in the URL
     #     """
     #     queryset = Affiliate.objects.all()
-    #     partner_name = self.request.query_params.get("partner_name")
-    #     if partner_name is not None:
-    #         queryset = queryset.filter(partner_name=partner_name)
+    #     name = self.request.query_params.get("name")
+    #     if name is not None:
+    #         queryset = queryset.filter(name=name)
     #     is_active = self.request.query_params.get("is_active")
     #     if is_active is not None:
     #         queryset = queryset.filter(is_active=is_active)
