@@ -4,7 +4,6 @@ about: Assign issue to all team members day after meetup in prep for next meetup
 title: ''
 labels: 'complexity: small, feature: agenda, role: product, s: PD team, size: 0.25pt'
 assignees: ''
-
 ---
 
 ### Overview
