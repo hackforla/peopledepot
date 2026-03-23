@@ -6,32 +6,30 @@ labels: 'complexity: small, good first issue, milestone: missing, ready for dev 
 assignees: ''
 ---
 
-### Dependency
+### Dependencies
 
-- [ ] #[Replace with ISSUE NUMBER FOR TABLE CREATION]
+-
 
 ### Overview
 
-We need to add seed data for the [Replace with TABLE NAME] table, because it won't be changing, it's the same for all users of people depot and the information is public
+We need to add seed data to the [REPLACE WITH NAME OF TABLE] table, so that it can be added by Devs to the database.
+
+#### Details
+
+Purpose of table
+
+- [REPLACE WITH PURPOSE]
 
 ### Action Items
 
-- [ ] Read the instructions (resource 1.01)
-- [ ] Find the table (resource 1.02), and add it to the resources below (resource 2.01)
-- [ ] create the csv file
-- [ ] convert the csv file to python script
-- [ ] Combine the script in migration
-- [ ] Update the 2.02 & 2.03 links when the pr is merged
+- [ ] Create spreadsheet tab (resource 1.01)
+- [ ] add field names as column headers
+- [ ] populate spreadsheet with data
+- [ ] update the Data Chart tab (resource 1.01.01)
+- [ ] release depedency in #[REPLACE WITH DEV ISSUE NUMBER]
 
-### Resources
+### Resources/Instructions
 
-#### Resources for creating this issue
-
-- 1.01 Instruction: https://hackforla.github.io/peopledepot/contributing/howto/create-initial-data-migrations/
-- 1.02 tables folder: https://github.com/hackforla/peopledepot/tree/main/app/core/migrations
-
-#### Resources gathered during the completion of this issue
-
-- 2.01 table:
-- 2.02 csv file (after commit):
-- 2.03 script that adds seed data:
+- 1.01 [PD: Seed Data](https://docs.google.com/spreadsheets/d/1LW6YOsJaaaWifnG3BViE4lgrsjf5FWHktI8MyS-4VbY)
+    - 1.01.01 [PD: Seed Data, Data Chart](https://docs.google.com/spreadsheets/d/1LW6YOsJaaaWifnG3BViE4lgrsjf5FWHktI8MyS-4VbY/edit?gid=1791824238#gid=1791824238&fvid=1104902189)(https://docs.google.com/spreadsheets/d/1LW6YOsJaaaWifnG3BViE4lgrsjf5FWHktI8MyS-4VbY)
+- 2.02 [PD ERD](https://dbdiagram.io/d/People-Depot-Schema-ERD-68917d4edd90d178656e4061)
