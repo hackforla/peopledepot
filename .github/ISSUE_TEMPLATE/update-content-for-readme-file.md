@@ -2,8 +2,10 @@
 name: Update Content for ReadMe file
 about: Instructions for revising the README.md file inside this repository
 title: ''
-labels: 'complexity: missing, documentation, feature: docs: PD team documentation, good first issue, help wanted, question, role: missing, size: missing'
+labels: 'complexity: missing, documentation, feature: docs: PD team documentation,
+  good first issue, help wanted, question, role: missing, size: missing'
 assignees: ''
+
 ---
 
 ### Overview

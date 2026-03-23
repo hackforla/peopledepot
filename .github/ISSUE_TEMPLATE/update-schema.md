@@ -2,8 +2,10 @@
 name: Update Schema
 about: To be created alongside an "Update Table" issue
 title: 'Update Schema: [TABLE NAME]'
-labels: 'complexity: small, dependency, feature: ERD/SS adjustment, milestone: missing, role: db architect, s: PD team, size: 0.25pt, stakeholder: missing'
+labels: 'complexity: small, dependency, feature: ERD/SS adjustment, milestone: missing,
+  role: db architect, s: PD team, size: 0.25pt, stakeholder: missing'
 assignees: ''
+
 ---
 
 ### Dependency
