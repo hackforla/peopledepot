@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <style>
+      body {font-family: Arial, sans-serif; padding: 20px;}
+      input[type="file"] {margin-bottom: 10px;}
+    </style>
+  </head>
+  <body>
+    <h3>Import CSV</h3>
+    <input type="file" id="csvFile" accept=".csv" />
+    <br />
+    <button onclick="upload()">Import</button>
+
+    <script>
+      function upload() {
+        const fileInput = document.getElementById('csvFile');
+        if (!fileInput.files.length) {
+          alert('Select a CSV file first.');
+          return;
+        }
+        const reader = new FileReader();
+        reader.onload = e => {
+          // Send the Base‑64 data URL to the server‑side function
+          google.script.run
+            .withSuccessHandler(() => google.script.host.close())
+            .processUploadedCsv(e.target.result);
+        };
+        reader.readAsDataURL(fileInput.files[0]); // data:…;base64,…
+      }
+    </script>
+  </body>
+</html>
