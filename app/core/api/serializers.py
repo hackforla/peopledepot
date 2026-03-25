@@ -667,7 +667,7 @@ class UserEmploymentHistorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserEmploymentHistory
-        fields = ("uuid", "user", "soc_detailed", "title")
+        fields = ("uuid", "user", "soc_detailed", "modern_job_title")
         read_only_fields = ("uuid", "created_at", "updated_at")
 
 

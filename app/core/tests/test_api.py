@@ -1255,11 +1255,13 @@ def test_api_allow_org_and_project_same_type_different_scopes(
     assert r2.status_code == status.HTTP_201_CREATED
 
 
-def test_list_user_employment_histories(auth_client, user, soc_detailed):
+def test_list_user_employment_histories(
+    auth_client, user, soc_detailed, modern_job_title
+):
     payload = {
         "user": user.pk,
         "soc_detailed": soc_detailed.pk,
-        "title": "Software Engineer",
+        "modern_job_title": modern_job_title.pk,
     }
     auth_client.post(USER_EMPLOYMENT_HISTORIES_URL, payload)
 
@@ -1272,11 +1274,13 @@ def test_list_user_employment_histories(auth_client, user, soc_detailed):
     assert res.data == expected_data
 
 
-def test_create_user_employment_history(auth_client, user, soc_detailed):
+def test_create_user_employment_history(
+    auth_client, user, soc_detailed, modern_job_title
+):
     payload = {
         "user": user.pk,
         "soc_detailed": soc_detailed.pk,
-        "title": "Backend Engineer",
+        "modern_job_title": modern_job_title.pk,
     }
 
     res = auth_client.post(USER_EMPLOYMENT_HISTORIES_URL, payload)
@@ -1286,7 +1290,7 @@ def test_create_user_employment_history(auth_client, user, soc_detailed):
     created = UserEmploymentHistory.objects.get(uuid=res.data["uuid"])
     assert created.user == user
     assert created.soc_detailed.pk == payload["soc_detailed"]
-    assert created.title == payload["title"]
+    assert created.modern_job_title.pk == payload["modern_job_title"]
 
 
 def test_retrieve_user_employment_history(auth_client, user_employment_history):
@@ -1295,7 +1299,7 @@ def test_retrieve_user_employment_history(auth_client, user_employment_history):
 
     assert res.status_code == status.HTTP_200_OK
     assert res.data["uuid"] == str(user_employment_history.pk)
-    assert res.data["title"] == user_employment_history.title
+    assert res.data["modern_job_title"] == user_employment_history.modern_job_title.pk
     assert res.data["soc_detailed"] == user_employment_history.soc_detailed.pk
     assert res.data["user"] == user_employment_history.user.pk
 

@@ -830,10 +830,14 @@ class UserEmploymentHistory(AbstractBaseModel):
         related_name="user_employment_histories",
     )
 
-    title = models.CharField(max_length=255)
+    modern_job_title = models.ForeignKey(
+        "ModernJobTitle",
+        on_delete=models.CASCADE,
+        related_name="user_employment_histories",
+    )
 
     def __str__(self):
-        return f"{self.user.username} - {self.title}"
+        return f"{self.user.username} - {self.modern_job_title}"
 
 
 class Win(AbstractBaseModel):

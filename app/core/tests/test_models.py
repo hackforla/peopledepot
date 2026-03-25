@@ -723,29 +723,31 @@ def test_usercheck_cross_scopes_allowed_simultaneously(
     assert project_user_check.pk is not None
 
 
-def test_create_user_employment_history(user, soc_detailed):
+def test_create_user_employment_history(user, soc_detailed, modern_job_title):
     history = UserEmploymentHistory.objects.create(
         user=user,
         soc_detailed=soc_detailed,
-        title="Backend Engineer",
+        modern_job_title=modern_job_title,
     )
 
     assert history.uuid is not None
     assert history.user == user
     assert history.soc_detailed == soc_detailed
-    assert history.title == "Backend Engineer"
+    assert history.modern_job_title == modern_job_title
 
 
-def test_user_can_have_multiple_employment_histories(user, soc_detailed):
+def test_user_can_have_multiple_employment_histories(
+    user, soc_detailed, modern_job_title
+):
     history1 = UserEmploymentHistory.objects.create(
         user=user,
         soc_detailed=soc_detailed,
-        title="Software Engineer",
+        modern_job_title=modern_job_title,
     )
     history2 = UserEmploymentHistory.objects.create(
         user=user,
         soc_detailed=soc_detailed,
-        title="Senior Software Engineer",
+        modern_job_title=modern_job_title,
     )
 
     histories = user.employment_histories.all()
@@ -755,11 +757,13 @@ def test_user_can_have_multiple_employment_histories(user, soc_detailed):
     assert history2 in histories
 
 
-def test_user_deletion_cascades_to_employment_histories(user, soc_detailed):
+def test_user_deletion_cascades_to_employment_histories(
+    user, soc_detailed, modern_job_title
+):
     UserEmploymentHistory.objects.create(
         user=user,
         soc_detailed=soc_detailed,
-        title="Software Engineer",
+        modern_job_title=modern_job_title,
     )
 
     user.delete()
