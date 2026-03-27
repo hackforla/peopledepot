@@ -30,19 +30,11 @@ venv
 venv-peopledepot/
 __pycache__
 
-### VisualStudioCode ###
-.vscode/*
+.vscode/
 .idea
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-!.vscode/*.code-snippets
 
 erd.png
 *,cover
 docs/build
 
 *.pyc
-
-.vscode
