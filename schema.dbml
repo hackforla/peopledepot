@@ -446,7 +446,6 @@ Table UserCheck {
 Table UserEmploymentHistory {
   ~AbstractBaseModel
   user int [ref: > User.id]
-  soc_detailed int [ref: > SOCDetailed.id]
   modern_job_title int [ref: > ModernJobTitle.id]
 }
 
