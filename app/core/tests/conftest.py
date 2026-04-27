@@ -483,11 +483,11 @@ def user_check(user, organization, check_type, project):
 
 
 @pytest.fixture
-def user_employment_history(db, user, soc_detailed):
+def user_employment_history(db, user, soc_detailed, modern_job_title):
     return UserEmploymentHistory.objects.create(
         user=user,
         soc_detailed=soc_detailed,
-        title="Software Engineer",
+        modern_job_title=modern_job_title,
     )
 
 
