@@ -32,6 +32,7 @@ plugins:
         - postgres
         - Django
         - migrations
+        - Docker
 
 markdown_extensions:
   - abbr
