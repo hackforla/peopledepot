@@ -5489,9 +5489,9 @@ def forward(__code__, __reverse_code__):
         ),
     ]
 
-    for id, soc_broad_id, occ_code, title, description in items:
+    for uuid, soc_broad_id, occ_code, title, description in items:
         SocDetailed.objects.create(
-            uuid=id,
+            uuid=uuid,
             soc_broad=SocBroad.objects.get(uuid=int(soc_broad_id)),
             occ_code=occ_code,
             title=title,

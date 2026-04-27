@@ -772,9 +772,9 @@ def forward(__code__, __reverse_code__):
         (424, "92", "53-7120", "Tank Car, Truck, and Ship Loaders"),
         (425, "92", "53-7190", "Miscellaneous Material Moving Workers"),
     ]
-    for id, soc_minor_id, occ_code, title in items:
+    for uuid, soc_minor_id, occ_code, title in items:
         SocBroad.objects.create(
-            uuid=id,
+            uuid=uuid,
             soc_minor=SocMinor.objects.get(uuid=int(soc_minor_id)),
             occ_code=occ_code,
             title=title,

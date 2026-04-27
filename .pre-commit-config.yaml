@@ -62,21 +62,12 @@ repos:
     hooks:
       - id: flake8
         exclude: "^app/core/migrations/|^app/data/migrations/|^app/core/scripts"
-        args: [--max-line-length=119, --max-complexity=4, --pytest-fixture-no-parentheses, --extend-ignore=EXE002]
+        args: [--max-line-length=119, --max-complexity=4]
         additional_dependencies:
           [
-            flake8-bugbear,
             dlint,
             flake8-use-fstring,
-            flake8-builtins,
-            pep8-naming,
             flake8-variables-names,
-            flake8-fixme,
-            flake8-executable,
-            flake8-pytest-style,
-            flake8-django,
-            flake8-comprehensions,
-            flake8-tidy-imports,
           ]
 
   - repo: https://github.com/pycqa/isort
@@ -114,8 +105,19 @@ repos:
     rev: v0.15.9
     hooks:
       # Run the linter.
-      - id: ruff
-        args: [--fix]
+      - id: ruff-check
+        args: [--fix, --select,
+          B, # flake8-bugbear
+          A, # flake8-builtin
+          C4, # flake8-comprehensions
+          DJ, # flake8-django
+          EXE, # flake8-executable
+          FIX, # flake8-fixme
+          PT, # flake8-pytest-style
+          TID, # flake8-tidy-imports
+          PTH, # flake8-use-pathlib
+          N, # pep8-naming
+        ]
         exclude: ^app/core/migrations/
       # Run the formatter.
       - id: ruff-format

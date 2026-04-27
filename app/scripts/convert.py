@@ -96,6 +96,6 @@ if __name__ == "__main__":
     try:
         arg = sys.argv[1]
     except IndexError:
-        raise SystemExit(f"Usage: {sys.argv[0]} <input csv file>")
+        raise SystemExit(f"Usage: {sys.argv[0]} <input csv file>")  # noqa
 
     convert(arg)

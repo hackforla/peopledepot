@@ -179,9 +179,9 @@ def forward(__code__, __reverse_code__):
         (91, "22", "53-6000", "Other Transportation Workers"),
         (92, "22", "53-7000", "Material Moving Workers"),
     ]
-    for id, soc_major_id, occ_code, title in items:
+    for uuid, soc_major_id, occ_code, title in items:
         SocMinor.objects.create(
-            uuid=id,
+            uuid=uuid,
             soc_major=SocMajor.objects.get(uuid=int(soc_major_id)),
             occ_code=occ_code,
             title=title,

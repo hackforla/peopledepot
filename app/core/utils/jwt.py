@@ -29,7 +29,7 @@ def cognito_jwt_decode_handler(token):
         public_key = RSAAlgorithm.from_jwk(api_settings.JWT_PUBLIC_KEY[kid])
     except KeyError:
         # in this place we could refresh cached jwks and try again
-        raise DecodeError("Can't find proper public key in jwks")
+        raise DecodeError("Can't find proper public key in jwks") from KeyError
     else:
         return jwt.decode(
             token,
