@@ -297,6 +297,7 @@ class FaqViewed(AbstractBaseModel):
     FaqViewed tracks how many times an FAQ has been viewed by serving as an instance of an FAQ being viewed.
     """
 
+    read = models.IntegerField(default=0)
     faq = models.ForeignKey(Faq, on_delete=models.CASCADE)
 
     class Meta:

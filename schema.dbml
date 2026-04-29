@@ -120,7 +120,7 @@ Table FaqViewed {
   //created
   ~AbstractBaseModel
   faq int [ref: > Faq.id]
-  read DateTimeField
+  read int
 }
 
 Table Language {
