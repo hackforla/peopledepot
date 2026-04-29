@@ -38,3 +38,4 @@ erd.png
 docs/build
 
 *.pyc
+.notes
