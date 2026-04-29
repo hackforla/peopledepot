@@ -117,6 +117,7 @@ Table Faq {
 }
 
 Table FaqViewed {
+  read int
   //created
   ~AbstractBaseModel
   faq int [ref: > Faq.id]
