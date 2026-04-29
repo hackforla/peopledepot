@@ -192,7 +192,10 @@ class Faq(admin.ModelAdmin):
 
 @admin.register(FaqViewed)
 class FaqViewed(admin.ModelAdmin):
-    list_display = ("faq",)
+    list_display = (
+        "faq",
+        "read",
+    )
 
 
 @admin.register(LeadershipType)

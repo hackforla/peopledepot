@@ -243,10 +243,12 @@ class FaqViewedSerializer(serializers.ModelSerializer):
         fields = (
             "uuid",
             "faq",
+            "read",
         )
         read_only_fields = (
             "uuid",
             "faq",
+            "read",
         )
 
 

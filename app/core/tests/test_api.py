@@ -277,6 +277,7 @@ def test_get_faq_viewed(auth_client, faq_viewed):
     res = auth_client.get(FAQS_VIEWED_URL)
 
     assert res.data[0]["faq"] == faq_viewed.faq.pk
+    assert res.data[0]["read"] == faq_viewed.read
 
 
 def test_create_leadership_type(auth_client):
