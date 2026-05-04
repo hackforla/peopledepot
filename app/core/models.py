@@ -318,6 +318,7 @@ class Location(AbstractBaseModel):
     state = models.CharField(max_length=2, unique=False)
     zipcode = models.CharField(max_length=10, unique=False)
     phone = PhoneNumberField(blank=True)
+    private = models.BooleanField(null=True)
 
     def __str__(self):
         return f"{self.name}"
