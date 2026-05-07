@@ -277,6 +277,7 @@ class LocationSerializer(serializers.ModelSerializer):
             "state",
             "zip",
             "phone",
+            "private",
         )
         read_only_fields = (
             "uuid",
