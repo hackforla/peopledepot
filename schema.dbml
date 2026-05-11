@@ -191,6 +191,7 @@ Table PermissionType {
   ~AbstractBaseModel
   name varchar
   description varchar
+  rank int
 }
 
 Table PracticeArea {
