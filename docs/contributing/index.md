@@ -18,4 +18,6 @@ Thank you for volunteering your time! The following is a set of guidelines for c
 
 - [How-to Guides](howto/index.md)
 
+- [Reference](reference/index.md)
+
 - [Tools](tools/index.md)
