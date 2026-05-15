@@ -506,7 +506,7 @@ class Affiliation(AbstractBaseModel):
                 fields=["project", "affiliate"], name="unique_project_affiliate"
             )
         ]
-        db_table = "core_project_affiliate_xref"
+        db_table = "project_affiliate_xref"
 
     def __str__(self):
         if self.is_sponsor is True and self.is_partner is True:
@@ -692,7 +692,7 @@ class ProjectStackElementXref(AbstractBaseModel):
     )
 
     class Meta:
-        db_table = "core_project_stack_element_xref"
+        db_table = "project_stack_element_xref"
         constraints = [
             models.UniqueConstraint(
                 fields=["project", "stack_element"], name="unique_project_stack_element"
