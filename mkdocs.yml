@@ -32,8 +32,6 @@ plugins:
         - postgres
         - Django
         - migrations
-        - AWS
-        - deployment
 
 markdown_extensions:
   - abbr
