@@ -84,7 +84,7 @@ rpds-py==0.22.1
     # via
     #   jsonschema
     #   referencing
-sqlparse==0.5.2
+sqlparse==0.5.4
     # via django
 tzdata==2024.2
     # via -r requirements.in
