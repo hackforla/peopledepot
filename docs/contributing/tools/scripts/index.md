@@ -1,3 +1,8 @@
+---
+tags:
+  - scripts
+---
+
 # Convenience Scripts
 
 These are designed to make it easier to perform various everyday tasks in the project. They try to be transparent by exposing the underlying commands they execute so that users can have an idea of what's happening and try to learn the commands if they wish.
@@ -15,6 +20,7 @@ scripts/
 ├── loadenv.sh
 ├── logs.sh
 ├── migrate.sh
+├── pin-actions-to-shas.sh
 ├── precommit-check.sh
 ├── run.sh
 ├── start-local.sh
@@ -50,6 +56,8 @@ These scripts assume you are using bash.
 1. **migrate.sh** - run database migrations inside container
 
     1. Add `<app> <migration_number>` to migrate to that database state. Ex: `migrate.sh core 0010`
+
+1. [**pin-actions-to-shas.sh**](pin-actions-to-shas.md) - update all references to actions in the repository to their corresponding SHAs
 
 1. **precommit-check.sh** - sanity checks before committing code
 
