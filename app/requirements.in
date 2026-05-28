@@ -12,3 +12,4 @@ pytest-cov
 pytest-django
 pytest-xdist
 tzdata
+whitenoise
