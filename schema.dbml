@@ -450,6 +450,24 @@ Table UserEmploymentHistory {
   modern_job_title int [ref: > ModernJobTitle.id]
 }
 
+Table UserIntakeTargetSkillXref {
+  ~AbstractBaseModel
+  user int [ref: > User.id]
+  skill int [ref: > Skill.id]
+}
+
+Table UserPracticeAreaSecondaryXref {
+  ~AbstractBaseModel
+  user int [ref: > User.id]
+  practice_area int [ref: > PracticeArea.id]
+}
+
+Table UserPracticeAreaTargetIntakeXref {
+  ~AbstractBaseModel
+  user int [ref: > User.id]
+  practice_area int [ref: > PracticeArea.id]
+}
+
 Table UserStatusType {
   //created
   ~AbstractBaseModel
