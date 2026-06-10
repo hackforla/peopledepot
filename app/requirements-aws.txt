@@ -24,6 +24,10 @@ djangorestframework==3.17.1
     #   drf-jwt
 drf-jwt==1.19.2
     # via -r requirements-aws.in
+gunicorn==26.0.0
+    # via -r requirements-aws.in
+packaging==26.2
+    # via gunicorn
 phonenumbers==9.0.32
     # via django-phonenumber-field
 psycopg2-binary==2.9.12
