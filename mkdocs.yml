@@ -34,6 +34,7 @@ plugins:
         - migrations
         - AWS
         - deployment
+        - Docker
 
 markdown_extensions:
   - abbr
