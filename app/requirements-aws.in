@@ -1,15 +1,11 @@
 django~=4.2.27
 django-extensions
-django-linear-migrations
 django-phonenumber-field[phonenumbers]
 django-timezone-field
 djangorestframework
 drf-jwt
 drf-spectacular
-markdown
+gunicorn
 psycopg2-binary
-pytest-cov
-pytest-django
-pytest-xdist
 tzdata
 whitenoise

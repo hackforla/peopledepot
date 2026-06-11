@@ -30,6 +30,7 @@ jobs:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: people-depot-backend
           IMAGE_TAG: dev
+          DOCKER_BUILDKIT: 1
         run: |
           cd app
           docker build -f Dockerfile-aws -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
