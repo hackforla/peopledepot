@@ -29,6 +29,12 @@ The app runs on port **8001** so it can coexist with the standard dev environmen
 
 1. Confirm the app is running by browsing to `http://localhost:8001/admin/`
 
+1. Create a superuser to log into the admin interface (in a separate terminal)
+
+    ```bash
+    docker compose -f docker-compose-aws.yml exec web python manage.py createsuperuser
+    ```
+
 ## Stop and clean up
 
 ```bash
@@ -40,6 +46,9 @@ To also remove the database volume:
 ```bash
 docker compose -f docker-compose-aws.yml down -v
 ```
+
+!!! note "Network warning"
+    You may see `! Network peopledepot_default Resource is still in use` — this is harmless. The containers and volume are already removed. The network is shared with the dev `docker-compose.yml` stack (the mkdocs container keeps it alive) and will clean up when that stack is stopped.
 
 ## Differences from the standard dev environment
 
