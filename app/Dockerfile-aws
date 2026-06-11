@@ -1,10 +1,29 @@
-# pull official base image
-FROM python:3.10-alpine
+# Stage 1: build dependencies and collect static files
+FROM python:3.10-alpine AS builder
 
-# set work directory
 WORKDIR /usr/src/app
 
-# set environment variables
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONPYCACHEPREFIX=/root/.cache/pycache/
+ENV DJANGO_SETTINGS_MODULE=peopledepot.settings_aws
+
+COPY ./requirements-aws.txt .
+# hadolint ignore=DL3042
+RUN \
+  --mount=type=cache,target=/root/.cache \
+  pip install uv==0.1.15 \
+  && uv pip install --system -r requirements-aws.txt
+
+COPY . .
+RUN python manage.py collectstatic --noinput
+
+
+# Stage 2: runtime image
+FROM python:3.10-alpine AS runtime
+
+WORKDIR /usr/src/app
+
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONPYCACHEPREFIX=/root/.cache/pycache/
@@ -21,26 +40,17 @@ RUN \
 COPY Roboto-Regular.ttf /root/.fonts/
 RUN fc-cache -f
 
-# install dependencies
-COPY ./requirements-aws.txt .
-# hadolint ignore=DL3042
-RUN \
-  --mount=type=cache,target=/root/.cache \
-  pip install uv==0.1.15 \
-  && uv pip install --system -r requirements-aws.txt
+# copy installed Python packages and executables from builder
+COPY --from=builder /usr/local/lib/python3.10/site-packages /usr/local/lib/python3.10/site-packages
+COPY --from=builder /usr/local/bin/gunicorn /usr/local/bin/gunicorn
 
-# copy project
-COPY . .
+# copy application code and collected static files from builder
+COPY --from=builder /usr/src/app .
 
-# collect static files
-RUN python manage.py collectstatic --noinput
-
-# copy and configure entrypoint
-COPY ./entrypoint-aws.sh .
+# configure entrypoint
 RUN sed -i 's/\r$//g' /usr/src/app/entrypoint-aws.sh \
   && chmod +x /usr/src/app/entrypoint-aws.sh
 
-# Expose the gunicorn port
 EXPOSE 8000
 
 ENTRYPOINT ["/usr/src/app/entrypoint-aws.sh"]
