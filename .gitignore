@@ -13,6 +13,7 @@ app/htmlcov
 ### dotenv ###
 .env.dev
 .env.docker
+.env.docker-aws
 .env.local
 .env.test
 .env
@@ -38,3 +39,5 @@ erd.png
 docs/build
 
 *.pyc
+.notes
+app/staticfiles/
