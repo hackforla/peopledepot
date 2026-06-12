@@ -1,8 +1,8 @@
 ---
 tags:
-    - AWS
-    - deployment
-    - Docker
+  - AWS
+  - deployment
+  - Docker
 ---
 
 # Test the AWS setup locally
@@ -48,16 +48,17 @@ docker compose -f docker-compose-aws.yml down -v
 ```
 
 !!! note "Network warning"
+
     You may see `! Network peopledepot_default Resource is still in use` — this is harmless. The containers and volume are already removed. The network is shared with the dev `docker-compose.yml` stack (the mkdocs container keeps it alive) and will clean up when that stack is stopped.
 
 ## Differences from the standard dev environment
 
-| | `docker-compose.yml` | `docker-compose-aws.yml` |
-|---|---|---|
-| Image | Dev (`Dockerfile`) | Production (`Dockerfile-aws`) |
-| Server | Django `runserver` | gunicorn |
-| Settings | `settings.py` | `settings_aws.py` |
-| Dependencies | `requirements.txt` | `requirements-aws.txt` |
-| App port | 8000 | 8001 |
-| DB port | 5432 | 5433 |
-| Code reloading | Yes (volume mount) | No (baked into image) |
+|                | `docker-compose.yml` | `docker-compose-aws.yml`      |
+| -------------- | -------------------- | ----------------------------- |
+| Image          | Dev (`Dockerfile`)   | Production (`Dockerfile-aws`) |
+| Server         | Django `runserver`   | gunicorn                      |
+| Settings       | `settings.py`        | `settings_aws.py`             |
+| Dependencies   | `requirements.txt`   | `requirements-aws.txt`        |
+| App port       | 8000                 | 8001                          |
+| DB port        | 5432                 | 5433                          |
+| Code reloading | Yes (volume mount)   | No (baked into image)         |
