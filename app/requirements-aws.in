@@ -4,6 +4,7 @@ django-phonenumber-field[phonenumbers]
 django-timezone-field
 djangorestframework
 drf-jwt
+drf-spectacular
 gunicorn
 psycopg2-binary
 tzdata
