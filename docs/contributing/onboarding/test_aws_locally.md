@@ -1,8 +1,8 @@
 ---
 tags:
-    - AWS
-    - deployment
-    - Docker
+  - AWS
+  - deployment
+  - Docker
 ---
 
 # Test the AWS setup locally
