@@ -1,5 +1,7 @@
 from .settings import *  # noqa: F401, F403
 
+ROOT_URLCONF = "peopledepot.urls_aws"
+
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
