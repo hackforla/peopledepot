@@ -120,7 +120,7 @@ Table FaqViewed {
   //created
   ~AbstractBaseModel
   faq int [ref: > Faq.id]
-  read int
+  read DateTimeField
 }
 
 Table Language {
@@ -404,14 +404,14 @@ Table User {
   is_active bool [default: True, note:'Required by django. A boolean field that indicates whether the user\'s account is active.']
   user_status_type int [ref: > UserStatusType.id]
   practice_area_primary int [ref: > PracticeArea.id]
-  practice_area_secondary int[] [ref: <> PracticeArea.id]
+  practice_area_secondary int [ref: > UserPracticeAreaSecondaryXref.id]
   job_title_current varchar
-  practice_area_target int[] [ref: <> PracticeArea.id]
+  practice_area_target int [ref: > UserPracticeAreaTargetIntakeXref.id]
   job_title_target varchar
   intake_present_job_title	varchar
   intake_present_skills	varchar
   intake_target_job_titles	varchar
-  intake_target_skills	int[ ]
+  intake_target_skills	int [ref: > UserIntakeTargetSkillXref.id]
   current_job_title	varchar
   current_skills	int[ ]
   current_target_job_titles	varchar
