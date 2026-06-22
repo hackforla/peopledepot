@@ -1,6 +1,10 @@
 # pull official base image
 FROM python:3.10-alpine
 
+# create non-root user and group
+RUN addgroup -g 1000 app && \
+  adduser -D -u 1000 -G app -h /home/app -s /bin/sh app
+
 # set work directory
 WORKDIR /usr/src/app
 
@@ -21,7 +25,7 @@ COPY Roboto-Regular.ttf /root/.fonts/
 RUN fc-cache -f
 
 # install dependencies
-COPY ./requirements.txt .
+COPY --chown=app:app ./requirements.txt .
 # hadolint ignore=DL3042
 RUN \
   --mount=type=cache,target=/root/.cache \
@@ -29,12 +33,12 @@ RUN \
   && uv pip install --system -r requirements.txt
 
 # copy entrypoint.sh
-COPY ./entrypoint.sh .
+COPY --chown=app:app ./entrypoint.sh .
 RUN sed -i 's/\r$//g' /usr/src/app/entrypoint.sh \
   && chmod +x /usr/src/app/entrypoint.sh
 
 # copy project
-COPY . .
+COPY --chown=app:app . .
 
 # run entrypoint.sh
 ENTRYPOINT ["/usr/src/app/entrypoint.sh"]
