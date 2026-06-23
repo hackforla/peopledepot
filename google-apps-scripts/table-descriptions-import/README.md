@@ -1,6 +1,6 @@
 ## Description
 
-This script works with the Django tables aucit spreadsheet: https://docs.google.com/spreadsheets/d/1G9kDheY3MdITZnrthTFIUyprrTEvlMYpkFYWbCAMCmA/
+This script works with the Django tables aucit spreadsheet: <https://docs.google.com/spreadsheets/d/1G9kDheY3MdITZnrthTFIUyprrTEvlMYpkFYWbCAMCmA/>
 
 It creates a new sheet called `table-descriptions <date>` and populates it with the data from the spreadsheet.
 
@@ -16,7 +16,7 @@ It creates a new sheet called `table-descriptions <date>` and populates it with 
     1. There should be a "CSV Tools" menu with an item "Upload CSV → New Sheet" to run the script
 1. Run the script
     1. Click "Upload CSV → New Sheet"
-    1. Select the CSV file
+    1. Select the CSV file (output from the `export-table-descriptions.sh` script)
     1. Click "Import"
 1. Check the results
 
