@@ -271,7 +271,7 @@ function applyFormulas(sheet, dataRowCount) {
   // Column H: table_name-prefix (RIGHT of G after first "_")
   sheet
     .getRange(2, TABLE_NAME_PREFIX, dataRowCount, 1)
-    .setFormulaR1C1(`=IFERROR(RIGHT(RC[${TABLE_NAME - TABLE_NAME_PREFIX}], LEN(RC[${TABLE_NAME - TABLE_NAME_PREFIX}]) - FIND("_", RC[${TABLE_NAME - TABLE_NAME_PREFIX}])), "")`);
+    .setFormulaR1C1(`=IF(LEFT(RC[${TABLE_NAME - TABLE_NAME_PREFIX}], 5) = "core_", MID(RC[${TABLE_NAME - TABLE_NAME_PREFIX}], 6, LEN(RC[${TABLE_NAME - TABLE_NAME_PREFIX}])), RC[${TABLE_NAME - TABLE_NAME_PREFIX}])`);
 
   // Column E: Django created field (check against system fields)
   sheet
