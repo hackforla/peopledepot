@@ -13,7 +13,7 @@ These are the steps:
 
 You must have Docker installed
 
-The initial data exists in a Google spreadsheet, such as [this one for People Depot][pd-data-spreadsheet]. There should be individual sheets named after the model names the data correspond to, such as `ProgramArea - Data`. The sheet name is useful for us to identify the model it corresponds to.
+The initial data exists in a Google spreadsheet, [PD: Seed Data](https://docs.google.com/spreadsheets/d/1LW6YOsJaaaWifnG3BViE4lgrsjf5FWHktI8MyS-4VbY). There are individual sheets named after the model names the data correspond to, such as "ProgramArea - Data". The sheet name is useful for us to identify the model it corresponds to.
 
 The sheet should be formatted like so:
 
