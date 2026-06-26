@@ -67,10 +67,10 @@ class UserAdminForm(UserChangeForm):
     Renders secondary practice area menu inline between "practice area primary" and "practice area target intake".
     """
 
-    practice_areas_secondary_virtual = forms.ModelMultipleChoiceField(
+    practice_area_secondary_virtual = forms.ModelMultipleChoiceField(
         queryset=PracticeArea.objects.all(),
         required=False,
-        label="Practice area(s) secondary",
+        label="Practice area secondary",
     )
 
     def __init__(self, *args, **kwargs):
@@ -78,20 +78,21 @@ class UserAdminForm(UserChangeForm):
         if self.instance and self.instance.pk:
             # Pre-populate the field with the user's existing secondary practice areas.
             self.fields[
-                "practice_areas_secondary_virtual"
-            ].initial = self.instance.practice_areas_secondary.all()
+                "practice_area_secondary_virtual"
+            ].initial = self.instance.practice_area_secondary.all()
 
     def clean(self):
         # Clean to ensure the user's practice area entries aren't duplicates before saving to the xref table.
         cleaned_data = super().clean()
         primary = cleaned_data.get("practice_area_primary")
-        secondaries = cleaned_data.get("practice_areas_secondary_virtual")
+        secondaries = cleaned_data.get("practice_area_secondary_virtual")
 
         if primary and secondaries and primary in secondaries:
             raise ValidationError(
                 {
-                    "practice_areas_secondary_virtual": (
-                        "A practice area cannot be both primary and secondary."
+                    "practice_area_secondary_virtual": (
+                        "A user cannot have the same practice area as "
+                        "both primary and secondary."
                     )
                 }
             )
@@ -102,7 +103,7 @@ class UserAdminForm(UserChangeForm):
         """Helper to break complex logic out of save() and satisfy linter."""
 
         # Default to an empty list if user does not have a secondary practice area in xref table.
-        selected_areas = self.cleaned_data.get("practice_areas_secondary_virtual", [])
+        selected_areas = self.cleaned_data.get("practice_area_secondary_virtual", [])
 
         # Delete existing records between user and practice area in xref table to avoid duplicate entries.
         UserPracticeAreaSecondaryXref.objects.filter(user=user).delete()
