@@ -28,12 +28,16 @@ app/
 ├── peopledepot/ # (3)!
 │   ├── asgi.py
 │   ├── settings.py
+│   ├── settings_aws.py
 │   ├── urls.py
+│   ├── urls_aws.py
 │   └── wsgi.py
 ├── scripts/ # (4)!
 │   └── convert.py
 ├── Dockerfile # (5)!
+├── Dockerfile-aws # (13)!
 ├── entrypoint.sh # (6)!
+├── entrypoint-aws.sh # (14)!
 ├── manage.py # (7)!
 ├── requirements.in # (8)!
 ├── requirements.txt # (9)!
@@ -53,6 +57,8 @@ app/
 1. Development requirements file generated from `requirements.in`. Do not modify this file directly. Edit `requirements.in` instead. See the [uv tool](uv.md) for details.
 1. AWS/production requirements source file. Contains only production dependencies — no dev or test packages.
 1. AWS/production requirements file generated from `requirements-aws.in`. Do not modify this file directly. Edit `requirements-aws.in` instead.
+1. AWS/production Dockerfile. Uses `requirements-aws.txt`, sets `DJANGO_SETTINGS_MODULE`, runs `collectstatic`, and starts gunicorn.
+1. AWS/production entrypoint script. Runs `migrate --noinput` then starts gunicorn on `0.0.0.0:8000`.
 1. Config file for development support tools such as `flake8` and `pytest`. `flake8` is the only tool that doesn't support `pyproject.toml` yet, which is why we have this file.
 
 #### Core App
