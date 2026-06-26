@@ -37,6 +37,7 @@ from core.models import User
 from core.models import UserCheck
 from core.models import UserEmploymentHistory
 from core.models import UserPermission
+from core.models import UserPracticeAreaSecondaryXref
 from core.models import UserStatusType
 from core.models import Win
 from core.models import WinType
@@ -87,6 +88,10 @@ class UserSerializer(serializers.ModelSerializer):
 
     time_zone = TimeZoneSerializerField(use_pytz=False)
 
+    practice_area_secondary = serializers.PrimaryKeyRelatedField(
+        many=True, queryset=PracticeArea.objects.all(), required=False
+    )
+
     class Meta:
         model = User
         fields = (
@@ -127,6 +132,39 @@ class UserSerializer(serializers.ModelSerializer):
             "username",
             "email",
         )
+
+    def update(self, instance, validated_data):
+        """
+        Overrides the default update to handle the virtual practice_areas_secondary field.
+        Intercepts the secondary areas and uses a bulk operation to manually update the
+        UserPracticeAreaSecondaryXref bridge table, ensuring the primary practice area
+        (whether existing or newly updated) is never duplicated as a secondary.
+        """
+
+        if "practice_area_secondary" in validated_data:
+            practice_area_secondary = validated_data.pop("practice_area_secondary")
+
+            # Determine what the primary area will be after this update.
+            practice_area_primary = validated_data.get(
+                "practice_area_primary", instance.practice_area_primary
+            )
+            UserPracticeAreaSecondaryXref.objects.filter(user=instance).delete()
+
+            # Build the new records in memory while filtering out the primary area.
+            new_xrefs = [
+                UserPracticeAreaSecondaryXref(
+                    user=instance, practice_area=practice_area
+                )
+                for practice_area in practice_area_secondary
+                if practice_area != practice_area_primary
+            ]
+
+            if new_xrefs:
+                UserPracticeAreaSecondaryXref.objects.bulk_create(new_xrefs)
+            else:
+                pass
+
+        return super().update(instance, validated_data)
 
 
 class ProjectSerializer(serializers.ModelSerializer):

@@ -521,12 +521,12 @@ def test_user_practice_area_relationship(user, user2):
     user2.practice_area_secondary.add(project_management_practice_area)
     assert user2.practice_area_secondary.count() == 1
     assert user2.practice_area_secondary.contains(project_management_practice_area)
-    assert project_management_practice_area.secondary_users.contains(user2)
+    assert project_management_practice_area.users_secondary.contains(user2)
 
     user2.practice_area_secondary.remove(project_management_practice_area)
     assert user2.practice_area_secondary.count() == 0
     assert not user2.practice_area_secondary.contains(project_management_practice_area)
-    assert not project_management_practice_area.secondary_users.contains(user2)
+    assert not project_management_practice_area.users_secondary.contains(user2)
 
 
 def test_project_url(project_url):

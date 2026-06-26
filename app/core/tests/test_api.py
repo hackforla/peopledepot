@@ -9,6 +9,7 @@ from core.api.serializers import UserEmploymentHistorySerializer
 from core.api.serializers import UserSerializer
 from core.models import ModernJobTitle
 from core.models import Organization
+from core.models import PracticeArea
 from core.models import ProgramArea
 from core.models import ProjectStackElementXref
 from core.models import ProjectUrl
@@ -189,12 +190,16 @@ user_actions_test_data = [
 
 
 def test_update_user_intake_fields_success(auth_client, user, practice_area):
+    # Create a distinct practice_area so this test passes the validation rules in UserPracticeAreaSecondaryXref
+    practice_area_secondary = PracticeArea.objects.create(
+        name="Secondary Practice Area"
+    )
     payload = {
         "intake_present_job_title": "Backend Engineer",
         "intake_target_job_titles": "Staff Engineer",
         "intake_target_skills": "Python",
         "practice_area_primary": practice_area.pk,
-        "practice_area_secondary": [practice_area.pk],
+        "practice_area_secondary": [practice_area_secondary.pk],
     }
 
     res = auth_client.patch(
@@ -207,7 +212,7 @@ def test_update_user_intake_fields_success(auth_client, user, practice_area):
     assert res.data["intake_target_job_titles"] == "Staff Engineer"
     assert res.data["intake_target_skills"] == "Python"
     assert res.data["practice_area_primary"] == practice_area.pk
-    assert res.data["practice_area_secondary"] == [practice_area.pk]
+    assert res.data["practice_area_secondary"] == [practice_area_secondary.pk]
 
 
 @pytest.mark.parametrize(
