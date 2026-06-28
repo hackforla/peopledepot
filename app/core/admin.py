@@ -1,3 +1,5 @@
+import functools
+
 from django import forms
 from django.contrib import admin
 from django.contrib.admin.filters import AllValuesFieldListFilter
@@ -6,6 +8,7 @@ from django.contrib.auth.forms import UserChangeForm as DefaultUserChangeForm
 from django.contrib.auth.forms import UserCreationForm as DefaultUserCreationForm
 from django.contrib.auth.forms import UsernameField
 from django.core.exceptions import ValidationError
+from django.db import transaction
 from django.utils.translation import gettext_lazy as _
 
 from .models import Accomplishment
@@ -63,8 +66,10 @@ class UserChangeForm(DefaultUserChangeForm):
 
 class UserAdminForm(UserChangeForm):
     """
-    Overrides the ui assignment of a through model from outside of the form to inline.
-    Renders secondary practice area menu inline between "practice area primary" and "practice area target intake".
+    Overrides UserChangeForm to manage the practice_area_secondary Xref table.
+
+    Renders the secondary practice area selection inline between practice_area_primary
+    and practice_area_target_intake.
     """
 
     practice_area_secondary_virtual = forms.ModelMultipleChoiceField(
@@ -74,65 +79,80 @@ class UserAdminForm(UserChangeForm):
     )
 
     def __init__(self, *args, **kwargs):
+        """
+        Overrides the default __init__ to populate the practice_area_secondary Xref table selections.
+        """
         super().__init__(*args, **kwargs)
         if self.instance and self.instance.pk:
-            # Pre-populate the field with the user's existing secondary practice areas.
             self.fields[
                 "practice_area_secondary_virtual"
             ].initial = self.instance.practice_area_secondary.all()
 
     def clean(self):
-        # Clean to ensure the user's practice area entries aren't duplicates before saving to the xref table.
+        """
+        Overrides the default clean to validate the form and prevent primary/secondary practice area conflicts.
+        """
+
         cleaned_data = super().clean()
-        primary = cleaned_data.get("practice_area_primary")
+
+        if "practice_area_primary" in cleaned_data:
+            primary = cleaned_data["practice_area_primary"]
+        else:
+            primary = getattr(self.instance, "practice_area_primary", None)
+
         secondaries = cleaned_data.get("practice_area_secondary_virtual")
 
         if primary and secondaries and primary in secondaries:
             raise ValidationError(
                 {
-                    "practice_area_secondary_virtual": (
-                        "A user cannot have the same practice area as "
-                        "both primary and secondary."
-                    )
+                    "practice_area_secondary_virtual": "A practice area cannot be assigned "
+                    "as both primary and secondary."
                 }
             )
 
         return cleaned_data
 
     def _save_secondary_areas(self, user):
-        """Helper to break complex logic out of save() and satisfy linter."""
+        """
+        Persists selected secondary practice areas to the Xref table.
 
-        # Default to an empty list if user does not have a secondary practice area in xref table.
+        Removes existing bridge records for the target user and performs a bulk insert
+        of the newly selected areas within an atomic transaction.
+        """
         selected_areas = self.cleaned_data.get("practice_area_secondary_virtual", [])
 
-        # Delete existing records between user and practice area in xref table to avoid duplicate entries.
-        UserPracticeAreaSecondaryXref.objects.filter(user=user).delete()
+        with transaction.atomic():
+            UserPracticeAreaSecondaryXref.objects.filter(user=user).delete()
 
-        if selected_areas:
-            new_xrefs = [
-                UserPracticeAreaSecondaryXref(user=user, practice_area=area)
-                for area in selected_areas
-            ]
+            if selected_areas:
+                new_xrefs = [
+                    UserPracticeAreaSecondaryXref(user=user, practice_area=area)
+                    for area in selected_areas
+                ]
 
-            UserPracticeAreaSecondaryXref.objects.bulk_create(new_xrefs)
+                # Forces database engines to respect auto_now_add defaults during batch operations.
+                UserPracticeAreaSecondaryXref.objects.bulk_create(
+                    new_xrefs, ignore_conflicts=True
+                )
 
     def save(self, commit=True):
         """
-        Saves the form and handles the custom UserPracticeAreaSecondaryXref bridge table.
+        Overrides the default save to persist the practice_area_secondary Xref table.
 
-        When the Django Admin calls save() with commit=False (e.g., when adding a
-        new user that doesn't have a database ID yet), we must delay our bridge
-        table updates by hooking them into Django's native save_m2m cleanup process.
+        When called with commit=False (e.g., during uncommitted Admin object creation),
+        Xref table persistence is deferred by wrapping Django's native save_m2m hook.
         """
+
         user = super().save(commit=commit)
 
         if commit:
             self._save_secondary_areas(user)
         else:
-            # Stash Django save_m2m function that handles standard fields.
+            # References the native save_m2m hook handling standard form fields.
             default_save_m2m = self.save_m2m
 
-            # Add the custom save function to default save_m2m function.
+            # Wraps the native hook to preserve method metadata across pipelines.
+            @functools.wraps(default_save_m2m)
             def new_save_m2m():
                 default_save_m2m()
                 self._save_secondary_areas(user)

@@ -135,34 +135,44 @@ class UserSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         """
-        Overrides the default update to handle the virtual practice_areas_secondary field.
-        Intercepts the secondary areas and uses a bulk operation to manually update the
-        UserPracticeAreaSecondaryXref bridge table, ensuring the primary practice area
-        (whether existing or newly updated) is never duplicated as a secondary.
-        """
+        Overrides the default update to persist the practice_area_secondary Xref table.
 
+        Intercepts secondary practice areas and performs a bulk insert on the Xref table.
+        Automatically filters out the primary practice area ID to silently prevent conflicts.
+        """
         if "practice_area_secondary" in validated_data:
             practice_area_secondary = validated_data.pop("practice_area_secondary")
 
-            # Determine what the primary area will be after this update.
-            practice_area_primary = validated_data.get(
-                "practice_area_primary", instance.practice_area_primary
-            )
+            # Read the saved practice_area_primary_id directly off the instance.
+            practice_area_primary_id = instance.practice_area_primary_id
+
+            # Override practice_area_primary_id if a new practice_area_primary is included in this payload.
+            if "practice_area_primary" in validated_data:
+                primary_incoming = validated_data["practice_area_primary"]
+                practice_area_primary_id = getattr(
+                    primary_incoming, "pk", primary_incoming
+                )
+
+            # Delete the existing secondary practice_area records for this user.
             UserPracticeAreaSecondaryXref.objects.filter(user=instance).delete()
 
-            # Build the new records in memory while filtering out the primary area.
+            # Sanitize selected practice_area_secondary choice(s) into a list of integer ID(s).
+            practice_area_secondary_id = [
+                getattr(practice_area, "pk", practice_area)
+                for practice_area in practice_area_secondary
+            ]
+
+            # Build Xref records in memory, filtering out selection in practice_area_primary.
             new_xrefs = [
                 UserPracticeAreaSecondaryXref(
-                    user=instance, practice_area=practice_area
+                    user=instance, practice_area_id=practice_area_id
                 )
-                for practice_area in practice_area_secondary
-                if practice_area != practice_area_primary
+                for practice_area_id in practice_area_secondary_id
+                if practice_area_id != practice_area_primary_id
             ]
 
             if new_xrefs:
                 UserPracticeAreaSecondaryXref.objects.bulk_create(new_xrefs)
-            else:
-                pass
 
         return super().update(instance, validated_data)
 

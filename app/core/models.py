@@ -922,7 +922,7 @@ class WinType(AbstractBaseModel):
 
 class UserPracticeAreaSecondaryXref(AbstractBaseModel):
     """
-    Cross-reference table linking a user to their secondary practice areas.
+    Xref table linking a user to their secondary practice areas.
     """
 
     user = models.ForeignKey("User", on_delete=models.CASCADE)
@@ -937,20 +937,23 @@ class UserPracticeAreaSecondaryXref(AbstractBaseModel):
         ]
 
     def clean(self):
+        """
+        Overrides the default clean to prevent primary/secondary practice area conflicts.
+        """
         super().clean()
-        if self.user and self.practice_area:
-            if (
-                self.user.practice_area_primary
-                and self.user.practice_area_primary == self.practice_area
-            ):
+        if self.user_id and self.practice_area_id:
+            practice_area_primary = getattr(self.user, "practice_area_primary", None)
+            if practice_area_primary and practice_area_primary == self.practice_area:
                 from django.core.exceptions import ValidationError
 
                 raise ValidationError(
-                    "A user cannot have the same practice area as "
-                    "both primary and secondary."
+                    "A practice area cannot be assigned as both primary and secondary."
                 )
 
     def save(self, *args, **kwargs):
+        """
+        Overrides the default save to enforce full domain validation before persistence.
+        """
         self.full_clean()
         super().save(*args, **kwargs)
 
