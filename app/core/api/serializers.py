@@ -37,6 +37,7 @@ from core.models import User
 from core.models import UserCheck
 from core.models import UserEmploymentHistory
 from core.models import UserPermission
+from core.models import UserPracticeAreaSecondaryXref
 from core.models import UserStatusType
 from core.models import Win
 from core.models import WinType
@@ -87,6 +88,10 @@ class UserSerializer(serializers.ModelSerializer):
 
     time_zone = TimeZoneSerializerField(use_pytz=False)
 
+    practice_area_secondary = serializers.PrimaryKeyRelatedField(
+        many=True, queryset=PracticeArea.objects.all(), required=False
+    )
+
     class Meta:
         model = User
         fields = (
@@ -127,6 +132,49 @@ class UserSerializer(serializers.ModelSerializer):
             "username",
             "email",
         )
+
+    def update(self, instance, validated_data):
+        """
+        Overrides the default update to persist the practice_area_secondary Xref table.
+
+        Intercepts secondary practice areas and performs a bulk insert on the Xref table.
+        Automatically filters out the primary practice area ID to silently prevent conflicts.
+        """
+        if "practice_area_secondary" in validated_data:
+            practice_area_secondary = validated_data.pop("practice_area_secondary")
+
+            # Read the saved practice_area_primary_id directly off the instance.
+            practice_area_primary_id = instance.practice_area_primary_id
+
+            # Override practice_area_primary_id if a new practice_area_primary is included in this payload.
+            if "practice_area_primary" in validated_data:
+                primary_incoming = validated_data["practice_area_primary"]
+                practice_area_primary_id = getattr(
+                    primary_incoming, "pk", primary_incoming
+                )
+
+            # Delete the existing secondary practice_area records for this user.
+            UserPracticeAreaSecondaryXref.objects.filter(user=instance).delete()
+
+            # Sanitize selected practice_area_secondary choice(s) into a list of integer ID(s).
+            practice_area_secondary_id = [
+                getattr(practice_area, "pk", practice_area)
+                for practice_area in practice_area_secondary
+            ]
+
+            # Build Xref records in memory, filtering out selection in practice_area_primary.
+            new_xrefs = [
+                UserPracticeAreaSecondaryXref(
+                    user=instance, practice_area_id=practice_area_id
+                )
+                for practice_area_id in practice_area_secondary_id
+                if practice_area_id != practice_area_primary_id
+            ]
+
+            if new_xrefs:
+                UserPracticeAreaSecondaryXref.objects.bulk_create(new_xrefs)
+
+        return super().update(instance, validated_data)
 
 
 class ProjectSerializer(serializers.ModelSerializer):

@@ -1,6 +1,7 @@
 import re
 
 import pytest
+from django.core.exceptions import ValidationError
 from django.db import IntegrityError
 from django.db import transaction
 from django.db.models.deletion import ProtectedError
@@ -22,6 +23,7 @@ from ..models import SocDetailed
 from ..models import User
 from ..models import UserCheck
 from ..models import UserEmploymentHistory
+from ..models import UserPracticeAreaSecondaryXref
 from ..models import UserStatusType
 
 pytestmark = pytest.mark.django_db
@@ -521,12 +523,103 @@ def test_user_practice_area_relationship(user, user2):
     user2.practice_area_secondary.add(project_management_practice_area)
     assert user2.practice_area_secondary.count() == 1
     assert user2.practice_area_secondary.contains(project_management_practice_area)
-    assert project_management_practice_area.secondary_users.contains(user2)
+    assert project_management_practice_area.users_secondary.contains(user2)
 
     user2.practice_area_secondary.remove(project_management_practice_area)
     assert user2.practice_area_secondary.count() == 0
     assert not user2.practice_area_secondary.contains(project_management_practice_area)
-    assert not project_management_practice_area.secondary_users.contains(user2)
+    assert not project_management_practice_area.users_secondary.contains(user2)
+
+
+def test_user_practice_area_secondary_xref_clean_and_string(user, practice_area):
+    """
+    Verifies that distinct primary and secondary practice areas pass clean()
+    in memory, and that __str__ returns the expected human-readable format.
+    """
+    practice_area_primary = PracticeArea.objects.create(name="Primary Area")
+    user.practice_area_primary = practice_area_primary
+
+    xref = UserPracticeAreaSecondaryXref(user=user, practice_area=practice_area)
+
+    xref.full_clean()
+
+    expected_str = f"{user.username} - {practice_area.name}"
+    assert str(xref) == expected_str
+
+
+def test_user_practice_area_secondary_xref_persistence(user, practice_area):
+    """
+    Verifies that a valid Xref record successfully writes to the database
+    and can be queried back.
+    """
+    practice_area_primary = PracticeArea.objects.create(name="Primary Area")
+    user.practice_area_primary = practice_area_primary
+    user.save()
+
+    UserPracticeAreaSecondaryXref.objects.create(user=user, practice_area=practice_area)
+
+    assert UserPracticeAreaSecondaryXref.objects.count() == 1
+
+
+def test_user_practice_area_secondary_xref_clean_unpopulated():
+    """
+    Verifies calling clean() on an unpopulated in-memory instance
+    where user_id or practice_area_id is None exits safely.
+    """
+    empty_xref = UserPracticeAreaSecondaryXref()
+    empty_xref.clean()
+
+
+def test_user_practice_area_secondary_xref_cascades_with_user(user, practice_area):
+    """
+    Verifies that deleting a parent User record triggers a PostgreSQL CASCADE,
+    destroying associated bridge records to prevent orphaned data.
+    """
+    practice_area_2 = PracticeArea.objects.create(name="Practice Area 2")
+
+    UserPracticeAreaSecondaryXref.objects.create(user=user, practice_area=practice_area)
+    UserPracticeAreaSecondaryXref.objects.create(
+        user=user, practice_area=practice_area_2
+    )
+
+    assert UserPracticeAreaSecondaryXref.objects.count() == 2
+
+    user.delete()
+    assert UserPracticeAreaSecondaryXref.objects.count() == 0
+
+
+def test_user_practice_area_secondary_xref_enforces_unique_pairing(user, practice_area):
+    """
+    Verifies duplicate pairings are actively rejected.
+    Traps for Python Model validation (full_clean) or PostgreSQL engine constraints.
+    """
+    UserPracticeAreaSecondaryXref.objects.create(user=user, practice_area=practice_area)
+    initial_count = UserPracticeAreaSecondaryXref.objects.count()
+
+    with pytest.raises((ValidationError, IntegrityError)):
+        UserPracticeAreaSecondaryXref.objects.create(
+            user=user, practice_area=practice_area
+        )
+
+    assert UserPracticeAreaSecondaryXref.objects.count() == initial_count
+
+
+def test_user_practice_area_secondary_xref_primary_conflict(user, practice_area):
+    """
+    Verifies custom model validation intercepts and blocks assigning a
+    secondary practice area if it matches the user's saved primary area.
+    """
+    user.practice_area_primary = practice_area
+    user.save()
+
+    initial_count = UserPracticeAreaSecondaryXref.objects.count()
+
+    with pytest.raises(ValidationError):
+        UserPracticeAreaSecondaryXref.objects.create(
+            user=user, practice_area=practice_area
+        )
+
+    assert UserPracticeAreaSecondaryXref.objects.count() == initial_count
 
 
 def test_project_url(project_url):

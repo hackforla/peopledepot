@@ -101,7 +101,10 @@ class User(PermissionsMixin, AbstractBaseUser, AbstractBaseModel):
         on_delete=models.PROTECT,
     )
     practice_area_secondary = models.ManyToManyField(
-        "PracticeArea", related_name="secondary_users", blank=True
+        "PracticeArea",
+        related_name="users_secondary",
+        blank=True,
+        through="UserPracticeAreaSecondaryXref",
     )
     practice_area_target_intake = models.ManyToManyField(
         "PracticeArea", related_name="target_intake_users", blank=True
@@ -915,3 +918,44 @@ class WinType(AbstractBaseModel):
 
     def __str__(self) -> str:
         return self.name
+
+
+class UserPracticeAreaSecondaryXref(AbstractBaseModel):
+    """
+    Xref table linking a user to their secondary practice areas.
+    """
+
+    user = models.ForeignKey("User", on_delete=models.CASCADE)
+    practice_area = models.ForeignKey("PracticeArea", on_delete=models.CASCADE)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["user", "practice_area"],
+                name="unique_user_practice_area_secondary",
+            )
+        ]
+
+    def clean(self):
+        """
+        Overrides the default clean to prevent primary/secondary practice area conflicts.
+        """
+        super().clean()
+        if self.user_id and self.practice_area_id:
+            practice_area_primary = getattr(self.user, "practice_area_primary", None)
+            if practice_area_primary and practice_area_primary == self.practice_area:
+                from django.core.exceptions import ValidationError
+
+                raise ValidationError(
+                    "A practice area cannot be assigned as both primary and secondary."
+                )
+
+    def save(self, *args, **kwargs):
+        """
+        Overrides the default save to enforce full domain validation before persistence.
+        """
+        self.full_clean()
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.practice_area.name}"

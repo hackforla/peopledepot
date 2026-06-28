@@ -9,6 +9,7 @@ from core.api.serializers import UserEmploymentHistorySerializer
 from core.api.serializers import UserSerializer
 from core.models import ModernJobTitle
 from core.models import Organization
+from core.models import PracticeArea
 from core.models import ProgramArea
 from core.models import ProjectStackElementXref
 from core.models import ProjectUrl
@@ -19,6 +20,7 @@ from core.models import UrlStatusType
 from core.models import UserCheck
 from core.models import UserEmploymentHistory
 from core.models import UserPermission
+from core.models import UserPracticeAreaSecondaryXref
 from core.models import WinType
 
 pytestmark = pytest.mark.django_db
@@ -188,13 +190,29 @@ user_actions_test_data = [
 ]
 
 
+@pytest.mark.parametrize(
+    ("client_name", "action", "endpoint", "payload", "expected_status"),
+    user_actions_test_data,
+)
+def test_user_actions(client_name, action, endpoint, payload, expected_status, request):
+    client = request.getfixturevalue(client_name)
+    action_fn = getattr(client, action)
+    url = request.getfixturevalue(endpoint)
+    res = action_fn(url, payload)
+    assert res.status_code == expected_status
+
+
 def test_update_user_intake_fields_success(auth_client, user, practice_area):
+    practice_area_secondary = PracticeArea.objects.create(
+        name="Secondary Practice Area"
+    )
+
     payload = {
         "intake_present_job_title": "Backend Engineer",
         "intake_target_job_titles": "Staff Engineer",
         "intake_target_skills": "Python",
         "practice_area_primary": practice_area.pk,
-        "practice_area_secondary": [practice_area.pk],
+        "practice_area_secondary": [practice_area_secondary.pk],
     }
 
     res = auth_client.patch(
@@ -207,19 +225,185 @@ def test_update_user_intake_fields_success(auth_client, user, practice_area):
     assert res.data["intake_target_job_titles"] == "Staff Engineer"
     assert res.data["intake_target_skills"] == "Python"
     assert res.data["practice_area_primary"] == practice_area.pk
-    assert res.data["practice_area_secondary"] == [practice_area.pk]
+    assert res.data["practice_area_secondary"] == [practice_area_secondary.pk]
 
 
+def test_update_user_practice_area_secondary_success(auth_client, user, practice_area):
+    """
+    Tests that multiple secondary practice areas can be assigned to a user
+    and are correctly persisted in the UserPracticeAreaSecondaryXref bridge table.
+    """
+    practice_area_2 = PracticeArea.objects.create(name="Practice Area 2")
+
+    url = reverse("user-detail", args=[user.uuid])
+    payload = {"practice_area_secondary": [practice_area.pk, practice_area_2.pk]}
+
+    res = auth_client.patch(url, payload)
+
+    assert res.status_code == status.HTTP_200_OK, (
+        f"Expected 200, got {res.status_code}. Data: {res.data}"
+    )
+    assert len(res.data["practice_area_secondary"]) == 2
+    assert practice_area_2.pk in res.data["practice_area_secondary"]
+    assert practice_area.pk in res.data["practice_area_secondary"]
+
+    count = UserPracticeAreaSecondaryXref.objects.filter(user=user).count()
+    assert count == 2, f"Expected 2 Xref records, but found {count}."
+
+
+# Failure Scenarios for Secondary Practice Areas
 @pytest.mark.parametrize(
-    ("client_name", "action", "endpoint", "payload", "expected_status"),
-    user_actions_test_data,
+    "bad_payload, expected_status",
+    [
+        ({"practice_area_secondary": "string"}, status.HTTP_400_BAD_REQUEST),
+        ({"practice_area_secondary": [99999]}, status.HTTP_400_BAD_REQUEST),
+        ({"practice_area_secondary": None}, status.HTTP_400_BAD_REQUEST),
+    ],
 )
-def test_user_actions(client_name, action, endpoint, payload, expected_status, request):
-    client = request.getfixturevalue(client_name)
-    action_fn = getattr(client, action)
-    url = request.getfixturevalue(endpoint)
-    res = action_fn(url, payload)
+def test_update_user_practice_area_secondary_failures(
+    auth_client, user, bad_payload, expected_status
+):
+    """
+    Verifies that the API correctly enforces data integrity at the Serializer level
+    before processing business logic.
+    """
+    url = reverse("user-detail", args=[user.uuid])
+    res = auth_client.patch(url, bad_payload, format="json")
+
     assert res.status_code == expected_status
+
+
+def test_update_user_secondary_practice_area_mixed_payload(
+    auth_client, user, practice_area
+):
+    """
+    Tests that the UserPracticeAreaSecondaryXref update() method
+    removes the primary practice area from the payload,
+    while successfully preserving and saving valid secondary areas.
+    """
+    practice_area_2 = PracticeArea.objects.create(name="Practice Area 2")
+    practice_area_3 = PracticeArea.objects.create(name="Practice Area 3")
+
+    url = reverse("user-detail", args=[user.uuid])
+
+    payload = {
+        "practice_area_primary": practice_area.pk,
+        "practice_area_secondary": [
+            practice_area.pk,
+            practice_area_2.pk,
+            practice_area_3.pk,
+        ],
+    }
+
+    res = auth_client.patch(url, payload)
+
+    assert res.status_code == status.HTTP_200_OK
+    assert len(res.data["practice_area_secondary"]) == 2
+    assert practice_area_2.pk in res.data["practice_area_secondary"]
+    assert practice_area_3.pk in res.data["practice_area_secondary"], (
+        f"The API failed to filter out duplicate primary Area ({practice_area.pk}). "
+        f"Got {res.data.get('practice_area_secondary')}."
+    )
+    assert UserPracticeAreaSecondaryXref.objects.filter(user=user).count() == 2
+
+
+def test_update_user_practice_area_secondary_primary_conflict(
+    auth_client, user, practice_area
+):
+    """
+    Tests that if the payload attempts to set a practice area as both
+    primary and secondary, the API handles it without crashing.
+    """
+    url = reverse("user-detail", args=[user.uuid])
+
+    payload = {
+        "practice_area_primary": practice_area.pk,
+        "practice_area_secondary": [practice_area.pk],
+    }
+
+    res = auth_client.patch(url, payload)
+
+    assert res.status_code == status.HTTP_200_OK
+    assert res.data["practice_area_primary"] == practice_area.pk
+    assert res.data["practice_area_secondary"] == []
+    assert UserPracticeAreaSecondaryXref.objects.filter(user=user).count() == 0
+
+
+def test_update_user_practice_area_secondary_saved_primary_conflict(
+    auth_client, user, practice_area
+):
+    """
+    Tests that if incoming secondary practice areas collide with the user's existing
+    database primary area (not passed in the PATCH payload), it is silently filtered out.
+    """
+    practice_area_2 = PracticeArea.objects.create(name="Practice Area 2")
+
+    user.practice_area_primary = practice_area
+    user.save()
+
+    url = reverse("user-detail", args=[user.uuid])
+    payload = {"practice_area_secondary": [practice_area.pk, practice_area_2.pk]}
+
+    res = auth_client.patch(url, payload)
+
+    assert res.status_code == status.HTTP_200_OK
+    assert res.data["practice_area_secondary"] == [practice_area_2.pk]
+    assert UserPracticeAreaSecondaryXref.objects.filter(user=user).count() == 1
+
+
+def test_update_user_practice_area_secondary_empty_list(
+    auth_client, user, practice_area
+):
+    """
+    Tests that sending an empty practice_area_secondary payload clears all existing
+    secondary practice areas from the bridge table.
+    """
+
+    UserPracticeAreaSecondaryXref.objects.create(user=user, practice_area=practice_area)
+
+    practice_area_2 = PracticeArea.objects.create(name="Practice Area 2")
+    UserPracticeAreaSecondaryXref.objects.create(
+        user=user, practice_area=practice_area_2
+    )
+
+    url = reverse("user-detail", args=[user.uuid])
+    payload = {"practice_area_secondary": []}
+    res = auth_client.patch(url, payload, format="json")
+
+    assert res.status_code == status.HTTP_200_OK
+    assert res.data["practice_area_secondary"] == []
+    assert UserPracticeAreaSecondaryXref.objects.filter(user=user).count() == 0
+
+
+def test_update_user_practice_area_secondary_replacement(
+    auth_client, user, practice_area
+):
+    """
+    Tests that updating an existing populated secondary list correctly overwrites
+    the old bridge records rather than appending or duplicating them.
+    """
+
+    practice_area_2 = PracticeArea.objects.create(name="Practice Area 2")
+    practice_area_3 = PracticeArea.objects.create(name="Practice Area 3")
+
+    UserPracticeAreaSecondaryXref.objects.create(user=user, practice_area=practice_area)
+    UserPracticeAreaSecondaryXref.objects.create(
+        user=user, practice_area=practice_area_2
+    )
+
+    url = reverse("user-detail", args=[user.uuid])
+    payload = {"practice_area_secondary": [practice_area_2.pk, practice_area_3.pk]}
+
+    res = auth_client.patch(url, payload, format="json")
+
+    assert res.status_code == status.HTTP_200_OK
+    assert len(res.data["practice_area_secondary"]) == 2
+    assert practice_area_2.pk in res.data["practice_area_secondary"]
+    assert practice_area_3.pk in res.data["practice_area_secondary"]
+    assert not UserPracticeAreaSecondaryXref.objects.filter(
+        user=user, practice_area=practice_area
+    ).exists()
+    assert UserPracticeAreaSecondaryXref.objects.filter(user=user).count() == 2
 
 
 def test_create_event(auth_client, project):
