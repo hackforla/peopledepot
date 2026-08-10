@@ -22,8 +22,8 @@ from .models import PermissionType
 from .models import PracticeArea
 from .models import ProgramArea
 from .models import Project
+from .models import ProjectProgramAreaStatusType
 from .models import ProjectStackElementXref
-from .models import ProjectStatus
 from .models import ProjectUrl
 from .models import Referrer
 from .models import ReferrerType
@@ -305,8 +305,8 @@ class EventTypeAdmin(admin.ModelAdmin):
     list_display = ("name", "description")
 
 
-@admin.register(ProjectStatus)
-class ProjectStatusAdmin(admin.ModelAdmin):
+@admin.register(ProjectProgramAreaStatusType)
+class ProjectProgramAreaStatusTypeAdmin(admin.ModelAdmin):
     list_display = ("name", "description")
 
 
