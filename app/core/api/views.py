@@ -30,8 +30,8 @@ from ..models import PermissionType
 from ..models import PracticeArea
 from ..models import ProgramArea
 from ..models import Project
+from ..models import ProjectProgramAreaStatusType
 from ..models import ProjectStackElementXref
-from ..models import ProjectStatus
 from ..models import ProjectUrl
 from ..models import Referrer
 from ..models import ReferrerType
@@ -67,9 +67,9 @@ from .serializers import OrganizationSerializer
 from .serializers import PermissionTypeSerializer
 from .serializers import PracticeAreaSerializer
 from .serializers import ProgramAreaSerializer
+from .serializers import ProjectProgramAreaStatusTypeSerializer
 from .serializers import ProjectSerializer
 from .serializers import ProjectStackElementXrefSerializer
-from .serializers import ProjectStatusSerializer
 from .serializers import ProjectUrlSerializer
 from .serializers import ReferrerSerializer
 from .serializers import ReferrerTypeSerializer
@@ -470,17 +470,21 @@ class CheckTypeViewSet(viewsets.ModelViewSet):
 
 
 @extend_schema_view(
-    list=extend_schema(description="Return a list of all the project statuses"),
-    create=extend_schema(description="Create a new project status"),
-    retrieve=extend_schema(description="Return the details of an project status"),
-    destroy=extend_schema(description="Delete a project status"),
-    update=extend_schema(description="Update a project status"),
-    partial_update=extend_schema(description="Patch a project status"),
+    list=extend_schema(
+        description="Return a list of all the project or program area statuses"
+    ),
+    create=extend_schema(description="Create a new project or program area status"),
+    retrieve=extend_schema(
+        description="Return the details of an project or program area status"
+    ),
+    destroy=extend_schema(description="Delete a project or program area status"),
+    update=extend_schema(description="Update a project or program area status"),
+    partial_update=extend_schema(description="Patch a project or program area status"),
 )
-class ProjectStatusViewSet(viewsets.ModelViewSet):
+class ProjectProgramAreaStatusTypeViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
-    queryset = ProjectStatus.objects.all()
-    serializer_class = ProjectStatusSerializer
+    queryset = ProjectProgramAreaStatusType.objects.all()
+    serializer_class = ProjectProgramAreaStatusTypeSerializer
 
 
 @extend_schema_view(

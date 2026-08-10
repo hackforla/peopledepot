@@ -147,16 +147,16 @@ class User(PermissionsMixin, AbstractBaseUser, AbstractBaseModel):
         return f"{self.email}"
 
 
-class ProjectStatus(AbstractBaseModel):
+class ProjectProgramAreaStatusType(AbstractBaseModel):
     """
-    Dictionary of status options for project
+    Dictionary of status options for project or program area
     """
 
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True)
 
     class Meta:
-        verbose_name_plural = "project statuses"
+        verbose_name_plural = "project or program area statuses"
 
     def __str__(self):
         return f"{self.name}"
@@ -194,7 +194,7 @@ class Project(AbstractBaseModel):
         """).strip(),
     )
     current_status = models.ForeignKey(
-        ProjectStatus, null=True, on_delete=models.PROTECT
+        ProjectProgramAreaStatusType, null=True, on_delete=models.PROTECT
     )
     hide = models.BooleanField(default=True)
     # location_id = models.ForeignKey("location", on_delete=models.PROTECT)

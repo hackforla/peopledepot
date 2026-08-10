@@ -17,8 +17,8 @@ from core.models import PermissionType
 from core.models import PracticeArea
 from core.models import ProgramArea
 from core.models import Project
+from core.models import ProjectProgramAreaStatusType
 from core.models import ProjectStackElementXref
-from core.models import ProjectStatus
 from core.models import ProjectUrl
 from core.models import Referrer
 from core.models import ReferrerType
@@ -457,13 +457,13 @@ class CheckTypeSerializer(serializers.ModelSerializer):
         read_only_fields = ("uuid", "created_at", "updated_at")
 
 
-class ProjectStatusSerializer(serializers.ModelSerializer):
+class ProjectProgramAreaStatusTypeSerializer(serializers.ModelSerializer):
     """
-    Used to retrieve project_status info
+    Used to retrieve project/program/area status info
     """
 
     class Meta:
-        model = ProjectStatus
+        model = ProjectProgramAreaStatusType
         fields = ("uuid", "name", "description")
         read_only_fields = ("uuid", "created_at", "updated_at")
 

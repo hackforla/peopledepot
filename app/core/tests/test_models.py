@@ -10,10 +10,10 @@ from ..models import Event
 from ..models import ModernJobTitle
 from ..models import PracticeArea
 from ..models import ProgramArea
+from ..models import ProjectProgramAreaStatusType
 from ..models import ProjectProgramAreaXref
 from ..models import ProjectSdgXref
 from ..models import ProjectStackElementXref
-from ..models import ProjectStatus
 from ..models import ProjectUrl
 from ..models import ReferrerType
 from ..models import Sdg
@@ -419,8 +419,8 @@ def test_project_has_a_project_status_relationship(
     project_1,
     project_2,
 ):
-    active_project_status = ProjectStatus.objects.get(name="Active")
-    closed_project_status = ProjectStatus.objects.get(name="Closed")
+    active_project_status = ProjectProgramAreaStatusType.objects.get(name="Active")
+    closed_project_status = ProjectProgramAreaStatusType.objects.get(name="Closed")
 
     active_project_status.project_set.add(project_1)
     active_project_status.project_set.add(project_2)
