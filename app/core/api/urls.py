@@ -16,8 +16,8 @@ from .views import OrganizationViewSet
 from .views import PermissionTypeViewSet
 from .views import PracticeAreaViewSet
 from .views import ProgramAreaViewSet
+from .views import ProjectProgramAreaStatusTypeViewSet
 from .views import ProjectStackElementXrefViewSet
-from .views import ProjectStatusViewSet
 from .views import ProjectUrlViewSet
 from .views import ProjectViewSet
 from .views import ReferrerTypeViewSet
@@ -76,7 +76,9 @@ router.register(
     basename="affiliation",
 )
 router.register(r"check-types", CheckTypeViewSet, basename="check-type")
-router.register(r"project-statuses", ProjectStatusViewSet, basename="project-status")
+router.register(
+    r"project-statuses", ProjectProgramAreaStatusTypeViewSet, basename="project-status"
+)
 router.register(r"project-urls", ProjectUrlViewSet, basename="project-url")
 router.register(r"soc-broads", SocBroadViewSet, basename="soc-broad")
 router.register(r"soc-detailed", SocDetailedViewSet, basename="soc-detailed")
