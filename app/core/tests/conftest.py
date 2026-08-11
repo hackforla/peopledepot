@@ -20,8 +20,8 @@ from ..models import PermissionType
 from ..models import PracticeArea
 from ..models import ProgramArea
 from ..models import Project
+from ..models import ProjectProgramAreaStatusType
 from ..models import ProjectStackElementXref
-from ..models import ProjectStatus
 from ..models import ProjectUrl
 from ..models import Referrer
 from ..models import ReferrerType
@@ -354,7 +354,7 @@ def project_2():
 
 @pytest.fixture
 def project_status():
-    return ProjectStatus.objects.create(
+    return ProjectProgramAreaStatusType.objects.create(
         name="This is a test project_status",
         description="This is a test project_status",
     )
