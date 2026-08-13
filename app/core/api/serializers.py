@@ -53,6 +53,9 @@ class PracticeAreaSerializer(serializers.ModelSerializer):
             "updated_at",
             "name",
             "description",
+            "project_program_area_status_type",
+            "leadership_type",
+            "icon",
         )
         read_only_fields = (
             "uuid",

@@ -350,6 +350,21 @@ class PracticeArea(AbstractBaseModel):
     name = models.CharField(max_length=255, unique=True)
     description = models.CharField(max_length=255, blank=True)
 
+    project_program_area_status_type = models.ForeignKey(
+        ProjectProgramAreaStatusType,
+        null=True,
+        blank=True,
+        on_delete=models.PROTECT,
+    )
+
+    leadership_type = models.ForeignKey(
+        LeadershipType,
+        null=True,
+        blank=True,
+        on_delete=models.PROTECT,
+    )
+    icon = models.URLField(blank=True)
+
     def __str__(self):
         return f"{self.name}"
 

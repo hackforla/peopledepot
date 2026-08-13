@@ -169,6 +169,9 @@ class PracticeAreaAdmin(admin.ModelAdmin):
     list_display = (
         "name",
         "description",
+        "project_program_area_status_type",
+        "leadership_type",
+        "icon",
     )
 
 
