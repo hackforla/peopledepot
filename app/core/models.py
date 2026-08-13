@@ -351,7 +351,7 @@ class PracticeArea(AbstractBaseModel):
     description = models.CharField(max_length=255, blank=True)
 
     project_program_area_status_type = models.ForeignKey(
-        ProjectStatus,
+        ProjectProgramAreaStatusType,
         null=True,
         blank=True,
         on_delete=models.PROTECT,
