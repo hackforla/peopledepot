@@ -92,7 +92,6 @@ def test_practice_area_project_status_relationship(
     assert practice_area.project_program_area_status_type == project_status
 
 
-
 def test_affiliate(affiliate):
     assert str(affiliate) == "Test Affiliate"
 

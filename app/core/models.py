@@ -356,7 +356,7 @@ class PracticeArea(AbstractBaseModel):
         blank=True,
         on_delete=models.PROTECT,
     )
-        
+
     leadership_type = models.ForeignKey(
         LeadershipType,
         null=True,
