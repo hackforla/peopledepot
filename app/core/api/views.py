@@ -212,7 +212,7 @@ class EventTypeViewSet(viewsets.ModelViewSet):
 
 @extend_schema_view(
     list=extend_schema(description="Return a list of all the practice areas"),
-    create=extend_schema(description="Create a new sponsor practice area"),
+    create=extend_schema(description="Create a new practice area"),
     retrieve=extend_schema(description="Return the details of a practice area"),
     destroy=extend_schema(description="Delete a practice area"),
     update=extend_schema(description="Update a practice area"),

@@ -272,14 +272,23 @@ def test_create_affiliate(auth_client):
     assert res.status_code == status.HTTP_201_CREATED
 
 
-def test_create_practice_area(auth_client):
+def test_create_practice_area(auth_client, leadership_type, project_status):
     payload = {
         "name": "Test API for creating practice area",
         "description": "See name.  Description is optional.",
+        "icon": "https://example.com/icon.png",
+        "leadership_type": leadership_type.pk,
+        "project_program_area_status_type": project_status.pk,
     }
+
     res = auth_client.post(PRACTICE_AREA_URL, payload)
+
     assert res.status_code == status.HTTP_201_CREATED
     assert res.data["name"] == payload["name"]
+    assert res.data["description"] == payload["description"]
+    assert res.data["icon"] == payload["icon"]
+    assert res.data["leadership_type"] == leadership_type.pk
+    assert res.data["project_program_area_status_type"] == project_status.pk
 
 
 def test_create_faq(auth_client):

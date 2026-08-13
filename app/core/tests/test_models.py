@@ -66,6 +66,33 @@ def test_practice_area(practice_area):
     assert str(practice_area) == "Test Practice Area"
 
 
+def test_practice_area_leadership_type_relationship(
+    practice_area,
+    leadership_type,
+):
+    assert practice_area.leadership_type is None
+
+    practice_area.leadership_type = leadership_type
+    practice_area.save()
+    practice_area.refresh_from_db()
+
+    assert practice_area.leadership_type == leadership_type
+
+
+def test_practice_area_project_status_relationship(
+    practice_area,
+    project_status,
+):
+    assert practice_area.project_program_area_status_type is None
+
+    practice_area.project_program_area_status_type = project_status
+    practice_area.save()
+    practice_area.refresh_from_db()
+
+    assert practice_area.project_program_area_status_type == project_status
+
+
+
 def test_affiliate(affiliate):
     assert str(affiliate) == "Test Affiliate"
 
