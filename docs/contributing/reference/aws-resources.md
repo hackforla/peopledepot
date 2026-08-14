@@ -28,14 +28,15 @@ The development environment (`peopledepot-dev.vrms.io`) is automatically deploye
 1. GitHub Actions automatically triggers the [deploy-dev workflow](https://github.com/hackforla/peopledepot/blob/main/.github/workflows/deploy-dev.yml)
 1. The workflow builds the Docker image using [Dockerfile-aws](https://github.com/hackforla/peopledepot/blob/main/app/Dockerfile-aws)
 1. The updated image is pushed to the incubator account on AWS
-1. Terraform starts the Docker container, which runs [entrypoint-aws.sh](https://github.com/hackforla/peopledepot/blob/main/app/entrypoint-aws.sh) to execute database migrations before launching the app
+1. Terraform starts the Docker container, which runs [entrypoint-aws.sh](https://github.com/hackforla/peopledepot/blob/main/app/entrypoint-aws.sh) to execute database migrations, then launches the app via gunicorn (WSGI server); static files are served by whitenoise
 
 ### Configuration & Infrastructure
 
 **Docker & App Startup**
 
-- [Dockerfile](https://github.com/hackforla/peopledepot/blob/main/app/Dockerfile-aws) — Defines the container image
-- [Entrypoint Script](https://github.com/hackforla/peopledepot/blob/main/app/entrypoint-aws.sh) — Handles app initialization and database migrations
+- [Dockerfile](https://github.com/hackforla/peopledepot/blob/main/app/Dockerfile-aws) — Defines the container image; multi-stage build using production dependencies and gunicorn
+- [Entrypoint Script](https://github.com/hackforla/peopledepot/blob/main/app/entrypoint-aws.sh) — Runs database migrations then starts gunicorn; whitenoise serves static files
+- [Production Settings](https://github.com/hackforla/peopledepot/blob/main/app/peopledepot/settings_aws.py) — Django settings for AWS; inherits base settings and strips dev-only apps
 
 **Infrastructure as Code (Terraform)**
 
