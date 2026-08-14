@@ -2,7 +2,7 @@
 
 These are the tools we use in the PeopleDepot project with notes on how we use them.
 
-- [Convenience scripts](scripts.md)
+- [Convenience scripts](scripts/index.md)
 - [Docker](docker.md) for containerization
 - [MkDocs](mkdocs.md) for documentation
 - [Pre-commit](pre-commit.md) for linting
