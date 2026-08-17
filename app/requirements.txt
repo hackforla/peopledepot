@@ -59,7 +59,7 @@ psycopg2-binary==2.9.10
     # via -r requirements.in
 pycparser==2.22
     # via cffi
-pyjwt[crypto]==2.10.1
+pyjwt[crypto]==2.13.0
     # via
     #   drf-jwt
     #   pyjwt
