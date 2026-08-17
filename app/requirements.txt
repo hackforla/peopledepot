@@ -59,11 +59,13 @@ psycopg2-binary==2.9.10
     # via -r requirements.in
 pycparser==2.22
     # via cffi
+pygments==2.21.0
+    # via pytest
 pyjwt[crypto]==2.10.1
     # via
     #   drf-jwt
     #   pyjwt
-pytest==8.3.4
+pytest==9.0.3
     # via
     #   pytest-cov
     #   pytest-django
