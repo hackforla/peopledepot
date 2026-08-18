@@ -231,7 +231,7 @@ class ModernJobTitleAdmin(admin.ModelAdmin):
 
 @admin.register(ProgramArea)
 class ProgramAreaAdmin(admin.ModelAdmin):
-    list_display = ("name", "description", "image")
+    list_display = ("name", "description", "image", "project_program_area_status_type")
 
 
 @admin.register(Skill)

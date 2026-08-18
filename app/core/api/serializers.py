@@ -317,7 +317,14 @@ class ProgramAreaSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ProgramArea
-        fields = ("uuid", "name", "description", "image", "projects")
+        fields = (
+            "uuid",
+            "name",
+            "description",
+            "image",
+            "project_program_area_status_type",
+            "projects",
+        )
         read_only_fields = ("uuid", "created_at", "updated_at")
 
 
