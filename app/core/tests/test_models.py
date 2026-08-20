@@ -800,9 +800,7 @@ def test_user_deletion_cascades_to_employment_histories(user, modern_job_title):
     assert UserEmploymentHistory.objects.count() == 0
 
 
-def test_modern_job_title_has_multiple_employment_histories(
-    user, modern_job_title
-):
+def test_modern_job_title_has_multiple_employment_histories(user, modern_job_title):
     history1 = UserEmploymentHistory.objects.create(
         user=user,
         modern_job_title=modern_job_title,

@@ -1324,10 +1324,7 @@ def test_retrieve_user_employment_history(auth_client, user_employment_history):
 
     assert res.status_code == status.HTTP_200_OK
     assert res.data["uuid"] == str(user_employment_history.pk)
-    assert (
-        res.data["modern_job_title"]
-        == user_employment_history.modern_job_title.pk
-    )
+    assert res.data["modern_job_title"] == user_employment_history.modern_job_title.pk
     assert res.data["user"] == user_employment_history.user.pk
 
 

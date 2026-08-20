@@ -891,7 +891,7 @@ class UserEmploymentHistory(AbstractBaseModel):
         on_delete=models.CASCADE,
         related_name="user_employment_histories",
     )
-    
+
     def __str__(self):
         return f"{self.user.username} - {self.modern_job_title}"
 
