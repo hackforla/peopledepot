@@ -2,7 +2,7 @@ from .settings import *  # noqa: F401, F403
 
 ROOT_URLCONF = "peopledepot.urls_aws"
 
-STATIC_ROOT = BASE_DIR / "staticfiles"
+STATIC_ROOT = BASE_DIR / "staticfiles"  # noqa: F405
 STORAGES = {
     "default": {
         "BACKEND": "django.core.files.storage.FileSystemStorage",
