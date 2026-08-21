@@ -25,7 +25,6 @@ from ..models import UserCheck
 from ..models import UserEmploymentHistory
 from ..models import UserStatusType
 
-
 pytestmark = pytest.mark.django_db
 
 

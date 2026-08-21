@@ -43,7 +43,6 @@ from .views import UserViewSet
 from .views import WinTypeViewSet
 from .views import WinViewSet
 
-
 router = routers.SimpleRouter()
 router.register(r"user-permissions", UserPermissionViewSet, basename="user-permission")
 router.register(r"users", UserViewSet, basename="user")

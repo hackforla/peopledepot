@@ -62,6 +62,7 @@ class CancelledEventSerializer(serializers.ModelSerializer):
             "updated_at",
         )
 
+
 class PracticeAreaSerializer(serializers.ModelSerializer):
     """Used to retrieve practice area info"""
 

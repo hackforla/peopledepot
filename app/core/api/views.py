@@ -95,7 +95,6 @@ from .serializers import WinSerializer
 from .serializers import WinTypeSerializer
 
 
-
 class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
     serializer_class = UserSerializer
     permission_classes = [IsAuthenticated]
