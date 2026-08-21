@@ -17,8 +17,8 @@ from ..models import ProjectStackElementXref
 from ..models import ProjectUrl
 from ..models import ReferrerType
 from ..models import Sdg
-from ..models import SdgTargetIndicator
-from ..models import SocDetailed
+from ..models import SDGTargetIndicator
+from ..models import SOCDetailed
 from ..models import User
 from ..models import UserCheck
 from ..models import UserEmploymentHistory
@@ -180,7 +180,7 @@ def test_sdg(sdg):
 
 
 def test_create_sdg_target_indicator(sdg):
-    indicator = SdgTargetIndicator.objects.create(
+    indicator = SDGTargetIndicator.objects.create(
         sdg=sdg,
         code="1.1",
         description_number="Target 1.1",
@@ -195,7 +195,7 @@ def test_create_sdg_target_indicator(sdg):
 
 
 def test_sdg_deletion_cascades_to_target_indicators(sdg):
-    SdgTargetIndicator.objects.create(
+    SDGTargetIndicator.objects.create(
         sdg=sdg,
         code="1.2",
         description_number="Target 1.2",
@@ -203,17 +203,17 @@ def test_sdg_deletion_cascades_to_target_indicators(sdg):
     )
 
     sdg.delete()
-    assert SdgTargetIndicator.objects.count() == 0
+    assert SDGTargetIndicator.objects.count() == 0
 
 
 def test_sdg_can_have_multiple_indicators(sdg):
-    ind1 = SdgTargetIndicator.objects.create(
+    ind1 = SDGTargetIndicator.objects.create(
         sdg=sdg,
         code="1.1",
         description_number="Target 1.1",
         description_text="First",
     )
-    ind2 = SdgTargetIndicator.objects.create(
+    ind2 = SDGTargetIndicator.objects.create(
         sdg=sdg,
         code="1.2",
         description_number="Target 1.2",
@@ -228,7 +228,7 @@ def test_sdg_can_have_multiple_indicators(sdg):
 
 
 def test_indicator_str_method(sdg):
-    indicator = SdgTargetIndicator.objects.create(
+    indicator = SDGTargetIndicator.objects.create(
         sdg=sdg,
         code="1.3",
         description_number="Target 1.3",
@@ -324,7 +324,7 @@ def test_soc_broad_relationships(soc_broad, soc_minor):
 
 
 def test_create_soc_detailed(soc_broad):
-    soc = SocDetailed.objects.create(
+    soc = SOCDetailed.objects.create(
         soc_broad=soc_broad,
         occ_code="11-1111",
         title="Test SOC Detailed",
@@ -339,7 +339,7 @@ def test_create_soc_detailed(soc_broad):
 
 
 def test_soc_detailed_str_method(soc_broad):
-    soc = SocDetailed.objects.create(
+    soc = SOCDetailed.objects.create(
         soc_broad=soc_broad,
         occ_code="22-2222",
         title="Title",
@@ -350,13 +350,13 @@ def test_soc_detailed_str_method(soc_broad):
 
 
 def test_soc_broad_has_multiple_soc_detailed(soc_broad):
-    d1 = SocDetailed.objects.create(
+    d1 = SOCDetailed.objects.create(
         soc_broad=soc_broad,
         occ_code="15-1111",
         title="Title 1",
         description="Desc 1",
     )
-    d2 = SocDetailed.objects.create(
+    d2 = SOCDetailed.objects.create(
         soc_broad=soc_broad,
         occ_code="15-2222",
         title="Title 2",
@@ -371,9 +371,9 @@ def test_soc_broad_has_multiple_soc_detailed(soc_broad):
 
 
 def test_soc_broad_deletion_cascades_to_soc_detailed(soc_broad):
-    initial_count = SocDetailed.objects.count()
+    initial_count = SOCDetailed.objects.count()
 
-    SocDetailed.objects.create(
+    SOCDetailed.objects.create(
         soc_broad=soc_broad,
         occ_code="15-3333",
         title="Cascade Test",
@@ -381,7 +381,7 @@ def test_soc_broad_deletion_cascades_to_soc_detailed(soc_broad):
     )
 
     soc_broad.delete()
-    assert SocDetailed.objects.count() == initial_count
+    assert SOCDetailed.objects.count() == initial_count
 
 
 def test_soc_major(soc_major):

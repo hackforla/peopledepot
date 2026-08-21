@@ -12,9 +12,9 @@ from core.models import Organization
 from core.models import ProgramArea
 from core.models import ProjectStackElementXref
 from core.models import ProjectUrl
-from core.models import SdgTargetIndicator
-from core.models import SocBroad
-from core.models import SocDetailed
+from core.models import SDGTargetIndicator
+from core.models import SOCBroad
+from core.models import SOCDetailed
 from core.models import UrlStatusType
 from core.models import UserCheck
 from core.models import UserEmploymentHistory
@@ -538,7 +538,7 @@ def test_create_sdg_target_indicator(auth_client, sdg):
     res = auth_client.post(SDG_TARGET_INDICATOR_URL, payload)
     assert res.status_code == 201
 
-    created = SdgTargetIndicator.objects.get(uuid=res.data["uuid"])
+    created = SDGTargetIndicator.objects.get(uuid=res.data["uuid"])
     assert created.code == payload["code"]
     assert created.description_number == payload["description_number"]
     assert created.sdg == sdg
@@ -576,7 +576,7 @@ def test_delete_sdg_target_indicator(auth_client, sdg_target_indicator):
 
     res = auth_client.delete(url)
     assert res.status_code == 204
-    assert SdgTargetIndicator.objects.count() == 0
+    assert SDGTargetIndicator.objects.count() == 0
 
 
 def test_create_affiliation(auth_client, project, affiliate):
@@ -622,7 +622,7 @@ def test_list_soc_broads(auth_client):
     assert len(res.data) > 0
 
     for item in res.data:
-        soc_broad = SocBroad.objects.get(uuid=item["uuid"])
+        soc_broad = SOCBroad.objects.get(uuid=item["uuid"])
         assert soc_broad.title == item["title"]
         assert soc_broad.soc_minor.pk == item["soc_minor"]
 
@@ -638,7 +638,7 @@ def test_create_soc_broad(auth_client, soc_minor):
 
     assert res.status_code == status.HTTP_201_CREATED
 
-    created = SocBroad.objects.get(uuid=res.data["uuid"])
+    created = SOCBroad.objects.get(uuid=res.data["uuid"])
     assert created.soc_minor == soc_minor
     assert created.occ_code == payload["occ_code"]
     assert created.title == payload["title"]
@@ -650,7 +650,7 @@ def test_list_soc_detailed(auth_client):
     assert res.status_code == status.HTTP_200_OK
     assert len(res.data) > 0
     for item in res.data:
-        soc_detailed = SocDetailed.objects.get(uuid=item["uuid"])
+        soc_detailed = SOCDetailed.objects.get(uuid=item["uuid"])
         assert soc_detailed.occ_code == item["occ_code"]
         assert soc_detailed.soc_broad.pk == item["soc_broad"]
 
@@ -677,7 +677,7 @@ def test_create_soc_detailed(auth_client, soc_broad):
     res = auth_client.post(SOC_DETAILED_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
 
-    created = SocDetailed.objects.get(uuid=res.data["uuid"])
+    created = SOCDetailed.objects.get(uuid=res.data["uuid"])
     assert created.occ_code == payload["occ_code"]
     assert created.title == payload["title"]
     assert created.soc_broad == soc_broad
@@ -713,10 +713,10 @@ def test_partial_update_soc_detailed(auth_client, soc_detailed):
 def test_delete_soc_detailed(auth_client, soc_detailed):
     url = f"{SOC_DETAILED_URL}{soc_detailed.pk}/"
 
-    detailed_count = SocDetailed.objects.count()
+    detailed_count = SOCDetailed.objects.count()
     res = auth_client.delete(url)
     assert res.status_code == status.HTTP_204_NO_CONTENT
-    assert SocDetailed.objects.count() == detailed_count - 1
+    assert SOCDetailed.objects.count() == detailed_count - 1
 
 
 def test_create_soc_major(auth_client):
