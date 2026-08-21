@@ -267,6 +267,21 @@ class Event(AbstractBaseModel):
         )
 
 
+class CancelledEvent(AbstractBaseModel):
+    """
+    A cancelled occurrence of an event.
+    """
+
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    start_time = models.DateTimeField()
+    cancelled_on = models.DateTimeField()
+    reason = models.CharField(max_length=255)
+    cancelled_by = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"Cancelled Event: {self.event}"
+
+
 class Affiliate(AbstractBaseModel):
     """
     Dictionary of sponsors and partners

@@ -4,6 +4,7 @@ from timezone_field.rest_framework import TimeZoneSerializerField
 from core.models import Accomplishment
 from core.models import Affiliate
 from core.models import Affiliation
+from core.models import CancelledEvent
 from core.models import CheckType
 from core.models import Event
 from core.models import EventType
@@ -41,6 +42,25 @@ from core.models import UserStatusType
 from core.models import Win
 from core.models import WinType
 
+
+class CancelledEventSerializer(serializers.ModelSerializer):
+    """Used to retrieve cancelled event info"""
+
+    class Meta:
+        model = CancelledEvent
+        fields = (
+            "uuid",
+            "event",
+            "start_time",
+            "cancelled_on",
+            "reason",
+            "cancelled_by",
+        )
+        read_only_fields = (
+            "uuid",
+            "created_at",
+            "updated_at",
+        )
 
 class PracticeAreaSerializer(serializers.ModelSerializer):
     """Used to retrieve practice area info"""

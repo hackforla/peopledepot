@@ -4,6 +4,7 @@ from rest_framework import routers
 from .views import AccomplishmentViewSet
 from .views import AffiliateViewSet
 from .views import AffiliationViewSet
+from .views import CancelledEventViewSet
 from .views import CheckTypeViewSet
 from .views import EventTypeViewSet
 from .views import EventViewSet
@@ -42,6 +43,7 @@ from .views import UserViewSet
 from .views import WinTypeViewSet
 from .views import WinViewSet
 
+
 router = routers.SimpleRouter()
 router.register(r"user-permissions", UserPermissionViewSet, basename="user-permission")
 router.register(r"users", UserViewSet, basename="user")
@@ -49,6 +51,7 @@ router.register(r"projects", ProjectViewSet, basename="project")
 router.register(r"referrer-types", ReferrerTypeViewSet, basename="referrer-type")
 router.register(r"referrers", ReferrerViewSet, basename="referrer")
 router.register(r"events", EventViewSet, basename="event")
+router.register(r"cancelled-events", CancelledEventViewSet, basename="cancelled-event")
 router.register(r"event-types", EventTypeViewSet, basename="event-type")
 router.register(r"practice-areas", PracticeAreaViewSet, basename="practice-area")
 router.register(r"affiliates", AffiliateViewSet, basename="affiliate")
@@ -104,7 +107,6 @@ router.register(
 )
 router.register(r"wins", WinViewSet, basename="win")
 router.register(r"win-types", WinTypeViewSet, basename="win-type")
-
 urlpatterns = [
     path("me/", UserProfileAPIView.as_view(), name="my_profile"),
 ]

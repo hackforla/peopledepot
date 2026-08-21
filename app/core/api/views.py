@@ -17,6 +17,7 @@ from rest_framework.response import Response
 from ..models import Accomplishment
 from ..models import Affiliate
 from ..models import Affiliation
+from ..models import CancelledEvent
 from ..models import CheckType
 from ..models import Event
 from ..models import EventType
@@ -55,6 +56,7 @@ from ..models import WinType
 from .serializers import AccomplishmentSerializer
 from .serializers import AffiliateSerializer
 from .serializers import AffiliationSerializer
+from .serializers import CancelledEventSerializer
 from .serializers import CheckTypeSerializer
 from .serializers import EventSerializer
 from .serializers import EventTypeSerializer
@@ -91,6 +93,7 @@ from .serializers import UserSerializer
 from .serializers import UserStatusTypeSerializer
 from .serializers import WinSerializer
 from .serializers import WinTypeSerializer
+
 
 
 class UserProfileAPIView(RetrieveModelMixin, GenericAPIView):
@@ -194,6 +197,20 @@ class EventViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = Event.objects.all()
     serializer_class = EventSerializer
+
+
+@extend_schema_view(
+    list=extend_schema(description="Return a list of all the cancelled events"),
+    create=extend_schema(description="Create a new cancelled event"),
+    retrieve=extend_schema(description="Return the details of a cancelled event"),
+    destroy=extend_schema(description="Delete a cancelled event"),
+    update=extend_schema(description="Update a cancelled event"),
+    partial_update=extend_schema(description="Patch a cancelled event"),
+)
+class CancelledEventViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = CancelledEvent.objects.all()
+    serializer_class = CancelledEventSerializer
 
 
 @extend_schema_view(
