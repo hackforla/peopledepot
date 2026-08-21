@@ -148,6 +148,17 @@ def test_soc_detailed_has_multiple_modern_job_titles(soc_detailed):
 def test_program_area(program_area):
     assert str(program_area) == "Test Program Area"
 
+def test_program_area_project_status_relationship(
+    program_area,
+    project_status,
+):
+    assert program_area.project_program_area_status_type is None
+
+    program_area.project_program_area_status_type = project_status
+    program_area.save()
+    program_area.refresh_from_db()
+
+    assert program_area.project_program_area_status_type == project_status
 
 def test_skill(skill):
     assert str(skill) == "Test Skill"
