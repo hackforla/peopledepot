@@ -22,13 +22,13 @@ from .views import ProjectUrlViewSet
 from .views import ProjectViewSet
 from .views import ReferrerTypeViewSet
 from .views import ReferrerViewSet
-from .views import SdgTargetIndicatorViewSet
-from .views import SdgViewSet
+from .views import SDGTargetIndicatorViewSet
+from .views import SDGViewSet
 from .views import SkillViewSet
-from .views import SocBroadViewSet
-from .views import SocDetailedViewSet
-from .views import SocMajorViewSet
-from .views import SocMinorViewSet
+from .views import SOCBroadViewSet
+from .views import SOCDetailedViewSet
+from .views import SOCMajorViewSet
+from .views import SOCMinorViewSet
 from .views import StackElementTypeViewSet
 from .views import StackElementViewSet
 from .views import UrlStatusTypeViewSet
@@ -66,9 +66,9 @@ router.register(r"permission-types", PermissionTypeViewSet, basename="permission
 router.register(
     r"stack-element-types", StackElementTypeViewSet, basename="stack-element-type"
 )
-router.register(r"sdgs", SdgViewSet, basename="sdg")
+router.register(r"sdgs", SDGViewSet, basename="sdg")
 router.register(
-    r"sdg-target-indicators", SdgTargetIndicatorViewSet, basename="sdg-target-indicator"
+    r"sdg-target-indicators", SDGTargetIndicatorViewSet, basename="sdg-target-indicator"
 )
 router.register(
     r"affiliations",
@@ -80,10 +80,10 @@ router.register(
     r"project-statuses", ProjectProgramAreaStatusTypeViewSet, basename="project-status"
 )
 router.register(r"project-urls", ProjectUrlViewSet, basename="project-url")
-router.register(r"soc-broads", SocBroadViewSet, basename="soc-broad")
-router.register(r"soc-detailed", SocDetailedViewSet, basename="soc-detailed")
-router.register(r"soc-majors", SocMajorViewSet, basename="soc-major")
-router.register(r"soc-minors", SocMinorViewSet, basename="soc-minor")
+router.register(r"soc-broads", SOCBroadViewSet, basename="soc-broad")
+router.register(r"soc-detailed", SOCDetailedViewSet, basename="soc-detailed")
+router.register(r"soc-majors", SOCMajorViewSet, basename="soc-major")
+router.register(r"soc-minors", SOCMinorViewSet, basename="soc-minor")
 router.register(r"url-types", UrlTypeViewSet, basename="url-type")
 router.register(
     r"user-status-types", UserStatusTypeViewSet, basename="user-status-type"

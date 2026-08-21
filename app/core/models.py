@@ -331,7 +331,7 @@ class Location(AbstractBaseModel):
 
 class ModernJobTitle(AbstractBaseModel):
     soc_detailed = models.ForeignKey(
-        "SocDetailed",
+        "SOCDetailed",
         on_delete=models.CASCADE,
         related_name="modern_job_titles",
     )
@@ -488,7 +488,7 @@ class Sdg(AbstractBaseModel):
         return f"{self.name}"
 
 
-class SdgTargetIndicator(AbstractBaseModel):
+class SDGTargetIndicator(AbstractBaseModel):
     """
     Target indicators for each SDG.
     """
@@ -563,13 +563,13 @@ class EventType(AbstractBaseModel):
         return f"{self.name}"
 
 
-class SocBroad(AbstractBaseModel):
+class SOCBroad(AbstractBaseModel):
     """
-    Broad SOC category tied to a SocMinor.
+    Broad SOC category tied to a SOCMinor.
     """
 
     soc_minor = models.ForeignKey(
-        "SocMinor",
+        "SOCMinor",
         on_delete=models.CASCADE,
         related_name="soc_broads",
     )
@@ -580,13 +580,13 @@ class SocBroad(AbstractBaseModel):
         return self.title
 
 
-class SocDetailed(AbstractBaseModel):
+class SOCDetailed(AbstractBaseModel):
     """
     Dictionary of SOC detailed occupations.
     """
 
     soc_broad = models.ForeignKey(
-        "SocBroad",
+        "SOCBroad",
         on_delete=models.CASCADE,
         related_name="soc_detailed",
     )
@@ -599,7 +599,7 @@ class SocDetailed(AbstractBaseModel):
         return f"{self.occ_code} - {self.title}"
 
 
-class SocMajor(AbstractBaseModel):
+class SOCMajor(AbstractBaseModel):
     occ_code = models.CharField(max_length=255)
     title = models.CharField(max_length=255)
 
@@ -607,9 +607,9 @@ class SocMajor(AbstractBaseModel):
         return self.title
 
 
-class SocMinor(AbstractBaseModel):
+class SOCMinor(AbstractBaseModel):
     soc_major = models.ForeignKey(
-        SocMajor, blank=True, null=True, on_delete=models.CASCADE
+        SOCMajor, blank=True, null=True, on_delete=models.CASCADE
     )
     occ_code = models.CharField(max_length=255)
     title = models.CharField(max_length=255)
@@ -869,7 +869,7 @@ class UserEmploymentHistory(AbstractBaseModel):
     )
 
     soc_detailed = models.ForeignKey(
-        "SocDetailed",
+        "SOCDetailed",
         on_delete=models.CASCADE,
         related_name="user_employment_histories",
     )

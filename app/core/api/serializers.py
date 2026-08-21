@@ -23,12 +23,12 @@ from core.models import ProjectUrl
 from core.models import Referrer
 from core.models import ReferrerType
 from core.models import Sdg
-from core.models import SdgTargetIndicator
+from core.models import SDGTargetIndicator
 from core.models import Skill
-from core.models import SocBroad
-from core.models import SocDetailed
-from core.models import SocMajor
-from core.models import SocMinor
+from core.models import SOCBroad
+from core.models import SOCDetailed
+from core.models import SOCMajor
+from core.models import SOCMinor
 from core.models import StackElement
 from core.models import StackElementType
 from core.models import UrlStatusType
@@ -392,9 +392,9 @@ class StackElementTypeSerializer(serializers.ModelSerializer):
         )
 
 
-class SdgSerializer(serializers.ModelSerializer):
+class SDGSerializer(serializers.ModelSerializer):
     """
-    Used to retrieve Sdg
+    Used to retrieve SDG
     """
 
     projects = serializers.StringRelatedField(many=True)
@@ -415,9 +415,9 @@ class SdgSerializer(serializers.ModelSerializer):
         )
 
 
-class SdgTargetIndicatorSerializer(serializers.ModelSerializer):
+class SDGTargetIndicatorSerializer(serializers.ModelSerializer):
     class Meta:
-        model = SdgTargetIndicator
+        model = SDGTargetIndicator
         fields = (
             "uuid",
             "sdg",
@@ -471,9 +471,9 @@ class ProjectProgramAreaStatusTypeSerializer(serializers.ModelSerializer):
         read_only_fields = ("uuid", "created_at", "updated_at")
 
 
-class SocBroadSerializer(serializers.ModelSerializer):
+class SOCBroadSerializer(serializers.ModelSerializer):
     class Meta:
-        model = SocBroad
+        model = SOCBroad
         fields = (
             "uuid",
             "created_at",
@@ -485,9 +485,9 @@ class SocBroadSerializer(serializers.ModelSerializer):
         read_only_fields = ("uuid", "created_at", "updated_at")
 
 
-class SocDetailedSerializer(serializers.ModelSerializer):
+class SOCDetailedSerializer(serializers.ModelSerializer):
     class Meta:
-        model = SocDetailed
+        model = SOCDetailed
         fields = (
             "uuid",
             "soc_broad",
@@ -500,20 +500,20 @@ class SocDetailedSerializer(serializers.ModelSerializer):
         read_only_fields = ("uuid", "created_at", "updated_at")
 
 
-class SocMajorSerializer(serializers.ModelSerializer):
+class SOCMajorSerializer(serializers.ModelSerializer):
     """Used to retrieve soc_major info"""
 
     class Meta:
-        model = SocMajor
+        model = SOCMajor
         fields = ("uuid", "occ_code", "title")
         read_only_fields = ("uuid", "created_at", "updated_at")
 
 
-class SocMinorSerializer(serializers.ModelSerializer):
+class SOCMinorSerializer(serializers.ModelSerializer):
     """Used to retrieve soc_minor info"""
 
     class Meta:
-        model = SocMinor
+        model = SOCMinor
         fields = ("uuid", "soc_major", "occ_code", "title")
         read_only_fields = ("uuid", "created_at", "updated_at")
 

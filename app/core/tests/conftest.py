@@ -26,12 +26,12 @@ from ..models import ProjectUrl
 from ..models import Referrer
 from ..models import ReferrerType
 from ..models import Sdg
-from ..models import SdgTargetIndicator
+from ..models import SDGTargetIndicator
 from ..models import Skill
-from ..models import SocBroad
-from ..models import SocDetailed
-from ..models import SocMajor
-from ..models import SocMinor
+from ..models import SOCBroad
+from ..models import SOCDetailed
+from ..models import SOCMajor
+from ..models import SOCMinor
 from ..models import StackElement
 from ..models import StackElementType
 from ..models import UrlStatusType
@@ -290,7 +290,7 @@ def sdg1():
 
 @pytest.fixture
 def sdg_target_indicator(sdg):
-    return SdgTargetIndicator.objects.create(
+    return SDGTargetIndicator.objects.create(
         sdg=sdg,
         code="1.1",
         description_number="Target 1.1",
@@ -362,7 +362,7 @@ def project_status():
 
 @pytest.fixture
 def soc_broad(soc_minor):
-    return SocBroad.objects.create(
+    return SOCBroad.objects.create(
         soc_minor=soc_minor,
         occ_code="15-1252",
         title="Software Developers",
@@ -371,7 +371,7 @@ def soc_broad(soc_minor):
 
 @pytest.fixture
 def soc_detailed(soc_broad):
-    return SocDetailed.objects.create(
+    return SOCDetailed.objects.create(
         soc_broad=soc_broad,
         occ_code="15-1252",
         title="Software Developers",
@@ -381,12 +381,12 @@ def soc_detailed(soc_broad):
 
 @pytest.fixture
 def soc_major():
-    return SocMajor.objects.create(occ_code="22-2222", title="Test Soc Major")
+    return SOCMajor.objects.create(occ_code="22-2222", title="Test Soc Major")
 
 
 @pytest.fixture
 def soc_minor():
-    return SocMinor.objects.create(occ_code="22-2222", title="Test Soc Minor")
+    return SOCMinor.objects.create(occ_code="22-2222", title="Test Soc Minor")
 
 
 @pytest.fixture
