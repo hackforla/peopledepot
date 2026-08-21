@@ -377,6 +377,12 @@ class ProgramArea(AbstractBaseModel):
     name = models.CharField(max_length=255, unique=True)
     description = models.TextField(blank=True)
     image = models.URLField(blank=True)
+    project_program_area_status_type = models.ForeignKey(
+        ProjectProgramAreaStatusType,
+        null=True,
+        blank=True,
+        on_delete=models.PROTECT,
+    )
 
     def __str__(self):
         return f"{self.name}"

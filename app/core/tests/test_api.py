@@ -416,26 +416,31 @@ def test_delete_modern_job_title(auth_client, modern_job_title):
     assert ModernJobTitle.objects.count() == 0
 
 
-def test_create_program_area(auth_client):
+def test_create_program_area(auth_client, project_status):
     """Test that we can create a program area"""
 
     payload = {
         "name": "Test program area",
         "description": "About program area",
         "image": "http://www.imageurl.com",
+        "project_program_area_status_type": project_status.pk,
     }
     res = auth_client.post(PROGRAM_AREAS_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
     assert res.data["name"] == payload["name"]
+    assert res.data["description"] == payload["description"]
+    assert res.data["image"] == payload["image"]
+    assert res.data["project_program_area_status_type"] == project_status.pk
 
 
-def test_list_program_area(auth_client):
+def test_list_program_area(auth_client, project_status):
     """Test that we can list program areas"""
 
     payload = {
         "name": "Test program area",
         "description": "About program area",
         "image": "http://www.imageurl.com",
+        "project_program_area_status_type": project_status.pk,
     }
     res = auth_client.post(PROGRAM_AREAS_URL, payload)
 
