@@ -257,7 +257,7 @@ def skill():
 @pytest.fixture
 def stack_element(stack_element_type):
     return StackElement.objects.create(
-        name="Test Stack Element", element_type=stack_element_type
+        name="Test Stack Element", stack_element_type=stack_element_type
     )
 
 

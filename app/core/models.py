@@ -176,10 +176,12 @@ class Project(AbstractBaseModel):
         blank=True,
         on_delete=models.SET_NULL,
         related_name="projects_as_org",
-        help_text=textwrap.dedent("""
+        help_text=textwrap.dedent(
+            """
             Can be retrieved from gh api with the following: curl -H
             "Authorization: token [gh_PAT]" https://api.github.com/orgs/[org]
-        """).strip(),
+        """
+        ).strip(),
     )
     github_primary_repo = models.ForeignKey(
         "ProjectUrl",
@@ -187,11 +189,13 @@ class Project(AbstractBaseModel):
         blank=True,
         on_delete=models.SET_NULL,
         related_name="projects_as_repo",
-        help_text=textwrap.dedent("""
+        help_text=textwrap.dedent(
+            """
             Can be retrieved from gh api with the following:
             curl -H "Authorization: token [gh_PAT]"
             https://api.github.com/repos/[org]/[repo]
-        """).strip(),
+        """
+        ).strip(),
     )
     current_status = models.ForeignKey(
         ProjectProgramAreaStatusType, null=True, on_delete=models.PROTECT
@@ -464,7 +468,7 @@ class StackElement(AbstractBaseModel):
     url = models.URLField(blank=True)
     logo = models.URLField(blank=True)
     active = models.BooleanField(null=True)
-    element_type = models.ForeignKey(StackElementType, on_delete=models.CASCADE)
+    stack_element_type = models.ForeignKey(StackElementType, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name_plural = "Stack Elements"

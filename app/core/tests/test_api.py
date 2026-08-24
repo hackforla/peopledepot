@@ -467,7 +467,7 @@ def test_create_stack_element(auth_client, stack_element_type):
         "url": "http://www.testurl.org",
         "logo": "http://www.logourl.com",
         "active": True,
-        "element_type": stack_element_type.pk,
+        "stack_element_type": stack_element_type.pk,
     }
     res = auth_client.post(STACK_ELEMENT_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
@@ -977,7 +977,7 @@ def test_project_stack_element_workflow(auth_client):
         "url": "https://www.python.org/",
         "logo": "https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg",
         "active": True,
-        "element_type": stack_type_uuid,
+        "stack_element_type": stack_type_uuid,
     }
     res_element = auth_client.post(reverse("stack-element-list"), stack_element_payload)
     assert res_element.status_code == status.HTTP_201_CREATED

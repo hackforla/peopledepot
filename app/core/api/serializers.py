@@ -351,7 +351,7 @@ class StackElementSerializer(serializers.ModelSerializer):
             "url",
             "logo",
             "active",
-            "element_type",
+            "stack_element_type",
         )
         read_only_fields = (
             "uuid",
