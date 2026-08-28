@@ -27,6 +27,7 @@ USER_PERMISSIONS_URL = reverse("user-permission-list")
 PROJECTS_URL = reverse("project-list")
 ME_URL = reverse("my_profile")
 USER_STATUS_TYPES_URL = reverse("user-status-type-list")
+CANCELLED_EVENTS_URL = reverse("cancelled-event-list")
 USERS_URL = reverse("user-list")
 EVENTS_URL = reverse("event-list")
 EVENT_TYPES_URL = reverse("event-type-list")
@@ -250,6 +251,25 @@ def test_create_event(auth_client, project):
     res = auth_client.post(EVENTS_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
     assert res.data["name"] == payload["name"]
+
+
+def test_create_cancelled_event(auth_client, event_all, user):
+    payload = {
+        "event": event_all.uuid,
+        "start_time": "2026-08-14T18:00:00Z",
+        "cancelled_on": "2026-08-14T17:00:00Z",
+        "reason": "Test cancellation",
+        "cancelled_by": user.uuid,
+    }
+
+    res = auth_client.post(CANCELLED_EVENTS_URL, payload)
+
+    assert res.status_code == status.HTTP_201_CREATED
+    assert res.data["event"] == event_all.uuid
+    assert res.data["cancelled_on"] == payload["cancelled_on"]
+    assert res.data["reason"] == payload["reason"]
+    assert res.data["cancelled_by"] == user.uuid
+    assert res.data["start_time"] == payload["start_time"]
 
 
 def test_create_event_type(auth_client):

@@ -6,6 +6,7 @@ from django.db import transaction
 from django.db.models.deletion import ProtectedError
 from django.utils import timezone
 
+from ..models import CancelledEvent
 from ..models import Event
 from ..models import ModernJobTitle
 from ..models import PracticeArea
@@ -298,6 +299,19 @@ def test_check_type(check_type):
 def test_event_type(event_type):
     assert str(event_type) == "This is a test event_type."
     assert event_type.description == "This is a test event_type description."
+
+
+def test_cancelled_event_relationships(event_all, user):
+    cancelled_event = CancelledEvent.objects.create(
+        event=event_all,
+        start_time=timezone.now(),
+        cancelled_on=timezone.now(),
+        reason="Test cancellation",
+        cancelled_by=user,
+    )
+
+    assert cancelled_event.event == event_all
+    assert cancelled_event.cancelled_by == user
 
 
 def test_leadership_type(leadership_type):
