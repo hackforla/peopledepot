@@ -14,6 +14,7 @@ from .views import LocationViewSet
 from .views import ModernJobTitleViewSet
 from .views import OrganizationViewSet
 from .views import PermissionTypeViewSet
+from .views import PermissionViewSet
 from .views import PracticeAreaViewSet
 from .views import ProgramAreaViewSet
 from .views import ProjectProgramAreaStatusTypeViewSet
@@ -35,7 +36,6 @@ from .views import UrlStatusTypeViewSet
 from .views import UrlTypeViewSet
 from .views import UserCheckViewSet
 from .views import UserEmploymentHistoryViewSet
-from .views import UserPermissionViewSet
 from .views import UserProfileAPIView
 from .views import UserStatusTypeViewSet
 from .views import UserViewSet
@@ -43,7 +43,7 @@ from .views import WinTypeViewSet
 from .views import WinViewSet
 
 router = routers.SimpleRouter()
-router.register(r"user-permissions", UserPermissionViewSet, basename="user-permission")
+router.register(r"permissions", PermissionViewSet, basename="permission")
 router.register(r"users", UserViewSet, basename="user")
 router.register(r"projects", ProjectViewSet, basename="project")
 router.register(r"referrer-types", ReferrerTypeViewSet, basename="referrer-type")

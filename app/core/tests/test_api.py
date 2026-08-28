@@ -9,6 +9,7 @@ from core.api.serializers import UserEmploymentHistorySerializer
 from core.api.serializers import UserSerializer
 from core.models import ModernJobTitle
 from core.models import Organization
+from core.models import Permission
 from core.models import ProgramArea
 from core.models import ProjectStackElementXref
 from core.models import ProjectUrl
@@ -18,12 +19,11 @@ from core.models import SOCDetailed
 from core.models import UrlStatusType
 from core.models import UserCheck
 from core.models import UserEmploymentHistory
-from core.models import UserPermission
 from core.models import WinType
 
 pytestmark = pytest.mark.django_db
 
-USER_PERMISSIONS_URL = reverse("user-permission-list")
+PERMISSIONS_URL = reverse("permission-list")
 PROJECTS_URL = reverse("project-list")
 ME_URL = reverse("my_profile")
 USER_STATUS_TYPES_URL = reverse("user-status-type-list")
@@ -494,8 +494,8 @@ def test_create_stack_element_type(auth_client):
 
 def test_get_user_permissions(user_superuser_admin, user_permissions, auth_client):
     auth_client.force_authenticate(user=user_superuser_admin)
-    permission_count = UserPermission.objects.count()
-    res = auth_client.get(USER_PERMISSIONS_URL)
+    permission_count = Permission.objects.count()
+    res = auth_client.get(PERMISSIONS_URL)
     assert len(res.data) == permission_count
     assert res.status_code == status.HTTP_200_OK
 

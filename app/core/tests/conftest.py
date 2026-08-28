@@ -1,4 +1,5 @@
 import pytest
+from django.utils import timezone
 from rest_framework.test import APIClient
 
 from constants import admin_project
@@ -16,6 +17,7 @@ from ..models import LeadershipType
 from ..models import Location
 from ..models import ModernJobTitle
 from ..models import Organization
+from ..models import Permission
 from ..models import PermissionType
 from ..models import PracticeArea
 from ..models import ProgramArea
@@ -39,7 +41,6 @@ from ..models import UrlType
 from ..models import User
 from ..models import UserCheck
 from ..models import UserEmploymentHistory
-from ..models import UserPermission
 from ..models import UserStatusType
 from ..models import Win
 from ..models import WinType
@@ -62,17 +63,19 @@ def user_permissions():
     project = Project.objects.create(name="Test Project")
     permission_type = PermissionType.objects.first()
     practice_area = PracticeArea.objects.first()
-    user1_permission = UserPermission.objects.create(
+    user1_permission = Permission.objects.create(
         user=user1,
         permission_type=permission_type,
         project=project,
         practice_area=practice_area,
+        granted=timezone.now(),
     )
-    user2_permissions = UserPermission.objects.create(
+    user2_permissions = Permission.objects.create(
         user=user2,
         project=project,
         permission_type=permission_type,
         practice_area=practice_area,
+        granted=timezone.now(),
     )
     return [user1_permission, user2_permissions]
 
@@ -84,10 +87,11 @@ def user_permission_admin_project():
     )
     project = Project.objects.create(name="Test Project Admin Project")
     permission_type = PermissionType.objects.filter(name=admin_project).first()
-    user_permission = UserPermission.objects.create(
+    user_permission = Permission.objects.create(
         user=user,
         permission_type=permission_type,
         project=project,
+        granted=timezone.now(),
     )
 
     return user_permission
@@ -102,11 +106,12 @@ def user_permission_practice_lead_project():
     permission_type = PermissionType.objects.filter(name=practice_lead_project).first()
     project = Project.objects.create(name="Test Project Admin Project")
     practice_area = PracticeArea.objects.first()
-    user_permission = UserPermission.objects.create(
+    user_permission = Permission.objects.create(
         user=user,
         permission_type=permission_type,
         project=project,
         practice_area=practice_area,
+        granted=timezone.now(),
     )
 
     return user_permission
