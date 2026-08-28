@@ -272,11 +272,11 @@ class CancelledEvent(AbstractBaseModel):
     A cancelled occurrence of an event.
     """
 
-    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    event = models.ForeignKey(Event, on_delete=models.PROTECT)
     start_time = models.DateTimeField()
     cancelled_on = models.DateTimeField()
     reason = models.CharField(max_length=255)
-    cancelled_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    cancelled_by = models.ForeignKey(User, on_delete=models.PROTECT)
 
     def __str__(self):
         return f"Cancelled Event: {self.event}"
