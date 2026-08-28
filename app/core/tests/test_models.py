@@ -868,3 +868,11 @@ def test_win_type_str(win_type):
 def test_win_type_fields(win_type):
     assert win_type.name == "funding"
     assert win_type.display_text == "Funding / Grant awarded"
+
+
+def test_permission_relationships(user_permission_practice_lead_project):
+    permission = user_permission_practice_lead_project
+    assert permission.user.permissions.filter(pk=permission.pk).exists()
+    assert permission.permission_type.permission_set.filter(pk=permission.pk).exists()
+    assert permission.project.permission_set.filter(pk=permission.pk).exists()
+    assert permission.practice_area.permission_set.filter(pk=permission.pk).exists()
