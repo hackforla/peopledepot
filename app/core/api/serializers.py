@@ -13,6 +13,7 @@ from core.models import LeadershipType
 from core.models import Location
 from core.models import ModernJobTitle
 from core.models import Organization
+from core.models import Permission
 from core.models import PermissionType
 from core.models import PracticeArea
 from core.models import ProgramArea
@@ -36,7 +37,6 @@ from core.models import UrlType
 from core.models import User
 from core.models import UserCheck
 from core.models import UserEmploymentHistory
-from core.models import UserPermission
 from core.models import UserStatusType
 from core.models import Win
 from core.models import WinType
@@ -64,11 +64,11 @@ class PracticeAreaSerializer(serializers.ModelSerializer):
         )
 
 
-class UserPermissionSerializer(serializers.ModelSerializer):
+class PermissionSerializer(serializers.ModelSerializer):
     """Used to retrieve user permissions"""
 
     class Meta:
-        model = UserPermission
+        model = Permission
         fields = (
             "uuid",
             "created_at",
@@ -77,6 +77,8 @@ class UserPermissionSerializer(serializers.ModelSerializer):
             "permission_type",
             "project",
             "practice_area",
+            "granted",
+            "ended",
         )
         read_only_fields = (
             "uuid",
