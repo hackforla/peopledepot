@@ -1,8 +1,8 @@
 ---
 tags:
-    - AWS
-    - deployment
-    - Docker
+  - AWS
+  - deployment
+  - Docker
 ---
 
 # Test the AWS setup locally
@@ -56,11 +56,13 @@ docker compose -f docker-compose-aws.yml down -v
 ```
 
 !!! note "Network warning"
+
     You may see `! Network peopledepot_default Resource is still in use` — this is harmless. The containers and volume are already removed. The network is shared with the dev `docker-compose.yml` stack (the mkdocs container keeps it alive) and will clean up when that stack is stopped.
 
 ## Gotchas
 
 !!! warning
+
     - `requirements-aws.txt` must be compiled with `--python-version 3.10` — compiling locally can resolve packages incompatible with the Docker image's Python version
     - Do not mount `./app/` as a volume — it would bypass `collectstatic`, the multi-stage build, and `settings_aws.py`
     - `.env.docker-aws` sets `SECURE_SSL_REDIRECT=False`; real production sets it `True`. Don't flip it to `True` locally — without SSL it causes an infinite redirect loop
@@ -69,14 +71,14 @@ docker compose -f docker-compose-aws.yml down -v
 
 ## Differences from the standard dev environment
 
-| | `docker-compose.yml` | `docker-compose-aws.yml` |
-|---|---|---|
-| Image | Dev (`Dockerfile`) | Production (`Dockerfile-aws`) |
-| Server | Django `runserver` | gunicorn |
-| Settings | `settings.py` | `settings_aws.py` |
-| Dependencies | `requirements.txt` | `requirements-aws.txt` |
-| App port | 8000 | 8001 |
-| DB port | 5432 | 5433 |
-| DB volume | `postgres_data` | `postgres_data_aws` |
-| Code reloading | Yes (volume mount) | No (baked into image) |
-| Schema UI | Available | Excluded (`urls_aws.py`) |
+|                | `docker-compose.yml` | `docker-compose-aws.yml`      |
+| -------------- | -------------------- | ----------------------------- |
+| Image          | Dev (`Dockerfile`)   | Production (`Dockerfile-aws`) |
+| Server         | Django `runserver`   | gunicorn                      |
+| Settings       | `settings.py`        | `settings_aws.py`             |
+| Dependencies   | `requirements.txt`   | `requirements-aws.txt`        |
+| App port       | 8000                 | 8001                          |
+| DB port        | 5432                 | 5433                          |
+| DB volume      | `postgres_data`      | `postgres_data_aws`           |
+| Code reloading | Yes (volume mount)   | No (baked into image)         |
+| Schema UI      | Available            | Excluded (`urls_aws.py`)      |
