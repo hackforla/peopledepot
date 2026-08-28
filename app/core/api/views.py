@@ -26,6 +26,7 @@ from ..models import LeadershipType
 from ..models import Location
 from ..models import ModernJobTitle
 from ..models import Organization
+from ..models import Permission
 from ..models import PermissionType
 from ..models import PracticeArea
 from ..models import ProgramArea
@@ -48,7 +49,6 @@ from ..models import UrlStatusType
 from ..models import UrlType
 from ..models import UserCheck
 from ..models import UserEmploymentHistory
-from ..models import UserPermission
 from ..models import UserStatusType
 from ..models import Win
 from ..models import WinType
@@ -64,6 +64,7 @@ from .serializers import LeadershipTypeSerializer
 from .serializers import LocationSerializer
 from .serializers import ModernJobTitleSerializer
 from .serializers import OrganizationSerializer
+from .serializers import PermissionSerializer
 from .serializers import PermissionTypeSerializer
 from .serializers import PracticeAreaSerializer
 from .serializers import ProgramAreaSerializer
@@ -86,7 +87,6 @@ from .serializers import UrlStatusTypeSerializer
 from .serializers import UrlTypeSerializer
 from .serializers import UserCheckSerializer
 from .serializers import UserEmploymentHistorySerializer
-from .serializers import UserPermissionSerializer
 from .serializers import UserSerializer
 from .serializers import UserStatusTypeSerializer
 from .serializers import WinSerializer
@@ -488,13 +488,13 @@ class ProjectProgramAreaStatusTypeViewSet(viewsets.ModelViewSet):
 
 
 @extend_schema_view(
-    list=extend_schema(description="Return a list of all the user permissions"),
-    retrieve=extend_schema(description="Return the details of a user permission"),
+    list=extend_schema(description="Return a list of all permissions"),
+    retrieve=extend_schema(description="Return the details of a permission"),
 )
-class UserPermissionViewSet(viewsets.ReadOnlyModelViewSet):
+class PermissionViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = []
-    queryset = UserPermission.objects.all()
-    serializer_class = UserPermissionSerializer
+    queryset = Permission.objects.all()
+    serializer_class = PermissionSerializer
 
 
 @extend_schema_view(

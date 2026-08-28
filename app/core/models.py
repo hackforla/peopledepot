@@ -414,7 +414,7 @@ class PermissionType(AbstractBaseModel):
             return f"{self.name}"
 
 
-class UserPermission(AbstractBaseModel):
+class Permission(AbstractBaseModel):
     """
     User Permissions
     """
@@ -427,6 +427,20 @@ class UserPermission(AbstractBaseModel):
     project = models.ForeignKey(
         Project, blank=True, null=True, on_delete=models.CASCADE
     )
+    granted = models.DateTimeField()
+    ended = models.DateTimeField(blank=True, null=True)
+
+    # created_by = models.ForeignKey(
+    #     User,
+    #     on_delete=models.PROTECT,
+    #     related_name="permissions_created",
+    # )
+
+    # updated_by = models.ForeignKey(
+    #     User,
+    #     on_delete=models.PROTECT,
+    #     related_name="permissions_updated",
+    # )
 
     class Meta:
         constraints = [
