@@ -42,14 +42,11 @@ Before cloning your forked repository to your local machine, you must have Git i
 
 ### Install Docker
 
-Install or make sure [docker][docker-install] and [docker compose][docker-compose-install] are installed on your computer.
+This lets us run our development environment in containers.
 
-```bash
-docker -v
-docker compose -v
-```
+Install using the [recommended installation method for your operating system][docker-install].
 
-The recommended installation method for your operating system can be found [here](https://docs.docker.com/install/).
+- Be sure to perform the "post-install" steps as well, as they will allow you to run Docker without `sudo`.
 
 More on using Docker and the concepts of containerization:
 
@@ -140,20 +137,21 @@ upstream        https://github.com/hackforla/peopledepot.git (push)
 
 1. Make sure the Docker service is running
 
-    === "Docker (Engine)"
+    ```bash
+    docker ps # (1)!
+    ```
 
-        ```bash
-        sudo systemctl status docker
+    1. This should print a list of running containers (it could be empty).
+
+        If it is not running you will get the message:
+
+        ```text
+        Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?
         ```
 
-        It will show `Active: active (running)` if it's running.
+        Start Docker or Docker Desktop if the service is not running.
 
-    === "Docker Desktop"
-
-        1. Start Docker Desktop
-        1. Run `docker container ls` to verify Docker Desktop is running. If it is not running you will get the message: `Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?`
-
-1. Create an .env.docker file from .env.docker-example
+1. Create `.env.docker`
 
     ```bash
     cp ./app/.env.docker-example ./app/.env.docker
@@ -171,9 +169,10 @@ upstream        https://github.com/hackforla/peopledepot.git (push)
     docker compose exec web python manage.py createsuperuser --no-input
     ```
 
-1. Browse to the web admin interface at `http://localhost:8000/admin/` and confirm the admin site is running. Use DJANGO_SUPERUSER_USERNAME and DJANGO_SUPERUSER_PASSWORD from .env.docker for credentials.
+    This uses `DJANGO_SUPERUSER_USERNAME` and `DJANGO_SUPERUSER_PASSWORD` from `.env.docker` for credentials.
+
+1. Browse to `http://localhost:8000/admin/` to confirm the admin site is running.
 
 See our documentation for [Working with Docker](../tools/docker.md#working-with-docker) for more useful Docker commands.
 
-[docker-compose-install]: https://docs.docker.com/compose/install/
 [docker-install]: https://docs.docker.com/get-docker/
