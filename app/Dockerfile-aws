@@ -32,9 +32,6 @@ RUN \
 # copy project
 COPY . .
 
-# collect static files
-RUN python manage.py collectstatic --noinput
-
 # copy and configure entrypoint
 COPY ./entrypoint-aws.sh .
 RUN sed -i 's/\r$//g' /usr/src/app/entrypoint-aws.sh \
