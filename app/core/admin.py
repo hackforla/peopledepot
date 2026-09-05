@@ -417,9 +417,13 @@ class UserCheckAdmin(admin.ModelAdmin):
 
 @admin.register(UserEmploymentHistory)
 class UserEmploymentHistoryAdmin(admin.ModelAdmin):
-    list_display = ("user", "title", "soc_detailed", "created_at")
-    search_fields = ("title", "user__username", "user__email")
-    list_filter = ("soc_detailed",)
+    list_display = ("user", "modern_job_title", "created_at")
+    search_fields = (
+        "modern_job_title__title",
+        "user__username",
+        "user__email",
+    )
+    list_filter = ("modern_job_title",)
 
 
 @admin.register(Win)
