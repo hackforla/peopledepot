@@ -1,4 +1,5 @@
 import re
+from datetime import date
 
 import pytest
 from django.db import IntegrityError
@@ -238,8 +239,15 @@ def test_indicator_str_method(sdg):
     assert str(indicator) == "1.3 - Target 1.3"
 
 
-def test_affiliation_sponsor(affiliation1):
+def test_affiliation_sponsor(affiliation1, project, affiliate):
     xref_instance = affiliation1
+    xref_instance.ended = date(2024, 1, 1)
+    xref_instance.save()
+    xref_instance.refresh_from_db()
+
+    assert xref_instance.affiliate == affiliate
+    assert xref_instance.project == project
+    assert xref_instance.ended == date(2024, 1, 1)
     assert xref_instance.is_sponsor is True
     assert xref_instance.is_partner is False
     assert str(xref_instance) == f"Sponsor {xref_instance.project}"

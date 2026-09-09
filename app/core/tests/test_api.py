@@ -583,7 +583,7 @@ def test_create_affiliation(auth_client, project, affiliate):
     payload = {
         "affiliate": affiliate.pk,
         "project": project.pk,
-        "ended_at": "2024-01-01 18:00:00",
+        "ended": "2024-01-01",
         "is_sponsor": False,
         "is_partner": True,
     }
@@ -593,6 +593,7 @@ def test_create_affiliation(auth_client, project, affiliate):
     assert res.data["is_partner"] == payload["is_partner"]
     assert res.data["affiliate"] == payload["affiliate"]
     assert res.data["project"] == payload["project"]
+    assert res.data["ended"] == payload["ended"]
 
 
 def test_create_check_type(auth_client):

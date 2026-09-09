@@ -534,7 +534,7 @@ class Affiliation(AbstractBaseModel):
 
     affiliate = models.ForeignKey(Affiliate, on_delete=models.CASCADE)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
-    ended_at = models.DateTimeField("Ended at", null=True, blank=True)
+    ended = models.DateField("Ended", null=True, blank=True)
     is_sponsor = models.BooleanField(null=True)
     is_partner = models.BooleanField(null=True)
 
