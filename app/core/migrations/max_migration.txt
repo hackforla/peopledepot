@@ -1,1 +1,1 @@
-0062_permission_ended_permission_granted
+0063_rename_affiliation_ended_at_affiliation_ended
