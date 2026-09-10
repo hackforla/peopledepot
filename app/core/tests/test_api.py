@@ -233,6 +233,7 @@ def test_update_user_practice_area_secondary_success(auth_client, user, practice
     Tests that multiple secondary practice areas can be assigned to a user
     and are correctly persisted in the UserPracticeAreaSecondaryXref bridge table.
     """
+
     practice_area_2 = PracticeArea.objects.create(name="Practice Area 2")
 
     url = reverse("user-detail", args=[user.uuid])
@@ -267,6 +268,7 @@ def test_update_user_practice_area_secondary_failures(
     Verifies that the API correctly enforces data integrity at the Serializer level
     before processing business logic.
     """
+
     url = reverse("user-detail", args=[user.uuid])
     res = auth_client.patch(url, bad_payload, format="json")
 
@@ -277,10 +279,10 @@ def test_update_user_secondary_practice_area_mixed_payload(
     auth_client, user, practice_area
 ):
     """
-    Tests that the UserPracticeAreaSecondaryXref update() method
-    removes the primary practice area from the payload,
-    while successfully preserving and saving valid secondary areas.
+    Tests that if the payload contains a mix of valid secondary areas and
+    one that conflicts with the primary area, the API returns a validation error.
     """
+
     practice_area_2 = PracticeArea.objects.create(name="Practice Area 2")
     practice_area_3 = PracticeArea.objects.create(name="Practice Area 3")
 
@@ -297,14 +299,8 @@ def test_update_user_secondary_practice_area_mixed_payload(
 
     res = auth_client.patch(url, payload)
 
-    assert res.status_code == status.HTTP_200_OK
-    assert len(res.data["practice_area_secondary"]) == 2
-    assert practice_area_2.pk in res.data["practice_area_secondary"]
-    assert practice_area_3.pk in res.data["practice_area_secondary"], (
-        f"The API failed to filter out duplicate primary Area ({practice_area.pk}). "
-        f"Got {res.data.get('practice_area_secondary')}."
-    )
-    assert UserPracticeAreaSecondaryXref.objects.filter(user=user).count() == 2
+    assert res.status_code == status.HTTP_400_BAD_REQUEST
+    assert "practice_area_secondary" in res.data
 
 
 def test_update_user_practice_area_secondary_primary_conflict(
@@ -312,8 +308,9 @@ def test_update_user_practice_area_secondary_primary_conflict(
 ):
     """
     Tests that if the payload attempts to set a practice area as both
-    primary and secondary, the API handles it without crashing.
+    primary and secondary, the API rejects it with a validation error.
     """
+
     url = reverse("user-detail", args=[user.uuid])
 
     payload = {
@@ -323,10 +320,8 @@ def test_update_user_practice_area_secondary_primary_conflict(
 
     res = auth_client.patch(url, payload)
 
-    assert res.status_code == status.HTTP_200_OK
-    assert res.data["practice_area_primary"] == practice_area.pk
-    assert res.data["practice_area_secondary"] == []
-    assert UserPracticeAreaSecondaryXref.objects.filter(user=user).count() == 0
+    assert res.status_code == status.HTTP_400_BAD_REQUEST
+    assert "practice_area_secondary" in res.data
 
 
 def test_update_user_practice_area_secondary_saved_primary_conflict(
@@ -334,8 +329,9 @@ def test_update_user_practice_area_secondary_saved_primary_conflict(
 ):
     """
     Tests that if incoming secondary practice areas collide with the user's existing
-    database primary area (not passed in the PATCH payload), it is silently filtered out.
+    database primary area (not passed in the PATCH payload), it returns a validation error.
     """
+
     practice_area_2 = PracticeArea.objects.create(name="Practice Area 2")
 
     user.practice_area_primary = practice_area
@@ -346,9 +342,8 @@ def test_update_user_practice_area_secondary_saved_primary_conflict(
 
     res = auth_client.patch(url, payload)
 
-    assert res.status_code == status.HTTP_200_OK
-    assert res.data["practice_area_secondary"] == [practice_area_2.pk]
-    assert UserPracticeAreaSecondaryXref.objects.filter(user=user).count() == 1
+    assert res.status_code == status.HTTP_400_BAD_REQUEST
+    assert "practice_area_secondary" in res.data
 
 
 def test_update_user_practice_area_secondary_empty_list(

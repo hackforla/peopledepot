@@ -6,6 +6,7 @@ from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.models import UserManager
 from django.contrib.auth.validators import UnicodeUsernameValidator
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import Q
 from phonenumber_field.modelfields import PhoneNumberField
@@ -940,12 +941,11 @@ class UserPracticeAreaSecondaryXref(AbstractBaseModel):
         """
         Overrides the default clean to prevent primary/secondary practice area conflicts.
         """
+
         super().clean()
         if self.user_id and self.practice_area_id:
             practice_area_primary = getattr(self.user, "practice_area_primary", None)
             if practice_area_primary and practice_area_primary == self.practice_area:
-                from django.core.exceptions import ValidationError
-
                 raise ValidationError(
                     "A practice area cannot be assigned as both primary and secondary."
                 )
@@ -954,6 +954,7 @@ class UserPracticeAreaSecondaryXref(AbstractBaseModel):
         """
         Overrides the default save to enforce full domain validation before persistence.
         """
+
         self.full_clean()
         super().save(*args, **kwargs)
 
