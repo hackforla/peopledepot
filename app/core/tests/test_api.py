@@ -9,8 +9,8 @@ from core.api.serializers import UserEmploymentHistorySerializer
 from core.api.serializers import UserSerializer
 from core.models import ModernJobTitle
 from core.models import Organization
-from core.models import PracticeArea
 from core.models import Permission
+from core.models import PracticeArea
 from core.models import ProgramArea
 from core.models import ProjectStackElementXref
 from core.models import ProjectUrl
