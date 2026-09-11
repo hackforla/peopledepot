@@ -9,7 +9,7 @@ import uuid
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0057_rename_job_title_current_intake_user_intake_present_job_title_and_more'),
+        ('core', '0063_remove_useremploymenthistory_soc_detailed_and_more'),
     ]
 
     operations = [
