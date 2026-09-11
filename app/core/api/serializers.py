@@ -37,7 +37,6 @@ from core.models import UrlType
 from core.models import User
 from core.models import UserCheck
 from core.models import UserEmploymentHistory
-from core.models import UserPermission
 from core.models import UserPracticeAreaSecondaryXref
 from core.models import UserStatusType
 from core.models import Win

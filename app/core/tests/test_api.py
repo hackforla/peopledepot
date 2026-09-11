@@ -20,7 +20,6 @@ from core.models import SOCDetailed
 from core.models import UrlStatusType
 from core.models import UserCheck
 from core.models import UserEmploymentHistory
-from core.models import UserPermission
 from core.models import UserPracticeAreaSecondaryXref
 from core.models import WinType
 
