@@ -26,29 +26,29 @@ from ..models import LeadershipType
 from ..models import Location
 from ..models import ModernJobTitle
 from ..models import Organization
+from ..models import Permission
 from ..models import PermissionType
 from ..models import PracticeArea
 from ..models import ProgramArea
 from ..models import Project
+from ..models import ProjectProgramAreaStatusType
 from ..models import ProjectStackElementXref
-from ..models import ProjectStatus
 from ..models import ProjectUrl
 from ..models import Referrer
 from ..models import ReferrerType
 from ..models import Sdg
-from ..models import SdgTargetIndicator
+from ..models import SDGTargetIndicator
 from ..models import Skill
-from ..models import SocBroad
-from ..models import SocDetailed
-from ..models import SocMajor
-from ..models import SocMinor
+from ..models import SOCBroad
+from ..models import SOCDetailed
+from ..models import SOCMajor
+from ..models import SOCMinor
 from ..models import StackElement
 from ..models import StackElementType
 from ..models import UrlStatusType
 from ..models import UrlType
 from ..models import UserCheck
 from ..models import UserEmploymentHistory
-from ..models import UserPermission
 from ..models import UserStatusType
 from ..models import Win
 from ..models import WinType
@@ -64,29 +64,29 @@ from .serializers import LeadershipTypeSerializer
 from .serializers import LocationSerializer
 from .serializers import ModernJobTitleSerializer
 from .serializers import OrganizationSerializer
+from .serializers import PermissionSerializer
 from .serializers import PermissionTypeSerializer
 from .serializers import PracticeAreaSerializer
 from .serializers import ProgramAreaSerializer
+from .serializers import ProjectProgramAreaStatusTypeSerializer
 from .serializers import ProjectSerializer
 from .serializers import ProjectStackElementXrefSerializer
-from .serializers import ProjectStatusSerializer
 from .serializers import ProjectUrlSerializer
 from .serializers import ReferrerSerializer
 from .serializers import ReferrerTypeSerializer
-from .serializers import SdgSerializer
-from .serializers import SdgTargetIndicatorSerializer
+from .serializers import SDGSerializer
+from .serializers import SDGTargetIndicatorSerializer
 from .serializers import SkillSerializer
-from .serializers import SocBroadSerializer
-from .serializers import SocDetailedSerializer
-from .serializers import SocMajorSerializer
-from .serializers import SocMinorSerializer
+from .serializers import SOCBroadSerializer
+from .serializers import SOCDetailedSerializer
+from .serializers import SOCMajorSerializer
+from .serializers import SOCMinorSerializer
 from .serializers import StackElementSerializer
 from .serializers import StackElementTypeSerializer
 from .serializers import UrlStatusTypeSerializer
 from .serializers import UrlTypeSerializer
 from .serializers import UserCheckSerializer
 from .serializers import UserEmploymentHistorySerializer
-from .serializers import UserPermissionSerializer
 from .serializers import UserSerializer
 from .serializers import UserStatusTypeSerializer
 from .serializers import WinSerializer
@@ -212,7 +212,7 @@ class EventTypeViewSet(viewsets.ModelViewSet):
 
 @extend_schema_view(
     list=extend_schema(description="Return a list of all the practice areas"),
-    create=extend_schema(description="Create a new sponsor practice area"),
+    create=extend_schema(description="Create a new practice area"),
     retrieve=extend_schema(description="Return the details of a practice area"),
     destroy=extend_schema(description="Delete a practice area"),
     update=extend_schema(description="Update a practice area"),
@@ -405,10 +405,10 @@ class StackElementTypeViewSet(viewsets.ModelViewSet):
     update=extend_schema(description="Update a recurring event"),
     partial_update=extend_schema(description="Patch a recurring event"),
 )
-class SdgViewSet(viewsets.ModelViewSet):
+class SDGViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = Sdg.objects.all()
-    serializer_class = SdgSerializer
+    serializer_class = SDGSerializer
 
 
 @extend_schema_view(
@@ -421,10 +421,10 @@ class SdgViewSet(viewsets.ModelViewSet):
     ),
     destroy=extend_schema(description="Delete an SDG Target Indicator"),
 )
-class SdgTargetIndicatorViewSet(viewsets.ModelViewSet):
+class SDGTargetIndicatorViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
-    queryset = SdgTargetIndicator.objects.all()
-    serializer_class = SdgTargetIndicatorSerializer
+    queryset = SDGTargetIndicator.objects.all()
+    serializer_class = SDGTargetIndicatorSerializer
 
 
 @extend_schema_view(
@@ -470,27 +470,31 @@ class CheckTypeViewSet(viewsets.ModelViewSet):
 
 
 @extend_schema_view(
-    list=extend_schema(description="Return a list of all the project statuses"),
-    create=extend_schema(description="Create a new project status"),
-    retrieve=extend_schema(description="Return the details of an project status"),
-    destroy=extend_schema(description="Delete a project status"),
-    update=extend_schema(description="Update a project status"),
-    partial_update=extend_schema(description="Patch a project status"),
+    list=extend_schema(
+        description="Return a list of all the project or program area statuses"
+    ),
+    create=extend_schema(description="Create a new project or program area status"),
+    retrieve=extend_schema(
+        description="Return the details of an project or program area status"
+    ),
+    destroy=extend_schema(description="Delete a project or program area status"),
+    update=extend_schema(description="Update a project or program area status"),
+    partial_update=extend_schema(description="Patch a project or program area status"),
 )
-class ProjectStatusViewSet(viewsets.ModelViewSet):
+class ProjectProgramAreaStatusTypeViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
-    queryset = ProjectStatus.objects.all()
-    serializer_class = ProjectStatusSerializer
+    queryset = ProjectProgramAreaStatusType.objects.all()
+    serializer_class = ProjectProgramAreaStatusTypeSerializer
 
 
 @extend_schema_view(
-    list=extend_schema(description="Return a list of all the user permissions"),
-    retrieve=extend_schema(description="Return the details of a user permission"),
+    list=extend_schema(description="Return a list of all permissions"),
+    retrieve=extend_schema(description="Return the details of a permission"),
 )
-class UserPermissionViewSet(viewsets.ReadOnlyModelViewSet):
+class PermissionViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = []
-    queryset = UserPermission.objects.all()
-    serializer_class = UserPermissionSerializer
+    queryset = Permission.objects.all()
+    serializer_class = PermissionSerializer
 
 
 @extend_schema_view(
@@ -501,10 +505,10 @@ class UserPermissionViewSet(viewsets.ReadOnlyModelViewSet):
     update=extend_schema(description="Update a SOC broad occupation"),
     partial_update=extend_schema(description="Patch a SOC broad occupation"),
 )
-class SocBroadViewSet(viewsets.ModelViewSet):
+class SOCBroadViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
-    queryset = SocBroad.objects.select_related("soc_minor").all().order_by("title")
-    serializer_class = SocBroadSerializer
+    queryset = SOCBroad.objects.select_related("soc_minor").all().order_by("title")
+    serializer_class = SOCBroadSerializer
 
 
 @extend_schema_view(
@@ -515,10 +519,10 @@ class SocBroadViewSet(viewsets.ModelViewSet):
     update=extend_schema(description="Update a SOC detailed record"),
     partial_update=extend_schema(description="Patch a SOC detailed record"),
 )
-class SocDetailedViewSet(viewsets.ModelViewSet):
+class SOCDetailedViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
-    queryset = SocDetailed.objects.all()
-    serializer_class = SocDetailedSerializer
+    queryset = SOCDetailed.objects.all()
+    serializer_class = SOCDetailedSerializer
 
 
 @extend_schema_view(
@@ -529,10 +533,10 @@ class SocDetailedViewSet(viewsets.ModelViewSet):
     update=extend_schema(description="Update a soc major"),
     partial_update=extend_schema(description="Patch a soc major"),
 )
-class SocMajorViewSet(viewsets.ModelViewSet):
+class SOCMajorViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
-    queryset = SocMajor.objects.all()
-    serializer_class = SocMajorSerializer
+    queryset = SOCMajor.objects.all()
+    serializer_class = SOCMajorSerializer
 
 
 @extend_schema_view(
@@ -543,10 +547,10 @@ class SocMajorViewSet(viewsets.ModelViewSet):
     update=extend_schema(description="Update a soc minor"),
     partial_update=extend_schema(description="Patch a soc major"),
 )
-class SocMinorViewSet(viewsets.ModelViewSet):
+class SOCMinorViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
-    queryset = SocMinor.objects.all()
-    serializer_class = SocMinorSerializer
+    queryset = SOCMinor.objects.all()
+    serializer_class = SOCMinorSerializer
 
 
 @extend_schema_view(

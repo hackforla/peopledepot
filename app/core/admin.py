@@ -27,18 +27,18 @@ from .models import PermissionType
 from .models import PracticeArea
 from .models import ProgramArea
 from .models import Project
+from .models import ProjectProgramAreaStatusType
 from .models import ProjectStackElementXref
-from .models import ProjectStatus
 from .models import ProjectUrl
 from .models import Referrer
 from .models import ReferrerType
 from .models import Sdg
-from .models import SdgTargetIndicator
+from .models import SDGTargetIndicator
 from .models import Skill
-from .models import SocBroad
-from .models import SocDetailed
-from .models import SocMajor
-from .models import SocMinor
+from .models import SOCBroad
+from .models import SOCDetailed
+from .models import SOCMajor
+from .models import SOCMinor
 from .models import StackElement
 from .models import StackElementType
 from .models import UrlStatusType
@@ -274,6 +274,9 @@ class PracticeAreaAdmin(admin.ModelAdmin):
     list_display = (
         "name",
         "description",
+        "project_program_area_status_type",
+        "leadership_type",
+        "icon",
     )
 
 
@@ -375,8 +378,8 @@ class SdgAdmin(admin.ModelAdmin):
     list_display = ("name", "description", "image")
 
 
-@admin.register(SdgTargetIndicator)
-class SdgTargetIndicatorAdmin(admin.ModelAdmin):
+@admin.register(SDGTargetIndicator)
+class SDGTargetIndicatorAdmin(admin.ModelAdmin):
     list_display = (
         "sdg",
         "code",
@@ -410,32 +413,32 @@ class EventTypeAdmin(admin.ModelAdmin):
     list_display = ("name", "description")
 
 
-@admin.register(ProjectStatus)
-class ProjectStatusAdmin(admin.ModelAdmin):
+@admin.register(ProjectProgramAreaStatusType)
+class ProjectProgramAreaStatusTypeAdmin(admin.ModelAdmin):
     list_display = ("name", "description")
 
 
-@admin.register(SocBroad)
-class SocBroadAdmin(admin.ModelAdmin):
+@admin.register(SOCBroad)
+class SOCBroadAdmin(admin.ModelAdmin):
     list_display = ("title", "occ_code", "soc_minor")
     list_filter = ("soc_minor",)
     search_fields = ("title", "occ_code")
 
 
-@admin.register(SocDetailed)
-class SocDetailedAdmin(admin.ModelAdmin):
+@admin.register(SOCDetailed)
+class SOCDetailedAdmin(admin.ModelAdmin):
     list_display = ("occ_code", "title", "soc_broad", "created_at")
     search_fields = ("occ_code", "title", "soc_broad__title")
     list_filter = ("soc_broad",)
 
 
-@admin.register(SocMajor)
-class SocMajorAdmin(admin.ModelAdmin):
+@admin.register(SOCMajor)
+class SOCMajorAdmin(admin.ModelAdmin):
     list_display = ("occ_code", "title")
 
 
-@admin.register(SocMinor)
-class SocMinorAdmin(admin.ModelAdmin):
+@admin.register(SOCMinor)
+class SOCMinorAdmin(admin.ModelAdmin):
     list_display = ("soc_major", "occ_code", "title")
 
 
@@ -519,9 +522,13 @@ class UserCheckAdmin(admin.ModelAdmin):
 
 @admin.register(UserEmploymentHistory)
 class UserEmploymentHistoryAdmin(admin.ModelAdmin):
-    list_display = ("user", "title", "soc_detailed", "created_at")
-    search_fields = ("title", "user__username", "user__email")
-    list_filter = ("soc_detailed",)
+    list_display = ("user", "modern_job_title", "created_at")
+    search_fields = (
+        "modern_job_title__title",
+        "user__username",
+        "user__email",
+    )
+    list_filter = ("modern_job_title",)
 
 
 @admin.register(Win)

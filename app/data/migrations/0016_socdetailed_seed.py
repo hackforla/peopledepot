@@ -1,7 +1,7 @@
 from django.db import migrations
 
-from core.models import SocDetailed
-from core.models import SocBroad
+from core.models import SOCDetailed
+from core.models import SOCBroad
 
 
 def forward(__code__, __reverse_code__):
@@ -5490,9 +5490,9 @@ def forward(__code__, __reverse_code__):
     ]
 
     for uuid, soc_broad_id, occ_code, title, description in items:
-        SocDetailed.objects.create(
+        SOCDetailed.objects.create(
             uuid=uuid,
-            soc_broad=SocBroad.objects.get(uuid=int(soc_broad_id)),
+            soc_broad=SOCBroad.objects.get(uuid=int(soc_broad_id)),
             occ_code=occ_code,
             title=title,
             description=description,
@@ -5500,7 +5500,7 @@ def forward(__code__, __reverse_code__):
 
 
 def reverse(__code__, __reverse_code__):
-    SocDetailed.objects.all().delete()
+    SOCDetailed.objects.all().delete()
 
 
 class Migration(migrations.Migration):

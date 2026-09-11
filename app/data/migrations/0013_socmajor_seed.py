@@ -1,6 +1,6 @@
 from django.db import migrations
 
-from core.models import SocMajor
+from core.models import SOCMajor
 
 
 def forward(__code__, __reverse_code__):
@@ -19,11 +19,11 @@ def forward(__code__, __reverse_code__):
         (22, "53-0000", "Transportation and Material Moving Occupations"),
     ]
     for uuid, occ_code, title in items:
-        SocMajor.objects.create(uuid=uuid, occ_code=occ_code, title=title)
+        SOCMajor.objects.create(uuid=uuid, occ_code=occ_code, title=title)
 
 
 def reverse(__code__, __reverse_code__):
-    SocMajor.objects.all().delete()
+    SOCMajor.objects.all().delete()
 
 
 class Migration(migrations.Migration):

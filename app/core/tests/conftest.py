@@ -1,4 +1,5 @@
 import pytest
+from django.utils import timezone
 from rest_framework.test import APIClient
 
 from constants import admin_project
@@ -16,22 +17,23 @@ from ..models import LeadershipType
 from ..models import Location
 from ..models import ModernJobTitle
 from ..models import Organization
+from ..models import Permission
 from ..models import PermissionType
 from ..models import PracticeArea
 from ..models import ProgramArea
 from ..models import Project
+from ..models import ProjectProgramAreaStatusType
 from ..models import ProjectStackElementXref
-from ..models import ProjectStatus
 from ..models import ProjectUrl
 from ..models import Referrer
 from ..models import ReferrerType
 from ..models import Sdg
-from ..models import SdgTargetIndicator
+from ..models import SDGTargetIndicator
 from ..models import Skill
-from ..models import SocBroad
-from ..models import SocDetailed
-from ..models import SocMajor
-from ..models import SocMinor
+from ..models import SOCBroad
+from ..models import SOCDetailed
+from ..models import SOCMajor
+from ..models import SOCMinor
 from ..models import StackElement
 from ..models import StackElementType
 from ..models import UrlStatusType
@@ -39,7 +41,6 @@ from ..models import UrlType
 from ..models import User
 from ..models import UserCheck
 from ..models import UserEmploymentHistory
-from ..models import UserPermission
 from ..models import UserStatusType
 from ..models import Win
 from ..models import WinType
@@ -62,17 +63,19 @@ def user_permissions():
     project = Project.objects.create(name="Test Project")
     permission_type = PermissionType.objects.first()
     practice_area = PracticeArea.objects.first()
-    user1_permission = UserPermission.objects.create(
+    user1_permission = Permission.objects.create(
         user=user1,
         permission_type=permission_type,
         project=project,
         practice_area=practice_area,
+        granted=timezone.now(),
     )
-    user2_permissions = UserPermission.objects.create(
+    user2_permissions = Permission.objects.create(
         user=user2,
         project=project,
         permission_type=permission_type,
         practice_area=practice_area,
+        granted=timezone.now(),
     )
     return [user1_permission, user2_permissions]
 
@@ -84,10 +87,11 @@ def user_permission_admin_project():
     )
     project = Project.objects.create(name="Test Project Admin Project")
     permission_type = PermissionType.objects.filter(name=admin_project).first()
-    user_permission = UserPermission.objects.create(
+    user_permission = Permission.objects.create(
         user=user,
         permission_type=permission_type,
         project=project,
+        granted=timezone.now(),
     )
 
     return user_permission
@@ -102,11 +106,12 @@ def user_permission_practice_lead_project():
     permission_type = PermissionType.objects.filter(name=practice_lead_project).first()
     project = Project.objects.create(name="Test Project Admin Project")
     practice_area = PracticeArea.objects.first()
-    user_permission = UserPermission.objects.create(
+    user_permission = Permission.objects.create(
         user=user,
         permission_type=permission_type,
         project=project,
         practice_area=practice_area,
+        granted=timezone.now(),
     )
 
     return user_permission
@@ -257,7 +262,7 @@ def skill():
 @pytest.fixture
 def stack_element(stack_element_type):
     return StackElement.objects.create(
-        name="Test Stack Element", element_type=stack_element_type
+        name="Test Stack Element", stack_element_type=stack_element_type
     )
 
 
@@ -290,7 +295,7 @@ def sdg1():
 
 @pytest.fixture
 def sdg_target_indicator(sdg):
-    return SdgTargetIndicator.objects.create(
+    return SDGTargetIndicator.objects.create(
         sdg=sdg,
         code="1.1",
         description_number="Target 1.1",
@@ -354,7 +359,7 @@ def project_2():
 
 @pytest.fixture
 def project_status():
-    return ProjectStatus.objects.create(
+    return ProjectProgramAreaStatusType.objects.create(
         name="This is a test project_status",
         description="This is a test project_status",
     )
@@ -362,7 +367,7 @@ def project_status():
 
 @pytest.fixture
 def soc_broad(soc_minor):
-    return SocBroad.objects.create(
+    return SOCBroad.objects.create(
         soc_minor=soc_minor,
         occ_code="15-1252",
         title="Software Developers",
@@ -371,7 +376,7 @@ def soc_broad(soc_minor):
 
 @pytest.fixture
 def soc_detailed(soc_broad):
-    return SocDetailed.objects.create(
+    return SOCDetailed.objects.create(
         soc_broad=soc_broad,
         occ_code="15-1252",
         title="Software Developers",
@@ -381,12 +386,12 @@ def soc_detailed(soc_broad):
 
 @pytest.fixture
 def soc_major():
-    return SocMajor.objects.create(occ_code="22-2222", title="Test Soc Major")
+    return SOCMajor.objects.create(occ_code="22-2222", title="Test Soc Major")
 
 
 @pytest.fixture
 def soc_minor():
-    return SocMinor.objects.create(occ_code="22-2222", title="Test Soc Minor")
+    return SOCMinor.objects.create(occ_code="22-2222", title="Test Soc Minor")
 
 
 @pytest.fixture
@@ -483,11 +488,10 @@ def user_check(user, organization, check_type, project):
 
 
 @pytest.fixture
-def user_employment_history(db, user, soc_detailed):
+def user_employment_history(db, user, modern_job_title):
     return UserEmploymentHistory.objects.create(
         user=user,
-        soc_detailed=soc_detailed,
-        title="Software Engineer",
+        modern_job_title=modern_job_title,
     )
 
 

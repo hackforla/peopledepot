@@ -151,16 +151,16 @@ class User(PermissionsMixin, AbstractBaseUser, AbstractBaseModel):
         return f"{self.email}"
 
 
-class ProjectStatus(AbstractBaseModel):
+class ProjectProgramAreaStatusType(AbstractBaseModel):
     """
-    Dictionary of status options for project
+    Dictionary of status options for project or program area
     """
 
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True)
 
     class Meta:
-        verbose_name_plural = "project statuses"
+        verbose_name_plural = "project or program area statuses"
 
     def __str__(self):
         return f"{self.name}"
@@ -180,10 +180,12 @@ class Project(AbstractBaseModel):
         blank=True,
         on_delete=models.SET_NULL,
         related_name="projects_as_org",
-        help_text=textwrap.dedent("""
+        help_text=textwrap.dedent(
+            """
             Can be retrieved from gh api with the following: curl -H
             "Authorization: token [gh_PAT]" https://api.github.com/orgs/[org]
-        """).strip(),
+        """
+        ).strip(),
     )
     github_primary_repo = models.ForeignKey(
         "ProjectUrl",
@@ -191,14 +193,16 @@ class Project(AbstractBaseModel):
         blank=True,
         on_delete=models.SET_NULL,
         related_name="projects_as_repo",
-        help_text=textwrap.dedent("""
+        help_text=textwrap.dedent(
+            """
             Can be retrieved from gh api with the following:
             curl -H "Authorization: token [gh_PAT]"
             https://api.github.com/repos/[org]/[repo]
-        """).strip(),
+        """
+        ).strip(),
     )
     current_status = models.ForeignKey(
-        ProjectStatus, null=True, on_delete=models.PROTECT
+        ProjectProgramAreaStatusType, null=True, on_delete=models.PROTECT
     )
     hide = models.BooleanField(default=True)
     # location_id = models.ForeignKey("location", on_delete=models.PROTECT)
@@ -335,7 +339,7 @@ class Location(AbstractBaseModel):
 
 class ModernJobTitle(AbstractBaseModel):
     soc_detailed = models.ForeignKey(
-        "SocDetailed",
+        "SOCDetailed",
         on_delete=models.CASCADE,
         related_name="modern_job_titles",
     )
@@ -353,6 +357,21 @@ class PracticeArea(AbstractBaseModel):
 
     name = models.CharField(max_length=255, unique=True)
     description = models.CharField(max_length=255, blank=True)
+
+    project_program_area_status_type = models.ForeignKey(
+        ProjectProgramAreaStatusType,
+        null=True,
+        blank=True,
+        on_delete=models.PROTECT,
+    )
+
+    leadership_type = models.ForeignKey(
+        LeadershipType,
+        null=True,
+        blank=True,
+        on_delete=models.PROTECT,
+    )
+    icon = models.URLField(blank=True)
 
     def __str__(self):
         return f"{self.name}"
@@ -399,7 +418,7 @@ class PermissionType(AbstractBaseModel):
             return f"{self.name}"
 
 
-class UserPermission(AbstractBaseModel):
+class Permission(AbstractBaseModel):
     """
     User Permissions
     """
@@ -412,6 +431,20 @@ class UserPermission(AbstractBaseModel):
     project = models.ForeignKey(
         Project, blank=True, null=True, on_delete=models.CASCADE
     )
+    granted = models.DateTimeField()
+    ended = models.DateTimeField(blank=True, null=True)
+
+    # created_by = models.ForeignKey(
+    #     User,
+    #     on_delete=models.PROTECT,
+    #     related_name="permissions_created",
+    # )
+
+    # updated_by = models.ForeignKey(
+    #     User,
+    #     on_delete=models.PROTECT,
+    #     related_name="permissions_updated",
+    # )
 
     class Meta:
         constraints = [
@@ -453,7 +486,7 @@ class StackElement(AbstractBaseModel):
     url = models.URLField(blank=True)
     logo = models.URLField(blank=True)
     active = models.BooleanField(null=True)
-    element_type = models.ForeignKey(StackElementType, on_delete=models.CASCADE)
+    stack_element_type = models.ForeignKey(StackElementType, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name_plural = "Stack Elements"
@@ -477,7 +510,7 @@ class Sdg(AbstractBaseModel):
         return f"{self.name}"
 
 
-class SdgTargetIndicator(AbstractBaseModel):
+class SDGTargetIndicator(AbstractBaseModel):
     """
     Target indicators for each SDG.
     """
@@ -552,13 +585,13 @@ class EventType(AbstractBaseModel):
         return f"{self.name}"
 
 
-class SocBroad(AbstractBaseModel):
+class SOCBroad(AbstractBaseModel):
     """
-    Broad SOC category tied to a SocMinor.
+    Broad SOC category tied to a SOCMinor.
     """
 
     soc_minor = models.ForeignKey(
-        "SocMinor",
+        "SOCMinor",
         on_delete=models.CASCADE,
         related_name="soc_broads",
     )
@@ -569,13 +602,13 @@ class SocBroad(AbstractBaseModel):
         return self.title
 
 
-class SocDetailed(AbstractBaseModel):
+class SOCDetailed(AbstractBaseModel):
     """
     Dictionary of SOC detailed occupations.
     """
 
     soc_broad = models.ForeignKey(
-        "SocBroad",
+        "SOCBroad",
         on_delete=models.CASCADE,
         related_name="soc_detailed",
     )
@@ -588,7 +621,7 @@ class SocDetailed(AbstractBaseModel):
         return f"{self.occ_code} - {self.title}"
 
 
-class SocMajor(AbstractBaseModel):
+class SOCMajor(AbstractBaseModel):
     occ_code = models.CharField(max_length=255)
     title = models.CharField(max_length=255)
 
@@ -596,9 +629,9 @@ class SocMajor(AbstractBaseModel):
         return self.title
 
 
-class SocMinor(AbstractBaseModel):
+class SOCMinor(AbstractBaseModel):
     soc_major = models.ForeignKey(
-        SocMajor, blank=True, null=True, on_delete=models.CASCADE
+        SOCMajor, blank=True, null=True, on_delete=models.CASCADE
     )
     occ_code = models.CharField(max_length=255)
     title = models.CharField(max_length=255)
@@ -857,16 +890,14 @@ class UserEmploymentHistory(AbstractBaseModel):
         related_name="employment_histories",
     )
 
-    soc_detailed = models.ForeignKey(
-        "SocDetailed",
+    modern_job_title = models.ForeignKey(
+        ModernJobTitle,
         on_delete=models.CASCADE,
         related_name="user_employment_histories",
     )
 
-    title = models.CharField(max_length=255)
-
     def __str__(self):
-        return f"{self.user.username} - {self.title}"
+        return f"{self.user.username} - {self.modern_job_title}"
 
 
 class Win(AbstractBaseModel):

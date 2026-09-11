@@ -1,6 +1,6 @@
 from django.db import migrations
 
-from core.models import ProjectStatus
+from core.models import ProjectProgramAreaStatusType
 
 
 def forward(__code__, __reverse_code__):
@@ -18,11 +18,11 @@ def forward(__code__, __reverse_code__):
         ),
     ]
     for name, description in items:
-        ProjectStatus.objects.create(name=name, description=description)
+        ProjectProgramAreaStatusType.objects.create(name=name, description=description)
 
 
 def reverse(__code__, __reverse_code__):
-    ProjectStatus.objects.all().delete()
+    ProjectProgramAreaStatusType.objects.all().delete()
 
 
 class Migration(migrations.Migration):

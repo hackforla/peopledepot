@@ -11,15 +11,15 @@ from ..models import Event
 from ..models import ModernJobTitle
 from ..models import PracticeArea
 from ..models import ProgramArea
+from ..models import ProjectProgramAreaStatusType
 from ..models import ProjectProgramAreaXref
 from ..models import ProjectSdgXref
 from ..models import ProjectStackElementXref
-from ..models import ProjectStatus
 from ..models import ProjectUrl
 from ..models import ReferrerType
 from ..models import Sdg
-from ..models import SdgTargetIndicator
-from ..models import SocDetailed
+from ..models import SDGTargetIndicator
+from ..models import SOCDetailed
 from ..models import User
 from ..models import UserCheck
 from ..models import UserEmploymentHistory
@@ -66,6 +66,32 @@ def test_event_projects_admins_must_attend(event_all, event_pm):
 
 def test_practice_area(practice_area):
     assert str(practice_area) == "Test Practice Area"
+
+
+def test_practice_area_leadership_type_relationship(
+    practice_area,
+    leadership_type,
+):
+    assert practice_area.leadership_type is None
+
+    practice_area.leadership_type = leadership_type
+    practice_area.save()
+    practice_area.refresh_from_db()
+
+    assert practice_area.leadership_type == leadership_type
+
+
+def test_practice_area_project_status_relationship(
+    practice_area,
+    project_status,
+):
+    assert practice_area.project_program_area_status_type is None
+
+    practice_area.project_program_area_status_type = project_status
+    practice_area.save()
+    practice_area.refresh_from_db()
+
+    assert practice_area.project_program_area_status_type == project_status
 
 
 def test_affiliate(affiliate):
@@ -156,7 +182,7 @@ def test_sdg(sdg):
 
 
 def test_create_sdg_target_indicator(sdg):
-    indicator = SdgTargetIndicator.objects.create(
+    indicator = SDGTargetIndicator.objects.create(
         sdg=sdg,
         code="1.1",
         description_number="Target 1.1",
@@ -171,7 +197,7 @@ def test_create_sdg_target_indicator(sdg):
 
 
 def test_sdg_deletion_cascades_to_target_indicators(sdg):
-    SdgTargetIndicator.objects.create(
+    SDGTargetIndicator.objects.create(
         sdg=sdg,
         code="1.2",
         description_number="Target 1.2",
@@ -179,17 +205,17 @@ def test_sdg_deletion_cascades_to_target_indicators(sdg):
     )
 
     sdg.delete()
-    assert SdgTargetIndicator.objects.count() == 0
+    assert SDGTargetIndicator.objects.count() == 0
 
 
 def test_sdg_can_have_multiple_indicators(sdg):
-    ind1 = SdgTargetIndicator.objects.create(
+    ind1 = SDGTargetIndicator.objects.create(
         sdg=sdg,
         code="1.1",
         description_number="Target 1.1",
         description_text="First",
     )
-    ind2 = SdgTargetIndicator.objects.create(
+    ind2 = SDGTargetIndicator.objects.create(
         sdg=sdg,
         code="1.2",
         description_number="Target 1.2",
@@ -204,7 +230,7 @@ def test_sdg_can_have_multiple_indicators(sdg):
 
 
 def test_indicator_str_method(sdg):
-    indicator = SdgTargetIndicator.objects.create(
+    indicator = SDGTargetIndicator.objects.create(
         sdg=sdg,
         code="1.3",
         description_number="Target 1.3",
@@ -300,7 +326,7 @@ def test_soc_broad_relationships(soc_broad, soc_minor):
 
 
 def test_create_soc_detailed(soc_broad):
-    soc = SocDetailed.objects.create(
+    soc = SOCDetailed.objects.create(
         soc_broad=soc_broad,
         occ_code="11-1111",
         title="Test SOC Detailed",
@@ -315,7 +341,7 @@ def test_create_soc_detailed(soc_broad):
 
 
 def test_soc_detailed_str_method(soc_broad):
-    soc = SocDetailed.objects.create(
+    soc = SOCDetailed.objects.create(
         soc_broad=soc_broad,
         occ_code="22-2222",
         title="Title",
@@ -326,13 +352,13 @@ def test_soc_detailed_str_method(soc_broad):
 
 
 def test_soc_broad_has_multiple_soc_detailed(soc_broad):
-    d1 = SocDetailed.objects.create(
+    d1 = SOCDetailed.objects.create(
         soc_broad=soc_broad,
         occ_code="15-1111",
         title="Title 1",
         description="Desc 1",
     )
-    d2 = SocDetailed.objects.create(
+    d2 = SOCDetailed.objects.create(
         soc_broad=soc_broad,
         occ_code="15-2222",
         title="Title 2",
@@ -347,9 +373,9 @@ def test_soc_broad_has_multiple_soc_detailed(soc_broad):
 
 
 def test_soc_broad_deletion_cascades_to_soc_detailed(soc_broad):
-    initial_count = SocDetailed.objects.count()
+    initial_count = SOCDetailed.objects.count()
 
-    SocDetailed.objects.create(
+    SOCDetailed.objects.create(
         soc_broad=soc_broad,
         occ_code="15-3333",
         title="Cascade Test",
@@ -357,7 +383,7 @@ def test_soc_broad_deletion_cascades_to_soc_detailed(soc_broad):
     )
 
     soc_broad.delete()
-    assert SocDetailed.objects.count() == initial_count
+    assert SOCDetailed.objects.count() == initial_count
 
 
 def test_soc_major(soc_major):
@@ -421,8 +447,8 @@ def test_project_has_a_project_status_relationship(
     project_1,
     project_2,
 ):
-    active_project_status = ProjectStatus.objects.get(name="Active")
-    closed_project_status = ProjectStatus.objects.get(name="Closed")
+    active_project_status = ProjectProgramAreaStatusType.objects.get(name="Active")
+    closed_project_status = ProjectProgramAreaStatusType.objects.get(name="Closed")
 
     active_project_status.project_set.add(project_1)
     active_project_status.project_set.add(project_2)
@@ -826,48 +852,62 @@ def test_usercheck_cross_scopes_allowed_simultaneously(
     assert project_user_check.pk is not None
 
 
-def test_create_user_employment_history(user, soc_detailed):
+def test_create_user_employment_history(user, modern_job_title):
     history = UserEmploymentHistory.objects.create(
         user=user,
-        soc_detailed=soc_detailed,
-        title="Backend Engineer",
+        modern_job_title=modern_job_title,
     )
 
     assert history.uuid is not None
     assert history.user == user
-    assert history.soc_detailed == soc_detailed
-    assert history.title == "Backend Engineer"
+    assert history.modern_job_title == modern_job_title
 
 
-def test_user_can_have_multiple_employment_histories(user, soc_detailed):
+def test_user_can_have_multiple_employment_histories(user, modern_job_title):
     history1 = UserEmploymentHistory.objects.create(
         user=user,
-        soc_detailed=soc_detailed,
-        title="Software Engineer",
+        modern_job_title=modern_job_title,
     )
     history2 = UserEmploymentHistory.objects.create(
         user=user,
-        soc_detailed=soc_detailed,
-        title="Senior Software Engineer",
+        modern_job_title=modern_job_title,
     )
 
     histories = user.employment_histories.all()
 
-    assert histories.count() == 2
     assert history1 in histories
     assert history2 in histories
+    assert histories.count() == 2
 
 
-def test_user_deletion_cascades_to_employment_histories(user, soc_detailed):
+def test_user_deletion_cascades_to_employment_histories(user, modern_job_title):
     UserEmploymentHistory.objects.create(
         user=user,
-        soc_detailed=soc_detailed,
-        title="Software Engineer",
+        modern_job_title=modern_job_title,
     )
+
+    assert UserEmploymentHistory.objects.count() == 1
 
     user.delete()
 
     assert UserEmploymentHistory.objects.count() == 0
+
+
+def test_modern_job_title_has_multiple_employment_histories(user, modern_job_title):
+    history1 = UserEmploymentHistory.objects.create(
+        user=user,
+        modern_job_title=modern_job_title,
+    )
+    history2 = UserEmploymentHistory.objects.create(
+        user=user,
+        modern_job_title=modern_job_title,
+    )
+
+    histories = modern_job_title.user_employment_histories.all()
+
+    assert history1 in histories
+    assert history2 in histories
+    assert histories.count() == 2
 
 
 def test_model_prevent_duplicate_global_usercheck(user, check_type):
@@ -935,3 +975,11 @@ def test_win_type_str(win_type):
 def test_win_type_fields(win_type):
     assert win_type.name == "funding"
     assert win_type.display_text == "Funding / Grant awarded"
+
+
+def test_permission_relationships(user_permission_practice_lead_project):
+    permission = user_permission_practice_lead_project
+    assert permission.user.permissions.filter(pk=permission.pk).exists()
+    assert permission.permission_type.permission_set.filter(pk=permission.pk).exists()
+    assert permission.project.permission_set.filter(pk=permission.pk).exists()
+    assert permission.practice_area.permission_set.filter(pk=permission.pk).exists()

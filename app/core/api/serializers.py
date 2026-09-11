@@ -13,22 +13,23 @@ from core.models import LeadershipType
 from core.models import Location
 from core.models import ModernJobTitle
 from core.models import Organization
+from core.models import Permission
 from core.models import PermissionType
 from core.models import PracticeArea
 from core.models import ProgramArea
 from core.models import Project
+from core.models import ProjectProgramAreaStatusType
 from core.models import ProjectStackElementXref
-from core.models import ProjectStatus
 from core.models import ProjectUrl
 from core.models import Referrer
 from core.models import ReferrerType
 from core.models import Sdg
-from core.models import SdgTargetIndicator
+from core.models import SDGTargetIndicator
 from core.models import Skill
-from core.models import SocBroad
-from core.models import SocDetailed
-from core.models import SocMajor
-from core.models import SocMinor
+from core.models import SOCBroad
+from core.models import SOCDetailed
+from core.models import SOCMajor
+from core.models import SOCMinor
 from core.models import StackElement
 from core.models import StackElementType
 from core.models import UrlStatusType
@@ -54,6 +55,9 @@ class PracticeAreaSerializer(serializers.ModelSerializer):
             "updated_at",
             "name",
             "description",
+            "project_program_area_status_type",
+            "leadership_type",
+            "icon",
         )
         read_only_fields = (
             "uuid",
@@ -62,11 +66,11 @@ class PracticeAreaSerializer(serializers.ModelSerializer):
         )
 
 
-class UserPermissionSerializer(serializers.ModelSerializer):
+class PermissionSerializer(serializers.ModelSerializer):
     """Used to retrieve user permissions"""
 
     class Meta:
-        model = UserPermission
+        model = Permission
         fields = (
             "uuid",
             "created_at",
@@ -75,6 +79,8 @@ class UserPermissionSerializer(serializers.ModelSerializer):
             "permission_type",
             "project",
             "practice_area",
+            "granted",
+            "ended",
         )
         read_only_fields = (
             "uuid",
@@ -415,7 +421,7 @@ class StackElementSerializer(serializers.ModelSerializer):
             "url",
             "logo",
             "active",
-            "element_type",
+            "stack_element_type",
         )
         read_only_fields = (
             "uuid",
@@ -456,9 +462,9 @@ class StackElementTypeSerializer(serializers.ModelSerializer):
         )
 
 
-class SdgSerializer(serializers.ModelSerializer):
+class SDGSerializer(serializers.ModelSerializer):
     """
-    Used to retrieve Sdg
+    Used to retrieve SDG
     """
 
     projects = serializers.StringRelatedField(many=True)
@@ -479,9 +485,9 @@ class SdgSerializer(serializers.ModelSerializer):
         )
 
 
-class SdgTargetIndicatorSerializer(serializers.ModelSerializer):
+class SDGTargetIndicatorSerializer(serializers.ModelSerializer):
     class Meta:
-        model = SdgTargetIndicator
+        model = SDGTargetIndicator
         fields = (
             "uuid",
             "sdg",
@@ -524,20 +530,20 @@ class CheckTypeSerializer(serializers.ModelSerializer):
         read_only_fields = ("uuid", "created_at", "updated_at")
 
 
-class ProjectStatusSerializer(serializers.ModelSerializer):
+class ProjectProgramAreaStatusTypeSerializer(serializers.ModelSerializer):
     """
-    Used to retrieve project_status info
+    Used to retrieve project/program/area status info
     """
 
     class Meta:
-        model = ProjectStatus
+        model = ProjectProgramAreaStatusType
         fields = ("uuid", "name", "description")
         read_only_fields = ("uuid", "created_at", "updated_at")
 
 
-class SocBroadSerializer(serializers.ModelSerializer):
+class SOCBroadSerializer(serializers.ModelSerializer):
     class Meta:
-        model = SocBroad
+        model = SOCBroad
         fields = (
             "uuid",
             "created_at",
@@ -549,9 +555,9 @@ class SocBroadSerializer(serializers.ModelSerializer):
         read_only_fields = ("uuid", "created_at", "updated_at")
 
 
-class SocDetailedSerializer(serializers.ModelSerializer):
+class SOCDetailedSerializer(serializers.ModelSerializer):
     class Meta:
-        model = SocDetailed
+        model = SOCDetailed
         fields = (
             "uuid",
             "soc_broad",
@@ -564,20 +570,20 @@ class SocDetailedSerializer(serializers.ModelSerializer):
         read_only_fields = ("uuid", "created_at", "updated_at")
 
 
-class SocMajorSerializer(serializers.ModelSerializer):
+class SOCMajorSerializer(serializers.ModelSerializer):
     """Used to retrieve soc_major info"""
 
     class Meta:
-        model = SocMajor
+        model = SOCMajor
         fields = ("uuid", "occ_code", "title")
         read_only_fields = ("uuid", "created_at", "updated_at")
 
 
-class SocMinorSerializer(serializers.ModelSerializer):
+class SOCMinorSerializer(serializers.ModelSerializer):
     """Used to retrieve soc_minor info"""
 
     class Meta:
-        model = SocMinor
+        model = SOCMinor
         fields = ("uuid", "soc_major", "occ_code", "title")
         read_only_fields = ("uuid", "created_at", "updated_at")
 
@@ -740,7 +746,7 @@ class UserEmploymentHistorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserEmploymentHistory
-        fields = ("uuid", "user", "soc_detailed", "title")
+        fields = ("uuid", "user", "modern_job_title")
         read_only_fields = ("uuid", "created_at", "updated_at")
 
 

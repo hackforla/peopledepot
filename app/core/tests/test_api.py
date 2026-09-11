@@ -10,12 +10,13 @@ from core.api.serializers import UserSerializer
 from core.models import ModernJobTitle
 from core.models import Organization
 from core.models import PracticeArea
+from core.models import Permission
 from core.models import ProgramArea
 from core.models import ProjectStackElementXref
 from core.models import ProjectUrl
-from core.models import SdgTargetIndicator
-from core.models import SocBroad
-from core.models import SocDetailed
+from core.models import SDGTargetIndicator
+from core.models import SOCBroad
+from core.models import SOCDetailed
 from core.models import UrlStatusType
 from core.models import UserCheck
 from core.models import UserEmploymentHistory
@@ -25,7 +26,7 @@ from core.models import WinType
 
 pytestmark = pytest.mark.django_db
 
-USER_PERMISSIONS_URL = reverse("user-permission-list")
+PERMISSIONS_URL = reverse("permission-list")
 PROJECTS_URL = reverse("project-list")
 ME_URL = reverse("my_profile")
 USER_STATUS_TYPES_URL = reverse("user-status-type-list")
@@ -451,14 +452,23 @@ def test_create_affiliate(auth_client):
     assert res.status_code == status.HTTP_201_CREATED
 
 
-def test_create_practice_area(auth_client):
+def test_create_practice_area(auth_client, leadership_type, project_status):
     payload = {
         "name": "Test API for creating practice area",
         "description": "See name.  Description is optional.",
+        "icon": "https://example.com/icon.png",
+        "leadership_type": leadership_type.pk,
+        "project_program_area_status_type": project_status.pk,
     }
+
     res = auth_client.post(PRACTICE_AREA_URL, payload)
+
     assert res.status_code == status.HTTP_201_CREATED
     assert res.data["name"] == payload["name"]
+    assert res.data["description"] == payload["description"]
+    assert res.data["icon"] == payload["icon"]
+    assert res.data["leadership_type"] == leadership_type.pk
+    assert res.data["project_program_area_status_type"] == project_status.pk
 
 
 def test_create_faq(auth_client):
@@ -637,7 +647,7 @@ def test_create_stack_element(auth_client, stack_element_type):
         "url": "http://www.testurl.org",
         "logo": "http://www.logourl.com",
         "active": True,
-        "element_type": stack_element_type.pk,
+        "stack_element_type": stack_element_type.pk,
     }
     res = auth_client.post(STACK_ELEMENT_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
@@ -664,8 +674,8 @@ def test_create_stack_element_type(auth_client):
 
 def test_get_user_permissions(user_superuser_admin, user_permissions, auth_client):
     auth_client.force_authenticate(user=user_superuser_admin)
-    permission_count = UserPermission.objects.count()
-    res = auth_client.get(USER_PERMISSIONS_URL)
+    permission_count = Permission.objects.count()
+    res = auth_client.get(PERMISSIONS_URL)
     assert len(res.data) == permission_count
     assert res.status_code == status.HTTP_200_OK
 
@@ -708,7 +718,7 @@ def test_create_sdg_target_indicator(auth_client, sdg):
     res = auth_client.post(SDG_TARGET_INDICATOR_URL, payload)
     assert res.status_code == 201
 
-    created = SdgTargetIndicator.objects.get(uuid=res.data["uuid"])
+    created = SDGTargetIndicator.objects.get(uuid=res.data["uuid"])
     assert created.code == payload["code"]
     assert created.description_number == payload["description_number"]
     assert created.sdg == sdg
@@ -746,7 +756,7 @@ def test_delete_sdg_target_indicator(auth_client, sdg_target_indicator):
 
     res = auth_client.delete(url)
     assert res.status_code == 204
-    assert SdgTargetIndicator.objects.count() == 0
+    assert SDGTargetIndicator.objects.count() == 0
 
 
 def test_create_affiliation(auth_client, project, affiliate):
@@ -792,7 +802,7 @@ def test_list_soc_broads(auth_client):
     assert len(res.data) > 0
 
     for item in res.data:
-        soc_broad = SocBroad.objects.get(uuid=item["uuid"])
+        soc_broad = SOCBroad.objects.get(uuid=item["uuid"])
         assert soc_broad.title == item["title"]
         assert soc_broad.soc_minor.pk == item["soc_minor"]
 
@@ -808,7 +818,7 @@ def test_create_soc_broad(auth_client, soc_minor):
 
     assert res.status_code == status.HTTP_201_CREATED
 
-    created = SocBroad.objects.get(uuid=res.data["uuid"])
+    created = SOCBroad.objects.get(uuid=res.data["uuid"])
     assert created.soc_minor == soc_minor
     assert created.occ_code == payload["occ_code"]
     assert created.title == payload["title"]
@@ -820,7 +830,7 @@ def test_list_soc_detailed(auth_client):
     assert res.status_code == status.HTTP_200_OK
     assert len(res.data) > 0
     for item in res.data:
-        soc_detailed = SocDetailed.objects.get(uuid=item["uuid"])
+        soc_detailed = SOCDetailed.objects.get(uuid=item["uuid"])
         assert soc_detailed.occ_code == item["occ_code"]
         assert soc_detailed.soc_broad.pk == item["soc_broad"]
 
@@ -847,7 +857,7 @@ def test_create_soc_detailed(auth_client, soc_broad):
     res = auth_client.post(SOC_DETAILED_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
 
-    created = SocDetailed.objects.get(uuid=res.data["uuid"])
+    created = SOCDetailed.objects.get(uuid=res.data["uuid"])
     assert created.occ_code == payload["occ_code"]
     assert created.title == payload["title"]
     assert created.soc_broad == soc_broad
@@ -883,10 +893,10 @@ def test_partial_update_soc_detailed(auth_client, soc_detailed):
 def test_delete_soc_detailed(auth_client, soc_detailed):
     url = f"{SOC_DETAILED_URL}{soc_detailed.pk}/"
 
-    detailed_count = SocDetailed.objects.count()
+    detailed_count = SOCDetailed.objects.count()
     res = auth_client.delete(url)
     assert res.status_code == status.HTTP_204_NO_CONTENT
-    assert SocDetailed.objects.count() == detailed_count - 1
+    assert SOCDetailed.objects.count() == detailed_count - 1
 
 
 def test_create_soc_major(auth_client):
@@ -1147,7 +1157,7 @@ def test_project_stack_element_workflow(auth_client):
         "url": "https://www.python.org/",
         "logo": "https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg",
         "active": True,
-        "element_type": stack_type_uuid,
+        "stack_element_type": stack_type_uuid,
     }
     res_element = auth_client.post(reverse("stack-element-list"), stack_element_payload)
     assert res_element.status_code == status.HTTP_201_CREATED
@@ -1457,11 +1467,10 @@ def test_api_allow_org_and_project_same_type_different_scopes(
     assert r2.status_code == status.HTTP_201_CREATED
 
 
-def test_list_user_employment_histories(auth_client, user, soc_detailed):
+def test_list_user_employment_histories(auth_client, user, modern_job_title):
     payload = {
         "user": user.pk,
-        "soc_detailed": soc_detailed.pk,
-        "title": "Software Engineer",
+        "modern_job_title": modern_job_title.pk,
     }
     auth_client.post(USER_EMPLOYMENT_HISTORIES_URL, payload)
 
@@ -1474,11 +1483,10 @@ def test_list_user_employment_histories(auth_client, user, soc_detailed):
     assert res.data == expected_data
 
 
-def test_create_user_employment_history(auth_client, user, soc_detailed):
+def test_create_user_employment_history(auth_client, user, modern_job_title):
     payload = {
         "user": user.pk,
-        "soc_detailed": soc_detailed.pk,
-        "title": "Backend Engineer",
+        "modern_job_title": modern_job_title.pk,
     }
 
     res = auth_client.post(USER_EMPLOYMENT_HISTORIES_URL, payload)
@@ -1487,8 +1495,7 @@ def test_create_user_employment_history(auth_client, user, soc_detailed):
 
     created = UserEmploymentHistory.objects.get(uuid=res.data["uuid"])
     assert created.user == user
-    assert created.soc_detailed.pk == payload["soc_detailed"]
-    assert created.title == payload["title"]
+    assert created.modern_job_title == modern_job_title
 
 
 def test_retrieve_user_employment_history(auth_client, user_employment_history):
@@ -1497,8 +1504,7 @@ def test_retrieve_user_employment_history(auth_client, user_employment_history):
 
     assert res.status_code == status.HTTP_200_OK
     assert res.data["uuid"] == str(user_employment_history.pk)
-    assert res.data["title"] == user_employment_history.title
-    assert res.data["soc_detailed"] == user_employment_history.soc_detailed.pk
+    assert res.data["modern_job_title"] == user_employment_history.modern_job_title.pk
     assert res.data["user"] == user_employment_history.user.pk
 
 
