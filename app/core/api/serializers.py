@@ -37,6 +37,7 @@ from core.models import UrlType
 from core.models import User
 from core.models import UserCheck
 from core.models import UserEmploymentHistory
+from core.models import UserPracticeAreaSecondaryXref
 from core.models import UserStatusType
 from core.models import Win
 from core.models import WinType
@@ -92,6 +93,10 @@ class UserSerializer(serializers.ModelSerializer):
 
     time_zone = TimeZoneSerializerField(use_pytz=False)
 
+    practice_area_secondary = serializers.PrimaryKeyRelatedField(
+        many=True, queryset=PracticeArea.objects.all(), required=False
+    )
+
     class Meta:
         model = User
         fields = (
@@ -132,6 +137,68 @@ class UserSerializer(serializers.ModelSerializer):
             "username",
             "email",
         )
+
+    def validate(self, attrs):
+        """
+        Performs cross-field validation on the payload.
+
+        Prevents primary/secondary practice area conflicts by explicitly raising
+        a ValidationError if the primary area is found in the secondary areas list.
+        """
+
+        # Get the primary ID from the incoming data or the existing instance
+        primary_area = attrs.get(
+            "practice_area_primary",
+            getattr(self.instance, "practice_area_primary", None),
+        )
+        primary_id = getattr(primary_area, "pk", primary_area)
+
+        # Get the secondary areas only if they are being updated
+        secondary_areas = attrs.get("practice_area_secondary")
+
+        if primary_id and secondary_areas:
+            secondary_ids = [getattr(area, "pk", area) for area in secondary_areas]
+
+            if primary_id in secondary_ids:
+                # Automatically returns a 400 Bad Request to the client
+                raise serializers.ValidationError(
+                    {
+                        "practice_area_secondary": "A secondary practice area cannot be "
+                        "the same as the primary practice area."
+                    }
+                )
+        return attrs
+
+    def update(self, instance, validated_data):
+        """
+        Overrides the default update to persist the practice_area_secondary Xref table.
+        Intercepts secondary practice areas and performs a bulk insert on the Xref table.
+        """
+        if "practice_area_secondary" in validated_data:
+            practice_area_secondary = validated_data.pop("practice_area_secondary")
+
+            # Delete the existing secondary practice_area records for this user.
+            # This deletes the created_at timestamps along with the UUID.
+            UserPracticeAreaSecondaryXref.objects.filter(user=instance).delete()
+
+            # Sanitize selected practice_area_secondary choice(s) into a list of integer ID(s).
+            practice_area_secondary_id = [
+                getattr(practice_area, "pk", practice_area)
+                for practice_area in practice_area_secondary
+            ]
+
+            # Build Xref records in memory
+            new_xrefs = [
+                UserPracticeAreaSecondaryXref(
+                    user=instance, practice_area_id=practice_area_id
+                )
+                for practice_area_id in practice_area_secondary_id
+            ]
+
+            if new_xrefs:
+                UserPracticeAreaSecondaryXref.objects.bulk_create(new_xrefs)
+
+        return super().update(instance, validated_data)
 
 
 class ProjectSerializer(serializers.ModelSerializer):
