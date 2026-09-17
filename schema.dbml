@@ -65,7 +65,7 @@ Table Event {
   project int [ref: > Project.id]
   video_conference_url URLField
   location int [ref: > Location.id]
-  org int [ref: > Org.id]
+  org int [ref: > Organization.id]
   additional_info varchar
   must_attend JSON
   should_attend JSON
@@ -118,8 +118,8 @@ Table Faq {
 Table FaqViewed {
   //created
   ~AbstractBaseModel
-  faq int [ref: > Faq.id]
-  read DateTimeField
+  faq int [ref: > Faq.id, not null]
+  read int
 }
 
 Table Language {
@@ -154,7 +154,7 @@ Table ModernJobTitle {
   title varchar
 }
 
-Table Org {
+Table Organization {
   ~AbstractBaseModel
   name varchar
   time_zone varchar
@@ -207,6 +207,13 @@ Table ProgramArea {
   name varchar
   description varchar
   image URLField
+  program_area_status uuid [ref: > ProgramAreaStatusType.id]
+}
+
+Table ProgramAreaStatusType {
+  ~AbstractBaseModel
+  name varchar
+  description varchar
 }
 
 Table Project {
@@ -217,10 +224,12 @@ Table Project {
   completed_on date
   github_org int [ref: - ProjectUrl.id, note: 'The unique id assigned to GitHub orgs. A foreign key to a row in ProjectUrl that corresponds to the org repo link']
   github_primary_repo int [ref: - ProjectUrl.id, note: 'A project might have many repos, this is for the primary starting place for new users. A foreign key to a row in ProjectUrl that corresponds to the primary repo']
-  project_status_type int [ref: > ProjectProgramAreaStatusType.id]
+  project_status int [ref: > ProjectStatusType.id]
   hide Boolean
   location int [ref: > Location.id]
-  google_drive int [ref: > ProjectUrl.id, note: 'The unique id of the google drive, used for adding people with automation. A foreign key to a row in ProjectUrl that corresponds to the google drive.']
+  google_drive_main int [ref: > ProjectUrl.id, note: 'The unique id of the main google drive, used for adding people with automation. A foreign key to a row in ProjectUrl that corresponds to the google drive.']
+  google_drive_pii int [ref: > ProjectUrl.id, note: 'The unique id of the google drive for PII. People are added manually and removed with automation. A foreign key to a row in ProjectUrl that corresponds to the google drive.']
+  slack int [ref: - ProjectUrl.id, note: 'The unique id assigned to slack channel. A foreign key to a row in ProjectUrl that corresponds to the org repo link']
   project_leads int[] (user_id)
   leadership_type int [ref: > LeadershipType.id]
   image_logo URLField
@@ -268,18 +277,20 @@ Table ProjectStackElementXref {
   removed_on DateField
 }
 
-Table ProjectProgramAreaStatusType [note: 'currently named projectstatus in code'] {
+Table ProjectStatusType [note: 'currently named projectstatus in code'] {
   //created
   ~AbstractBaseModel
   name varchar
   description varchar
 }
-
+/*
+//Potentially removed table
 Table ProjectProgramAreaStatusHistory [note: 'currently named project_program_area_status in open issue'] {
   ~AbstractBaseModel
   project int [ref: > Project.id]
   status int [ref: > ProjectProgramAreaStatusType.id]
 }
+*/
 
 Table ProjectUrl {
   ~AbstractBaseModel
@@ -435,7 +446,7 @@ Table UserAvailability {
 Table UserCheck {
   ~AbstractBaseModel
   user int [ref: > User.id]
-  org int [ref: > Org.id]
+  org int [ref: > Organization.id]
   check_type int [ref: > CheckType.id]
   result boolean
   reminder_start DateTimeField
