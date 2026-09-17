@@ -252,6 +252,31 @@ def test_update_user_practice_area_secondary_success(auth_client, user, practice
     assert count == 2, f"Expected 2 Xref records, but found {count}."
 
 
+def test_update_user_practice_area_secondary_deduplication(
+    auth_client, user, practice_area
+):
+    """
+    Tests that submitting duplicate practice_area_secondary IDs in the payload
+    are gracefully deduplicated by the serializer without throwing a 500 error.
+    """
+    url = reverse("user-detail", args=[user.uuid])
+    # Send the exact same ID twice
+    payload = {"practice_area_secondary": [practice_area.pk, practice_area.pk]}
+
+    res = auth_client.patch(url, payload)
+
+    assert res.status_code == status.HTTP_200_OK, (
+        f"Expected 200, got {res.status_code}. Data: {res.data}"
+    )
+    assert "practice_area_secondary" in res.data
+    # It should only save and return it once
+    assert len(res.data["practice_area_secondary"]) == 1
+    assert res.data["practice_area_secondary"] == [practice_area.pk]
+
+    count = UserPracticeAreaSecondaryXref.objects.filter(user=user).count()
+    assert count == 1, f"Expected 1 Xref record, but found {count}."
+
+
 # Failure Scenarios for Secondary Practice Areas
 @pytest.mark.parametrize(
     "bad_payload, expected_status",

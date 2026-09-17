@@ -1,3 +1,4 @@
+from django.db import transaction
 from rest_framework import serializers
 from timezone_field.rest_framework import TimeZoneSerializerField
 
@@ -147,19 +148,24 @@ class UserSerializer(serializers.ModelSerializer):
         """
 
         # Get the primary ID from the incoming data or the existing instance
-        primary_area = attrs.get(
+        practice_area_primary = attrs.get(
             "practice_area_primary",
             getattr(self.instance, "practice_area_primary", None),
         )
-        primary_id = getattr(primary_area, "pk", primary_area)
+        practice_area_primary_id = getattr(
+            practice_area_primary, "pk", practice_area_primary
+        )
 
         # Get the secondary areas only if they are being updated
-        secondary_areas = attrs.get("practice_area_secondary")
+        practice_area_secondary = attrs.get("practice_area_secondary")
 
-        if primary_id and secondary_areas:
-            secondary_ids = [getattr(area, "pk", area) for area in secondary_areas]
+        if practice_area_primary_id and practice_area_secondary:
+            practice_area_secondary_ids = [
+                getattr(practice_area, "pk", practice_area)
+                for practice_area in practice_area_secondary
+            ]
 
-            if primary_id in secondary_ids:
+            if practice_area_primary_id in practice_area_secondary_ids:
                 # Automatically returns a 400 Bad Request to the client
                 raise serializers.ValidationError(
                     {
@@ -174,31 +180,43 @@ class UserSerializer(serializers.ModelSerializer):
         Overrides the default update to persist the practice_area_secondary Xref table.
         Intercepts secondary practice areas and performs a bulk insert on the Xref table.
         """
-        if "practice_area_secondary" in validated_data:
-            practice_area_secondary = validated_data.pop("practice_area_secondary")
 
-            # Delete the existing secondary practice_area records for this user.
-            # This deletes the created_at timestamps along with the UUID.
-            UserPracticeAreaSecondaryXref.objects.filter(user=instance).delete()
+        practice_area_secondary = validated_data.pop("practice_area_secondary", None)
 
-            # Sanitize selected practice_area_secondary choice(s) into a list of integer ID(s).
-            practice_area_secondary_id = [
-                getattr(practice_area, "pk", practice_area)
-                for practice_area in practice_area_secondary
-            ]
+        with transaction.atomic():
+            # Update the User first. If this fails, the entire transaction rolls back.
+            instance = super().update(instance, validated_data)
 
-            # Build Xref records in memory
-            new_xrefs = [
-                UserPracticeAreaSecondaryXref(
-                    user=instance, practice_area_id=practice_area_id
+            # None means the field was omitted from a PATCH.
+            # An empty list means explicitly clear the relationship.
+            if practice_area_secondary is not None:
+                # dict.fromkeys() deduplicates while preserving order
+                # (useful for future frontend rankings).
+                practice_area_secondary_ids = list(
+                    dict.fromkeys(
+                        practice_area.pk for practice_area in practice_area_secondary
+                    )
                 )
-                for practice_area_id in practice_area_secondary_id
-            ]
 
-            if new_xrefs:
-                UserPracticeAreaSecondaryXref.objects.bulk_create(new_xrefs)
+                # Clear existing secondary practice_area records
+                # (this resets their created_at timestamps and UUIDs).
+                UserPracticeAreaSecondaryXref.objects.filter(user=instance).delete()
 
-        return super().update(instance, validated_data)
+                # Recreate
+                if practice_area_secondary_ids:
+                    # ignore_conflicts acts as a final safety net against the model's
+                    # unique_user_practice_area_secondary constraint
+                    UserPracticeAreaSecondaryXref.objects.bulk_create(
+                        [
+                            UserPracticeAreaSecondaryXref(
+                                user=instance, practice_area_id=practice_area_id
+                            )
+                            for practice_area_id in practice_area_secondary_ids
+                        ],
+                        ignore_conflicts=True,
+                    )
+
+        return instance
 
 
 class ProjectSerializer(serializers.ModelSerializer):
