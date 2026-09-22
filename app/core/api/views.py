@@ -45,11 +45,11 @@ from ..models import SOCMajor
 from ..models import SOCMinor
 from ..models import StackElement
 from ..models import StackElementType
-from ..models import UserPracticeAreaTargetIntakeXref
 from ..models import UrlStatusType
 from ..models import UrlType
 from ..models import UserCheck
 from ..models import UserEmploymentHistory
+from ..models import UserPracticeAreaTargetIntakeXref
 from ..models import UserStatusType
 from ..models import Win
 from ..models import WinType
@@ -84,11 +84,11 @@ from .serializers import SOCMajorSerializer
 from .serializers import SOCMinorSerializer
 from .serializers import StackElementSerializer
 from .serializers import StackElementTypeSerializer
-from .serializers import UserPracticeAreaTargetIntakeXrefSerializer
 from .serializers import UrlStatusTypeSerializer
 from .serializers import UrlTypeSerializer
 from .serializers import UserCheckSerializer
 from .serializers import UserEmploymentHistorySerializer
+from .serializers import UserPracticeAreaTargetIntakeXrefSerializer
 from .serializers import UserSerializer
 from .serializers import UserStatusTypeSerializer
 from .serializers import WinSerializer
@@ -630,6 +630,7 @@ class ProjectStackElementXrefViewSet(viewsets.ModelViewSet):
     queryset = ProjectStackElementXref.objects.all()
     serializer_class = ProjectStackElementXrefSerializer
 
+
 @extend_schema_view(
     list=extend_schema(
         description="Return a list of user target practice area intake relationships"
@@ -654,6 +655,7 @@ class UserPracticeAreaTargetIntakeXrefViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = UserPracticeAreaTargetIntakeXref.objects.all()
     serializer_class = UserPracticeAreaTargetIntakeXrefSerializer
+
 
 @extend_schema_view(
     list=extend_schema(description="Return a list of all the url status types"),

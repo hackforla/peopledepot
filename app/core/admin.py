@@ -36,12 +36,12 @@ from .models import SOCMajor
 from .models import SOCMinor
 from .models import StackElement
 from .models import StackElementType
-from .models import UserPracticeAreaTargetIntakeXref
 from .models import UrlStatusType
 from .models import UrlType
 from .models import User
 from .models import UserCheck
 from .models import UserEmploymentHistory
+from .models import UserPracticeAreaTargetIntakeXref
 from .models import UserStatusType
 from .models import Win
 from .models import WinType
@@ -444,7 +444,7 @@ class WinTypeAdmin(admin.ModelAdmin):
     list_display = ("name", "display_text")
 
 
-@admin .register(UserPracticeAreaTargetIntakeXref)
+@admin.register(UserPracticeAreaTargetIntakeXref)
 class UserPracticeAreaTargetIntakeXrefAdmin(admin.ModelAdmin):
     list_display = (
         "user",

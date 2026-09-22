@@ -16,10 +16,10 @@ from core.models import ProjectUrl
 from core.models import SDGTargetIndicator
 from core.models import SOCBroad
 from core.models import SOCDetailed
-from core.models import UserPracticeAreaTargetIntakeXref
 from core.models import UrlStatusType
 from core.models import UserCheck
 from core.models import UserEmploymentHistory
+from core.models import UserPracticeAreaTargetIntakeXref
 from core.models import WinType
 
 pytestmark = pytest.mark.django_db
@@ -1407,8 +1407,15 @@ def test_prevent_duplicate_win_type_name(auth_client):
     assert any("unique" in str(err).lower() for err in res.data.values())
 
 
-def test_create_user_practice_area_target_intake(auth_client, user, practice_area,):
-    payload = {"user": user.pk,"practice_area": practice_area.pk,}
+def test_create_user_practice_area_target_intake(
+    auth_client,
+    user,
+    practice_area,
+):
+    payload = {
+        "user": user.pk,
+        "practice_area": practice_area.pk,
+    }
     res = auth_client.post(USER_PRACTICE_AREA_TARGET_INTAKES_URL, payload)
 
     assert res.status_code == status.HTTP_201_CREATED
@@ -1416,8 +1423,15 @@ def test_create_user_practice_area_target_intake(auth_client, user, practice_are
     assert res.data["practice_area"] == practice_area.pk
 
 
-def test_list_user_practice_area_target_intakes(auth_client, user, practice_area,):
-    UserPracticeAreaTargetIntakeXref.objects.create(user=user, practice_area=practice_area,)
+def test_list_user_practice_area_target_intakes(
+    auth_client,
+    user,
+    practice_area,
+):
+    UserPracticeAreaTargetIntakeXref.objects.create(
+        user=user,
+        practice_area=practice_area,
+    )
     res = auth_client.get(USER_PRACTICE_AREA_TARGET_INTAKES_URL)
 
     assert res.status_code == status.HTTP_200_OK

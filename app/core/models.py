@@ -107,7 +107,7 @@ class User(PermissionsMixin, AbstractBaseUser, AbstractBaseModel):
         "PracticeArea",
         through="UserPracticeAreaTargetIntakeXref",
         related_name="target_intake_users",
-        blank=True
+        blank=True,
     )
 
     intake_present_job_title = models.CharField(max_length=255, blank=True)
@@ -375,11 +375,13 @@ class PracticeArea(AbstractBaseModel):
     def __str__(self):
         return f"{self.name}"
 
+
 class UserPracticeAreaTargetIntakeXref(AbstractBaseModel):
     """
     Cross-reference table associating users with their target practice
     areas collected during intake.
     """
+
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     practice_area = models.ForeignKey(PracticeArea, on_delete=models.CASCADE)
 
@@ -390,6 +392,7 @@ class UserPracticeAreaTargetIntakeXref(AbstractBaseModel):
                 name="unique_user_practice_area_target_intake",
             )
         ]
+
 
 class ProgramArea(AbstractBaseModel):
     """

@@ -32,12 +32,12 @@ from core.models import SOCMajor
 from core.models import SOCMinor
 from core.models import StackElement
 from core.models import StackElementType
-from core.models import UserPracticeAreaTargetIntakeXref
 from core.models import UrlStatusType
 from core.models import UrlType
 from core.models import User
 from core.models import UserCheck
 from core.models import UserEmploymentHistory
+from core.models import UserPracticeAreaTargetIntakeXref
 from core.models import UserStatusType
 from core.models import Win
 from core.models import WinType

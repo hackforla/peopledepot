@@ -32,11 +32,11 @@ from .views import SOCMajorViewSet
 from .views import SOCMinorViewSet
 from .views import StackElementTypeViewSet
 from .views import StackElementViewSet
-from .views import UserPracticeAreaTargetIntakeXrefViewSet
 from .views import UrlStatusTypeViewSet
 from .views import UrlTypeViewSet
 from .views import UserCheckViewSet
 from .views import UserEmploymentHistoryViewSet
+from .views import UserPracticeAreaTargetIntakeXrefViewSet
 from .views import UserProfileAPIView
 from .views import UserStatusTypeViewSet
 from .views import UserViewSet

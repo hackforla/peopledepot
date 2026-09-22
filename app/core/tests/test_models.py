@@ -19,10 +19,10 @@ from ..models import ReferrerType
 from ..models import Sdg
 from ..models import SDGTargetIndicator
 from ..models import SOCDetailed
-from ..models import UserPracticeAreaTargetIntakeXref
 from ..models import User
 from ..models import UserCheck
 from ..models import UserEmploymentHistory
+from ..models import UserPracticeAreaTargetIntakeXref
 from ..models import UserStatusType
 
 pytestmark = pytest.mark.django_db
@@ -116,6 +116,7 @@ def test_user_practice_area_target_intake_unique(user, practice_area):
             user=user,
             practice_area=practice_area,
         )
+
 
 def test_affiliate(affiliate):
     assert str(affiliate) == "Test Affiliate"
