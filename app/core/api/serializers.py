@@ -32,6 +32,7 @@ from core.models import SOCMajor
 from core.models import SOCMinor
 from core.models import StackElement
 from core.models import StackElementType
+from core.models import UserPracticeAreaTargetIntakeXref
 from core.models import UrlStatusType
 from core.models import UrlType
 from core.models import User
@@ -703,4 +704,17 @@ class WinTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = WinType
         fields = ("uuid", "name", "display_text", "created_at", "updated_at")
+        read_only_fields = ("uuid", "created_at", "updated_at")
+
+
+class UserPracticeAreaTargetIntakeXrefSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserPracticeAreaTargetIntakeXref
+        fields = (
+            "uuid",
+            "user",
+            "practice_area",
+            "created_at",
+            "updated_at",
+        )
         read_only_fields = ("uuid", "created_at", "updated_at")
