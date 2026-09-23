@@ -47,7 +47,7 @@ jsonschema==4.23.0
     # via drf-spectacular
 jsonschema-specifications==2024.10.1
     # via jsonschema
-markdown==3.7
+markdown==3.8.1
     # via -r requirements.in
 packaging==24.2
     # via pytest
