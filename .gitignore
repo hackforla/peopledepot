@@ -4,15 +4,18 @@
 
 temp/
 .DS_Store
+.notes/
 
 ### django ###
 *.sqlite3
 app/.coverage
 app/htmlcov
+app/staticfiles
 
 ### dotenv ###
 .env.dev
 .env.docker
+.env.docker-aws
 .env.local
 .env.test
 .env
