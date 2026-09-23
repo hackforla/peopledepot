@@ -1,3 +1,4 @@
+from django.db import transaction
 from rest_framework import serializers
 from timezone_field.rest_framework import TimeZoneSerializerField
 
@@ -37,6 +38,7 @@ from core.models import UrlType
 from core.models import User
 from core.models import UserCheck
 from core.models import UserEmploymentHistory
+from core.models import UserPracticeAreaSecondaryXref
 from core.models import UserStatusType
 from core.models import Win
 from core.models import WinType
@@ -92,6 +94,10 @@ class UserSerializer(serializers.ModelSerializer):
 
     time_zone = TimeZoneSerializerField(use_pytz=False)
 
+    practice_area_secondary = serializers.PrimaryKeyRelatedField(
+        many=True, queryset=PracticeArea.objects.all(), required=False
+    )
+
     class Meta:
         model = User
         fields = (
@@ -132,6 +138,85 @@ class UserSerializer(serializers.ModelSerializer):
             "username",
             "email",
         )
+
+    def validate(self, attrs):
+        """
+        Performs cross-field validation on the payload.
+
+        Prevents primary/secondary practice area conflicts by explicitly raising
+        a ValidationError if the primary area is found in the secondary areas list.
+        """
+
+        # Get the primary ID from the incoming data or the existing instance
+        practice_area_primary = attrs.get(
+            "practice_area_primary",
+            getattr(self.instance, "practice_area_primary", None),
+        )
+        practice_area_primary_id = getattr(
+            practice_area_primary, "pk", practice_area_primary
+        )
+
+        # Get the secondary areas only if they are being updated
+        practice_area_secondary = attrs.get("practice_area_secondary")
+
+        if practice_area_primary_id and practice_area_secondary:
+            practice_area_secondary_ids = [
+                getattr(practice_area, "pk", practice_area)
+                for practice_area in practice_area_secondary
+            ]
+
+            if practice_area_primary_id in practice_area_secondary_ids:
+                # Automatically returns a 400 Bad Request to the client
+                raise serializers.ValidationError(
+                    {
+                        "practice_area_secondary": "A secondary practice area cannot be "
+                        "the same as the primary practice area."
+                    }
+                )
+        return attrs
+
+    def update(self, instance, validated_data):
+        """
+        Overrides the default update to persist the practice_area_secondary Xref table.
+        Intercepts secondary practice areas and performs a bulk insert on the Xref table.
+        """
+
+        practice_area_secondary = validated_data.pop("practice_area_secondary", None)
+
+        with transaction.atomic():
+            # Update the User first. If this fails, the entire transaction rolls back.
+            instance = super().update(instance, validated_data)
+
+            # None means the field was omitted from a PATCH.
+            # An empty list means explicitly clear the relationship.
+            if practice_area_secondary is not None:
+                # dict.fromkeys() deduplicates while preserving order
+                # (useful for future frontend rankings).
+                practice_area_secondary_ids = list(
+                    dict.fromkeys(
+                        practice_area.pk for practice_area in practice_area_secondary
+                    )
+                )
+
+                # Clear existing secondary practice_area records
+                # (this resets their created_at timestamps and UUIDs).
+                UserPracticeAreaSecondaryXref.objects.filter(user=instance).delete()
+
+                # Recreate
+                if practice_area_secondary_ids:
+                    # ignore_conflicts acts as a final safety net against the model's
+                    # unique_user_practice_area_secondary constraint
+                    UserPracticeAreaSecondaryXref.objects.bulk_create(
+                        [
+                            UserPracticeAreaSecondaryXref(
+                                user=instance, practice_area_id=practice_area_id
+                            )
+                            for practice_area_id in practice_area_secondary_ids
+                        ],
+                        ignore_conflicts=True,
+                    )
+
+        return instance
 
 
 class ProjectSerializer(serializers.ModelSerializer):
