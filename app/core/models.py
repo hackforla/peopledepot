@@ -271,6 +271,43 @@ class Event(AbstractBaseModel):
         )
 
 
+class EventOccurrenceChange(AbstractBaseModel):
+    """
+    A change to a specific instance of a repeating event
+    """
+
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    start_time = models.DateTimeField(null=True)
+    name_change = models.CharField(null=True)
+    description_change = models.CharField(null=True)
+    start_time_change = models.DateTimeField(null=True)
+    duration_in_min_change = models.IntegerField(null=True)
+    video_conference_url_change = models.URLField(null=True)
+    location_change = models.ForeignKey(
+        "Location", on_delete=models.DO_NOTHING, null=True
+    )
+    additional_info_change = models.TextField(null=True)
+    must_attend_change = models.JSONField(default=list)
+    should_attend_change = models.JSONField(default=list)
+    could_attend_change = models.JSONField(default=list)
+
+    def __str__(self):
+        return (
+            f"Event: {self.event.name}, "
+            f"Start Time: {self.start_time}, "
+            f"Name Change: {self.name_change}, "
+            f"Description Change: {self.description_change}, "
+            f"Start Time Change: {self.start_time_change}, "
+            f"Duration in Min Change: {self.duration_in_min_change}, "
+            f"Video Conference URL Change: {self.video_conference_url_change}, "
+            f"Location Change: {self.location_change}, "
+            f"Additional Info Change: {self.additional_info_change}, "
+            f"Must Attend Change: {self.must_attend_change}, "
+            f"Should Attend Change: {self.should_attend_change}, "
+            f"Could Attend Change: {self.could_attend_change}"
+        )
+
+
 class Affiliate(AbstractBaseModel):
     """
     Dictionary of sponsors and partners

@@ -4,9 +4,11 @@ import pytest
 from django.urls import reverse
 from rest_framework import status
 
+from core.api.serializers import EventOccurrenceChangeSerializer
 from core.api.serializers import ProgramAreaSerializer
 from core.api.serializers import UserEmploymentHistorySerializer
 from core.api.serializers import UserSerializer
+from core.models import EventOccurrenceChange
 from core.models import ModernJobTitle
 from core.models import Organization
 from core.models import Permission
@@ -30,6 +32,7 @@ USER_STATUS_TYPES_URL = reverse("user-status-type-list")
 USERS_URL = reverse("user-list")
 EVENTS_URL = reverse("event-list")
 EVENT_TYPES_URL = reverse("event-type-list")
+EVENT_OCCURRENCE_CHANGES_URL = reverse("event-occurrence-change-list")
 PRACTICE_AREA_URL = reverse("practice-area-list")
 FAQS_URL = reverse("faq-list")
 FAQS_VIEWED_URL = reverse("faq-viewed-list")
@@ -257,6 +260,59 @@ def test_create_event_type(auth_client):
     res = auth_client.post(EVENT_TYPES_URL, payload)
     assert res.status_code == status.HTTP_201_CREATED
     assert res.data["name"] == payload["name"]
+
+
+def test_create_event_occurrence_change(auth_client, event_pm):
+    """Test creating an event occurrence change"""
+    payload = {
+        "event": event_pm.pk,
+        "start_time": "2026-01-01T18:00:00Z",
+        "name_change": "Updated Event Name",
+        "description_change": "Updated Description",
+        "duration_in_min_change": 90,
+        "video_conference_url_change": "https://zoom.com/newlink",
+        "additional_info_change": "Updated additional info",
+    }
+    res = auth_client.post(EVENT_OCCURRENCE_CHANGES_URL, payload)
+    assert res.status_code == status.HTTP_201_CREATED
+    assert res.data["name_change"] == payload["name_change"]
+    assert res.data["start_time"] == payload["start_time"]
+    assert str(res.data["event"]) == str(event_pm.pk)
+
+
+def test_list_event_occurrence_change(auth_client, event_pm):
+    """Test listing event occurrence changes"""
+    payload = {
+        "event": event_pm.pk,
+        "start_time": "2026-01-01T18:00:00Z",
+        "name_change": "Changed Name",
+    }
+    auth_client.post(EVENT_OCCURRENCE_CHANGES_URL, payload)
+
+    res = auth_client.get(EVENT_OCCURRENCE_CHANGES_URL)
+
+    occurrence_changes = EventOccurrenceChange.objects.all()
+    expected_data = EventOccurrenceChangeSerializer(occurrence_changes, many=True).data
+
+    assert res.status_code == status.HTTP_200_OK
+    assert res.data == expected_data
+
+
+def test_retrieve_event_occurrence_change(auth_client, event_pm):
+    """Test retrieving details of an event occurrence change"""
+    payload = {
+        "event": event_pm.pk,
+        "start_time": "2026-01-01T20:00:00Z",
+        "name_change": "Detail Test Name",
+    }
+    create_res = auth_client.post(EVENT_OCCURRENCE_CHANGES_URL, payload)
+    occurrence_change_id = create_res.data["uuid"]
+
+    url = reverse("event-occurrence-change-detail", args=[occurrence_change_id])
+    res = auth_client.get(url)
+
+    assert res.status_code == status.HTTP_200_OK
+    assert res.data["name_change"] == payload["name_change"]
 
 
 def test_create_affiliate(auth_client):

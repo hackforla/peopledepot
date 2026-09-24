@@ -6,6 +6,7 @@ from core.models import Affiliate
 from core.models import Affiliation
 from core.models import CheckType
 from core.models import Event
+from core.models import EventOccurrenceChange
 from core.models import EventType
 from core.models import Faq
 from core.models import FaqViewed
@@ -188,6 +189,31 @@ class EventSerializer(serializers.ModelSerializer):
             "updated_at",
         )
 
+class EventOccurrenceChangeSerializer(serializers.ModelSerializer):
+    """Used to retrieve event_occurrence_change info"""
+
+    class Meta:
+        model = EventOccurrenceChange
+        fields = (
+            "uuid",
+            "event",
+            "start_time",
+            "name_change",
+            "description_change",
+            "start_time_change",
+            "duration_in_min_change",
+            "video_conference_url_change",
+            "location_change",
+            "additional_info_change",
+            "must_attend_change",
+            "should_attend_change",
+            "could_attend_change",
+        )
+        read_only_fields = (
+            "uuid",
+            "created_at",
+            "updated_at",
+        )
 
 class EventTypeSerializer(serializers.ModelSerializer):
     """Used to retrieve event_type info"""
