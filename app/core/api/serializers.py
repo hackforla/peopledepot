@@ -189,6 +189,7 @@ class EventSerializer(serializers.ModelSerializer):
             "updated_at",
         )
 
+
 class EventOccurrenceChangeSerializer(serializers.ModelSerializer):
     """Used to retrieve event_occurrence_change info"""
 
@@ -214,6 +215,7 @@ class EventOccurrenceChangeSerializer(serializers.ModelSerializer):
             "created_at",
             "updated_at",
         )
+
 
 class EventTypeSerializer(serializers.ModelSerializer):
     """Used to retrieve event_type info"""
