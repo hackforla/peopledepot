@@ -36,6 +36,7 @@ from .views import UrlStatusTypeViewSet
 from .views import UrlTypeViewSet
 from .views import UserCheckViewSet
 from .views import UserEmploymentHistoryViewSet
+from .views import UserPracticeAreaTargetIntakeXrefViewSet
 from .views import UserProfileAPIView
 from .views import UserStatusTypeViewSet
 from .views import UserViewSet
@@ -108,5 +109,10 @@ router.register(r"win-types", WinTypeViewSet, basename="win-type")
 urlpatterns = [
     path("me/", UserProfileAPIView.as_view(), name="my_profile"),
 ]
+router.register(
+    r"user-practice-area-target-intakes",
+    UserPracticeAreaTargetIntakeXrefViewSet,
+    basename="user-practice-area-target-intake",
+)
 
 urlpatterns += router.urls

@@ -41,6 +41,7 @@ from .models import UrlType
 from .models import User
 from .models import UserCheck
 from .models import UserEmploymentHistory
+from .models import UserPracticeAreaTargetIntakeXref
 from .models import UserStatusType
 from .models import Win
 from .models import WinType
@@ -95,7 +96,6 @@ class UserAdmin(DefaultUserAdmin):
                     "time_zone",
                     "practice_area_primary",
                     "practice_area_secondary",
-                    "practice_area_target_intake",
                     "email_cognito",
                     "user_status_type",
                 )
@@ -442,3 +442,13 @@ class WinAdmin(admin.ModelAdmin):
 @admin.register(WinType)
 class WinTypeAdmin(admin.ModelAdmin):
     list_display = ("name", "display_text")
+
+
+@admin.register(UserPracticeAreaTargetIntakeXref)
+class UserPracticeAreaTargetIntakeXrefAdmin(admin.ModelAdmin):
+    list_display = (
+        "user",
+        "practice_area",
+        "created_at",
+        "updated_at",
+    )
