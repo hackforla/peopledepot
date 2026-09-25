@@ -277,7 +277,7 @@ class EventOccurrenceChange(AbstractBaseModel):
     """
 
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
-    start_time = models.DateTimeField(null=True)
+    start_time = models.DateTimeField()
     name_change = models.CharField(null=True)
     description_change = models.CharField(null=True)
     start_time_change = models.DateTimeField(null=True)
@@ -287,9 +287,9 @@ class EventOccurrenceChange(AbstractBaseModel):
         "Location", on_delete=models.DO_NOTHING, null=True
     )
     additional_info_change = models.TextField(null=True)
-    must_attend_change = models.JSONField(default=list)
-    should_attend_change = models.JSONField(default=list)
-    could_attend_change = models.JSONField(default=list)
+    must_attend_change = models.JSONField(default=list, null=True)
+    should_attend_change = models.JSONField(default=list, null=True)
+    could_attend_change = models.JSONField(default=list, null=True)
 
     def __str__(self):
         return (
