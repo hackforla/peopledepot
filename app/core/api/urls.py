@@ -5,6 +5,7 @@ from .views import AccomplishmentViewSet
 from .views import AffiliateViewSet
 from .views import AffiliationViewSet
 from .views import CheckTypeViewSet
+from .views import EventOccurrenceChangeViewSet
 from .views import EventTypeViewSet
 from .views import EventViewSet
 from .views import FaqViewedViewSet
@@ -50,6 +51,11 @@ router.register(r"referrer-types", ReferrerTypeViewSet, basename="referrer-type"
 router.register(r"referrers", ReferrerViewSet, basename="referrer")
 router.register(r"events", EventViewSet, basename="event")
 router.register(r"event-types", EventTypeViewSet, basename="event-type")
+router.register(
+    r"event-occurrence-changes",
+    EventOccurrenceChangeViewSet,
+    basename="event-occurrence-change",
+)
 router.register(r"practice-areas", PracticeAreaViewSet, basename="practice-area")
 router.register(r"affiliates", AffiliateViewSet, basename="affiliate")
 router.register(r"faqs", FaqViewSet, basename="faq")
