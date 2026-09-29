@@ -444,7 +444,7 @@ class AffiliationSerializer(serializers.ModelSerializer):
             "affiliate",
             "project",
             "created_at",
-            "ended_at",
+            "ended",
             "is_sponsor",
             "is_partner",
         )
