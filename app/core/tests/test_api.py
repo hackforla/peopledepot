@@ -20,6 +20,7 @@ from core.models import SOCDetailed
 from core.models import UrlStatusType
 from core.models import UserCheck
 from core.models import UserEmploymentHistory
+from core.models import UserIntakeTargetSkillXref
 from core.models import UserPracticeAreaSecondaryXref
 from core.models import WinType
 
@@ -65,6 +66,7 @@ ACCOMPLISHMENT_URL = reverse("accomplishment-list")
 ORGANIZATIONS_URL = reverse("organization-list")
 USER_CHECKS_URL = reverse("user-check-list")
 USER_EMPLOYMENT_HISTORIES_URL = reverse("user-employment-history-list")
+USER_INTAKE_TARGET_SKILLS_URL = reverse("user-intake-target-skill-list")
 WIN_URL = reverse("win-list")
 WIN_TYPES_URL = reverse("win-type-list")
 
@@ -1228,6 +1230,57 @@ def test_project_stack_element_workflow(auth_client):
     assert len(res_list.data) == 1
     assert res_list.data[0]["project"] == project_uuid
     assert res_list.data[0]["stack_element"] == stack_element_uuid
+
+
+def test_create_user_intake_target_skill(auth_client, user, skill):
+    payload = {
+        "user": str(user.uuid),
+        "skill": str(skill.uuid),
+    }
+
+    res = auth_client.post(USER_INTAKE_TARGET_SKILLS_URL, payload)
+
+    assert res.status_code == status.HTTP_201_CREATED
+    assert UUID(str(res.data["user"])) == user.uuid
+    assert UUID(str(res.data["skill"])) == skill.uuid
+    assert res.data["skill_name"] == skill.name
+
+
+def test_list_user_intake_target_skills(auth_client, user_intake_target_skill_xref):
+    res = auth_client.get(USER_INTAKE_TARGET_SKILLS_URL)
+
+    assert res.status_code == status.HTTP_200_OK
+    assert len(res.data) == 1
+    assert UUID(str(res.data[0]["user"])) == user_intake_target_skill_xref.user.uuid
+    assert UUID(str(res.data[0]["skill"])) == user_intake_target_skill_xref.skill.uuid
+
+
+def test_retrieve_user_intake_target_skill(auth_client, user_intake_target_skill_xref):
+    url = reverse(
+        "user-intake-target-skill-detail",
+        args=[user_intake_target_skill_xref.uuid],
+    )
+
+    res = auth_client.get(url)
+
+    assert res.status_code == status.HTTP_200_OK
+    assert UUID(str(res.data["uuid"])) == user_intake_target_skill_xref.uuid
+    assert UUID(str(res.data["user"])) == user_intake_target_skill_xref.user.uuid
+    assert UUID(str(res.data["skill"])) == user_intake_target_skill_xref.skill.uuid
+
+
+def test_delete_user_intake_target_skill(auth_client, user_intake_target_skill_xref):
+    url = reverse(
+        "user-intake-target-skill-detail",
+        args=[user_intake_target_skill_xref.uuid],
+    )
+
+    res = auth_client.delete(url)
+
+    assert res.status_code == status.HTTP_204_NO_CONTENT
+    assert not UserIntakeTargetSkillXref.objects.filter(
+        uuid=user_intake_target_skill_xref.uuid
+    ).exists()
 
 
 def test_create_url_status_type(auth_client):
