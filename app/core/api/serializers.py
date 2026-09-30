@@ -37,6 +37,7 @@ from core.models import UrlType
 from core.models import User
 from core.models import UserCheck
 from core.models import UserEmploymentHistory
+from core.models import UserIntakeTargetSkillXref
 from core.models import UserStatusType
 from core.models import Win
 from core.models import WinType
@@ -592,6 +593,22 @@ class ProjectStackElementXrefSerializer(serializers.ModelSerializer):
             "project_name",
             "stack_element",
             "stack_element_name",
+            "created_at",
+            "updated_at",
+        )
+        read_only_fields = ("uuid", "created_at", "updated_at")
+
+
+class UserIntakeTargetSkillXrefSerializer(serializers.ModelSerializer):
+    skill_name = serializers.CharField(source="skill.name", read_only=True)
+
+    class Meta:
+        model = UserIntakeTargetSkillXref
+        fields = (
+            "uuid",
+            "user",
+            "skill",
+            "skill_name",
             "created_at",
             "updated_at",
         )

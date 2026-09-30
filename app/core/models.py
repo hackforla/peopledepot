@@ -398,6 +398,15 @@ class Skill(AbstractBaseModel):
         return f"{self.name}"
 
 
+class UserIntakeTargetSkillXref(AbstractBaseModel):
+    """
+    Cross-reference table associating users with their intake target skills.
+    """
+
+    user = models.ForeignKey(User, on_delete=models.PROTECT)
+    skill = models.ForeignKey(Skill, on_delete=models.PROTECT)
+
+
 class PermissionType(AbstractBaseModel):
     """
     Permission Type
