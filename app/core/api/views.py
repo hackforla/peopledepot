@@ -49,6 +49,7 @@ from ..models import UrlStatusType
 from ..models import UrlType
 from ..models import UserCheck
 from ..models import UserEmploymentHistory
+from ..models import UserIntakeTargetSkillXref
 from ..models import UserStatusType
 from ..models import Win
 from ..models import WinType
@@ -87,6 +88,7 @@ from .serializers import UrlStatusTypeSerializer
 from .serializers import UrlTypeSerializer
 from .serializers import UserCheckSerializer
 from .serializers import UserEmploymentHistorySerializer
+from .serializers import UserIntakeTargetSkillXrefSerializer
 from .serializers import UserSerializer
 from .serializers import UserStatusTypeSerializer
 from .serializers import WinSerializer
@@ -627,6 +629,32 @@ class ProjectStackElementXrefViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = ProjectStackElementXref.objects.all()
     serializer_class = ProjectStackElementXrefSerializer
+
+
+@extend_schema_view(
+    list=extend_schema(
+        description="Return a list of all user intake target skill relationships"
+    ),
+    create=extend_schema(
+        description="Create a new user intake target skill relationship"
+    ),
+    retrieve=extend_schema(
+        description="Return the details of a user intake target skill relationship"
+    ),
+    destroy=extend_schema(
+        description="Delete a user intake target skill relationship"
+    ),
+    update=extend_schema(
+        description="Update a user intake target skill relationship"
+    ),
+    partial_update=extend_schema(
+        description="Patch a user intake target skill relationship"
+    ),
+)
+class UserIntakeTargetSkillXrefViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = UserIntakeTargetSkillXref.objects.all()
+    serializer_class = UserIntakeTargetSkillXrefSerializer
 
 
 @extend_schema_view(

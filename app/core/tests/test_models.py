@@ -23,6 +23,7 @@ from ..models import SOCDetailed
 from ..models import User
 from ..models import UserCheck
 from ..models import UserEmploymentHistory
+from ..models import UserIntakeTargetSkillXref
 from ..models import UserPracticeAreaSecondaryXref
 from ..models import UserStatusType
 
@@ -660,6 +661,17 @@ def test_project_url(project_url):
     assert project_url.url == "https://test.com"
 
     assert str(project_url) == "This is a test project url"
+
+
+def test_user_intake_target_skill_relationship(user, skill):
+    """
+    Verify that a User can be linked to a Skill via UserIntakeTargetSkillXref.
+    """
+    xref = UserIntakeTargetSkillXref.objects.create(user=user, skill=skill)
+
+    assert xref.user == user
+    assert xref.skill == skill
+    assert xref.created_at is not None
 
 
 def test_project_stack_element_relationship(project, stack_element):

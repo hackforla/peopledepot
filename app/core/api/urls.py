@@ -36,6 +36,7 @@ from .views import UrlStatusTypeViewSet
 from .views import UrlTypeViewSet
 from .views import UserCheckViewSet
 from .views import UserEmploymentHistoryViewSet
+from .views import UserIntakeTargetSkillXrefViewSet
 from .views import UserProfileAPIView
 from .views import UserStatusTypeViewSet
 from .views import UserViewSet
@@ -101,6 +102,11 @@ router.register(
     r"user-employment-histories",
     UserEmploymentHistoryViewSet,
     basename="user-employment-history",
+)
+router.register(
+    r"user-intake-target-skills",
+    UserIntakeTargetSkillXrefViewSet,
+    basename="user-intake-target-skill",
 )
 router.register(r"wins", WinViewSet, basename="win")
 router.register(r"win-types", WinTypeViewSet, basename="win-type")
