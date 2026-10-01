@@ -19,6 +19,7 @@ from ..models import Affiliate
 from ..models import Affiliation
 from ..models import CheckType
 from ..models import Event
+from ..models import EventOccurrenceChange
 from ..models import EventType
 from ..models import Faq
 from ..models import FaqViewed
@@ -56,6 +57,7 @@ from .serializers import AccomplishmentSerializer
 from .serializers import AffiliateSerializer
 from .serializers import AffiliationSerializer
 from .serializers import CheckTypeSerializer
+from .serializers import EventOccurrenceChangeSerializer
 from .serializers import EventSerializer
 from .serializers import EventTypeSerializer
 from .serializers import FaqSerializer
@@ -194,6 +196,22 @@ class EventViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = Event.objects.all()
     serializer_class = EventSerializer
+
+
+@extend_schema_view(
+    list=extend_schema(description="Return a list of all the event occurrence changes"),
+    create=extend_schema(description="Create a new event occurrence change"),
+    retrieve=extend_schema(
+        description="Return the details of an event occurrence change"
+    ),
+    destroy=extend_schema(description="Delete an event occurrence change"),
+    update=extend_schema(description="Update an event occurrence change"),
+    partial_update=extend_schema(description="Patch an event occurrence change"),
+)
+class EventOccurrenceChangeViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = EventOccurrenceChange.objects.all()
+    serializer_class = EventOccurrenceChangeSerializer
 
 
 @extend_schema_view(
