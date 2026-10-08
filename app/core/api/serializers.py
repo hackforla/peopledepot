@@ -227,17 +227,27 @@ class AffiliateSerializer(serializers.ModelSerializer):
         )
 
 
+class PermissionTypeSerializer(serializers.ModelSerializer):
+    """
+    Used to retrieve each permission_type info
+    """
+
+    class Meta:
+        model = PermissionType
+        fields = ("uuid", "name", "description")
+        read_only_fields = (
+            "uuid",
+            "created_at",
+            "updated_at",
+        )
+
+
 class FaqSerializer(serializers.ModelSerializer):
     """Used to retrieve faq info"""
 
     class Meta:
         model = Faq
-        fields = (
-            "uuid",
-            "question",
-            "answer",
-            "tool_tip_name",
-        )
+        fields = ("uuid", "question", "answer", "title", "permission_type", "project")
         read_only_fields = ("uuid", "created_on", "last_updated")
 
 
@@ -355,21 +365,6 @@ class StackElementSerializer(serializers.ModelSerializer):
             "active",
             "stack_element_type",
         )
-        read_only_fields = (
-            "uuid",
-            "created_at",
-            "updated_at",
-        )
-
-
-class PermissionTypeSerializer(serializers.ModelSerializer):
-    """
-    Used to retrieve each permission_type info
-    """
-
-    class Meta:
-        model = PermissionType
-        fields = ("uuid", "name", "description")
         read_only_fields = (
             "uuid",
             "created_at",

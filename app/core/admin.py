@@ -189,11 +189,7 @@ class AffiliateAdmin(admin.ModelAdmin):
 
 @admin.register(Faq)
 class Faq(admin.ModelAdmin):
-    list_display = (
-        "question",
-        "answer",
-        "tool_tip_name",
-    )
+    list_display = ("question", "answer", "title", "permission_type", "project")
 
 
 @admin.register(FaqViewed)

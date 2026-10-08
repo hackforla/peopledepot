@@ -289,11 +289,52 @@ class Affiliate(AbstractBaseModel):
         return f"{self.name}"
 
 
+class PermissionType(AbstractBaseModel):
+    """
+    Permission Type
+    """
+
+    name = models.CharField(max_length=255, unique=True)
+    description = models.TextField(blank=True)
+    rank = models.IntegerField(unique=True, default=0)
+
+    def __str__(self):
+        if self.description and isinstance(self.description, str):
+            return f"{self.name}: {self.description}"
+        else:
+            return f"{self.name}"
+
+
 class Faq(AbstractBaseModel):
     question = models.CharField(max_length=255, unique=True)
     answer = models.CharField(max_length=255, blank=True)
-    tool_tip_name = models.CharField(max_length=255, blank=True)
-
+    title = models.CharField(max_length=255, blank=True)
+    default_permission_type_int_admin_brigade = 3
+    permission_type = models.ForeignKey(
+        PermissionType,
+        default=default_permission_type_int_admin_brigade,
+        on_delete=models.PROTECT,
+    )
+    project = models.ForeignKey(
+        Project, blank=True, null=True, on_delete=models.PROTECT
+    )
+    review_needed = models.BooleanField(default=True)
+    author = models.ForeignKey(
+        User,
+        blank=True,
+        null=True,
+        on_delete=models.PROTECT,
+        related_name="faq_author",
+        help_text="user who created entry",
+    )
+    reviewer = models.ForeignKey(
+        User,
+        blank=True,
+        null=True,
+        on_delete=models.PROTECT,
+        related_name="faq_reviewer",
+        help_text="user who approved the entry",
+    )
     # PK of this model is the ForeignKey for faq_id
 
     def __str__(self):
@@ -396,22 +437,6 @@ class Skill(AbstractBaseModel):
 
     def __str__(self):
         return f"{self.name}"
-
-
-class PermissionType(AbstractBaseModel):
-    """
-    Permission Type
-    """
-
-    name = models.CharField(max_length=255, unique=True)
-    description = models.TextField(blank=True)
-    rank = models.IntegerField(unique=True, default=0)
-
-    def __str__(self):
-        if self.description and isinstance(self.description, str):
-            return f"{self.name}: {self.description}"
-        else:
-            return f"{self.name}"
 
 
 class Permission(AbstractBaseModel):
