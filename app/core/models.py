@@ -104,7 +104,10 @@ class User(PermissionsMixin, AbstractBaseUser, AbstractBaseModel):
         "PracticeArea", related_name="secondary_users", blank=True
     )
     practice_area_target_intake = models.ManyToManyField(
-        "PracticeArea", related_name="target_intake_users", blank=True
+        "PracticeArea",
+        through="UserPracticeAreaTargetIntakeXref",
+        related_name="target_intake_users",
+        blank=True,
     )
 
     intake_present_job_title = models.CharField(max_length=255, blank=True)
@@ -371,6 +374,24 @@ class PracticeArea(AbstractBaseModel):
 
     def __str__(self):
         return f"{self.name}"
+
+
+class UserPracticeAreaTargetIntakeXref(AbstractBaseModel):
+    """
+    Cross-reference table associating users with their target practice
+    areas collected during intake.
+    """
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    practice_area = models.ForeignKey(PracticeArea, on_delete=models.CASCADE)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["user", "practice_area"],
+                name="unique_user_practice_area_target_intake",
+            )
+        ]
 
 
 class ProgramArea(AbstractBaseModel):

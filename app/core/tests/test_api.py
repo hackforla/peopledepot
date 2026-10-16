@@ -19,6 +19,7 @@ from core.models import SOCDetailed
 from core.models import UrlStatusType
 from core.models import UserCheck
 from core.models import UserEmploymentHistory
+from core.models import UserPracticeAreaTargetIntakeXref
 from core.models import WinType
 
 pytestmark = pytest.mark.django_db
@@ -64,6 +65,7 @@ USER_CHECKS_URL = reverse("user-check-list")
 USER_EMPLOYMENT_HISTORIES_URL = reverse("user-employment-history-list")
 WIN_URL = reverse("win-list")
 WIN_TYPES_URL = reverse("win-type-list")
+USER_PRACTICE_AREA_TARGET_INTAKES_URL = reverse("user-practice-area-target-intake-list")
 
 CREATE_USER_PAYLOAD = {
     "username": "TestUserAPI",
@@ -1403,3 +1405,34 @@ def test_prevent_duplicate_win_type_name(auth_client):
 
     assert res.status_code == status.HTTP_400_BAD_REQUEST
     assert any("unique" in str(err).lower() for err in res.data.values())
+
+
+def test_create_user_practice_area_target_intake(
+    auth_client,
+    user,
+    practice_area,
+):
+    payload = {
+        "user": user.pk,
+        "practice_area": practice_area.pk,
+    }
+    res = auth_client.post(USER_PRACTICE_AREA_TARGET_INTAKES_URL, payload)
+
+    assert res.status_code == status.HTTP_201_CREATED
+    assert res.data["user"] == user.pk
+    assert res.data["practice_area"] == practice_area.pk
+
+
+def test_list_user_practice_area_target_intakes(
+    auth_client,
+    user,
+    practice_area,
+):
+    UserPracticeAreaTargetIntakeXref.objects.create(
+        user=user,
+        practice_area=practice_area,
+    )
+    res = auth_client.get(USER_PRACTICE_AREA_TARGET_INTAKES_URL)
+
+    assert res.status_code == status.HTTP_200_OK
+    assert len(res.data) == 1

@@ -37,6 +37,7 @@ from core.models import UrlType
 from core.models import User
 from core.models import UserCheck
 from core.models import UserEmploymentHistory
+from core.models import UserPracticeAreaTargetIntakeXref
 from core.models import UserStatusType
 from core.models import Win
 from core.models import WinType
@@ -703,4 +704,17 @@ class WinTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = WinType
         fields = ("uuid", "name", "display_text", "created_at", "updated_at")
+        read_only_fields = ("uuid", "created_at", "updated_at")
+
+
+class UserPracticeAreaTargetIntakeXrefSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserPracticeAreaTargetIntakeXref
+        fields = (
+            "uuid",
+            "user",
+            "practice_area",
+            "created_at",
+            "updated_at",
+        )
         read_only_fields = ("uuid", "created_at", "updated_at")

@@ -22,6 +22,7 @@ from ..models import SOCDetailed
 from ..models import User
 from ..models import UserCheck
 from ..models import UserEmploymentHistory
+from ..models import UserPracticeAreaTargetIntakeXref
 from ..models import UserStatusType
 
 pytestmark = pytest.mark.django_db
@@ -90,6 +91,31 @@ def test_practice_area_project_status_relationship(
     practice_area.refresh_from_db()
 
     assert practice_area.project_program_area_status_type == project_status
+
+
+def test_user_practice_area_target_intake_relationship(user, practice_area):
+    xref = UserPracticeAreaTargetIntakeXref.objects.create(
+        user=user,
+        practice_area=practice_area,
+    )
+
+    assert xref.user == user
+    assert xref.practice_area == practice_area
+    assert user.practice_area_target_intake.contains(practice_area)
+    assert practice_area.target_intake_users.contains(user)
+
+
+def test_user_practice_area_target_intake_unique(user, practice_area):
+    UserPracticeAreaTargetIntakeXref.objects.create(
+        user=user,
+        practice_area=practice_area,
+    )
+
+    with pytest.raises(IntegrityError):
+        UserPracticeAreaTargetIntakeXref.objects.create(
+            user=user,
+            practice_area=practice_area,
+        )
 
 
 def test_affiliate(affiliate):
