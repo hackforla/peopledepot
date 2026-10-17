@@ -8,7 +8,7 @@ cffi==2.0.0
     # via cryptography
 cryptography==48.0.1
     # via pyjwt
-django==4.2.30
+django==5.2.17
     # via
     #   -r requirements-aws.in
     #   django-extensions
@@ -19,20 +19,20 @@ django==4.2.30
     #   drf-spectacular
 django-extensions==4.1
     # via -r requirements-aws.in
-django-phonenumber-field==8.4.0
+django-phonenumber-field[phonenumbers]==8.5.0
     # via -r requirements-aws.in
 django-timezone-field==7.2.2
     # via -r requirements-aws.in
-djangorestframework==3.17.1
+djangorestframework==3.18.1
     # via
     #   -r requirements-aws.in
     #   drf-jwt
     #   drf-spectacular
 drf-jwt==1.19.2
     # via -r requirements-aws.in
-drf-spectacular==0.29.0
+drf-spectacular==0.30.0
     # via -r requirements-aws.in
-gunicorn==26.0.0
+gunicorn==26.2.0
     # via -r requirements-aws.in
 inflection==0.5.1
     # via drf-spectacular
@@ -40,16 +40,16 @@ jsonschema==4.26.0
     # via drf-spectacular
 jsonschema-specifications==2025.9.1
     # via jsonschema
-packaging==26.2
-    # via gunicorn
 phonenumbers==9.0.32
     # via django-phonenumber-field
-psycopg2-binary==2.9.12
+psycopg2-binary==2.9.13
     # via -r requirements-aws.in
 pycparser==3.0
     # via cffi
-pyjwt==2.13.0
-    # via drf-jwt
+pyjwt[crypto]==2.13.0
+    # via
+    #   drf-jwt
+    #   pyjwt
 pyyaml==6.0.3
     # via drf-spectacular
 referencing==0.37.0
@@ -62,13 +62,7 @@ rpds-py==0.30.0
     #   referencing
 sqlparse==0.5.5
     # via django
-typing-extensions==4.15.0
-    # via
-    #   asgiref
-    #   cryptography
-    #   pyjwt
-    #   referencing
-tzdata==2026.2
+tzdata==2026.4
     # via -r requirements-aws.in
 uritemplate==4.2.0
     # via drf-spectacular
