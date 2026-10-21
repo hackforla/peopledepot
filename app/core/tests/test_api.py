@@ -1226,26 +1226,16 @@ def test_create_user_intake_target_skill(auth_client, user, skill):
     assert res.data["skill_name"] == skill.name
 
 
-def test_list_user_intake_target_skills(
-    auth_client, user_intake_target_skill_xref
-):
+def test_list_user_intake_target_skills(auth_client, user_intake_target_skill_xref):
     res = auth_client.get(USER_INTAKE_TARGET_SKILLS_URL)
 
     assert res.status_code == status.HTTP_200_OK
     assert len(res.data) == 1
-    assert (
-        UUID(str(res.data[0]["user"]))
-        == user_intake_target_skill_xref.user.uuid
-    )
-    assert (
-        UUID(str(res.data[0]["skill"]))
-        == user_intake_target_skill_xref.skill.uuid
-    )
+    assert UUID(str(res.data[0]["user"])) == user_intake_target_skill_xref.user.uuid
+    assert UUID(str(res.data[0]["skill"])) == user_intake_target_skill_xref.skill.uuid
 
 
-def test_retrieve_user_intake_target_skill(
-    auth_client, user_intake_target_skill_xref
-):
+def test_retrieve_user_intake_target_skill(auth_client, user_intake_target_skill_xref):
     url = reverse(
         "user-intake-target-skill-detail",
         args=[user_intake_target_skill_xref.uuid],
@@ -1259,9 +1249,7 @@ def test_retrieve_user_intake_target_skill(
     assert UUID(str(res.data["skill"])) == user_intake_target_skill_xref.skill.uuid
 
 
-def test_delete_user_intake_target_skill(
-    auth_client, user_intake_target_skill_xref
-):
+def test_delete_user_intake_target_skill(auth_client, user_intake_target_skill_xref):
     url = reverse(
         "user-intake-target-skill-detail",
         args=[user_intake_target_skill_xref.uuid],

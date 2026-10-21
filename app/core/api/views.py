@@ -641,12 +641,8 @@ class ProjectStackElementXrefViewSet(viewsets.ModelViewSet):
     retrieve=extend_schema(
         description="Return the details of a user intake target skill relationship"
     ),
-    destroy=extend_schema(
-        description="Delete a user intake target skill relationship"
-    ),
-    update=extend_schema(
-        description="Update a user intake target skill relationship"
-    ),
+    destroy=extend_schema(description="Delete a user intake target skill relationship"),
+    update=extend_schema(description="Update a user intake target skill relationship"),
     partial_update=extend_schema(
         description="Patch a user intake target skill relationship"
     ),
