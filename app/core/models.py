@@ -206,12 +206,26 @@ class Project(AbstractBaseModel):
     )
     hide = models.BooleanField(default=True)
     # location_id = models.ForeignKey("location", on_delete=models.PROTECT)
-    google_drive = models.ForeignKey(
+    google_drive_main = models.ForeignKey(
         "ProjectUrl",
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
-        related_name="projects_as_drive",
+        related_name="projects_as_drive_main",
+    )
+    google_drive_PII = models.ForeignKey(
+        "ProjectUrl",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="projects_as_drive_pii",
+    )
+    slack = models.ForeignKey(
+        "ProjectUrl",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="projects_as_slack",
     )
     # leads = models.ManyToManyField("lead")
     project_leads = models.ManyToManyField(

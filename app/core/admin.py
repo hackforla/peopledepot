@@ -257,6 +257,9 @@ class ProjectAdmin(admin.ModelAdmin):
         "created_at",
         "updated_at",
         "completed_on",
+        "google_drive_main",
+        "google_drive_PII",
+        "slack",
     )
 
 
