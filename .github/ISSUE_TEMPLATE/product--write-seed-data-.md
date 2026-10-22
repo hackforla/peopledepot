@@ -2,8 +2,10 @@
 name: 'Product: Write Seed Data '
 about: A specific table needs seed data
 title: 'DB: Create seed data for [REPLACE WITH TABLE NAME]'
-labels: 'complexity: small, milestone: missing, p-feature: data, PII: FALSE, role: product, size: 0.25pt, stakeholder: missing'
+labels: 'complexity: small, milestone: missing, p-feature: data, PII: FALSE, role:
+  product, size: 0.25pt, stakeholder: missing'
 assignees: ''
+
 ---
 
 ### Dependencies
