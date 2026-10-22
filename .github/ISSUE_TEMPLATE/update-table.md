@@ -44,7 +44,7 @@ We need to update the [Replace with TABLE NAME] table model to [Replace with REA
 
 - [ ] Update API unit tests
 
-- [ ] generate a schema table description (see resources 1.04), post it in a comment below, and add a link to it in the Update Schema dependency issue
+- [ ] generate a schema table description (see resources 1.04), post it in a comment below.
 
 - [ ] Document the endpoint in ReDocs (see resources 1.05)
 
