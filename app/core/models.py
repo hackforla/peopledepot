@@ -294,10 +294,35 @@ class Affiliate(AbstractBaseModel):
 
 
 class Faq(AbstractBaseModel):
+    title = models.CharField(max_length=255, blank=True)
+    author = models.ForeignKey(
+        User,
+        blank=True,
+        null=True,
+        on_delete=models.PROTECT,
+        related_name="faq_author",
+        help_text="user who created entry",
+    )
+    default_permission_type_int_admin_brigade = 3
+    permission_type = models.ForeignKey(
+        "PermissionType",
+        default=default_permission_type_int_admin_brigade,
+        on_delete=models.PROTECT,
+    )
+    project = models.ForeignKey(
+        Project, blank=True, null=True, on_delete=models.PROTECT
+    )
     question = models.CharField(max_length=255, unique=True)
     answer = models.CharField(max_length=255, blank=True)
-    tool_tip_name = models.CharField(max_length=255, blank=True)
-
+    review_needed = models.BooleanField(default=True)
+    reviewer = models.ForeignKey(
+        User,
+        blank=True,
+        null=True,
+        on_delete=models.PROTECT,
+        related_name="faq_reviewer",
+        help_text="user who approved the entry",
+    )
     # PK of this model is the ForeignKey for faq_id
 
     def __str__(self):

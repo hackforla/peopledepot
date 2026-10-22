@@ -321,7 +321,7 @@ class FaqSerializer(serializers.ModelSerializer):
             "uuid",
             "question",
             "answer",
-            "tool_tip_name",
+            "title",
         )
         read_only_fields = ("uuid", "created_on", "last_updated")
 
