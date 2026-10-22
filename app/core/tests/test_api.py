@@ -559,6 +559,29 @@ def test_project_leadership_type_relationship(auth_client, project_1, leadership
     assert res.data[0]["leadership_type"] == leadership_type.pk
 
 
+def test_project_url_relationships(auth_client, project_1, project_url):
+    project_detail_url = reverse("project-detail", args=[project_1.pk])
+
+    payload = {
+        "google_drive_main": str(project_url.pk),
+        "google_drive_PII": str(project_url.pk),
+        "slack": str(project_url.pk),
+    }
+
+    res = auth_client.patch(project_detail_url, payload, format="json")
+
+    assert res.status_code == status.HTTP_200_OK
+
+    for field, expected_uuid in payload.items():
+        assert str(res.data[field]) == expected_uuid
+
+    project_1.refresh_from_db()
+
+    assert project_1.google_drive_main == project_url
+    assert project_1.google_drive_PII == project_url
+    assert project_1.slack == project_url
+
+
 def test_create_location(auth_client):
     """Test that we can create a location"""
 

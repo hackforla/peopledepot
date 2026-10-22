@@ -51,6 +51,19 @@ def test_project(project):
     assert str(project) == "Test Project"
 
 
+def test_project_url_fields_relationships(project, project_url):
+    project.google_drive_main = project_url
+    project.google_drive_PII = project_url
+    project.slack = project_url
+    project.save()
+
+    project.refresh_from_db()
+
+    assert project.google_drive_main == project_url
+    assert project.google_drive_PII == project_url
+    assert project.slack == project_url
+
+
 def filter_objects_by_name(objects_list, name):
     return [obj for obj in objects_list if getattr(obj, "name", None) == name]
 
