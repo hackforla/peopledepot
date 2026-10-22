@@ -41,6 +41,7 @@ from ..models import UrlType
 from ..models import User
 from ..models import UserCheck
 from ..models import UserEmploymentHistory
+from ..models import UserIntakeTargetSkillXref
 from ..models import UserStatusType
 from ..models import Win
 from ..models import WinType
@@ -446,6 +447,15 @@ def project_stack_element_xref(project, stack_element):
     return ProjectStackElementXref.objects.create(
         project=project, stack_element=stack_element
     )
+
+
+@pytest.fixture
+def user_intake_target_skill_xref(user, skill):
+    """
+    Fixture to create and return a UserIntakeTargetSkillXref record
+    linking a user and a skill.
+    """
+    return UserIntakeTargetSkillXref.objects.create(user=user, skill=skill)
 
 
 @pytest.fixture
