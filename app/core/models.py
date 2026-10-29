@@ -225,8 +225,11 @@ class Project(AbstractBaseModel):
     image_logo = models.URLField(blank=True)
     image_hero = models.URLField(blank=True)
     image_icon = models.URLField(blank=True)
-    sdgs = models.ManyToManyField(
-        "Sdg", related_name="projects", blank=True, through="ProjectSdgXref"
+    sdg_target_indicators = models.ManyToManyField(
+        "SDGTargetIndicator",
+        related_name="projects",
+        blank=True,
+        through="ProjectSDGTargetIndicatorXref",
     )
     program_areas = models.ManyToManyField(
         "ProgramArea",
@@ -669,13 +672,15 @@ class ProjectProgramAreaXref(AbstractBaseModel):
     program_area = models.ForeignKey(ProgramArea, on_delete=models.CASCADE)
 
 
-class ProjectSdgXref(AbstractBaseModel):
+class ProjectSDGTargetIndicatorXref(AbstractBaseModel):
     """
-    Joins an SDG to a project
+    Joins an SDG target indicator to a project
     """
 
-    sdg_id = models.ForeignKey(Sdg, on_delete=models.CASCADE)
-    project_id = models.ForeignKey(Project, on_delete=models.CASCADE)
+    sdg_target_indicator = models.ForeignKey(
+        SDGTargetIndicator, on_delete=models.CASCADE
+    )
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
     ended_on = models.DateField("Ended on", null=True, blank=True)
 
 

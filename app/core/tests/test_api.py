@@ -989,27 +989,35 @@ def test_soc_minor_soc_major_relationship(auth_client, soc_minor, soc_major):
     assert soc_major_exists is True
 
 
-def test_project_sdg_xref(auth_client, project, sdg, sdg1):
+def test_project_sdg_target_indicator_xref(
+    auth_client, project, sdg_target_indicator, sdg1
+):
     def get_object(objects, target_uuid):
         for obj in objects:
             if str(obj["uuid"]) == str(target_uuid):
                 return obj
         return None
 
-    project.sdgs.add(sdg)
-    project.sdgs.add(sdg1)
+    sdg_target_indicator1 = SDGTargetIndicator.objects.create(
+        sdg=sdg1,
+        code="2.1",
+        description_number="Target 2.1",
+        description_text="End hunger",
+    )
+    project.sdg_target_indicators.add(sdg_target_indicator)
+    project.sdg_target_indicators.add(sdg_target_indicator1)
     proj_res = auth_client.get(PROJECTS_URL)
     test_proj = get_object(proj_res.data, project.uuid)
     assert test_proj is not None
-    assert len(test_proj["sdgs"]) == 2
-    assert sdg.name in test_proj["sdgs"]
-    assert sdg1.name in test_proj["sdgs"]
+    assert len(test_proj["sdg_target_indicators"]) == 2
+    assert str(sdg_target_indicator) in test_proj["sdg_target_indicators"]
+    assert str(sdg_target_indicator1) in test_proj["sdg_target_indicators"]
 
-    sdg_res = auth_client.get(SDGS_URL)
-    test_sdg = get_object(sdg_res.data, sdg.uuid)
-    assert test_sdg is not None
-    assert len(test_sdg["projects"]) == 1
-    assert project.name in test_sdg["projects"]
+    indicator_res = auth_client.get(SDG_TARGET_INDICATOR_URL)
+    test_indicator = get_object(indicator_res.data, sdg_target_indicator.uuid)
+    assert test_indicator is not None
+    assert len(test_indicator["projects"]) == 1
+    assert project.name in test_indicator["projects"]
 
 
 def test_create_url_type(auth_client):

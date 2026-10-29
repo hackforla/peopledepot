@@ -244,7 +244,7 @@ class UserSerializer(serializers.ModelSerializer):
 class ProjectSerializer(serializers.ModelSerializer):
     """Used to retrieve project info"""
 
-    sdgs = serializers.StringRelatedField(many=True)
+    sdg_target_indicators = serializers.StringRelatedField(many=True)
     program_areas = serializers.StringRelatedField(many=True)
 
     class Meta:
@@ -265,7 +265,7 @@ class ProjectSerializer(serializers.ModelSerializer):
             "image_logo",
             "image_hero",
             "image_icon",
-            "sdgs",
+            "sdg_target_indicators",
             "program_areas",
         )
         read_only_fields = (
@@ -506,8 +506,6 @@ class SDGSerializer(serializers.ModelSerializer):
     Used to retrieve SDG
     """
 
-    projects = serializers.StringRelatedField(many=True)
-
     class Meta:
         model = Sdg
         fields = (
@@ -515,7 +513,6 @@ class SDGSerializer(serializers.ModelSerializer):
             "name",
             "description",
             "image",
-            "projects",
         )
         read_only_fields = (
             "uuid",
@@ -525,6 +522,8 @@ class SDGSerializer(serializers.ModelSerializer):
 
 
 class SDGTargetIndicatorSerializer(serializers.ModelSerializer):
+    projects = serializers.StringRelatedField(many=True)
+
     class Meta:
         model = SDGTargetIndicator
         fields = (
@@ -533,6 +532,7 @@ class SDGTargetIndicatorSerializer(serializers.ModelSerializer):
             "code",
             "description_number",
             "description_text",
+            "projects",
             "created_at",
             "updated_at",
         )
