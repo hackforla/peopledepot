@@ -14,11 +14,10 @@ from ..models import PracticeArea
 from ..models import ProgramArea
 from ..models import ProjectProgramAreaStatusType
 from ..models import ProjectProgramAreaXref
-from ..models import ProjectSdgXref
+from ..models import ProjectSDGTargetIndicatorXref
 from ..models import ProjectStackElementXref
 from ..models import ProjectUrl
 from ..models import ReferrerType
-from ..models import Sdg
 from ..models import SDGTargetIndicator
 from ..models import SOCDetailed
 from ..models import User
@@ -433,24 +432,22 @@ def test_project_program_area_relationship(project):
     assert not project.program_areas.contains(workforce_development_program_area)
 
 
-def test_project_sdg_relationship(project):
-    climate_action_sdg = Sdg.objects.get(name="Climate Action")
+def test_project_sdg_target_indicator_relationship(project, sdg_target_indicator):
+    project.sdg_target_indicators.add(sdg_target_indicator)
+    assert project.sdg_target_indicators.count() == 1
+    assert project.sdg_target_indicators.contains(sdg_target_indicator)
+    assert sdg_target_indicator.projects.contains(project)
 
-    project.sdgs.add(climate_action_sdg)
-    assert project.sdgs.count() == 1
-    assert project.sdgs.contains(climate_action_sdg)
-    assert climate_action_sdg.projects.contains(project)
-
-    climate_action_sdg_xref = ProjectSdgXref.objects.get(
-        project_id=project,
-        sdg_id=climate_action_sdg,
+    sdg_target_indicator_xref = ProjectSDGTargetIndicatorXref.objects.get(
+        project=project,
+        sdg_target_indicator=sdg_target_indicator,
     )
-    assert climate_action_sdg_xref.ended_on is None
+    assert sdg_target_indicator_xref.ended_on is None
 
-    project.sdgs.remove(climate_action_sdg)
-    assert project.sdgs.count() == 0
-    assert not project.sdgs.contains(climate_action_sdg)
-    assert not climate_action_sdg.projects.contains(project)
+    project.sdg_target_indicators.remove(sdg_target_indicator)
+    assert project.sdg_target_indicators.count() == 0
+    assert not project.sdg_target_indicators.contains(sdg_target_indicator)
+    assert not sdg_target_indicator.projects.contains(project)
 
 
 def test_project_status(project_status):
