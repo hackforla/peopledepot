@@ -6,6 +6,7 @@ django-timezone-field
 djangorestframework
 drf-jwt
 drf-spectacular
+drf-spectacular[sidecar]
 markdown
 psycopg2-binary
 pytest-cov
