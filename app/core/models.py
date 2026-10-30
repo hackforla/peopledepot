@@ -678,9 +678,9 @@ class ProjectSDGTargetIndicatorXref(AbstractBaseModel):
     """
 
     sdg_target_indicator = models.ForeignKey(
-        SDGTargetIndicator, on_delete=models.CASCADE
+        SDGTargetIndicator, on_delete=models.PROTECT
     )
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, on_delete=models.PROTECT)
     ended_on = models.DateField("Ended on", null=True, blank=True)
 
 
