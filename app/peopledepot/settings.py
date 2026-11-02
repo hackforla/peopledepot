@@ -82,6 +82,7 @@ INSTALLED_APPS = [
     "django_extensions",
     "rest_framework",
     "drf_spectacular",
+    "drf_spectacular_sidecar",
     "phonenumber_field",
     "timezone_field",
     "django_linear_migrations",
@@ -210,4 +211,5 @@ SPECTACULAR_SETTINGS = {
     "DESCRIPTION": "",
     "VERSION": "1.0.0",
     "SERVE_INCLUDE_SCHEMA": False,
+    "REDOC_DIST": "SIDECAR",
 }
