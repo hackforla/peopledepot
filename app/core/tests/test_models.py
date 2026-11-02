@@ -621,22 +621,34 @@ def test_user_practice_area_secondary_xref_clean_unpopulated():
     empty_xref.clean()
 
 
-def test_user_practice_area_secondary_xref_cascades_with_user(user, practice_area):
+def test_user_practice_area_secondary_xref_protects_user(user, practice_area):
     """
-    Verifies that deleting a parent User record triggers a PostgreSQL CASCADE,
-    destroying associated bridge records to prevent orphaned data.
+    Verifies that a User referenced by UserPracticeAreaSecondaryXref cannot
+    be deleted due to on_delete=models.PROTECT.
     """
-    practice_area_2 = PracticeArea.objects.create(name="Practice Area 2")
-
     UserPracticeAreaSecondaryXref.objects.create(user=user, practice_area=practice_area)
-    UserPracticeAreaSecondaryXref.objects.create(
-        user=user, practice_area=practice_area_2
-    )
 
-    assert UserPracticeAreaSecondaryXref.objects.count() == 2
+    with pytest.raises(ProtectedError):
+        user.delete()
 
-    user.delete()
-    assert UserPracticeAreaSecondaryXref.objects.count() == 0
+    assert UserPracticeAreaSecondaryXref.objects.filter(user=user).exists()
+    assert User.objects.filter(pk=user.pk).exists()
+
+
+def test_user_practice_area_secondary_xref_protects_practice_area(user, practice_area):
+    """
+    Verifies that a PracticeArea referenced by UserPracticeAreaSecondaryXref cannot
+    be deleted due to on_delete=models.PROTECT.
+    """
+    UserPracticeAreaSecondaryXref.objects.create(user=user, practice_area=practice_area)
+
+    with pytest.raises(ProtectedError):
+        practice_area.delete()
+
+    assert UserPracticeAreaSecondaryXref.objects.filter(
+        practice_area=practice_area
+    ).exists()
+    assert PracticeArea.objects.filter(pk=practice_area.pk).exists()
 
 
 def test_user_practice_area_secondary_xref_enforces_unique_pairing(user, practice_area):
