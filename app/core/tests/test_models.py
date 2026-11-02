@@ -432,6 +432,19 @@ def test_project_program_area_relationship(project):
     assert not project.program_areas.contains(workforce_development_program_area)
 
 
+def test_protect_project_program_area_deletion_when_linked(project):
+    program_area = ProgramArea.objects.get(name="Workforce Development")
+    project.program_areas.add(program_area)
+
+    with pytest.raises(ProtectedError):
+        project.delete()
+
+    with pytest.raises(ProtectedError):
+        program_area.delete()
+
+    project.program_areas.remove(program_area)
+
+
 def test_project_sdg_target_indicator_relationship(project, sdg_target_indicator):
     project.sdg_target_indicators.add(sdg_target_indicator)
     assert project.sdg_target_indicators.count() == 1
