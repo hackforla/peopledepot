@@ -668,8 +668,8 @@ class SOCMinor(AbstractBaseModel):
 
 
 class ProjectProgramAreaXref(AbstractBaseModel):
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
-    program_area = models.ForeignKey(ProgramArea, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, on_delete=models.PROTECT)
+    program_area = models.ForeignKey(ProgramArea, on_delete=models.PROTECT)
 
 
 class ProjectSDGTargetIndicatorXref(AbstractBaseModel):
