@@ -74,7 +74,7 @@ rpds-py==0.22.1
     # via
     #   jsonschema
     #   referencing
-sqlparse==0.5.2
+sqlparse==0.6.0
     # via django
 tomli==2.5.0
     # via
