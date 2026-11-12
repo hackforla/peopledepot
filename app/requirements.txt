@@ -36,9 +36,9 @@ djangorestframework==3.18.3
     #   drf-spectacular
 drf-jwt==1.19.2
     # via -r requirements.in
-drf-spectacular[sidecar]==0.30.0
-    # via -r requirements.in
 drf-spectacular-sidecar==2026.10.1
+    # via -r requirements.in
+drf-spectacular[sidecar]==0.30.0
     # via drf-spectacular
 execnet==2.1.1
     # via pytest-xdist
