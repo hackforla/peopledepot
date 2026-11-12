@@ -382,8 +382,8 @@ class UserPracticeAreaTargetIntakeXref(AbstractBaseModel):
     areas collected during intake.
     """
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    practice_area = models.ForeignKey(PracticeArea, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.PROTECT)
+    practice_area = models.ForeignKey(PracticeArea, on_delete=models.PROTECT)
 
     class Meta:
         constraints = [
