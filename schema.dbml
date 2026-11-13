@@ -122,6 +122,19 @@ Table FaqViewed {
   read int
 }
 
+Table GithubTeamRepoPermissionType {
+  ~AbstractBaseModel
+  name varchar
+  description varchar
+}
+
+Table GithubTeamRepoPermissionXref {
+  ~AbstractBaseModel
+  github_team uuid [ref: > ProjectGithubTeamXref.id]
+  github_repo varchar
+  github_team_repo_permission_type uuid [ref: > GithubTeamRepoPermissionType.id]
+}
+
 Table Language {
   ~AbstractBaseModel
   name varchar
@@ -223,18 +236,20 @@ Table Project {
   description String
   completed_on date
   github_org int [ref: - ProjectUrl.id, note: 'The unique id assigned to GitHub orgs. A foreign key to a row in ProjectUrl that corresponds to the org repo link']
-  github_primary_repo int [ref: - ProjectUrl.id, note: 'A project might have many repos, this is for the primary starting place for new users. A foreign key to a row in ProjectUrl that corresponds to the primary repo']
+  github_primary_repo_url uuid [ref: - ProjectUrl.id, note: 'A project might have many repos, this is for the primary starting place for new users. A foreign key to a row in ProjectUrl that corresponds to the primary repo']
+  github_primary_repo_id int
   project_status int [ref: > ProjectStatusType.id]
   hide Boolean
   location int [ref: > Location.id]
   google_drive_main int [ref: > ProjectUrl.id, note: 'The unique id of the main google drive, used for adding people with automation. A foreign key to a row in ProjectUrl that corresponds to the google drive.']
   google_drive_pii int [ref: > ProjectUrl.id, note: 'The unique id of the google drive for PII. People are added manually and removed with automation. A foreign key to a row in ProjectUrl that corresponds to the google drive.']
-  slack int [ref: - ProjectUrl.id, note: 'The unique id assigned to slack channel. A foreign key to a row in ProjectUrl that corresponds to the org repo link']
+  slack int [ref: - ProjectUrl.id, note: 'The unique id assigned to slack channel. A foreign key to a row in ProjectUrl that corresponds to the project slack channel']
   project_leads int[] (user_id)
   leadership_type int [ref: > LeadershipType.id]
   image_logo URLField
   image_hero URLField
   image_icon URLField
+  is_cop bool [note: 'TRUE if the project is a community of practice, otherwise FALSE']
 }
 
 Table ProjectAffiliateXref {
@@ -245,6 +260,12 @@ Table ProjectAffiliateXref {
   ended_on DateField
   is_sponsor boolean
   is_partner boolean
+}
+
+Table ProjectGithubTeamXref {
+  ~AbstractBaseModel
+  project uuid [ref: > Project.id]
+  github_team_repo_permission_type uuid [ref: > GithubTeamRepoPermissionType.id]
 }
 
 Table ProjectLanguageXref {
@@ -262,10 +283,10 @@ Table ProjectProgramAreaXref {
   program_area int [ref: > ProgramArea.id]
 }
 
-Table ProjectSDGXref {
+Table ProjectSDGTargetIndicatorXref {
   //created
   ~AbstractBaseModel
-  sdg int [ref: > SDG.id]
+  sdg_target_indicator int [ref: > SDG.id]
   project int [ref: > Project.id]
   ended_on DateField
 }
