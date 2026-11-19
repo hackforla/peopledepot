@@ -762,12 +762,6 @@ class OrganizationSerializer(serializers.ModelSerializer):
 
 
 class UserCheckSerializer(serializers.ModelSerializer):
-    org = serializers.PrimaryKeyRelatedField(
-        queryset=Organization.objects.all(),
-        required=False,
-        allow_null=True,
-        default=None,
-    )
     project = serializers.PrimaryKeyRelatedField(
         queryset=Project.objects.all(),
         required=False,
@@ -786,7 +780,6 @@ class UserCheckSerializer(serializers.ModelSerializer):
             "created_at",
             "updated_at",
             "user",
-            "org",
             "check_type",
             "result",
             "reminder_start",
