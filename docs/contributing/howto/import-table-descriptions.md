@@ -1,0 +1,1 @@
+--8<-- "google-apps-scripts/table-descriptions-import/README.md"
