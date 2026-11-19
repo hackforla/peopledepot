@@ -263,12 +263,7 @@ class Event(AbstractBaseModel):
     # frequency_id = models.ForeignKey("Frequency", on_delete=models.DO_NOTHING)
 
     def __str__(self):
-        return (
-            f"Event: {self.name}, "
-            f"Must_Attend: {self.must_attend}, "
-            f"Should_Attend: {self.should_attend}, "
-            f"Could_Attend: {self.could_attend}"
-        )
+        return f"Event: {self.event.name}, " f"Start Time: {self.start_time}, "
 
 
 class EventOccurrenceChange(AbstractBaseModel):
@@ -292,20 +287,7 @@ class EventOccurrenceChange(AbstractBaseModel):
     could_attend_change = models.JSONField(null=True, blank=True)
 
     def __str__(self):
-        return (
-            f"Event: {self.event.name}, "
-            f"Start Time: {self.start_time}, "
-            f"Name Change: {self.name_change}, "
-            f"Description Change: {self.description_change}, "
-            f"Start Time Change: {self.start_time_change}, "
-            f"Duration in Min Change: {self.duration_in_min_change}, "
-            f"Video Conference URL Change: {self.video_conference_url_change}, "
-            f"Location Change: {self.location_change}, "
-            f"Additional Info Change: {self.additional_info_change}, "
-            f"Must Attend Change: {self.must_attend_change}, "
-            f"Should Attend Change: {self.should_attend_change}, "
-            f"Could Attend Change: {self.could_attend_change}"
-        )
+        return f"Event: {self.event.name}, " f"Start Time: {self.start_time}, "
 
 
 class Affiliate(AbstractBaseModel):
