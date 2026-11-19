@@ -46,7 +46,7 @@ class Migration(migrations.Migration):
                 (
                     "event",
                     models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE, to="core.event"
+                        on_delete=django.db.models.deletion.PROTECT, to="core.event"
                     ),
                 ),
                 (
@@ -54,7 +54,7 @@ class Migration(migrations.Migration):
                     models.ForeignKey(
                         null=True,
                         blank=True,
-                        on_delete=django.db.models.deletion.DO_NOTHING,
+                        on_delete=django.db.models.deletion.PROTECT,
                         to="core.location",
                     ),
                 ),
