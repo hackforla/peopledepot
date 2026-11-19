@@ -278,18 +278,18 @@ class EventOccurrenceChange(AbstractBaseModel):
 
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     start_time = models.DateTimeField()
-    name_change = models.CharField(null=True)
-    description_change = models.CharField(null=True)
-    start_time_change = models.DateTimeField(null=True)
-    duration_in_min_change = models.IntegerField(null=True)
-    video_conference_url_change = models.URLField(null=True)
+    name_change = models.CharField(null=True, blank=True)
+    description_change = models.CharField(null=True, blank=True)
+    start_time_change = models.DateTimeField(null=True, blank=True)
+    duration_in_min_change = models.IntegerField(null=True, blank=True)
+    video_conference_url_change = models.URLField(null=True, blank=True)
     location_change = models.ForeignKey(
-        "Location", on_delete=models.DO_NOTHING, null=True
+        "Location", on_delete=models.DO_NOTHING, null=True, blank=True
     )
-    additional_info_change = models.TextField(null=True)
-    must_attend_change = models.JSONField(null=True)
-    should_attend_change = models.JSONField(null=True)
-    could_attend_change = models.JSONField(null=True)
+    additional_info_change = models.TextField(null=True, blank=True)
+    must_attend_change = models.JSONField(null=True, blank=True)
+    should_attend_change = models.JSONField(null=True, blank=True)
+    could_attend_change = models.JSONField(null=True, blank=True)
 
     def __str__(self):
         return (
