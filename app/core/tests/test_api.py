@@ -7,6 +7,7 @@ from rest_framework import status
 from core.api.serializers import ProgramAreaSerializer
 from core.api.serializers import UserEmploymentHistorySerializer
 from core.api.serializers import UserSerializer
+from core.models import Faq
 from core.models import ModernJobTitle
 from core.models import Organization
 from core.models import Permission
@@ -517,15 +518,38 @@ def test_create_practice_area(auth_client, leadership_type, project_status):
     assert res.data["project_program_area_status_type"] == project_status.pk
 
 
-def test_create_faq(auth_client):
+def test_create_faq(auth_client, django_user_model, project):
+    faq = Faq.objects.create(
+        uuid=UUID("12345678123456781234567812345678"),
+        author=create_user(django_user_model, username="Ringo", password="password"),
+        project=project,
+        title="How to work on an issue",
+        question="How do I work on an issue",
+        answer="See CONTRIBUTING.md",
+        review_needed=True,
+        reviewer=create_user(django_user_model, username="George", password="password"),
+    )
     payload = {
-        "question": "How do I work on an issue",
-        "answer": "See CONTRIBUTING.md",
-        "tool_tip_name": "How to work on an issue",
+        "question": faq.uuid,
+        "answer": faq.answer,
+        "title": faq.title,
+        "permission_type": faq.permission_type.pk,
+        "project": faq.project.pk,
+        "review_needed": faq.review_needed,
+        "author": faq.author.pk,
+        "reviewer": faq.reviewer.pk,
     }
+
     res = auth_client.post(FAQS_URL, payload)
+
+    # Test object IDs using primary keys
+    assert res.data["permission_type"] == faq.permission_type.pk
+    assert res.data["project"] == faq.project.pk
+    assert res.data["author"] == faq.author.pk
+    assert res.data["reviewer"] == faq.reviewer.pk
+
+    # Test 201 status
     assert res.status_code == status.HTTP_201_CREATED
-    assert res.data["question"] == payload["question"]
 
 
 def test_get_faq_viewed(auth_client, faq_viewed):
