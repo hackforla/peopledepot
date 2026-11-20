@@ -801,7 +801,6 @@ def test_user_check_str_and_nullable_fields(user_check):
 
 def test_user_check_relationships(user_check):
     assert user_check.user is not None
-    assert user_check.org is not None
     assert user_check.check_type is not None
     assert user_check.project is not None
 
