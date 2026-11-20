@@ -485,10 +485,9 @@ def organization():
 
 
 @pytest.fixture
-def user_check(user, organization, check_type, project):
+def user_check(user, check_type, project):
     return UserCheck.objects.create(
         user=user,
-        org=organization,
         check_type=check_type,
         result=None,
         reminder_start=None,

@@ -1435,10 +1435,9 @@ def test_retrieve_update_delete_organization(auth_client, organization):
     assert not Organization.objects.filter(uuid=organization.uuid).exists()
 
 
-def test_create_user_check(auth_client, user, organization, check_type, project):
+def test_create_user_check(auth_client, user, check_type, project):
     payload = {
         "user": user.pk,
-        "org": organization.pk,
         "check_type": check_type.pk,
         "result": True,
         "reminder_start": "2024-01-01 10:00:00",
@@ -1481,11 +1480,10 @@ def test_retrieve_update_delete_user_check(auth_client, user_check):
 
 
 def test_api_create_global_usercheck_allowed(auth_client, user, check_type):
-    payload = {"user": user.pk, "check_type": check_type.pk}  # no org/project
+    payload = {"user": user.pk, "check_type": check_type.pk}  # no project
     response = auth_client.post(USER_CHECKS_URL, payload)
     assert response.status_code == status.HTTP_201_CREATED
     assert UserCheck.objects.filter(uuid=response.data["uuid"]).exists()
-    assert response.data["org"] is None
     assert response.data["project"] is None
 
 
@@ -1495,7 +1493,7 @@ def test_api_prevent_duplicate_global_usercheck(auth_client, user, check_type):
     """
     payload = {"user": user.pk, "check_type": check_type.pk}
 
-    # First create should succeed (no org, no project => global scope)
+    # First create should succeed (no project => global scope)
     first_response = auth_client.post(USER_CHECKS_URL, payload)
     assert first_response.status_code == status.HTTP_201_CREATED
 
@@ -1532,18 +1530,6 @@ def test_api_disallow_new_global_even_after_complete(auth_client, user, check_ty
     assert any("unique" in str(msg).lower() for msg in r2.data.values())
 
 
-def test_api_prevent_duplicate_active_org_usercheck(
-    auth_client, user, check_type, organization
-):
-    payload = {"user": user.pk, "check_type": check_type.pk, "org": organization.pk}
-    r1 = auth_client.post(USER_CHECKS_URL, payload)
-    assert r1.status_code == status.HTTP_201_CREATED
-
-    # duplicate active org-scoped → blocked by uniq_active_org_user_check
-    r2 = auth_client.post(USER_CHECKS_URL, payload)
-    assert r2.status_code == status.HTTP_400_BAD_REQUEST
-
-
 def test_api_prevent_duplicate_active_project_usercheck(
     auth_client, user, check_type, project
 ):
@@ -1556,13 +1542,13 @@ def test_api_prevent_duplicate_active_project_usercheck(
     assert r2.status_code == status.HTTP_400_BAD_REQUEST
 
 
-def test_api_allow_org_and_project_same_type_different_scopes(
-    auth_client, user, check_type, organization, project
+def test_api_allow_global_and_project_same_type_different_scopes(
+    auth_client, user, check_type, project
 ):
-    # org-scoped active
+    # global active
     r1 = auth_client.post(
         USER_CHECKS_URL,
-        {"user": user.pk, "check_type": check_type.pk, "org": organization.pk},
+        {"user": user.pk, "check_type": check_type.pk},
     )
     assert r1.status_code == status.HTTP_201_CREATED
     # project-scoped active for same user+type is allowed (different constraint)
