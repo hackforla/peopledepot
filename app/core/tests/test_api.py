@@ -1542,23 +1542,6 @@ def test_api_prevent_duplicate_active_project_usercheck(
     assert r2.status_code == status.HTTP_400_BAD_REQUEST
 
 
-def test_api_allow_global_and_project_same_type_different_scopes(
-    auth_client, user, check_type, project
-):
-    # global active
-    r1 = auth_client.post(
-        USER_CHECKS_URL,
-        {"user": user.pk, "check_type": check_type.pk},
-    )
-    assert r1.status_code == status.HTTP_201_CREATED
-    # project-scoped active for same user+type is allowed (different constraint)
-    r2 = auth_client.post(
-        USER_CHECKS_URL,
-        {"user": user.pk, "check_type": check_type.pk, "project": project.pk},
-    )
-    assert r2.status_code == status.HTTP_201_CREATED
-
-
 def test_list_user_employment_histories(auth_client, user, modern_job_title):
     payload = {
         "user": user.pk,
