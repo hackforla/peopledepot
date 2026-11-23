@@ -839,13 +839,6 @@ class UserCheck(AbstractBaseModel):
         on_delete=models.CASCADE,
         related_name="user_checks",
     )
-    org = models.ForeignKey(
-        Organization,
-        on_delete=models.PROTECT,
-        null=True,
-        blank=True,
-        related_name="user_checks",
-    )
     check_type = models.ForeignKey(
         CheckType,
         on_delete=models.PROTECT,
@@ -879,21 +872,14 @@ class UserCheck(AbstractBaseModel):
     class Meta:
         indexes = [
             models.Index(fields=["user", "check_type"]),
-            models.Index(fields=["org"]),
             models.Index(fields=["project"]),
         ]
         constraints = [
-            # Only one global check per user+type (org/project NULL)
+            # Only one global check per user+type (project NULL)
             models.UniqueConstraint(
                 fields=["user", "check_type"],
-                condition=Q(org__isnull=True, project__isnull=True),
+                condition=Q(project__isnull=True),
                 name="uniq_global_user_check",
-            ),
-            # Only one org-scoped check per user+type+org
-            models.UniqueConstraint(
-                fields=["user", "check_type", "org"],
-                condition=Q(org__isnull=False),
-                name="uniq_org_user_check",
             ),
             # Only one project-scoped check per user+type+project
             models.UniqueConstraint(

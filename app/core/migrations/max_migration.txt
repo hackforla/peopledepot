@@ -1,1 +1,1 @@
-0071_rename_affiliation_ended_at_affiliation_ended
+0072_remove_usercheck_uniq_global_user_check_and_more

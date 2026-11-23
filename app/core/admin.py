@@ -509,15 +509,14 @@ class UserCheckAdmin(admin.ModelAdmin):
     list_display = (
         "user",
         "check_type",
-        "org",
         "project",
         "result",
         "reminder_start",
         "completed_at",
         "created_at",
     )
-    search_fields = ("user__username", "check_type__name", "org__name", "project__name")
-    list_filter = ("result", "check_type", "org", "project")
+    search_fields = ("user__username", "check_type__name", "project__name")
+    list_filter = ("result", "check_type", "project")
 
 
 @admin.register(UserEmploymentHistory)
