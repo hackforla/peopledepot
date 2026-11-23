@@ -21,8 +21,8 @@ Table Affiliate {
   //created
   //formerly sponsor_partner
   ~AbstractBaseModel
-  partner_name varchar
-  partner_logo URLField
+  name varchar
+  logo URLField
   is_active boolean
   url URLField
   is_org_sponsor boolean
@@ -32,17 +32,17 @@ Table Affiliate {
 
 Table CancelledEvent {
   ~AbstractBaseModel
-  event int [ref: > Event.id]
+  event uuid [ref: > Event.id]
   start_time DateTimeField
   cancelled_on DateField
   reason varchar
-  cancelled_by int [ref: > User.id]
+  cancelled_by uuid [ref: > User.id]
 }
 
 Table CheckIn {
   ~AbstractBaseModel
-  occurance int [ref: > EventOccurrence.id]
-  user int [ref: > User.id]
+  event_occurrence uuid [ref: > EventOccurrence.id]
+  user uuid [ref: > User.id]
   checked_in DateTimeField
 }
 
@@ -58,14 +58,13 @@ Table Event {
   ~AbstractBaseModel
   name varchar
   description varchar
-  event_type int [ref: > EventType.id]
+  event_type uuid [ref: > EventType.id]
   start_time DateTimeField
   duration_in_min int
   rrule RecurrenceField [note: 'recurrence rule, used by django-recurrence']
-  project int [ref: > Project.id]
+  project uuid [ref: > Project.id]
   video_conference_url URLField
-  location int [ref: > Location.id]
-  org int [ref: > Organization.id]
+  location uuid [ref: > Location.id]
   additional_info varchar
   must_attend JSON
   should_attend JSON
@@ -76,22 +75,22 @@ Table Event {
 
 Table EventOccurrence {
   ~AbstractBaseModel
-  event int [ref: > Event.id]
+  event uuid [ref: > Event.id]
   start_time DateTimeField
   changes uuid [ref: > EventOccurrenceChange.id]
 }
 
 Table EventOccurrenceChange {
   ~AbstractBaseModel
-  event int [ref: > Event.id]
+  event uuid [ref: > Event.id]
   start_time DateTimeField
   name_change varchar
   description_change varchar
-  event_type_change int [ref: > EventType.id]
+  event_type_change uuid [ref: > EventType.id]
   start_time_change DateTimeField
   duration_in_min_change int
   video_conference_url_change URLField
-  location_change int [ref: > Location.id]
+  location_change uuid [ref: > Location.id]
   additional_info_change varchar
   must_attend_change JSON
   should_attend_change JSON
@@ -110,16 +109,29 @@ Table Faq {
   ~AbstractBaseModel
   question varchar
   answer varchar
-  project int [ref: > Project.id]
-  permission_type int [ref: > PermissionType.id]
+  project uuid [ref: > Project.id]
+  permission_type uuid [ref: > PermissionType.id]
   title varchar
 }
 
 Table FaqViewed {
   //created
   ~AbstractBaseModel
-  faq int [ref: > Faq.id, not null]
+  faq uuid [ref: > Faq.id, not null]
   read int
+}
+
+Table GithubTeamRepoPermissionType {
+  ~AbstractBaseModel
+  name varchar
+  description varchar
+}
+
+Table GithubTeamRepoPermissionXref {
+  ~AbstractBaseModel
+  github_team uuid [ref: > ProjectGithubTeamXref.id]
+  github_repo varchar
+  github_team_repo_permission_type uuid [ref: > GithubTeamRepoPermissionType.id]
 }
 
 Table Language {
@@ -150,7 +162,7 @@ Table Location {
 
 Table ModernJobTitle {
   ~AbstractBaseModel
-  soc_detailed int [ref: > SOCDetailed.id]
+  soc_detailed uuid [ref: > SOCDetailed.id]
   title varchar
 }
 
@@ -160,25 +172,25 @@ Table Organization {
   time_zone varchar
 }
 
-Table UserPermission {
+Table Permission {
   //created
   ~AbstractBaseModel
-  user int [ref: > User.id]
-  project int [ref: > Project.id]
-  permission_type int [ref: > PermissionType.id]
-  practice_area int [ref: > PracticeArea.id]
+  user uuid [ref: > User.id]
+  project uuid [ref: > Project.id]
+  permission_type uuid [ref: > PermissionType.id]
+  practice_area uuid [ref: > PracticeArea.id]
   granted DateTimeField
   ended DateTimeField
-  created_by int [ref: > User.id]
-  updated_by int [ref: > User.id]
+  created_by uuid [ref: > User.id]
+  updated_by uuid [ref: > User.id]
 }
 
 Table PermissionHistory {
   ~AbstractBaseModel
-  user int [ref: > User.id]
-  project int [ref: > Project.id]
-  permission_type int [ref: > PermissionType.id]
-  practice_area int [ref: > PracticeArea.id]
+  user uuid [ref: > User.id]
+  project uuid [ref: > Project.id]
+  permission_type uuid [ref: > PermissionType.id]
+  practice_area uuid [ref: > PracticeArea.id]
   granted DateTimeField
   ended DateTimeField
   created_by int
@@ -222,58 +234,57 @@ Table Project {
   name String
   description String
   completed_on date
-  github_org int [ref: - ProjectUrl.id, note: 'The unique id assigned to GitHub orgs. A foreign key to a row in ProjectUrl that corresponds to the org repo link']
-  github_primary_repo int [ref: - ProjectUrl.id, note: 'A project might have many repos, this is for the primary starting place for new users. A foreign key to a row in ProjectUrl that corresponds to the primary repo']
-  project_status int [ref: > ProjectStatusType.id]
+  github_org uuid [ref: - ProjectUrl.id, note: 'The unique id assigned to GitHub orgs. A foreign key to a row in ProjectUrl that corresponds to the org repo link']
+  github_primary_repo_url uuid [ref: - ProjectUrl.id, note: 'A project might have many repos, this is for the primary starting place for new users. A foreign key to a row in ProjectUrl that corresponds to the primary repo']
+  github_primary_repo_id int
+  project_status uuid [ref: > ProjectStatusType.id]
   hide Boolean
-  location int [ref: > Location.id]
-  google_drive_main int [ref: > ProjectUrl.id, note: 'The unique id of the main google drive, used for adding people with automation. A foreign key to a row in ProjectUrl that corresponds to the google drive.']
-  google_drive_pii int [ref: > ProjectUrl.id, note: 'The unique id of the google drive for PII. People are added manually and removed with automation. A foreign key to a row in ProjectUrl that corresponds to the google drive.']
-  slack int [ref: - ProjectUrl.id, note: 'The unique id assigned to slack channel. A foreign key to a row in ProjectUrl that corresponds to the org repo link']
-  project_leads int[] (user_id)
-  leadership_type int [ref: > LeadershipType.id]
+  google_drive_main uuid [ref: > ProjectUrl.id, note: 'The unique id of the main google drive, used for adding people with automation. A foreign key to a row in ProjectUrl that corresponds to the google drive.']
+  google_drive_pii uuid [ref: > ProjectUrl.id, note: 'The unique id of the google drive for PII. People are added manually and removed with automation. A foreign key to a row in ProjectUrl that corresponds to the google drive.']
+  slack uuid [ref: - ProjectUrl.id, note: 'The unique id assigned to slack channel. A foreign key to a row in ProjectUrl that corresponds to the org repo link']
+  project_leads uuid[] (user_id)
+  leadership_type uuid [ref: > LeadershipType.id]
   image_logo URLField
   image_hero URLField
   image_icon URLField
+  is_cop bool [note: 'TRUE if the project is a community of practice, otherwise FALSE']
 }
 
 Table ProjectAffiliateXref {
   //created
   ~AbstractBaseModel
-  affiliate int [ref: > Affiliate.id]
-  project int [ref: > Project.id]
-  ended_on DateField
+  affiliate uuid [ref: > Affiliate.id]
+  project uuid [ref: > Project.id]
+  ended DateField
   is_sponsor boolean
   is_partner boolean
 }
 
-Table ProjectLanguageXref {
+Table ProjectGithubTeamXref {
   ~AbstractBaseModel
-  project int [ref: > Project.id]
-  language int [ref: > Language.id]
-  started_on DateTimeField
-  ended_on DateTimeField
+  project uuid [ref: > Project.id]
+  github_team_repo_permission_type uuid [ref: > GithubTeamRepoPermissionType.id]
 }
 
 Table ProjectProgramAreaXref {
   //created
   ~AbstractBaseModel
-  project int [ref: > Project.id]
-  program_area int [ref: > ProgramArea.id]
+  project uuid [ref: > Project.id]
+  program_area uuid [ref: > ProgramArea.id]
 }
 
-Table ProjectSDGXref {
+Table ProjectSDGTargetIndicatorXref {
   //created
   ~AbstractBaseModel
-  sdg int [ref: > SDG.id]
-  project int [ref: > Project.id]
+  sdg_target_indicator uuid [ref: > SDGTargetIndicator.id]
+  project uuid [ref: > Project.id]
   ended_on DateField
 }
 
 Table ProjectStackElementXref {
   ~AbstractBaseModel
-  project int [ref: > Project.id]
-  stack_element int [ref: > StackElement.id]
+  project uuid [ref: > Project.id]
+  stack_element uuid [ref: > StackElement.id]
   removed_on DateField
 }
 
@@ -294,12 +305,12 @@ Table ProjectProgramAreaStatusHistory [note: 'currently named project_program_ar
 
 Table ProjectUrl {
   ~AbstractBaseModel
-  project int [ref: > Project.id]
-  url_type int [ref: > UrlType.id]
+  project uuid [ref: > Project.id]
+  url_type uuid [ref: > UrlType.id]
   name CharField
   external_id CharField [note: 'resource id provided by GitHub or google']
   url URLField
-  url_status_type int [ref: > UrlStatusType.id]
+  url_status_type uuid [ref: > UrlStatusType.id]
 }
 
 Table Referrer {
@@ -307,7 +318,7 @@ Table Referrer {
   ~AbstractBaseModel
   name varchar
   url URLField
-  referrer_type int [ref: > ReferrerType.id]
+  referrer_type uuid [ref: > ReferrerType.id]
   contact_name varchar
   contact_email EmailField
 }
@@ -329,7 +340,7 @@ Table SDG {
 
 Table SDGTargetIndicator {
   ~AbstractBaseModel
-  sdg int [ref: > SDG.id]
+  sdg uuid [ref: > SDG.id]
   code varchar
   description_number varchar
   description_text varchar
@@ -344,14 +355,14 @@ Table Skill {
 
 Table SOCBroad {
   ~AbstractBaseModel
-  soc_minor int [ref: > SOCMinor.id]
+  soc_minor uuid [ref: > SOCMinor.id]
   occ_code varchar
   title varchar
 }
 
 Table SOCDetailed {
   ~AbstractBaseModel
-  soc_broad int [ref: > SOCBroad.id]
+  soc_broad uuid [ref: > SOCBroad.id]
   occ_code varchar
   title varchar
   description varchar
@@ -367,7 +378,7 @@ Table SOCMajor {
 
 Table SOCMinor {
   ~AbstractBaseModel
-  soc_major int [ref: > SOCMajor.id]
+  soc_major uuid [ref: > SOCMajor.id]
   occ_code varchar
   title varchar
 }
@@ -380,7 +391,7 @@ Table StackElement {
   url URLField
   logo URLField
   active boolean
-  stack_element_type int [ref: > StackElementType.id]
+  stack_element_type uuid [ref: > StackElementType.id]
 }
 
 Table StackElementType {
@@ -412,22 +423,22 @@ Table User {
   email_gmail EmailField
   email_preferred EmailField
   is_active bool [default: True, note:'Required by django. A boolean field that indicates whether the user\'s account is active.']
-  user_status_type int [ref: > UserStatusType.id]
-  practice_area_primary int [ref: > PracticeArea.id]
-  practice_area_secondary int [ref: > UserPracticeAreaSecondaryXref.id]
+  user_status_type uuid [ref: > UserStatusType.id]
+  practice_area_primary uuid [ref: > PracticeArea.id]
+  practice_area_secondary uuid[] [ref: > UserPracticeAreaSecondaryXref.id]
   job_title_current varchar
-  practice_area_target int [ref: > UserPracticeAreaTargetIntakeXref.id]
+  practice_area_target uuid [ref: > UserPracticeAreaTargetIntakeXref.id]
   job_title_target varchar
   intake_present_job_title	varchar
   intake_present_skills	varchar
   intake_target_job_titles	varchar
-  intake_target_skills	int [ref: > UserIntakeTargetSkillXref.id]
+  intake_target_skills uuid [ref: > UserIntakeTargetSkillXref.id]
   current_job_title	varchar
-  current_skills	int[ ]
+  current_skills uuid[]
   current_target_job_titles	varchar
   current_target_skills	varchar
   linkedin_account URLField
-  referred_by int [ref: > Referrer.id]
+  referred_by uuid [ref: > Referrer.id]
   github_handle varchar
   phone varchar
   texting_ok boolean
@@ -437,7 +448,7 @@ Table User {
 
 Table UserAvailability {
   ~AbstractBaseModel
-  user int [ref: > User.id, not null]
+  user uuid [ref: > User.id, not null]
   day_of_week day (enum)
   start TimeField
   duration_minutes int
@@ -445,37 +456,36 @@ Table UserAvailability {
 
 Table UserCheck {
   ~AbstractBaseModel
-  user int [ref: > User.id]
-  org int [ref: > Organization.id]
-  check_type int [ref: > CheckType.id]
+  user uuid [ref: > User.id]
+  check_type uuid [ref: > CheckType.id]
   result boolean
   reminder_start DateTimeField
   completed_at DateTimeField
-  project int [ref: > Project.id]
+  project uuid [ref: > Project.id]
 }
 
 Table UserEmploymentHistory {
   ~AbstractBaseModel
-  user int [ref: > User.id]
-  modern_job_title int [ref: > ModernJobTitle.id]
+  user uuid [ref: > User.id]
+  modern_job_title uuid [ref: > ModernJobTitle.id]
 }
 
 Table UserIntakeTargetSkillXref {
   ~AbstractBaseModel
-  user int [ref: > User.id]
-  skill int [ref: > Skill.id]
+  user uuid [ref: > User.id]
+  skill uuid [ref: > Skill.id]
 }
 
 Table UserPracticeAreaSecondaryXref {
   ~AbstractBaseModel
-  user int [ref: > User.id]
-  practice_area int [ref: > PracticeArea.id]
+  user uuid [ref: > User.id]
+  practice_area uuid [ref: > PracticeArea.id]
 }
 
 Table UserPracticeAreaTargetIntakeXref {
   ~AbstractBaseModel
-  user int [ref: > User.id]
-  practice_area int [ref: > PracticeArea.id]
+  user uuid [ref: > User.id]
+  practice_area uuid [ref: > PracticeArea.id]
 }
 
 Table UserStatusType {
@@ -487,11 +497,11 @@ Table UserStatusType {
 
 Table Win {
   ~AbstractBaseModel
-  user int [ref: > User.id]
-  practice_areas int[] [ref: <> PracticeArea.id]
-  teams int[] [ref: <> Project.id]
+  user uuid [ref: > User.id]
+  practice_areas uuid[] [ref: <> PracticeArea.id]
+  projects uuid[] [ref: <> Project.id]
   description varchar
-  win_type int [ref: > WinType.id]
+  win_type uuid [ref: > WinType.id]
   can_use_photo boolean
 }
 
